@@ -38,17 +38,38 @@ export class AuthService {
     // 1. Login Rápido por Perfil (1-clique demo)
     if (quickRole) {
       let targetEmail = 'gestor@zelo.gov.br';
-      if (quickRole === 'TECNICO') targetEmail = 'carlos.tecnico@zelo.gov.br';
+      if (quickRole === 'ADMIN') targetEmail = 'admin@zelo.gov.br';
+      else if (quickRole === 'TECNICO') targetEmail = 'carlos.tecnico@zelo.gov.br';
       else if (quickRole === 'SOLICITANTE_ESCOLA' || quickRole === 'SOLICITANTE') targetEmail = 'maria.escola@zelo.gov.br';
       else if (quickRole === 'SOLICITANTE_UBS') targetEmail = 'marcelo.ubs@zelo.gov.br';
 
-      const user = await this.prisma.usuario.findUnique({
+      let user = await this.prisma.usuario.findUnique({
         where: { email: targetEmail },
         include: { predios_geridos: true },
       });
 
+      if (!user && targetEmail === 'admin@zelo.gov.br') {
+        try {
+          user = await this.prisma.usuario.upsert({
+            where: { email: 'admin@zelo.gov.br' },
+            update: {},
+            create: {
+              id: 'user-admin',
+              nome: 'Desenvolvedor / Admin',
+              email: 'admin@zelo.gov.br',
+              senha_hash: '123',
+              role: Role.ADMIN,
+              telefone: '(11) 99999-0000',
+            },
+            include: { predios_geridos: true },
+          });
+        } catch {
+          // ignora
+        }
+      }
+
       if (!user) {
-        throw new UnauthorizedException('Demo profile not found in database.');
+        throw new UnauthorizedException('Perfil de demonstração não encontrado na base de dados.');
       }
 
       const mapped = this.mapAuthUser(user);
@@ -60,22 +81,43 @@ export class AuthService {
           user: mapped,
           token,
         },
-        message: 'Authentication successful.',
+        message: 'Autenticação realizada com sucesso.',
       };
     }
 
     // 2. Login Tradicional por E-mail e Senha
     if (!email) {
-      throw new UnauthorizedException('Email is required.');
+      throw new UnauthorizedException('E-mail institucional é obrigatório.');
     }
 
-    const user = await this.prisma.usuario.findUnique({
-      where: { email: email.toLowerCase().trim() },
+    const cleanEmail = email.toLowerCase().trim();
+    let user = await this.prisma.usuario.findUnique({
+      where: { email: cleanEmail },
       include: { predios_geridos: true },
     });
 
+    if (!user && cleanEmail === 'admin@zelo.gov.br') {
+      try {
+        user = await this.prisma.usuario.upsert({
+          where: { email: 'admin@zelo.gov.br' },
+          update: {},
+          create: {
+            id: 'user-admin',
+            nome: 'Desenvolvedor / Admin',
+            email: 'admin@zelo.gov.br',
+            senha_hash: '123',
+            role: Role.ADMIN,
+            telefone: '(11) 99999-0000',
+          },
+          include: { predios_geridos: true },
+        });
+      } catch {
+        // ignora
+      }
+    }
+
     if (!user || (password && user.senha_hash !== password)) {
-      throw new UnauthorizedException('Invalid credentials. Default password: 123');
+      throw new UnauthorizedException('Credenciais inválidas. Verifique seu e-mail e senha.');
     }
 
     const mapped = this.mapAuthUser(user);
@@ -87,7 +129,7 @@ export class AuthService {
         user: mapped,
         token,
       },
-      message: 'Authentication successful.',
+      message: 'Autenticação realizada com sucesso.',
     };
   }
 
@@ -98,7 +140,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('Session expired or user not found.');
+      throw new UnauthorizedException('Sessão expirada ou usuário não encontrado.');
     }
 
     return {

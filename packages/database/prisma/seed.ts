@@ -6,6 +6,19 @@ async function main() {
   console.log('Iniciando seed no PostgreSQL...');
 
   // 1. Criar Usuários
+  const admin = await prisma.usuario.upsert({
+    where: { email: 'admin@zelo.gov.br' },
+    update: {},
+    create: {
+      id: 'user-admin',
+      nome: 'Desenvolvedor / Admin',
+      email: 'admin@zelo.gov.br',
+      senha_hash: '123',
+      role: Role.ADMIN,
+      telefone: '(11) 99999-0000',
+    },
+  });
+
   const gestor = await prisma.usuario.upsert({
     where: { email: 'gestor@zelo.gov.br' },
     update: {},

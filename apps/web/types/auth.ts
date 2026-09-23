@@ -69,4 +69,14 @@ export const SEED_USERS: UserAccount[] = [
     avatar: 'https://i.pravatar.cc/150?u=marcelo',
     telefone: '(11) 4589-2040',
   },
+  {
+    id: 'user-admin',
+    nome: 'Desenvolvedor / Admin',
+    email: 'admin@zelo.gov.br',
+    senhaHash: '123',
+    role: 'ADMIN',
+    cargo: 'Engenharia de Software & Infra',
+    avatar: 'https://i.pravatar.cc/150?u=developer',
+    telefone: '(11) 99999-0000',
+  },
 ];

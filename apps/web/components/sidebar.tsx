@@ -234,13 +234,15 @@ export function Sidebar({
               {/* Role Badge */}
               <div className="flex items-center gap-1.5 mt-1">
                 <span className={`text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded-md ${
-                  isGestor 
+                  role === 'ADMIN'
+                    ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                    : isGestor 
                     ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' 
                     : isTecnico 
                     ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' 
                     : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
                 }`}>
-                  {isGestor ? 'GESTORA' : isTecnico ? 'TÉCNICO' : 'SOLICITANTE'}
+                  {role === 'ADMIN' ? 'ADMIN / DEV' : isGestor ? 'GESTORA' : isTecnico ? 'TÉCNICO' : 'SOLICITANTE'}
                 </span>
                 {isSolicitante && user?.predio && (
                   <span className="text-[10px] text-slate-400 truncate">
@@ -262,13 +264,28 @@ export function Sidebar({
           </div>
         )}
 
-        {/* Keyboard shortcut hint when expanded */}
+        {/* Keyboard shortcut hint and version when expanded */}
         {!isSidebarCollapsed && (
-          <div className="flex items-center justify-between px-2 pt-0.5 text-[10px] text-slate-400 font-medium">
-            <span>Alternar barra</span>
-            <kbd className="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 font-mono text-[9px] text-slate-400 shadow-xs">
-              Ctrl+B
-            </kbd>
+          <div className="space-y-1.5 px-2 pt-1 border-t border-slate-800/60">
+            <div className="flex items-center justify-between text-[10px] text-slate-400 font-medium">
+              <span>Alternar barra</span>
+              <kbd className="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 font-mono text-[9px] text-slate-400 shadow-xs">
+                Ctrl+B
+              </kbd>
+            </div>
+            <div className="flex items-center justify-between text-[10px] text-slate-400">
+              <span className="font-semibold text-slate-400">v1.0.0</span>
+              {role === 'ADMIN' && (
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent('zelo:toggle-dev-drawer'))}
+                  title="Abrir Painel do Desenvolvedor (Ctrl+Shift+D)"
+                  className="text-slate-400 hover:text-amber-400 transition-colors cursor-pointer text-[10px]"
+                >
+                  DevTools
+                </button>
+              )}
+            </div>
           </div>
         )}
       </div>

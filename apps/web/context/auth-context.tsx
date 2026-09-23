@@ -13,7 +13,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password?: string) => Promise<{ success: boolean; message?: string }>;
-  loginQuick: (role: 'GESTOR' | 'TECNICO' | 'SOLICITANTE_ESCOLA' | 'SOLICITANTE_UBS') => Promise<void>;
+  loginQuick: (role: 'GESTOR' | 'TECNICO' | 'SOLICITANTE_ESCOLA' | 'SOLICITANTE_UBS' | 'ADMIN') => Promise<void>;
   logout: () => void;
   hasRole: (roles: UserRole[]) => boolean;
 }
@@ -159,7 +159,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.setItem(STORAGE_KEY_TOKEN, jwtToken);
         return { success: true };
       }
-      return { success: false, message: data.message || 'Credenciais inválidas' };
+      let errorMsg = 'Credenciais inválidas. Verifique seu e-mail e senha de acesso.';
+      if (data.message && !data.message.toLowerCase().includes('password') && !data.message.toLowerCase().includes('123')) {
+        errorMsg = data.message;
+      }
+      return { success: false, message: errorMsg };
     } catch {
       // Fallback local se a API offline
       const found = SEED_USERS.find((u) => u.email.toLowerCase() === email.toLowerCase());
@@ -179,9 +183,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  async function loginQuick(quickRole: 'GESTOR' | 'TECNICO' | 'SOLICITANTE_ESCOLA' | 'SOLICITANTE_UBS') {
+  async function loginQuick(quickRole: 'GESTOR' | 'TECNICO' | 'SOLICITANTE_ESCOLA' | 'SOLICITANTE_UBS' | 'ADMIN') {
     try {
-      const data = await apiClient.loginQuick(quickRole);
+      const data = await apiClient.loginQuick(quickRole as any);
       if (data.success && data.user) {
         const userObj = data.user;
         if (userObj.role !== 'SOLICITANTE') {
@@ -201,7 +205,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Fallback instantâneo
     let target = SEED_USERS[0]!;
-    if (quickRole === 'TECNICO') target = SEED_USERS[1]!;
+    if (quickRole === 'ADMIN') target = SEED_USERS[SEED_USERS.length - 1]!;
+    else if (quickRole === 'TECNICO') target = SEED_USERS[1]!;
     else if (quickRole === 'SOLICITANTE_ESCOLA') target = SEED_USERS[3]!;
     else if (quickRole === 'SOLICITANTE_UBS') target = SEED_USERS[4]!;
 

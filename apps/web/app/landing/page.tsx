@@ -562,7 +562,7 @@ export default function LandingPage() {
           <div className="flex items-center gap-4">
             <span>Prefeitura Municipal de Gestão Urbana</span>
             <span>•</span>
-            <span>Versão 2.4.0</span>
+            <span>Versão 1.0.0</span>
           </div>
         </div>
       </footer>

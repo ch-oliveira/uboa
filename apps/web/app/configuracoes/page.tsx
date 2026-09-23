@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Building2, 
   Clock, 
@@ -29,10 +29,14 @@ import { Button } from '@/components/ui/button';
 import { Toast } from '@/components/ui/toast';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useOrders, type TecnicoSettings, type SystemSettings } from '@/context/orders-context';
+import { useAuth } from '@/context/auth-context';
 
 type SettingsTab = 'geral' | 'slas' | 'notificacoes' | 'equipe' | 'dados';
 
 export default function ConfiguracoesPage() {
+  const { role } = useAuth();
+  const isAdmin = role === 'ADMIN';
+
   const { 
     settings, 
     updateSettings, 
@@ -47,6 +51,13 @@ export default function ConfiguracoesPage() {
   } = useOrders();
 
   const [activeTab, setActiveTab] = useState<SettingsTab>('geral');
+
+  // Garante que usuário não-ADMIN nunca permaneça na aba técnica
+  useEffect(() => {
+    if (activeTab === 'dados' && !isAdmin) {
+      setActiveTab('geral');
+    }
+  }, [activeTab, isAdmin]);
   const [formData, setFormData] = useState<SystemSettings>({ ...settings });
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -188,16 +199,25 @@ export default function ConfiguracoesPage() {
             <div>
               <div className="flex items-center gap-3">
                 <h1 className="text-2xl font-black text-slate-900 tracking-tight">Configurações do Sistema</h1>
-                <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200/60">
-                  zelo v2.4
-                </span>
               </div>
               <p className="text-xs text-slate-500 font-medium mt-1">
-                Gerencie os parâmetros municipais, metas de SLA, alertas, equipe técnica e integrações
+                Gerencie os parâmetros municipais, metas de SLA, alertas e equipe técnica
               </p>
             </div>
 
             <div className="flex items-center gap-3">
+              {isAdmin && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => window.dispatchEvent(new CustomEvent('zelo:toggle-dev-drawer'))}
+                  className="text-xs font-semibold text-amber-700 bg-amber-50 border-amber-200 hover:bg-amber-100 gap-1.5 rounded-xl"
+                  title="Abrir gaveta de desenvolvimento (Ctrl+Shift+D)"
+                >
+                  DevTools
+                </Button>
+              )}
+
               <Button
                 variant="outline"
                 size="sm"
@@ -246,12 +266,15 @@ export default function ConfiguracoesPage() {
               label="Equipe Técnica" 
               badge={String(formData.tecnicosList.length)}
             />
-            <TabButton 
-              active={activeTab === 'dados'} 
-              onClick={() => setActiveTab('dados')} 
-              icon={<Database size={16} />} 
-              label="Dados, Backup & API" 
-            />
+            {isAdmin && (
+              <TabButton 
+                active={activeTab === 'dados'} 
+                onClick={() => setActiveTab('dados')} 
+                icon={<Database size={16} />} 
+                label="DevTools & Dados" 
+                badge="ADMIN"
+              />
+            )}
           </div>
         </header>
 
@@ -640,8 +663,8 @@ export default function ConfiguracoesPage() {
             </div>
           )}
 
-          {/* TAB 5: DADOS, BACKUP & API */}
-          {activeTab === 'dados' && (
+          {/* TAB 5: DADOS, BACKUP & API (Exclusivo Admin / Engenharia) */}
+          {activeTab === 'dados' && isAdmin && (
             <div className="space-y-6 animate-in fade-in duration-200">
               {/* Storage Stats */}
               <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-4">

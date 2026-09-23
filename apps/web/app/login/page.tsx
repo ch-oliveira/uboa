@@ -43,7 +43,11 @@ export default function LoginPage() {
     if (res.success) {
       router.push('/');
     } else {
-      setErrorMsg(res.message || 'Credenciais inválidas.');
+      let msg = res.message || 'Credenciais inválidas. Verifique seu e-mail e senha.';
+      if (msg.toLowerCase().includes('password') || msg.toLowerCase().includes('123')) {
+        msg = 'Credenciais inválidas. Verifique seu e-mail e senha.';
+      }
+      setErrorMsg(msg);
     }
   }
 

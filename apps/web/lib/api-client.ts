@@ -133,7 +133,7 @@ export const apiClient = {
     };
   },
 
-  async loginQuick(role: 'GESTOR' | 'TECNICO' | 'SOLICITANTE_ESCOLA' | 'SOLICITANTE_UBS'): Promise<{ success: boolean; user?: UserAccount; token?: string }> {
+  async loginQuick(role: 'GESTOR' | 'TECNICO' | 'SOLICITANTE_ESCOLA' | 'SOLICITANTE_UBS' | 'ADMIN'): Promise<{ success: boolean; user?: UserAccount; token?: string }> {
     const res = await fetch(`${API_BASE}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

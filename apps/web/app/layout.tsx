@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/auth-context";
 import { OrdersProvider } from "@/context/orders-context";
+import { DevDrawer } from "@/components/dev-drawer";
 
 // Using inter.className directly to guarantee font rendering
 const inter = Inter({ subsets: ["latin"] });
@@ -23,6 +24,7 @@ export default function RootLayout({
         <AuthProvider>
           <OrdersProvider>
             {children}
+            <DevDrawer />
           </OrdersProvider>
         </AuthProvider>
       </body>
