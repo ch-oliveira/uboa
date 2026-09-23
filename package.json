@@ -1,6 +1,7 @@
 {
   "name": "predial-monorepo",
   "private": true,
+  "packageManager": "pnpm@11.25.0",
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
@@ -12,9 +13,5 @@
     "prettier": "3.9.6",
     "turbo": "^2.11.3",
     "typescript": "7.0.2"
-  },
-  "packageManager": "pnpm@11.25.0",
-  "engines": {
-    "node": ">=24"
   }
 }
