@@ -1,0 +1,167 @@
+// schema.prisma
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [postgis]
+}
+
+enum Role {
+  ADMIN
+  GESTOR
+  TECNICO
+  SOLICITANTE
+}
+
+enum TipoPredio {
+  ESCOLA
+  HOSPITAL
+  PRACA
+  ADMINISTRATIVO
+  UBS
+}
+
+enum Prioridade {
+  BAIXA
+  MEDIA
+  ALTA
+  URGENTE
+}
+
+enum StatusOS {
+  RECEBIDO
+  EM_TRIAGEM
+  AGENDADO
+  AGUARDANDO
+  EM_EXECUCAO
+  CONCLUIDO
+  CANCELADO
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+}
+
+model Usuario {
+  id         String   @id @default(uuid())
+  nome       String
+  email      String   @unique
+  senha_hash String
+  role       Role     @default(SOLICITANTE)
+  telefone   String?
+  criado_em  DateTime @default(now())
+  atualizado DateTime @updatedAt
+
+  predios_geridos     Predio[]        @relation("GestorPredio")
+  chamados_solicitados OrdemServico[]  @relation("SolicitanteOS")
+  chamados_atribuidos  OrdemServico[]  @relation("TecnicoOS")
+  auditorias          AuditoriaLog[]
+
+  @@map("usuarios")
+}
+
+model Predio {
+  id         String     @id @default(uuid())
+  nome       String
+  tipo       TipoPredio
+  endereco   String
+  gestor_id  String?
+  gestor     Usuario?   @relation("GestorPredio", fields: [gestor_id], references: [id])
+  criado_em  DateTime   @default(now())
+  atualizado DateTime   @updatedAt
+
+  // PostGIS: O tipo Unsupported permite que o Prisma conviva com tipos do DB.
+  coordenadas Unsupported("geometry(Point, 4326)")?
+
+  ordens_servico OrdemServico[]
+
+  @@map("predios")
+}
+
+model OrdemServico {
+  id                   String     @id @default(uuid())
+  codigo               String     @unique @default(dbgenerated("concat('OS-', floor(random() * 900000 + 100000)::text)"))
+  titulo               String
+  descricao            String
+  prioridade           Prioridade @default(MEDIA)
+  status               StatusOS   @default(RECEBIDO)
+  
+  predio_id            String
+  predio               Predio     @relation(fields: [predio_id], references: [id])
+  
+  solicitante_id       String
+  solicitante          Usuario    @relation("SolicitanteOS", fields: [solicitante_id], references: [id])
+  
+  tecnico_atribuido_id String?
+  tecnico              Usuario?   @relation("TecnicoOS", fields: [tecnico_atribuido_id], references: [id])
+  
+  fotos                String[]   // URLs array
+  
+  criado_em            DateTime   @default(now())
+  atualizado           DateTime   @updatedAt
+
+  @@map("ordens_servico")
+}
+
+model AuditoriaLog {
+  id               String      @id @default(uuid())
+  entidade_afetada String
+  entidade_id      String
+  acao             AuditAction
+  
+  usuario_id       String
+  usuario          Usuario     @relation(fields: [usuario_id], references: [id])
+  
+  dados_antigos    Json?
+  dados_novos      Json?
+  
+  criado_em        DateTime    @default(now())
+
+  @@map("auditoria_logs")
+}
+
+model AgendaVistoria {
+  id        String   @id @default(uuid())
+  titulo    String
+  subtitulo String
+  horario   String
+  tipo      String   @default("geral") // eletrica, hidraulica, acessibilidade, geral
+  concluido Boolean  @default(false)
+  tecnico   String?
+  criado_em DateTime @default(now())
+
+  @@map("agenda_vistorias")
+}
+
+model ConfiguracaoSistema {
+  id               String   @id @default("default")
+  prefeitura_nome  String   @default("Prefeitura Municipal de Gestão Urbana")
+  secretaria_nome  String   @default("Secretaria de Infraestrutura e Zeladoria Predial")
+  gestor_nome      String   @default("Mariana Alves")
+  gestor_cargo     String   @default("Gestora Municipal de Zeladoria")
+  gestor_email     String   @default("mariana.alves@gestaourbana.gov.br")
+  gestor_telefone  String   @default("(11) 3241-8900")
+  sla_urgente_h    Int      @default(4)
+  sla_alta_h       Int      @default(24)
+  sla_media_h      Int      @default(72)
+  sla_baixa_h      Int      @default(168)
+  mttr_alert_h     Int      @default(8)
+  preventiva_goal  Int      @default(90)
+  sound_alerts     Boolean  @default(true)
+  push_notif       Boolean  @default(true)
+  whatsapp_alerts  Boolean  @default(false)
+  auto_dispatch    Boolean  @default(false)
+  criado_em        DateTime @default(now())
+  atualizado       DateTime @updatedAt
+
+  @@map("configuracoes_sistema")
+}
+
