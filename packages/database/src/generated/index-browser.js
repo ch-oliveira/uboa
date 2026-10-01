@@ -128,6 +128,7 @@ exports.Prisma.UsuarioScalarFieldEnum = {
   senha_hash: 'senha_hash',
   role: 'role',
   telefone: 'telefone',
+  token_version: 'token_version',
   criado_em: 'criado_em',
   atualizado: 'atualizado'
 };

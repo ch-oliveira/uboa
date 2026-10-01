@@ -18,11 +18,14 @@
   "license": "ISC",
   "type": "module",
   "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
     "@types/node": "^26.6.2",
     "prisma": "^6.4.1",
+    "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   },
   "dependencies": {
-    "@prisma/client": "^6.4.1"
+    "@prisma/client": "^6.4.1",
+    "bcryptjs": "^3.0.3"
   }
 }

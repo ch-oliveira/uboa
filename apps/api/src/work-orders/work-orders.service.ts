@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
-import { StatusOS, Prioridade, AuditAction, TipoPredio } from '@repo/database';
+import { StatusOS, Prioridade, AuditAction, TipoPredio, Role } from '@repo/database';
 import type { ApiResponse } from '../common/interfaces/api-response.interface.js';
 
 export type ApiPriority = 'URGENT' | 'HIGH' | 'MEDIUM' | 'LOW';
@@ -99,11 +99,11 @@ export class WorkOrdersService {
       code: o.codigo,
       title: o.titulo,
       description: o.descricao,
-      facilityId: o.predio_id || o.predio?.id,
+      facilityId: o.predio_id,
       facilityName: o.predio?.nome || 'Unidade Municipal',
-      requesterId: o.solicitante_id || o.solicitante?.id,
-      requesterName: o.solicitante?.nome || 'Solicitante',
-      technicianId: o.tecnico?.id || o.tecnico_atribuido_id || undefined,
+      requesterId: o.solicitante_id,
+      requesterName: o.solicitante?.nome || 'Gestão Municipal',
+      technicianId: o.tecnico_atribuido_id || undefined,
       technicianName: o.tecnico?.nome || undefined,
       priority: toApiPriority(o.prioridade),
       status: toApiStatus(o.status),
@@ -112,36 +112,53 @@ export class WorkOrdersService {
     };
   }
 
-  async findAll(filter?: {
-    role?: string;
-    predio?: string;
-    facility?: string;
-    tecnico?: string;
-    technician?: string;
-    status?: string;
-    priority?: string;
-    prioridade?: string;
-  }): Promise<ApiResponse<WorkOrderResponse[], WorkOrdersMeta>> {
+  async findAll(
+    filter?: {
+      role?: string;
+      predio?: string;
+      facility?: string;
+      tecnico?: string;
+      technician?: string;
+      status?: string;
+      priority?: string;
+      prioridade?: string;
+    },
+    currentUser?: any,
+  ): Promise<ApiResponse<WorkOrderResponse[], WorkOrdersMeta>> {
     const where: any = {};
 
-    const facilityFilter = filter?.facility || filter?.predio;
-    if (facilityFilter && facilityFilter !== 'TODOS' && facilityFilter !== 'ALL') {
-      where.predio = {
-        nome: {
-          contains: facilityFilter,
-          mode: 'insensitive',
-        },
-      };
-    }
+    // 1. Escopo forçado pelo perfil do usuário autenticado (BOLA / IDOR protection)
+    if (currentUser?.role === Role.SOLICITANTE) {
+      if (currentUser.facilityName) {
+        where.predio = {
+          nome: { contains: currentUser.facilityName, mode: 'insensitive' },
+        };
+      } else {
+        where.solicitante_id = currentUser.id;
+      }
+    } else if (currentUser?.role === Role.TECNICO) {
+      where.tecnico_atribuido_id = currentUser.id;
+    } else {
+      // Gestor e Admin podem filtrar por prédio ou técnico livremente
+      const facilityFilter = filter?.facility || filter?.predio;
+      if (facilityFilter && facilityFilter !== 'TODOS' && facilityFilter !== 'ALL') {
+        where.predio = {
+          nome: {
+            contains: facilityFilter,
+            mode: 'insensitive',
+          },
+        };
+      }
 
-    const technicianFilter = filter?.technician || filter?.tecnico;
-    if (technicianFilter && technicianFilter !== 'TODOS' && technicianFilter !== 'ALL') {
-      where.tecnico = {
-        nome: {
-          contains: technicianFilter,
-          mode: 'insensitive',
-        },
-      };
+      const technicianFilter = filter?.technician || filter?.tecnico;
+      if (technicianFilter && technicianFilter !== 'TODOS' && technicianFilter !== 'ALL') {
+        where.tecnico = {
+          nome: {
+            contains: technicianFilter,
+            mode: 'insensitive',
+          },
+        };
+      }
     }
 
     if (filter?.status && filter.status !== 'TODOS' && filter.status !== 'ALL') {
@@ -192,7 +209,7 @@ export class WorkOrdersService {
       include: { predio: true, solicitante: true, tecnico: true },
     });
 
-    if (!o) throw new NotFoundException('Work order not found.');
+    if (!o) throw new NotFoundException('Ordem de serviço não encontrada.');
 
     return {
       success: true,
@@ -200,34 +217,39 @@ export class WorkOrdersService {
     };
   }
 
-  async create(payload: any): Promise<ApiResponse<WorkOrderResponse>> {
+  async create(payload: any, currentUser?: any): Promise<ApiResponse<WorkOrderResponse>> {
     const title = payload.title || payload.titulo;
     const description = payload.description || payload.descricao || 'Sem descrição detalhada';
     const facilityName = payload.facilityName || payload.predio;
     const priority = toPrismaPriority(payload.priority || payload.prioridade);
     const technicianName = payload.technicianName || payload.tecnico;
-    const photos = payload.photos || payload.fotos || [];
+    const photos = Array.isArray(payload.photos || payload.fotos) ? (payload.photos || payload.fotos) : [];
 
-    // 1. Encontrar ou criar o Prédio
+    // 1. Encontrar o Prédio ou associar ao padrão
     let predioRecord = await this.prisma.predio.findFirst({
       where: { nome: { contains: facilityName, mode: 'insensitive' } },
     });
+    if (!predioRecord) {
+      predioRecord = await this.prisma.predio.findFirst();
+    }
     if (!predioRecord) {
       predioRecord = await this.prisma.predio.create({
         data: {
           nome: facilityName || 'Unidade Municipal',
           tipo: TipoPredio.ADMINISTRATIVO,
-          endereco: 'Unidade Municipal',
+          endereco: 'Sede Administrativa Municipal',
         },
       });
     }
 
-    // 2. Encontrar ou usar o Solicitante
-    let solicitanteUser = await this.prisma.usuario.findFirst({
-      where: { email: 'maria.escola@zelo.gov.br' },
-    });
-    if (!solicitanteUser) {
-      solicitanteUser = await this.prisma.usuario.findFirst();
+    // 2. Solicitante Real
+    let solicitanteId = currentUser?.id;
+    if (!solicitanteId) {
+      let publicUser = await this.prisma.usuario.findFirst({
+        where: { email: 'maria.escola@zelo.gov.br' },
+      });
+      if (!publicUser) publicUser = await this.prisma.usuario.findFirst();
+      solicitanteId = publicUser!.id;
     }
 
     // 3. Encontrar Técnico se fornecido
@@ -239,48 +261,61 @@ export class WorkOrdersService {
       if (tecnicoUser) tecnicoId = tecnicoUser.id;
     }
 
-    const code = payload.code || payload.codigo || payload.id || `OS-${Math.floor(100000 + Math.random() * 900000)}`;
+    const code = `OS-${Math.floor(100000 + Math.random() * 900000)}`;
 
-    const created = await this.prisma.ordemServico.create({
-      data: {
-        codigo: code,
-        titulo: title,
-        descricao: description,
-        prioridade: priority,
-        status: StatusOS.EM_TRIAGEM,
-        predio_id: predioRecord.id,
-        solicitante_id: solicitanteUser!.id,
-        tecnico_atribuido_id: tecnicoId,
-        fotos: photos,
-      },
-      include: { predio: true, solicitante: true, tecnico: true },
-    });
+    // Transação atômica: entidade e registro de auditoria gravados juntos
+    const created = await this.prisma.$transaction(async (tx) => {
+      const order = await tx.ordemServico.create({
+        data: {
+          codigo: code,
+          titulo: title || 'Demanda Registrada',
+          descricao: description,
+          prioridade: priority,
+          status: StatusOS.EM_TRIAGEM,
+          predio_id: predioRecord.id,
+          solicitante_id: solicitanteId,
+          tecnico_atribuido_id: tecnicoId,
+          fotos: photos.slice(0, 10), // Limite de 10 fotos para proteção DoS
+        },
+        include: { predio: true, solicitante: true, tecnico: true },
+      });
 
-    // Auditoria
-    await this.prisma.auditoriaLog.create({
-      data: {
-        entidade_afetada: 'OrdemServico',
-        entidade_id: created.id,
-        acao: AuditAction.CREATE,
-        usuario_id: solicitanteUser!.id,
-        dados_novos: { codigo: created.codigo, titulo: created.titulo },
-      },
+      await tx.auditoriaLog.create({
+        data: {
+          entidade_afetada: 'OrdemServico',
+          entidade_id: order.id,
+          acao: AuditAction.CREATE,
+          usuario_id: solicitanteId,
+          dados_novos: { 
+            codigo: order.codigo, 
+            titulo: order.titulo,
+            origem: currentUser ? 'UsuarioAutenticado' : 'PortalPublico'
+          },
+        },
+      });
+
+      return order;
     });
 
     return {
       success: true,
       data: this.mapOrder(created),
-      message: `Work order ${created.codigo} registered successfully.`,
+      message: `Ordem de serviço ${created.codigo} registrada com sucesso.`,
     };
   }
 
-  async update(idOrCode: string, updates: any): Promise<ApiResponse<WorkOrderResponse>> {
+  async update(idOrCode: string, updates: any, currentUser?: any): Promise<ApiResponse<WorkOrderResponse>> {
     const existing = await this.prisma.ordemServico.findFirst({
       where: { OR: [{ id: idOrCode }, { codigo: idOrCode }] },
       include: { predio: true, solicitante: true, tecnico: true },
     });
 
-    if (!existing) throw new NotFoundException('Work order not found.');
+    if (!existing) throw new NotFoundException('Ordem de serviço não encontrada.');
+
+    // Verificação de permissão para técnicos: técnico só pode atualizar suas próprias OSs
+    if (currentUser?.role === Role.TECNICO && existing.tecnico_atribuido_id !== currentUser.id) {
+      throw new ForbiddenException('Técnicos só podem atualizar ordens atribuídas a si mesmos.');
+    }
 
     const updateData: any = {};
     if (updates.title || updates.titulo) updateData.titulo = updates.title || updates.titulo;
@@ -296,34 +331,67 @@ export class WorkOrdersService {
       if (tecnicoUser) updateData.tecnico_atribuido_id = tecnicoUser.id;
     }
 
-    const updated = await this.prisma.ordemServico.update({
-      where: { id: existing.id },
-      data: updateData,
-      include: { predio: true, solicitante: true, tecnico: true },
+    // Transação atômica: atualização e auditoria síncronas
+    const updated = await this.prisma.$transaction(async (tx) => {
+      const order = await tx.ordemServico.update({
+        where: { id: existing.id },
+        data: updateData,
+        include: { predio: true, solicitante: true, tecnico: true },
+      });
+
+      if (currentUser?.id) {
+        await tx.auditoriaLog.create({
+          data: {
+            entidade_afetada: 'OrdemServico',
+            entidade_id: order.id,
+            acao: AuditAction.UPDATE,
+            usuario_id: currentUser.id,
+            dados_antigos: { status: existing.status, prioridade: existing.prioridade },
+            dados_novos: updateData,
+          },
+        });
+      }
+
+      return order;
     });
 
     return {
       success: true,
       data: this.mapOrder(updated),
-      message: `Work order ${updated.codigo} updated successfully.`,
+      message: `Ordem de serviço ${updated.codigo} atualizada com sucesso.`,
     };
   }
 
-  async remove(idOrCode: string): Promise<ApiResponse<null>> {
+  async remove(idOrCode: string, currentUser?: any): Promise<ApiResponse<null>> {
     const existing = await this.prisma.ordemServico.findFirst({
       where: { OR: [{ id: idOrCode }, { codigo: idOrCode }] },
     });
 
-    if (!existing) throw new NotFoundException('Work order not found.');
+    if (!existing) throw new NotFoundException('Ordem de serviço não encontrada.');
 
-    await this.prisma.ordemServico.delete({
-      where: { id: existing.id },
+    // Transação atômica de remoção e auditoria
+    await this.prisma.$transaction(async (tx) => {
+      if (currentUser?.id) {
+        await tx.auditoriaLog.create({
+          data: {
+            entidade_afetada: 'OrdemServico',
+            entidade_id: existing.id,
+            acao: AuditAction.DELETE,
+            usuario_id: currentUser.id,
+            dados_antigos: { codigo: existing.codigo, titulo: existing.titulo },
+          },
+        });
+      }
+
+      await tx.ordemServico.delete({
+        where: { id: existing.id },
+      });
     });
 
     return {
       success: true,
       data: null,
-      message: `Work order ${existing.codigo} deleted successfully.`,
+      message: `Ordem de serviço ${existing.codigo} removida com sucesso.`,
     };
   }
 }

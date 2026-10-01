@@ -1488,8 +1488,18 @@ export namespace Prisma {
 
   export type AggregateUsuario = {
     _count: UsuarioCountAggregateOutputType | null
+    _avg: UsuarioAvgAggregateOutputType | null
+    _sum: UsuarioSumAggregateOutputType | null
     _min: UsuarioMinAggregateOutputType | null
     _max: UsuarioMaxAggregateOutputType | null
+  }
+
+  export type UsuarioAvgAggregateOutputType = {
+    token_version: number | null
+  }
+
+  export type UsuarioSumAggregateOutputType = {
+    token_version: number | null
   }
 
   export type UsuarioMinAggregateOutputType = {
@@ -1499,6 +1509,7 @@ export namespace Prisma {
     senha_hash: string | null
     role: $Enums.Role | null
     telefone: string | null
+    token_version: number | null
     criado_em: Date | null
     atualizado: Date | null
   }
@@ -1510,6 +1521,7 @@ export namespace Prisma {
     senha_hash: string | null
     role: $Enums.Role | null
     telefone: string | null
+    token_version: number | null
     criado_em: Date | null
     atualizado: Date | null
   }
@@ -1521,11 +1533,20 @@ export namespace Prisma {
     senha_hash: number
     role: number
     telefone: number
+    token_version: number
     criado_em: number
     atualizado: number
     _all: number
   }
 
+
+  export type UsuarioAvgAggregateInputType = {
+    token_version?: true
+  }
+
+  export type UsuarioSumAggregateInputType = {
+    token_version?: true
+  }
 
   export type UsuarioMinAggregateInputType = {
     id?: true
@@ -1534,6 +1555,7 @@ export namespace Prisma {
     senha_hash?: true
     role?: true
     telefone?: true
+    token_version?: true
     criado_em?: true
     atualizado?: true
   }
@@ -1545,6 +1567,7 @@ export namespace Prisma {
     senha_hash?: true
     role?: true
     telefone?: true
+    token_version?: true
     criado_em?: true
     atualizado?: true
   }
@@ -1556,6 +1579,7 @@ export namespace Prisma {
     senha_hash?: true
     role?: true
     telefone?: true
+    token_version?: true
     criado_em?: true
     atualizado?: true
     _all?: true
@@ -1599,6 +1623,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UsuarioAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UsuarioSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UsuarioMinAggregateInputType
@@ -1629,6 +1665,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UsuarioCountAggregateInputType | true
+    _avg?: UsuarioAvgAggregateInputType
+    _sum?: UsuarioSumAggregateInputType
     _min?: UsuarioMinAggregateInputType
     _max?: UsuarioMaxAggregateInputType
   }
@@ -1640,9 +1678,12 @@ export namespace Prisma {
     senha_hash: string
     role: $Enums.Role
     telefone: string | null
+    token_version: number
     criado_em: Date
     atualizado: Date
     _count: UsuarioCountAggregateOutputType | null
+    _avg: UsuarioAvgAggregateOutputType | null
+    _sum: UsuarioSumAggregateOutputType | null
     _min: UsuarioMinAggregateOutputType | null
     _max: UsuarioMaxAggregateOutputType | null
   }
@@ -1668,6 +1709,7 @@ export namespace Prisma {
     senha_hash?: boolean
     role?: boolean
     telefone?: boolean
+    token_version?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predios_geridos?: boolean | Usuario$predios_geridosArgs<ExtArgs>
@@ -1684,6 +1726,7 @@ export namespace Prisma {
     senha_hash?: boolean
     role?: boolean
     telefone?: boolean
+    token_version?: boolean
     criado_em?: boolean
     atualizado?: boolean
   }, ExtArgs["result"]["usuario"]>
@@ -1695,6 +1738,7 @@ export namespace Prisma {
     senha_hash?: boolean
     role?: boolean
     telefone?: boolean
+    token_version?: boolean
     criado_em?: boolean
     atualizado?: boolean
   }, ExtArgs["result"]["usuario"]>
@@ -1706,11 +1750,12 @@ export namespace Prisma {
     senha_hash?: boolean
     role?: boolean
     telefone?: boolean
+    token_version?: boolean
     criado_em?: boolean
     atualizado?: boolean
   }
 
-  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "email" | "senha_hash" | "role" | "telefone" | "criado_em" | "atualizado", ExtArgs["result"]["usuario"]>
+  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "email" | "senha_hash" | "role" | "telefone" | "token_version" | "criado_em" | "atualizado", ExtArgs["result"]["usuario"]>
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predios_geridos?: boolean | Usuario$predios_geridosArgs<ExtArgs>
     chamados_solicitados?: boolean | Usuario$chamados_solicitadosArgs<ExtArgs>
@@ -1736,6 +1781,7 @@ export namespace Prisma {
       senha_hash: string
       role: $Enums.Role
       telefone: string | null
+      token_version: number
       criado_em: Date
       atualizado: Date
     }, ExtArgs["result"]["usuario"]>
@@ -2171,6 +2217,7 @@ export namespace Prisma {
     readonly senha_hash: FieldRef<"Usuario", 'String'>
     readonly role: FieldRef<"Usuario", 'Role'>
     readonly telefone: FieldRef<"Usuario", 'String'>
+    readonly token_version: FieldRef<"Usuario", 'Int'>
     readonly criado_em: FieldRef<"Usuario", 'DateTime'>
     readonly atualizado: FieldRef<"Usuario", 'DateTime'>
   }
@@ -8363,6 +8410,7 @@ export namespace Prisma {
     senha_hash: 'senha_hash',
     role: 'role',
     telefone: 'telefone',
+    token_version: 'token_version',
     criado_em: 'criado_em',
     atualizado: 'atualizado'
   };
@@ -8529,6 +8577,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -8620,20 +8682,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -8660,6 +8708,7 @@ export namespace Prisma {
     senha_hash?: StringFilter<"Usuario"> | string
     role?: EnumRoleFilter<"Usuario"> | $Enums.Role
     telefone?: StringNullableFilter<"Usuario"> | string | null
+    token_version?: IntFilter<"Usuario"> | number
     criado_em?: DateTimeFilter<"Usuario"> | Date | string
     atualizado?: DateTimeFilter<"Usuario"> | Date | string
     predios_geridos?: PredioListRelationFilter
@@ -8675,6 +8724,7 @@ export namespace Prisma {
     senha_hash?: SortOrder
     role?: SortOrder
     telefone?: SortOrderInput | SortOrder
+    token_version?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
     predios_geridos?: PredioOrderByRelationAggregateInput
@@ -8693,6 +8743,7 @@ export namespace Prisma {
     senha_hash?: StringFilter<"Usuario"> | string
     role?: EnumRoleFilter<"Usuario"> | $Enums.Role
     telefone?: StringNullableFilter<"Usuario"> | string | null
+    token_version?: IntFilter<"Usuario"> | number
     criado_em?: DateTimeFilter<"Usuario"> | Date | string
     atualizado?: DateTimeFilter<"Usuario"> | Date | string
     predios_geridos?: PredioListRelationFilter
@@ -8708,11 +8759,14 @@ export namespace Prisma {
     senha_hash?: SortOrder
     role?: SortOrder
     telefone?: SortOrderInput | SortOrder
+    token_version?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
     _count?: UsuarioCountOrderByAggregateInput
+    _avg?: UsuarioAvgOrderByAggregateInput
     _max?: UsuarioMaxOrderByAggregateInput
     _min?: UsuarioMinOrderByAggregateInput
+    _sum?: UsuarioSumOrderByAggregateInput
   }
 
   export type UsuarioScalarWhereWithAggregatesInput = {
@@ -8725,6 +8779,7 @@ export namespace Prisma {
     senha_hash?: StringWithAggregatesFilter<"Usuario"> | string
     role?: EnumRoleWithAggregatesFilter<"Usuario"> | $Enums.Role
     telefone?: StringNullableWithAggregatesFilter<"Usuario"> | string | null
+    token_version?: IntWithAggregatesFilter<"Usuario"> | number
     criado_em?: DateTimeWithAggregatesFilter<"Usuario"> | Date | string
     atualizado?: DateTimeWithAggregatesFilter<"Usuario"> | Date | string
   }
@@ -9161,6 +9216,7 @@ export namespace Prisma {
     senha_hash: string
     role?: $Enums.Role
     telefone?: string | null
+    token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
@@ -9176,6 +9232,7 @@ export namespace Prisma {
     senha_hash: string
     role?: $Enums.Role
     telefone?: string | null
+    token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
@@ -9191,6 +9248,7 @@ export namespace Prisma {
     senha_hash?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
@@ -9206,6 +9264,7 @@ export namespace Prisma {
     senha_hash?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
@@ -9221,6 +9280,7 @@ export namespace Prisma {
     senha_hash: string
     role?: $Enums.Role
     telefone?: string | null
+    token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -9232,6 +9292,7 @@ export namespace Prisma {
     senha_hash?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9243,6 +9304,7 @@ export namespace Prisma {
     senha_hash?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9766,6 +9828,17 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -9819,8 +9892,13 @@ export namespace Prisma {
     senha_hash?: SortOrder
     role?: SortOrder
     telefone?: SortOrder
+    token_version?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
+  }
+
+  export type UsuarioAvgOrderByAggregateInput = {
+    token_version?: SortOrder
   }
 
   export type UsuarioMaxOrderByAggregateInput = {
@@ -9830,6 +9908,7 @@ export namespace Prisma {
     senha_hash?: SortOrder
     role?: SortOrder
     telefone?: SortOrder
+    token_version?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
   }
@@ -9841,8 +9920,13 @@ export namespace Prisma {
     senha_hash?: SortOrder
     role?: SortOrder
     telefone?: SortOrder
+    token_version?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
+  }
+
+  export type UsuarioSumOrderByAggregateInput = {
+    token_version?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -9889,6 +9973,22 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -10193,17 +10293,6 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type ConfiguracaoSistemaCountOrderByAggregateInput = {
     id?: SortOrder
     prefeitura_nome?: SortOrder
@@ -10288,22 +10377,6 @@ export namespace Prisma {
     preventiva_goal?: SortOrder
   }
 
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
   export type PredioCreateNestedManyWithoutGestorInput = {
     create?: XOR<PredioCreateWithoutGestorInput, PredioUncheckedCreateWithoutGestorInput> | PredioCreateWithoutGestorInput[] | PredioUncheckedCreateWithoutGestorInput[]
     connectOrCreate?: PredioCreateOrConnectWithoutGestorInput | PredioCreateOrConnectWithoutGestorInput[]
@@ -10370,6 +10443,14 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -10633,14 +10714,6 @@ export namespace Prisma {
     set?: boolean
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -10676,6 +10749,17 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -10702,17 +10786,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -10751,6 +10824,33 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -10869,33 +10969,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type PredioCreateWithoutGestorInput = {
@@ -11150,6 +11223,7 @@ export namespace Prisma {
     senha_hash: string
     role?: $Enums.Role
     telefone?: string | null
+    token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
@@ -11164,6 +11238,7 @@ export namespace Prisma {
     senha_hash: string
     role?: $Enums.Role
     telefone?: string | null
+    token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
@@ -11232,6 +11307,7 @@ export namespace Prisma {
     senha_hash?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
@@ -11246,6 +11322,7 @@ export namespace Prisma {
     senha_hash?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
@@ -11301,6 +11378,7 @@ export namespace Prisma {
     senha_hash: string
     role?: $Enums.Role
     telefone?: string | null
+    token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
@@ -11315,6 +11393,7 @@ export namespace Prisma {
     senha_hash: string
     role?: $Enums.Role
     telefone?: string | null
+    token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
@@ -11334,6 +11413,7 @@ export namespace Prisma {
     senha_hash: string
     role?: $Enums.Role
     telefone?: string | null
+    token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
@@ -11348,6 +11428,7 @@ export namespace Prisma {
     senha_hash: string
     role?: $Enums.Role
     telefone?: string | null
+    token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
@@ -11409,6 +11490,7 @@ export namespace Prisma {
     senha_hash?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
@@ -11423,6 +11505,7 @@ export namespace Prisma {
     senha_hash?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
@@ -11448,6 +11531,7 @@ export namespace Prisma {
     senha_hash?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
@@ -11462,6 +11546,7 @@ export namespace Prisma {
     senha_hash?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
@@ -11476,6 +11561,7 @@ export namespace Prisma {
     senha_hash: string
     role?: $Enums.Role
     telefone?: string | null
+    token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
@@ -11490,6 +11576,7 @@ export namespace Prisma {
     senha_hash: string
     role?: $Enums.Role
     telefone?: string | null
+    token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
@@ -11520,6 +11607,7 @@ export namespace Prisma {
     senha_hash?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
@@ -11534,6 +11622,7 @@ export namespace Prisma {
     senha_hash?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput

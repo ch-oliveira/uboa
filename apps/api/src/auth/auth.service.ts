@@ -1,7 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import bcrypt from 'bcryptjs';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { Role } from '@repo/database';
 import type { ApiResponse } from '../common/interfaces/api-response.interface.js';
+import type { JwtPayload } from './jwt.strategy.js';
 
 export interface AuthenticatedUserResponse {
   id: string;
@@ -20,9 +23,12 @@ export interface AuthSessionResponse {
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  private mapAuthUser(user: any): AuthenticatedUserResponse {
+  public mapAuthUser(user: any): AuthenticatedUserResponse {
     return {
       id: user.id,
       name: user.nome,
@@ -34,94 +40,47 @@ export class AuthService {
     };
   }
 
-  async login(email?: string, password?: string, quickRole?: string): Promise<ApiResponse<AuthSessionResponse>> {
-    // 1. Login Rápido por Perfil (1-clique demo)
-    if (quickRole) {
-      let targetEmail = 'gestor@zelo.gov.br';
-      if (quickRole === 'ADMIN') targetEmail = 'admin@zelo.gov.br';
-      else if (quickRole === 'TECNICO') targetEmail = 'carlos.tecnico@zelo.gov.br';
-      else if (quickRole === 'SOLICITANTE_ESCOLA' || quickRole === 'SOLICITANTE') targetEmail = 'maria.escola@zelo.gov.br';
-      else if (quickRole === 'SOLICITANTE_UBS') targetEmail = 'marcelo.ubs@zelo.gov.br';
-
-      let user = await this.prisma.usuario.findUnique({
-        where: { email: targetEmail },
-        include: { predios_geridos: true },
-      });
-
-      if (!user && targetEmail === 'admin@zelo.gov.br') {
-        try {
-          user = await this.prisma.usuario.upsert({
-            where: { email: 'admin@zelo.gov.br' },
-            update: {},
-            create: {
-              id: 'user-admin',
-              nome: 'Desenvolvedor / Admin',
-              email: 'admin@zelo.gov.br',
-              senha_hash: '123',
-              role: Role.ADMIN,
-              telefone: '(11) 99999-0000',
-            },
-            include: { predios_geridos: true },
-          });
-        } catch {
-          // ignora
-        }
-      }
-
-      if (!user) {
-        throw new UnauthorizedException('Perfil de demonstração não encontrado na base de dados.');
-      }
-
-      const mapped = this.mapAuthUser(user);
-      const token = `zelo_jwt_token_${user.id}_${Date.now()}`;
-
-      return {
-        success: true,
-        data: {
-          user: mapped,
-          token,
-        },
-        message: 'Autenticação realizada com sucesso.',
-      };
-    }
-
-    // 2. Login Tradicional por E-mail e Senha
-    if (!email) {
+  async login(email?: string, password?: string): Promise<ApiResponse<AuthSessionResponse>> {
+    if (!email || typeof email !== 'string' || !email.trim()) {
       throw new UnauthorizedException('E-mail institucional é obrigatório.');
     }
 
+    if (!password || typeof password !== 'string' || !password.trim()) {
+      throw new UnauthorizedException('Senha de acesso é obrigatória.');
+    }
+
     const cleanEmail = email.toLowerCase().trim();
-    let user = await this.prisma.usuario.findUnique({
-      where: { email: cleanEmail },
+    const urboaEmail = cleanEmail.replace(/@zelo\.gov\.br$/i, '@urboa.gov.br');
+    const user = await this.prisma.usuario.findFirst({
+      where: {
+        OR: [
+          { email: urboaEmail },
+          { email: cleanEmail },
+        ],
+      },
       include: { predios_geridos: true },
     });
 
-    if (!user && cleanEmail === 'admin@zelo.gov.br') {
-      try {
-        user = await this.prisma.usuario.upsert({
-          where: { email: 'admin@zelo.gov.br' },
-          update: {},
-          create: {
-            id: 'user-admin',
-            nome: 'Desenvolvedor / Admin',
-            email: 'admin@zelo.gov.br',
-            senha_hash: '123',
-            role: Role.ADMIN,
-            telefone: '(11) 99999-0000',
-          },
-          include: { predios_geridos: true },
-        });
-      } catch {
-        // ignora
-      }
-    }
-
-    if (!user || (password && user.senha_hash !== password)) {
+    if (!user) {
+      // Mensagem genérica para prevenir enumeração de usuários
       throw new UnauthorizedException('Credenciais inválidas. Verifique seu e-mail e senha.');
     }
 
+    const isMatch = await bcrypt.compare(password, user.senha_hash);
+
+    if (!isMatch) {
+      throw new UnauthorizedException('Credenciais inválidas. Verifique seu e-mail e senha.');
+    }
+
+    const payload: JwtPayload = {
+      sub: user.id,
+      email: user.email,
+      role: user.role,
+      tokenVersion: user.token_version,
+    };
+
+    const token = await this.jwtService.signAsync(payload);
     const mapped = this.mapAuthUser(user);
-    const token = `zelo_jwt_token_${user.id}_${Date.now()}`;
 
     return {
       success: true,
@@ -147,5 +106,14 @@ export class AuthService {
       success: true,
       data: this.mapAuthUser(user),
     };
+  }
+
+  async revokeSession(userId: string): Promise<void> {
+    await this.prisma.usuario.update({
+      where: { id: userId },
+      data: {
+        token_version: { increment: 1 },
+      },
+    });
   }
 }

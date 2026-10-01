@@ -1,0 +1,121 @@
+import { IsArray, IsOptional, IsString, MaxLength } from 'class-validator';
+
+export class CreateWorkOrderDto {
+  @IsString()
+  @IsOptional()
+  @MaxLength(200)
+  title?: string;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(200)
+  titulo?: string;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(200)
+  facilityName?: string;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(200)
+  predio?: string;
+
+  @IsString()
+  @IsOptional()
+  priority?: string;
+
+  @IsString()
+  @IsOptional()
+  prioridade?: string;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(2000)
+  description?: string;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(2000)
+  descricao?: string;
+
+  @IsString()
+  @IsOptional()
+  technicianName?: string;
+
+  @IsString()
+  @IsOptional()
+  tecnico?: string;
+
+  @IsString()
+  @IsOptional()
+  code?: string;
+
+  @IsString()
+  @IsOptional()
+  codigo?: string;
+
+  @IsString()
+  @IsOptional()
+  id?: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  photos?: string[];
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  fotos?: string[];
+}
+
+export class UpdateWorkOrderDto {
+  @IsString()
+  @IsOptional()
+  @MaxLength(200)
+  title?: string;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(200)
+  titulo?: string;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(2000)
+  description?: string;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(2000)
+  descricao?: string;
+
+  @IsString()
+  @IsOptional()
+  priority?: string;
+
+  @IsString()
+  @IsOptional()
+  prioridade?: string;
+
+  @IsString()
+  @IsOptional()
+  status?: string;
+
+  @IsString()
+  @IsOptional()
+  technicianName?: string;
+
+  @IsString()
+  @IsOptional()
+  tecnico?: string;
+
+  @IsString()
+  @IsOptional()
+  facilityName?: string;
+
+  @IsString()
+  @IsOptional()
+  predio?: string;
+}

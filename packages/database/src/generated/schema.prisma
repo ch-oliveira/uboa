@@ -51,14 +51,15 @@ enum AuditAction {
 }
 
 model Usuario {
-  id         String   @id @default(uuid())
-  nome       String
-  email      String   @unique
-  senha_hash String
-  role       Role     @default(SOLICITANTE)
-  telefone   String?
-  criado_em  DateTime @default(now())
-  atualizado DateTime @updatedAt
+  id            String   @id @default(uuid())
+  nome          String
+  email         String   @unique
+  senha_hash    String
+  role          Role     @default(SOLICITANTE)
+  telefone      String?
+  token_version Int      @default(1)
+  criado_em     DateTime @default(now())
+  atualizado    DateTime @updatedAt
 
   predios_geridos      Predio[]       @relation("GestorPredio")
   chamados_solicitados OrdemServico[] @relation("SolicitanteOS")

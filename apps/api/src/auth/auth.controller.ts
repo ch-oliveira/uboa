@@ -1,30 +1,33 @@
-import { Controller, Post, Get, Body, Headers } from '@nestjs/common';
+import { Controller, Post, Get, Body } from '@nestjs/common';
 import { AuthService } from './auth.service.js';
+import { Public } from './public.decorator.js';
+import { CurrentUser } from './current-user.decorator.js';
+import { LoginDto } from './dto/login.dto.js';
+import type { AuthenticatedUserResponse } from './auth.service.js';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @Post('login')
-  async login(
-    @Body() body: { email?: string; password?: string; role?: string }
-  ) {
-    return this.authService.login(body.email, body.password, body.role);
+  async login(@Body() body: LoginDto) {
+    return this.authService.login(body.email, body.password);
   }
 
   @Get('me')
-  async getMe(@Headers('authorization') authHeader?: string) {
-    // Extrai o id do token (ex: zelo_jwt_token_user-gestor_...)
-    let userId = 'user-gestor';
-    if (authHeader && authHeader.includes('zelo_jwt_token_')) {
-      const parts = authHeader.replace('Bearer ', '').split('_');
-      if (parts[3]) userId = parts[3];
-    }
-    return this.authService.getMe(userId);
+  async getMe(@CurrentUser() user: AuthenticatedUserResponse) {
+    return {
+      success: true,
+      data: user,
+    };
   }
 
   @Post('logout')
-  async logout() {
-    return { success: true, message: 'Sessão encerrada com sucesso.' };
+  async logout(@CurrentUser() user?: AuthenticatedUserResponse) {
+    if (user?.id) {
+      await this.authService.revokeSession(user.id);
+    }
+    return { success: true, message: 'Sessão encerrada e revogada com sucesso.' };
   }
 }
