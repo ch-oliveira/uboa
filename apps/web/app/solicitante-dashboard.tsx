@@ -158,17 +158,17 @@ export function SolicitanteDashboard({
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 lg:p-8 space-y-8 bg-[#F8FAFC]">
+    <div className="flex-1 overflow-y-auto p-6 lg:p-8 space-y-8 bg-background">
       
       {/* Top Banner de Boas-Vindas & Identidade da Unidade */}
-      <div className="bg-white rounded-3xl p-6 lg:p-8 border border-slate-200/90 shadow-xs relative overflow-hidden">
+      <div className="ds-card p-6 lg:p-8 relative overflow-hidden">
         {/* Background decorative gradient glow */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-500/5 via-indigo-500/5 to-transparent rounded-full blur-2xl pointer-events-none" />
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="space-y-2">
             <div className="flex items-center gap-2.5">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-[#1D6FEB] border border-blue-100">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50/70 text-blue-900 border border-blue-900/20">
                 {isSchool ? <School size={14} /> : <Activity size={14} />}
                 {unitName}
               </span>
@@ -187,14 +187,14 @@ export function SolicitanteDashboard({
 
           {/* Quick CTA Actions */}
           <div className="flex items-center gap-3 shrink-0">
-            <div className="hidden sm:flex items-center gap-2 px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 select-none">
-              <Calendar size={15} className="text-slate-400" />
+            <div className="hidden sm:flex items-center gap-2 px-3.5 py-2.5 bg-input border border-border rounded-xl text-xs font-semibold text-foreground select-none">
+              <Calendar size={15} className="text-muted-foreground" />
               <span>23 set 2026</span>
             </div>
 
             <Button
               onClick={onOpenNewOrder}
-              className="bg-[#1D6FEB] hover:bg-[#1557BA] text-white rounded-xl px-5 py-2.5 font-bold shadow-sm h-11 transition-all hover:shadow cursor-pointer flex items-center gap-2"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-5 py-2.5 font-bold shadow-sm h-11 transition-all hover:shadow cursor-pointer flex items-center gap-2"
             >
               <Plus size={18} />
               <span>Novo chamado</span>
@@ -208,15 +208,15 @@ export function SolicitanteDashboard({
         {/* Total em Aberto */}
         <div 
           onClick={() => setActiveTab('TODOS')}
-          className={`p-5 rounded-2xl border transition-all cursor-pointer select-none bg-white ${
+          className={`ds-card p-5 transition-all cursor-pointer select-none ${
             activeTab === 'TODOS' 
-              ? 'border-[#1D6FEB] ring-2 ring-[#1D6FEB]/15 shadow-sm' 
-              : 'border-slate-200/90 hover:border-slate-300 shadow-2xs'
+              ? 'border-primary ring-2 ring-primary/20 shadow-xs' 
+              : 'hover:border-primary/30 hover:shadow-card-hover'
           }`}
         >
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Chamados Abertos</span>
-            <div className="w-9 h-9 rounded-xl bg-blue-50 text-[#1D6FEB] flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-blue-50/70 text-blue-900 flex items-center justify-center">
               <Building2 size={18} />
             </div>
           </div>
@@ -229,10 +229,10 @@ export function SolicitanteDashboard({
         {/* Em Atendimento / Campo */}
         <div 
           onClick={() => setActiveTab('EM_ANDAMENTO')}
-          className={`p-5 rounded-2xl border transition-all cursor-pointer select-none bg-white ${
+          className={`ds-card p-5 transition-all cursor-pointer select-none ${
             activeTab === 'EM_ANDAMENTO' 
-              ? 'border-amber-500 ring-2 ring-amber-500/15 shadow-sm' 
-              : 'border-slate-200/90 hover:border-slate-300 shadow-2xs'
+              ? 'border-primary ring-2 ring-primary/20 shadow-xs' 
+              : 'hover:border-primary/30 hover:shadow-card-hover'
           }`}
         >
           <div className="flex items-center justify-between">
@@ -250,10 +250,10 @@ export function SolicitanteDashboard({
         {/* Aguardam sua Validação */}
         <div 
           onClick={() => setActiveTab('AGUARDANDO_ACEITE')}
-          className={`p-5 rounded-2xl border transition-all cursor-pointer select-none bg-white ${
+          className={`ds-card p-5 transition-all cursor-pointer select-none ${
             activeTab === 'AGUARDANDO_ACEITE' 
-              ? 'border-purple-500 ring-2 ring-purple-500/15 shadow-sm' 
-              : 'border-slate-200/90 hover:border-slate-300 shadow-2xs'
+              ? 'border-primary ring-2 ring-primary/20 shadow-xs' 
+              : 'hover:border-primary/30 hover:shadow-card-hover'
           }`}
         >
           <div className="flex items-center justify-between">
@@ -274,10 +274,10 @@ export function SolicitanteDashboard({
         {/* Concluídos */}
         <div 
           onClick={() => setActiveTab('CONCLUIDOS')}
-          className={`p-5 rounded-2xl border transition-all cursor-pointer select-none bg-white ${
+          className={`ds-card p-5 transition-all cursor-pointer select-none ${
             activeTab === 'CONCLUIDOS' 
-              ? 'border-emerald-500 ring-2 ring-emerald-500/15 shadow-sm' 
-              : 'border-slate-200/90 hover:border-slate-300 shadow-2xs'
+              ? 'border-primary ring-2 ring-primary/20 shadow-xs' 
+              : 'hover:border-primary/30 hover:shadow-card-hover'
           }`}
         >
           <div className="flex items-center justify-between">
@@ -298,25 +298,25 @@ export function SolicitanteDashboard({
         
         {/* Coluna Esquerda: Lista de Chamados com Esteira de Progresso Visual */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xs overflow-hidden flex flex-col">
+          <div className="ds-card overflow-hidden flex flex-col">
             
             {/* Header com Filtros e Busca */}
-            <div className="p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="p-6 border-b border-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h2 className="text-lg font-bold text-slate-900">Andamento das Manutenções</h2>
-                <p className="text-xs text-slate-400 font-medium mt-0.5">
+                <h2 className="ds-section-title">Andamento das Manutenções</h2>
+                <p className="text-xs text-muted-foreground font-medium mt-0.5">
                   Acompanhe cada etapa dos chamados da sua unidade
                 </p>
               </div>
 
               {/* Tabs de Filtro */}
-              <div className="flex items-center bg-slate-100 p-1 rounded-xl text-xs font-semibold">
+              <div className="flex items-center bg-muted p-1 rounded-xl text-xs font-semibold">
                 <button
                   onClick={() => setActiveTab('TODOS')}
                   className={`px-3 py-1.5 rounded-lg transition-all ${
                     activeTab === 'TODOS'
-                      ? 'bg-white text-slate-900 shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-background text-foreground shadow-xs'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   Todos ({unitOrders.length})
@@ -325,8 +325,8 @@ export function SolicitanteDashboard({
                   onClick={() => setActiveTab('EM_ANDAMENTO')}
                   className={`px-3 py-1.5 rounded-lg transition-all ${
                     activeTab === 'EM_ANDAMENTO'
-                      ? 'bg-white text-slate-900 shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-background text-foreground shadow-xs'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   Em Andamento ({unitStats.inProgress})
@@ -335,8 +335,8 @@ export function SolicitanteDashboard({
                   onClick={() => setActiveTab('AGUARDANDO_ACEITE')}
                   className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
                     activeTab === 'AGUARDANDO_ACEITE'
-                      ? 'bg-white text-slate-900 shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-background text-foreground shadow-xs'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   Validar
@@ -350,17 +350,17 @@ export function SolicitanteDashboard({
             </div>
 
             {/* Barra de busca de chamados na unidade */}
-            <div className="px-6 py-3 bg-slate-50/50 border-b border-slate-100 flex items-center gap-3">
-              <Search size={15} className="text-slate-400 shrink-0" />
+            <div className="px-6 py-3 bg-muted/50 border-b border-border flex items-center gap-3">
+              <Search size={15} className="text-muted-foreground shrink-0" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Buscar por problema, código ou técnico..."
-                className="w-full bg-transparent text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none font-medium"
+                className="w-full bg-transparent text-xs text-foreground placeholder:text-muted-foreground focus:outline-none font-medium"
               />
               {searchQuery && (
-                <button onClick={() => setSearchQuery('')} className="text-slate-400 hover:text-slate-600">
+                <button onClick={() => setSearchQuery('')} className="text-muted-foreground hover:text-foreground">
                   <X size={14} />
                 </button>
               )}
@@ -417,12 +417,12 @@ export function SolicitanteDashboard({
                             )}
                           </div>
 
-                          <h3 className="text-base font-bold text-slate-900 group-hover:text-[#1D6FEB] transition-colors">
+                          <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
                             {order.titulo}
                           </h3>
 
                           {order.descricao && (
-                            <p className="text-xs text-slate-500 line-clamp-2 mt-1">
+                            <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
                               {order.descricao}
                             </p>
                           )}
@@ -439,7 +439,7 @@ export function SolicitanteDashboard({
                               <span>Validar Reparo</span>
                             </Button>
                           ) : (
-                            <span className="text-xs font-semibold text-[#1D6FEB] group-hover:translate-x-0.5 transition-transform flex items-center">
+                            <span className="text-xs font-semibold text-primary group-hover:translate-x-0.5 transition-transform flex items-center">
                               Detalhes <ChevronRight size={15} className="ml-0.5" />
                             </span>
                           )}
@@ -466,7 +466,7 @@ export function SolicitanteDashboard({
                           
                           {/* Linha de progresso preenchida */}
                           <div 
-                            className="absolute top-3 left-4 h-0.5 bg-[#1D6FEB] transition-all duration-500 -z-0"
+                            className="absolute top-3 left-4 h-0.5 bg-blue-900 transition-all duration-500 -z-0"
                             style={{ 
                               width: `${(currentStageIdx / (STAGES.length - 1)) * 100}%` 
                             }} 
@@ -482,15 +482,15 @@ export function SolicitanteDashboard({
                                 <div key={stage.key} className="flex flex-col items-center">
                                   <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold transition-all shadow-xs ${
                                     isCompleted 
-                                      ? 'bg-[#1D6FEB] text-white ring-2 ring-blue-100' 
+                                      ? 'bg-blue-900 text-white ring-2 ring-blue-900/20' 
                                       : isCurrent 
-                                      ? 'bg-white border-2 border-[#1D6FEB] text-[#1D6FEB] ring-4 ring-blue-50 animate-pulse' 
+                                      ? 'bg-white border-2 border-blue-900 text-blue-900 ring-4 ring-blue-900/10 animate-pulse' 
                                       : 'bg-slate-200 text-slate-500 border border-slate-300'
                                   }`}>
                                     {isCompleted ? <CheckCircle2 size={13} /> : idx + 1}
                                   </div>
                                   <span className={`text-[11px] mt-1.5 font-bold ${
-                                    isCurrent ? 'text-[#1D6FEB]' : isCompleted ? 'text-slate-800' : 'text-slate-400'
+                                    isCurrent ? 'text-primary' : isCompleted ? 'text-foreground' : 'text-muted-foreground/80'
                                   }`}>
                                     {stage.label}
                                   </span>
@@ -532,7 +532,7 @@ export function SolicitanteDashboard({
                 <h2 className="text-base font-bold text-slate-900">Próximas Visitas</h2>
                 <p className="text-xs text-slate-400">Técnicos escalados para {unitName}</p>
               </div>
-              <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#1D6FEB] flex items-center justify-center">
+              <div className="w-8 h-8 rounded-xl bg-blue-50/70 text-blue-900 flex items-center justify-center">
                 <Clock size={16} />
               </div>
             </div>
@@ -550,13 +550,13 @@ export function SolicitanteDashboard({
                 {unitAgenda.map((item) => (
                   <div 
                     key={item.id} 
-                    className="p-3.5 rounded-2xl bg-blue-50/40 border border-blue-100/80 space-y-1.5"
+                    className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-1.5"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#1D6FEB] flex items-center gap-1">
+                      <span className="text-xs font-bold text-blue-900 flex items-center gap-1">
                         <Clock size={13} /> {item.time}
                       </span>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 uppercase">
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200 uppercase">
                         Confirmado
                       </span>
                     </div>
@@ -593,7 +593,7 @@ export function SolicitanteDashboard({
               <div className="p-3 bg-slate-50 rounded-xl space-y-1">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Telefone / Emergência</span>
                 <p className="font-bold text-slate-800 flex items-center gap-1.5">
-                  <Phone size={13} className="text-[#1D6FEB]" />
+                  <Phone size={13} className="text-blue-900" />
                   (11) 3241-8900
                 </p>
                 <p className="text-[10px] text-slate-400">Disponível de Seg a Sex, das 07h às 19h</p>
@@ -608,17 +608,17 @@ export function SolicitanteDashboard({
           </div>
 
           {/* Dica / Orientações para a Escola/UBS */}
-          <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-6 text-white space-y-3 shadow-md">
+          <div className="bg-gradient-to-br from-slate-900 to-blue-950 rounded-3xl p-6 text-white space-y-3 shadow-md border border-slate-800">
             <div className="flex items-center gap-2">
-              <ShieldCheck size={20} className="text-blue-200" />
-              <h3 className="font-bold text-sm">Zelo nas Unidades</h3>
+              <ShieldCheck size={20} className="text-blue-300" />
+              <h3 className="font-bold text-sm">Urboa nas Unidades</h3>
             </div>
-            <p className="text-xs text-blue-100 leading-relaxed">
+            <p className="text-xs text-slate-300 leading-relaxed">
               Ao identificar infiltrações, falhas elétricas ou problemas na estrutura da escola, registre imediatamente com fotos para agilizar a triagem técnica.
             </p>
             <Button
               onClick={onOpenNewOrder}
-              className="w-full bg-white text-[#1D6FEB] hover:bg-blue-50 font-bold text-xs rounded-xl shadow-xs h-9 cursor-pointer"
+              className="w-full bg-white text-blue-950 hover:bg-slate-100 font-bold text-xs rounded-xl shadow-xs h-9 cursor-pointer"
             >
               + Relatar Nova Ocorrência
             </Button>

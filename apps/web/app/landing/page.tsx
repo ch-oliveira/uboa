@@ -1,569 +1,846 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Building2, 
   CheckCircle2, 
   ArrowRight, 
+  ShieldCheck, 
   Sparkles, 
-  BarChart2, 
-  Calendar, 
-  LayoutDashboard, 
-  QrCode, 
-  Award, 
-  Star
+  MapPin, 
+  BarChart3, 
+  HardHat, 
+  FileCheck2, 
+  Navigation, 
+  ChevronRight, 
+  CalendarCheck, 
+  Send, 
+  Wrench, 
+  X, 
+  Clock,
+  ArrowUpRight,
+  Shield,
+  Layers,
+  CheckCircle,
+  Sun,
+  Inbox,
+  Calendar,
+  TrendingUp,
+  Settings,
+  Search,
+  Bell,
+  AlertTriangle,
+  Plus,
+  Check,
+  User,
+  Zap
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useOrders } from '@/context/orders-context';
 import { useAuth } from '@/context/auth-context';
+import { Logo } from '@/components/logo';
+import { HeroDashboardShowcase } from '@/components/hero-dashboard-showcase';
+
+// Refactoring UI: Deliberate spring physics with natural mass
+const cubicSpring = [0.16, 1, 0.3, 1] as const;
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.6, ease: cubicSpring } 
+  }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08, delayChildren: 0.04 }
+  }
+};
 
 export default function LandingPage() {
-  const { stats, units, orders } = useOrders();
   const { user } = useAuth();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  
+  // Interactive urBIA Copilot Chat Simulation State
+  const [activeUrbiChip, setActiveUrbiChip] = useState<'tecnicos' | 'resumo' | 'urgencias'>('resumo');
+  const [customUrbiInput, setCustomUrbiInput] = useState('');
+  const [chatMessages, setChatMessages] = useState<Array<{ sender: 'user' | 'urbia'; text: string; tag?: string }>>([
+    {
+      sender: 'urbia',
+      text: 'Olá! Sou a urBIA, copiloto de zeladoria do Urboa. Consulto o banco municipal em tempo real, calculo equipes necessárias, verifico SLAs e oriento o despacho técnico. Como posso te apoiar hoje?'
+    }
+  ]);
 
-  // ROI Calculator state: number of public buildings
-  const [buildingCount, setBuildingCount] = useState<number>(45);
+  // Demo Form State
+  const [demoFormData, setDemoFormData] = useState({
+    nome: '',
+    cargo: '',
+    municipio: '',
+    email: '',
+    telefone: '',
+    qtdPredios: '20-50',
+    mensagem: ''
+  });
+  const [demoSubmitted, setDemoSubmitted] = useState(false);
 
-  // Dynamic ROI calculations
-  const roiMetrics = useMemo(() => {
-    // Estimativas baseadas em médias municipais da ABNT NBR 5674
-    const annualTickets = Math.round(buildingCount * 14.5);
-    const correctiveCostPerIncident = 1450; // Custo médio de reparo corretivo emergencial em R$
-    const preventiveCostPerIncident = 480; // Custo médio com triagem preventiva planejada
-    const emergencyCostWithoutZelo = annualTickets * correctiveCostPerIncident;
-    const managedCostWithZelo = (annualTickets * 0.35 * correctiveCostPerIncident) + (annualTickets * 0.65 * preventiveCostPerIncident);
-    const estimatedSavings = Math.round(emergencyCostWithoutZelo - managedCostWithZelo);
-    const techHoursSaved = Math.round(annualTickets * 3.2);
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-    return {
-      annualTickets,
-      estimatedSavings,
-      techHoursSaved,
-    };
-  }, [buildingCount]);
+  function handleSelectChip(type: 'tecnicos' | 'resumo' | 'urgencias') {
+    setActiveUrbiChip(type);
+    if (type === 'tecnicos') {
+      setChatMessages(prev => [
+        ...prev,
+        { sender: 'user', text: 'Quantos técnicos precisamos?' },
+        { 
+          sender: 'urbia', 
+          text: 'Com base nas 16 ordens ativas e 2 urgências críticas, você precisa de 2 eletrotécnicos e 2 encanadores em campo hoje para manter o SLA em 98.4%. Carlos Silva e Marcos Oliveira já estão em deslocamento.',
+          tag: 'Dimensionamento Otimizado'
+        }
+      ]);
+    } else if (type === 'resumo') {
+      setChatMessages(prev => [
+        ...prev,
+        { sender: 'user', text: 'Resumo dos chamados' },
+        { 
+          sender: 'urbia', 
+          text: 'Panorama municipal: 7 chamados em aberto, 2 em execução no local, 1 aguardando triagem técnica (#419806 Praça da Matriz) e 9 ordens concluídas nesta semana com comprovação digital.',
+          tag: 'Status Operacional'
+        }
+      ]);
+    } else if (type === 'urgencias') {
+      setChatMessages(prev => [
+        ...prev,
+        { sender: 'user', text: 'Prédios com urgências' },
+        { 
+          sender: 'urbia', 
+          text: 'Atenção imediata na UBS Central (calhas e infiltração em período de chuvas) e UBS Vila Nova (bomba do consultório 3). Ambas já contam com ordens de alta prioridade atribuídas.',
+          tag: 'Alerta Prioritário'
+        }
+      ]);
+    }
+  }
+
+  function handleSendCustomChat(e: React.FormEvent) {
+    e.preventDefault();
+    if (!customUrbiInput.trim()) return;
+    const text = customUrbiInput;
+    setCustomUrbiInput('');
+    setChatMessages(prev => [
+      ...prev,
+      { sender: 'user', text },
+      { 
+        sender: 'urbia', 
+        text: `Registrei sua consulta sobre "${text}". O motor da urBIA cruza normas NBR 5674 e histórico predial para priorizar o despacho sem desvios orçamentários.`,
+        tag: 'Parecer Municipal'
+      }
+    ]);
+  }
+
+  function handleDemoSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setDemoSubmitted(true);
+  }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 flex flex-col selection:bg-blue-500 selection:text-white">
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] font-sans antialiased selection:bg-[#2563EB]/20 selection:text-[#0F172A] relative overflow-x-hidden">
       
-      {/* 1. TOP NAVBAR */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between gap-4">
-          {/* Brand */}
-          <Link href="/landing" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-[#1e293b] rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-              <div className="w-5 h-5 bg-white rounded-xs transform rotate-45" />
-            </div>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1.5">
-                <span className="text-2xl font-black tracking-tight text-slate-900 leading-none">zelo.</span>
-                <span className="text-[10px] font-extrabold px-1.5 py-0.2 rounded-md bg-blue-50 text-[#1D6FEB] border border-blue-200">GovTech</span>
-              </div>
-              <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mt-0.5">Gestão Municipal</span>
-            </div>
-          </Link>
+      {/* ─── REFACTORING UI: SUBTLE AMBIENT CANVAS ACCENTS ─── */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Soft atmospheric gradient glow (<= 30deg hue rotation) */}
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-b from-[#2563EB]/[0.04] via-[#7C3AED]/[0.02] to-transparent rounded-full blur-3xl" />
+        <div 
+          className="absolute inset-0 opacity-[0.025]" 
+          style={{ 
+            backgroundImage: 'linear-gradient(#0A2540 1px, transparent 1px), linear-gradient(90deg, #0A2540 1px, transparent 1px)', 
+            backgroundSize: '48px 48px' 
+          }} 
+        />
+      </div>
 
-          {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8 text-xs font-bold text-slate-600">
-            <a href="#recursos" className="hover:text-[#1D6FEB] transition-colors">Recursos</a>
-            <a href="#modulos" className="hover:text-[#1D6FEB] transition-colors">Módulos</a>
-            <a href="#calculadora" className="hover:text-[#1D6FEB] transition-colors">Calculadora ROI</a>
-            <a href="#fluxo" className="hover:text-[#1D6FEB] transition-colors">Como Funciona</a>
-            <a href="#depoimentos" className="hover:text-[#1D6FEB] transition-colors">Casos de Sucesso</a>
+      {/* ─── 1. FLOATING NAVIGATION BAR (Refactoring UI: Clear Action Hierarchy & Elevation) ─── */}
+      <motion.div 
+        initial={{ y: -30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: cubicSpring }}
+        className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none"
+      >
+        <header className={`h-14 rounded-full flex items-center justify-between px-4 sm:px-5 pointer-events-auto transition-all duration-300 gap-6 sm:gap-8 max-w-4xl w-full ${
+          isScrolled 
+            ? 'bg-white/95 backdrop-blur-md shadow-[0_10px_25px_rgba(15,23,42,0.08),0_2px_4px_rgba(15,23,42,0.04)] border border-slate-200/90' 
+            : 'bg-white shadow-[0_6px_20px_rgba(15,23,42,0.05),0_1px_3px_rgba(15,23,42,0.03)] border border-slate-200/80'
+        }`}>
+          {/* Standardized Logo Urboa ('u. Urboa') */}
+          <Logo href="/landing" size="md" textStyle="simple" />
+
+          {/* Navigation Links: Refactoring UI 3-shade rule (Secondary color #475569) */}
+          <nav className="hidden md:flex items-center gap-6 text-[13px] font-semibold text-[#475569]">
+            <a href="#plataforma" className="hover:text-[#0F172A] transition-colors">Plataforma</a>
+            <a href="#modulos" className="hover:text-[#0F172A] transition-colors">Módulos</a>
           </nav>
 
-          {/* Actions */}
-          <div className="flex items-center gap-3">
-            <Link href="/abrir-chamado">
-              <Button 
-                variant="outline" 
-                size="sm"
-                className="text-xs font-bold border-slate-300 hover:bg-slate-50 text-slate-800 rounded-xl gap-2 h-10 px-4"
-              >
-                <QrCode size={15} className="text-[#1D6FEB]" />
-                <span className="hidden sm:inline">Abrir Chamado</span> Rápido
-              </Button>
-            </Link>
+          {/* Actions: Refactoring UI hierarchy (1 Primary + 1 Secondary) */}
+          <div className="flex items-center gap-2.5">
+            {/* Secondary Action: Demo Modal Trigger */}
+            <button 
+              onClick={() => setIsDemoModalOpen(true)}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F5F3FF] hover:bg-[#EDE9FE] text-[#7C3AED] text-xs font-bold border border-[#DDD6FE] transition-colors active:scale-[0.98]"
+            >
+              <span>Agendar Demo</span>
+              <ArrowUpRight size={13} strokeWidth={1.5} />
+            </button>
 
+            {/* Primary Action: Portal Entry */}
             <Link href={user ? '/' : '/login'}>
-              <Button 
-                size="sm"
-                className="text-xs font-bold bg-[#1D6FEB] hover:bg-[#1557BA] text-white rounded-xl gap-2 h-10 px-5 shadow-sm shadow-blue-500/20 cursor-pointer"
-              >
-                <span>{user ? 'Acessar Painel' : 'Entrar no Sistema'}</span>
-                <ArrowRight size={14} />
-              </Button>
+              <button className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#0A2540] hover:bg-[#07192C] text-white text-xs font-bold shadow-[0_2px_4px_rgba(10,37,64,0.2),inset_0_1px_0_rgba(255,255,255,0.2)] transition-all active:scale-[0.98]">
+                <span>{user ? 'Painel' : 'Entrar'}</span>
+                <ChevronRight size={13} strokeWidth={1.5} />
+              </button>
             </Link>
           </div>
-        </div>
-      </header>
+        </header>
+      </motion.div>
 
-      {/* 2. HERO SECTION */}
-      <section className="relative pt-16 pb-24 overflow-hidden border-b border-slate-200/60 bg-gradient-to-b from-white via-slate-50/50 to-[#F8FAFC]">
-        {/* Glow circles backdrop */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-blue-100/40 rounded-full blur-3xl pointer-events-none -z-10" />
+      {/* ─── MAIN CONTENT CONTAINER (Refactoring UI: Balanced Macro-Spacing) ─── */}
+      <main className="relative z-10 pt-32 sm:pt-40 pb-24 px-4 sm:px-6 max-w-6xl mx-auto flex flex-col gap-24 sm:gap-32">
         
-        <div className="max-w-7xl mx-auto px-6 text-center space-y-8">
-          {/* Gov Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/80 shadow-2xs animate-in fade-in duration-300">
-            <Sparkles size={14} className="text-[#1D6FEB]" />
-            <span className="text-xs font-extrabold text-[#1D6FEB] tracking-wide">
-              Gestão Predial Pública Inteligente • Padrão ABNT NBR 5674
-            </span>
-          </div>
+        {/* ─── 2. HERO SECTION ─── */}
+        <section className="flex flex-col items-center text-center gap-8 pt-2">
+          
+          <motion.div 
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-col items-center gap-5 max-w-3xl"
+          >
+            {/* Eyebrow Label: All-caps with +0.05em tracking and soft contrast */}
+            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-xs font-bold text-[#1D4E89] bg-[#1D4E89]/[0.08] border border-[#1D4E89]/20 shadow-2xs tracking-wide">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#059669] animate-pulse" />
+              <span>Gestão Predial Urbana & Zeladoria Pública</span>
+            </motion.div>
 
-          {/* Headline */}
-          <div className="space-y-4 max-w-4xl mx-auto">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.12]">
-              A infraestrutura da sua cidade <br />
-              <span className="bg-gradient-to-r from-[#1D6FEB] via-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                cuidada com precisão e agilidade.
-              </span>
-            </h1>
-            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
-              Centralize a triagem, reduza em até <strong>40% o tempo de resolução</strong> de problemas hidráulicos e elétricos e elimine o papel na manutenção de escolas, creches, postos de saúde e prédios municipais.
+            {/* Headline: Refactoring UI proportional scale (tight line-height, bold weight, balanced size) */}
+            <motion.h1 variants={fadeUp} className="text-3xl sm:text-5xl lg:text-[54px] font-black tracking-[-0.03em] text-[#0F172A] leading-[1.08]">
+              O padrão de excelência para a zeladoria dos <br className="hidden sm:inline" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0A2540] via-[#1D4E89] to-[#2563EB]">
+                prédios públicos
+              </span> da sua cidade.
+            </motion.h1>
+
+            {/* Subtitle: Refactoring UI line-length rule (45-75 chars, max-w-2xl) with high-legibility grey */}
+            <motion.p variants={fadeUp} className="text-base sm:text-lg text-[#475569] max-w-2xl leading-relaxed font-normal">
+              Gestão integrada, preditiva e auditável para manutenção de escolas, unidades de saúde e prédios administrativos. Da abertura do chamado à comprovação perante o Tribunal de Contas.
+            </motion.p>
+
+            {/* Actions: Strict Hierarchy (Primary Solid + Secondary Outline) */}
+            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center gap-3.5 pt-2 w-full sm:w-auto">
+              {/* Exactly ONE Dominant Primary Action */}
+              <button 
+                onClick={() => setIsDemoModalOpen(true)}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-[#0A2540] hover:bg-[#07192C] text-white rounded-full font-bold px-7 py-3 text-[14px] shadow-[0_10px_20px_rgba(10,37,64,0.18),0_2px_4px_rgba(10,37,64,0.12),inset_0_1px_0_rgba(255,255,255,0.25)] transition-all duration-200 active:scale-[0.98]"
+              >
+                <span>Agendar demonstração municipal</span>
+                <ArrowRight size={15} strokeWidth={1.5} />
+              </button>
+
+              {/* Secondary Action */}
+              <a 
+                href="#plataforma"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-slate-50 text-[#0F172A] text-[14px] font-bold border border-slate-300 shadow-[0_1px_2px_rgba(0,0,0,0.05)] transition-all active:scale-[0.98]"
+              >
+                <span>Explorar plataforma</span>
+                <ChevronRight size={15} strokeWidth={1.5} className="text-[#64748B]" />
+              </a>
+            </motion.div>
+
+            {/* Social Proof: Refactoring UI "Invisible Border" Overlap Trick */}
+            <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-6 pt-3 border-t border-slate-200/80 w-full max-w-xl">
+              <div className="flex -space-x-2 shrink-0">
+                <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden shadow-xs">
+                  <img src="/images/municipal_director.jpg" alt="Gestora Municipal" className="w-full h-full object-cover" />
+                </div>
+                <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-300 overflow-hidden shadow-xs">
+                  <img src="/images/municipal_team.jpg" alt="Equipe de Campo" className="w-full h-full object-cover" />
+                </div>
+                <div className="w-8 h-8 rounded-full border-2 border-white bg-[#0A2540] text-white flex items-center justify-center text-[10px] font-black shadow-xs">
+                  +15
+                </div>
+              </div>
+              <div className="text-[12px] font-medium text-[#475569] text-left leading-snug">
+                Adotado em <strong className="font-bold text-[#0F172A]">15 Prefeituras</strong> • Mais de 28 mil ordens auditadas
+              </div>
+            </motion.div>
+
+            {/* Trust Proof Badges */}
+            <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-6 text-xs font-semibold text-[#64748B]">
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 size={15} strokeWidth={1.5} className="text-[#059669]" />
+                <span>Conforme ABNT NBR 5674</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <ShieldCheck size={15} strokeWidth={1.5} className="text-[#2563EB]" />
+                <span>Dossiê preparado para TCE</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Sparkles size={15} strokeWidth={1.5} className="text-[#7C3AED]" />
+                <span>urBIA: Triagem e Despacho por IA</span>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* ─── 3. HERO SHOWCASE: LIVE DASHBOARD PREVIEW (Refactoring UI Light Source Emulation) ─── */}
+          <motion.div 
+            id="plataforma"
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25, duration: 0.7, ease: cubicSpring }}
+            className="w-full mt-2 scroll-mt-28 relative"
+          >
+            <HeroDashboardShowcase />
+          </motion.div>
+
+          {/* ─── 4. TYPOGRAPHIC METRICS SCALE (Base 16 Rhythm) ─── */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 border-y border-slate-200 divide-x divide-slate-200 w-full mt-6">
+            <div className="py-7 px-6 space-y-1 text-center md:text-left">
+              <p className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">48+</p>
+              <p className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider">Prédios Públicos Conectados</p>
+            </div>
+            <div className="py-7 px-6 space-y-1 text-center md:text-left">
+              <p className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">28k</p>
+              <p className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider">Ordens Concluídas no Ciclo</p>
+            </div>
+            <div className="py-7 px-6 space-y-1 text-center md:text-left">
+              <p className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">94%</p>
+              <p className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider">Resoluções dentro do SLA</p>
+            </div>
+            <div className="py-7 px-6 space-y-1 text-center md:text-left">
+              <p className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">3.2x</p>
+              <p className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider">Retorno em Eficiência Pública</p>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── 5. PLATFORM MODULES (Refactoring UI: Color Accents & Content Scannability) ─── */}
+        <section id="modulos" className="flex flex-col gap-10 scroll-mt-24">
+          <div className="max-w-2xl space-y-3">
+            <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold text-[#2563EB] bg-[#2563EB]/[0.08] border border-[#2563EB]/20">
+              Arquitetura de Plataforma
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
+              A esteira completa da zeladoria urbana municipal.
+            </h2>
+            <p className="text-base text-[#475569] leading-relaxed">
+              Elimine o papel, as planilhas soltas e o risco jurídico. Cobertura de ponta a ponta: do chamado do diretor escolar ao relatório do Tribunal de Contas.
             </p>
           </div>
 
-          {/* Hero CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-            <Link href={user ? '/' : '/login'} className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto text-sm font-bold bg-[#1D6FEB] hover:bg-[#1557BA] text-white h-12 px-8 rounded-xl shadow-lg shadow-blue-500/25 gap-2 group cursor-pointer">
-                {user ? 'Explorar Painel de Gestão' : 'Entrar no Painel de Gestão'}
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
-
-            <Link href="/abrir-chamado" className="w-full sm:w-auto">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto text-sm font-bold border-slate-300 hover:bg-white text-slate-800 h-12 px-8 rounded-xl gap-2 shadow-xs">
-                <QrCode size={18} className="text-slate-600" />
-                Simular Chamado via QR Code
-              </Button>
-            </Link>
-          </div>
-
-          {/* INTERACTIVE DASHBOARD MOCKUP PREVIEW */}
-          <div className="pt-8 max-w-5xl mx-auto">
-            <div className="relative rounded-2xl p-2 sm:p-3 bg-gradient-to-b from-slate-200 to-slate-300 shadow-2xl border border-slate-300/80">
-              <div className="rounded-xl bg-white overflow-hidden border border-slate-200 shadow-inner">
-                {/* Mockup Top Window Header */}
-                <div className="h-10 bg-slate-900 px-4 flex items-center justify-between border-b border-slate-800 text-xs text-slate-400 select-none">
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-rose-500 inline-block" />
-                    <span className="w-3 h-3 rounded-full bg-amber-500 inline-block" />
-                    <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block" />
-                    <span className="text-[11px] font-mono text-slate-400 ml-3">zelo.gestaourbana.gov.br/visao-geral</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-[11px] font-bold text-emerald-400">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    Central Online
-                  </div>
+          {/* Cards Grid: Refactoring UI Top Accent Border Treatment */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            {/* Module 1: Despacho Dinâmico */}
+            <div className="bg-white rounded-2xl border border-slate-200/90 shadow-[0_4px_12px_rgba(0,0,0,0.03)] border-t-4 border-t-[#2563EB] p-7 flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="w-11 h-11 rounded-xl bg-blue-50 text-[#2563EB] flex items-center justify-center">
+                  <Navigation size={20} strokeWidth={1.5} />
                 </div>
+                <div className="space-y-2">
+                  <h3 className="text-xl font-bold text-[#0F172A] tracking-tight">Despacho Dinâmico & Roteirização</h3>
+                  <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
+                    Distribuição automática de ordens de serviço por geolocalização e especialidade técnica. O sistema calcula a rota ideal e notifica o encarregado no app mobile.
+                  </p>
+                </div>
+              </div>
 
-                {/* Mockup Dashboard Content Grid */}
-                <div className="p-6 bg-[#F8FAFC] text-left space-y-5">
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                    <div>
-                      <h3 className="text-lg font-bold text-slate-900">Zeladoria Municipal • Visão em Tempo Real</h3>
-                      <p className="text-xs text-slate-500">{units.length} unidades monitoradas • {orders.length} ordens registradas no sistema</p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        MTTR: 4.8h (SLA OK)
-                      </span>
-                      <span className="text-xs font-bold px-3 py-1 rounded-lg bg-purple-50 text-purple-700 border border-purple-200">
-                        91% Eficiência
-                      </span>
-                    </div>
-                  </div>
+              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-[#0F172A]">
+                <span className="flex items-center gap-1.5 text-slate-500">
+                  <MapPin size={13} className="text-[#2563EB]" /> Roteirização GPS
+                </span>
+                <span className="font-mono text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 text-[11px]">
+                  Tempo real
+                </span>
+              </div>
+            </div>
 
-                  {/* Mockup KPI Row */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="p-4 rounded-xl bg-white border border-slate-200/80 shadow-2xs">
-                      <span className="text-xs font-bold text-slate-400 uppercase">Em Triagem</span>
-                      <p className="text-2xl font-black text-[#1D6FEB] mt-1">{stats.triagem}</p>
-                      <p className="text-[10px] text-slate-400 mt-0.5">Aguardando despacho</p>
-                    </div>
-                    <div className="p-4 rounded-xl bg-white border border-slate-200/80 shadow-2xs">
-                      <span className="text-xs font-bold text-slate-400 uppercase">Em Execução</span>
-                      <p className="text-2xl font-black text-amber-600 mt-1">{stats.emExecucao}</p>
-                      <p className="text-[10px] text-slate-400 mt-0.5">Equipes no local</p>
-                    </div>
-                    <div className="p-4 rounded-xl bg-white border border-slate-200/80 shadow-2xs">
-                      <span className="text-xs font-bold text-slate-400 uppercase">Chamados Concluídos</span>
-                      <p className="text-2xl font-black text-emerald-600 mt-1">{stats.concluidos}</p>
-                      <p className="text-[10px] text-slate-400 mt-0.5">Resolvidos no prazo</p>
-                    </div>
-                    <div className="p-4 rounded-xl bg-white border border-slate-200/80 shadow-2xs">
-                      <span className="text-xs font-bold text-slate-400 uppercase">Urgentes / SLA</span>
-                      <p className="text-2xl font-black text-rose-600 mt-1">{stats.urgentes}</p>
-                      <p className="text-[10px] text-rose-600 font-bold mt-0.5">Atenção prioritária</p>
-                    </div>
-                  </div>
+            {/* Module 2: Dossiê de Auditoria TCE */}
+            <div className="bg-white rounded-2xl border border-slate-200/90 shadow-[0_4px_12px_rgba(0,0,0,0.03)] border-t-4 border-t-[#059669] p-7 flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="w-11 h-11 rounded-xl bg-emerald-50 text-[#059669] flex items-center justify-center">
+                  <FileCheck2 size={20} strokeWidth={1.5} />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-xl font-bold text-[#0F172A] tracking-tight">Dossiê de Auditoria TCE</h3>
+                  <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
+                    Comprovação irrefutável com fotos antes e depois georreferenciadas, carimbo de tempo inviolável e assinatura digital dos gestores escolares e municipais.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-[#0F172A]">
+                <span className="flex items-center gap-1.5 text-slate-500">
+                  <ShieldCheck size={13} className="text-[#059669]" /> Pronto p/ Prestação
+                </span>
+                <span className="font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded text-[11px]">
+                  100% Digital
+                </span>
+              </div>
+            </div>
+
+            {/* Module 3: Prevenção NBR 5674 */}
+            <div className="bg-white rounded-2xl border border-slate-200/90 shadow-[0_4px_12px_rgba(0,0,0,0.03)] border-t-4 border-t-[#7C3AED] p-7 flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="w-11 h-11 rounded-xl bg-purple-50 text-[#7C3AED] flex items-center justify-center">
+                  <HardHat size={20} strokeWidth={1.5} />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-xl font-bold text-[#0F172A] tracking-tight">Prevenção ABNT NBR 5674</h3>
+                  <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
+                    Cronogramas normatizados que antecipam a fadiga de materiais elétricos, coberturas e redes hidráulicas em todos os equipamentos municipais.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-[#0F172A]">
+                <span className="flex items-center gap-1.5 text-slate-500">
+                  <CalendarCheck size={13} className="text-[#7C3AED]" /> Inspeções periódicas
+                </span>
+                <span className="font-mono text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200 text-[11px]">
+                  Antecipa falhas
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ─── 6. URBIA COPILOT (Refactoring UI: Dark Surface Contrast Rules) ─── */}
+        <section id="urbi" className="scroll-mt-24">
+          {/* Deep Navy Container with High-Contrast Typography (Never Grey on Dark Blue) */}
+          <div className="rounded-3xl bg-[#0A1A30] text-white p-7 sm:p-11 shadow-[0_20px_40px_rgba(10,26,48,0.2),inset_0_1px_0_rgba(255,255,255,0.15)] border border-white/10 flex flex-col lg:flex-row gap-9 items-stretch relative overflow-hidden">
+            
+            {/* Subtle ambient lighting */}
+            <div className="absolute -top-24 -right-24 w-80 h-80 bg-[#7C3AED]/20 rounded-full blur-3xl pointer-events-none" />
+
+            {/* Left Column: Context with Hand-Picked Text Colors */}
+            <div className="lg:w-1/2 flex flex-col justify-between space-y-6 relative z-10">
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-xs font-bold text-[#DDD6FE] bg-[#7C3AED]/25 border border-[#7C3AED]/40">
+                  <Sparkles size={13} className="text-[#C4B5FD]" />
+                  <span>urBIA • Assistente de Zeladoria</span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+                  Inteligência Artificial aplicada à gestão pública.
+                </h2>
+                {/* Refactoring UI: Use sky-100 / slate-200 for legibility on dark blue, not dark grey */}
+                <p className="text-slate-200 text-sm sm:text-base leading-relaxed font-normal">
+                  A urBIA é a copiloto nativa da Urboa. Ela lê chamados municipais, classifica riscos conforme normas da ABNT, calcula equipes necessárias e orienta a tomada de decisão do gestor sem burocracia.
+                </p>
+              </div>
+
+              <div className="space-y-3 pt-3 border-t border-white/10">
+                <span className="text-xs font-bold text-sky-200 uppercase tracking-wider block">
+                  Perguntas frequentes que a urBIA responde em segundos:
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  <button 
+                    onClick={() => handleSelectChip('tecnicos')}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                      activeUrbiChip === 'tecnicos' 
+                        ? 'bg-[#7C3AED] text-white shadow-xs' 
+                        : 'bg-white/10 text-white hover:bg-white/15'
+                    }`}
+                  >
+                    Quantos técnicos precisamos?
+                  </button>
+                  <button 
+                    onClick={() => handleSelectChip('resumo')}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                      activeUrbiChip === 'resumo' 
+                        ? 'bg-[#7C3AED] text-white shadow-xs' 
+                        : 'bg-white/10 text-white hover:bg-white/15'
+                    }`}
+                  >
+                    Resumo dos chamados
+                  </button>
+                  <button 
+                    onClick={() => handleSelectChip('urgencias')}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                      activeUrbiChip === 'urgencias' 
+                        ? 'bg-[#7C3AED] text-white shadow-xs' 
+                        : 'bg-white/10 text-white hover:bg-white/15'
+                    }`}
+                  >
+                    Prédios com urgências
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* 3. SOCIAL PROOF / METRIC NUMBERS */}
-      <section className="py-12 bg-white border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <div className="space-y-1">
-            <span className="text-3xl sm:text-4xl font-black text-[#1D6FEB] tracking-tight">-38%</span>
-            <p className="text-xs font-bold text-slate-700">Tempo Médio de Atendimento</p>
-            <p className="text-[11px] text-slate-400">Redução comprovada de MTTR</p>
-          </div>
-          <div className="space-y-1">
-            <span className="text-3xl sm:text-4xl font-black text-emerald-600 tracking-tight">91%</span>
-            <p className="text-xs font-bold text-slate-700">Índice Preventivo</p>
-            <p className="text-[11px] text-slate-400">Inspeções periódicas em dia</p>
-          </div>
-          <div className="space-y-1">
-            <span className="text-3xl sm:text-4xl font-black text-purple-700 tracking-tight">4.8h</span>
-            <p className="text-xs font-bold text-slate-700">SLA Médio de Reparo</p>
-            <p className="text-[11px] text-slate-400">Bem abaixo do limite máximo (8h)</p>
-          </div>
-          <div className="space-y-1">
-            <span className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">100%</span>
-            <p className="text-xs font-bold text-slate-700">Digital & Auditável</p>
-            <p className="text-[11px] text-slate-400">Conformidade ABNT NBR 5674</p>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. MÓDULOS DA PLATAFORMA */}
-      <section id="modulos" className="py-24 max-w-7xl mx-auto px-6 space-y-16">
-        <div className="text-center space-y-3 max-w-2xl mx-auto">
-          <span className="text-xs font-extrabold uppercase tracking-widest text-[#1D6FEB] bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
-            Arquitetura Integrada
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-            5 Pilares Completos para a Zeladoria Pública
-          </h2>
-          <p className="text-sm text-slate-500">
-            Da solicitação feita pelo diretor de escola na ponta até o relatório assinado pelo secretário municipal.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Card 1 */}
-          <div className="p-8 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-shadow space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#1D6FEB] flex items-center justify-center">
-              <LayoutDashboard size={24} />
-            </div>
-            <h3 className="text-lg font-bold text-slate-900">Quadro Kanban & Triagem</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              Arraste e solte chamados entre Triagem, Execução e Conclusão com rastreamento visual de SLAs e criticidade em tempo real.
-            </p>
-            <Link href="/kanban" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1D6FEB] hover:underline pt-2">
-              Ver quadro Kanban <ArrowRight size={13} />
-            </Link>
-          </div>
-
-          {/* Card 2 */}
-          <div className="p-8 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-shadow space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-              <Building2 size={24} />
-            </div>
-            <h3 className="text-lg font-bold text-slate-900">Monitoramento de Prédios 360°</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              Visão consolidada de todas as EMEFs, creches, UBSs e secretarias da cidade, com status de saúde e responsáveis locais.
-            </p>
-            <Link href="/unidades" className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:underline pt-2">
-              Explorar unidades <ArrowRight size={13} />
-            </Link>
-          </div>
-
-          {/* Card 3 */}
-          <div className="p-8 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-shadow space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
-              <Calendar size={24} />
-            </div>
-            <h3 className="text-lg font-bold text-slate-900">Agenda de Vistorias Técnicas</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              Linha do tempo diária e semanal com agendamentos de manutenção preventiva e checklist de conformidade em campo.
-            </p>
-            <Link href="/agenda" className="inline-flex items-center gap-1.5 text-xs font-bold text-purple-600 hover:underline pt-2">
-              Abrir cronograma <ArrowRight size={13} />
-            </Link>
-          </div>
-
-          {/* Card 4 */}
-          <div className="p-8 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-shadow space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-              <BarChart2 size={24} />
-            </div>
-            <h3 className="text-lg font-bold text-slate-900">Relatórios Oficiais A4</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              Gráficos polares de criticidade, produtividade dos técnicos e emissão de dossiês técnicos prontos para auditoria de TCE.
-            </p>
-            <Link href="/relatorios" className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-600 hover:underline pt-2">
-              Acessar relatórios <ArrowRight size={13} />
-            </Link>
-          </div>
-
-          {/* Card 5 */}
-          <div className="p-8 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-shadow space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
-              <QrCode size={24} />
-            </div>
-            <h3 className="text-lg font-bold text-slate-900">Chamado Rápido via QR Code</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              Plaquetas de QR Code em salas e corredores permitem que diretores e servidores abram ocorrências em 30 segundos pelo celular.
-            </p>
-            <Link href="/abrir-chamado" className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-600 hover:underline pt-2">
-              Testar abertura rápida <ArrowRight size={13} />
-            </Link>
-          </div>
-
-          {/* Card 6 */}
-          <div className="p-8 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-shadow space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center">
-              <Award size={24} />
-            </div>
-            <h3 className="text-lg font-bold text-slate-900">Conformidade ABNT NBR 5674</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              Atende integralmente às exigências legais de gestão da manutenção em edificações com histórico imutável e prestação de contas.
-            </p>
-            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 pt-2">
-              <CheckCircle2 size={13} className="text-emerald-600" /> Padrão Nacional
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. CALCULADORA DE ECONOMIA / ROI MUNICIPAL */}
-      <section id="calculadora" className="py-20 bg-slate-900 text-white relative overflow-hidden">
-        <div className="max-w-6xl mx-auto px-6 space-y-12">
-          <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/60 px-3.5 py-1 rounded-full border border-emerald-800">
-              Calculadora de Eficiência
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
-              Estime a Economia de Verba no seu Município
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-400">
-              A manutenção preventiva e a resposta rápida a vazamentos evitam degradação estrutural e sinistros caros.
-            </p>
-          </div>
-
-          {/* Calculator Card */}
-          <div className="max-w-3xl mx-auto bg-slate-800/90 rounded-2xl border border-slate-700/80 p-8 shadow-2xl space-y-8">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <label className="text-sm font-bold text-slate-200">
-                  Quantos prédios públicos municipais sua gestão administra?
-                </label>
-                <span className="text-2xl font-black text-[#1D6FEB] bg-slate-900 px-4 py-1.5 rounded-xl border border-slate-700">
-                  {buildingCount} unidades
+            {/* Right Column: Interactive Chat Simulation Container */}
+            <div className="lg:w-1/2 bg-white text-[#0F172A] rounded-2xl p-5 border border-slate-200 shadow-xl flex flex-col justify-between min-h-[380px] relative z-10">
+              
+              {/* Chat Top Bar */}
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-[#0F172A] text-white flex items-center justify-center shadow-xs">
+                    <Sparkles size={14} className="text-[#A78BFA]" />
+                  </div>
+                  <div>
+                    <span className="text-xs font-bold text-[#0F172A] block">urBIA Copilot</span>
+                    <span className="text-[10px] text-slate-400">Contexto: Operação Municipal</span>
+                  </div>
+                </div>
+                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                  Fonte: Base Oficial
                 </span>
               </div>
 
-              {/* Slider */}
-              <input
-                type="range"
-                min="10"
-                max="200"
-                step="5"
-                value={buildingCount}
-                onChange={(e) => setBuildingCount(Number(e.target.value))}
-                className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#1D6FEB]"
-              />
-
-              <div className="flex justify-between text-[11px] font-semibold text-slate-500">
-                <span>10 prédios (Pequeno porte)</span>
-                <span>100 prédios (Médio porte)</span>
-                <span>200+ prédios (Grande porte)</span>
+              {/* Chat Stream */}
+              <div className="py-4 space-y-3 flex-1 overflow-y-auto max-h-[260px] pr-1">
+                {chatMessages.map((msg, idx) => (
+                  <div 
+                    key={idx} 
+                    className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
+                  >
+                    {msg.tag && (
+                      <span className="text-[9px] font-bold uppercase tracking-wider text-[#7C3AED] mb-1">
+                        {msg.tag}
+                      </span>
+                    )}
+                    <div className={`p-3.5 rounded-2xl text-xs leading-relaxed max-w-[90%] ${
+                      msg.sender === 'user'
+                        ? 'bg-[#0A2540] text-white rounded-br-none shadow-xs'
+                        : 'bg-[#F8FAFC] text-[#0F172A] border border-slate-200 rounded-bl-none shadow-2xs'
+                    }`}>
+                      {msg.text}
+                    </div>
+                  </div>
+                ))}
               </div>
+
+              {/* Quick Input Row */}
+              <form onSubmit={handleSendCustomChat} className="relative pt-2 border-t border-slate-100">
+                <input 
+                  type="text"
+                  value={customUrbiInput}
+                  onChange={(e) => setCustomUrbiInput(e.target.value)}
+                  placeholder="Solicitar parecer, dimensionamento, relatório..."
+                  className="w-full h-11 pl-4 pr-11 rounded-xl bg-slate-50 border border-slate-300 text-xs text-[#0F172A] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/30 focus:border-[#7C3AED]"
+                />
+                <button 
+                  type="submit"
+                  className="absolute right-1.5 top-3.5 w-8 h-8 rounded-lg bg-[#0A2540] text-white flex items-center justify-center hover:bg-[#07192C] transition-colors"
+                >
+                  <Send size={13} />
+                </button>
+              </form>
+
             </div>
 
-            {/* Results Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-700/80 text-center">
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-700/60">
-                <span className="text-xs font-bold text-slate-400 uppercase">Demandas Previstas/Ano</span>
-                <p className="text-2xl font-black text-white mt-1">{roiMetrics.annualTickets}</p>
-                <p className="text-[10px] text-slate-500 mt-0.5">Ocorrências prediais</p>
+          </div>
+        </section>
+
+        {/* ─── 7. AGENDAR DEMONSTRAÇÃO (Refactoring UI: Form Layout & Hierarchy) ─── */}
+        <section id="agendar-demo" className="scroll-mt-24">
+          <div className="rounded-3xl bg-white p-7 sm:p-12 border border-slate-200/90 shadow-[0_15px_30px_rgba(0,0,0,0.05),0_2px_4px_rgba(0,0,0,0.03)] flex flex-col lg:flex-row gap-10 items-center">
+            
+            {/* Left Column: Value Proposition */}
+            <div className="lg:w-1/2 space-y-5 text-left">
+              <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold text-[#0A2540] bg-slate-100 border border-slate-200">
+                <Building2 size={13} className="text-[#2563EB]" />
+                <span>Demonstração Personalizada</span>
               </div>
-
-              <div className="p-4 rounded-xl bg-emerald-950/40 border border-emerald-800/60">
-                <span className="text-xs font-bold text-emerald-400 uppercase">Economia Anual Estimada</span>
-                <p className="text-2xl font-black text-emerald-400 mt-1">
-                  R$ {roiMetrics.estimatedSavings.toLocaleString('pt-BR')}
-                </p>
-                <p className="text-[10px] text-emerald-400/80 mt-0.5">Evitando reformas graves</p>
-              </div>
-
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-700/60">
-                <span className="text-xs font-bold text-slate-400 uppercase">Horas Técnicas Otimizadas</span>
-                <p className="text-2xl font-black text-blue-400 mt-1">+{roiMetrics.techHoursSaved}h</p>
-                <p className="text-[10px] text-slate-500 mt-0.5">Produtividade de equipe</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. FLUXO OPERACIONAL EM 3 PASSOS */}
-      <section id="fluxo" className="py-24 max-w-7xl mx-auto px-6 space-y-16">
-        <div className="text-center space-y-3 max-w-2xl mx-auto">
-          <span className="text-xs font-extrabold uppercase tracking-widest text-[#1D6FEB] bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
-            Simplicidade Operacional
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-            Como o Zelo Funciona no Dia a Dia
-          </h2>
-          <p className="text-sm text-slate-500">
-            Conectando a direção de escolas e postos de saúde à equipe de engenharia e obras da prefeitura.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="p-8 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4 relative">
-            <span className="w-8 h-8 rounded-full bg-blue-100 text-[#1D6FEB] font-black text-sm flex items-center justify-center">
-              1
-            </span>
-            <h3 className="text-lg font-bold text-slate-900">Abertura Rápida na Ponta</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              O diretor da escola lê o QR Code da sala ou abre o portal simplificado, anexa foto do vazamento e recebe o protocolo na hora.
-            </p>
-          </div>
-
-          <div className="p-8 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4 relative">
-            <span className="w-8 h-8 rounded-full bg-blue-100 text-[#1D6FEB] font-black text-sm flex items-center justify-center">
-              2
-            </span>
-            <h3 className="text-lg font-bold text-slate-900">Triagem & Despacho Municipal</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              A central recebe o chamado com alerta de criticidade, aprova a ordem e designa o técnico qualificado (eletricista, encanador).
-            </p>
-          </div>
-
-          <div className="p-8 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4 relative">
-            <span className="w-8 h-8 rounded-full bg-blue-100 text-[#1D6FEB] font-black text-sm flex items-center justify-center">
-              3
-            </span>
-            <h3 className="text-lg font-bold text-slate-900">Execução & Prestação de Contas</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              O técnico executa o reparo, o solicitante é avisado por WhatsApp e os dossiês formais em A4 ficam prontos para auditoria.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. DEPOIMENTOS DE SERVIDORES */}
-      <section id="depoimentos" className="py-20 bg-slate-100/60 border-t border-b border-slate-200/80">
-        <div className="max-w-6xl mx-auto px-6 space-y-12">
-          <div className="text-center space-y-2">
-            <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Casos Reais</span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              O que dizem os servidores e gestores municipais
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
-              <div className="flex gap-1 text-amber-500">
-                {[...Array(5)].map((_, i) => <Star key={i} size={15} fill="currentColor" />)}
-              </div>
-              <p className="text-xs text-slate-600 leading-relaxed italic">
-                &ldquo;Antes, quando queimava uma fase elétrica na escola ou vazava um cano, passávamos dias enviando memorandos físicos. Com o QR Code do Zelo, a equipe técnica chega no mesmo dia.&rdquo;
+              
+              <h2 className="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight leading-tight">
+                Veja o Urboa funcionando com a realidade do seu município.
+              </h2>
+              
+              <p className="text-sm sm:text-base text-[#475569] leading-relaxed">
+                Nossa equipe de engenharia e governança digital apresenta o sistema em 20 minutos, simulando os chamados, as escolas e os fluxos da sua secretaria.
               </p>
-              <div>
-                <p className="text-xs font-bold text-slate-900">Profª Maria Clara</p>
-                <p className="text-[11px] text-slate-400">Diretora da EMEF Paulo Freire</p>
+
+              <div className="space-y-3 pt-2">
+                <div className="flex items-center gap-3 text-xs font-bold text-[#0F172A]">
+                  <CheckCircle2 size={16} strokeWidth={1.5} className="text-[#059669]" />
+                  <span>Sem compromisso de contratação prévia</span>
+                </div>
+                <div className="flex items-center gap-3 text-xs font-bold text-[#0F172A]">
+                  <CheckCircle2 size={16} strokeWidth={1.5} className="text-[#059669]" />
+                  <span>Mapeamento dos prédios e termos de referência</span>
+                </div>
+                <div className="flex items-center gap-3 text-xs font-bold text-[#0F172A]">
+                  <CheckCircle2 size={16} strokeWidth={1.5} className="text-[#059669]" />
+                  <span>Implantação rápida em menos de 15 dias</span>
+                </div>
               </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
-              <div className="flex gap-1 text-amber-500">
-                {[...Array(5)].map((_, i) => <Star key={i} size={15} fill="currentColor" />)}
-              </div>
-              <p className="text-xs text-slate-600 leading-relaxed italic">
-                &ldquo;Em unidades de saúde, não podemos ter autoclaves ou ar-condicionado parados. O controle rígido de SLAs do sistema garantiu 100% de conformidade nas inspeções da Vigilância.&rdquo;
-              </p>
-              <div>
-                <p className="text-xs font-bold text-slate-900">Dr. Marcelo Ramos</p>
-                <p className="text-[11px] text-slate-400">Coordenador da UBS Central</p>
-              </div>
+            {/* Right Column: Form Container (Refactoring UI: Grouping & 3:1 Input Borders) */}
+            <div className="lg:w-1/2 w-full bg-[#F8FAFC] p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs">
+              {demoSubmitted ? (
+                <div className="text-center py-8 space-y-4">
+                  <div className="w-14 h-14 rounded-full bg-emerald-100 text-[#059669] flex items-center justify-center mx-auto shadow-xs">
+                    <CheckCircle2 size={28} strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-xl font-bold text-[#0F172A]">Demonstração Solicitada!</h3>
+                  <p className="text-xs sm:text-sm text-[#475569] max-w-sm mx-auto leading-relaxed">
+                    Recebemos os dados da sua prefeitura. Nosso especialista entrará em contato em até 2 horas úteis pelo WhatsApp ou e-mail institucional informado.
+                  </p>
+                  <button 
+                    onClick={() => setDemoSubmitted(false)}
+                    className="px-5 py-2 rounded-xl text-xs font-bold bg-[#0A2540] text-white hover:bg-[#07192C]"
+                  >
+                    Enviar nova solicitação
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleDemoSubmit} className="space-y-4 text-left">
+                  <h3 className="text-lg font-bold text-[#0F172A]">Agendar Apresentação Executiva</h3>
+                  
+                  {/* Row 1: Nome & Cargo */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-[#0F172A]">Seu Nome Completo</label>
+                      <input 
+                        required
+                        type="text"
+                        placeholder="Ex: Mariana Silva"
+                        value={demoFormData.nome}
+                        onChange={(e) => setDemoFormData(prev => ({ ...prev, nome: e.target.value }))}
+                        className="w-full h-10 px-3.5 rounded-xl bg-white border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-[#0F172A]">Cargo na Administração</label>
+                      <input 
+                        required
+                        type="text"
+                        placeholder="Ex: Secretário(a), Diretor(a)"
+                        value={demoFormData.cargo}
+                        onChange={(e) => setDemoFormData(prev => ({ ...prev, cargo: e.target.value }))}
+                        className="w-full h-10 px-3.5 rounded-xl bg-white border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Row 2: Município & Porte */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-[#0F172A]">Município e UF</label>
+                      <input 
+                        required
+                        type="text"
+                        placeholder="Ex: Campinas - SP"
+                        value={demoFormData.municipio}
+                        onChange={(e) => setDemoFormData(prev => ({ ...prev, municipio: e.target.value }))}
+                        className="w-full h-10 px-3.5 rounded-xl bg-white border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-[#0F172A]">Porte da Rede Predial</label>
+                      <select 
+                        value={demoFormData.qtdPredios}
+                        onChange={(e) => setDemoFormData(prev => ({ ...prev, qtdPredios: e.target.value }))}
+                        className="w-full h-10 px-3 rounded-xl bg-white border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
+                      >
+                        <option value="ate-20">Até 20 prédios públicos</option>
+                        <option value="20-50">20 a 50 prédios públicos</option>
+                        <option value="50-100">50 a 100 prédios públicos</option>
+                        <option value="mais-100">Mais de 100 prédios públicos</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Row 3: E-mail & WhatsApp */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-[#0F172A]">E-mail Institucional</label>
+                      <input 
+                        required
+                        type="email"
+                        placeholder="seu.nome@prefeitura.sp.gov.br"
+                        value={demoFormData.email}
+                        onChange={(e) => setDemoFormData(prev => ({ ...prev, email: e.target.value }))}
+                        className="w-full h-10 px-3.5 rounded-xl bg-white border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-[#0F172A]">WhatsApp / Celular com DDD</label>
+                      <input 
+                        required
+                        type="tel"
+                        placeholder="(11) 98765-4321"
+                        value={demoFormData.telefone}
+                        onChange={(e) => setDemoFormData(prev => ({ ...prev, telefone: e.target.value }))}
+                        className="w-full h-10 px-3.5 rounded-xl bg-white border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Solid Primary Button */}
+                  <button 
+                    type="submit"
+                    className="w-full h-11 rounded-full bg-[#0A2540] hover:bg-[#07192C] text-white font-bold text-xs shadow-[0_4px_12px_rgba(10,37,64,0.2),inset_0_1px_0_rgba(255,255,255,0.25)] transition-all flex items-center justify-center gap-2 mt-4 active:scale-[0.98]"
+                  >
+                    <span>Confirmar Agendamento</span>
+                    <ArrowRight size={14} strokeWidth={1.5} />
+                  </button>
+
+                  <p className="text-[10px] text-center text-slate-400 mt-2">
+                    Seus dados são protegidos conforme a LGPD e usados exclusivamente para o contato institucional.
+                  </p>
+                </form>
+              )}
             </div>
 
-            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
-              <div className="flex gap-1 text-amber-500">
-                {[...Array(5)].map((_, i) => <Star key={i} size={15} fill="currentColor" />)}
-              </div>
-              <p className="text-xs text-slate-600 leading-relaxed italic">
-                &ldquo;A exportação imediata do dossiê impresso oficial nos padrões da ABNT NBR 5674 nos poupou meses de trabalho na prestação de contas do Tribunal de Contas.&rdquo;
-              </p>
-              <div>
-                <p className="text-xs font-bold text-slate-900">Eng. Marcos Silva</p>
-                <p className="text-[11px] text-slate-400">Secretaria de Infraestrutura e Obras</p>
-              </div>
-            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* 8. FOOTER */}
-      <footer className="bg-slate-950 text-slate-400 py-16 border-t border-slate-800 text-xs">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 bg-white rounded-lg flex items-center justify-center">
-                <div className="w-3.5 h-3.5 bg-slate-950 rounded-xs transform rotate-45" />
-              </div>
-              <span className="text-xl font-black text-white tracking-tight">zelo.</span>
-            </div>
-            <p className="text-[11px] text-slate-500 leading-relaxed">
-              Plataforma GovTech para gestão predial municipal, manutenção urbana e cumprimento de normas técnicas.
-            </p>
-          </div>
+      </main>
 
-          <div>
-            <h4 className="font-bold text-white text-xs mb-3">Módulos do Sistema</h4>
-            <ul className="space-y-2 text-[11px]">
-              <li><Link href="/" className="hover:text-white transition-colors">Visão Geral & Indicadores</Link></li>
-              <li><Link href="/chamados" className="hover:text-white transition-colors">Gestão de Chamados</Link></li>
-              <li><Link href="/kanban" className="hover:text-white transition-colors">Quadro Operacional Kanban</Link></li>
-              <li><Link href="/unidades" className="hover:text-white transition-colors">Prédios & Unidades Públicas</Link></li>
-              <li><Link href="/agenda" className="hover:text-white transition-colors">Agenda de Vistorias</Link></li>
-              <li><Link href="/relatorios" className="hover:text-white transition-colors">Relatórios Oficiais A4</Link></li>
-            </ul>
-          </div>
+      {/* ─── 8. MODAL DE AGENDAR DEMO (Refactoring UI: Elevation 5, Clean Form) ─── */}
+      <AnimatePresence>
+        {isDemoModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0F172A]/50 backdrop-blur-xs">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.25, ease: cubicSpring }}
+              className="w-full max-w-lg bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-[0_20px_40px_rgba(0,0,0,0.15)] relative text-left"
+            >
+              <button 
+                onClick={() => setIsDemoModalOpen(false)}
+                className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 transition-colors"
+              >
+                <X size={16} strokeWidth={1.5} />
+              </button>
 
-          <div>
-            <h4 className="font-bold text-white text-xs mb-3">Portais & Serviços</h4>
-            <ul className="space-y-2 text-[11px]">
-              <li><Link href="/abrir-chamado" className="hover:text-white transition-colors">Portal do Solicitante (QR Code)</Link></li>
-              <li><Link href="/configuracoes" className="hover:text-white transition-colors">Configurações do Sistema</Link></li>
-              <li><a href="#calculadora" className="hover:text-white transition-colors">Simulador de Economia Municipal</a></li>
-            </ul>
-          </div>
+              {demoSubmitted ? (
+                <div className="text-center py-6 space-y-4">
+                  <div className="w-14 h-14 rounded-full bg-emerald-100 text-[#059669] flex items-center justify-center mx-auto shadow-xs">
+                    <CheckCircle2 size={28} strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-xl font-bold text-[#0F172A]">Solicitação Registrada!</h3>
+                  <p className="text-xs sm:text-sm text-[#475569] max-w-sm mx-auto leading-relaxed">
+                    Entraremos em contato com você em até 2 horas úteis pelo WhatsApp ou e-mail institucional.
+                  </p>
+                  <button 
+                    onClick={() => {
+                      setDemoSubmitted(false);
+                      setIsDemoModalOpen(false);
+                    }}
+                    className="px-6 py-2.5 rounded-full text-xs font-bold bg-[#0A2540] text-white hover:bg-[#07192C]"
+                  >
+                    Fechar
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleDemoSubmit} className="space-y-4">
+                  <div className="flex items-center gap-2 text-xs font-bold text-[#7C3AED]">
+                    <Sparkles size={14} strokeWidth={1.5} />
+                    <span>Apresentação Executiva Urboa</span>
+                  </div>
+                  <h3 className="text-xl font-black text-[#0F172A]">Agendar Demonstração</h3>
+                  <p className="text-xs text-[#475569]">
+                    Preencha os dados abaixo para receber uma demonstração personalizada dos módulos para a sua prefeitura.
+                  </p>
 
-          <div>
-            <h4 className="font-bold text-white text-xs mb-3">Conformidade & Segurança</h4>
-            <p className="text-[11px] text-slate-500 leading-relaxed">
-              Em estrita conformidade com a Lei Geral de Proteção de Dados (LGPD) e norma ABNT NBR 5674 de manutenção de edificações.
-            </p>
-            <div className="pt-4">
-              <Link href="/">
-                <Button size="sm" className="bg-[#1D6FEB] hover:bg-[#1557BA] text-white text-xs font-bold rounded-xl gap-2 w-full">
-                  Entrar no Sistema
-                  <ArrowRight size={14} />
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
+                  <div className="space-y-3.5 pt-1">
+                    <div className="space-y-1">
+                      <label className="text-[11px] font-bold text-[#0F172A]">Nome Completo</label>
+                      <input 
+                        required
+                        type="text"
+                        placeholder="Ex: Mariana Silva"
+                        value={demoFormData.nome}
+                        onChange={(e) => setDemoFormData(prev => ({ ...prev, nome: e.target.value }))}
+                        className="w-full h-10 px-3.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
+                      />
+                    </div>
 
-        <div className="max-w-7xl mx-auto px-6 pt-12 mt-12 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-600 text-[11px]">
-          <p>© 2026 zelo. Tecnologia para Cidades Inteligentes. Todos os direitos reservados.</p>
-          <div className="flex items-center gap-4">
-            <span>Prefeitura Municipal de Gestão Urbana</span>
-            <span>•</span>
-            <span>Versão 1.0.0</span>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <label className="text-[11px] font-bold text-[#0F172A]">Cargo</label>
+                        <input 
+                          required
+                          type="text"
+                          placeholder="Secretário(a), Diretor(a)"
+                          value={demoFormData.cargo}
+                          onChange={(e) => setDemoFormData(prev => ({ ...prev, cargo: e.target.value }))}
+                          className="w-full h-10 px-3.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[11px] font-bold text-[#0F172A]">Município e UF</label>
+                        <input 
+                          required
+                          type="text"
+                          placeholder="Ex: Campinas - SP"
+                          value={demoFormData.municipio}
+                          onChange={(e) => setDemoFormData(prev => ({ ...prev, municipio: e.target.value }))}
+                          className="w-full h-10 px-3.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <label className="text-[11px] font-bold text-[#0F172A]">E-mail Institucional</label>
+                        <input 
+                          required
+                          type="email"
+                          placeholder="nome@prefeitura.gov.br"
+                          value={demoFormData.email}
+                          onChange={(e) => setDemoFormData(prev => ({ ...prev, email: e.target.value }))}
+                          className="w-full h-10 px-3.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[11px] font-bold text-[#0F172A]">WhatsApp</label>
+                        <input 
+                          required
+                          type="tel"
+                          placeholder="(11) 98765-4321"
+                          value={demoFormData.telefone}
+                          onChange={(e) => setDemoFormData(prev => ({ ...prev, telefone: e.target.value }))}
+                          className="w-full h-10 px-3.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <button 
+                    type="submit"
+                    className="w-full h-11 rounded-full bg-[#0A2540] hover:bg-[#07192C] text-white font-bold text-xs shadow-sm transition-all flex items-center justify-center gap-2 mt-4 active:scale-[0.98]"
+                  >
+                    <span>Solicitar Apresentação</span>
+                    <ArrowRight size={14} strokeWidth={1.5} />
+                  </button>
+                </form>
+              )}
+
+            </motion.div>
           </div>
+        )}
+      </AnimatePresence>
+
+      {/* ─── 9. FOOTER INSTITUCIONAL (Refactoring UI: Clean Tertiary Layer) ─── */}
+      <footer className="py-10 border-t border-slate-200 bg-white text-xs text-[#64748B]">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Logo size="sm" textStyle="tecnologia" href="/landing" />
+            <span className="text-slate-300">•</span>
+            <span>Gestão e Manutenção Predial Pública</span>
+          </div>
+          <p className="text-slate-400">&copy; {new Date().getFullYear()} Urboa. Todos os direitos reservados.</p>
         </div>
       </footer>
 

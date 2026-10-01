@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import Link from 'next/link';
 import { 
   Building2, 
   Search, 
@@ -15,7 +16,8 @@ import {
   GraduationCap, 
   Activity, 
   Trees, 
-  Landmark
+  Landmark,
+  ArrowRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Toast } from '@/components/ui/toast';
@@ -26,10 +28,11 @@ import { NewUnitModal } from './new-unit-modal';
 import { UnitModal } from '../unit-modal';
 import { NewOrderModal } from '../kanban/new-order-modal';
 import { OrderDetailModal } from '../kanban/order-detail-modal';
+import { TopHeader } from '@/components/top-header';
 import { UnitCardSkeleton } from '@/components/skeletons';
 
 type CategoryFilter = 'ALL' | 'ESCOLA' | 'SAUDE' | 'ADMINISTRATIVO' | 'PRACA';
-type HealthFilter = 'ALL' | 'CRITICO' | 'ATENCAO' | 'REGULAR';
+type PendingFilter = 'ALL' | 'URGENTES' | 'SEM_CHAMADOS';
 
 export default function UnidadesPage() {
   const { 
@@ -45,7 +48,7 @@ export default function UnidadesPage() {
   // Search & Filter State
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('ALL');
-  const [healthFilter, setHealthFilter] = useState<HealthFilter>('ALL');
+  const [pendingFilter, setPendingFilter] = useState<PendingFilter>('ALL');
 
   // Modals
   const [isNewUnitModalOpen, setIsNewUnitModalOpen] = useState(false);
@@ -64,10 +67,9 @@ export default function UnidadesPage() {
   // Summary Metrics
   const metrics = useMemo(() => {
     const total = unitsWithStats.length;
-    const criticas = unitsWithStats.filter((u) => u.statusHealth === 'CRITICO').length;
-    const atencao = unitsWithStats.filter((u) => u.statusHealth === 'ATENCAO').length;
-    const regulares = unitsWithStats.filter((u) => u.statusHealth === 'REGULAR').length;
-    return { total, criticas, atencao, regulares };
+    const withUrgencies = unitsWithStats.filter((u) => u.urgentCount > 0).length;
+    const withoutActive = unitsWithStats.filter((u) => u.openCount === 0).length;
+    return { total, withUrgencies, withoutActive };
   }, [unitsWithStats]);
 
   // Filtered units
@@ -90,39 +92,40 @@ export default function UnidadesPage() {
       if (categoryFilter === 'ADMINISTRATIVO' && unit.tipo !== 'ADMINISTRATIVO') return false;
       if (categoryFilter === 'PRACA' && unit.tipo !== 'PRACA') return false;
 
-      // Health
-      if (healthFilter !== 'ALL' && unit.statusHealth !== healthFilter) return false;
+      // Pending
+      if (pendingFilter === 'URGENTES' && unit.urgentCount === 0) return false;
+      if (pendingFilter === 'SEM_CHAMADOS' && unit.openCount > 0) return false;
 
       return true;
     });
-  }, [unitsWithStats, searchQuery, categoryFilter, healthFilter]);
+  }, [unitsWithStats, searchQuery, categoryFilter, pendingFilter]);
 
   const getUnitIcon = (tipo: TipoUnidade) => {
     switch (tipo) {
       case 'ESCOLA':
-        return <GraduationCap size={20} className="text-[#1D6FEB]" />;
+        return <GraduationCap size={16} className="text-primary" />;
       case 'UBS':
       case 'HOSPITAL':
-        return <Activity size={20} className="text-red-500" />;
+        return <Activity size={16} className="text-primary" />;
       case 'PRACA':
-        return <Trees size={20} className="text-emerald-600" />;
+        return <Trees size={16} className="text-primary" />;
       default:
-        return <Landmark size={20} className="text-purple-600" />;
+        return <Landmark size={16} className="text-primary" />;
     }
   };
 
   const getTypeLabel = (tipo: TipoUnidade) => {
     switch (tipo) {
       case 'ESCOLA': return 'Educação';
-      case 'UBS': return 'Saúde (UBS)';
-      case 'HOSPITAL': return 'Hospital';
-      case 'PRACA': return 'Parque / Praça';
+      case 'UBS': return 'Saúde';
+      case 'HOSPITAL': return 'Saúde';
+      case 'PRACA': return 'Praças e parques';
       default: return 'Administrativo';
     }
   };
 
   return (
-    <div className="flex h-screen bg-[#F8FAFC] overflow-hidden">
+    <div className="flex h-screen bg-background overflow-hidden">
       
       {/* Toast */}
       <Toast message={toastMessage} />
@@ -133,310 +136,226 @@ export default function UnidadesPage() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col h-full overflow-hidden">
         
-        {/* Header */}
-        <header className="h-16 flex items-center justify-between px-8 bg-white/70 backdrop-blur-md border-b border-slate-100 shrink-0">
-          <div className="text-sm text-slate-500 font-medium">
-            Gestão municipal <span className="mx-2">/</span> <span className="text-slate-800 font-bold">Unidades e Prédios Públicos</span>
-          </div>
+        {/* Top Header Global */}
+        <TopHeader 
+          titleOverride="Unidades e Instalações"
+          breadcrumbs={[
+            { label: 'Gestão municipal', href: '/' },
+            { label: 'Unidades e Instalações' },
+          ]}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          onSelectOrder={setSelectedOrder}
+        />
 
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-              <input 
-                type="text" 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar escola, posto, endereço..." 
-                className="w-72 pl-9 pr-8 py-2 bg-white border border-slate-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#1D6FEB]/20 focus:border-[#1D6FEB] transition-all"
-              />
-              {searchQuery && (
-                <button 
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                >
-                  <X size={14} />
-                </button>
-              )}
-            </div>
-
-            <Button 
-              onClick={() => setIsNewUnitModalOpen(true)}
-              className="bg-[#1D6FEB] hover:bg-[#1557BA] text-white rounded-lg px-5 font-semibold shadow-sm h-10 transition-all cursor-pointer"
-            >
-              <Plus className="h-4 w-4 mr-1.5" />
-              Nova Unidade
-            </Button>
-          </div>
-        </header>
-
-        {/* Scrollable Body */}
+        {/* Scrollable Container */}
         <div className="flex-1 overflow-y-auto p-8 space-y-6">
-          
-          {/* Title & Description */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+
+          {/* CABEÇALHO DA PÁGINA (Padrão Ouro UI/UX) */}
+          <div className="bg-muted/50 rounded-2xl p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                Rede de Prédios e Equipamentos Públicos
+              <h1 className="text-2xl font-bold tracking-tight text-foreground">
+                Unidades e Instalações
               </h1>
-              <p className="text-sm text-slate-500 font-medium mt-1">
-                Monitore a infraestrutura predial das escolas, postos de saúde e secretarias da cidade.
+              <p className="text-sm text-muted-foreground mt-1">
+                Monitore a saúde e as pendências de cada local da cidade.
               </p>
             </div>
-
-            <Button 
-              onClick={() => setIsNewOrderModalOpen(true)}
-              variant="outline"
-              className="rounded-lg text-xs font-semibold h-10"
-            >
-              <Plus size={14} className="mr-1.5 text-[#1D6FEB]" />
-              Abrir chamado em unidade
-            </Button>
-          </div>
-
-          {/* Metrics Grid */}
-          <div className="grid grid-cols-4 gap-4">
-            <div 
-              onClick={() => { setHealthFilter('ALL'); setCategoryFilter('ALL'); }}
-              className={`p-5 rounded-2xl bg-white border cursor-pointer transition-all shadow-xs ${
-                healthFilter === 'ALL' && categoryFilter === 'ALL'
-                  ? 'border-[#1D6FEB] ring-2 ring-[#1D6FEB]/20'
-                  : 'border-slate-200 hover:border-slate-300'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-500 uppercase">Total de Unidades</span>
-                <div className="w-8 h-8 rounded-lg bg-blue-50 text-[#1D6FEB] flex items-center justify-center">
-                  <Building2 size={16} />
-                </div>
-              </div>
-              <div className="text-2xl font-extrabold text-slate-900 mt-2">{metrics.total}</div>
-              <p className="text-xs text-slate-400 mt-1 font-medium">Equipamentos públicos mapeados</p>
-            </div>
-
-            <div 
-              onClick={() => setHealthFilter('CRITICO')}
-              className={`p-5 rounded-2xl bg-white border cursor-pointer transition-all shadow-xs ${
-                healthFilter === 'CRITICO'
-                  ? 'border-red-500 ring-2 ring-red-500/20 bg-red-50/10'
-                  : 'border-slate-200 hover:border-slate-300'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-red-600 uppercase">Atenção Crítica</span>
-                <div className="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center">
-                  <AlertTriangle size={16} />
-                </div>
-              </div>
-              <div className="text-2xl font-extrabold text-red-700 mt-2">{metrics.criticas}</div>
-              <p className="text-xs text-slate-400 mt-1 font-medium">Com chamados urgentes ativos</p>
-            </div>
-
-            <div 
-              onClick={() => setHealthFilter('ATENCAO')}
-              className={`p-5 rounded-2xl bg-white border cursor-pointer transition-all shadow-xs ${
-                healthFilter === 'ATENCAO'
-                  ? 'border-amber-500 ring-2 ring-amber-500/20 bg-amber-50/10'
-                  : 'border-slate-200 hover:border-slate-300'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-amber-600 uppercase">Com Pendências</span>
-                <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
-                  <Clock size={16} />
-                </div>
-              </div>
-              <div className="text-2xl font-extrabold text-amber-700 mt-2">{metrics.atencao}</div>
-              <p className="text-xs text-slate-400 mt-1 font-medium">Em triagem ou execução</p>
-            </div>
-
-            <div 
-              onClick={() => setHealthFilter('REGULAR')}
-              className={`p-5 rounded-2xl bg-white border cursor-pointer transition-all shadow-xs ${
-                healthFilter === 'REGULAR'
-                  ? 'border-emerald-500 ring-2 ring-emerald-500/20 bg-emerald-50/10'
-                  : 'border-slate-200 hover:border-slate-300'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-emerald-600 uppercase">Em Dia</span>
-                <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                  <CheckCircle2 size={16} />
-                </div>
-              </div>
-              <div className="text-2xl font-extrabold text-emerald-700 mt-2">{metrics.regulares}</div>
-              <p className="text-xs text-slate-400 mt-1 font-medium">Sem ordens pendentes</p>
-            </div>
-          </div>
-
-          {/* Filter Bar */}
-          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-4">
-            
-            {/* Category tabs */}
-            <div className="flex flex-wrap items-center gap-1.5">
-              {[
-                { id: 'ALL', label: 'Todas as Unidades' },
-                { id: 'ESCOLA', label: 'Educação' },
-                { id: 'SAUDE', label: 'Saúde' },
-                { id: 'ADMINISTRATIVO', label: 'Administrativo' },
-                { id: 'PRACA', label: 'Praças e Parques' },
-              ].map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setCategoryFilter(cat.id as CategoryFilter)}
-                  className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                    categoryFilter === cat.id
-                      ? 'bg-[#1D6FEB] text-white shadow-xs'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                  }`}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Health status filter pill */}
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-slate-400">Status predial:</span>
-              <select
-                value={healthFilter}
-                onChange={(e) => setHealthFilter(e.target.value as HealthFilter)}
-                className="bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold px-3 py-1.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#1D6FEB]/20"
+            <div className="flex items-center shrink-0">
+              <Button 
+                onClick={() => setIsNewUnitModalOpen(true)}
+                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-4 py-2 font-semibold text-sm shadow-xs transition-colors cursor-pointer flex items-center gap-2"
               >
-                <option value="ALL">Todos os status</option>
-                <option value="CRITICO">Apenas Críticas</option>
-                <option value="ATENCAO">Apenas com Pendências</option>
-                <option value="REGULAR">Apenas em Dia</option>
+                <Plus className="h-4 w-4" />
+                Nova unidade
+              </Button>
+            </div>
+          </div>
+
+          {/* Subtitle Stats (Image 4) */}
+          <div className="pt-1 text-sm font-medium text-foreground">
+            <span>{metrics.total} unidades</span>
+            <span className="mx-2 text-muted-foreground/30">·</span>
+            <span className="text-destructive font-semibold">{metrics.withUrgencies} com urgências</span>
+            <span className="mx-2 text-muted-foreground/30">·</span>
+            <span className="text-muted-foreground">{metrics.withoutActive} sem chamados ativos</span>
+          </div>
+
+          {/* Filters Row (Image 4) */}
+          <div className="bg-card border border-border rounded-xl p-4 mb-4 max-w-4xl shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {/* 1. Buscar unidade */}
+            <div>
+              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
+                Buscar unidade
+              </label>
+              <div className="relative">
+                <input 
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Nome ou endereço"
+                  className="w-full bg-background border border-border rounded-md px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm"
+                />
+                {searchQuery && (
+                  <button 
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    <X size={13} />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* 2. Categoria */}
+            <div>
+              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
+                Categoria
+              </label>
+              <select
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value as CategoryFilter)}
+                className="w-full bg-background border border-border rounded-md px-3 py-2 text-xs font-medium text-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all cursor-pointer shadow-sm"
+              >
+                <option value="ALL">Todas</option>
+                <option value="SAUDE">Saúde</option>
+                <option value="ESCOLA">Educação</option>
+                <option value="PRACA">Praças e parques</option>
+                <option value="ADMINISTRATIVO">Administrativo</option>
               </select>
             </div>
 
+            {/* 3. Pendências */}
+            <div>
+              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
+                Pendências
+              </label>
+              <select
+                value={pendingFilter}
+                onChange={(e) => setPendingFilter(e.target.value as PendingFilter)}
+                className="w-full bg-background border border-border rounded-md px-3 py-2 text-xs font-medium text-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all cursor-pointer shadow-sm"
+              >
+                <option value="ALL">Todas as unidades</option>
+                <option value="URGENTES">Com urgências</option>
+                <option value="SEM_CHAMADOS">Sem chamados ativos</option>
+              </select>
+            </div>
+          </div>
           </div>
 
-          {/* Units Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {isLoadingData ? (
-              Array.from({ length: 6 }).map((_, i) => (
-                <UnitCardSkeleton key={i} />
-              ))
-            ) : filteredUnits.length === 0 ? (
-              <div className="col-span-full py-16 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">
-                <p className="text-sm font-semibold text-slate-700">Nenhuma unidade encontrada</p>
-                <p className="text-xs text-slate-400 mt-1">Tente remover filtros ou ajustar a busca.</p>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => { setSearchQuery(''); setCategoryFilter('ALL'); setHealthFilter('ALL'); }}
-                  className="mt-3 rounded-lg text-xs"
-                >
-                  Limpar filtros
-                </Button>
-              </div>
-            ) : (
+          {/* UNIT CARDS GRID (Image 4) */}
+          {isLoadingData ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+              <UnitCardSkeleton />
+              <UnitCardSkeleton />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+              {filteredUnits.length === 0 ? (
+                <div className="col-span-full py-16 text-center text-muted-foreground ds-card border-border">
+                  <p className="text-sm font-semibold text-foreground">Nenhuma unidade encontrada</p>
+                  <p className="text-xs text-muted-foreground mt-1">Tente ajustar a busca ou os filtros.</p>
+                </div>
+              ) : (
               filteredUnits.map((unit) => {
-                const totalTickets = unit.openCount + unit.completedCount;
-                const resolutionRate = totalTickets > 0 ? Math.round((unit.completedCount / totalTickets) * 100) : 100;
+                // Cálculo da pendência real e próximo passo a partir dos chamados ativos
+                const unitOrders = orders.filter((o) => o.predio.toLowerCase() === unit.nome.toLowerCase());
+                const triagemOrders = unitOrders.filter((o) => o.status === 'TRIAGEM');
+                const validacaoOrders = unitOrders.filter((o) => o.status === 'AGUARDANDO');
+                const execucaoOrders = unitOrders.filter((o) => o.status === 'EM_EXECUCAO');
+                const agendadoOrders = unitOrders.filter((o) => o.status === 'AGENDADO');
+
+                let pendenciaReal = 'Sem chamados pendentes · Vistorias preventivas em dia';
+                let pendenciaColor = 'text-emerald-600';
+
+                if (triagemOrders.length > 0) {
+                  const urgentes = triagemOrders.filter(o => o.prioridade === 'URGENTE').length;
+                  pendenciaReal = urgentes > 0 
+                    ? `Pendência crítica: ${triagemOrders.length} chamado(s) em triagem (${urgentes} urgente)`
+                    : `Pendência: ${triagemOrders.length} chamado(s) aguardando triagem operacional`;
+                  pendenciaColor = urgentes > 0 ? 'text-destructive font-bold' : 'text-amber-600 font-semibold';
+                } else if (validacaoOrders.length > 0) {
+                  pendenciaReal = `Aguardando validação: ${validacaoOrders.length} serviço(s) para ateste da gestora`;
+                  pendenciaColor = 'text-primary font-semibold';
+                } else if (execucaoOrders.length > 0) {
+                  const tec = execucaoOrders[0]?.tecnico || 'Equipe designada';
+                  pendenciaReal = `Em execução: ${execucaoOrders.length} serviço(s) em campo por ${tec}`;
+                  pendenciaColor = 'text-primary font-semibold';
+                } else if (agendadoOrders.length > 0) {
+                  pendenciaReal = `Planejamento: ${agendadoOrders.length} chamado(s) agendados com visita programada`;
+                  pendenciaColor = 'text-muted-foreground font-medium';
+                }
 
                 return (
                   <div
                     key={unit.id}
-                    className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs hover:border-[#1D6FEB]/40 hover:shadow-md transition-all flex flex-col justify-between group"
+                    className="bg-card border border-border rounded-lg shadow-sm p-5 flex flex-col justify-between hover:shadow-md transition-all"
                   >
                     <div>
-                      {/* Top Bar: Type + Health */}
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
-                            {getUnitIcon(unit.tipo)}
-                          </div>
-                          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                            {getTypeLabel(unit.tipo)}
-                          </span>
-                        </div>
+                      {/* Category tag */}
+                      <div className="flex items-center gap-1.5 text-xs font-semibold text-primary">
+                        {getUnitIcon(unit.tipo)}
+                        <span>{getTypeLabel(unit.tipo)}</span>
+                      </div>
 
-                        {unit.statusHealth === 'CRITICO' ? (
-                          <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700 border border-red-200 flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span>
-                            Crítico ({unit.urgentCount} urgentes)
-                          </span>
-                        ) : unit.statusHealth === 'ATENCAO' ? (
-                          <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200 flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
-                            {unit.openCount} pendência(s)
-                          </span>
-                        ) : (
-                          <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-200 flex items-center gap-1">
-                            <CheckCircle2 size={12} />
-                            Em dia
+                      {/* Title */}
+                      <h2 className="text-lg font-bold text-foreground mt-2">
+                        {unit.nome}
+                      </h2>
+
+                      {/* Address */}
+                      <p className="text-xs text-muted-foreground mt-1 font-medium">
+                        {unit.endereco}
+                      </p>
+
+                      {/* Counts badges */}
+                      <div className="flex items-center gap-2 mt-4">
+                        <span className="text-xs font-bold text-foreground">
+                          {unit.openCount} ativos
+                        </span>
+                        {unit.urgentCount > 0 && (
+                          <span className="bg-destructive/10 text-destructive font-semibold text-xs px-2 py-0.5 rounded-lg">
+                            {unit.urgentCount} urgente{unit.urgentCount > 1 ? 's' : ''}
                           </span>
                         )}
                       </div>
 
-                      {/* Name */}
-                      <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#1D6FEB] transition-colors">
-                        {unit.nome}
-                      </h3>
-
-                      {/* Address & Manager */}
-                      <div className="space-y-1.5 mt-3 text-xs text-slate-500">
-                        <div className="flex items-center gap-2">
-                          <MapPin size={14} className="text-slate-400 shrink-0" />
-                          <span className="truncate">{unit.endereco}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <User size={14} className="text-slate-400 shrink-0" />
-                          <span className="truncate">Gestor: {unit.gestor}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Phone size={14} className="text-slate-400 shrink-0" />
-                          <span>{unit.telefone}</span>
-                        </div>
-                      </div>
-
-                      {/* Resolution Progress Bar */}
-                      <div className="mt-5 pt-4 border-t border-slate-100">
-                        <div className="flex items-center justify-between text-xs font-semibold mb-1.5">
-                          <span className="text-slate-500">Taxa de Resolução</span>
-                          <span className="text-slate-800 font-bold">{resolutionRate}%</span>
-                        </div>
-                        <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                          <div 
-                            className={`h-full rounded-full transition-all duration-500 ${
-                              unit.statusHealth === 'CRITICO' ? 'bg-red-500' :
-                              unit.statusHealth === 'ATENCAO' ? 'bg-amber-500' : 'bg-emerald-500'
-                            }`}
-                            style={{ width: `${resolutionRate}%` }}
-                          />
-                        </div>
-                        <div className="flex items-center justify-between text-[11px] text-slate-400 mt-1.5 font-medium">
-                          <span>{unit.openCount} abertos</span>
-                          <span>{unit.completedCount} concluídos</span>
-                        </div>
+                      {/* Real Pending Status Note */}
+                      <div className="mt-4 pt-3 border-t border-border">
+                        <p className="text-[10px] uppercase font-bold text-muted-foreground/80 tracking-wider mb-1">
+                          Próximo passo operacional
+                        </p>
+                        <p className={`text-xs ${pendenciaColor}`}>
+                          {pendenciaReal}
+                        </p>
                       </div>
                     </div>
 
-                    {/* Action buttons */}
-                    <div className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2">
-                      <Button
-                        onClick={() => setSelectedUnitName(unit.nome)}
-                        className="flex-1 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold h-9"
-                      >
-                        Ver ocorrências
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          setIsNewOrderModalOpen(true);
-                        }}
-                        variant="outline"
-                        title="Abrir novo chamado para este prédio"
-                        className="rounded-lg text-xs font-semibold h-9 px-3"
-                      >
-                        <Plus size={14} className="text-[#1D6FEB]" />
-                      </Button>
+                      {/* Footer Actions */}
+                      <div className="mt-4 pt-3 border-t border-border flex items-center justify-between">
+                        <button
+                          type="button"
+                          onClick={() => setSelectedUnitName(unit.nome)}
+                          className="text-xs font-semibold text-primary hover:underline cursor-pointer"
+                        >
+                          Ver unidade
+                        </button>
+
+                        <Link
+                          href={`/chamados?unidade=${encodeURIComponent(unit.nome)}`}
+                          className="hover:bg-muted text-muted-foreground hover:text-foreground text-xs font-semibold px-3 py-1.5 rounded-md transition-all flex items-center gap-1"
+                        >
+                          <span>Chamados</span>
+                          <ArrowRight size={13} />
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
+                  );
+                })
+              )}
+            </div>
+          )}
 
         </div>
       </main>
@@ -447,20 +366,25 @@ export default function UnidadesPage() {
         onClose={() => setIsNewUnitModalOpen(false)}
         onCreate={(newUnit) => {
           addUnit(newUnit);
-          showToast(`Unidade "${newUnit.nome}" cadastrada com sucesso!`);
+          showToast(`Unidade ${newUnit.nome} cadastrada com sucesso!`);
         }}
       />
 
       <UnitModal 
-        unitName={selectedUnitName}
         isOpen={!!selectedUnitName}
-        onClose={() => setSelectedUnitName(null)}
+        unitName={selectedUnitName}
         orders={orders}
-        onSelectOrder={(order) => setSelectedOrder(order)}
+        onClose={() => setSelectedUnitName(null)}
+        onSelectOrder={(ord) => setSelectedOrder(ord)}
+        onNewOrder={(name) => {
+          setSelectedUnitName(name);
+          setIsNewOrderModalOpen(true);
+        }}
       />
 
       <NewOrderModal 
         isOpen={isNewOrderModalOpen}
+        defaultPredio={selectedUnitName || undefined}
         onClose={() => setIsNewOrderModalOpen(false)}
         onCreate={(newOrder) => {
           addOrder(newOrder);

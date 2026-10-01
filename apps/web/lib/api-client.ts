@@ -2,17 +2,39 @@
  * Cliente de Integração com o Backend NestJS (apps/api)
  * Base URL: http://localhost:3001/api (ou NEXT_PUBLIC_API_URL)
  * 
- * Padrão Internacional:
- * - Backend: 100% Inglês camelCase com Envelope REST { success, data, meta }
- * - Adapter: Mapeamento seguro para compatibilidade transparente com os componentes da UI
+ * Padrão Seguro:
+ * - Autenticação JWT real com propagação estrita de headers Authorization: Bearer <token>
+ * - Mapeamento seguro e normalizado de entidades para os componentes da UI
  */
 
 import type { UserAccount } from '@/types/auth';
 import type { OrdemServico, StatusOS, Prioridade } from '@/app/kanban/data';
-import type { UnidadeItem } from '@/types/units';
+import type { UnidadeItem, TipoUnidade } from '@/types/units';
 import type { AgendaEvent, SystemSettings } from '@/context/orders-context';
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api').replace(/\/+$/, '');
+const STORAGE_KEY_TOKEN = 'zelo_auth_token_v1';
+
+function getAuthToken(): string | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    return localStorage.getItem(STORAGE_KEY_TOKEN);
+  } catch {
+    return null;
+  }
+}
+
+function getAuthHeaders(extraHeaders: Record<string, string> = {}): Record<string, string> {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...extraHeaders,
+  };
+  const token = getAuthToken();
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
+}
 
 function mapStatusToUi(status?: string): StatusOS {
   if (!status) return 'TRIAGEM';
@@ -48,6 +70,30 @@ function mapUserFromApi(userObj: any): UserAccount | undefined {
   };
 }
 
+function formatOrderDate(dateStr?: string): string {
+  if (!dateStr) return 'Hoje';
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return dateStr;
+  const now = new Date();
+  const isToday = d.toDateString() === now.toDateString();
+  if (isToday) {
+    return `Hoje, ${d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+  }
+  return `${d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}, ${d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+}
+
+function inferCategoryFromText(title?: string, desc?: string, existing?: string): string {
+  if (existing && existing !== 'Geral') return existing;
+  const text = `${title || ''} ${desc || ''}`.toLowerCase();
+  if (text.includes('vazamento') || text.includes('torneira') || text.includes('bomba') || text.includes('cano') || text.includes('hidráulica') || text.includes('sanitário') || text.includes('chafariz') || text.includes('esgoto') || text.includes('refluxo') || text.includes('sifão')) return 'Hidráulica';
+  if (text.includes('elétrica') || text.includes('lâmpada') || text.includes('disjuntor') || text.includes('fiação') || text.includes('quadro elétrico') || text.includes('curto') || text.includes('energia') || text.includes('reator') || text.includes('refletor') || text.includes('superaquecimento')) return 'Elétrica';
+  if (text.includes('rampa') || text.includes('cadeirante') || text.includes('acessibilidade') || text.includes('corrimão') || text.includes('barra de apoio') || text.includes('portão') || text.includes('fechadura') || text.includes('nbr 9050')) return 'Acessibilidade';
+  if (text.includes('calha') || text.includes('telhado') || text.includes('infiltração') || text.includes('goteira') || text.includes('forro') || text.includes('manta') || text.includes('telhas')) return 'Telhado e Calhas';
+  if (text.includes('alvenaria') || text.includes('parede') || text.includes('piso') || text.includes('trinca') || text.includes('rachadura') || text.includes('porta') || text.includes('janela') || text.includes('vidro') || text.includes('caixilho')) return 'Alvenaria';
+  if (text.includes('pintura') || text.includes('fachada') || text.includes('tinta')) return 'Pintura';
+  return 'Geral';
+}
+
 function mapWorkOrderFromApi(item: any): OrdemServico {
   return {
     id: item.code || item.id,
@@ -55,33 +101,56 @@ function mapWorkOrderFromApi(item: any): OrdemServico {
     predio: item.facilityName || item.predio,
     prioridade: mapPriorityToUi(item.priority || item.prioridade),
     status: mapStatusToUi(item.status),
-    dataAbertura: item.openedAt ? `Hoje, ${new Date(item.openedAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}` : (item.dataAbertura || 'Hoje'),
+    openedAt: item.openedAt,
+    dataAbertura: formatOrderDate(item.openedAt || item.dataAbertura),
     solicitante: item.requesterName || item.solicitante || 'Gestão Municipal',
     tecnico: item.technicianName || item.tecnico,
     descricao: item.description || item.descricao,
+    prazoEstimado: item.estimatedDeadline || item.prazoEstimado,
+    localizacao: item.locationDetail || item.localizacao,
+    categoria: inferCategoryFromText(item.title || item.titulo, item.description || item.descricao, item.category || item.categoria),
+    fotos: item.photos || item.fotos,
+    impedimento: item.impediment || item.impedimento,
+    historico: item.history || item.historico,
   };
+}
+
+function inferUnitType(name: string, currentType: string): TipoUnidade {
+  const n = (name || '').toLowerCase();
+  if (n.startsWith('emef') || n.startsWith('emei') || n.includes('escola') || n.includes('creche') || n.includes('colegio') || n.includes('educa')) {
+    return 'ESCOLA';
+  }
+  if (n.startsWith('ubs') || n.startsWith('upa') || n.includes('saude') || n.includes('posto') || n.includes('hospital') || n.includes('clinica')) {
+    return 'UBS';
+  }
+  if (n.includes('praca') || n.includes('praça') || n.includes('parque') || n.includes('bosque') || n.includes('jardim')) {
+    return 'PRACA';
+  }
+  return 'ADMINISTRATIVO';
 }
 
 function mapFacilityFromApi(item: any): UnidadeItem {
   return {
     id: item.id,
     nome: item.name || item.nome,
-    tipo: item.type || item.tipo,
+    tipo: inferUnitType(item.name || item.nome, item.type || item.tipo),
     endereco: item.address || item.endereco,
-    gestor: item.managerName || item.gestor || 'Gestão da Unidade',
-    telefone: item.phoneNumber || item.telefone || '(11) 4589-0000',
+    gestor: item.managerName || item.gestor || 'Gestor da Unidade',
+    telefone: item.phoneNumber || item.telefone || '(11) 3241-8900',
+    email: item.email || undefined,
   };
 }
 
 function mapInspectionFromApi(item: any): AgendaEvent {
   return {
     id: item.id,
-    time: item.scheduledTime || item.time || item.horario || '09:00',
     title: item.title || item.titulo,
-    subtitle: item.location || item.subtitle || item.subtitulo || 'Unidade Municipal',
-    completed: item.isCompleted ?? item.completed ?? false,
-    type: item.type || item.tipo || 'geral',
+    subtitle: item.location || item.subtitulo || item.subtitle || 'Unidade Municipal',
+    time: item.scheduledTime || item.horario || item.time || '14:00',
+    completed: Boolean(item.completed ?? item.concluido),
+    type: (item.type || item.tipo || 'geral') as any,
     tecnico: item.technicianName || item.tecnico,
+    orderId: item.workOrderId || item.orderId,
   };
 }
 
@@ -124,36 +193,75 @@ export const apiClient = {
     });
     const resData = await res.json();
     const user = mapUserFromApi(resData.data?.user || resData.user);
+    const token = resData.data?.token || resData.token;
+
+    if (resData.success && token && typeof window !== 'undefined') {
+      try {
+        localStorage.setItem(STORAGE_KEY_TOKEN, token);
+      } catch {
+        // Ignora erro de storage
+      }
+    }
 
     return {
       success: Boolean(resData.success),
       user,
-      token: resData.data?.token || resData.token,
+      token,
       message: resData.message,
     };
   },
 
-  async loginQuick(role: 'GESTOR' | 'TECNICO' | 'SOLICITANTE_ESCOLA' | 'SOLICITANTE_UBS' | 'ADMIN'): Promise<{ success: boolean; user?: UserAccount; token?: string }> {
-    const res = await fetch(`${API_BASE}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ quickRole: role, role }),
-    });
-    const resData = await res.json();
-    const user = mapUserFromApi(resData.data?.user || resData.user);
+  async loginQuick(
+    role: 'GESTOR' | 'TECNICO' | 'SOLICITANTE_ESCOLA' | 'SOLICITANTE_UBS' | 'ADMIN',
+    passwordOverride?: string,
+  ): Promise<{ success: boolean; user?: UserAccount; token?: string }> {
+    let email = 'gestor@urboa.gov.br';
+    if (role === 'ADMIN') email = 'admin@urboa.gov.br';
+    else if (role === 'TECNICO') email = 'carlos.tecnico@urboa.gov.br';
+    else if (role === 'SOLICITANTE_ESCOLA') email = 'maria.escola@urboa.gov.br';
+    else if (role === 'SOLICITANTE_UBS') email = 'marcelo.ubs@urboa.gov.br';
 
-    return {
-      success: Boolean(resData.success),
-      user,
-      token: resData.data?.token || resData.token,
-    };
+    const devPassword = passwordOverride || process.env.NEXT_PUBLIC_DEV_PASSWORD || 'Urboa@2026!';
+    return this.login(email, devPassword);
+  },
+
+  async getMe(tokenOverride?: string): Promise<{ success: boolean; user?: UserAccount }> {
+    const token = tokenOverride || getAuthToken();
+    if (!token) return { success: false };
+
+    try {
+      const res = await fetch(`${API_BASE}/auth/me`, {
+        cache: 'no-store',
+        headers: getAuthHeaders(tokenOverride ? { Authorization: `Bearer ${tokenOverride}` } : {}),
+      });
+      if (!res.ok) return { success: false };
+      const resData = await res.json();
+      const user = mapUserFromApi(resData.data || resData.user);
+      return {
+        success: Boolean(resData.success && user),
+        user,
+      };
+    } catch {
+      return { success: false };
+    }
   },
 
   async logout(): Promise<void> {
     try {
-      await fetch(`${API_BASE}/auth/logout`, { method: 'POST' });
+      await fetch(`${API_BASE}/auth/logout`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+      });
     } catch {
       // Ignorar falha no logout
+    } finally {
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.removeItem(STORAGE_KEY_TOKEN);
+        } catch {
+          // Ignora
+        }
+      }
     }
   },
 
@@ -176,7 +284,7 @@ export const apiClient = {
 
     const res = await fetch(url.toString(), {
       cache: 'no-store',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
     });
     const resData = await res.json();
     const rawList = Array.isArray(resData.data) ? resData.data : (resData.orders || []);
@@ -192,6 +300,7 @@ export const apiClient = {
   async getWorkOrder(idOrCode: string): Promise<{ success: boolean; order?: OrdemServico }> {
     const res = await fetch(`${API_BASE}/work-orders/${encodeURIComponent(idOrCode)}`, {
       cache: 'no-store',
+      headers: getAuthHeaders(),
     });
     const resData = await res.json();
     const rawOrder = resData.data || resData.order;
@@ -209,7 +318,6 @@ export const apiClient = {
       description: order.descricao,
       technicianName: order.tecnico,
       code: order.id,
-      // Fallbacks
       titulo: order.titulo,
       predio: order.predio,
       prioridade: order.prioridade,
@@ -219,7 +327,7 @@ export const apiClient = {
 
     const res = await fetch(`${API_BASE}/work-orders`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(payload),
     });
     const resData = await res.json();
@@ -244,7 +352,7 @@ export const apiClient = {
 
     const res = await fetch(`${API_BASE}/work-orders/${encodeURIComponent(idOrCode)}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(payload),
     });
     const resData = await res.json();
@@ -261,6 +369,7 @@ export const apiClient = {
   async deleteWorkOrder(idOrCode: string): Promise<{ success: boolean; message?: string }> {
     const res = await fetch(`${API_BASE}/work-orders/${encodeURIComponent(idOrCode)}`, {
       method: 'DELETE',
+      headers: getAuthHeaders(),
     });
     return await res.json();
   },
@@ -271,7 +380,7 @@ export const apiClient = {
   async getFacilities(): Promise<{ success: boolean; units: UnidadeItem[] }> {
     const res = await fetch(`${API_BASE}/facilities`, {
       cache: 'no-store',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
     });
     const resData = await res.json();
     const rawList = Array.isArray(resData.data) ? resData.data : (resData.units || []);
@@ -290,7 +399,6 @@ export const apiClient = {
       address: facility.endereco,
       managerName: facility.gestor,
       phoneNumber: facility.telefone,
-      // Fallbacks
       nome: facility.nome,
       tipo: facility.tipo,
       endereco: facility.endereco,
@@ -300,7 +408,7 @@ export const apiClient = {
 
     const res = await fetch(`${API_BASE}/facilities`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(payload),
     });
     const resData = await res.json();
@@ -318,6 +426,7 @@ export const apiClient = {
   async getUsers(): Promise<{ success: boolean; users: any[] }> {
     const res = await fetch(`${API_BASE}/users`, {
       cache: 'no-store',
+      headers: getAuthHeaders(),
     });
     const resData = await res.json();
     const rawList = Array.isArray(resData.data) ? resData.data : (resData.users || []);
@@ -333,7 +442,7 @@ export const apiClient = {
   async getAgenda(): Promise<{ success: boolean; agenda: AgendaEvent[] }> {
     const res = await fetch(`${API_BASE}/agenda`, {
       cache: 'no-store',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
     });
     const resData = await res.json();
     const rawList = Array.isArray(resData.data) ? resData.data : (resData.agenda || []);
@@ -356,7 +465,7 @@ export const apiClient = {
 
     const res = await fetch(`${API_BASE}/agenda`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(payload),
     });
     const resData = await res.json();
@@ -370,7 +479,7 @@ export const apiClient = {
   async toggleAgendaItem(id: string): Promise<{ success: boolean; agendaItem: any }> {
     const res = await fetch(`${API_BASE}/agenda/${encodeURIComponent(id)}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
     });
     const resData = await res.json();
     const rawItem = resData.data || resData.agendaItem;
@@ -386,7 +495,7 @@ export const apiClient = {
   async getSettings(): Promise<{ success: boolean; settings: SystemSettings }> {
     const res = await fetch(`${API_BASE}/settings`, {
       cache: 'no-store',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
     });
     const resData = await res.json();
     const rawSettings = resData.data || resData.settings;
@@ -399,7 +508,7 @@ export const apiClient = {
   async updateSettings(updates: any): Promise<{ success: boolean; settings: SystemSettings; message?: string }> {
     const res = await fetch(`${API_BASE}/settings`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(updates),
     });
     const resData = await res.json();
@@ -409,5 +518,137 @@ export const apiClient = {
       settings: rawSettings ? mapSettingsFromApi(rawSettings) : updates,
       message: resData.message,
     };
+  },
+
+  // -------------------------------------------------------------
+  // COPILOTO IA / ASSISTENTE GOVTECH (GOOGLE GEMINI + FUNCTION CALLING)
+  // -------------------------------------------------------------
+
+  async sendAiTriage(order: {
+    titulo: string;
+    descricao?: string;
+    predio: string;
+    prioridade?: string;
+    categoria?: string;
+    localizacao?: string;
+    fotos?: string[];
+  }): Promise<{
+    success: boolean;
+    suggestedPriority: 'URGENTE' | 'ALTA' | 'MEDIA' | 'BAIXA';
+    requerConfirmacao: boolean;
+    dadosInformados: string;
+    possivelImpacto: string;
+    perguntasEmAberto: [string, string, string];
+    criteriosMatriz: Array<{ criterio: string; status: string; observacao: string }>;
+    fundamentacaoTecnica: string;
+    provider: 'gemini' | 'local-fallback';
+    confidence: 'ALTA' | 'MEDIA' | 'BAIXA';
+    error?: string;
+  }> {
+    try {
+      const res = await fetch(`${API_BASE}/ai/triage`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(order),
+      });
+      const resData = await res.json();
+      if (!res.ok || !resData.success) {
+        return {
+          success: false,
+          suggestedPriority: (order.prioridade as any) || 'MEDIA',
+          requerConfirmacao: true,
+          dadosInformados: order.titulo,
+          possivelImpacto: '',
+          perguntasEmAberto: [
+            'A falha interrompe o atendimento?',
+            'Há risco para os ocupantes?',
+            'Existe alternativa provisória?',
+          ],
+          criteriosMatriz: [],
+          fundamentacaoTecnica: '',
+          provider: 'local-fallback',
+          confidence: 'BAIXA',
+          error: resData.message || 'Triagem semântica indisponível.',
+        };
+      }
+      return { success: true, ...resData.data };
+    } catch {
+      return {
+        success: false,
+        suggestedPriority: (order.prioridade as any) || 'MEDIA',
+        requerConfirmacao: true,
+        dadosInformados: order.titulo,
+        possivelImpacto: '',
+        perguntasEmAberto: [
+          'A falha interrompe o atendimento?',
+          'Há risco para os ocupantes?',
+          'Existe alternativa provisória?',
+        ],
+        criteriosMatriz: [],
+        fundamentacaoTecnica: '',
+        provider: 'local-fallback',
+        confidence: 'BAIXA',
+        error: 'Backend offline.',
+      };
+    }
+  },
+
+  async sendAiChat(message: string, history: Array<{ role: 'user' | 'assistant' | 'system'; content: string }> = []): Promise<{
+    success: boolean;
+    reply: string;
+    toolsExecuted: Array<{ name: string; params: any; result: any }>;
+    suggestions: string[];
+    provider: string;
+    message?: string;
+  }> {
+    try {
+      const res = await fetch(`${API_BASE}/ai/chat`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ message, history }),
+      });
+      const resData = await res.json();
+      if (!res.ok || !resData.success) {
+        return {
+          success: false,
+          reply: resData.message || 'Falha ao processar solicitação no assistente.',
+          toolsExecuted: [],
+          suggestions: [],
+          provider: 'error',
+        };
+      }
+      return {
+        success: true,
+        reply: resData.data.reply,
+        toolsExecuted: resData.data.toolsExecuted || [],
+        suggestions: resData.data.suggestions || [],
+        provider: resData.data.provider || 'local',
+      };
+    } catch (err: any) {
+      return {
+        success: false,
+        reply: 'Não foi possível conectar ao servidor da API. Verifique se o backend NestJS está rodando.',
+        toolsExecuted: [],
+        suggestions: [],
+        provider: 'offline',
+      };
+    }
+  },
+
+  async getAiStatus(): Promise<{
+    success: boolean;
+    activeProvider: string;
+    hasApiKey: boolean;
+    model: string;
+  }> {
+    try {
+      const res = await fetch(`${API_BASE}/ai/status`, {
+        headers: getAuthHeaders(),
+      });
+      const resData = await res.json();
+      return resData.data || { activeProvider: 'Desconhecido', hasApiKey: false, model: 'Local' };
+    } catch {
+      return { success: false, activeProvider: 'Offline', hasApiKey: false, model: 'Local' };
+    }
   },
 };

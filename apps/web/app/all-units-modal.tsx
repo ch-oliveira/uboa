@@ -17,13 +17,13 @@ export function AllUnitsModal({ isOpen, onClose, units, onSelectUnit }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-150">
       <div 
-        className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-150"
+        className="bg-white rounded-lg shadow-2xl border border-slate-200 w-full max-w-xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-150"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-100 text-[#1D6FEB] flex items-center justify-center">
+            <div className="w-10 h-10 rounded-md bg-blue-900/10 text-blue-900 flex items-center justify-center">
               <Building2 size={22} />
             </div>
             <div>
@@ -50,14 +50,14 @@ export function AllUnitsModal({ isOpen, onClose, units, onSelectUnit }: Props) {
                 onClose();
                 onSelectUnit(unit.name);
               }}
-              className="p-3.5 rounded-xl border border-slate-200 hover:border-[#1D6FEB]/40 hover:bg-blue-50/30 cursor-pointer transition-all flex items-center justify-between group"
+              className="p-3.5 rounded-md border border-slate-200 hover:border-blue-900/30 hover:bg-slate-50 cursor-pointer transition-all flex items-center justify-between group"
             >
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-slate-100 group-hover:bg-blue-100 group-hover:text-[#1D6FEB] text-slate-600 flex items-center justify-center transition-colors">
+                <div className="w-9 h-9 rounded-lg bg-slate-100 group-hover:bg-blue-900/10 group-hover:text-blue-900 text-slate-600 flex items-center justify-center transition-colors">
                   <Building2 size={18} />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-800 group-hover:text-[#1D6FEB] transition-colors">
+                  <h4 className="text-sm font-bold text-slate-800 group-hover:text-blue-900 transition-colors">
                     {unit.name}
                   </h4>
                   <p className="text-xs text-slate-500 mt-0.5">
@@ -70,7 +70,7 @@ export function AllUnitsModal({ isOpen, onClose, units, onSelectUnit }: Props) {
                   </p>
                 </div>
               </div>
-              <ChevronRight size={16} className="text-slate-400 group-hover:text-[#1D6FEB] group-hover:translate-x-0.5 transition-all" />
+              <ChevronRight size={16} className="text-slate-400 group-hover:text-blue-900 group-hover:translate-x-0.5 transition-all" />
             </div>
           ))}
         </div>

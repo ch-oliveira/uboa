@@ -7,4 +7,5 @@ export interface UnidadeItem {
   endereco: string;
   gestor: string;
   telefone: string;
+  email?: string;
 }

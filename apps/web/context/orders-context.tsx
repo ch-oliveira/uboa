@@ -22,6 +22,7 @@ export interface AgendaEvent {
   completed: boolean;
   type: 'eletrica' | 'hidraulica' | 'acessibilidade' | 'geral';
   tecnico?: string;
+  orderId?: string;
 }
 
 export interface ActivityEvent {
@@ -108,6 +109,13 @@ export const DEFAULT_SETTINGS: SystemSettings = {
   useMockData: false,
 };
 
+export const DEFAULT_ACTIVITIES: ActivityEvent[] = [
+  { id: 'act-1', title: 'Chamado #OS-104923 em execução por Roberto Santos', time: 'Há 18 min', iconType: 'wrench' },
+  { id: 'act-2', title: 'Vistoria elétrica concluída na EMEI Sementinha', time: 'Há 45 min', iconType: 'check' },
+  { id: 'act-3', title: 'Novo chamado urgente registrado na UBS Vila Nova', time: 'Há 2h', iconType: 'alert' },
+  { id: 'act-4', title: 'Agendamento de vistoria preventiva concluído', time: 'Hoje, 08:30', iconType: 'file' },
+];
+
 interface OrdersContextType {
   orders: OrdemServico[];
   units: UnidadeItem[];
@@ -143,6 +151,12 @@ interface OrdersContextType {
   isSidebarCollapsed: boolean;
   toggleSidebar: () => void;
   setSidebarCollapsed: (collapsed: boolean) => void;
+
+  // Copilot IA (Google Gemini Function Calling)
+  isCopilotOpen: boolean;
+  openCopilot: () => void;
+  closeCopilot: () => void;
+  toggleCopilot: () => void;
 
   // Backup & Restore
   exportBackupData: () => string;
@@ -195,26 +209,40 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
   const [orders, setOrders] = useState<OrdemServico[]>([]);
   const [units, setUnits] = useState<UnidadeItem[]>([]);
   const [agenda, setAgenda] = useState<AgendaEvent[]>([]);
-  const [activities, setActivities] = useState<ActivityEvent[]>([]);
+  const [activities, setActivities] = useState<ActivityEvent[]>(DEFAULT_ACTIVITIES);
   const [settings, setSettings] = useState<SystemSettings>(DEFAULT_SETTINGS);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isCopilotOpen, setIsCopilotOpen] = useState(false);
   const [readNotificationIds, setReadNotificationIds] = useState<Set<string>>(new Set());
+
+  const openCopilot = useCallback(() => setIsCopilotOpen(true), []);
+  const closeCopilot = useCallback(() => setIsCopilotOpen(false), []);
+  const toggleCopilot = useCallback(() => setIsCopilotOpen((prev) => !prev), []);
   const [hasHydrated, setHasHydrated] = useState(false);
   const [isLoadingData, setIsLoadingData] = useState(true);
 
   // Função centralizada para carregar dados reais da API conforme o perfil ativo
   const refreshData = useCallback(async () => {
-    // Se não há usuário autenticado, limpa dados e não consulta API municipal
+    setIsLoadingData(true);
+
+    // Se o usuário não estiver autenticado (ex: página pública de abertura de chamado ou landing),
+    // NÃO carrega a lista geral de ordens de serviço, agenda ou configurações internas do município!
     if (!user) {
       setOrders([]);
-      setUnits([]);
       setAgenda([]);
-      setActivities([]);
-      setIsLoadingData(false);
+      try {
+        const unitsRes = await apiClient.getFacilities().catch(() => null);
+        if (unitsRes?.success && Array.isArray(unitsRes.units)) {
+          setUnits(unitsRes.units);
+        }
+      } catch {
+        // Ignora
+      } finally {
+        setIsLoadingData(false);
+      }
       return;
     }
 
-    setIsLoadingData(true);
     try {
       const params: any = {};
       if (role) params.role = role;
@@ -233,6 +261,23 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
         setOrders(ordersRes.orders);
         if (Array.isArray((ordersRes as any).activities) && (ordersRes as any).activities.length > 0) {
           setActivities((ordersRes as any).activities);
+        } else if (ordersRes.orders.length > 0) {
+          const liveActivities: ActivityEvent[] = ordersRes.orders.slice(0, 6).map((ord, idx) => {
+            const isUrg = ord.prioridade === 'URGENTE';
+            const isExec = ord.status === 'EM_EXECUCAO';
+            const isDone = ord.status === 'CONCLUIDO';
+            return {
+              id: `act-${ord.id}-${idx}`,
+              title: isDone 
+                ? `Chamado #${ord.id} concluído na ${ord.predio}`
+                : isExec 
+                  ? `Chamado #${ord.id} em execução por ${ord.tecnico || 'equipe técnica'}`
+                  : `Chamado #${ord.id} registrado na ${ord.predio}`,
+              time: ord.dataAbertura || 'Hoje',
+              iconType: isDone ? 'check' : isUrg ? 'alert' : isExec ? 'wrench' : 'file',
+            };
+          });
+          setActivities(liveActivities);
         }
       }
 
@@ -289,16 +334,20 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
     }
   }, [isSidebarCollapsed, hasHydrated]);
 
-  // Atalho de teclado global: Cmd+B / Ctrl+B para alternar sidebar
+  // Atalho de teclado global: Cmd+B / Ctrl+B (sidebar) e Cmd+J / Ctrl+J (Copilot IA)
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
+      const target = e.target as HTMLElement;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) {
+        return;
+      }
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b') {
-        const target = e.target as HTMLElement;
-        if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) {
-          return;
-        }
         e.preventDefault();
         setIsSidebarCollapsed((prev) => !prev);
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'j') {
+        e.preventDefault();
+        setIsCopilotOpen((prev) => !prev);
       }
     }
     window.addEventListener('keydown', handleKeyDown);
@@ -620,6 +669,10 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
         isSidebarCollapsed,
         toggleSidebar,
         setSidebarCollapsed,
+        isCopilotOpen,
+        openCopilot,
+        closeCopilot,
+        toggleCopilot,
         exportBackupData,
         importBackupData,
         resetAllData,

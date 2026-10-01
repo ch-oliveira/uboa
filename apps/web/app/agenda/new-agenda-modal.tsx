@@ -49,13 +49,13 @@ export function NewAgendaModal({ isOpen, onClose, onCreate }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-150">
       <div 
-        className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-150"
+        className="bg-white rounded-lg shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-150"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-100 text-[#1D6FEB] flex items-center justify-center">
+            <div className="w-10 h-10 rounded-md bg-blue-900/10 text-blue-900 flex items-center justify-center">
               <Calendar size={22} />
             </div>
             <div>
@@ -76,7 +76,7 @@ export function NewAgendaModal({ isOpen, onClose, onCreate }: Props) {
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto flex-1">
           {error && (
-            <div className="p-3 text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-xl">
+            <div className="p-3 text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-md">
               {error}
             </div>
           )}
@@ -91,7 +91,7 @@ export function NewAgendaModal({ isOpen, onClose, onCreate }: Props) {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Ex: Vistoria preventiva do telhado, Revisão de extintores"
-              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1D6FEB]/20 focus:border-[#1D6FEB] transition-all font-medium text-slate-800"
+              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/15 focus:border-blue-900 transition-all font-medium text-slate-800"
             />
           </div>
 
@@ -103,7 +103,7 @@ export function NewAgendaModal({ isOpen, onClose, onCreate }: Props) {
             <select
               value={subtitle}
               onChange={(e) => setSubtitle(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1D6FEB]/20 focus:border-[#1D6FEB] transition-all font-medium text-slate-800"
+              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/15 focus:border-blue-900 transition-all font-medium text-slate-800"
             >
               {units.map((u) => (
                 <option key={u.id} value={u.nome}>{u.nome} ({u.tipo})</option>
@@ -123,7 +123,7 @@ export function NewAgendaModal({ isOpen, onClose, onCreate }: Props) {
                   type="time"
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
-                  className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1D6FEB]/20 focus:border-[#1D6FEB] transition-all font-medium text-slate-800"
+                  className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/15 focus:border-blue-900 transition-all font-medium text-slate-800"
                 />
               </div>
             </div>
@@ -135,7 +135,7 @@ export function NewAgendaModal({ isOpen, onClose, onCreate }: Props) {
               <select
                 value={type}
                 onChange={(e) => setType(e.target.value as any)}
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1D6FEB]/20 focus:border-[#1D6FEB] transition-all font-medium text-slate-800"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/15 focus:border-blue-900 transition-all font-medium text-slate-800"
               >
                 <option value="geral">Geral / Preventiva</option>
                 <option value="eletrica">Elétrica</option>
@@ -155,7 +155,7 @@ export function NewAgendaModal({ isOpen, onClose, onCreate }: Props) {
               <select
                 value={tecnico}
                 onChange={(e) => setTecnico(e.target.value)}
-                className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1D6FEB]/20 focus:border-[#1D6FEB] transition-all font-medium text-slate-800"
+                className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/15 focus:border-blue-900 transition-all font-medium text-slate-800"
               >
                 {TECNICOS.map((t) => (
                   <option key={t} value={t}>{t}</option>
@@ -169,7 +169,7 @@ export function NewAgendaModal({ isOpen, onClose, onCreate }: Props) {
             <Button type="button" variant="outline" onClick={onClose} className="rounded-lg">
               Cancelar
             </Button>
-            <Button type="submit" className="bg-[#1D6FEB] hover:bg-[#1557BA] text-white rounded-lg font-semibold">
+            <Button type="submit" className="bg-blue-900 hover:bg-blue-950 text-white rounded-lg font-semibold">
               Salvar Agendamento
             </Button>
           </div>

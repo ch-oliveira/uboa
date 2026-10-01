@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/auth-context";
 import { OrdersProvider } from "@/context/orders-context";
 import { DevDrawer } from "@/components/dev-drawer";
+import { CopilotGlobal } from "@/components/copilot/copilot-global";
 
-// Using inter.className directly to guarantee font rendering
-const inter = Inter({ subsets: ["latin"] });
+const jakarta = Plus_Jakarta_Sans({ 
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
 
 export const metadata: Metadata = {
-  title: "Zelo | Gestão Predial Municipal",
-  description: "Sistema Integrado de Manutenção e Zeladoria Pública",
+  title: "Urboa | Gestão Predial Urbana & IA",
+  description: "Sistema Integrado de Manutenção e Zeladoria Pública Inteligente",
 };
 
 export default function RootLayout({
@@ -20,11 +24,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.className} antialiased bg-[#F8FAFC] text-slate-900`}>
+      <body className={`${jakarta.variable} font-sans antialiased bg-background text-foreground`}>
         <AuthProvider>
           <OrdersProvider>
             {children}
             <DevDrawer />
+            <CopilotGlobal />
           </OrdersProvider>
         </AuthProvider>
       </body>

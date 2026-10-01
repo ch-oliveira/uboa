@@ -43,9 +43,9 @@ export function DevDrawer() {
   } = useOrders();
 
   const { user, role, token } = useAuth();
-  const isAdmin = role === 'ADMIN';
+  const isAdmin = Boolean(user && role === 'ADMIN');
 
-  // Escuta atalho global de teclado: Ctrl+Shift+D ou Cmd+Shift+D apenas se for ADMIN
+  // Escuta atalho global de teclado: Ctrl+Shift+D ou Cmd+Shift+D apenas se for ADMIN autenticado
   useEffect(() => {
     if (!isAdmin) {
       setIsOpen(false);
@@ -168,7 +168,7 @@ export function DevDrawer() {
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-bold text-white tracking-wide">Painel do Desenvolvedor</h3>
                 <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">
-                  zelo v1.0.0
+                  urboa v1.0.0
                 </span>
               </div>
               <p className="text-[11px] text-slate-400">Camada interna de engenharia, diagnóstico e testes</p>
@@ -401,7 +401,7 @@ export function DevDrawer() {
         <div className="p-4 border-t border-slate-800 bg-slate-950/80 text-center text-[11px] text-slate-400 flex items-center justify-between shrink-0">
           <span className="flex items-center gap-1.5">
             <Cpu size={13} className="text-slate-400" />
-            <span>zelo v1.0.0 • Build Local</span>
+            <span>urboa v1.0.0 • Build Local</span>
           </span>
           <span className="text-slate-400">
             Atalho: <kbd className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 font-mono text-[10px] text-slate-300">Ctrl+Shift+D</kbd>

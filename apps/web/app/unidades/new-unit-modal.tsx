@@ -59,7 +59,7 @@ export function NewUnitModal({ isOpen, onClose, onCreate }: Props) {
         {/* Header */}
         <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-100 text-[#1D6FEB] flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-blue-900/10 text-blue-900 flex items-center justify-center">
               <Building2 size={22} />
             </div>
             <div>
@@ -95,7 +95,7 @@ export function NewUnitModal({ isOpen, onClose, onCreate }: Props) {
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               placeholder="Ex: EMEF Monteiro Lobato, UBS Jardim das Flores"
-              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1D6FEB]/20 focus:border-[#1D6FEB] transition-all font-medium text-slate-800"
+              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/15 focus:border-blue-900 transition-all font-medium text-slate-800"
             />
           </div>
 
@@ -107,7 +107,7 @@ export function NewUnitModal({ isOpen, onClose, onCreate }: Props) {
             <select
               value={tipo}
               onChange={(e) => setTipo(e.target.value as TipoUnidade)}
-              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1D6FEB]/20 focus:border-[#1D6FEB] transition-all font-medium text-slate-800"
+              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/15 focus:border-blue-900 transition-all font-medium text-slate-800"
             >
               <option value="ESCOLA">Educação (EMEF, EMEI, Creche)</option>
               <option value="UBS">Saúde (UBS, Posto de Saúde)</option>
@@ -129,7 +129,7 @@ export function NewUnitModal({ isOpen, onClose, onCreate }: Props) {
                 value={endereco}
                 onChange={(e) => setEndereco(e.target.value)}
                 placeholder="Rua, número, bairro..."
-                className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1D6FEB]/20 focus:border-[#1D6FEB] transition-all font-medium text-slate-800"
+                className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/15 focus:border-blue-900 transition-all font-medium text-slate-800"
               />
             </div>
           </div>
@@ -147,7 +147,7 @@ export function NewUnitModal({ isOpen, onClose, onCreate }: Props) {
                   value={gestor}
                   onChange={(e) => setGestor(e.target.value)}
                   placeholder="Nome do diretor ou coordenador"
-                  className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1D6FEB]/20 focus:border-[#1D6FEB] transition-all font-medium text-slate-800"
+                  className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/15 focus:border-blue-900 transition-all font-medium text-slate-800"
                 />
               </div>
             </div>
@@ -163,7 +163,7 @@ export function NewUnitModal({ isOpen, onClose, onCreate }: Props) {
                   value={telefone}
                   onChange={(e) => setTelefone(e.target.value)}
                   placeholder="(11) 4589-XXXX"
-                  className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1D6FEB]/20 focus:border-[#1D6FEB] transition-all font-medium text-slate-800"
+                  className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/15 focus:border-blue-900 transition-all font-medium text-slate-800"
                 />
               </div>
             </div>
@@ -174,7 +174,7 @@ export function NewUnitModal({ isOpen, onClose, onCreate }: Props) {
             <Button type="button" variant="outline" onClick={onClose} className="rounded-lg">
               Cancelar
             </Button>
-            <Button type="submit" className="bg-[#1D6FEB] hover:bg-[#1557BA] text-white rounded-lg font-semibold">
+            <Button type="submit" className="bg-blue-900 hover:bg-blue-950 text-white rounded-lg font-semibold">
               Cadastrar Unidade
             </Button>
           </div>

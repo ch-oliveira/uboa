@@ -2,6 +2,13 @@
 export type Prioridade = 'URGENTE' | 'ALTA' | 'MEDIA' | 'BAIXA';
 export type StatusOS = 'TRIAGEM' | 'AGENDADO' | 'EM_EXECUCAO' | 'AGUARDANDO' | 'CONCLUIDO';
 
+export interface HistoricoItem {
+  data: string;
+  descricao: string;
+  autor: string;
+  tipo?: 'SISTEMA' | 'COMENTARIO' | 'STATUS' | 'EXCECAO';
+}
+
 export interface OrdemServico {
   id: string;
   titulo: string;
@@ -9,30 +16,46 @@ export interface OrdemServico {
   prioridade: Prioridade;
   status: StatusOS;
   dataAbertura: string;
+  openedAt?: string;
+  concluidoEm?: string;
   solicitante: string;
   tecnico?: string;
   descricao?: string;
-  historico?: { data: string; descricao: string; autor: string }[];
+  prazoEstimado?: string;
+  localizacao?: string;
+  categoria?: string;
+  fotos?: string[];
+  impedimento?: {
+    ativo: boolean;
+    motivo: string;
+    data: string;
+  };
+  historico?: HistoricoItem[];
 }
 
 export interface KanbanColumn {
   id: StatusOS;
   title: string;
+  shortTitle: string;
+  subtitle?: string;
   color: string;
   dotColor: string;
 }
 
 export const COLUMNS: KanbanColumn[] = [
-  { id: 'TRIAGEM',      title: 'Triagem',         color: 'text-amber-700', dotColor: 'bg-amber-500' },
-  { id: 'AGENDADO',     title: 'Agendado',        color: 'text-slate-700', dotColor: 'bg-slate-400' },
-  { id: 'EM_EXECUCAO',  title: 'Em Execução',     color: 'text-blue-700',  dotColor: 'bg-[#1D6FEB]' },
-  { id: 'AGUARDANDO',   title: 'Aguardando Conf.', color: 'text-purple-700', dotColor: 'bg-purple-500' },
-  { id: 'CONCLUIDO',    title: 'Concluído',       color: 'text-emerald-700', dotColor: 'bg-emerald-500' },
+  { id: 'TRIAGEM',      title: 'Triagem',                shortTitle: 'Triagem',      subtitle: 'Avaliar e encaminhar',    color: 'text-amber-700', dotColor: 'bg-amber-500' },
+  { id: 'AGENDADO',     title: 'Agendado',               shortTitle: 'Agendado',     subtitle: 'Intervenções planejadas', color: 'text-slate-700', dotColor: 'bg-slate-500' },
+  { id: 'EM_EXECUCAO',  title: 'Em execução',            shortTitle: 'Em Execução',  subtitle: 'Equipes em campo',        color: 'text-blue-900',  dotColor: 'bg-blue-800' },
+  { id: 'AGUARDANDO',   title: 'Aguardando validação',   shortTitle: 'Validação',    subtitle: 'Validar com a unidade',   color: 'text-purple-700', dotColor: 'bg-purple-600' },
+  { id: 'CONCLUIDO',    title: 'Concluído',              shortTitle: 'Concluído',    subtitle: 'Serviços finalizados',    color: 'text-emerald-700', dotColor: 'bg-emerald-500' },
 ];
+
+export const BOARD_COLUMNS = COLUMNS.filter((c) => c.id !== 'CONCLUIDO');
 
 export const PREDIOS = [
   'EMEF Paulo Freire',
   'EMEI Sementinha',
+  'EMEF Santos Dumont',
   'UBS Vila Nova',
   'UBS Central',
   'UBS Vila Esperança',
@@ -43,9 +66,9 @@ export const PREDIOS = [
 ];
 
 export const TECNICOS = [
-  'Carlos T.',
-  'Roberto F.',
-  'Mariana Alves',
-  'Lucas Duarte',
+  'Carlos Silva',
+  'Roberto Santos',
+  'Marcos Oliveira',
+  'Lucas Pereira',
 ];
 

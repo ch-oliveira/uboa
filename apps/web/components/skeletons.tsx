@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export function StatCardSkeleton() {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-2xs space-y-3">
+    <div className="ds-card p-6 space-y-3">
       <div className="flex items-center justify-between">
         <Skeleton className="h-4 w-28 rounded-lg" />
         <Skeleton className="h-9 w-9 rounded-xl" />
@@ -18,7 +18,7 @@ export function StatCardSkeleton() {
 
 export function OrderRowSkeleton() {
   return (
-    <div className="grid grid-cols-12 px-6 py-4 items-center gap-3 border-b border-slate-100">
+    <div className="grid grid-cols-12 px-6 py-4 items-center gap-3 border-b border-border">
       <div className="col-span-4 space-y-1.5">
         <Skeleton className="h-4 w-3/4 rounded-md" />
         <Skeleton className="h-3 w-1/3 rounded-md" />
@@ -39,7 +39,7 @@ export function OrderRowSkeleton() {
 
 export function OrderCardStepperSkeleton() {
   return (
-    <div className="p-6 border-b border-slate-100 space-y-4">
+    <div className="p-6 border-b border-border space-y-4">
       <div className="flex items-start justify-between">
         <div className="space-y-2 w-2/3">
           <div className="flex items-center gap-2">
@@ -68,7 +68,7 @@ export function OrderCardStepperSkeleton() {
 
 export function UnitAttentionSkeleton() {
   return (
-    <div className="p-4 rounded-xl border border-slate-100 bg-slate-50/50 flex items-center justify-between">
+    <div className="p-4 rounded-xl border border-border bg-muted/50 flex items-center justify-between">
       <div className="flex items-center gap-3">
         <Skeleton className="h-9 w-9 rounded-xl" />
         <div className="space-y-1.5">
@@ -122,12 +122,12 @@ export function GestorDashboardSkeleton() {
       <div className="grid grid-cols-3 gap-6">
         <div className="col-span-2 space-y-6">
           {/* Prioridades de hoje */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+          <div className="ds-card overflow-hidden">
+            <div className="p-6 border-b border-border flex items-center justify-between">
               <Skeleton className="h-6 w-44 rounded-lg" />
               <Skeleton className="h-8 w-36 rounded-lg" />
             </div>
-            <div className="divide-y divide-slate-100">
+            <div className="divide-y divide-border">
               {[0, 1, 2, 3].map((i) => (
                 <OrderRowSkeleton key={i} />
               ))}
@@ -135,8 +135,8 @@ export function GestorDashboardSkeleton() {
           </div>
 
           {/* Unidades em atenção */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div className="ds-card p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-border pb-4">
               <div className="space-y-1">
                 <Skeleton className="h-5 w-44 rounded-lg" />
                 <Skeleton className="h-3 w-56 rounded-md" />
@@ -153,8 +153,8 @@ export function GestorDashboardSkeleton() {
 
         {/* Right column */}
         <div className="space-y-6">
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div className="ds-card p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-border pb-4">
               <Skeleton className="h-5 w-32 rounded-lg" />
               <Skeleton className="h-5 w-12 rounded-full" />
             </div>
@@ -165,7 +165,7 @@ export function GestorDashboardSkeleton() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+          <div className="ds-card p-6 space-y-4">
             <Skeleton className="h-5 w-36 rounded-lg" />
             <div className="space-y-3">
               {[0, 1, 2].map((i) => (
@@ -187,9 +187,9 @@ export function GestorDashboardSkeleton() {
 
 export function SolicitanteDashboardSkeleton() {
   return (
-    <div className="flex-1 overflow-y-auto p-6 lg:p-8 space-y-8 bg-[#F8FAFC] animate-in fade-in duration-200">
+    <div className="flex-1 overflow-y-auto p-6 lg:p-8 space-y-8 bg-background animate-in fade-in duration-200">
       {/* Top Banner Skeleton */}
-      <div className="bg-white rounded-3xl p-6 lg:p-8 border border-slate-200/90 shadow-xs space-y-4">
+      <div className="ds-card p-6 lg:p-8 space-y-4">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
             <Skeleton className="h-5 w-48 rounded-full" />
@@ -210,15 +210,15 @@ export function SolicitanteDashboardSkeleton() {
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xs overflow-hidden">
-            <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+          <div className="ds-card overflow-hidden">
+            <div className="p-6 border-b border-border flex items-center justify-between">
               <div className="space-y-1">
                 <Skeleton className="h-5 w-52 rounded-lg" />
                 <Skeleton className="h-3 w-40 rounded-md" />
               </div>
               <Skeleton className="h-8 w-48 rounded-xl" />
             </div>
-            <div className="divide-y divide-slate-100">
+            <div className="divide-y divide-border">
               {[0, 1, 2, 3].map((i) => (
                 <OrderCardStepperSkeleton key={i} />
               ))}
@@ -228,11 +228,11 @@ export function SolicitanteDashboardSkeleton() {
 
         {/* Right Column */}
         <div className="space-y-6">
-          <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xs p-6 space-y-4">
+          <div className="ds-card p-6 space-y-4">
             <Skeleton className="h-5 w-36 rounded-lg" />
             <div className="space-y-3">
               {[0, 1].map((i) => (
-                <div key={i} className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+                <div key={i} className="p-3.5 rounded-2xl bg-muted border border-border space-y-2">
                   <div className="flex items-center justify-between">
                     <Skeleton className="h-4 w-16 rounded-md" />
                     <Skeleton className="h-4 w-14 rounded-full" />
@@ -244,7 +244,7 @@ export function SolicitanteDashboardSkeleton() {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xs p-6 space-y-3">
+          <div className="ds-card p-6 space-y-3">
             <Skeleton className="h-5 w-40 rounded-lg" />
             <div className="space-y-2">
               <Skeleton className="h-12 w-full rounded-xl" />
@@ -259,14 +259,14 @@ export function SolicitanteDashboardSkeleton() {
 
 export function KanbanCardSkeleton() {
   return (
-    <div className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-2xs space-y-3">
+    <div className="ds-card p-4 space-y-3">
       <div className="flex items-center justify-between">
         <Skeleton className="h-3.5 w-16 rounded-md" />
         <Skeleton className="h-4 w-14 rounded-full" />
       </div>
       <Skeleton className="h-4 w-4/5 rounded-md" />
       <Skeleton className="h-3 w-3/5 rounded-md" />
-      <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+      <div className="pt-2 border-t border-border flex items-center justify-between">
         <Skeleton className="h-3 w-20 rounded-md" />
         <Skeleton className="h-5 w-16 rounded-md" />
       </div>
@@ -284,7 +284,7 @@ export function KanbanBoardSkeleton() {
         { title: 'Aguardando', count: 1 },
         { title: 'Concluído', count: 2 },
       ].map((col, idx) => (
-        <div key={idx} className="w-[320px] flex flex-col h-full rounded-2xl bg-slate-100/60 border border-slate-200/60 p-3 space-y-3">
+        <div key={idx} className="w-[320px] flex flex-col h-full rounded-2xl bg-muted/60 border border-border/60 p-3 space-y-3">
           <div className="flex items-center justify-between px-2 py-1">
             <div className="flex items-center gap-2">
               <Skeleton className="w-2.5 h-2.5 rounded-full" />
@@ -305,10 +305,10 @@ export function KanbanBoardSkeleton() {
 
 export function ChamadosTableSkeleton() {
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden animate-in fade-in duration-200">
+    <div className="ds-card overflow-hidden animate-in fade-in duration-200">
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
-          <thead className="bg-slate-50/80 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider">
+          <thead className="bg-muted/80 border-b border-border text-xs font-bold text-muted-foreground uppercase tracking-wider">
             <tr>
               <th className="py-3.5 px-4"><Skeleton className="h-4 w-14 rounded" /></th>
               <th className="py-3.5 px-4"><Skeleton className="h-4 w-32 rounded" /></th>
@@ -319,7 +319,7 @@ export function ChamadosTableSkeleton() {
               <th className="py-3.5 px-4 text-right"><Skeleton className="h-4 w-12 ml-auto rounded" /></th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-border">
             {[0, 1, 2, 3, 4, 5].map((i) => (
               <tr key={i} className="hover:bg-slate-50/40">
                 <td className="py-4 px-4"><Skeleton className="h-4 w-16 rounded font-mono" /></td>
@@ -345,7 +345,7 @@ export function ChamadosGridSkeleton() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-in fade-in duration-200">
       {[0, 1, 2, 3, 4, 5].map((i) => (
-        <div key={i} className="bg-white rounded-2xl p-5 border border-slate-200 shadow-2xs space-y-4">
+        <div key={i} className="ds-card p-5 space-y-4">
           <div className="flex items-center justify-between">
             <Skeleton className="h-4 w-16 rounded font-mono" />
             <div className="flex items-center gap-1.5">
@@ -358,7 +358,7 @@ export function ChamadosGridSkeleton() {
             <Skeleton className="h-3 w-full rounded-md" />
             <Skeleton className="h-3 w-2/3 rounded-md" />
           </div>
-          <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+          <div className="pt-3 border-t border-border flex items-center justify-between">
             <Skeleton className="h-3 w-20 rounded" />
             <Skeleton className="h-3 w-16 rounded" />
           </div>
@@ -370,7 +370,7 @@ export function ChamadosGridSkeleton() {
 
 export function UnitCardSkeleton() {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-4 animate-in fade-in duration-200">
+    <div className="ds-card p-6 space-y-4 animate-in fade-in duration-200">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Skeleton className="w-8 h-8 rounded-lg" />
@@ -384,14 +384,14 @@ export function UnitCardSkeleton() {
         <Skeleton className="h-3.5 w-4/5 rounded-md" />
         <Skeleton className="h-3.5 w-1/2 rounded-md" />
       </div>
-      <div className="pt-3 border-t border-slate-100 space-y-2">
+      <div className="pt-3 border-t border-border space-y-2">
         <div className="flex justify-between">
           <Skeleton className="h-3 w-24 rounded" />
           <Skeleton className="h-3 w-10 rounded" />
         </div>
         <Skeleton className="h-2 w-full rounded-full" />
       </div>
-      <div className="pt-3 border-t border-slate-100 flex gap-2">
+      <div className="pt-3 border-t border-border flex gap-2">
         <Skeleton className="h-9 flex-1 rounded-lg" />
         <Skeleton className="h-9 w-9 rounded-lg" />
       </div>
