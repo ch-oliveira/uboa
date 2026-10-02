@@ -7,7 +7,13 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
+    "check-types": "turbo run check-types",
+    "db:migrate:dev": "pnpm --filter @repo/database migrate:dev",
+    "db:migrate:deploy": "pnpm --filter @repo/database migrate:deploy",
+    "db:migrate:status": "pnpm --filter @repo/database migrate:status",
+    "db:seed": "pnpm --filter @repo/database seed",
+    "db:seed:prod": "pnpm --filter @repo/database seed:prod",
+    "db:studio": "pnpm --filter @repo/database studio"
   },
   "devDependencies": {
     "prettier": "3.9.6",
