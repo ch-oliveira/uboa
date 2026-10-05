@@ -2,147 +2,356 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Building2, 
-  CheckCircle2, 
-  ArrowRight, 
-  ShieldCheck, 
-  Sparkles, 
-  MapPin, 
-  BarChart3, 
-  HardHat, 
-  FileCheck2, 
-  Navigation, 
-  ChevronRight, 
-  CalendarCheck, 
-  Send, 
-  Wrench, 
-  X, 
-  Clock,
+import {
+  ArrowRight,
   ArrowUpRight,
-  Shield,
-  Layers,
-  CheckCircle,
-  Sun,
+  Building2,
+  CalendarDays,
+  CheckCircle2,
+  ClipboardCheck,
+  FileCheck2,
+  Fingerprint,
+  HardHat,
   Inbox,
-  Calendar,
-  TrendingUp,
-  Settings,
-  Search,
-  Bell,
-  AlertTriangle,
+  Layers,
+  LayoutDashboard,
+  Minus,
   Plus,
-  Check,
-  User,
-  Zap
+  Scale,
+  ShieldCheck,
+  Sparkles,
+  Users,
+  Wrench,
+  X,
+  type LucideIcon,
 } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import { Logo } from '@/components/logo';
-import { HeroDashboardShowcase } from '@/components/hero-dashboard-showcase';
 
-// Refactoring UI: Deliberate spring physics with natural mass
-const cubicSpring = [0.16, 1, 0.3, 1] as const;
+/* ─── Motion ─────────────────────────────────────────────────────────────── */
+
+const ease = [0.16, 1, 0.3, 1] as const;
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.6, ease: cubicSpring } 
-  }
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease } },
 };
 
-const staggerContainer = {
+const stagger = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.04 }
-  }
+  visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.04 } },
 };
+
+const inView = {
+  initial: 'hidden' as const,
+  whileInView: 'visible' as const,
+  viewport: { once: true, margin: '-80px' },
+};
+
+/* ─── Content ────────────────────────────────────────────────────────────── */
+
+type Shot = { src: string; w: number; h: number; alt: string };
+
+// Real captures of the running platform (apps/web/public/images/landing/shots)
+const SHOTS = {
+  painel: {
+    src: '/images/landing/shots/painel-hoje.jpg',
+    w: 2000,
+    h: 1250,
+    alt: 'Painel Hoje do Urboa: decisões da zeladoria, indicadores e fila de chamados',
+  },
+  quadro: {
+    src: '/images/landing/shots/chamados-quadro.jpg',
+    w: 2000,
+    h: 1250,
+    alt: 'Quadro de chamados do Urboa organizado por etapa',
+  },
+  fluxo: {
+    src: '/images/landing/shots/chamado-fluxo.jpg',
+    w: 1800,
+    h: 894,
+    alt: 'Detalhe de um chamado com as cinco etapas, do triagem ao concluído',
+  },
+  urbia: {
+    src: '/images/landing/shots/urbia-painel.jpg',
+    w: 2000,
+    h: 1250,
+    alt: 'Assistente urBIA resumindo os chamados da prefeitura',
+  },
+  mobile: {
+    src: '/images/landing/shots/abrir-chamado-mobile.jpg',
+    w: 647,
+    h: 1400,
+    alt: 'Portal do solicitante no celular: abertura de chamado em três etapas',
+  },
+  agenda: {
+    src: '/images/landing/shots/agenda.jpg',
+    w: 2000,
+    h: 1250,
+    alt: 'Agenda semanal de vistorias e manutenções preventivas',
+  },
+  unidades: {
+    src: '/images/landing/shots/unidades.jpg',
+    w: 2000,
+    h: 1250,
+    alt: 'Lista de unidades públicas com pendências e próximo passo operacional',
+  },
+  relatorios: {
+    src: '/images/landing/shots/relatorios.jpg',
+    w: 2000,
+    h: 1250,
+    alt: 'Relatórios e indicadores: backlog, equipe em campo, saúde predial e taxa de resolução',
+  },
+} satisfies Record<string, Shot>;
+
+const COMPLIANCE = [
+  { icon: HardHat, label: 'ABNT NBR 5674' },
+  { icon: Fingerprint, label: 'Registro auditável' },
+  { icon: Scale, label: 'Prestação de contas' },
+  { icon: ShieldCheck, label: 'LGPD' },
+] as const;
+
+const ROLES: ReadonlyArray<{
+  id: string;
+  tab: string;
+  icon: LucideIcon;
+  title: string;
+  text: string;
+  bullets: readonly [string, string];
+  access: string;
+}> = [
+  {
+    id: 'escolas',
+    tab: 'Escolas e UBS',
+    icon: Building2,
+    title: 'Escolas, UBS e demais unidades',
+    text: 'Abra um chamado em três etapas, sem login, e valide o serviço quando a equipe concluir.',
+    bullets: ['Abertura sem cadastro', 'Consulta por protocolo'],
+    access: 'Portal do solicitante',
+  },
+  {
+    id: 'gestores',
+    tab: 'Secretarias e gestores',
+    icon: LayoutDashboard,
+    title: 'Secretarias e gestores',
+    text: 'Priorize a fila, despache equipes e acompanhe prazos de toda a rede predial em um só painel.',
+    bullets: ['Triagem com apoio da urBIA', 'Relatórios e indicadores'],
+    access: 'Hoje · Chamados · Agenda · Unidades · Relatórios',
+  },
+  {
+    id: 'equipes',
+    tab: 'Equipes de campo',
+    icon: Wrench,
+    title: 'Equipes de campo',
+    text: 'Receba as ordens atribuídas, acompanhe a agenda de vistorias e registre cada execução.',
+    bullets: ['Agenda de vistorias', 'Registro de execução'],
+    access: 'Hoje · Chamados · Agenda',
+  },
+];
+
+const STEPS: ReadonlyArray<{
+  n: string;
+  title: string;
+  text: string;
+  shot: Shot;
+  mode: 'wide' | 'phone' | 'framed';
+}> = [
+  {
+    n: '01',
+    title: 'A unidade abre o chamado',
+    text: 'Diretores de escola e UBS registram o problema em três etapas, escolhendo o prédio e o local exato. Sem login e sem papel.',
+    shot: SHOTS.mobile,
+    mode: 'phone',
+  },
+  {
+    n: '02',
+    title: 'A urBIA apoia a triagem',
+    text: 'A assistente consulta a base de chamados, resume a fila, aponta prédios com urgência e estima a equipe necessária.',
+    shot: SHOTS.urbia,
+    mode: 'wide',
+  },
+  {
+    n: '03',
+    title: 'Despacho e execução em campo',
+    text: 'O quadro mostra cada chamado em sua etapa: triagem, agendamento, execução e validação, com responsável e prazo.',
+    shot: SHOTS.quadro,
+    mode: 'wide',
+  },
+  {
+    n: '04',
+    title: 'Validação com aceite formal',
+    text: 'A unidade confere o serviço e dá o aceite. Cada alteração operacional gera um registro auditável.',
+    shot: SHOTS.fluxo,
+    mode: 'framed',
+  },
+];
+
+const FAQ = [
+  {
+    q: 'O que é o Urboa?',
+    a: 'Uma plataforma de zeladoria e manutenção predial para prefeituras. Reúne chamados, triagem, despacho de equipes, agenda de vistorias, relatórios e a assistente urBIA em um só lugar.',
+  },
+  {
+    q: 'Quem pode abrir chamados?',
+    a: 'Diretores e responsáveis por escolas, UBS e outras unidades abrem chamados pelo portal do solicitante, sem login, e acompanham o andamento pelo protocolo.',
+  },
+  {
+    q: 'O que a urBIA faz?',
+    a: 'Consulta os chamados em tempo real, resume a fila, aponta prédios com urgência e estima a equipe necessária. A decisão final continua com o gestor.',
+  },
+  {
+    q: 'Os registros são auditáveis?',
+    a: 'Sim. Alterações operacionais geram registro auditável, seguindo a lógica da ABNT NBR 5674 para manutenção de edificações.',
+  },
+  {
+    q: 'Quanto tempo leva para começar?',
+    a: 'A implantação leva menos de 15 dias, incluindo o cadastro das unidades. Agende uma demonstração para ver como fica na sua rede.',
+  },
+] as const;
+
+const STEP_MS = 7000;
+
+/* ─── Small presentational helpers ───────────────────────────────────────── */
+
+function SectionPill({ icon: Icon, children }: { icon: LucideIcon; children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center gap-2 rounded-full border border-[#0A0F1A]/10 bg-white py-1 pl-1 pr-3 text-[12px] font-medium text-[#0A0F1A] shadow-[0_1px_3px_rgba(10,15,26,0.08)]">
+      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#0A0F1A] text-white">
+        <Icon size={11} strokeWidth={2} />
+      </span>
+      {children}
+    </span>
+  );
+}
+
+function Muted({ children }: { children: React.ReactNode }) {
+  return <span className="text-[#7D8696]">{children}</span>;
+}
+
+function Diamond({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 12 12" aria-hidden="true" className={`h-3 w-3 shrink-0 ${className}`} fill="currentColor">
+      <path d="M6 0.5 11.5 6 6 11.5 0.5 6Z" />
+    </svg>
+  );
+}
+
+/** Product screenshot inside a dashed, blueprint-style frame. */
+function StepStage({ active }: { active: number }) {
+  return (
+    <div className="ld-dashed rounded-[28px] bg-white p-3">
+      <div className="relative aspect-[16/11] w-full overflow-hidden rounded-[20px] bg-[#EEF1F5]">
+        {STEPS.map((s, i) => (
+          <div
+            key={s.n}
+            aria-hidden={i !== active}
+            className={`absolute inset-0 transition-opacity duration-500 ${i === active ? 'opacity-100' : 'opacity-0'}`}
+          >
+            {s.mode === 'wide' && (
+              <Image
+                src={s.shot.src}
+                alt={s.shot.alt}
+                width={s.shot.w}
+                height={s.shot.h}
+                sizes="(min-width: 1024px) 640px, 100vw"
+                className="h-full w-full object-cover object-left-top"
+              />
+            )}
+            {s.mode === 'framed' && (
+              <div className="flex h-full items-center justify-center p-5 sm:p-8">
+                <Image
+                  src={s.shot.src}
+                  alt={s.shot.alt}
+                  width={s.shot.w}
+                  height={s.shot.h}
+                  sizes="(min-width: 1024px) 600px, 100vw"
+                  className="ld-shot h-auto w-full rounded-xl"
+                />
+              </div>
+            )}
+            {s.mode === 'phone' && (
+              <div className="flex h-full items-center justify-center py-5">
+                <Image
+                  src={s.shot.src}
+                  alt={s.shot.alt}
+                  width={s.shot.w}
+                  height={s.shot.h}
+                  sizes="260px"
+                  className="ld-shot h-full w-auto rounded-[20px]"
+                />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** Cropped, zoomed product screenshot used inside the module cards. */
+function ModuleShot({ shot }: { shot: Shot }) {
+  return (
+    <div className="relative mt-8 h-[260px] overflow-hidden rounded-[16px] border border-[#0A0F1A]/10 bg-[#F6F7F9] sm:h-[320px]">
+      <Image
+        src={shot.src}
+        alt={shot.alt}
+        width={shot.w}
+        height={shot.h}
+        sizes="(min-width: 1024px) 560px, 100vw"
+        className="absolute -left-[26%] top-0 h-auto w-[150%] max-w-none"
+      />
+    </div>
+  );
+}
+
+/* ─── Page ───────────────────────────────────────────────────────────────── */
 
 export default function LandingPage() {
   const { user } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
-  
-  // Interactive urBIA Copilot Chat Simulation State
-  const [activeUrbiChip, setActiveUrbiChip] = useState<'tecnicos' | 'resumo' | 'urgencias'>('resumo');
-  const [customUrbiInput, setCustomUrbiInput] = useState('');
-  const [chatMessages, setChatMessages] = useState<Array<{ sender: 'user' | 'urbia'; text: string; tag?: string }>>([
-    {
-      sender: 'urbia',
-      text: 'Olá! Sou a urBIA, copiloto de zeladoria do Urboa. Consulto o banco municipal em tempo real, calculo equipes necessárias, verifico SLAs e oriento o despacho técnico. Como posso te apoiar hoje?'
-    }
-  ]);
+  const [activeRole, setActiveRole] = useState(1);
+  const [activeStep, setActiveStep] = useState(0);
+  const [stepsPaused, setStepsPaused] = useState(false);
+  const [openFaq, setOpenFaq] = useState(0);
+  const [ctaEmail, setCtaEmail] = useState('');
 
-  // Demo Form State
   const [demoFormData, setDemoFormData] = useState({
     nome: '',
     cargo: '',
     municipio: '',
     email: '',
     telefone: '',
-    qtdPredios: '20-50',
-    mensagem: ''
   });
   const [demoSubmitted, setDemoSubmitted] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  function handleSelectChip(type: 'tecnicos' | 'resumo' | 'urgencias') {
-    setActiveUrbiChip(type);
-    if (type === 'tecnicos') {
-      setChatMessages(prev => [
-        ...prev,
-        { sender: 'user', text: 'Quantos técnicos precisamos?' },
-        { 
-          sender: 'urbia', 
-          text: 'Com base nas 16 ordens ativas e 2 urgências críticas, você precisa de 2 eletrotécnicos e 2 encanadores em campo hoje para manter o SLA em 98.4%. Carlos Silva e Marcos Oliveira já estão em deslocamento.',
-          tag: 'Dimensionamento Otimizado'
-        }
-      ]);
-    } else if (type === 'resumo') {
-      setChatMessages(prev => [
-        ...prev,
-        { sender: 'user', text: 'Resumo dos chamados' },
-        { 
-          sender: 'urbia', 
-          text: 'Panorama municipal: 7 chamados em aberto, 2 em execução no local, 1 aguardando triagem técnica (#419806 Praça da Matriz) e 9 ordens concluídas nesta semana com comprovação digital.',
-          tag: 'Status Operacional'
-        }
-      ]);
-    } else if (type === 'urgencias') {
-      setChatMessages(prev => [
-        ...prev,
-        { sender: 'user', text: 'Prédios com urgências' },
-        { 
-          sender: 'urbia', 
-          text: 'Atenção imediata na UBS Central (calhas e infiltração em período de chuvas) e UBS Vila Nova (bomba do consultório 3). Ambas já contam com ordens de alta prioridade atribuídas.',
-          tag: 'Alerta Prioritário'
-        }
-      ]);
-    }
-  }
+  // Auto-advance the "how it works" stage; hovering the section pauses it.
+  useEffect(() => {
+    if (stepsPaused) return;
+    const t = setTimeout(() => setActiveStep((s) => (s + 1) % STEPS.length), STEP_MS);
+    return () => clearTimeout(t);
+  }, [activeStep, stepsPaused]);
 
-  function handleSendCustomChat(e: React.FormEvent) {
-    e.preventDefault();
-    if (!customUrbiInput.trim()) return;
-    const text = customUrbiInput;
-    setCustomUrbiInput('');
-    setChatMessages(prev => [
-      ...prev,
-      { sender: 'user', text },
-      { 
-        sender: 'urbia', 
-        text: `Registrei sua consulta sobre "${text}". O motor da urBIA cruza normas NBR 5674 e histórico predial para priorizar o despacho sem desvios orçamentários.`,
-        tag: 'Parecer Municipal'
-      }
-    ]);
+  // Close the modal with Escape
+  useEffect(() => {
+    if (!isDemoModalOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setIsDemoModalOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isDemoModalOpen]);
+
+  function openDemo(email?: string) {
+    if (email) setDemoFormData((p) => ({ ...p, email }));
+    setIsDemoModalOpen(true);
   }
 
   function handleDemoSubmit(e: React.FormEvent) {
@@ -150,700 +359,695 @@ export default function LandingPage() {
     setDemoSubmitted(true);
   }
 
+  const input =
+    'w-full h-10 px-3.5 rounded-xl bg-white border border-slate-300 text-[14px] text-[#0F172A] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0A2540]/20 focus:border-[#0A2540]';
+
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] font-sans antialiased selection:bg-[#2563EB]/20 selection:text-[#0F172A] relative overflow-x-hidden">
-      
-      {/* ─── REFACTORING UI: SUBTLE AMBIENT CANVAS ACCENTS ─── */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        {/* Soft atmospheric gradient glow (<= 30deg hue rotation) */}
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-b from-[#2563EB]/[0.04] via-[#7C3AED]/[0.02] to-transparent rounded-full blur-3xl" />
-        <div 
-          className="absolute inset-0 opacity-[0.025]" 
-          style={{ 
-            backgroundImage: 'linear-gradient(#0A2540 1px, transparent 1px), linear-gradient(90deg, #0A2540 1px, transparent 1px)', 
-            backgroundSize: '48px 48px' 
-          }} 
-        />
-      </div>
-
-      {/* ─── 1. FLOATING NAVIGATION BAR (Refactoring UI: Clear Action Hierarchy & Elevation) ─── */}
-      <motion.div 
-        initial={{ y: -30, opacity: 0 }}
+    <div className="relative min-h-screen overflow-x-hidden bg-white text-[#0A0F1A] antialiased selection:bg-[#0A2540] selection:text-white">
+      {/* ─── 1. NAVIGATION ─── */}
+      <motion.div
+        initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: cubicSpring }}
-        className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none"
+        transition={{ duration: 0.5, ease }}
+        className="fixed inset-x-0 top-0 z-50"
       >
-        <header className={`h-14 rounded-full flex items-center justify-between px-4 sm:px-5 pointer-events-auto transition-all duration-300 gap-6 sm:gap-8 max-w-4xl w-full ${
-          isScrolled 
-            ? 'bg-white/95 backdrop-blur-md shadow-[0_10px_25px_rgba(15,23,42,0.08),0_2px_4px_rgba(15,23,42,0.04)] border border-slate-200/90' 
-            : 'bg-white shadow-[0_6px_20px_rgba(15,23,42,0.05),0_1px_3px_rgba(15,23,42,0.03)] border border-slate-200/80'
-        }`}>
-          {/* Standardized Logo Urboa ('u. Urboa') */}
-          <Logo href="/landing" size="md" textStyle="simple" />
+        <header
+          className={`transition-all duration-300 ${
+            isScrolled ? 'border-b border-[#0A0F1A]/[0.08] bg-white/80 backdrop-blur-xl' : 'border-b border-transparent'
+          }`}
+        >
+          <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-4 sm:px-6">
+            <Logo href="/landing" size="md" textStyle="simple" variant="dark" />
 
-          {/* Navigation Links: Refactoring UI 3-shade rule (Secondary color #475569) */}
-          <nav className="hidden md:flex items-center gap-6 text-[13px] font-semibold text-[#475569]">
-            <a href="#plataforma" className="hover:text-[#0F172A] transition-colors">Plataforma</a>
-            <a href="#modulos" className="hover:text-[#0F172A] transition-colors">Módulos</a>
-          </nav>
+            <nav aria-label="Principal" className="hidden items-center gap-8 text-[14px] font-medium text-[#4A5362] md:flex">
+              <a href="#plataforma" className="transition-colors hover:text-[#0A0F1A]">Plataforma</a>
+              <a href="#como-funciona" className="transition-colors hover:text-[#0A0F1A]">Como funciona</a>
+              <a href="#modulos" className="transition-colors hover:text-[#0A0F1A]">Módulos</a>
+              <a href="#relatorios" className="transition-colors hover:text-[#0A0F1A]">Relatórios</a>
+              <a href="#faq" className="transition-colors hover:text-[#0A0F1A]">Perguntas</a>
+            </nav>
 
-          {/* Actions: Refactoring UI hierarchy (1 Primary + 1 Secondary) */}
-          <div className="flex items-center gap-2.5">
-            {/* Secondary Action: Demo Modal Trigger */}
-            <button 
-              onClick={() => setIsDemoModalOpen(true)}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F5F3FF] hover:bg-[#EDE9FE] text-[#7C3AED] text-xs font-bold border border-[#DDD6FE] transition-colors active:scale-[0.98]"
-            >
-              <span>Agendar Demo</span>
-              <ArrowUpRight size={13} strokeWidth={1.5} />
-            </button>
-
-            {/* Primary Action: Portal Entry */}
-            <Link href={user ? '/' : '/login'}>
-              <button className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#0A2540] hover:bg-[#07192C] text-white text-xs font-bold shadow-[0_2px_4px_rgba(10,37,64,0.2),inset_0_1px_0_rgba(255,255,255,0.2)] transition-all active:scale-[0.98]">
-                <span>{user ? 'Painel' : 'Entrar'}</span>
-                <ChevronRight size={13} strokeWidth={1.5} />
+            <div className="flex items-center gap-2">
+              <Link
+                id="nav-entrar"
+                href={user ? '/' : '/login'}
+                className="inline-flex items-center rounded-full border border-[#0A0F1A]/10 bg-white px-4 py-1.5 text-[14px] font-medium text-[#0A0F1A] shadow-[0_1px_2px_rgba(10,15,26,0.06)] transition-colors hover:bg-[#F6F7F9] active:scale-[0.98]"
+              >
+                {user ? 'Painel' : 'Entrar'}
+              </Link>
+              <button
+                id="nav-agendar-demo"
+                onClick={() => openDemo()}
+                className="hidden items-center gap-1.5 rounded-full bg-[#0A0F1A] px-4 py-1.5 text-[14px] font-medium text-white transition-colors hover:bg-[#1B2433] active:scale-[0.98] sm:inline-flex"
+              >
+                Agendar demo
+                <ArrowUpRight size={14} strokeWidth={1.75} />
               </button>
-            </Link>
+            </div>
           </div>
         </header>
       </motion.div>
 
-      {/* ─── MAIN CONTENT CONTAINER (Refactoring UI: Balanced Macro-Spacing) ─── */}
-      <main className="relative z-10 pt-32 sm:pt-40 pb-24 px-4 sm:px-6 max-w-6xl mx-auto flex flex-col gap-24 sm:gap-32">
-        
-        {/* ─── 2. HERO SECTION ─── */}
-        <section className="flex flex-col items-center text-center gap-8 pt-2">
-          
-          <motion.div 
-            variants={staggerContainer}
+      <main>
+        {/* ─── 2. HERO: Pure Tech Clean Canvas + Floating Window Showcase ─── */}
+        <section className="relative overflow-hidden bg-white pt-32 sm:pt-40" aria-labelledby="hero-title">
+          {/* Ambient top glow */}
+          <div className="ld-hero-glow pointer-events-none absolute inset-x-0 top-0 h-[640px]" aria-hidden="true" />
+
+          {/* Technical blueprint grid */}
+          <div className="ld-tech-grid pointer-events-none absolute inset-x-0 top-0 h-[720px]" aria-hidden="true" />
+
+          <motion.div
+            variants={stagger}
             initial="hidden"
             animate="visible"
-            className="flex flex-col items-center gap-5 max-w-3xl"
+            className="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-6 px-4 text-center"
           >
-            {/* Eyebrow Label: All-caps with +0.05em tracking and soft contrast */}
-            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-xs font-bold text-[#1D4E89] bg-[#1D4E89]/[0.08] border border-[#1D4E89]/20 shadow-2xs tracking-wide">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#059669] animate-pulse" />
-              <span>Gestão Predial Urbana & Zeladoria Pública</span>
+            <motion.div variants={fadeUp}>
+              <SectionPill icon={Sparkles}>Zeladoria inteligente para prédios públicos</SectionPill>
             </motion.div>
 
-            {/* Headline: Refactoring UI proportional scale (tight line-height, bold weight, balanced size) */}
-            <motion.h1 variants={fadeUp} className="text-3xl sm:text-5xl lg:text-[54px] font-black tracking-[-0.03em] text-[#0F172A] leading-[1.08]">
-              O padrão de excelência para a zeladoria dos <br className="hidden sm:inline" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0A2540] via-[#1D4E89] to-[#2563EB]">
-                prédios públicos
-              </span> da sua cidade.
+            <motion.h1
+              id="hero-title"
+              variants={fadeUp}
+              className="ld-display text-[44px] leading-[1.04] tracking-tight text-[#0A0F1A] sm:text-[64px] lg:text-[76px]"
+            >
+              Chamados resolvidos.
+              <br />
+              Contas em dia.
             </motion.h1>
 
-            {/* Subtitle: Refactoring UI line-length rule (45-75 chars, max-w-2xl) with high-legibility grey */}
-            <motion.p variants={fadeUp} className="text-base sm:text-lg text-[#475569] max-w-2xl leading-relaxed font-normal">
-              Gestão integrada, preditiva e auditável para manutenção de escolas, unidades de saúde e prédios administrativos. Da abertura do chamado à comprovação perante o Tribunal de Contas.
+            <motion.p variants={fadeUp} className="max-w-lg text-[16px] leading-relaxed text-[#4A5362] sm:text-[18px]">
+              O Urboa organiza chamados, equipes e vistorias dos prédios públicos do seu município e deixa cada passo registrado.
             </motion.p>
 
-            {/* Actions: Strict Hierarchy (Primary Solid + Secondary Outline) */}
-            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center gap-3.5 pt-2 w-full sm:w-auto">
-              {/* Exactly ONE Dominant Primary Action */}
-              <button 
-                onClick={() => setIsDemoModalOpen(true)}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-[#0A2540] hover:bg-[#07192C] text-white rounded-full font-bold px-7 py-3 text-[14px] shadow-[0_10px_20px_rgba(10,37,64,0.18),0_2px_4px_rgba(10,37,64,0.12),inset_0_1px_0_rgba(255,255,255,0.25)] transition-all duration-200 active:scale-[0.98]"
+            <motion.div variants={fadeUp} className="flex flex-col items-center gap-3 pt-2 sm:flex-row">
+              <button
+                id="hero-agendar-demo"
+                onClick={() => openDemo()}
+                className="inline-flex items-center gap-2 rounded-full bg-[#0A0F1A] px-7 py-3.5 text-[14px] font-medium text-white shadow-[0_4px_14px_rgba(10,15,26,0.18)] transition-all hover:bg-[#1B2433] hover:shadow-[0_6px_20px_rgba(10,15,26,0.24)] active:scale-[0.98]"
               >
-                <span>Agendar demonstração municipal</span>
-                <ArrowRight size={15} strokeWidth={1.5} />
+                Agendar demonstração
+                <ArrowRight size={15} strokeWidth={1.75} />
               </button>
-
-              {/* Secondary Action */}
-              <a 
-                href="#plataforma"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-slate-50 text-[#0F172A] text-[14px] font-bold border border-slate-300 shadow-[0_1px_2px_rgba(0,0,0,0.05)] transition-all active:scale-[0.98]"
+              <Link
+                href={user ? '/' : '/login'}
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-7 py-3.5 text-[14px] font-medium text-[#0A0F1A] shadow-[0_1px_3px_rgba(10,15,26,0.06)] transition-all hover:border-slate-300 hover:bg-slate-50 active:scale-[0.98]"
               >
-                <span>Explorar plataforma</span>
-                <ChevronRight size={15} strokeWidth={1.5} className="text-[#64748B]" />
-              </a>
+                Entrar na plataforma
+              </Link>
             </motion.div>
 
-            {/* Social Proof: Refactoring UI "Invisible Border" Overlap Trick */}
-            <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-6 pt-3 border-t border-slate-200/80 w-full max-w-xl">
-              <div className="flex -space-x-2 shrink-0">
-                <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden shadow-xs">
-                  <img src="/images/municipal_director.jpg" alt="Gestora Municipal" className="w-full h-full object-cover" />
-                </div>
-                <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-300 overflow-hidden shadow-xs">
-                  <img src="/images/municipal_team.jpg" alt="Equipe de Campo" className="w-full h-full object-cover" />
-                </div>
-                <div className="w-8 h-8 rounded-full border-2 border-white bg-[#0A2540] text-white flex items-center justify-center text-[10px] font-black shadow-xs">
-                  +15
-                </div>
-              </div>
-              <div className="text-[12px] font-medium text-[#475569] text-left leading-snug">
-                Adotado em <strong className="font-bold text-[#0F172A]">15 Prefeituras</strong> • Mais de 28 mil ordens auditadas
-              </div>
-            </motion.div>
-
-            {/* Trust Proof Badges */}
-            <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-6 text-xs font-semibold text-[#64748B]">
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 size={15} strokeWidth={1.5} className="text-[#059669]" />
-                <span>Conforme ABNT NBR 5674</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <ShieldCheck size={15} strokeWidth={1.5} className="text-[#2563EB]" />
-                <span>Dossiê preparado para TCE</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Sparkles size={15} strokeWidth={1.5} className="text-[#7C3AED]" />
-                <span>urBIA: Triagem e Despacho por IA</span>
-              </div>
+            {/* Quick trust cues */}
+            <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-2 text-[12px] text-[#6B7482]">
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 size={13} className="text-emerald-600" />
+                Sem instalação local
+              </span>
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 size={13} className="text-emerald-600" />
+                Padrão ABNT NBR 5674
+              </span>
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 size={13} className="text-emerald-600" />
+                Implantação em menos de 15 dias
+              </span>
             </motion.div>
           </motion.div>
 
-          {/* ─── 3. HERO SHOWCASE: LIVE DASHBOARD PREVIEW (Refactoring UI Light Source Emulation) ─── */}
-          <motion.div 
+          {/* Elevated application window showcase */}
+          <motion.div
             id="plataforma"
-            initial={{ opacity: 0, y: 28 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, duration: 0.7, ease: cubicSpring }}
-            className="w-full mt-2 scroll-mt-28 relative"
+            transition={{ delay: 0.25, duration: 0.85, ease }}
+            className="relative z-10 mx-auto mt-14 max-w-[1140px] scroll-mt-24 px-4 pb-16 sm:mt-16 sm:px-6 sm:pb-24"
           >
-            <HeroDashboardShowcase />
+            {/* Ambient glow behind window */}
+            <div className="pointer-events-none absolute -inset-x-6 top-10 -bottom-6 -z-10 rounded-[36px] bg-gradient-to-b from-blue-600/[0.05] via-slate-400/[0.03] to-transparent blur-2xl" />
+
+            {/* macOS / browser style app window */}
+            <div className="ld-window-shadow overflow-hidden rounded-[20px] border border-slate-200/90 bg-white">
+              {/* Window titlebar */}
+              <div className="flex h-11 items-center justify-between border-b border-slate-200/80 bg-slate-50/90 px-4">
+                {/* Traffic lights */}
+                <div className="flex items-center gap-2">
+                  <span className="h-3 w-3 rounded-full border border-[#E0443E] bg-[#FF5F56]" />
+                  <span className="h-3 w-3 rounded-full border border-[#DEA123] bg-[#FFBD2E]" />
+                  <span className="h-3 w-3 rounded-full border border-[#1AAB29] bg-[#27C93F]" />
+                </div>
+
+                {/* Address pill */}
+                <div className="hidden sm:flex items-center gap-2 rounded-lg border border-slate-200/80 bg-white px-3.5 py-1 text-[11px] font-mono text-slate-500 shadow-sm">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  <span>app.urboa.gov.br/gestao</span>
+                </div>
+
+                {/* Right status */}
+                <div className="flex items-center gap-2 text-[11px] font-medium text-slate-500">
+                  <span className="hidden md:inline text-slate-400">Ambiente Municipal</span>
+                  <span className="rounded-full border border-emerald-200/60 bg-emerald-50 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-700">
+                    Mariana Alves · Gestora
+                  </span>
+                </div>
+              </div>
+
+              {/* Window content with real screenshot */}
+              <div className="relative bg-slate-50">
+                <Image
+                  src={SHOTS.painel.src}
+                  alt={SHOTS.painel.alt}
+                  width={SHOTS.painel.w}
+                  height={SHOTS.painel.h}
+                  priority
+                  sizes="(min-width: 1200px) 1140px, 100vw"
+                  className="h-auto w-full object-cover object-top"
+                />
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* Compliance strip */}
+        <section aria-label="Conformidade" className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+          <div className="flex flex-col items-center gap-5 sm:flex-row sm:justify-between">
+            <p className="text-[14px] text-[#6B7482]">Construído para a governança pública</p>
+            <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+              {COMPLIANCE.map(({ icon: Icon, label }) => (
+                <li key={label} className="flex items-center gap-2 text-[#2E3746]">
+                  <Icon size={18} strokeWidth={1.5} />
+                  <span className="ld-display text-[18px]">{label}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* ─── 3. ROLES ─── */}
+        <section className="mx-auto max-w-6xl px-4 pt-16 sm:px-6 sm:pt-24">
+          <motion.div variants={stagger} {...inView} className="mx-auto flex max-w-2xl flex-col items-center gap-5 text-center">
+            <motion.div variants={fadeUp}>
+              <SectionPill icon={Users}>Para cada papel da zeladoria</SectionPill>
+            </motion.div>
+            <motion.h2 variants={fadeUp} className="ld-display text-[34px] leading-[1.1] sm:text-[48px]">
+              O Urboa transforma pedidos soltos em <Muted>execução</Muted> organizada
+            </motion.h2>
           </motion.div>
 
-          {/* ─── 4. TYPOGRAPHIC METRICS SCALE (Base 16 Rhythm) ─── */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 border-y border-slate-200 divide-x divide-slate-200 w-full mt-6">
-            <div className="py-7 px-6 space-y-1 text-center md:text-left">
-              <p className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">48+</p>
-              <p className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider">Prédios Públicos Conectados</p>
-            </div>
-            <div className="py-7 px-6 space-y-1 text-center md:text-left">
-              <p className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">28k</p>
-              <p className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider">Ordens Concluídas no Ciclo</p>
-            </div>
-            <div className="py-7 px-6 space-y-1 text-center md:text-left">
-              <p className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">94%</p>
-              <p className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider">Resoluções dentro do SLA</p>
-            </div>
-            <div className="py-7 px-6 space-y-1 text-center md:text-left">
-              <p className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">3.2x</p>
-              <p className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider">Retorno em Eficiência Pública</p>
-            </div>
-          </div>
-        </section>
-
-        {/* ─── 5. PLATFORM MODULES (Refactoring UI: Color Accents & Content Scannability) ─── */}
-        <section id="modulos" className="flex flex-col gap-10 scroll-mt-24">
-          <div className="max-w-2xl space-y-3">
-            <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold text-[#2563EB] bg-[#2563EB]/[0.08] border border-[#2563EB]/20">
-              Arquitetura de Plataforma
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
-              A esteira completa da zeladoria urbana municipal.
-            </h2>
-            <p className="text-base text-[#475569] leading-relaxed">
-              Elimine o papel, as planilhas soltas e o risco jurídico. Cobertura de ponta a ponta: do chamado do diretor escolar ao relatório do Tribunal de Contas.
-            </p>
+          <div
+            role="tablist"
+            aria-label="Perfis de uso"
+            className="mx-auto mt-10 flex w-fit max-w-full flex-wrap justify-center gap-1 rounded-2xl border border-[#0A0F1A]/10 bg-white p-1 shadow-[0_1px_3px_rgba(10,15,26,0.06)]"
+          >
+            {ROLES.map((r, i) => (
+              <button
+                key={r.id}
+                role="tab"
+                aria-selected={i === activeRole}
+                id={`role-tab-${r.id}`}
+                onClick={() => setActiveRole(i)}
+                className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-[13px] font-medium transition-colors ${
+                  i === activeRole ? 'bg-[#0A0F1A] text-white' : 'text-[#4A5362] hover:bg-[#F6F7F9]'
+                }`}
+              >
+                <r.icon size={14} strokeWidth={1.75} />
+                {r.tab}
+              </button>
+            ))}
           </div>
 
-          {/* Cards Grid: Refactoring UI Top Accent Border Treatment */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            
-            {/* Module 1: Despacho Dinâmico */}
-            <div className="bg-white rounded-2xl border border-slate-200/90 shadow-[0_4px_12px_rgba(0,0,0,0.03)] border-t-4 border-t-[#2563EB] p-7 flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="w-11 h-11 rounded-xl bg-blue-50 text-[#2563EB] flex items-center justify-center">
-                  <Navigation size={20} strokeWidth={1.5} />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-xl font-bold text-[#0F172A] tracking-tight">Despacho Dinâmico & Roteirização</h3>
-                  <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
-                    Distribuição automática de ordens de serviço por geolocalização e especialidade técnica. O sistema calcula a rota ideal e notifica o encarregado no app mobile.
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-[#0F172A]">
-                <span className="flex items-center gap-1.5 text-slate-500">
-                  <MapPin size={13} className="text-[#2563EB]" /> Roteirização GPS
-                </span>
-                <span className="font-mono text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 text-[11px]">
-                  Tempo real
-                </span>
-              </div>
-            </div>
-
-            {/* Module 2: Dossiê de Auditoria TCE */}
-            <div className="bg-white rounded-2xl border border-slate-200/90 shadow-[0_4px_12px_rgba(0,0,0,0.03)] border-t-4 border-t-[#059669] p-7 flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="w-11 h-11 rounded-xl bg-emerald-50 text-[#059669] flex items-center justify-center">
-                  <FileCheck2 size={20} strokeWidth={1.5} />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-xl font-bold text-[#0F172A] tracking-tight">Dossiê de Auditoria TCE</h3>
-                  <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
-                    Comprovação irrefutável com fotos antes e depois georreferenciadas, carimbo de tempo inviolável e assinatura digital dos gestores escolares e municipais.
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-[#0F172A]">
-                <span className="flex items-center gap-1.5 text-slate-500">
-                  <ShieldCheck size={13} className="text-[#059669]" /> Pronto p/ Prestação
-                </span>
-                <span className="font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded text-[11px]">
-                  100% Digital
-                </span>
-              </div>
-            </div>
-
-            {/* Module 3: Prevenção NBR 5674 */}
-            <div className="bg-white rounded-2xl border border-slate-200/90 shadow-[0_4px_12px_rgba(0,0,0,0.03)] border-t-4 border-t-[#7C3AED] p-7 flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="w-11 h-11 rounded-xl bg-purple-50 text-[#7C3AED] flex items-center justify-center">
-                  <HardHat size={20} strokeWidth={1.5} />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-xl font-bold text-[#0F172A] tracking-tight">Prevenção ABNT NBR 5674</h3>
-                  <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
-                    Cronogramas normatizados que antecipam a fadiga de materiais elétricos, coberturas e redes hidráulicas em todos os equipamentos municipais.
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-[#0F172A]">
-                <span className="flex items-center gap-1.5 text-slate-500">
-                  <CalendarCheck size={13} className="text-[#7C3AED]" /> Inspeções periódicas
-                </span>
-                <span className="font-mono text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200 text-[11px]">
-                  Antecipa falhas
-                </span>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* ─── 6. URBIA COPILOT (Refactoring UI: Dark Surface Contrast Rules) ─── */}
-        <section id="urbi" className="scroll-mt-24">
-          {/* Deep Navy Container with High-Contrast Typography (Never Grey on Dark Blue) */}
-          <div className="rounded-3xl bg-[#0A1A30] text-white p-7 sm:p-11 shadow-[0_20px_40px_rgba(10,26,48,0.2),inset_0_1px_0_rgba(255,255,255,0.15)] border border-white/10 flex flex-col lg:flex-row gap-9 items-stretch relative overflow-hidden">
-            
-            {/* Subtle ambient lighting */}
-            <div className="absolute -top-24 -right-24 w-80 h-80 bg-[#7C3AED]/20 rounded-full blur-3xl pointer-events-none" />
-
-            {/* Left Column: Context with Hand-Picked Text Colors */}
-            <div className="lg:w-1/2 flex flex-col justify-between space-y-6 relative z-10">
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-xs font-bold text-[#DDD6FE] bg-[#7C3AED]/25 border border-[#7C3AED]/40">
-                  <Sparkles size={13} className="text-[#C4B5FD]" />
-                  <span>urBIA • Assistente de Zeladoria</span>
-                </div>
-                <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-                  Inteligência Artificial aplicada à gestão pública.
-                </h2>
-                {/* Refactoring UI: Use sky-100 / slate-200 for legibility on dark blue, not dark grey */}
-                <p className="text-slate-200 text-sm sm:text-base leading-relaxed font-normal">
-                  A urBIA é a copiloto nativa da Urboa. Ela lê chamados municipais, classifica riscos conforme normas da ABNT, calcula equipes necessárias e orienta a tomada de decisão do gestor sem burocracia.
-                </p>
-              </div>
-
-              <div className="space-y-3 pt-3 border-t border-white/10">
-                <span className="text-xs font-bold text-sky-200 uppercase tracking-wider block">
-                  Perguntas frequentes que a urBIA responde em segundos:
-                </span>
-                <div className="flex flex-wrap gap-2">
-                  <button 
-                    onClick={() => handleSelectChip('tecnicos')}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                      activeUrbiChip === 'tecnicos' 
-                        ? 'bg-[#7C3AED] text-white shadow-xs' 
-                        : 'bg-white/10 text-white hover:bg-white/15'
-                    }`}
-                  >
-                    Quantos técnicos precisamos?
-                  </button>
-                  <button 
-                    onClick={() => handleSelectChip('resumo')}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                      activeUrbiChip === 'resumo' 
-                        ? 'bg-[#7C3AED] text-white shadow-xs' 
-                        : 'bg-white/10 text-white hover:bg-white/15'
-                    }`}
-                  >
-                    Resumo dos chamados
-                  </button>
-                  <button 
-                    onClick={() => handleSelectChip('urgencias')}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                      activeUrbiChip === 'urgencias' 
-                        ? 'bg-[#7C3AED] text-white shadow-xs' 
-                        : 'bg-white/10 text-white hover:bg-white/15'
-                    }`}
-                  >
-                    Prédios com urgências
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Interactive Chat Simulation Container */}
-            <div className="lg:w-1/2 bg-white text-[#0F172A] rounded-2xl p-5 border border-slate-200 shadow-xl flex flex-col justify-between min-h-[380px] relative z-10">
-              
-              {/* Chat Top Bar */}
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-[#0F172A] text-white flex items-center justify-center shadow-xs">
-                    <Sparkles size={14} className="text-[#A78BFA]" />
-                  </div>
-                  <div>
-                    <span className="text-xs font-bold text-[#0F172A] block">urBIA Copilot</span>
-                    <span className="text-[10px] text-slate-400">Contexto: Operação Municipal</span>
-                  </div>
-                </div>
-                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                  Fonte: Base Oficial
-                </span>
-              </div>
-
-              {/* Chat Stream */}
-              <div className="py-4 space-y-3 flex-1 overflow-y-auto max-h-[260px] pr-1">
-                {chatMessages.map((msg, idx) => (
-                  <div 
-                    key={idx} 
-                    className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
-                  >
-                    {msg.tag && (
-                      <span className="text-[9px] font-bold uppercase tracking-wider text-[#7C3AED] mb-1">
-                        {msg.tag}
-                      </span>
-                    )}
-                    <div className={`p-3.5 rounded-2xl text-xs leading-relaxed max-w-[90%] ${
-                      msg.sender === 'user'
-                        ? 'bg-[#0A2540] text-white rounded-br-none shadow-xs'
-                        : 'bg-[#F8FAFC] text-[#0F172A] border border-slate-200 rounded-bl-none shadow-2xs'
-                    }`}>
-                      {msg.text}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Quick Input Row */}
-              <form onSubmit={handleSendCustomChat} className="relative pt-2 border-t border-slate-100">
-                <input 
-                  type="text"
-                  value={customUrbiInput}
-                  onChange={(e) => setCustomUrbiInput(e.target.value)}
-                  placeholder="Solicitar parecer, dimensionamento, relatório..."
-                  className="w-full h-11 pl-4 pr-11 rounded-xl bg-slate-50 border border-slate-300 text-xs text-[#0F172A] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/30 focus:border-[#7C3AED]"
-                />
-                <button 
-                  type="submit"
-                  className="absolute right-1.5 top-3.5 w-8 h-8 rounded-lg bg-[#0A2540] text-white flex items-center justify-center hover:bg-[#07192C] transition-colors"
+          <motion.div variants={stagger} {...inView} className="mt-8 grid items-stretch gap-4 md:grid-cols-3">
+            {ROLES.map((r, i) => {
+              const on = i === activeRole;
+              return (
+                <motion.button
+                  key={r.id}
+                  variants={fadeUp}
+                  onClick={() => setActiveRole(i)}
+                  aria-pressed={on}
+                  className={`group flex min-h-[320px] flex-col justify-between rounded-[24px] border p-7 text-left transition-all duration-300 ${
+                    on
+                      ? 'border-[#0A0F1A] bg-[#0A0F1A] text-white shadow-[0_24px_48px_-12px_rgba(10,15,26,0.4)] md:-my-2'
+                      : 'border-[#0A0F1A]/10 bg-white text-[#0A0F1A] hover:border-[#0A0F1A]/25'
+                  }`}
                 >
-                  <Send size={13} />
-                </button>
-              </form>
-
-            </div>
-
-          </div>
+                  <div className="space-y-5">
+                    <span
+                      className={`flex h-11 w-11 items-center justify-center rounded-full ${
+                        on ? 'bg-white text-[#0A0F1A]' : 'bg-[#0A0F1A] text-white'
+                      }`}
+                    >
+                      <r.icon size={20} strokeWidth={1.5} />
+                    </span>
+                    <div className="space-y-2">
+                      <h3 className="text-[20px] font-medium leading-tight tracking-tight">{r.title}</h3>
+                      <p className={`text-[14px] leading-relaxed ${on ? 'text-[#C9D1DD]' : 'text-[#4A5362]'}`}>{r.text}</p>
+                    </div>
+                    <ul className="space-y-2.5">
+                      {r.bullets.map((b) => (
+                        <li key={b} className="flex items-center gap-2.5 text-[14px] font-medium">
+                          <Diamond className={on ? 'text-white' : 'text-[#0A0F1A]'} />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <p
+                    className={`mt-8 border-t pt-4 text-[12px] ${
+                      on ? 'border-white/15 text-[#C9D1DD]' : 'border-[#0A0F1A]/10 text-[#6B7482]'
+                    }`}
+                  >
+                    <span className="font-medium">Acessa:</span> {r.access}
+                  </p>
+                </motion.button>
+              );
+            })}
+          </motion.div>
         </section>
 
-        {/* ─── 7. AGENDAR DEMONSTRAÇÃO (Refactoring UI: Form Layout & Hierarchy) ─── */}
-        <section id="agendar-demo" className="scroll-mt-24">
-          <div className="rounded-3xl bg-white p-7 sm:p-12 border border-slate-200/90 shadow-[0_15px_30px_rgba(0,0,0,0.05),0_2px_4px_rgba(0,0,0,0.03)] flex flex-col lg:flex-row gap-10 items-center">
-            
-            {/* Left Column: Value Proposition */}
-            <div className="lg:w-1/2 space-y-5 text-left">
-              <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold text-[#0A2540] bg-slate-100 border border-slate-200">
-                <Building2 size={13} className="text-[#2563EB]" />
-                <span>Demonstração Personalizada</span>
-              </div>
-              
-              <h2 className="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight leading-tight">
-                Veja o Urboa funcionando com a realidade do seu município.
-              </h2>
-              
-              <p className="text-sm sm:text-base text-[#475569] leading-relaxed">
-                Nossa equipe de engenharia e governança digital apresenta o sistema em 20 minutos, simulando os chamados, as escolas e os fluxos da sua secretaria.
-              </p>
+        {/* ─── 4. HOW IT WORKS ─── */}
+        <section id="como-funciona" className="mx-auto max-w-6xl scroll-mt-20 px-4 pt-24 sm:px-6 sm:pt-32">
+          <motion.div variants={stagger} {...inView} className="mx-auto flex max-w-2xl flex-col items-center gap-5 text-center">
+            <motion.div variants={fadeUp}>
+              <SectionPill icon={Layers}>Como funciona</SectionPill>
+            </motion.div>
+            <motion.h2 variants={fadeUp} className="ld-display text-[34px] leading-[1.1] sm:text-[48px]">
+              Do <Muted>chamado</Muted> à validação, sem perder nenhuma etapa
+            </motion.h2>
+          </motion.div>
 
-              <div className="space-y-3 pt-2">
-                <div className="flex items-center gap-3 text-xs font-bold text-[#0F172A]">
-                  <CheckCircle2 size={16} strokeWidth={1.5} className="text-[#059669]" />
-                  <span>Sem compromisso de contratação prévia</span>
-                </div>
-                <div className="flex items-center gap-3 text-xs font-bold text-[#0F172A]">
-                  <CheckCircle2 size={16} strokeWidth={1.5} className="text-[#059669]" />
-                  <span>Mapeamento dos prédios e termos de referência</span>
-                </div>
-                <div className="flex items-center gap-3 text-xs font-bold text-[#0F172A]">
-                  <CheckCircle2 size={16} strokeWidth={1.5} className="text-[#059669]" />
-                  <span>Implantação rápida em menos de 15 dias</span>
-                </div>
-              </div>
-            </div>
+          <div
+            onMouseEnter={() => setStepsPaused(true)}
+            onMouseLeave={() => setStepsPaused(false)}
+            className="mt-14 grid items-center gap-10 lg:grid-cols-[1.25fr_1fr] lg:gap-16"
+          >
+            <StepStage active={activeStep} />
 
-            {/* Right Column: Form Container (Refactoring UI: Grouping & 3:1 Input Borders) */}
-            <div className="lg:w-1/2 w-full bg-[#F8FAFC] p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs">
-              {demoSubmitted ? (
-                <div className="text-center py-8 space-y-4">
-                  <div className="w-14 h-14 rounded-full bg-emerald-100 text-[#059669] flex items-center justify-center mx-auto shadow-xs">
-                    <CheckCircle2 size={28} strokeWidth={1.5} />
-                  </div>
-                  <h3 className="text-xl font-bold text-[#0F172A]">Demonstração Solicitada!</h3>
-                  <p className="text-xs sm:text-sm text-[#475569] max-w-sm mx-auto leading-relaxed">
-                    Recebemos os dados da sua prefeitura. Nosso especialista entrará em contato em até 2 horas úteis pelo WhatsApp ou e-mail institucional informado.
-                  </p>
-                  <button 
-                    onClick={() => setDemoSubmitted(false)}
-                    className="px-5 py-2 rounded-xl text-xs font-bold bg-[#0A2540] text-white hover:bg-[#07192C]"
-                  >
-                    Enviar nova solicitação
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleDemoSubmit} className="space-y-4 text-left">
-                  <h3 className="text-lg font-bold text-[#0F172A]">Agendar Apresentação Executiva</h3>
-                  
-                  {/* Row 1: Nome & Cargo */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold text-[#0F172A]">Seu Nome Completo</label>
-                      <input 
-                        required
-                        type="text"
-                        placeholder="Ex: Mariana Silva"
-                        value={demoFormData.nome}
-                        onChange={(e) => setDemoFormData(prev => ({ ...prev, nome: e.target.value }))}
-                        className="w-full h-10 px-3.5 rounded-xl bg-white border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold text-[#0F172A]">Cargo na Administração</label>
-                      <input 
-                        required
-                        type="text"
-                        placeholder="Ex: Secretário(a), Diretor(a)"
-                        value={demoFormData.cargo}
-                        onChange={(e) => setDemoFormData(prev => ({ ...prev, cargo: e.target.value }))}
-                        className="w-full h-10 px-3.5 rounded-xl bg-white border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Row 2: Município & Porte */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold text-[#0F172A]">Município e UF</label>
-                      <input 
-                        required
-                        type="text"
-                        placeholder="Ex: Campinas - SP"
-                        value={demoFormData.municipio}
-                        onChange={(e) => setDemoFormData(prev => ({ ...prev, municipio: e.target.value }))}
-                        className="w-full h-10 px-3.5 rounded-xl bg-white border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold text-[#0F172A]">Porte da Rede Predial</label>
-                      <select 
-                        value={demoFormData.qtdPredios}
-                        onChange={(e) => setDemoFormData(prev => ({ ...prev, qtdPredios: e.target.value }))}
-                        className="w-full h-10 px-3 rounded-xl bg-white border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
+            <ol className="flex flex-col gap-2">
+              {STEPS.map((s, i) => {
+                const on = i === activeStep;
+                return (
+                  <li key={s.n}>
+                    <button
+                      id={`step-${s.n}`}
+                      onClick={() => setActiveStep(i)}
+                      aria-expanded={on}
+                      className="group relative flex w-full gap-4 rounded-2xl p-4 text-left transition-colors hover:bg-[#F6F7F9]"
+                    >
+                      <span
+                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[12px] font-medium transition-colors ${
+                          on ? 'bg-[#0A0F1A] text-white' : 'bg-[#EEF1F5] text-[#4A5362]'
+                        }`}
                       >
-                        <option value="ate-20">Até 20 prédios públicos</option>
-                        <option value="20-50">20 a 50 prédios públicos</option>
-                        <option value="50-100">50 a 100 prédios públicos</option>
-                        <option value="mais-100">Mais de 100 prédios públicos</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Row 3: E-mail & WhatsApp */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold text-[#0F172A]">E-mail Institucional</label>
-                      <input 
-                        required
-                        type="email"
-                        placeholder="seu.nome@prefeitura.sp.gov.br"
-                        value={demoFormData.email}
-                        onChange={(e) => setDemoFormData(prev => ({ ...prev, email: e.target.value }))}
-                        className="w-full h-10 px-3.5 rounded-xl bg-white border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold text-[#0F172A]">WhatsApp / Celular com DDD</label>
-                      <input 
-                        required
-                        type="tel"
-                        placeholder="(11) 98765-4321"
-                        value={demoFormData.telefone}
-                        onChange={(e) => setDemoFormData(prev => ({ ...prev, telefone: e.target.value }))}
-                        className="w-full h-10 px-3.5 rounded-xl bg-white border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Solid Primary Button */}
-                  <button 
-                    type="submit"
-                    className="w-full h-11 rounded-full bg-[#0A2540] hover:bg-[#07192C] text-white font-bold text-xs shadow-[0_4px_12px_rgba(10,37,64,0.2),inset_0_1px_0_rgba(255,255,255,0.25)] transition-all flex items-center justify-center gap-2 mt-4 active:scale-[0.98]"
-                  >
-                    <span>Confirmar Agendamento</span>
-                    <ArrowRight size={14} strokeWidth={1.5} />
-                  </button>
-
-                  <p className="text-[10px] text-center text-slate-400 mt-2">
-                    Seus dados são protegidos conforme a LGPD e usados exclusivamente para o contato institucional.
-                  </p>
-                </form>
-              )}
-            </div>
-
+                        {s.n}
+                      </span>
+                      <span className="flex-1 space-y-2">
+                        <span
+                          className={`block text-[20px] font-medium leading-tight tracking-tight transition-colors ${
+                            on ? 'text-[#0A0F1A]' : 'text-[#6B7482]'
+                          }`}
+                        >
+                          {s.title}
+                        </span>
+                        <span
+                          className={`grid transition-all duration-500 ${on ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+                        >
+                          <span className="overflow-hidden">
+                            <span className="block pb-1 text-[14px] leading-relaxed text-[#4A5362]">{s.text}</span>
+                          </span>
+                        </span>
+                      </span>
+                      {on && (
+                        <span className="absolute inset-x-4 bottom-0 h-px overflow-hidden bg-[#0A0F1A]/10">
+                          <span
+                            key={`${activeStep}-${stepsPaused}`}
+                            className={`block h-full bg-[#0A0F1A] ${stepsPaused ? '' : 'ld-fill'}`}
+                            style={{ ['--ld-step-ms' as string]: `${STEP_MS}ms`, transform: stepsPaused ? 'scaleX(0)' : undefined }}
+                          />
+                        </span>
+                      )}
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
           </div>
         </section>
 
+        {/* ─── 5. MODULES ─── */}
+        <section id="modulos" className="mx-auto max-w-6xl scroll-mt-20 px-4 pt-24 sm:px-6 sm:pt-32">
+          <motion.div variants={stagger} {...inView} className="mx-auto flex max-w-2xl flex-col items-center gap-5 text-center">
+            <motion.div variants={fadeUp}>
+              <SectionPill icon={Inbox}>Módulos</SectionPill>
+            </motion.div>
+            <motion.h2 variants={fadeUp} className="ld-display text-[34px] leading-[1.1] sm:text-[48px]">
+              Toda a rede predial <Muted>na mesma tela</Muted>
+            </motion.h2>
+          </motion.div>
+
+          <motion.div variants={stagger} {...inView} className="mt-14 grid gap-6 lg:grid-cols-2">
+            <motion.article variants={fadeUp} className="rounded-[28px] border border-[#0A0F1A]/10 bg-white p-6 sm:p-8">
+              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#0A0F1A] text-white">
+                <Building2 size={20} strokeWidth={1.5} />
+              </span>
+              <h3 className="mt-5 text-[24px] font-medium leading-tight tracking-tight">Unidades e instalações</h3>
+              <p className="mt-2 max-w-md text-[14px] leading-relaxed text-[#4A5362]">
+                Escolas, UBS e praças em uma lista, com chamados ativos, urgências e o próximo passo operacional de cada prédio.
+              </p>
+              <ModuleShot shot={SHOTS.unidades} />
+            </motion.article>
+
+            <motion.article variants={fadeUp} className="rounded-[28px] border border-[#0A0F1A]/10 bg-white p-6 sm:p-8">
+              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#0A0F1A] text-white">
+                <CalendarDays size={20} strokeWidth={1.5} />
+              </span>
+              <h3 className="mt-5 text-[24px] font-medium leading-tight tracking-tight">Agenda e planejamento</h3>
+              <p className="mt-2 max-w-md text-[14px] leading-relaxed text-[#4A5362]">
+                Vistorias e manutenções preventivas distribuídas por semana e por equipe, para a rotina não virar emergência.
+              </p>
+              <ModuleShot shot={SHOTS.agenda} />
+            </motion.article>
+          </motion.div>
+        </section>
+
+        {/* ─── 6. REPORTS (big dark device frame) ─── */}
+        <section id="relatorios" className="mx-auto max-w-6xl scroll-mt-20 px-4 pt-24 sm:px-6 sm:pt-32">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
+            <motion.div variants={fadeUp} {...inView} className="relative">
+              <div className="rounded-[28px] bg-[#0A0F1A] p-2.5 shadow-[0_40px_80px_-24px_rgba(10,15,26,0.55)]">
+                <div className="overflow-hidden rounded-[20px] bg-white">
+                  <Image
+                    src={SHOTS.relatorios.src}
+                    alt={SHOTS.relatorios.alt}
+                    width={SHOTS.relatorios.w}
+                    height={SHOTS.relatorios.h}
+                    sizes="(min-width: 1024px) 680px, 100vw"
+                    className="h-auto w-full"
+                  />
+                </div>
+                <div className="flex items-center justify-between px-4 py-3 text-[13px] text-white">
+                  <span className="flex items-center gap-2">
+                    <ClipboardCheck size={15} strokeWidth={1.75} />
+                    Relatórios e indicadores
+                  </span>
+                  <span className="text-[#C9D1DD]">Exportar CSV · Imprimir</span>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div variants={stagger} {...inView} className="flex flex-col gap-6">
+              <motion.div variants={fadeUp}>
+                <SectionPill icon={FileCheck2}>Relatórios</SectionPill>
+              </motion.div>
+              <motion.h2 variants={fadeUp} className="ld-display text-[34px] leading-[1.1] sm:text-[44px]">
+                Nada fica <Muted>esquecido</Muted> depois do chamado
+              </motion.h2>
+              <motion.p variants={fadeUp} className="max-w-md text-[15px] leading-relaxed text-[#4A5362]">
+                Backlog, ocupação das equipes, saúde predial e taxa de resolução em uma única tela. Os prazos têm contagem regressiva e a agenda preventiva mostra o que vem a seguir.
+              </motion.p>
+              <motion.ul variants={fadeUp} className="space-y-3">
+                {[
+                  'Termômetro de SLA por faixa de vencimento',
+                  'Cronograma de vistorias e preventivas',
+                  'Exportação em CSV e impressão do relatório',
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-[14px] font-medium">
+                    <CheckCircle2 size={18} strokeWidth={1.5} className="text-[#0A2540]" />
+                    {item}
+                  </li>
+                ))}
+              </motion.ul>
+              <motion.div variants={fadeUp}>
+                <button
+                  onClick={() => openDemo()}
+                  className="inline-flex items-center gap-2 rounded-full bg-[#0A0F1A] px-5 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-[#1B2433] active:scale-[0.98]"
+                >
+                  Ver na prática
+                  <ArrowRight size={14} strokeWidth={1.75} />
+                </button>
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ─── 7. FAQ ─── */}
+        <section id="faq" aria-labelledby="faq-title" className="mx-auto max-w-3xl scroll-mt-20 px-4 pt-24 sm:px-6 sm:pt-32">
+          <motion.div variants={stagger} {...inView} className="flex flex-col items-center gap-5 text-center">
+            <motion.div variants={fadeUp}>
+              <SectionPill icon={Sparkles}>Perguntas</SectionPill>
+            </motion.div>
+            <motion.h2 id="faq-title" variants={fadeUp} className="ld-display text-[34px] leading-[1.1] sm:text-[44px]">
+              Perguntas, <Muted>respondidas</Muted>
+            </motion.h2>
+          </motion.div>
+
+          <div className="mt-12 divide-y divide-[#0A0F1A]/10 border-y border-[#0A0F1A]/10">
+            {FAQ.map((item, i) => {
+              const on = openFaq === i;
+              return (
+                <div key={item.q}>
+                  <h3>
+                    <button
+                      id={`faq-btn-${i}`}
+                      aria-expanded={on}
+                      aria-controls={`faq-panel-${i}`}
+                      onClick={() => setOpenFaq(on ? -1 : i)}
+                      className="flex w-full items-center justify-between gap-6 py-5 text-left text-[16px] font-medium"
+                    >
+                      {item.q}
+                      <span className="text-[#6B7482]">{on ? <Minus size={16} /> : <Plus size={16} />}</span>
+                    </button>
+                  </h3>
+                  <div
+                    id={`faq-panel-${i}`}
+                    role="region"
+                    aria-labelledby={`faq-btn-${i}`}
+                    className={`grid transition-all duration-300 ${on ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="max-w-xl pb-5 text-[14px] leading-relaxed text-[#4A5362]">{item.a}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ─── 8. CTA ─── */}
+        <section id="agendar-demo" aria-labelledby="cta-title" className="mx-auto max-w-3xl scroll-mt-20 px-4 pb-24 pt-16 sm:px-6 sm:pb-32 sm:pt-24">
+          <motion.div
+            variants={fadeUp}
+            {...inView}
+            className="flex flex-col items-center gap-6 rounded-[24px] bg-[#0A0F1A] px-6 py-12 text-center sm:px-12"
+          >
+            <h2 id="cta-title" className="ld-display text-[30px] leading-[1.1] text-white sm:text-[40px]">
+              Veja o Urboa com a rede do seu município
+            </h2>
+            <p className="max-w-md text-[14px] leading-relaxed text-[#C9D1DD]">
+              Uma demonstração de 20 minutos, com chamados, unidades e fluxos da sua secretaria.
+            </p>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                openDemo(ctaEmail);
+              }}
+              className="flex w-full max-w-md flex-col gap-2 sm:flex-row"
+            >
+              <label htmlFor="cta-email" className="sr-only">
+                E-mail institucional
+              </label>
+              <input
+                id="cta-email"
+                type="email"
+                required
+                autoComplete="email"
+                value={ctaEmail}
+                onChange={(e) => setCtaEmail(e.target.value)}
+                placeholder="seu.nome@prefeitura.gov.br"
+                className="h-11 flex-1 rounded-xl bg-white px-4 text-[14px] text-[#0A0F1A] placeholder:text-[#6B7482] focus:outline-none focus:ring-2 focus:ring-white/40"
+              />
+              <button
+                id="cta-submit"
+                type="submit"
+                className="h-11 rounded-xl bg-white/10 px-5 text-[14px] font-medium text-white ring-1 ring-white/25 transition-colors hover:bg-white/20 active:scale-[0.98]"
+              >
+                Agendar demo
+              </button>
+            </form>
+          </motion.div>
+        </section>
       </main>
 
-      {/* ─── 8. MODAL DE AGENDAR DEMO (Refactoring UI: Elevation 5, Clean Form) ─── */}
+      {/* ─── 9. DEMO MODAL ─── */}
       <AnimatePresence>
         {isDemoModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0F172A]/50 backdrop-blur-xs">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.25, ease: cubicSpring }}
-              className="w-full max-w-lg bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-[0_20px_40px_rgba(0,0,0,0.15)] relative text-left"
+          <div className="fixed inset-0 z-[60] flex items-center justify-center bg-[#0A0F1A]/50 p-4 backdrop-blur-sm">
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="modal-title"
+              initial={{ opacity: 0, scale: 0.96, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 8 }}
+              transition={{ duration: 0.25, ease }}
+              className="relative w-full max-w-lg rounded-[28px] border border-slate-200 bg-white p-6 text-left text-[#0F172A] shadow-[0_30px_60px_rgba(0,0,0,0.25)] sm:p-8"
             >
-              <button 
+              <button
                 onClick={() => setIsDemoModalOpen(false)}
-                className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 transition-colors"
+                aria-label="Fechar"
+                className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition-colors hover:bg-slate-200"
               >
                 <X size={16} strokeWidth={1.5} />
               </button>
 
               {demoSubmitted ? (
-                <div className="text-center py-6 space-y-4">
-                  <div className="w-14 h-14 rounded-full bg-emerald-100 text-[#059669] flex items-center justify-center mx-auto shadow-xs">
+                <div className="space-y-4 py-6 text-center">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-[#059669]">
                     <CheckCircle2 size={28} strokeWidth={1.5} />
                   </div>
-                  <h3 className="text-xl font-bold text-[#0F172A]">Solicitação Registrada!</h3>
-                  <p className="text-xs sm:text-sm text-[#475569] max-w-sm mx-auto leading-relaxed">
-                    Entraremos em contato com você em até 2 horas úteis pelo WhatsApp ou e-mail institucional.
+                  <h3 id="modal-title" className="ld-display text-[26px]">
+                    Solicitação registrada
+                  </h3>
+                  <p className="mx-auto max-w-sm text-[14px] leading-relaxed text-[#475569]">
+                    Entraremos em contato em até 2 horas úteis pelo WhatsApp ou e-mail institucional.
                   </p>
-                  <button 
+                  <button
                     onClick={() => {
                       setDemoSubmitted(false);
                       setIsDemoModalOpen(false);
                     }}
-                    className="px-6 py-2.5 rounded-full text-xs font-bold bg-[#0A2540] text-white hover:bg-[#07192C]"
+                    className="rounded-full bg-[#0A0F1A] px-6 py-2.5 text-[14px] font-medium text-white hover:bg-[#1B2433]"
                   >
                     Fechar
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleDemoSubmit} className="space-y-4">
-                  <div className="flex items-center gap-2 text-xs font-bold text-[#7C3AED]">
+                  <span className="inline-flex items-center gap-2 text-[12px] font-medium text-[#0A2540]">
                     <Sparkles size={14} strokeWidth={1.5} />
-                    <span>Apresentação Executiva Urboa</span>
-                  </div>
-                  <h3 className="text-xl font-black text-[#0F172A]">Agendar Demonstração</h3>
-                  <p className="text-xs text-[#475569]">
-                    Preencha os dados abaixo para receber uma demonstração personalizada dos módulos para a sua prefeitura.
+                    Apresentação executiva Urboa
+                  </span>
+                  <h3 id="modal-title" className="ld-display text-[30px] leading-tight">
+                    Agendar demonstração
+                  </h3>
+                  <p className="text-[14px] text-[#475569]">
+                    Preencha os dados abaixo para receber uma demonstração personalizada para a sua prefeitura.
                   </p>
 
                   <div className="space-y-3.5 pt-1">
                     <div className="space-y-1">
-                      <label className="text-[11px] font-bold text-[#0F172A]">Nome Completo</label>
-                      <input 
-                        required
-                        type="text"
-                        placeholder="Ex: Mariana Silva"
-                        value={demoFormData.nome}
-                        onChange={(e) => setDemoFormData(prev => ({ ...prev, nome: e.target.value }))}
-                        className="w-full h-10 px-3.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
-                      />
+                      <label htmlFor="modal-nome" className="text-[12px] font-medium">Nome completo</label>
+                      <input id="modal-nome" required type="text" placeholder="Ex: Mariana Silva" value={demoFormData.nome} onChange={(e) => setDemoFormData((p) => ({ ...p, nome: e.target.value }))} className={input} />
                     </div>
-
                     <div className="grid grid-cols-2 gap-3">
                       <div className="space-y-1">
-                        <label className="text-[11px] font-bold text-[#0F172A]">Cargo</label>
-                        <input 
-                          required
-                          type="text"
-                          placeholder="Secretário(a), Diretor(a)"
-                          value={demoFormData.cargo}
-                          onChange={(e) => setDemoFormData(prev => ({ ...prev, cargo: e.target.value }))}
-                          className="w-full h-10 px-3.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
-                        />
+                        <label htmlFor="modal-cargo" className="text-[12px] font-medium">Cargo</label>
+                        <input id="modal-cargo" required type="text" placeholder="Secretário(a), Diretor(a)" value={demoFormData.cargo} onChange={(e) => setDemoFormData((p) => ({ ...p, cargo: e.target.value }))} className={input} />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[11px] font-bold text-[#0F172A]">Município e UF</label>
-                        <input 
-                          required
-                          type="text"
-                          placeholder="Ex: Campinas - SP"
-                          value={demoFormData.municipio}
-                          onChange={(e) => setDemoFormData(prev => ({ ...prev, municipio: e.target.value }))}
-                          className="w-full h-10 px-3.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
-                        />
+                        <label htmlFor="modal-municipio" className="text-[12px] font-medium">Município e UF</label>
+                        <input id="modal-municipio" required type="text" placeholder="Ex: Campinas - SP" value={demoFormData.municipio} onChange={(e) => setDemoFormData((p) => ({ ...p, municipio: e.target.value }))} className={input} />
                       </div>
                     </div>
-
                     <div className="grid grid-cols-2 gap-3">
                       <div className="space-y-1">
-                        <label className="text-[11px] font-bold text-[#0F172A]">E-mail Institucional</label>
-                        <input 
-                          required
-                          type="email"
-                          placeholder="nome@prefeitura.gov.br"
-                          value={demoFormData.email}
-                          onChange={(e) => setDemoFormData(prev => ({ ...prev, email: e.target.value }))}
-                          className="w-full h-10 px-3.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
-                        />
+                        <label htmlFor="modal-email" className="text-[12px] font-medium">E-mail institucional</label>
+                        <input id="modal-email" required type="email" autoComplete="email" placeholder="nome@prefeitura.gov.br" value={demoFormData.email} onChange={(e) => setDemoFormData((p) => ({ ...p, email: e.target.value }))} className={input} />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[11px] font-bold text-[#0F172A]">WhatsApp</label>
-                        <input 
-                          required
-                          type="tel"
-                          placeholder="(11) 98765-4321"
-                          value={demoFormData.telefone}
-                          onChange={(e) => setDemoFormData(prev => ({ ...prev, telefone: e.target.value }))}
-                          className="w-full h-10 px-3.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
-                        />
+                        <label htmlFor="modal-telefone" className="text-[12px] font-medium">WhatsApp</label>
+                        <input id="modal-telefone" required type="tel" autoComplete="tel" placeholder="(11) 98765-4321" value={demoFormData.telefone} onChange={(e) => setDemoFormData((p) => ({ ...p, telefone: e.target.value }))} className={input} />
                       </div>
                     </div>
                   </div>
 
-                  <button 
+                  <button
+                    id="modal-submit"
                     type="submit"
-                    className="w-full h-11 rounded-full bg-[#0A2540] hover:bg-[#07192C] text-white font-bold text-xs shadow-sm transition-all flex items-center justify-center gap-2 mt-4 active:scale-[0.98]"
+                    className="mt-4 flex h-11 w-full items-center justify-center gap-2 rounded-full bg-[#0A0F1A] text-[14px] font-medium text-white transition-all hover:bg-[#1B2433] active:scale-[0.98]"
                   >
-                    <span>Solicitar Apresentação</span>
-                    <ArrowRight size={14} strokeWidth={1.5} />
+                    Solicitar apresentação
+                    <ArrowRight size={14} strokeWidth={1.75} />
                   </button>
+                  <p className="text-center text-[12px] text-slate-500">
+                    Seus dados são protegidos conforme a LGPD e usados apenas para o contato institucional.
+                  </p>
                 </form>
               )}
-
             </motion.div>
           </div>
         )}
       </AnimatePresence>
 
-      {/* ─── 9. FOOTER INSTITUCIONAL (Refactoring UI: Clean Tertiary Layer) ─── */}
-      <footer className="py-10 border-t border-slate-200 bg-white text-xs text-[#64748B]">
-        <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <Logo size="sm" textStyle="tecnologia" href="/landing" />
-            <span className="text-slate-300">•</span>
-            <span>Gestão e Manutenção Predial Pública</span>
+      {/* ─── 10. FOOTER: Clean Tech & Municipal Governance ─── */}
+      <footer className="border-t border-slate-200/80 bg-[#F8FAFC]">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-20">
+          <div className="grid gap-12 lg:grid-cols-[1.3fr_2fr]">
+            <div className="flex flex-col gap-4">
+              <Logo href="/landing" size="md" textStyle="simple" variant="dark" />
+              <p className="max-w-sm text-[14px] leading-relaxed text-[#4A5362]">
+                Gestão e zeladoria predial pública de alta precisão. Rastreabilidade completa do chamado à validação municipal.
+              </p>
+              <div className="flex items-center gap-2 pt-2">
+                <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
+                <span className="text-[12px] font-medium text-[#4A5362]">Plataforma operacional · Alta disponibilidade</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+              <div>
+                <p className="mb-4 text-[12px] font-semibold uppercase tracking-wider text-[#0A0F1A]">Navegação</p>
+                <ul className="space-y-3 text-[14px] text-[#4A5362]">
+                  <li><a href="#plataforma" className="transition-colors hover:text-[#0A0F1A]">Visão geral</a></li>
+                  <li><a href="#como-funciona" className="transition-colors hover:text-[#0A0F1A]">Como funciona</a></li>
+                  <li><a href="#modulos" className="transition-colors hover:text-[#0A0F1A]">Módulos</a></li>
+                  <li><a href="#relatorios" className="transition-colors hover:text-[#0A0F1A]">Relatórios</a></li>
+                  <li><a href="#faq" className="transition-colors hover:text-[#0A0F1A]">Perguntas frequentes</a></li>
+                </ul>
+              </div>
+              <div>
+                <p className="mb-4 text-[12px] font-semibold uppercase tracking-wider text-[#0A0F1A]">Acesso rápido</p>
+                <ul className="space-y-3 text-[14px] text-[#4A5362]">
+                  <li><Link href="/login" className="transition-colors hover:text-[#0A0F1A]">Painel de gestão</Link></li>
+                  <li><Link href="/abrir-chamado" className="transition-colors hover:text-[#0A0F1A]">Abrir chamado</Link></li>
+                  <li>
+                    <button onClick={() => openDemo()} className="transition-colors hover:text-[#0A0F1A]">
+                      Agendar demonstração
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <p className="mb-4 text-[12px] font-semibold uppercase tracking-wider text-[#0A0F1A]">Governança</p>
+                <ul className="space-y-3 text-[14px] text-[#4A5362]">
+                  <li className="flex items-center gap-2">
+                    <ShieldCheck size={15} className="text-slate-400" />
+                    <span>ABNT NBR 5674</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Fingerprint size={15} className="text-slate-400" />
+                    <span>Registro auditável</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Scale size={15} className="text-slate-400" />
+                    <span>Prestação de contas</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 size={15} className="text-slate-400" />
+                    <span>LGPD e conformidade</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <p className="text-slate-400">&copy; {new Date().getFullYear()} Urboa. Todos os direitos reservados.</p>
+
+          <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-slate-200/80 pt-8 text-[13px] text-[#8B93A1] sm:flex-row">
+            <p>&copy; {new Date().getFullYear()} Urboa Tecnologia para Cidades. Todos os direitos reservados.</p>
+            <p className="text-[12px]">Desenvolvido para secretarias, diretorias e prefeituras do Brasil.</p>
+          </div>
         </div>
       </footer>
-
     </div>
   );
 }
