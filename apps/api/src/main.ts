@@ -30,7 +30,8 @@ async function bootstrap() {
     }),
   );
   
-  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  const rawFrontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  const frontendUrl = rawFrontendUrl.replace(/\/+$/, '');
   const allowedOrigins = [
     frontendUrl,
     'http://localhost:3000',
@@ -39,7 +40,11 @@ async function bootstrap() {
 
   app.enableCors({
     origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        origin.endsWith('.vercel.app')
+      ) {
         callback(null, true);
       } else {
         callback(new Error('Origem não permitida por política de segurança CORS.'));
