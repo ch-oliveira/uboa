@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: urboa-api
+    runtime: node
+    plan: free
+    region: ohio
+    buildCommand: corepack enable && pnpm install && pnpm db:migrate:deploy && pnpm build
+    startCommand: pnpm --filter api start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        value: https://uboa.vercel.app
