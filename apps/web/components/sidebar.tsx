@@ -14,10 +14,12 @@ import {
   LogOut,
   Sparkles,
   X,
+  Compass,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useOrders } from '@/context/orders-context';
 import { useAuth } from '@/context/auth-context';
+import { useOnboarding } from '@/context/onboarding-context';
 import { Logo } from '@/components/logo';
 
 export type AppRoute = 
@@ -48,6 +50,7 @@ export function Sidebar({
 }: SidebarProps) {
   const { stats, units, isSidebarCollapsed, toggleSidebar, openCopilot } = useOrders();
   const { user, role, logout } = useAuth();
+  const { resetTour } = useOnboarding();
 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
@@ -215,6 +218,7 @@ export function Sidebar({
                 isGestor={isGestor}
                 isTecnico={isTecnico}
                 onSettings={onOpenSettings ? () => { setIsUserMenuOpen(false); onOpenSettings(); } : undefined}
+                onStartTour={() => { setIsUserMenuOpen(false); resetTour(); }}
                 onLogout={() => { setIsUserMenuOpen(false); setIsLogoutModalOpen(true); }}
               />
             )}
@@ -246,6 +250,7 @@ export function Sidebar({
                 isGestor={isGestor}
                 isTecnico={isTecnico}
                 onSettings={onOpenSettings ? () => { setIsUserMenuOpen(false); onOpenSettings(); } : undefined}
+                onStartTour={() => { setIsUserMenuOpen(false); resetTour(); }}
                 onLogout={() => { setIsUserMenuOpen(false); setIsLogoutModalOpen(true); }}
               />
             )}
@@ -350,6 +355,7 @@ function UserMenuPopover({
   isGestor,
   isTecnico: _isTecnico,
   onSettings,
+  onStartTour,
   onLogout,
 }: {
   position: 'expanded' | 'collapsed';
@@ -358,6 +364,7 @@ function UserMenuPopover({
   isGestor: boolean;
   isTecnico: boolean;
   onSettings?: () => void;
+  onStartTour?: () => void;
   onLogout: () => void;
 }) {
   const positionClass = position === 'collapsed'
@@ -384,6 +391,17 @@ function UserMenuPopover({
       </div>
 
       <div className="h-px bg-border mx-1 mb-1" />
+
+      {onStartTour && (
+        <button
+          type="button"
+          onClick={onStartTour}
+          className="w-full flex items-center gap-2.5 px-2.5 py-1.5 text-[13px] text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-all cursor-pointer text-left"
+        >
+          <Compass size={14} className="text-[#2563EB]" />
+          <span>Guia & Tour da Plataforma</span>
+        </button>
+      )}
 
       {isGestor && onSettings && (
         <button
@@ -438,6 +456,7 @@ function SidebarNavItem({
   shortcut,
   tooltip,
   accent = false,
+  dataTour,
 }: { 
   icon: React.ReactNode; 
   label: string; 
@@ -449,10 +468,12 @@ function SidebarNavItem({
   shortcut?: string; 
   tooltip?: string; 
   accent?: boolean; 
+  dataTour?: string;
 }) {
   if (isCollapsed) {
     const el = (
       <div 
+        data-tour={dataTour}
         onClick={onClick}
         className={`w-9 h-9 mx-auto rounded-md flex items-center justify-center cursor-pointer transition-all relative group ${
           active 
@@ -475,6 +496,7 @@ function SidebarNavItem({
 
   const el = (
     <div 
+      data-tour={dataTour}
       onClick={onClick}
       className={`flex items-center justify-between px-3 py-2 rounded-md cursor-pointer transition-all relative group ${
         active 

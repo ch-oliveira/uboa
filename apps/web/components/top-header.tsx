@@ -3,9 +3,10 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Search, Bell, X, ChevronRight, ArrowLeft } from 'lucide-react';
+import { Search, Bell, X, ChevronRight, ArrowLeft, Compass } from 'lucide-react';
 import { useOrders } from '@/context/orders-context';
 import { useAuth } from '@/context/auth-context';
+import { useOnboarding } from '@/context/onboarding-context';
 
 export interface BreadcrumbItem {
   label: string;
@@ -35,6 +36,7 @@ export function TopHeader({
   const { user, role } = useAuth();
   const isSolicitante = role === 'SOLICITANTE';
   const { orders, notifications, markNotificationAsRead, markAllNotificationsAsRead } = useOrders();
+  const { startTour } = useOnboarding();
 
   const effectiveBreadcrumbs: BreadcrumbItem[] = useMemo(() => {
     if (breadcrumbs && breadcrumbs.length > 0) {
@@ -190,9 +192,20 @@ export function TopHeader({
           )}
         </div>
 
+        {/* Botão de Tour e Guia Interativo */}
+        <button
+          onClick={startTour}
+          className="relative text-muted-foreground hover:text-[#2563EB] p-2 rounded-xl hover:bg-blue-50/70 transition-colors cursor-pointer"
+          title="Iniciar Tour Guiado da Plataforma"
+          aria-label="Iniciar Tour Guiado da Plataforma"
+        >
+          <Compass size={19} />
+        </button>
+
         {/* Notification Bell */}
         <div className="relative" ref={notifRef}>
           <button
+            data-tour="notifications-bell"
             onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
             className="relative text-muted-foreground hover:text-foreground p-2 rounded-xl hover:bg-muted transition-colors cursor-pointer"
             title="Alertas e Notificações"

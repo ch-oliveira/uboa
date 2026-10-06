@@ -161,7 +161,7 @@ export function SolicitanteDashboard({
     <div className="flex-1 overflow-y-auto p-6 lg:p-8 space-y-8 bg-background">
       
       {/* Top Banner de Boas-Vindas & Identidade da Unidade */}
-      <div className="ds-card p-6 lg:p-8 relative overflow-hidden">
+      <div data-tour="header-welcome" className="ds-card p-6 lg:p-8 relative overflow-hidden">
         {/* Background decorative gradient glow */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-500/5 via-indigo-500/5 to-transparent rounded-full blur-2xl pointer-events-none" />
 
@@ -193,6 +193,7 @@ export function SolicitanteDashboard({
             </div>
 
             <Button
+              data-tour="solicitante-novo-chamado"
               onClick={onOpenNewOrder}
               className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-5 py-2.5 font-bold shadow-sm h-11 transition-all hover:shadow cursor-pointer flex items-center gap-2"
             >
@@ -298,7 +299,7 @@ export function SolicitanteDashboard({
         
         {/* Coluna Esquerda: Lista de Chamados com Esteira de Progresso Visual */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="ds-card overflow-hidden flex flex-col">
+          <div data-tour="solicitante-chamados-list" className="ds-card overflow-hidden flex flex-col">
             
             {/* Header com Filtros e Busca */}
             <div className="p-6 border-b border-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">

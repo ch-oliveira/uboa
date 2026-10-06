@@ -270,7 +270,7 @@ export default function DashboardPage() {
           <div className="flex-1 overflow-y-auto p-8 space-y-6">
           
           {/* CABEÇALHO DA PÁGINA (Padrão Ouro UI/UX) */}
-          <div className="bg-muted/50 rounded-2xl p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div data-tour="header-welcome" className="bg-muted/50 rounded-2xl p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <h1 className="text-2xl font-bold tracking-tight text-foreground">
                 {pendingTriageCount > 0 
@@ -305,7 +305,7 @@ export default function DashboardPage() {
           </div>
 
           {/* SEÇÃO 2: STAT CARDS COM PERGUNTAS EXPLÍCITAS */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div data-tour="kpi-cards" className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             
             {/* Bloco 1: O que temos hoje? */}
             <div>
@@ -394,7 +394,7 @@ export default function DashboardPage() {
             {/* Coluna Esquerda: Tabela de Prioridades com Contexto Completo para Agir (2 colunas) */}
             <div className="lg:col-span-2 space-y-6">
               
-              <div className="border border-border bg-card rounded-xl overflow-hidden flex flex-col shadow-sm">
+              <div data-tour="triagem-section" className="border border-border bg-card rounded-xl overflow-hidden flex flex-col shadow-sm">
                 
                 {/* Header da Tabela */}
                 <div className="flex flex-col sm:flex-row gap-4 p-5 border-b border-border">

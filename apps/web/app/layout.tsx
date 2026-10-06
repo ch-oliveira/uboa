@@ -3,8 +3,10 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/auth-context";
 import { OrdersProvider } from "@/context/orders-context";
+import { OnboardingProvider } from "@/context/onboarding-context";
 import { DevDrawer } from "@/components/dev-drawer";
 import { CopilotGlobal } from "@/components/copilot/copilot-global";
+import { OnboardingGlobal } from "@/components/onboarding/onboarding-global";
 
 const jakarta = Plus_Jakarta_Sans({ 
   subsets: ["latin"],
@@ -27,9 +29,12 @@ export default function RootLayout({
       <body className={`${jakarta.variable} font-sans antialiased bg-background text-foreground`}>
         <AuthProvider>
           <OrdersProvider>
-            {children}
-            <DevDrawer />
-            <CopilotGlobal />
+            <OnboardingProvider>
+              {children}
+              <DevDrawer />
+              <CopilotGlobal />
+              <OnboardingGlobal />
+            </OnboardingProvider>
           </OrdersProvider>
         </AuthProvider>
       </body>
