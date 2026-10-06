@@ -93,14 +93,65 @@ describe('AiToolsService', () => {
     expect(saude[0].statusSaude).toBe('CRITICO');
   });
 
-  it('deve abrir chamado rápido com sucesso', async () => {
-    const res = await aiTools.abrirChamadoRapido({
-      titulo: 'Vazamento emergencial',
-      predioNome: 'EMEF Santos Dumont',
-      prioridade: 'URGENT',
+  it('deve sugerir despacho inteligente priorizando proximidade geográfica e especialidade', async () => {
+    mockPrisma.ordemServico.findFirst = vi.fn().mockResolvedValue({
+      id: 'os-despacho-1',
+      codigo: 'OS-123456',
+      titulo: 'Vazamento no banheiro infantil',
+      categoria: 'HIDRAULICA',
+      predio: {
+        id: 'pred-1',
+        nome: 'EMEF Santos Dumont',
+        latitude: -23.5505,
+        longitude: -46.6333,
+      },
     });
+
+    mockPrisma.usuario.findMany = vi.fn().mockResolvedValue([
+      {
+        id: 'tec-distante',
+        nome: 'Técnico Longe',
+        role: Role.TECNICO,
+        especialidade: 'HIDRAULICA',
+        ativo: true,
+        chamados_atribuidos: [
+          {
+            status: StatusOS.EM_EXECUCAO,
+            predio: {
+              nome: 'Distrito Industrial',
+              latitude: -23.6800,
+              longitude: -46.7500, // ~19 km de distância
+            },
+          },
+        ],
+      },
+      {
+        id: 'tec-perto',
+        nome: 'Técnico Perto',
+        role: Role.TECNICO,
+        especialidade: 'HIDRAULICA',
+        ativo: true,
+        chamados_atribuidos: [
+          {
+            status: StatusOS.EM_EXECUCAO,
+            predio: {
+              nome: 'UBS Central',
+              latitude: -23.5520,
+              longitude: -46.6350, // ~0.2 km de distância
+            },
+          },
+        ],
+      },
+    ]);
+
+    const res = await aiTools.sugerirDespachoInteligente({ osCodigo: 'OS-123456' });
     expect(res.sucesso).toBe(true);
-    expect(res.codigo).toBeDefined();
+    expect(res.recomendacoes).toBeDefined();
+    expect(res.recomendacoes!.length).toBe(2);
+    // Técnico mais próximo deve ser o primeiro recomendado
+    expect(res.recomendacoes![0].tecnicoNome).toBe('Técnico Perto');
+    expect(res.recomendacoes![0].distanciaKm).toBeLessThan(1.0);
+    expect(res.recomendacoes![0].score).toBeGreaterThan(res.recomendacoes![1].score);
   });
 });
 

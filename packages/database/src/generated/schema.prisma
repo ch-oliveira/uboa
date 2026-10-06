@@ -74,14 +74,21 @@ model Usuario {
 }
 
 model Predio {
-  id         String     @id @default(uuid())
-  nome       String
-  tipo       TipoPredio
-  endereco   String
-  gestor_id  String?
-  gestor     Usuario?   @relation("GestorPredio", fields: [gestor_id], references: [id])
-  criado_em  DateTime   @default(now())
-  atualizado DateTime   @updatedAt
+  id                 String     @id @default(uuid())
+  nome               String
+  tipo               TipoPredio
+  setor              String?    @default("ADMINISTRACAO") // Educação, Saúde, Obras, etc.
+  porte              String?    @default("MEDIO") // PEQUENO, MEDIO, GRANDE
+  capacidade         Int?
+  endereco           String
+  latitude           Float?
+  longitude          Float?
+  ativo              Boolean    @default(true)
+  motivo_desativacao String?
+  gestor_id          String?
+  gestor             Usuario?   @relation("GestorPredio", fields: [gestor_id], references: [id])
+  criado_em          DateTime   @default(now())
+  atualizado         DateTime   @updatedAt
 
   // PostGIS: O tipo Unsupported permite que o Prisma conviva com tipos do DB.
   coordenadas Unsupported("geometry(Point, 4326)")?

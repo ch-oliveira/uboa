@@ -2794,15 +2794,36 @@ export namespace Prisma {
 
   export type AggregatePredio = {
     _count: PredioCountAggregateOutputType | null
+    _avg: PredioAvgAggregateOutputType | null
+    _sum: PredioSumAggregateOutputType | null
     _min: PredioMinAggregateOutputType | null
     _max: PredioMaxAggregateOutputType | null
+  }
+
+  export type PredioAvgAggregateOutputType = {
+    capacidade: number | null
+    latitude: number | null
+    longitude: number | null
+  }
+
+  export type PredioSumAggregateOutputType = {
+    capacidade: number | null
+    latitude: number | null
+    longitude: number | null
   }
 
   export type PredioMinAggregateOutputType = {
     id: string | null
     nome: string | null
     tipo: $Enums.TipoPredio | null
+    setor: string | null
+    porte: string | null
+    capacidade: number | null
     endereco: string | null
+    latitude: number | null
+    longitude: number | null
+    ativo: boolean | null
+    motivo_desativacao: string | null
     gestor_id: string | null
     criado_em: Date | null
     atualizado: Date | null
@@ -2812,7 +2833,14 @@ export namespace Prisma {
     id: string | null
     nome: string | null
     tipo: $Enums.TipoPredio | null
+    setor: string | null
+    porte: string | null
+    capacidade: number | null
     endereco: string | null
+    latitude: number | null
+    longitude: number | null
+    ativo: boolean | null
+    motivo_desativacao: string | null
     gestor_id: string | null
     criado_em: Date | null
     atualizado: Date | null
@@ -2822,7 +2850,14 @@ export namespace Prisma {
     id: number
     nome: number
     tipo: number
+    setor: number
+    porte: number
+    capacidade: number
     endereco: number
+    latitude: number
+    longitude: number
+    ativo: number
+    motivo_desativacao: number
     gestor_id: number
     criado_em: number
     atualizado: number
@@ -2830,11 +2865,30 @@ export namespace Prisma {
   }
 
 
+  export type PredioAvgAggregateInputType = {
+    capacidade?: true
+    latitude?: true
+    longitude?: true
+  }
+
+  export type PredioSumAggregateInputType = {
+    capacidade?: true
+    latitude?: true
+    longitude?: true
+  }
+
   export type PredioMinAggregateInputType = {
     id?: true
     nome?: true
     tipo?: true
+    setor?: true
+    porte?: true
+    capacidade?: true
     endereco?: true
+    latitude?: true
+    longitude?: true
+    ativo?: true
+    motivo_desativacao?: true
     gestor_id?: true
     criado_em?: true
     atualizado?: true
@@ -2844,7 +2898,14 @@ export namespace Prisma {
     id?: true
     nome?: true
     tipo?: true
+    setor?: true
+    porte?: true
+    capacidade?: true
     endereco?: true
+    latitude?: true
+    longitude?: true
+    ativo?: true
+    motivo_desativacao?: true
     gestor_id?: true
     criado_em?: true
     atualizado?: true
@@ -2854,7 +2915,14 @@ export namespace Prisma {
     id?: true
     nome?: true
     tipo?: true
+    setor?: true
+    porte?: true
+    capacidade?: true
     endereco?: true
+    latitude?: true
+    longitude?: true
+    ativo?: true
+    motivo_desativacao?: true
     gestor_id?: true
     criado_em?: true
     atualizado?: true
@@ -2899,6 +2967,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: PredioAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PredioSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: PredioMinAggregateInputType
@@ -2929,6 +3009,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: PredioCountAggregateInputType | true
+    _avg?: PredioAvgAggregateInputType
+    _sum?: PredioSumAggregateInputType
     _min?: PredioMinAggregateInputType
     _max?: PredioMaxAggregateInputType
   }
@@ -2937,11 +3019,20 @@ export namespace Prisma {
     id: string
     nome: string
     tipo: $Enums.TipoPredio
+    setor: string | null
+    porte: string | null
+    capacidade: number | null
     endereco: string
+    latitude: number | null
+    longitude: number | null
+    ativo: boolean
+    motivo_desativacao: string | null
     gestor_id: string | null
     criado_em: Date
     atualizado: Date
     _count: PredioCountAggregateOutputType | null
+    _avg: PredioAvgAggregateOutputType | null
+    _sum: PredioSumAggregateOutputType | null
     _min: PredioMinAggregateOutputType | null
     _max: PredioMaxAggregateOutputType | null
   }
@@ -2964,7 +3055,14 @@ export namespace Prisma {
     id?: boolean
     nome?: boolean
     tipo?: boolean
+    setor?: boolean
+    porte?: boolean
+    capacidade?: boolean
     endereco?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    ativo?: boolean
+    motivo_desativacao?: boolean
     gestor_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
@@ -2977,7 +3075,14 @@ export namespace Prisma {
     id?: boolean
     nome?: boolean
     tipo?: boolean
+    setor?: boolean
+    porte?: boolean
+    capacidade?: boolean
     endereco?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    ativo?: boolean
+    motivo_desativacao?: boolean
     gestor_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
@@ -2988,7 +3093,14 @@ export namespace Prisma {
     id?: boolean
     nome?: boolean
     tipo?: boolean
+    setor?: boolean
+    porte?: boolean
+    capacidade?: boolean
     endereco?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    ativo?: boolean
+    motivo_desativacao?: boolean
     gestor_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
@@ -2999,13 +3111,20 @@ export namespace Prisma {
     id?: boolean
     nome?: boolean
     tipo?: boolean
+    setor?: boolean
+    porte?: boolean
+    capacidade?: boolean
     endereco?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    ativo?: boolean
+    motivo_desativacao?: boolean
     gestor_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
   }
 
-  export type PredioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "tipo" | "endereco" | "gestor_id" | "criado_em" | "atualizado", ExtArgs["result"]["predio"]>
+  export type PredioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "tipo" | "setor" | "porte" | "capacidade" | "endereco" | "latitude" | "longitude" | "ativo" | "motivo_desativacao" | "gestor_id" | "criado_em" | "atualizado", ExtArgs["result"]["predio"]>
   export type PredioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     gestor?: boolean | Predio$gestorArgs<ExtArgs>
     ordens_servico?: boolean | Predio$ordens_servicoArgs<ExtArgs>
@@ -3028,7 +3147,14 @@ export namespace Prisma {
       id: string
       nome: string
       tipo: $Enums.TipoPredio
+      setor: string | null
+      porte: string | null
+      capacidade: number | null
       endereco: string
+      latitude: number | null
+      longitude: number | null
+      ativo: boolean
+      motivo_desativacao: string | null
       gestor_id: string | null
       criado_em: Date
       atualizado: Date
@@ -3460,7 +3586,14 @@ export namespace Prisma {
     readonly id: FieldRef<"Predio", 'String'>
     readonly nome: FieldRef<"Predio", 'String'>
     readonly tipo: FieldRef<"Predio", 'TipoPredio'>
+    readonly setor: FieldRef<"Predio", 'String'>
+    readonly porte: FieldRef<"Predio", 'String'>
+    readonly capacidade: FieldRef<"Predio", 'Int'>
     readonly endereco: FieldRef<"Predio", 'String'>
+    readonly latitude: FieldRef<"Predio", 'Float'>
+    readonly longitude: FieldRef<"Predio", 'Float'>
+    readonly ativo: FieldRef<"Predio", 'Boolean'>
+    readonly motivo_desativacao: FieldRef<"Predio", 'String'>
     readonly gestor_id: FieldRef<"Predio", 'String'>
     readonly criado_em: FieldRef<"Predio", 'DateTime'>
     readonly atualizado: FieldRef<"Predio", 'DateTime'>
@@ -8770,7 +8903,14 @@ export namespace Prisma {
     id: 'id',
     nome: 'nome',
     tipo: 'tipo',
+    setor: 'setor',
+    porte: 'porte',
+    capacidade: 'capacidade',
     endereco: 'endereco',
+    latitude: 'latitude',
+    longitude: 'longitude',
+    ativo: 'ativo',
+    motivo_desativacao: 'motivo_desativacao',
     gestor_id: 'gestor_id',
     criado_em: 'criado_em',
     atualizado: 'atualizado'
@@ -8983,6 +9123,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Prioridade'
    */
   export type EnumPrioridadeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Prioridade'>
@@ -9035,20 +9189,6 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -9158,7 +9298,14 @@ export namespace Prisma {
     id?: StringFilter<"Predio"> | string
     nome?: StringFilter<"Predio"> | string
     tipo?: EnumTipoPredioFilter<"Predio"> | $Enums.TipoPredio
+    setor?: StringNullableFilter<"Predio"> | string | null
+    porte?: StringNullableFilter<"Predio"> | string | null
+    capacidade?: IntNullableFilter<"Predio"> | number | null
     endereco?: StringFilter<"Predio"> | string
+    latitude?: FloatNullableFilter<"Predio"> | number | null
+    longitude?: FloatNullableFilter<"Predio"> | number | null
+    ativo?: BoolFilter<"Predio"> | boolean
+    motivo_desativacao?: StringNullableFilter<"Predio"> | string | null
     gestor_id?: StringNullableFilter<"Predio"> | string | null
     criado_em?: DateTimeFilter<"Predio"> | Date | string
     atualizado?: DateTimeFilter<"Predio"> | Date | string
@@ -9170,7 +9317,14 @@ export namespace Prisma {
     id?: SortOrder
     nome?: SortOrder
     tipo?: SortOrder
+    setor?: SortOrderInput | SortOrder
+    porte?: SortOrderInput | SortOrder
+    capacidade?: SortOrderInput | SortOrder
     endereco?: SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    ativo?: SortOrder
+    motivo_desativacao?: SortOrderInput | SortOrder
     gestor_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -9185,7 +9339,14 @@ export namespace Prisma {
     NOT?: PredioWhereInput | PredioWhereInput[]
     nome?: StringFilter<"Predio"> | string
     tipo?: EnumTipoPredioFilter<"Predio"> | $Enums.TipoPredio
+    setor?: StringNullableFilter<"Predio"> | string | null
+    porte?: StringNullableFilter<"Predio"> | string | null
+    capacidade?: IntNullableFilter<"Predio"> | number | null
     endereco?: StringFilter<"Predio"> | string
+    latitude?: FloatNullableFilter<"Predio"> | number | null
+    longitude?: FloatNullableFilter<"Predio"> | number | null
+    ativo?: BoolFilter<"Predio"> | boolean
+    motivo_desativacao?: StringNullableFilter<"Predio"> | string | null
     gestor_id?: StringNullableFilter<"Predio"> | string | null
     criado_em?: DateTimeFilter<"Predio"> | Date | string
     atualizado?: DateTimeFilter<"Predio"> | Date | string
@@ -9197,13 +9358,22 @@ export namespace Prisma {
     id?: SortOrder
     nome?: SortOrder
     tipo?: SortOrder
+    setor?: SortOrderInput | SortOrder
+    porte?: SortOrderInput | SortOrder
+    capacidade?: SortOrderInput | SortOrder
     endereco?: SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    ativo?: SortOrder
+    motivo_desativacao?: SortOrderInput | SortOrder
     gestor_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
     _count?: PredioCountOrderByAggregateInput
+    _avg?: PredioAvgOrderByAggregateInput
     _max?: PredioMaxOrderByAggregateInput
     _min?: PredioMinOrderByAggregateInput
+    _sum?: PredioSumOrderByAggregateInput
   }
 
   export type PredioScalarWhereWithAggregatesInput = {
@@ -9213,7 +9383,14 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Predio"> | string
     nome?: StringWithAggregatesFilter<"Predio"> | string
     tipo?: EnumTipoPredioWithAggregatesFilter<"Predio"> | $Enums.TipoPredio
+    setor?: StringNullableWithAggregatesFilter<"Predio"> | string | null
+    porte?: StringNullableWithAggregatesFilter<"Predio"> | string | null
+    capacidade?: IntNullableWithAggregatesFilter<"Predio"> | number | null
     endereco?: StringWithAggregatesFilter<"Predio"> | string
+    latitude?: FloatNullableWithAggregatesFilter<"Predio"> | number | null
+    longitude?: FloatNullableWithAggregatesFilter<"Predio"> | number | null
+    ativo?: BoolWithAggregatesFilter<"Predio"> | boolean
+    motivo_desativacao?: StringNullableWithAggregatesFilter<"Predio"> | string | null
     gestor_id?: StringNullableWithAggregatesFilter<"Predio"> | string | null
     criado_em?: DateTimeWithAggregatesFilter<"Predio"> | Date | string
     atualizado?: DateTimeWithAggregatesFilter<"Predio"> | Date | string
@@ -9751,7 +9928,14 @@ export namespace Prisma {
     id?: string
     nome: string
     tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
     endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     gestor?: UsuarioCreateNestedOneWithoutPredios_geridosInput
@@ -9762,7 +9946,14 @@ export namespace Prisma {
     id?: string
     nome: string
     tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
     endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
     gestor_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -9773,7 +9964,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
     endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     gestor?: UsuarioUpdateOneWithoutPredios_geridosNestedInput
@@ -9784,7 +9982,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
     endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
     gestor_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9795,7 +10000,14 @@ export namespace Prisma {
     id?: string
     nome: string
     tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
     endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
     gestor_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -9805,7 +10017,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
     endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9814,7 +10033,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
     endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
     gestor_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10538,6 +10764,28 @@ export namespace Prisma {
     not?: NestedEnumTipoPredioFilter<$PrismaModel> | $Enums.TipoPredio
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type UsuarioNullableScalarRelationFilter = {
     is?: UsuarioWhereInput | null
     isNot?: UsuarioWhereInput | null
@@ -10547,17 +10795,37 @@ export namespace Prisma {
     id?: SortOrder
     nome?: SortOrder
     tipo?: SortOrder
+    setor?: SortOrder
+    porte?: SortOrder
+    capacidade?: SortOrder
     endereco?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    ativo?: SortOrder
+    motivo_desativacao?: SortOrder
     gestor_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
+  }
+
+  export type PredioAvgOrderByAggregateInput = {
+    capacidade?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type PredioMaxOrderByAggregateInput = {
     id?: SortOrder
     nome?: SortOrder
     tipo?: SortOrder
+    setor?: SortOrder
+    porte?: SortOrder
+    capacidade?: SortOrder
     endereco?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    ativo?: SortOrder
+    motivo_desativacao?: SortOrder
     gestor_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -10567,10 +10835,23 @@ export namespace Prisma {
     id?: SortOrder
     nome?: SortOrder
     tipo?: SortOrder
+    setor?: SortOrder
+    porte?: SortOrder
+    capacidade?: SortOrder
     endereco?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    ativo?: SortOrder
+    motivo_desativacao?: SortOrder
     gestor_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
+  }
+
+  export type PredioSumOrderByAggregateInput = {
+    capacidade?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type EnumTipoPredioWithAggregatesFilter<$PrismaModel = never> = {
@@ -10581,6 +10862,38 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTipoPredioFilter<$PrismaModel>
     _max?: NestedEnumTipoPredioFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type EnumPrioridadeFilter<$PrismaModel = never> = {
@@ -11175,6 +11488,22 @@ export namespace Prisma {
     set?: $Enums.TipoPredio
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type UsuarioUpdateOneWithoutPredios_geridosNestedInput = {
     create?: XOR<UsuarioCreateWithoutPredios_geridosInput, UsuarioUncheckedCreateWithoutPredios_geridosInput>
     connectOrCreate?: UsuarioCreateOrConnectWithoutPredios_geridosInput
@@ -11594,6 +11923,17 @@ export namespace Prisma {
     not?: NestedEnumTipoPredioFilter<$PrismaModel> | $Enums.TipoPredio
   }
 
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumTipoPredioWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.TipoPredio | EnumTipoPredioFieldRefInput<$PrismaModel>
     in?: $Enums.TipoPredio[] | ListEnumTipoPredioFieldRefInput<$PrismaModel>
@@ -11602,6 +11942,38 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTipoPredioFilter<$PrismaModel>
     _max?: NestedEnumTipoPredioFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumPrioridadeFilter<$PrismaModel = never> = {
@@ -11707,7 +12079,14 @@ export namespace Prisma {
     id?: string
     nome: string
     tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
     endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
@@ -11717,7 +12096,14 @@ export namespace Prisma {
     id?: string
     nome: string
     tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
     endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
@@ -11902,7 +12288,14 @@ export namespace Prisma {
     id?: StringFilter<"Predio"> | string
     nome?: StringFilter<"Predio"> | string
     tipo?: EnumTipoPredioFilter<"Predio"> | $Enums.TipoPredio
+    setor?: StringNullableFilter<"Predio"> | string | null
+    porte?: StringNullableFilter<"Predio"> | string | null
+    capacidade?: IntNullableFilter<"Predio"> | number | null
     endereco?: StringFilter<"Predio"> | string
+    latitude?: FloatNullableFilter<"Predio"> | number | null
+    longitude?: FloatNullableFilter<"Predio"> | number | null
+    ativo?: BoolFilter<"Predio"> | boolean
+    motivo_desativacao?: StringNullableFilter<"Predio"> | string | null
     gestor_id?: StringNullableFilter<"Predio"> | string | null
     criado_em?: DateTimeFilter<"Predio"> | Date | string
     atualizado?: DateTimeFilter<"Predio"> | Date | string
@@ -12158,7 +12551,14 @@ export namespace Prisma {
     id?: string
     nome: string
     tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
     endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     gestor?: UsuarioCreateNestedOneWithoutPredios_geridosInput
@@ -12168,7 +12568,14 @@ export namespace Prisma {
     id?: string
     nome: string
     tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
     endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
     gestor_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -12415,7 +12822,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
     endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     gestor?: UsuarioUpdateOneWithoutPredios_geridosNestedInput
@@ -12425,7 +12839,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
     endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
     gestor_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12827,7 +13248,14 @@ export namespace Prisma {
     id?: string
     nome: string
     tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
     endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -12890,7 +13318,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
     endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
@@ -12900,7 +13335,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
     endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
@@ -12910,7 +13352,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
     endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -678,9 +678,21 @@ export class AiToolsService {
     };
   }
 
+  private calcularDistanciaKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    const R = 6371; // Raio da Terra em km
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return Math.round(R * c * 10) / 10;
+  }
+
   /**
    * TOOL 8: Sugestão de Despacho Inteligente (Human-in-the-Loop)
-   * Analisa especialidade, fila de trabalho e proximidade para apoiar o Gestor
+   * Analisa especialidade, fila de trabalho e proximidade geográfica para apoiar o Gestor
    */
   async sugerirDespachoInteligente(params: { osCodigo: string }): Promise<{
     sucesso: boolean;
@@ -690,6 +702,8 @@ export class AiToolsService {
       tecnicoNome: string;
       especialidade: string;
       chamadosAtivos: number;
+      distanciaKm?: number;
+      localizacaoAtual?: string;
       compatibilidade: string;
       score: number;
     }>;
@@ -710,17 +724,20 @@ export class AiToolsService {
     const categoriaOS = (os.categoria || this.inferirEspecialidade(os.titulo, os.descricao)).toUpperCase();
 
     const tecnicos = await this.prisma.usuario.findMany({
-      where: { role: Role.TECNICO },
+      where: { role: Role.TECNICO, ativo: true },
       include: {
         chamados_atribuidos: {
           where: { status: { notIn: [StatusOS.CONCLUIDO, StatusOS.CANCELADO] } },
+          include: { predio: true },
+          orderBy: { criado_em: 'desc' },
         },
       },
     });
 
     const rankeados = tecnicos
       .map((t) => {
-        const emExecucao = t.chamados_atribuidos.filter((c) => c.status === StatusOS.EM_EXECUCAO).length;
+        const chamadosExecucao = t.chamados_atribuidos.filter((c) => c.status === StatusOS.EM_EXECUCAO);
+        const emExecucao = chamadosExecucao.length;
         const totalAtivos = t.chamados_atribuidos.length;
         const tecEsp = (t.especialidade || 'GERAL').toUpperCase();
 
@@ -736,12 +753,46 @@ export class AiToolsService {
         let score = 100 - totalAtivos * 10;
         if (matchExato) score += 30;
 
+        // Proximidade Geográfica via Coordenadas (PostGIS / Georreferenciamento)
+        let distanciaKm: number | undefined;
+        let localizacaoAtual = 'Base Operacional Central';
+
+        const chamadoAtual = chamadosExecucao[0] || t.chamados_atribuidos[0];
+        if (chamadoAtual?.predio) {
+          localizacaoAtual = `Em campo: ${chamadoAtual.predio.nome}`;
+          if (
+            chamadoAtual.predio.latitude &&
+            chamadoAtual.predio.longitude &&
+            os.predio?.latitude &&
+            os.predio?.longitude
+          ) {
+            distanciaKm = this.calcularDistanciaKm(
+              os.predio.latitude,
+              os.predio.longitude,
+              chamadoAtual.predio.latitude,
+              chamadoAtual.predio.longitude,
+            );
+          }
+        } else if (os.predio?.latitude && os.predio?.longitude) {
+          // Distância estimada da base central (ex: Secretaria de Obras)
+          distanciaKm = 2.0;
+        }
+
+        if (distanciaKm !== undefined) {
+          if (distanciaKm <= 2) score += 35; // Proximidade imediata
+          else if (distanciaKm <= 5) score += 20; // Próximo
+          else if (distanciaKm <= 10) score += 5; // Deslocamento moderado
+          else score -= 10; // Deslocamento longo
+        }
+
         return {
           tecnicoNome: t.nome,
           especialidade: tecEsp,
           chamadosAtivos: totalAtivos,
+          distanciaKm: distanciaKm !== undefined ? Number(distanciaKm.toFixed(1)) : undefined,
+          localizacaoAtual,
           compatibilidade: matchExato ? 'Especialista Específico' : 'Técnico Geral de Apoio',
-          score,
+          score: Math.max(0, Math.round(score)),
         };
       })
       .filter((item): item is NonNullable<typeof item> => item !== null)
@@ -753,7 +804,7 @@ export class AiToolsService {
       categoria: categoriaOS,
       recomendacoes: rankeados,
       justificativa: rankeados.length > 0
-        ? `Recomendação gerada com base em compatibilidade técnica (${categoriaOS}) e menor sobrecarga de atendimentos.`
+        ? `Recomendação gerada com base em proximidade geográfica à unidade (${os.predio?.nome || 'Unidade'}), compatibilidade técnica (${categoriaOS}) e menor sobrecarga de atendimentos.`
         : 'Todos os técnicos da especialidade estão sobrecarregados ou não há técnicos compatíveis disponíveis no momento.',
     };
   }

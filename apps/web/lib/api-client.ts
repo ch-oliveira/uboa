@@ -142,10 +142,22 @@ function mapFacilityFromApi(item: any): UnidadeItem {
     id: item.id,
     nome: item.name || item.nome,
     tipo: inferUnitType(item.name || item.nome, item.type || item.tipo),
+    setor: item.setor,
+    porte: item.porte || 'MEDIO',
+    capacidade: item.capacidade ? Number(item.capacidade) : undefined,
     endereco: item.address || item.endereco,
+    latitude: item.latitude !== undefined && item.latitude !== null ? Number(item.latitude) : undefined,
+    longitude: item.longitude !== undefined && item.longitude !== null ? Number(item.longitude) : undefined,
+    ativo: item.ativo !== false,
+    motivoDesativacao: item.motivoDesativacao || item.motivo_desativacao,
     gestor: item.managerName || item.gestor || 'Gestor da Unidade',
     telefone: item.phoneNumber || item.telefone || '(11) 3241-8900',
     email: item.email || undefined,
+    openTicketsCount: item.openTicketsCount,
+    urgentTicketsCount: item.urgentTicketsCount,
+    completedTicketsCount: item.completedTicketsCount,
+    totalTicketsCount: item.totalTicketsCount,
+    healthStatus: item.healthStatus,
   };
 }
 
@@ -415,7 +427,12 @@ export const apiClient = {
     const payload = {
       name: facility.nome,
       type: facility.tipo,
+      setor: facility.setor,
+      porte: facility.porte,
+      capacidade: facility.capacidade,
       address: facility.endereco,
+      latitude: facility.latitude,
+      longitude: facility.longitude,
       managerName: facility.gestor,
       phoneNumber: facility.telefone,
       nome: facility.nome,
@@ -435,6 +452,53 @@ export const apiClient = {
     return {
       success: Boolean(resData.success),
       unit: rawUnit ? mapFacilityFromApi(rawUnit) : (facility as UnidadeItem),
+      message: resData.message,
+    };
+  },
+
+  async updateFacility(id: string, facility: Partial<UnidadeItem>): Promise<{ success: boolean; unit?: UnidadeItem; message?: string }> {
+    const payload = {
+      name: facility.nome,
+      type: facility.tipo,
+      setor: facility.setor,
+      porte: facility.porte,
+      capacidade: facility.capacidade,
+      address: facility.endereco,
+      latitude: facility.latitude,
+      longitude: facility.longitude,
+      managerName: facility.gestor,
+      phoneNumber: facility.telefone,
+      ativo: facility.ativo,
+      motivoDesativacao: facility.motivoDesativacao,
+      nome: facility.nome,
+      tipo: facility.tipo,
+      endereco: facility.endereco,
+      gestor: facility.gestor,
+      telefone: facility.telefone,
+    };
+
+    const res = await fetch(`${API_BASE}/facilities/${encodeURIComponent(id)}`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(payload),
+    });
+    const resData = await res.json();
+    const rawUnit = resData.data || resData.unit;
+    return {
+      success: Boolean(resData.success),
+      unit: rawUnit ? mapFacilityFromApi(rawUnit) : undefined,
+      message: resData.message,
+    };
+  },
+
+  async deleteFacility(id: string): Promise<{ success: boolean; message?: string }> {
+    const res = await fetch(`${API_BASE}/facilities/${encodeURIComponent(id)}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    });
+    const resData = await res.json();
+    return {
+      success: Boolean(resData.success),
       message: resData.message,
     };
   },
