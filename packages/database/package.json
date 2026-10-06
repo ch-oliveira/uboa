@@ -17,6 +17,7 @@
     "migrate:status": "prisma migrate status",
     "seed": "tsx prisma/seed.ts",
     "seed:prod": "tsx prisma/seed-prod.ts",
+    "seed:prod-data": "tsx prisma/seed-prod-data.ts",
     "user:create": "tsx prisma/create-user.ts",
     "studio": "prisma studio"
   },
