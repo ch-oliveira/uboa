@@ -8,6 +8,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
+    "db:generate": "pnpm --filter @repo/database generate",
     "db:migrate:dev": "pnpm --filter @repo/database migrate:dev",
     "db:migrate:deploy": "pnpm --filter @repo/database migrate:deploy",
     "db:migrate:status": "pnpm --filter @repo/database migrate:status",
