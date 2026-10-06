@@ -14,6 +14,7 @@
     "db:migrate:status": "pnpm --filter @repo/database migrate:status",
     "db:seed": "pnpm --filter @repo/database seed",
     "db:seed:prod": "pnpm --filter @repo/database seed:prod",
+    "db:user:create": "pnpm --filter @repo/database user:create",
     "db:studio": "pnpm --filter @repo/database studio"
   },
   "devDependencies": {

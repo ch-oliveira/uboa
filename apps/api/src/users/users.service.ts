@@ -1,7 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import bcrypt from 'bcryptjs';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { Role } from '@repo/database';
 import type { ApiResponse } from '../common/interfaces/api-response.interface.js';
+import type { CreateUserDto } from './dto/create-user.dto.js';
+import type { JwtPayload } from '../auth/jwt.strategy.js';
 
 export interface UserResponse {
   id: string;
@@ -75,6 +78,41 @@ export class UsersService {
     return {
       success: true,
       data: this.mapUser(user),
+    };
+  }
+
+  async create(dto: CreateUserDto): Promise<ApiResponse<UserResponse>> {
+    const cleanEmail = dto.email.toLowerCase().trim();
+    const existing = await this.prisma.usuario.findUnique({
+      where: { email: cleanEmail },
+    });
+    if (existing) {
+      throw new ConflictException('Já existe um usuário com este e-mail.');
+    }
+
+    const passwordHash = await bcrypt.hash(dto.senha, 10);
+    const user = await this.prisma.usuario.create({
+      data: {
+        nome: dto.nome.trim(),
+        email: cleanEmail,
+        senha_hash: passwordHash,
+        role: dto.role || Role.GESTOR,
+        telefone: dto.telefone?.trim(),
+      },
+      select: {
+        id: true,
+        nome: true,
+        email: true,
+        role: true,
+        telefone: true,
+        criado_em: true,
+      },
+    });
+
+    return {
+      success: true,
+      data: this.mapUser(user),
+      message: 'Usuário cadastrado com sucesso.',
     };
   }
 }
