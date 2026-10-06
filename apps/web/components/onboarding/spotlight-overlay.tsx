@@ -144,20 +144,21 @@ export function SpotlightOverlay() {
     const cardMargin = 16;
     const desiredPos = currentStep.position || 'bottom';
 
-    let left = rect.left + rect.width / 2 - cardWidth / 2;
-    // Garante que não estoure as bordas da tela
-    left = Math.max(16, Math.min(windowDimensions.width - cardWidth - 16, left));
+    let left = 16;
+    let top = 16;
 
-    let top = rect.bottom + cardMargin;
-
-    if (desiredPos === 'top' || (top + 260 > windowDimensions.height && rect.top > 260)) {
-      top = Math.max(16, rect.top - 260);
-    } else if (desiredPos === 'right' && rect.right + cardWidth + cardMargin < windowDimensions.width) {
+    if (desiredPos === 'right' && rect.right + cardWidth + cardMargin <= windowDimensions.width) {
       left = rect.right + cardMargin;
-      top = Math.max(16, Math.min(windowDimensions.height - 280, rect.top));
-    } else if (desiredPos === 'left' && rect.left - cardWidth - cardMargin > 0) {
+      top = Math.max(16, Math.min(windowDimensions.height - 280, rect.top - 20));
+    } else if (desiredPos === 'left' && rect.left - cardWidth - cardMargin >= 0) {
       left = rect.left - cardWidth - cardMargin;
-      top = Math.max(16, Math.min(windowDimensions.height - 280, rect.top));
+      top = Math.max(16, Math.min(windowDimensions.height - 280, rect.top - 20));
+    } else if (desiredPos === 'top' || (desiredPos === 'bottom' && rect.bottom + 280 > windowDimensions.height && rect.top > 280)) {
+      left = Math.max(16, Math.min(windowDimensions.width - cardWidth - 16, rect.left + rect.width / 2 - cardWidth / 2));
+      top = Math.max(16, rect.top - 280);
+    } else {
+      left = Math.max(16, Math.min(windowDimensions.width - cardWidth - 16, rect.left + rect.width / 2 - cardWidth / 2));
+      top = Math.min(windowDimensions.height - 280, rect.bottom + cardMargin);
     }
 
     cardStyle = {

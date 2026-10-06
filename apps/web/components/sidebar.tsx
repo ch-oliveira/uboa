@@ -165,6 +165,7 @@ export function Sidebar({
                 active={currentRoute === '/unidades'} 
                 badge={units.length > 0 ? String(units.length) : undefined}
                 isCollapsed={isSidebarCollapsed}
+                dataTour="nav-unidades"
               />
               <SidebarNavItem 
                 icon={<TrendingUp size={15} />} 
@@ -183,6 +184,7 @@ export function Sidebar({
                 shortcut="Ctrl+J"
                 tooltip="Consultar Urbi (IA)"
                 accent
+                dataTour="copilot-button"
               />
             </div>
           </div>

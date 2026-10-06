@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from './auth-context';
 import { type TourStep, type ChecklistMission } from '@/types/onboarding';
 import { ROLE_TOUR_STEPS, ROLE_CHECKLIST_MISSIONS } from '@/lib/onboarding-data';
@@ -32,6 +33,7 @@ interface OnboardingContextType {
 const OnboardingContext = createContext<OnboardingContextType | undefined>(undefined);
 
 export function OnboardingProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const { user, role, isAuthenticated, isLoading } = useAuth();
 
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -120,6 +122,27 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
     [storageMissionsKey]
   );
 
+  const pathname = usePathname();
+
+  // Rastreia rotas acessadas e conclui automaticamente as missões correspondentes
+  useEffect(() => {
+    if (!pathname || !isAuthenticated) return;
+    if (pathname === '/') {
+      markMissionCompleted('mission-kpi');
+    } else if (pathname === '/chamados' || pathname === '/kanban') {
+      markMissionCompleted('mission-triagem');
+      markMissionCompleted('mission-os');
+    } else if (pathname === '/unidades') {
+      markMissionCompleted('mission-unidades');
+    } else if (pathname === '/agenda') {
+      markMissionCompleted('mission-agenda');
+    } else if (pathname === '/configuracoes') {
+      markMissionCompleted('mission-auditoria');
+    } else if (pathname === '/abrir-chamado') {
+      markMissionCompleted('mission-primeiro-chamado');
+    }
+  }, [pathname, isAuthenticated, markMissionCompleted]);
+
   const toggleMission = useCallback(
     (missionId: string) => {
       setCompletedMissionIds((prev) => {
@@ -136,6 +159,9 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
   );
 
   const startTour = useCallback(() => {
+    if (pathname !== '/') {
+      router.push('/');
+    }
     setShowWelcomeModal(false);
     setCurrentStepIndex(0);
     setIsActive(true);
@@ -146,7 +172,7 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
     } catch {
       // ignore
     }
-  }, [storagePromptKey]);
+  }, [router, pathname, storagePromptKey]);
 
   const finishTour = useCallback(() => {
     setIsActive(false);
@@ -199,12 +225,15 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
   }, [storagePromptKey]);
 
   const resetTour = useCallback(() => {
+    if (pathname !== '/') {
+      router.push('/');
+    }
     setCurrentStepIndex(0);
     setIsActive(true);
     setShowWelcomeModal(false);
     setIsChecklistVisible(true);
     setIsChecklistMinimized(true);
-  }, []);
+  }, [router, pathname]);
 
   const missions = useMemo(() => {
     return rawMissions.map((m) => ({

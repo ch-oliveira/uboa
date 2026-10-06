@@ -17,6 +17,7 @@ import {
   Trophy
 } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
+import { useOrders } from '@/context/orders-context';
 import { useOnboarding } from '@/context/onboarding-context';
 
 const cubicSpring = [0.16, 1, 0.3, 1] as const;
@@ -24,6 +25,7 @@ const cubicSpring = [0.16, 1, 0.3, 1] as const;
 export function ChecklistWidget() {
   const router = useRouter();
   const { user, role } = useAuth();
+  const { openCopilot } = useOrders();
   const { 
     isChecklistVisible, 
     setIsChecklistVisible, 
@@ -32,9 +34,34 @@ export function ChecklistWidget() {
     missions, 
     progressPercentage, 
     toggleMission, 
+    markMissionCompleted,
     resetTour,
     isActive
   } = useOnboarding();
+
+  function handleExecuteMission(mission: (typeof missions)[0]) {
+    // Marca a missão imediatamente como concluída
+    markMissionCompleted(mission.id);
+
+    if (mission.id === 'mission-tour') {
+      resetTour();
+      return;
+    }
+
+    if (mission.id === 'mission-copilot') {
+      openCopilot();
+      return;
+    }
+
+    if (mission.id === 'mission-dev') {
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', ctrlKey: true, shiftKey: true }));
+      return;
+    }
+
+    if (mission.actionRoute) {
+      router.push(mission.actionRoute);
+    }
+  }
 
   // Não exibe se o spotlight tour estiver ativo na tela ou se o usuário fechou explicitamente
   if (!isChecklistVisible || isActive) return null;
@@ -135,14 +162,18 @@ export function ChecklistWidget() {
               {missions.map((mission) => (
                 <div
                   key={mission.id}
+                  onClick={() => !mission.isCompleted && handleExecuteMission(mission)}
                   className={`p-2.5 rounded-xl border transition-all text-xs flex items-start gap-2.5 ${
                     mission.isCompleted
                       ? 'bg-slate-50/70 border-slate-200/60 opacity-80'
-                      : 'bg-white border-slate-200/90 hover:border-slate-300 shadow-xs'
+                      : 'bg-white border-slate-200/90 hover:border-[#2563EB]/40 hover:bg-blue-50/30 shadow-xs cursor-pointer'
                   }`}
                 >
                   <button
-                    onClick={() => toggleMission(mission.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleMission(mission.id);
+                    }}
                     className="mt-0.5 text-slate-400 hover:text-emerald-600 transition-colors cursor-pointer shrink-0"
                     aria-label={mission.isCompleted ? 'Desmarcar missão' : 'Marcar missão como concluída'}
                   >
@@ -163,14 +194,15 @@ export function ChecklistWidget() {
                         {mission.title}
                       </p>
 
-                      {mission.actionRoute && !mission.isCompleted && (
+                      {mission.actionLabel && !mission.isCompleted && (
                         <button
-                          onClick={() => {
-                            if (mission.actionRoute) router.push(mission.actionRoute);
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleExecuteMission(mission);
                           }}
                           className="shrink-0 text-[10px] font-bold text-[#2563EB] hover:text-[#1d4ed8] hover:underline flex items-center gap-0.5 cursor-pointer ml-1"
                         >
-                          <span>{mission.actionLabel || 'Ir'}</span>
+                          <span>{mission.actionLabel}</span>
                           <ArrowUpRight size={10} strokeWidth={2.5} />
                         </button>
                       )}

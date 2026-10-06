@@ -178,6 +178,7 @@ export const ROLE_CHECKLIST_MISSIONS: Record<UserRole, ChecklistMission[]> = {
       title: 'Completar o Tour Guiado do Gestor',
       description: 'Conheça todos os módulos essenciais da plataforma.',
       isCompleted: false,
+      actionLabel: 'Iniciar Tour',
     },
     {
       id: 'mission-kpi',
@@ -218,6 +219,7 @@ export const ROLE_CHECKLIST_MISSIONS: Record<UserRole, ChecklistMission[]> = {
       title: 'Completar o Tour do Solicitante',
       description: 'Aprenda como funciona o fluxo de manutenção da sua unidade.',
       isCompleted: false,
+      actionLabel: 'Iniciar Tour',
     },
     {
       id: 'mission-primeiro-chamado',
@@ -243,6 +245,7 @@ export const ROLE_CHECKLIST_MISSIONS: Record<UserRole, ChecklistMission[]> = {
       title: 'Completar o Tour do Técnico',
       description: 'Entenda como gerenciar seus atendimentos e registrar fotos.',
       isCompleted: false,
+      actionLabel: 'Iniciar Tour',
     },
     {
       id: 'mission-os',
@@ -268,6 +271,7 @@ export const ROLE_CHECKLIST_MISSIONS: Record<UserRole, ChecklistMission[]> = {
       title: 'Completar o Tour do Administrador',
       description: 'Entenda os recursos de governança e auditoria da gestão.',
       isCompleted: false,
+      actionLabel: 'Iniciar Tour',
     },
     {
       id: 'mission-auditoria',
