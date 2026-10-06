@@ -44,6 +44,7 @@ function mapStatusToUi(status?: string): StatusOS {
   if (s === 'WAITING' || s === 'AGUARDANDO') return 'AGUARDANDO';
   if (s === 'IN_PROGRESS' || s === 'EM_EXECUCAO') return 'EM_EXECUCAO';
   if (s === 'COMPLETED' || s === 'CONCLUIDO') return 'CONCLUIDO';
+  if (s === 'CANCELLED' || s === 'CANCELADO') return 'CANCELADO';
   return 'TRIAGEM';
 }
 
@@ -103,6 +104,9 @@ function mapWorkOrderFromApi(item: any): OrdemServico {
     status: mapStatusToUi(item.status),
     openedAt: item.openedAt,
     dataAbertura: formatOrderDate(item.openedAt || item.dataAbertura),
+    iniciadoEm: item.startedAt || item.iniciadoEm,
+    concluidoEm: item.completedAt || item.concluidoEm,
+    dataLimiteSla: item.slaDeadline || item.dataLimiteSla,
     solicitante: item.requesterName || item.solicitante || 'Gestão Municipal',
     tecnico: item.technicianName || item.tecnico,
     descricao: item.description || item.descricao,
@@ -110,6 +114,10 @@ function mapWorkOrderFromApi(item: any): OrdemServico {
     localizacao: item.locationDetail || item.localizacao,
     categoria: inferCategoryFromText(item.title || item.titulo, item.description || item.descricao, item.category || item.categoria),
     fotos: item.photos || item.fotos,
+    fotosConclusao: item.photosCompletion || item.fotosConclusao || [],
+    motivoPausa: item.pauseReason || item.motivoPausa,
+    motivoCancelamento: item.cancellationReason || item.motivoCancelamento,
+    ordemVinculadaId: item.linkedOrderId || item.ordemVinculadaId,
     impedimento: item.impediment || item.impedimento,
     historico: item.history || item.historico,
   };
@@ -366,10 +374,11 @@ export const apiClient = {
     };
   },
 
-  async deleteWorkOrder(idOrCode: string): Promise<{ success: boolean; message?: string }> {
+  async deleteWorkOrder(idOrCode: string, motivoCancelamento?: string): Promise<{ success: boolean; message?: string }> {
     const res = await fetch(`${API_BASE}/work-orders/${encodeURIComponent(idOrCode)}`, {
       method: 'DELETE',
       headers: getAuthHeaders(),
+      body: JSON.stringify({ motivoCancelamento: motivoCancelamento || 'Cancelamento solicitado via painel web' }),
     });
     return await res.json();
   },

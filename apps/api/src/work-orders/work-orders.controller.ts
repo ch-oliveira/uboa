@@ -42,7 +42,11 @@ export class WorkOrdersController {
 
   @Roles(Role.ADMIN, Role.GESTOR)
   @Delete(':id')
-  async remove(@Param('id') id: string, @CurrentUser() user?: any) {
-    return this.workOrdersService.remove(id, user);
+  async remove(
+    @Param('id') id: string,
+    @Body() body?: { motivoCancelamento?: string; motivo?: string },
+    @CurrentUser() user?: any,
+  ) {
+    return this.workOrdersService.remove(id, body?.motivoCancelamento || body?.motivo, user);
   }
 }

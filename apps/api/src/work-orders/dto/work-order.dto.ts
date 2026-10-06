@@ -68,6 +68,14 @@ export class CreateWorkOrderDto {
   @IsString({ each: true })
   @IsOptional()
   fotos?: string[];
+
+  @IsString()
+  @IsOptional()
+  ordemVinculadaId?: string;
+
+  @IsString()
+  @IsOptional()
+  ordem_vinculada_id?: string;
 }
 
 export class UpdateWorkOrderDto {
@@ -118,4 +126,30 @@ export class UpdateWorkOrderDto {
   @IsString()
   @IsOptional()
   predio?: string;
+
+  @IsString()
+  @IsOptional()
+  motivoPausa?: string;
+
+  @IsString()
+  @IsOptional()
+  motivo_pausa?: string;
+
+  @IsString()
+  @IsOptional()
+  motivoCancelamento?: string;
+
+  @IsString()
+  @IsOptional()
+  motivo_cancelamento?: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  fotosConclusao?: string[];
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  fotos_conclusao?: string[];
 }

@@ -107,7 +107,17 @@ model OrdemServico {
   tecnico              Usuario?   @relation("TecnicoOS", fields: [tecnico_atribuido_id], references: [id])
   
   fotos                String[]   // URLs array
-  
+  fotos_conclusao      String[]   @default([]) // Evidência fotográfica obrigatória para encerramento
+  motivo_pausa         String?    // Obrigatório quando status for AGUARDANDO
+  motivo_cancelamento  String?    // Obrigatório quando status for CANCELADO (Auditoria / Tribunal de Contas)
+  data_limite_sla      DateTime?  // Prazo fatal calculado na criação/triagem
+  iniciado_em          DateTime?  // Timestamp gravado na transição para EM_EXECUCAO
+  concluido_em         DateTime?  // Timestamp gravado na transição para CONCLUIDO
+
+  ordem_vinculada_id   String?
+  ordem_vinculada      OrdemServico?  @relation("HistoricoOS", fields: [ordem_vinculada_id], references: [id])
+  ordens_derivadas     OrdemServico[] @relation("HistoricoOS")
+
   criado_em            DateTime   @default(now())
   atualizado           DateTime   @updatedAt
 

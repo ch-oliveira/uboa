@@ -154,6 +154,13 @@ exports.Prisma.OrdemServicoScalarFieldEnum = {
   solicitante_id: 'solicitante_id',
   tecnico_atribuido_id: 'tecnico_atribuido_id',
   fotos: 'fotos',
+  fotos_conclusao: 'fotos_conclusao',
+  motivo_pausa: 'motivo_pausa',
+  motivo_cancelamento: 'motivo_cancelamento',
+  data_limite_sla: 'data_limite_sla',
+  iniciado_em: 'iniciado_em',
+  concluido_em: 'concluido_em',
+  ordem_vinculada_id: 'ordem_vinculada_id',
   criado_em: 'criado_em',
   atualizado: 'atualizado'
 };

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { StatusOS, Prioridade, AuditAction, TipoPredio, Role } from '@repo/database';
 import type { ApiResponse } from '../common/interfaces/api-response.interface.js';
@@ -21,6 +21,13 @@ export interface WorkOrderResponse {
   status: ApiStatus;
   openedAt: string;
   photos: string[];
+  photosCompletion?: string[];
+  pauseReason?: string;
+  cancellationReason?: string;
+  slaDeadline?: string;
+  startedAt?: string;
+  completedAt?: string;
+  linkedOrderId?: string;
 }
 
 export interface WorkOrdersMeta {
@@ -109,6 +116,13 @@ export class WorkOrdersService {
       status: toApiStatus(o.status),
       openedAt: o.criado_em.toISOString(),
       photos: o.fotos || [],
+      photosCompletion: o.fotos_conclusao || [],
+      pauseReason: o.motivo_pausa || undefined,
+      cancellationReason: o.motivo_cancelamento || undefined,
+      slaDeadline: o.data_limite_sla ? o.data_limite_sla.toISOString() : undefined,
+      startedAt: o.iniciado_em ? o.iniciado_em.toISOString() : undefined,
+      completedAt: o.concluido_em ? o.concluido_em.toISOString() : undefined,
+      linkedOrderId: o.ordem_vinculada_id || undefined,
     };
   }
 
@@ -224,6 +238,7 @@ export class WorkOrdersService {
     const priority = toPrismaPriority(payload.priority || payload.prioridade);
     const technicianName = payload.technicianName || payload.tecnico;
     const photos = Array.isArray(payload.photos || payload.fotos) ? (payload.photos || payload.fotos) : [];
+    const ordemVinculadaId = payload.ordemVinculadaId || payload.ordem_vinculada_id;
 
     // 1. Encontrar o Prédio ou associar ao padrão
     let predioRecord = await this.prisma.predio.findFirst({
@@ -261,6 +276,16 @@ export class WorkOrdersService {
       if (tecnicoUser) tecnicoId = tecnicoUser.id;
     }
 
+    // 4. Calcular data_limite_sla com base na configuração do sistema
+    let slaHoras = 72; // default MEDIA
+    const config = await this.prisma.configuracaoSistema.findFirst();
+    if (priority === Prioridade.URGENTE) slaHoras = config?.sla_urgente_h ?? 4;
+    else if (priority === Prioridade.ALTA) slaHoras = config?.sla_alta_h ?? 24;
+    else if (priority === Prioridade.BAIXA) slaHoras = config?.sla_baixa_h ?? 168;
+    else slaHoras = config?.sla_media_h ?? 72;
+
+    const dataLimiteSla = new Date(Date.now() + slaHoras * 3600 * 1000);
+
     const code = `OS-${Math.floor(100000 + Math.random() * 900000)}`;
 
     // Transação atômica: entidade e registro de auditoria gravados juntos
@@ -276,6 +301,9 @@ export class WorkOrdersService {
           solicitante_id: solicitanteId,
           tecnico_atribuido_id: tecnicoId,
           fotos: photos.slice(0, 10), // Limite de 10 fotos para proteção DoS
+          fotos_conclusao: [],
+          data_limite_sla: dataLimiteSla,
+          ordem_vinculada_id: ordemVinculadaId || null,
         },
         include: { predio: true, solicitante: true, tecnico: true },
       });
@@ -289,6 +317,9 @@ export class WorkOrdersService {
           dados_novos: { 
             codigo: order.codigo, 
             titulo: order.titulo,
+            prioridade: order.prioridade,
+            data_limite_sla: dataLimiteSla.toISOString(),
+            ordem_vinculada_id: ordemVinculadaId,
             origem: currentUser ? 'UsuarioAutenticado' : 'PortalPublico'
           },
         },
@@ -300,7 +331,7 @@ export class WorkOrdersService {
     return {
       success: true,
       data: this.mapOrder(created),
-      message: `Ordem de serviço ${created.codigo} registrada com sucesso.`,
+      message: `Ordem de serviço ${created.codigo} registrada com sucesso. Prazo SLA: ${slaHoras}h.`,
     };
   }
 
@@ -312,16 +343,55 @@ export class WorkOrdersService {
 
     if (!existing) throw new NotFoundException('Ordem de serviço não encontrada.');
 
-    // Verificação de permissão para técnicos: técnico só pode atualizar suas próprias OSs
-    if (currentUser?.role === Role.TECNICO && existing.tecnico_atribuido_id !== currentUser.id) {
-      throw new ForbiddenException('Técnicos só podem atualizar ordens atribuídas a si mesmos.');
+    // 1. REGRA DE TERMINALIDADE: CONCLUIDO e CANCELADO não podem sofrer mutação
+    if (existing.status === StatusOS.CONCLUIDO || existing.status === StatusOS.CANCELADO) {
+      throw new BadRequestException(
+        `A ordem ${existing.codigo} possui status terminal (${existing.status}) e não pode ser modificada. Para contestações, abra uma nova OS vinculada.`
+      );
+    }
+
+    const targetStatus = updates.status ? toPrismaStatus(updates.status) : existing.status;
+
+    // 2. REGRA DE RBAC PARA TÉCNICOS
+    if (currentUser?.role === Role.TECNICO) {
+      if (existing.tecnico_atribuido_id !== currentUser.id) {
+        throw new ForbiddenException('Técnicos só podem atualizar ordens atribuídas a si mesmos.');
+      }
+      if (updates.priority || updates.prioridade) {
+        throw new ForbiddenException('Técnicos não possuem permissão para alterar a prioridade da OS.');
+      }
+      if (updates.technician || updates.technicianName || updates.tecnico) {
+        throw new ForbiddenException('Técnicos não possuem permissão para reatribuir técnicos.');
+      }
+      if (targetStatus === StatusOS.CANCELADO) {
+        throw new ForbiddenException('Apenas gestores e administradores podem cancelar ordens de serviço.');
+      }
+    }
+
+    // 3. MÁQUINA DE ESTADOS RÍGIDA
+    const validTransitions: Record<StatusOS, StatusOS[]> = {
+      [StatusOS.RECEBIDO]: [StatusOS.EM_TRIAGEM, StatusOS.AGENDADO, StatusOS.EM_EXECUCAO, StatusOS.CANCELADO],
+      [StatusOS.EM_TRIAGEM]: [StatusOS.AGENDADO, StatusOS.EM_EXECUCAO, StatusOS.CANCELADO],
+      [StatusOS.AGENDADO]: [StatusOS.EM_EXECUCAO, StatusOS.CANCELADO],
+      [StatusOS.EM_EXECUCAO]: [StatusOS.AGUARDANDO, StatusOS.CONCLUIDO, StatusOS.CANCELADO],
+      [StatusOS.AGUARDANDO]: [StatusOS.EM_EXECUCAO, StatusOS.CONCLUIDO, StatusOS.CANCELADO],
+      [StatusOS.CONCLUIDO]: [],
+      [StatusOS.CANCELADO]: [],
+    };
+
+    if (targetStatus !== existing.status) {
+      const allowed = validTransitions[existing.status] || [];
+      if (!allowed.includes(targetStatus)) {
+        throw new BadRequestException(
+          `Transição de status inválida: não é permitido alterar de ${existing.status} para ${targetStatus}.`
+        );
+      }
     }
 
     const updateData: any = {};
     if (updates.title || updates.titulo) updateData.titulo = updates.title || updates.titulo;
     if (updates.description || updates.descricao) updateData.descricao = updates.description || updates.descricao;
     if (updates.priority || updates.prioridade) updateData.prioridade = toPrismaPriority(updates.priority || updates.prioridade);
-    if (updates.status) updateData.status = toPrismaStatus(updates.status);
 
     const technician = updates.technicianName || updates.technician || updates.tecnico;
     if (technician) {
@@ -329,6 +399,58 @@ export class WorkOrdersService {
         where: { nome: { contains: technician, mode: 'insensitive' } },
       });
       if (tecnicoUser) updateData.tecnico_atribuido_id = tecnicoUser.id;
+    }
+
+    // Guardrails específicos de transição
+    if (targetStatus !== existing.status) {
+      updateData.status = targetStatus;
+
+      // Início de Execução
+      if (targetStatus === StatusOS.EM_EXECUCAO) {
+        if (!existing.iniciado_em) {
+          updateData.iniciado_em = new Date();
+        }
+      }
+
+      // Pausa (AGUARDANDO) - Justificativa obrigatória
+      if (targetStatus === StatusOS.AGUARDANDO) {
+        const motivoPausa = updates.motivoPausa || updates.motivo_pausa;
+        if (!motivoPausa || typeof motivoPausa !== 'string' || !motivoPausa.trim()) {
+          throw new BadRequestException('Para pausar o chamado (AGUARDANDO), o motivo da pausa é obrigatório.');
+        }
+        updateData.motivo_pausa = motivoPausa.trim();
+      }
+
+      // Conclusão (CONCLUIDO) - Foto comprobatória obrigatória
+      if (targetStatus === StatusOS.CONCLUIDO) {
+        const fotosConclusao = Array.isArray(updates.fotosConclusao || updates.fotos_conclusao)
+          ? (updates.fotosConclusao || updates.fotos_conclusao)
+          : [];
+        const existingConclusao = existing.fotos_conclusao || [];
+
+        if (fotosConclusao.length === 0 && existingConclusao.length === 0) {
+          throw new BadRequestException(
+            'Para concluir a ordem de serviço, é obrigatório anexar ao menos uma foto do serviço finalizado (depois).'
+          );
+        }
+
+        if (fotosConclusao.length > 0) {
+          updateData.fotos_conclusao = fotosConclusao;
+        }
+        updateData.concluido_em = new Date();
+      }
+
+      // Cancelamento (CANCELADO) - Apenas Admin/Gestor com motivo obrigatório
+      if (targetStatus === StatusOS.CANCELADO) {
+        if (currentUser?.role && currentUser.role !== Role.ADMIN && currentUser.role !== Role.GESTOR) {
+          throw new ForbiddenException('Apenas ADMIN e GESTOR podem cancelar uma ordem de serviço.');
+        }
+        const motivoCancelamento = updates.motivoCancelamento || updates.motivo_cancelamento;
+        if (!motivoCancelamento || typeof motivoCancelamento !== 'string' || !motivoCancelamento.trim()) {
+          throw new BadRequestException('Para cancelar a ordem de serviço, o motivo do cancelamento é obrigatório para auditoria.');
+        }
+        updateData.motivo_cancelamento = motivoCancelamento.trim();
+      }
     }
 
     // Transação atômica: atualização e auditoria síncronas
@@ -346,7 +468,11 @@ export class WorkOrdersService {
             entidade_id: order.id,
             acao: AuditAction.UPDATE,
             usuario_id: currentUser.id,
-            dados_antigos: { status: existing.status, prioridade: existing.prioridade },
+            dados_antigos: { 
+              status: existing.status, 
+              prioridade: existing.prioridade,
+              tecnico_id: existing.tecnico_atribuido_id
+            },
             dados_novos: updateData,
           },
         });
@@ -362,36 +488,56 @@ export class WorkOrdersService {
     };
   }
 
-  async remove(idOrCode: string, currentUser?: any): Promise<ApiResponse<null>> {
+  async remove(idOrCode: string, motivo?: string, currentUser?: any): Promise<ApiResponse<null>> {
     const existing = await this.prisma.ordemServico.findFirst({
       where: { OR: [{ id: idOrCode }, { codigo: idOrCode }] },
     });
 
     if (!existing) throw new NotFoundException('Ordem de serviço não encontrada.');
 
-    // Transação atômica de remoção e auditoria
+    // 1. REGRA TRIBUNAL DE CONTAS: Hard delete banido
+    if (existing.status === StatusOS.CONCLUIDO) {
+      throw new BadRequestException('Ordens de serviço concluídas não podem ser excluídas ou canceladas.');
+    }
+
+    if (existing.status === StatusOS.CANCELADO) {
+      throw new BadRequestException('Esta ordem de serviço já se encontra cancelada.');
+    }
+
+    const motivoFinal = motivo?.trim() || 'Cancelamento solicitado pela administração via portal';
+
+    // Transação atômica de soft-cancelamento e auditoria permanente
     await this.prisma.$transaction(async (tx) => {
+      await tx.ordemServico.update({
+        where: { id: existing.id },
+        data: {
+          status: StatusOS.CANCELADO,
+          motivo_cancelamento: motivoFinal,
+        },
+      });
+
       if (currentUser?.id) {
         await tx.auditoriaLog.create({
           data: {
             entidade_afetada: 'OrdemServico',
             entidade_id: existing.id,
-            acao: AuditAction.DELETE,
+            acao: AuditAction.UPDATE,
             usuario_id: currentUser.id,
-            dados_antigos: { codigo: existing.codigo, titulo: existing.titulo },
+            dados_antigos: { status: existing.status, motivo_cancelamento: existing.motivo_cancelamento },
+            dados_novos: { 
+              status: StatusOS.CANCELADO, 
+              motivo_cancelamento: motivoFinal, 
+              motivo_operacao: 'Hard delete bloqueado para conformidade do Tribunal de Contas' 
+            },
           },
         });
       }
-
-      await tx.ordemServico.delete({
-        where: { id: existing.id },
-      });
     });
 
     return {
       success: true,
       data: null,
-      message: `Ordem de serviço ${existing.codigo} removida com sucesso.`,
+      message: `Ordem de serviço ${existing.codigo} cancelada com sucesso para preservação de histórico e auditoria.`,
     };
   }
 }

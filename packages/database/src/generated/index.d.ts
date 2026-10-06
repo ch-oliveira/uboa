@@ -1479,6 +1479,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type OrdemServicoCountOutputType
+   */
+
+  export type OrdemServicoCountOutputType = {
+    ordens_derivadas: number
+  }
+
+  export type OrdemServicoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ordens_derivadas?: boolean | OrdemServicoCountOutputTypeCountOrdens_derivadasArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * OrdemServicoCountOutputType without action
+   */
+  export type OrdemServicoCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrdemServicoCountOutputType
+     */
+    select?: OrdemServicoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * OrdemServicoCountOutputType without action
+   */
+  export type OrdemServicoCountOutputTypeCountOrdens_derivadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrdemServicoWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -3875,6 +3906,12 @@ export namespace Prisma {
     predio_id: string | null
     solicitante_id: string | null
     tecnico_atribuido_id: string | null
+    motivo_pausa: string | null
+    motivo_cancelamento: string | null
+    data_limite_sla: Date | null
+    iniciado_em: Date | null
+    concluido_em: Date | null
+    ordem_vinculada_id: string | null
     criado_em: Date | null
     atualizado: Date | null
   }
@@ -3889,6 +3926,12 @@ export namespace Prisma {
     predio_id: string | null
     solicitante_id: string | null
     tecnico_atribuido_id: string | null
+    motivo_pausa: string | null
+    motivo_cancelamento: string | null
+    data_limite_sla: Date | null
+    iniciado_em: Date | null
+    concluido_em: Date | null
+    ordem_vinculada_id: string | null
     criado_em: Date | null
     atualizado: Date | null
   }
@@ -3904,6 +3947,13 @@ export namespace Prisma {
     solicitante_id: number
     tecnico_atribuido_id: number
     fotos: number
+    fotos_conclusao: number
+    motivo_pausa: number
+    motivo_cancelamento: number
+    data_limite_sla: number
+    iniciado_em: number
+    concluido_em: number
+    ordem_vinculada_id: number
     criado_em: number
     atualizado: number
     _all: number
@@ -3920,6 +3970,12 @@ export namespace Prisma {
     predio_id?: true
     solicitante_id?: true
     tecnico_atribuido_id?: true
+    motivo_pausa?: true
+    motivo_cancelamento?: true
+    data_limite_sla?: true
+    iniciado_em?: true
+    concluido_em?: true
+    ordem_vinculada_id?: true
     criado_em?: true
     atualizado?: true
   }
@@ -3934,6 +3990,12 @@ export namespace Prisma {
     predio_id?: true
     solicitante_id?: true
     tecnico_atribuido_id?: true
+    motivo_pausa?: true
+    motivo_cancelamento?: true
+    data_limite_sla?: true
+    iniciado_em?: true
+    concluido_em?: true
+    ordem_vinculada_id?: true
     criado_em?: true
     atualizado?: true
   }
@@ -3949,6 +4011,13 @@ export namespace Prisma {
     solicitante_id?: true
     tecnico_atribuido_id?: true
     fotos?: true
+    fotos_conclusao?: true
+    motivo_pausa?: true
+    motivo_cancelamento?: true
+    data_limite_sla?: true
+    iniciado_em?: true
+    concluido_em?: true
+    ordem_vinculada_id?: true
     criado_em?: true
     atualizado?: true
     _all?: true
@@ -4037,6 +4106,13 @@ export namespace Prisma {
     solicitante_id: string
     tecnico_atribuido_id: string | null
     fotos: string[]
+    fotos_conclusao: string[]
+    motivo_pausa: string | null
+    motivo_cancelamento: string | null
+    data_limite_sla: Date | null
+    iniciado_em: Date | null
+    concluido_em: Date | null
+    ordem_vinculada_id: string | null
     criado_em: Date
     atualizado: Date
     _count: OrdemServicoCountAggregateOutputType | null
@@ -4069,11 +4145,21 @@ export namespace Prisma {
     solicitante_id?: boolean
     tecnico_atribuido_id?: boolean
     fotos?: boolean
+    fotos_conclusao?: boolean
+    motivo_pausa?: boolean
+    motivo_cancelamento?: boolean
+    data_limite_sla?: boolean
+    iniciado_em?: boolean
+    concluido_em?: boolean
+    ordem_vinculada_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
+    ordens_derivadas?: boolean | OrdemServico$ordens_derivadasArgs<ExtArgs>
+    _count?: boolean | OrdemServicoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ordemServico"]>
 
   export type OrdemServicoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4087,11 +4173,19 @@ export namespace Prisma {
     solicitante_id?: boolean
     tecnico_atribuido_id?: boolean
     fotos?: boolean
+    fotos_conclusao?: boolean
+    motivo_pausa?: boolean
+    motivo_cancelamento?: boolean
+    data_limite_sla?: boolean
+    iniciado_em?: boolean
+    concluido_em?: boolean
+    ordem_vinculada_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }, ExtArgs["result"]["ordemServico"]>
 
   export type OrdemServicoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4105,11 +4199,19 @@ export namespace Prisma {
     solicitante_id?: boolean
     tecnico_atribuido_id?: boolean
     fotos?: boolean
+    fotos_conclusao?: boolean
+    motivo_pausa?: boolean
+    motivo_cancelamento?: boolean
+    data_limite_sla?: boolean
+    iniciado_em?: boolean
+    concluido_em?: boolean
+    ordem_vinculada_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }, ExtArgs["result"]["ordemServico"]>
 
   export type OrdemServicoSelectScalar = {
@@ -4123,25 +4225,37 @@ export namespace Prisma {
     solicitante_id?: boolean
     tecnico_atribuido_id?: boolean
     fotos?: boolean
+    fotos_conclusao?: boolean
+    motivo_pausa?: boolean
+    motivo_cancelamento?: boolean
+    data_limite_sla?: boolean
+    iniciado_em?: boolean
+    concluido_em?: boolean
+    ordem_vinculada_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
   }
 
-  export type OrdemServicoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo" | "titulo" | "descricao" | "prioridade" | "status" | "predio_id" | "solicitante_id" | "tecnico_atribuido_id" | "fotos" | "criado_em" | "atualizado", ExtArgs["result"]["ordemServico"]>
+  export type OrdemServicoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo" | "titulo" | "descricao" | "prioridade" | "status" | "predio_id" | "solicitante_id" | "tecnico_atribuido_id" | "fotos" | "fotos_conclusao" | "motivo_pausa" | "motivo_cancelamento" | "data_limite_sla" | "iniciado_em" | "concluido_em" | "ordem_vinculada_id" | "criado_em" | "atualizado", ExtArgs["result"]["ordemServico"]>
   export type OrdemServicoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
+    ordens_derivadas?: boolean | OrdemServico$ordens_derivadasArgs<ExtArgs>
+    _count?: boolean | OrdemServicoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OrdemServicoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }
   export type OrdemServicoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }
 
   export type $OrdemServicoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4150,6 +4264,8 @@ export namespace Prisma {
       predio: Prisma.$PredioPayload<ExtArgs>
       solicitante: Prisma.$UsuarioPayload<ExtArgs>
       tecnico: Prisma.$UsuarioPayload<ExtArgs> | null
+      ordem_vinculada: Prisma.$OrdemServicoPayload<ExtArgs> | null
+      ordens_derivadas: Prisma.$OrdemServicoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4162,6 +4278,13 @@ export namespace Prisma {
       solicitante_id: string
       tecnico_atribuido_id: string | null
       fotos: string[]
+      fotos_conclusao: string[]
+      motivo_pausa: string | null
+      motivo_cancelamento: string | null
+      data_limite_sla: Date | null
+      iniciado_em: Date | null
+      concluido_em: Date | null
+      ordem_vinculada_id: string | null
       criado_em: Date
       atualizado: Date
     }, ExtArgs["result"]["ordemServico"]>
@@ -4561,6 +4684,8 @@ export namespace Prisma {
     predio<T extends PredioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PredioDefaultArgs<ExtArgs>>): Prisma__PredioClient<$Result.GetResult<Prisma.$PredioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     solicitante<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tecnico<T extends OrdemServico$tecnicoArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$tecnicoArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    ordem_vinculada<T extends OrdemServico$ordem_vinculadaArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$ordem_vinculadaArgs<ExtArgs>>): Prisma__OrdemServicoClient<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    ordens_derivadas<T extends OrdemServico$ordens_derivadasArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$ordens_derivadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4600,6 +4725,13 @@ export namespace Prisma {
     readonly solicitante_id: FieldRef<"OrdemServico", 'String'>
     readonly tecnico_atribuido_id: FieldRef<"OrdemServico", 'String'>
     readonly fotos: FieldRef<"OrdemServico", 'String[]'>
+    readonly fotos_conclusao: FieldRef<"OrdemServico", 'String[]'>
+    readonly motivo_pausa: FieldRef<"OrdemServico", 'String'>
+    readonly motivo_cancelamento: FieldRef<"OrdemServico", 'String'>
+    readonly data_limite_sla: FieldRef<"OrdemServico", 'DateTime'>
+    readonly iniciado_em: FieldRef<"OrdemServico", 'DateTime'>
+    readonly concluido_em: FieldRef<"OrdemServico", 'DateTime'>
+    readonly ordem_vinculada_id: FieldRef<"OrdemServico", 'String'>
     readonly criado_em: FieldRef<"OrdemServico", 'DateTime'>
     readonly atualizado: FieldRef<"OrdemServico", 'DateTime'>
   }
@@ -5014,6 +5146,49 @@ export namespace Prisma {
      */
     include?: UsuarioInclude<ExtArgs> | null
     where?: UsuarioWhereInput
+  }
+
+  /**
+   * OrdemServico.ordem_vinculada
+   */
+  export type OrdemServico$ordem_vinculadaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrdemServico
+     */
+    select?: OrdemServicoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrdemServico
+     */
+    omit?: OrdemServicoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrdemServicoInclude<ExtArgs> | null
+    where?: OrdemServicoWhereInput
+  }
+
+  /**
+   * OrdemServico.ordens_derivadas
+   */
+  export type OrdemServico$ordens_derivadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrdemServico
+     */
+    select?: OrdemServicoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrdemServico
+     */
+    omit?: OrdemServicoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrdemServicoInclude<ExtArgs> | null
+    where?: OrdemServicoWhereInput
+    orderBy?: OrdemServicoOrderByWithRelationInput | OrdemServicoOrderByWithRelationInput[]
+    cursor?: OrdemServicoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrdemServicoScalarFieldEnum | OrdemServicoScalarFieldEnum[]
   }
 
   /**
@@ -8442,6 +8617,13 @@ export namespace Prisma {
     solicitante_id: 'solicitante_id',
     tecnico_atribuido_id: 'tecnico_atribuido_id',
     fotos: 'fotos',
+    fotos_conclusao: 'fotos_conclusao',
+    motivo_pausa: 'motivo_pausa',
+    motivo_cancelamento: 'motivo_cancelamento',
+    data_limite_sla: 'data_limite_sla',
+    iniciado_em: 'iniciado_em',
+    concluido_em: 'concluido_em',
+    ordem_vinculada_id: 'ordem_vinculada_id',
     criado_em: 'criado_em',
     atualizado: 'atualizado'
   };
@@ -8866,11 +9048,20 @@ export namespace Prisma {
     solicitante_id?: StringFilter<"OrdemServico"> | string
     tecnico_atribuido_id?: StringNullableFilter<"OrdemServico"> | string | null
     fotos?: StringNullableListFilter<"OrdemServico">
+    fotos_conclusao?: StringNullableListFilter<"OrdemServico">
+    motivo_pausa?: StringNullableFilter<"OrdemServico"> | string | null
+    motivo_cancelamento?: StringNullableFilter<"OrdemServico"> | string | null
+    data_limite_sla?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    iniciado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    concluido_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
     atualizado?: DateTimeFilter<"OrdemServico"> | Date | string
     predio?: XOR<PredioScalarRelationFilter, PredioWhereInput>
     solicitante?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     tecnico?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    ordem_vinculada?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
+    ordens_derivadas?: OrdemServicoListRelationFilter
   }
 
   export type OrdemServicoOrderByWithRelationInput = {
@@ -8884,11 +9075,20 @@ export namespace Prisma {
     solicitante_id?: SortOrder
     tecnico_atribuido_id?: SortOrderInput | SortOrder
     fotos?: SortOrder
+    fotos_conclusao?: SortOrder
+    motivo_pausa?: SortOrderInput | SortOrder
+    motivo_cancelamento?: SortOrderInput | SortOrder
+    data_limite_sla?: SortOrderInput | SortOrder
+    iniciado_em?: SortOrderInput | SortOrder
+    concluido_em?: SortOrderInput | SortOrder
+    ordem_vinculada_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
     predio?: PredioOrderByWithRelationInput
     solicitante?: UsuarioOrderByWithRelationInput
     tecnico?: UsuarioOrderByWithRelationInput
+    ordem_vinculada?: OrdemServicoOrderByWithRelationInput
+    ordens_derivadas?: OrdemServicoOrderByRelationAggregateInput
   }
 
   export type OrdemServicoWhereUniqueInput = Prisma.AtLeast<{
@@ -8905,11 +9105,20 @@ export namespace Prisma {
     solicitante_id?: StringFilter<"OrdemServico"> | string
     tecnico_atribuido_id?: StringNullableFilter<"OrdemServico"> | string | null
     fotos?: StringNullableListFilter<"OrdemServico">
+    fotos_conclusao?: StringNullableListFilter<"OrdemServico">
+    motivo_pausa?: StringNullableFilter<"OrdemServico"> | string | null
+    motivo_cancelamento?: StringNullableFilter<"OrdemServico"> | string | null
+    data_limite_sla?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    iniciado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    concluido_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
     atualizado?: DateTimeFilter<"OrdemServico"> | Date | string
     predio?: XOR<PredioScalarRelationFilter, PredioWhereInput>
     solicitante?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     tecnico?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    ordem_vinculada?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
+    ordens_derivadas?: OrdemServicoListRelationFilter
   }, "id" | "codigo">
 
   export type OrdemServicoOrderByWithAggregationInput = {
@@ -8923,6 +9132,13 @@ export namespace Prisma {
     solicitante_id?: SortOrder
     tecnico_atribuido_id?: SortOrderInput | SortOrder
     fotos?: SortOrder
+    fotos_conclusao?: SortOrder
+    motivo_pausa?: SortOrderInput | SortOrder
+    motivo_cancelamento?: SortOrderInput | SortOrder
+    data_limite_sla?: SortOrderInput | SortOrder
+    iniciado_em?: SortOrderInput | SortOrder
+    concluido_em?: SortOrderInput | SortOrder
+    ordem_vinculada_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
     _count?: OrdemServicoCountOrderByAggregateInput
@@ -8944,6 +9160,13 @@ export namespace Prisma {
     solicitante_id?: StringWithAggregatesFilter<"OrdemServico"> | string
     tecnico_atribuido_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     fotos?: StringNullableListFilter<"OrdemServico">
+    fotos_conclusao?: StringNullableListFilter<"OrdemServico">
+    motivo_pausa?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
+    motivo_cancelamento?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
+    data_limite_sla?: DateTimeNullableWithAggregatesFilter<"OrdemServico"> | Date | string | null
+    iniciado_em?: DateTimeNullableWithAggregatesFilter<"OrdemServico"> | Date | string | null
+    concluido_em?: DateTimeNullableWithAggregatesFilter<"OrdemServico"> | Date | string | null
+    ordem_vinculada_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeWithAggregatesFilter<"OrdemServico"> | Date | string
     atualizado?: DateTimeWithAggregatesFilter<"OrdemServico"> | Date | string
   }
@@ -9390,11 +9613,19 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
+    ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
   }
 
   export type OrdemServicoUncheckedCreateInput = {
@@ -9408,8 +9639,16 @@ export namespace Prisma {
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
   }
 
   export type OrdemServicoUpdateInput = {
@@ -9420,11 +9659,19 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
+    ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateInput = {
@@ -9438,8 +9685,16 @@ export namespace Prisma {
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
   }
 
   export type OrdemServicoCreateManyInput = {
@@ -9453,6 +9708,13 @@ export namespace Prisma {
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -9465,6 +9727,12 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9480,6 +9748,13 @@ export namespace Prisma {
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10079,6 +10354,17 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type PredioScalarRelationFilter = {
     is?: PredioWhereInput
     isNot?: PredioWhereInput
@@ -10087,6 +10373,11 @@ export namespace Prisma {
   export type UsuarioScalarRelationFilter = {
     is?: UsuarioWhereInput
     isNot?: UsuarioWhereInput
+  }
+
+  export type OrdemServicoNullableScalarRelationFilter = {
+    is?: OrdemServicoWhereInput | null
+    isNot?: OrdemServicoWhereInput | null
   }
 
   export type OrdemServicoCountOrderByAggregateInput = {
@@ -10100,6 +10391,13 @@ export namespace Prisma {
     solicitante_id?: SortOrder
     tecnico_atribuido_id?: SortOrder
     fotos?: SortOrder
+    fotos_conclusao?: SortOrder
+    motivo_pausa?: SortOrder
+    motivo_cancelamento?: SortOrder
+    data_limite_sla?: SortOrder
+    iniciado_em?: SortOrder
+    concluido_em?: SortOrder
+    ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
   }
@@ -10114,6 +10412,12 @@ export namespace Prisma {
     predio_id?: SortOrder
     solicitante_id?: SortOrder
     tecnico_atribuido_id?: SortOrder
+    motivo_pausa?: SortOrder
+    motivo_cancelamento?: SortOrder
+    data_limite_sla?: SortOrder
+    iniciado_em?: SortOrder
+    concluido_em?: SortOrder
+    ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
   }
@@ -10128,6 +10432,12 @@ export namespace Prisma {
     predio_id?: SortOrder
     solicitante_id?: SortOrder
     tecnico_atribuido_id?: SortOrder
+    motivo_pausa?: SortOrder
+    motivo_cancelamento?: SortOrder
+    data_limite_sla?: SortOrder
+    iniciado_em?: SortOrder
+    concluido_em?: SortOrder
+    ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
   }
@@ -10150,6 +10460,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumStatusOSFilter<$PrismaModel>
     _max?: NestedEnumStatusOSFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EnumAuditActionFilter<$PrismaModel = never> = {
@@ -10635,6 +10959,10 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type OrdemServicoCreatefotos_conclusaoInput = {
+    set: string[]
+  }
+
   export type PredioCreateNestedOneWithoutOrdens_servicoInput = {
     create?: XOR<PredioCreateWithoutOrdens_servicoInput, PredioUncheckedCreateWithoutOrdens_servicoInput>
     connectOrCreate?: PredioCreateOrConnectWithoutOrdens_servicoInput
@@ -10653,6 +10981,26 @@ export namespace Prisma {
     connect?: UsuarioWhereUniqueInput
   }
 
+  export type OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput = {
+    create?: XOR<OrdemServicoCreateWithoutOrdens_derivadasInput, OrdemServicoUncheckedCreateWithoutOrdens_derivadasInput>
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutOrdens_derivadasInput
+    connect?: OrdemServicoWhereUniqueInput
+  }
+
+  export type OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput = {
+    create?: XOR<OrdemServicoCreateWithoutOrdem_vinculadaInput, OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput> | OrdemServicoCreateWithoutOrdem_vinculadaInput[] | OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutOrdem_vinculadaInput | OrdemServicoCreateOrConnectWithoutOrdem_vinculadaInput[]
+    createMany?: OrdemServicoCreateManyOrdem_vinculadaInputEnvelope
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput = {
+    create?: XOR<OrdemServicoCreateWithoutOrdem_vinculadaInput, OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput> | OrdemServicoCreateWithoutOrdem_vinculadaInput[] | OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutOrdem_vinculadaInput | OrdemServicoCreateOrConnectWithoutOrdem_vinculadaInput[]
+    createMany?: OrdemServicoCreateManyOrdem_vinculadaInputEnvelope
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
   export type EnumPrioridadeFieldUpdateOperationsInput = {
     set?: $Enums.Prioridade
   }
@@ -10664,6 +11012,15 @@ export namespace Prisma {
   export type OrdemServicoUpdatefotosInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type OrdemServicoUpdatefotos_conclusaoInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput = {
@@ -10690,6 +11047,44 @@ export namespace Prisma {
     delete?: UsuarioWhereInput | boolean
     connect?: UsuarioWhereUniqueInput
     update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutChamados_atribuidosInput, UsuarioUpdateWithoutChamados_atribuidosInput>, UsuarioUncheckedUpdateWithoutChamados_atribuidosInput>
+  }
+
+  export type OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput = {
+    create?: XOR<OrdemServicoCreateWithoutOrdens_derivadasInput, OrdemServicoUncheckedCreateWithoutOrdens_derivadasInput>
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutOrdens_derivadasInput
+    upsert?: OrdemServicoUpsertWithoutOrdens_derivadasInput
+    disconnect?: OrdemServicoWhereInput | boolean
+    delete?: OrdemServicoWhereInput | boolean
+    connect?: OrdemServicoWhereUniqueInput
+    update?: XOR<XOR<OrdemServicoUpdateToOneWithWhereWithoutOrdens_derivadasInput, OrdemServicoUpdateWithoutOrdens_derivadasInput>, OrdemServicoUncheckedUpdateWithoutOrdens_derivadasInput>
+  }
+
+  export type OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput = {
+    create?: XOR<OrdemServicoCreateWithoutOrdem_vinculadaInput, OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput> | OrdemServicoCreateWithoutOrdem_vinculadaInput[] | OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutOrdem_vinculadaInput | OrdemServicoCreateOrConnectWithoutOrdem_vinculadaInput[]
+    upsert?: OrdemServicoUpsertWithWhereUniqueWithoutOrdem_vinculadaInput | OrdemServicoUpsertWithWhereUniqueWithoutOrdem_vinculadaInput[]
+    createMany?: OrdemServicoCreateManyOrdem_vinculadaInputEnvelope
+    set?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    disconnect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    delete?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    update?: OrdemServicoUpdateWithWhereUniqueWithoutOrdem_vinculadaInput | OrdemServicoUpdateWithWhereUniqueWithoutOrdem_vinculadaInput[]
+    updateMany?: OrdemServicoUpdateManyWithWhereWithoutOrdem_vinculadaInput | OrdemServicoUpdateManyWithWhereWithoutOrdem_vinculadaInput[]
+    deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
+  }
+
+  export type OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput = {
+    create?: XOR<OrdemServicoCreateWithoutOrdem_vinculadaInput, OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput> | OrdemServicoCreateWithoutOrdem_vinculadaInput[] | OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutOrdem_vinculadaInput | OrdemServicoCreateOrConnectWithoutOrdem_vinculadaInput[]
+    upsert?: OrdemServicoUpsertWithWhereUniqueWithoutOrdem_vinculadaInput | OrdemServicoUpsertWithWhereUniqueWithoutOrdem_vinculadaInput[]
+    createMany?: OrdemServicoCreateManyOrdem_vinculadaInputEnvelope
+    set?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    disconnect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    delete?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    update?: OrdemServicoUpdateWithWhereUniqueWithoutOrdem_vinculadaInput | OrdemServicoUpdateWithWhereUniqueWithoutOrdem_vinculadaInput[]
+    updateMany?: OrdemServicoUpdateManyWithWhereWithoutOrdem_vinculadaInput | OrdemServicoUpdateManyWithWhereWithoutOrdem_vinculadaInput[]
+    deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
   }
 
   export type UsuarioCreateNestedOneWithoutAuditoriasInput = {
@@ -10898,6 +11293,17 @@ export namespace Prisma {
     not?: NestedEnumStatusOSFilter<$PrismaModel> | $Enums.StatusOS
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedEnumPrioridadeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Prioridade | EnumPrioridadeFieldRefInput<$PrismaModel>
     in?: $Enums.Prioridade[] | ListEnumPrioridadeFieldRefInput<$PrismaModel>
@@ -10916,6 +11322,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumStatusOSFilter<$PrismaModel>
     _max?: NestedEnumStatusOSFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumAuditActionFilter<$PrismaModel = never> = {
@@ -11009,10 +11429,18 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
+    ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
   }
 
   export type OrdemServicoUncheckedCreateWithoutSolicitanteInput = {
@@ -11025,8 +11453,16 @@ export namespace Prisma {
     predio_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
   }
 
   export type OrdemServicoCreateOrConnectWithoutSolicitanteInput = {
@@ -11047,10 +11483,18 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
+    ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
+    ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
   }
 
   export type OrdemServicoUncheckedCreateWithoutTecnicoInput = {
@@ -11063,8 +11507,16 @@ export namespace Prisma {
     predio_id: string
     solicitante_id: string
     fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
   }
 
   export type OrdemServicoCreateOrConnectWithoutTecnicoInput = {
@@ -11166,6 +11618,13 @@ export namespace Prisma {
     solicitante_id?: StringFilter<"OrdemServico"> | string
     tecnico_atribuido_id?: StringNullableFilter<"OrdemServico"> | string | null
     fotos?: StringNullableListFilter<"OrdemServico">
+    fotos_conclusao?: StringNullableListFilter<"OrdemServico">
+    motivo_pausa?: StringNullableFilter<"OrdemServico"> | string | null
+    motivo_cancelamento?: StringNullableFilter<"OrdemServico"> | string | null
+    data_limite_sla?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    iniciado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    concluido_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
     atualizado?: DateTimeFilter<"OrdemServico"> | Date | string
   }
@@ -11259,10 +11718,18 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
     criado_em?: Date | string
     atualizado?: Date | string
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
+    ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
   }
 
   export type OrdemServicoUncheckedCreateWithoutPredioInput = {
@@ -11275,8 +11742,16 @@ export namespace Prisma {
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
   }
 
   export type OrdemServicoCreateOrConnectWithoutPredioInput = {
@@ -11441,6 +11916,109 @@ export namespace Prisma {
     create: XOR<UsuarioCreateWithoutChamados_atribuidosInput, UsuarioUncheckedCreateWithoutChamados_atribuidosInput>
   }
 
+  export type OrdemServicoCreateWithoutOrdens_derivadasInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
+    tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
+  }
+
+  export type OrdemServicoUncheckedCreateWithoutOrdens_derivadasInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    predio_id: string
+    solicitante_id: string
+    tecnico_atribuido_id?: string | null
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    ordem_vinculada_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type OrdemServicoCreateOrConnectWithoutOrdens_derivadasInput = {
+    where: OrdemServicoWhereUniqueInput
+    create: XOR<OrdemServicoCreateWithoutOrdens_derivadasInput, OrdemServicoUncheckedCreateWithoutOrdens_derivadasInput>
+  }
+
+  export type OrdemServicoCreateWithoutOrdem_vinculadaInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
+    tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
+  }
+
+  export type OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    predio_id: string
+    solicitante_id: string
+    tecnico_atribuido_id?: string | null
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
+  }
+
+  export type OrdemServicoCreateOrConnectWithoutOrdem_vinculadaInput = {
+    where: OrdemServicoWhereUniqueInput
+    create: XOR<OrdemServicoCreateWithoutOrdem_vinculadaInput, OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput>
+  }
+
+  export type OrdemServicoCreateManyOrdem_vinculadaInputEnvelope = {
+    data: OrdemServicoCreateManyOrdem_vinculadaInput | OrdemServicoCreateManyOrdem_vinculadaInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PredioUpsertWithoutOrdens_servicoInput = {
     update: XOR<PredioUpdateWithoutOrdens_servicoInput, PredioUncheckedUpdateWithoutOrdens_servicoInput>
     create: XOR<PredioCreateWithoutOrdens_servicoInput, PredioUncheckedCreateWithoutOrdens_servicoInput>
@@ -11554,6 +12132,77 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
+  export type OrdemServicoUpsertWithoutOrdens_derivadasInput = {
+    update: XOR<OrdemServicoUpdateWithoutOrdens_derivadasInput, OrdemServicoUncheckedUpdateWithoutOrdens_derivadasInput>
+    create: XOR<OrdemServicoCreateWithoutOrdens_derivadasInput, OrdemServicoUncheckedCreateWithoutOrdens_derivadasInput>
+    where?: OrdemServicoWhereInput
+  }
+
+  export type OrdemServicoUpdateToOneWithWhereWithoutOrdens_derivadasInput = {
+    where?: OrdemServicoWhereInput
+    data: XOR<OrdemServicoUpdateWithoutOrdens_derivadasInput, OrdemServicoUncheckedUpdateWithoutOrdens_derivadasInput>
+  }
+
+  export type OrdemServicoUpdateWithoutOrdens_derivadasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
+    tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
+  }
+
+  export type OrdemServicoUncheckedUpdateWithoutOrdens_derivadasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    predio_id?: StringFieldUpdateOperationsInput | string
+    solicitante_id?: StringFieldUpdateOperationsInput | string
+    tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrdemServicoUpsertWithWhereUniqueWithoutOrdem_vinculadaInput = {
+    where: OrdemServicoWhereUniqueInput
+    update: XOR<OrdemServicoUpdateWithoutOrdem_vinculadaInput, OrdemServicoUncheckedUpdateWithoutOrdem_vinculadaInput>
+    create: XOR<OrdemServicoCreateWithoutOrdem_vinculadaInput, OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput>
+  }
+
+  export type OrdemServicoUpdateWithWhereUniqueWithoutOrdem_vinculadaInput = {
+    where: OrdemServicoWhereUniqueInput
+    data: XOR<OrdemServicoUpdateWithoutOrdem_vinculadaInput, OrdemServicoUncheckedUpdateWithoutOrdem_vinculadaInput>
+  }
+
+  export type OrdemServicoUpdateManyWithWhereWithoutOrdem_vinculadaInput = {
+    where: OrdemServicoScalarWhereInput
+    data: XOR<OrdemServicoUpdateManyMutationInput, OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaInput>
+  }
+
   export type UsuarioCreateWithoutAuditoriasInput = {
     id?: string
     nome: string
@@ -11649,6 +12298,13 @@ export namespace Prisma {
     predio_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -11663,6 +12319,13 @@ export namespace Prisma {
     predio_id: string
     solicitante_id: string
     fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -11714,10 +12377,18 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
+    ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateWithoutSolicitanteInput = {
@@ -11730,8 +12401,16 @@ export namespace Prisma {
     predio_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateManyWithoutSolicitanteInput = {
@@ -11744,6 +12423,13 @@ export namespace Prisma {
     predio_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11756,10 +12442,18 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
+    ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
+    ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateWithoutTecnicoInput = {
@@ -11772,8 +12466,16 @@ export namespace Prisma {
     predio_id?: StringFieldUpdateOperationsInput | string
     solicitante_id?: StringFieldUpdateOperationsInput | string
     fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateManyWithoutTecnicoInput = {
@@ -11786,6 +12488,13 @@ export namespace Prisma {
     predio_id?: StringFieldUpdateOperationsInput | string
     solicitante_id?: StringFieldUpdateOperationsInput | string
     fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11830,6 +12539,13 @@ export namespace Prisma {
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -11842,10 +12558,18 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
+    ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateWithoutPredioInput = {
@@ -11858,8 +12582,16 @@ export namespace Prisma {
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateManyWithoutPredioInput = {
@@ -11872,6 +12604,99 @@ export namespace Prisma {
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrdemServicoCreateManyOrdem_vinculadaInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    predio_id: string
+    solicitante_id: string
+    tecnico_atribuido_id?: string | null
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type OrdemServicoUpdateWithoutOrdem_vinculadaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
+    tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
+  }
+
+  export type OrdemServicoUncheckedUpdateWithoutOrdem_vinculadaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    predio_id?: StringFieldUpdateOperationsInput | string
+    solicitante_id?: StringFieldUpdateOperationsInput | string
+    tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
+  }
+
+  export type OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    predio_id?: StringFieldUpdateOperationsInput | string
+    solicitante_id?: StringFieldUpdateOperationsInput | string
+    tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }

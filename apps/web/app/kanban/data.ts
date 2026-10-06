@@ -1,6 +1,5 @@
-// Shared types and data for the Kanban board
 export type Prioridade = 'URGENTE' | 'ALTA' | 'MEDIA' | 'BAIXA';
-export type StatusOS = 'TRIAGEM' | 'AGENDADO' | 'EM_EXECUCAO' | 'AGUARDANDO' | 'CONCLUIDO';
+export type StatusOS = 'TRIAGEM' | 'AGENDADO' | 'EM_EXECUCAO' | 'AGUARDANDO' | 'CONCLUIDO' | 'CANCELADO';
 
 export interface HistoricoItem {
   data: string;
@@ -17,7 +16,9 @@ export interface OrdemServico {
   status: StatusOS;
   dataAbertura: string;
   openedAt?: string;
+  iniciadoEm?: string;
   concluidoEm?: string;
+  dataLimiteSla?: string;
   solicitante: string;
   tecnico?: string;
   descricao?: string;
@@ -25,6 +26,10 @@ export interface OrdemServico {
   localizacao?: string;
   categoria?: string;
   fotos?: string[];
+  fotosConclusao?: string[];
+  motivoPausa?: string;
+  motivoCancelamento?: string;
+  ordemVinculadaId?: string;
   impedimento?: {
     ativo: boolean;
     motivo: string;
