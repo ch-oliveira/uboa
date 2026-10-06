@@ -1,18 +1,19 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsBoolean, IsEmail, IsEnum, IsOptional, IsString, MinLength } from 'class-validator';
 import { Role } from '@repo/database';
 
-export class CreateUserDto {
+export class UpdateUserDto {
   @IsString()
-  @IsNotEmpty({ message: 'O nome é obrigatório.' })
-  nome!: string;
+  @IsOptional()
+  nome?: string;
 
   @IsEmail({}, { message: 'E-mail institucional inválido.' })
-  @IsNotEmpty({ message: 'O e-mail é obrigatório.' })
-  email!: string;
+  @IsOptional()
+  email?: string;
 
   @IsString()
   @MinLength(6, { message: 'A senha deve conter no mínimo 6 caracteres.' })
-  senha!: string;
+  @IsOptional()
+  senha?: string;
 
   @IsEnum(Role, { message: 'Perfil inválido. Use ADMIN, GESTOR, TECNICO ou SOLICITANTE.' })
   @IsOptional()
@@ -25,4 +26,8 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   especialidade?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  ativo?: boolean;
 }

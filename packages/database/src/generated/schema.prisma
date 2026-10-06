@@ -60,6 +60,7 @@ model Usuario {
   role          Role     @default(SOLICITANTE)
   especialidade String?  @default("GERAL") // ELETRICA, HIDRAULICA, ALVENARIA, CLIMATIZACAO, PINTURA, GERAL
   telefone      String?
+  ativo         Boolean  @default(true)
   token_version Int      @default(1)
   criado_em     DateTime @default(now())
   atualizado    DateTime @updatedAt

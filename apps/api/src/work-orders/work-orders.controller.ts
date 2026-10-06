@@ -23,9 +23,14 @@ export class WorkOrdersController {
   }
 
   @Public()
+  @Get('public/track/:codigo')
+  async trackPublic(@Param('codigo') codigo: string) {
+    return this.workOrdersService.trackPublic(codigo);
+  }
+
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.workOrdersService.findOne(id);
+  async findOne(@Param('id') id: string, @CurrentUser() user?: any) {
+    return this.workOrdersService.findOne(id, user);
   }
 
   @Public()

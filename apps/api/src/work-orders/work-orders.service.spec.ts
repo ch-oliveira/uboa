@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { WorkOrdersService } from './work-orders.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { StatusOS, Prioridade, Role } from '@repo/database';
-import { BadRequestException, ForbiddenException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 
 describe('WorkOrdersService - Ciclo de Vida da OS', () => {
   let service: WorkOrdersService;
@@ -297,5 +297,115 @@ describe('WorkOrdersService - Ciclo de Vida da OS', () => {
     const diffHours = (dadosAtualizados.data_limite_sla.getTime() - Date.now()) / (3600 * 1000);
     expect(diffHours).toBeGreaterThan(3.9);
     expect(diffHours).toBeLessThan(4.1);
+  });
+
+  describe('Proteção IDOR / BOLA em findOne', () => {
+    const mockOS = {
+      id: 'os-idor-1',
+      codigo: 'OS-999999',
+      titulo: 'Vazamento no banheiro infantil',
+      descricao: 'Vazamento contínuo',
+      status: StatusOS.EM_EXECUCAO,
+      prioridade: Prioridade.ALTA,
+      solicitante_id: 'sol-escola-1',
+      tecnico_atribuido_id: 'tec-1',
+      predio: { id: 'pred-1', nome: 'EMEF Paulo Freire', tipo: 'ESCOLA' },
+      solicitante: { id: 'sol-escola-1', nome: 'Diretor Pedro' },
+      tecnico: { id: 'tec-1', nome: 'Carlos Técnico' },
+      criado_em: new Date(),
+    };
+
+    it('deve bloquear Solicitante de outra escola de acessar OS por ID (IDOR)', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue(mockOS);
+
+      const outroSolicitante = {
+        id: 'sol-outro',
+        role: Role.SOLICITANTE,
+        facilityName: 'UBS Central',
+      };
+
+      await expect(service.findOne('os-idor-1', outroSolicitante)).rejects.toThrow(ForbiddenException);
+    });
+
+    it('deve permitir Solicitante da mesma unidade ou autor acessar a OS', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue(mockOS);
+
+      const mesmoSolicitante = {
+        id: 'sol-escola-1',
+        role: Role.SOLICITANTE,
+        facilityName: 'EMEF Paulo Freire',
+      };
+
+      const res = await service.findOne('os-idor-1', mesmoSolicitante);
+      expect(res.success).toBe(true);
+      expect(res.data.id).toBe('os-idor-1');
+    });
+
+    it('deve bloquear Técnico não atribuído de acessar OS de outro técnico (IDOR)', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue(mockOS);
+
+      const outroTecnico = {
+        id: 'tec-outro',
+        role: Role.TECNICO,
+      };
+
+      await expect(service.findOne('os-idor-1', outroTecnico)).rejects.toThrow(ForbiddenException);
+    });
+
+    it('deve permitir Técnico atribuído acessar a sua OS', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue(mockOS);
+
+      const tecnicoCorreto = {
+        id: 'tec-1',
+        role: Role.TECNICO,
+      };
+
+      const res = await service.findOne('os-idor-1', tecnicoCorreto);
+      expect(res.success).toBe(true);
+      expect(res.data.id).toBe('os-idor-1');
+    });
+
+    it('deve permitir Gestor ou Admin acessar qualquer OS', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue(mockOS);
+
+      const gestor = { id: 'gestor-1', role: Role.GESTOR };
+      const res = await service.findOne('os-idor-1', gestor);
+      expect(res.success).toBe(true);
+    });
+  });
+
+  describe('Consulta Pública de Rastreio (trackPublic)', () => {
+    it('deve retornar dados públicos sanitizados sem expor dados sensíveis do servidor ou técnicos', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue({
+        id: 'os-pub-1',
+        codigo: 'OS-888888',
+        titulo: 'Reparo de telhado',
+        categoria: 'ALVENARIA',
+        prioridade: Prioridade.ALTA,
+        status: StatusOS.AGENDADO,
+        predio: { nome: 'EMEF Santos Dumont', tipo: 'ESCOLA', endereco: 'Rua A, 100' },
+        solicitante_id: 'sol-privado-1',
+        tecnico_atribuido_id: 'tec-privado-1',
+        fotos: ['https://privado.com/foto1.jpg'],
+        criado_em: new Date('2026-10-06T10:00:00Z'),
+        data_limite_sla: new Date('2026-10-07T10:00:00Z'),
+      });
+
+      const res = await service.trackPublic('OS-888888');
+      expect(res.success).toBe(true);
+      expect(res.data.codigo).toBe('OS-888888');
+      expect(res.data.titulo).toBe('Reparo de telhado');
+      expect(res.data.predio.nome).toBe('EMEF Santos Dumont');
+      expect(res.data.status).toBe('SCHEDULED');
+      expect((res.data as any).solicitante_id).toBeUndefined();
+      expect((res.data as any).tecnico_atribuido_id).toBeUndefined();
+      expect((res.data as any).fotos).toBeUndefined();
+    });
+
+    it('deve lançar NotFoundException para código inexistente', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue(null);
+
+      await expect(service.trackPublic('OS-INEXISTENTE')).rejects.toThrow(NotFoundException);
+    });
   });
 });

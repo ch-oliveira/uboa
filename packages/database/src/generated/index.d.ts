@@ -1550,6 +1550,7 @@ export namespace Prisma {
     role: $Enums.Role | null
     especialidade: string | null
     telefone: string | null
+    ativo: boolean | null
     token_version: number | null
     criado_em: Date | null
     atualizado: Date | null
@@ -1563,6 +1564,7 @@ export namespace Prisma {
     role: $Enums.Role | null
     especialidade: string | null
     telefone: string | null
+    ativo: boolean | null
     token_version: number | null
     criado_em: Date | null
     atualizado: Date | null
@@ -1576,6 +1578,7 @@ export namespace Prisma {
     role: number
     especialidade: number
     telefone: number
+    ativo: number
     token_version: number
     criado_em: number
     atualizado: number
@@ -1599,6 +1602,7 @@ export namespace Prisma {
     role?: true
     especialidade?: true
     telefone?: true
+    ativo?: true
     token_version?: true
     criado_em?: true
     atualizado?: true
@@ -1612,6 +1616,7 @@ export namespace Prisma {
     role?: true
     especialidade?: true
     telefone?: true
+    ativo?: true
     token_version?: true
     criado_em?: true
     atualizado?: true
@@ -1625,6 +1630,7 @@ export namespace Prisma {
     role?: true
     especialidade?: true
     telefone?: true
+    ativo?: true
     token_version?: true
     criado_em?: true
     atualizado?: true
@@ -1725,6 +1731,7 @@ export namespace Prisma {
     role: $Enums.Role
     especialidade: string | null
     telefone: string | null
+    ativo: boolean
     token_version: number
     criado_em: Date
     atualizado: Date
@@ -1757,6 +1764,7 @@ export namespace Prisma {
     role?: boolean
     especialidade?: boolean
     telefone?: boolean
+    ativo?: boolean
     token_version?: boolean
     criado_em?: boolean
     atualizado?: boolean
@@ -1775,6 +1783,7 @@ export namespace Prisma {
     role?: boolean
     especialidade?: boolean
     telefone?: boolean
+    ativo?: boolean
     token_version?: boolean
     criado_em?: boolean
     atualizado?: boolean
@@ -1788,6 +1797,7 @@ export namespace Prisma {
     role?: boolean
     especialidade?: boolean
     telefone?: boolean
+    ativo?: boolean
     token_version?: boolean
     criado_em?: boolean
     atualizado?: boolean
@@ -1801,12 +1811,13 @@ export namespace Prisma {
     role?: boolean
     especialidade?: boolean
     telefone?: boolean
+    ativo?: boolean
     token_version?: boolean
     criado_em?: boolean
     atualizado?: boolean
   }
 
-  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "email" | "senha_hash" | "role" | "especialidade" | "telefone" | "token_version" | "criado_em" | "atualizado", ExtArgs["result"]["usuario"]>
+  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "email" | "senha_hash" | "role" | "especialidade" | "telefone" | "ativo" | "token_version" | "criado_em" | "atualizado", ExtArgs["result"]["usuario"]>
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predios_geridos?: boolean | Usuario$predios_geridosArgs<ExtArgs>
     chamados_solicitados?: boolean | Usuario$chamados_solicitadosArgs<ExtArgs>
@@ -1833,6 +1844,7 @@ export namespace Prisma {
       role: $Enums.Role
       especialidade: string | null
       telefone: string | null
+      ativo: boolean
       token_version: number
       criado_em: Date
       atualizado: Date
@@ -2270,6 +2282,7 @@ export namespace Prisma {
     readonly role: FieldRef<"Usuario", 'Role'>
     readonly especialidade: FieldRef<"Usuario", 'String'>
     readonly telefone: FieldRef<"Usuario", 'String'>
+    readonly ativo: FieldRef<"Usuario", 'Boolean'>
     readonly token_version: FieldRef<"Usuario", 'Int'>
     readonly criado_em: FieldRef<"Usuario", 'DateTime'>
     readonly atualizado: FieldRef<"Usuario", 'DateTime'>
@@ -8744,6 +8757,7 @@ export namespace Prisma {
     role: 'role',
     especialidade: 'especialidade',
     telefone: 'telefone',
+    ativo: 'ativo',
     token_version: 'token_version',
     criado_em: 'criado_em',
     atualizado: 'atualizado'
@@ -8920,6 +8934,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -9018,13 +9039,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -9052,6 +9066,7 @@ export namespace Prisma {
     role?: EnumRoleFilter<"Usuario"> | $Enums.Role
     especialidade?: StringNullableFilter<"Usuario"> | string | null
     telefone?: StringNullableFilter<"Usuario"> | string | null
+    ativo?: BoolFilter<"Usuario"> | boolean
     token_version?: IntFilter<"Usuario"> | number
     criado_em?: DateTimeFilter<"Usuario"> | Date | string
     atualizado?: DateTimeFilter<"Usuario"> | Date | string
@@ -9069,6 +9084,7 @@ export namespace Prisma {
     role?: SortOrder
     especialidade?: SortOrderInput | SortOrder
     telefone?: SortOrderInput | SortOrder
+    ativo?: SortOrder
     token_version?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -9089,6 +9105,7 @@ export namespace Prisma {
     role?: EnumRoleFilter<"Usuario"> | $Enums.Role
     especialidade?: StringNullableFilter<"Usuario"> | string | null
     telefone?: StringNullableFilter<"Usuario"> | string | null
+    ativo?: BoolFilter<"Usuario"> | boolean
     token_version?: IntFilter<"Usuario"> | number
     criado_em?: DateTimeFilter<"Usuario"> | Date | string
     atualizado?: DateTimeFilter<"Usuario"> | Date | string
@@ -9106,6 +9123,7 @@ export namespace Prisma {
     role?: SortOrder
     especialidade?: SortOrderInput | SortOrder
     telefone?: SortOrderInput | SortOrder
+    ativo?: SortOrder
     token_version?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -9127,6 +9145,7 @@ export namespace Prisma {
     role?: EnumRoleWithAggregatesFilter<"Usuario"> | $Enums.Role
     especialidade?: StringNullableWithAggregatesFilter<"Usuario"> | string | null
     telefone?: StringNullableWithAggregatesFilter<"Usuario"> | string | null
+    ativo?: BoolWithAggregatesFilter<"Usuario"> | boolean
     token_version?: IntWithAggregatesFilter<"Usuario"> | number
     criado_em?: DateTimeWithAggregatesFilter<"Usuario"> | Date | string
     atualizado?: DateTimeWithAggregatesFilter<"Usuario"> | Date | string
@@ -9622,6 +9641,7 @@ export namespace Prisma {
     role?: $Enums.Role
     especialidade?: string | null
     telefone?: string | null
+    ativo?: boolean
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
@@ -9639,6 +9659,7 @@ export namespace Prisma {
     role?: $Enums.Role
     especialidade?: string | null
     telefone?: string | null
+    ativo?: boolean
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
@@ -9656,6 +9677,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     especialidade?: NullableStringFieldUpdateOperationsInput | string | null
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9673,6 +9695,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     especialidade?: NullableStringFieldUpdateOperationsInput | string | null
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9690,6 +9713,7 @@ export namespace Prisma {
     role?: $Enums.Role
     especialidade?: string | null
     telefone?: string | null
+    ativo?: boolean
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
@@ -9703,6 +9727,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     especialidade?: NullableStringFieldUpdateOperationsInput | string | null
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9716,6 +9741,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     especialidade?: NullableStringFieldUpdateOperationsInput | string | null
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10309,6 +10335,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -10374,6 +10405,7 @@ export namespace Prisma {
     role?: SortOrder
     especialidade?: SortOrder
     telefone?: SortOrder
+    ativo?: SortOrder
     token_version?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -10391,6 +10423,7 @@ export namespace Prisma {
     role?: SortOrder
     especialidade?: SortOrder
     telefone?: SortOrder
+    ativo?: SortOrder
     token_version?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -10404,6 +10437,7 @@ export namespace Prisma {
     role?: SortOrder
     especialidade?: SortOrder
     telefone?: SortOrder
+    ativo?: SortOrder
     token_version?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -10457,6 +10491,14 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -10793,11 +10835,6 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type AgendaVistoriaCountOrderByAggregateInput = {
     id?: SortOrder
     titulo?: SortOrder
@@ -10832,14 +10869,6 @@ export namespace Prisma {
     tecnico?: SortOrder
     ordem_servico_id?: SortOrder
     criado_em?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type ConfiguracaoSistemaCountOrderByAggregateInput = {
@@ -10992,6 +11021,10 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -11378,10 +11411,6 @@ export namespace Prisma {
     connect?: OrdemServicoWhereUniqueInput
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type OrdemServicoUpdateOneWithoutAgendamentosNestedInput = {
     create?: XOR<OrdemServicoCreateWithoutAgendamentosInput, OrdemServicoUncheckedCreateWithoutAgendamentosInput>
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutAgendamentosInput
@@ -11425,6 +11454,11 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -11502,6 +11536,14 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -11659,19 +11701,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type PredioCreateWithoutGestorInput = {
@@ -11975,6 +12004,7 @@ export namespace Prisma {
     role?: $Enums.Role
     especialidade?: string | null
     telefone?: string | null
+    ativo?: boolean
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
@@ -11991,6 +12021,7 @@ export namespace Prisma {
     role?: $Enums.Role
     especialidade?: string | null
     telefone?: string | null
+    ativo?: boolean
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
@@ -12081,6 +12112,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     especialidade?: NullableStringFieldUpdateOperationsInput | string | null
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12097,6 +12129,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     especialidade?: NullableStringFieldUpdateOperationsInput | string | null
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12154,6 +12187,7 @@ export namespace Prisma {
     role?: $Enums.Role
     especialidade?: string | null
     telefone?: string | null
+    ativo?: boolean
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
@@ -12170,6 +12204,7 @@ export namespace Prisma {
     role?: $Enums.Role
     especialidade?: string | null
     telefone?: string | null
+    ativo?: boolean
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
@@ -12191,6 +12226,7 @@ export namespace Prisma {
     role?: $Enums.Role
     especialidade?: string | null
     telefone?: string | null
+    ativo?: boolean
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
@@ -12207,6 +12243,7 @@ export namespace Prisma {
     role?: $Enums.Role
     especialidade?: string | null
     telefone?: string | null
+    ativo?: boolean
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
@@ -12413,6 +12450,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     especialidade?: NullableStringFieldUpdateOperationsInput | string | null
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12429,6 +12467,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     especialidade?: NullableStringFieldUpdateOperationsInput | string | null
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12456,6 +12495,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     especialidade?: NullableStringFieldUpdateOperationsInput | string | null
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12472,6 +12512,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     especialidade?: NullableStringFieldUpdateOperationsInput | string | null
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12594,6 +12635,7 @@ export namespace Prisma {
     role?: $Enums.Role
     especialidade?: string | null
     telefone?: string | null
+    ativo?: boolean
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
@@ -12610,6 +12652,7 @@ export namespace Prisma {
     role?: $Enums.Role
     especialidade?: string | null
     telefone?: string | null
+    ativo?: boolean
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
@@ -12642,6 +12685,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     especialidade?: NullableStringFieldUpdateOperationsInput | string | null
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12658,6 +12702,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     especialidade?: NullableStringFieldUpdateOperationsInput | string | null
     telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string

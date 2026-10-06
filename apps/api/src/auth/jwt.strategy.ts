@@ -30,6 +30,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('Sessão inválida ou usuário não encontrado.');
     }
 
+    if (user.ativo === false) {
+      throw new UnauthorizedException('Conta desativada ou bloqueada pela administração.');
+    }
+
     if (user.token_version !== payload.tokenVersion) {
       throw new UnauthorizedException('Sessão revogada ou expirada. Faça login novamente.');
     }

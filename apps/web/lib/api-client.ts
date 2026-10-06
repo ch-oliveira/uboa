@@ -318,6 +318,14 @@ export const apiClient = {
     };
   },
 
+  async getPublicTrack(codigo: string): Promise<{ success: boolean; data?: any; message?: string }> {
+    const res = await fetch(`${API_BASE}/work-orders/public/track/${encodeURIComponent(codigo)}`, {
+      cache: 'no-store',
+    });
+    const resData = await res.json();
+    return resData;
+  },
+
   async createWorkOrder(order: Partial<OrdemServico>): Promise<{ success: boolean; order: OrdemServico; message?: string }> {
     const payload = {
       title: order.titulo,

@@ -13,6 +13,7 @@ export interface AuthenticatedUserResponse {
   role: Role;
   phoneNumber?: string;
   facilityName?: string;
+  active: boolean;
   avatar: string;
 }
 
@@ -36,6 +37,7 @@ export class AuthService {
       role: user.role,
       phoneNumber: user.telefone || undefined,
       facilityName: user.role === Role.SOLICITANTE ? (user.predios_geridos?.[0]?.nome || 'EMEF Paulo Freire') : undefined,
+      active: user.ativo !== false,
       avatar: `https://i.pravatar.cc/150?u=${encodeURIComponent(user.nome)}`,
     };
   }
@@ -64,6 +66,10 @@ export class AuthService {
     if (!user) {
       // Mensagem genérica para prevenir enumeração de usuários
       throw new UnauthorizedException('Credenciais inválidas. Verifique seu e-mail e senha.');
+    }
+
+    if (user.ativo === false) {
+      throw new UnauthorizedException('Conta institucional desativada ou bloqueada pela administração.');
     }
 
     const isMatch = await bcrypt.compare(password, user.senha_hash);
@@ -98,8 +104,8 @@ export class AuthService {
       include: { predios_geridos: true },
     });
 
-    if (!user) {
-      throw new UnauthorizedException('Sessão expirada ou usuário não encontrado.');
+    if (!user || user.ativo === false) {
+      throw new UnauthorizedException('Sessão expirada ou usuário inativo.');
     }
 
     return {

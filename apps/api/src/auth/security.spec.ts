@@ -68,6 +68,27 @@ describe('Security & RBAC Enforcement Suite', () => {
       await expect(jwtStrategy.validate(payload)).rejects.toThrow(UnauthorizedException);
     });
 
+    it('should reject session when user is blocked / deactivated (ativo === false)', async () => {
+      mockPrisma.usuario.findUnique.mockResolvedValue({
+        id: 'usr-1',
+        nome: 'Gestor Municipal',
+        email: 'gestor@urboa.gov.br',
+        role: Role.GESTOR,
+        token_version: 1,
+        ativo: false,
+        predios_geridos: [],
+      });
+
+      const payload: JwtPayload = {
+        sub: 'usr-1',
+        email: 'gestor@urboa.gov.br',
+        role: Role.GESTOR,
+        tokenVersion: 1,
+      };
+
+      await expect(jwtStrategy.validate(payload)).rejects.toThrow(UnauthorizedException);
+    });
+
     it('should reject when user does not exist in database', async () => {
       mockPrisma.usuario.findUnique.mockResolvedValue(null);
 

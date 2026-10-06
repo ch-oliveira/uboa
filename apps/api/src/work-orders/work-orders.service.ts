@@ -43,6 +43,23 @@ export interface WorkOrdersMeta {
   urgentCount: number;
 }
 
+export interface PublicWorkOrderTrack {
+  codigo: string;
+  titulo: string;
+  categoria: string;
+  predio: {
+    nome: string;
+    tipo: string;
+    endereco: string;
+  };
+  status: ApiStatus;
+  prioridade: ApiPriority;
+  abertoEm: string;
+  dataLimiteSla?: string;
+  iniciadoEm?: string;
+  concluidoEm?: string;
+}
+
 function inferCategory(title?: string, description?: string, provided?: string): string {
   if (provided && provided.trim()) return provided.trim().toUpperCase();
   const text = `${title || ''} ${description || ''}`.toLowerCase();
@@ -230,7 +247,7 @@ export class WorkOrdersService {
     };
   }
 
-  async findOne(idOrCode: string): Promise<ApiResponse<WorkOrderResponse>> {
+  async findOne(idOrCode: string, currentUser?: any): Promise<ApiResponse<WorkOrderResponse>> {
     const o = await this.prisma.ordemServico.findFirst({
       where: {
         OR: [{ id: idOrCode }, { codigo: idOrCode }],
@@ -240,9 +257,69 @@ export class WorkOrdersService {
 
     if (!o) throw new NotFoundException('Ordem de serviço não encontrada.');
 
+    // BOLA / IDOR Protection:
+    if (currentUser) {
+      if (currentUser.role === Role.SOLICITANTE) {
+        const isAuthor = o.solicitante_id === currentUser.id;
+        const matchesFacility =
+          currentUser.facilityName &&
+          o.predio?.nome?.toLowerCase().includes(currentUser.facilityName.toLowerCase());
+
+        if (!isAuthor && !matchesFacility) {
+          throw new ForbiddenException(
+            'Acesso negado. Solicitantes só podem consultar ordens de serviço da sua própria unidade.',
+          );
+        }
+      } else if (currentUser.role === Role.TECNICO) {
+        if (o.tecnico_atribuido_id !== currentUser.id) {
+          throw new ForbiddenException(
+            'Acesso negado. Técnicos só podem consultar ordens de serviço atribuídas a eles.',
+          );
+        }
+      }
+    }
+
     return {
       success: true,
       data: this.mapOrder(o),
+    };
+  }
+
+  async trackPublic(codigo: string): Promise<ApiResponse<PublicWorkOrderTrack>> {
+    const cleanCode = codigo?.trim().toUpperCase();
+    if (!cleanCode) {
+      throw new BadRequestException('Código de rastreio da ordem de serviço é obrigatório.');
+    }
+
+    const o = await this.prisma.ordemServico.findFirst({
+      where: {
+        codigo: { equals: cleanCode, mode: 'insensitive' },
+      },
+      include: { predio: true },
+    });
+
+    if (!o) {
+      throw new NotFoundException(`Nenhuma ordem de serviço encontrada com o código ${cleanCode}.`);
+    }
+
+    return {
+      success: true,
+      data: {
+        codigo: o.codigo,
+        titulo: o.titulo,
+        categoria: o.categoria || 'GERAL',
+        predio: {
+          nome: o.predio?.nome || 'Unidade Municipal',
+          tipo: o.predio?.tipo || 'ADMINISTRATIVO',
+          endereco: o.predio?.endereco || '',
+        },
+        status: toApiStatus(o.status),
+        prioridade: toApiPriority(o.prioridade),
+        abertoEm: o.criado_em.toISOString(),
+        dataLimiteSla: o.data_limite_sla ? o.data_limite_sla.toISOString() : undefined,
+        iniciadoEm: o.iniciado_em ? o.iniciado_em.toISOString() : undefined,
+        concluidoEm: o.concluido_em ? o.concluido_em.toISOString() : undefined,
+      },
     };
   }
 
