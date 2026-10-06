@@ -331,6 +331,7 @@ export const apiClient = {
       prioridade: order.prioridade,
       descricao: order.descricao,
       tecnico: order.tecnico,
+      categoria: order.categoria,
     };
 
     const res = await fetch(`${API_BASE}/work-orders`, {
@@ -357,6 +358,7 @@ export const apiClient = {
     if (updates.status) payload.status = updates.status;
     if (updates.descricao) payload.description = updates.descricao;
     if (updates.tecnico) payload.technicianName = updates.tecnico;
+    if (updates.categoria) payload.categoria = updates.categoria;
 
     const res = await fetch(`${API_BASE}/work-orders/${encodeURIComponent(idOrCode)}`, {
       method: 'PUT',

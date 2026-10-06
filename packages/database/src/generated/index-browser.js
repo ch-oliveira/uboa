@@ -127,6 +127,7 @@ exports.Prisma.UsuarioScalarFieldEnum = {
   email: 'email',
   senha_hash: 'senha_hash',
   role: 'role',
+  especialidade: 'especialidade',
   telefone: 'telefone',
   token_version: 'token_version',
   criado_em: 'criado_em',
@@ -148,6 +149,7 @@ exports.Prisma.OrdemServicoScalarFieldEnum = {
   codigo: 'codigo',
   titulo: 'titulo',
   descricao: 'descricao',
+  categoria: 'categoria',
   prioridade: 'prioridade',
   status: 'status',
   predio_id: 'predio_id',
@@ -184,6 +186,7 @@ exports.Prisma.AgendaVistoriaScalarFieldEnum = {
   tipo: 'tipo',
   concluido: 'concluido',
   tecnico: 'tecnico',
+  ordem_servico_id: 'ordem_servico_id',
   criado_em: 'criado_em'
 };
 

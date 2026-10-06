@@ -28,6 +28,8 @@ export interface WorkOrderResponse {
   startedAt?: string;
   completedAt?: string;
   linkedOrderId?: string;
+  category?: string;
+  categoria?: string;
 }
 
 export interface WorkOrdersMeta {
@@ -39,6 +41,17 @@ export interface WorkOrdersMeta {
   waitingCount: number;
   completedCount: number;
   urgentCount: number;
+}
+
+function inferCategory(title?: string, description?: string, provided?: string): string {
+  if (provided && provided.trim()) return provided.trim().toUpperCase();
+  const text = `${title || ''} ${description || ''}`.toLowerCase();
+  if (/eletric|disjuntor|fiação|lampad|curto|tomada|ilumina|luz|energia|chave|quadro de força/.test(text)) return 'ELETRICA';
+  if (/hidraul|vazamento|cano|torneira|bomba|esgoto|caixa d'água|infiltra|descarga|pia|registro|pressão/.test(text)) return 'HIDRAULICA';
+  if (/alvenar|rachadura|muro|reboco|tijolo|concreto|trinca|parede|piso|telhado|calha/.test(text)) return 'ALVENARIA';
+  if (/ar condicionado|climatiza|split|refrigera|ventilador/.test(text)) return 'CLIMATIZACAO';
+  if (/pintura|tinta|pichar|fachada/.test(text)) return 'PINTURA';
+  return 'GERAL';
 }
 
 function toPrismaStatus(status?: string): StatusOS {
@@ -123,6 +136,8 @@ export class WorkOrdersService {
       startedAt: o.iniciado_em ? o.iniciado_em.toISOString() : undefined,
       completedAt: o.concluido_em ? o.concluido_em.toISOString() : undefined,
       linkedOrderId: o.ordem_vinculada_id || undefined,
+      category: o.categoria || 'GERAL',
+      categoria: o.categoria || 'GERAL',
     };
   }
 
@@ -285,6 +300,7 @@ export class WorkOrdersService {
     else slaHoras = config?.sla_media_h ?? 72;
 
     const dataLimiteSla = new Date(Date.now() + slaHoras * 3600 * 1000);
+    const categoria = inferCategory(title, description, payload.categoria || payload.category);
 
     const code = `OS-${Math.floor(100000 + Math.random() * 900000)}`;
 
@@ -295,6 +311,7 @@ export class WorkOrdersService {
           codigo: code,
           titulo: title || 'Demanda Registrada',
           descricao: description,
+          categoria: categoria,
           prioridade: priority,
           status: StatusOS.EM_TRIAGEM,
           predio_id: predioRecord.id,
@@ -391,19 +408,86 @@ export class WorkOrdersService {
     const updateData: any = {};
     if (updates.title || updates.titulo) updateData.titulo = updates.title || updates.titulo;
     if (updates.description || updates.descricao) updateData.descricao = updates.description || updates.descricao;
-    if (updates.priority || updates.prioridade) updateData.prioridade = toPrismaPriority(updates.priority || updates.prioridade);
+    
+    // Recálculo imediato de SLA na reclassificação de prioridade (Human-in-the-loop)
+    if (updates.priority || updates.prioridade) {
+      const newPriority = toPrismaPriority(updates.priority || updates.prioridade);
+      if (newPriority !== existing.prioridade) {
+        updateData.prioridade = newPriority;
+        const config = await this.prisma.configuracaoSistema.findFirst();
+        let slaHoras = 72;
+        if (newPriority === Prioridade.URGENTE) slaHoras = config?.sla_urgente_h ?? 4;
+        else if (newPriority === Prioridade.ALTA) slaHoras = config?.sla_alta_h ?? 24;
+        else if (newPriority === Prioridade.BAIXA) slaHoras = config?.sla_baixa_h ?? 168;
+        else slaHoras = config?.sla_media_h ?? 72;
 
+        updateData.data_limite_sla = new Date(Date.now() + slaHoras * 3600 * 1000);
+      }
+    }
+
+    if (updates.categoria || updates.category) {
+      updateData.categoria = (updates.categoria || updates.category).toUpperCase();
+    }
+
+    // Validação de Atribuição de Técnico: Trava de Sobrecarga e Compatibilidade de Especialidade
     const technician = updates.technicianName || updates.technician || updates.tecnico;
+    let tecnicoUser: any = null;
     if (technician) {
-      const tecnicoUser = await this.prisma.usuario.findFirst({
-        where: { nome: { contains: technician, mode: 'insensitive' } },
+      tecnicoUser = await this.prisma.usuario.findFirst({
+        where: {
+          AND: [
+            { role: Role.TECNICO },
+            { OR: [{ id: technician }, { nome: { contains: technician, mode: 'insensitive' } }] },
+          ],
+        },
       });
-      if (tecnicoUser) updateData.tecnico_atribuido_id = tecnicoUser.id;
+      if (!tecnicoUser) {
+        tecnicoUser = await this.prisma.usuario.findFirst({
+          where: { nome: { contains: technician, mode: 'insensitive' } },
+        });
+      }
+
+      if (tecnicoUser) {
+        // Trava de Sobrecarga: no máximo 3 ordens em EM_EXECUCAO
+        const activeCount = await this.prisma.ordemServico.count({
+          where: {
+            tecnico_atribuido_id: tecnicoUser.id,
+            status: StatusOS.EM_EXECUCAO,
+            id: { not: existing.id },
+          },
+        });
+
+        if (activeCount >= 3) {
+          throw new BadRequestException(
+            `O técnico ${tecnicoUser.nome} já possui ${activeCount} ordens em execução simultâneas (limite de sobrecarga de 3 OSs atingido). Escolha outro profissional disponível.`
+          );
+        }
+
+        // Validação de Especialidade Técnica
+        const targetCategoria = (updateData.categoria || existing.categoria || inferCategory(existing.titulo, existing.descricao)).toUpperCase();
+        const tecEspecialidade = (tecnicoUser.especialidade || 'GERAL').toUpperCase();
+
+        if (tecEspecialidade !== 'GERAL' && targetCategoria !== 'GERAL' && tecEspecialidade !== targetCategoria) {
+          throw new BadRequestException(
+            `Incompatibilidade técnica: o chamado é da categoria ${targetCategoria}, mas o técnico ${tecnicoUser.nome} possui especialidade ${tecEspecialidade}.`
+          );
+        }
+
+        updateData.tecnico_atribuido_id = tecnicoUser.id;
+      }
     }
 
     // Guardrails específicos de transição
     if (targetStatus !== existing.status) {
       updateData.status = targetStatus;
+
+      // Agendamento: Exige técnico atribuído
+      if (targetStatus === StatusOS.AGENDADO) {
+        const finalTecnicoId = updateData.tecnico_atribuido_id || existing.tecnico_atribuido_id;
+        if (!finalTecnicoId) {
+          throw new BadRequestException('Para agendar o atendimento (AGENDADO), é obrigatório atribuir um técnico responsável.');
+        }
+      }
 
       // Início de Execução
       if (targetStatus === StatusOS.EM_EXECUCAO) {
@@ -453,13 +537,32 @@ export class WorkOrdersService {
       }
     }
 
-    // Transação atômica: atualização e auditoria síncronas
+    // Transação atômica: atualização, sincronização da agenda e auditoria síncronas
     const updated = await this.prisma.$transaction(async (tx) => {
       const order = await tx.ordemServico.update({
         where: { id: existing.id },
         data: updateData,
         include: { predio: true, solicitante: true, tecnico: true },
       });
+
+      // Sincronização automática com AgendaVistoria ao transicionar para AGENDADO
+      if (targetStatus === StatusOS.AGENDADO && existing.status !== StatusOS.AGENDADO) {
+        const horarioAgendado = updates.horarioAgendamento || updates.horario || '09:00';
+        const dataAgendada = updates.dataAgendamento || new Date().toLocaleDateString('pt-BR');
+        const tecNome = tecnicoUser?.nome || existing.tecnico?.nome || 'Equipe Técnica';
+
+        await tx.agendaVistoria.create({
+          data: {
+            titulo: `Vistoria: ${existing.codigo} - ${existing.titulo}`,
+            subtitulo: `${existing.predio?.nome || 'Unidade Municipal'} (${dataAgendada})`,
+            horario: horarioAgendado,
+            tipo: (updateData.categoria || existing.categoria || 'geral').toLowerCase(),
+            tecnico: tecNome,
+            concluido: false,
+            ordem_servico_id: existing.id,
+          },
+        });
+      }
 
       if (currentUser?.id) {
         await tx.auditoriaLog.create({

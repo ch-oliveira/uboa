@@ -568,7 +568,7 @@ export class AiToolsService {
   }
 
   /**
-   * TOOL 7: Designar/Atribuir técnico a uma Ordem de Serviço
+   * TOOL 7: Designar/Atribuir técnico a uma Ordem de Serviço (com validação de sobrecarga e especialidade)
    */
   async designarEquipe(params: {
     osCodigo: string;
@@ -585,6 +585,7 @@ export class AiToolsService {
 
     const os = await this.prisma.ordemServico.findFirst({
       where: { codigo: { contains: params.osCodigo, mode: 'insensitive' } },
+      include: { predio: true },
     });
 
     if (!os) {
@@ -602,6 +603,32 @@ export class AiToolsService {
       return { sucesso: false, mensagem: `Técnico(a) ${params.tecnicoNome} não encontrado(a) no sistema.` };
     }
 
+    // Trava de Sobrecarga
+    const activeCount = await this.prisma.ordemServico.count({
+      where: {
+        tecnico_atribuido_id: tecnico.id,
+        status: StatusOS.EM_EXECUCAO,
+        id: { not: os.id },
+      },
+    });
+
+    if (activeCount >= 3) {
+      return {
+        sucesso: false,
+        mensagem: `Trava de Sobrecarga: O técnico ${tecnico.nome} já possui ${activeCount} ordens em execução simultâneas. Selecione outro profissional.`,
+      };
+    }
+
+    // Validação de Especialidade Técnica
+    const osCategoria = (os.categoria || this.inferirEspecialidade(os.titulo, os.descricao)).toUpperCase();
+    const tecEsp = (tecnico.especialidade || 'GERAL').toUpperCase();
+    if (tecEsp !== 'GERAL' && osCategoria !== 'GERAL' && tecEsp !== osCategoria) {
+      return {
+        sucesso: false,
+        mensagem: `Incompatibilidade Técnica: A OS ${os.codigo} é de ${osCategoria}, mas o técnico ${tecnico.nome} possui especialidade ${tecEsp}.`,
+      };
+    }
+
     await this.prisma.$transaction(async (tx) => {
       const updated = await tx.ordemServico.update({
         where: { id: os.id },
@@ -610,6 +637,19 @@ export class AiToolsService {
           status: StatusOS.AGENDADO,
         },
         include: { predio: true },
+      });
+
+      // Sincronização com Agenda de Vistorias
+      await tx.agendaVistoria.create({
+        data: {
+          titulo: `Vistoria: ${os.codigo} - ${os.titulo}`,
+          subtitulo: `${os.predio?.nome || 'Unidade Municipal'} (Hoje)`,
+          horario: '10:00',
+          tipo: (os.categoria || 'geral').toLowerCase(),
+          tecnico: tecnico.nome,
+          concluido: false,
+          ordem_servico_id: os.id,
+        },
       });
 
       await tx.auditoriaLog.create({
@@ -632,9 +672,89 @@ export class AiToolsService {
 
     return {
       sucesso: true,
-      mensagem: `O técnico **${tecnico.nome}** foi designado com sucesso para o chamado **${os.codigo}** (${os.titulo}).`,
+      mensagem: `O técnico **${tecnico.nome}** foi designado com sucesso para o chamado **${os.codigo}** (${os.titulo}) e adicionado à agenda.`,
       os: os.codigo,
       tecnico: tecnico.nome,
+    };
+  }
+
+  /**
+   * TOOL 8: Sugestão de Despacho Inteligente (Human-in-the-Loop)
+   * Analisa especialidade, fila de trabalho e proximidade para apoiar o Gestor
+   */
+  async sugerirDespachoInteligente(params: { osCodigo: string }): Promise<{
+    sucesso: boolean;
+    os?: string;
+    categoria?: string;
+    recomendacoes?: Array<{
+      tecnicoNome: string;
+      especialidade: string;
+      chamadosAtivos: number;
+      compatibilidade: string;
+      score: number;
+    }>;
+    justificativa?: string;
+    mensagem?: string;
+  }> {
+    const os = await this.prisma.ordemServico.findFirst({
+      where: {
+        OR: [{ id: params.osCodigo }, { codigo: { contains: params.osCodigo, mode: 'insensitive' } }],
+      },
+      include: { predio: true },
+    });
+
+    if (!os) {
+      return { sucesso: false, mensagem: `Ordem de serviço ${params.osCodigo} não encontrada.` };
+    }
+
+    const categoriaOS = (os.categoria || this.inferirEspecialidade(os.titulo, os.descricao)).toUpperCase();
+
+    const tecnicos = await this.prisma.usuario.findMany({
+      where: { role: Role.TECNICO },
+      include: {
+        chamados_atribuidos: {
+          where: { status: { notIn: [StatusOS.CONCLUIDO, StatusOS.CANCELADO] } },
+        },
+      },
+    });
+
+    const rankeados = tecnicos
+      .map((t) => {
+        const emExecucao = t.chamados_atribuidos.filter((c) => c.status === StatusOS.EM_EXECUCAO).length;
+        const totalAtivos = t.chamados_atribuidos.length;
+        const tecEsp = (t.especialidade || 'GERAL').toUpperCase();
+
+        const matchExato = tecEsp === categoriaOS;
+        const matchGeral = tecEsp === 'GERAL';
+        const compativel = matchExato || matchGeral;
+
+        // Se sobrecarregado (3 ou mais em execução), score reduz drasticamente
+        if (emExecucao >= 3 || !compativel) {
+          return null;
+        }
+
+        let score = 100 - totalAtivos * 10;
+        if (matchExato) score += 30;
+
+        return {
+          tecnicoNome: t.nome,
+          especialidade: tecEsp,
+          chamadosAtivos: totalAtivos,
+          compatibilidade: matchExato ? 'Especialista Específico' : 'Técnico Geral de Apoio',
+          score,
+        };
+      })
+      .filter((item): item is NonNullable<typeof item> => item !== null)
+      .sort((a, b) => b.score - a.score);
+
+    return {
+      sucesso: true,
+      os: os.codigo,
+      categoria: categoriaOS,
+      recomendacoes: rankeados,
+      justificativa: rankeados.length > 0
+        ? `Recomendação gerada com base em compatibilidade técnica (${categoriaOS}) e menor sobrecarga de atendimentos.`
+        : 'Todos os técnicos da especialidade estão sobrecarregados ou não há técnicos compatíveis disponíveis no momento.',
     };
   }
 }

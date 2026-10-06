@@ -76,6 +76,22 @@ export class CreateWorkOrderDto {
   @IsString()
   @IsOptional()
   ordem_vinculada_id?: string;
+
+  @IsString()
+  @IsOptional()
+  categoria?: string;
+
+  @IsString()
+  @IsOptional()
+  category?: string;
+
+  @IsString()
+  @IsOptional()
+  dataAgendamento?: string;
+
+  @IsString()
+  @IsOptional()
+  horarioAgendamento?: string;
 }
 
 export class UpdateWorkOrderDto {
@@ -126,6 +142,22 @@ export class UpdateWorkOrderDto {
   @IsString()
   @IsOptional()
   predio?: string;
+
+  @IsString()
+  @IsOptional()
+  categoria?: string;
+
+  @IsString()
+  @IsOptional()
+  category?: string;
+
+  @IsString()
+  @IsOptional()
+  dataAgendamento?: string;
+
+  @IsString()
+  @IsOptional()
+  horarioAgendamento?: string;
 
   @IsString()
   @IsOptional()

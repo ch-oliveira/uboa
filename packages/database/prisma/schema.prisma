@@ -53,20 +53,21 @@ enum AuditAction {
 }
 
 model Usuario {
-  id         String   @id @default(uuid())
-  nome       String
-  email      String   @unique
-  senha_hash String
+  id            String   @id @default(uuid())
+  nome          String
+  email         String   @unique
+  senha_hash    String
   role          Role     @default(SOLICITANTE)
+  especialidade String?  @default("GERAL") // ELETRICA, HIDRAULICA, ALVENARIA, CLIMATIZACAO, PINTURA, GERAL
   telefone      String?
   token_version Int      @default(1)
   criado_em     DateTime @default(now())
   atualizado    DateTime @updatedAt
 
-  predios_geridos     Predio[]        @relation("GestorPredio")
-  chamados_solicitados OrdemServico[]  @relation("SolicitanteOS")
-  chamados_atribuidos  OrdemServico[]  @relation("TecnicoOS")
-  auditorias          AuditoriaLog[]
+  predios_geridos      Predio[]       @relation("GestorPredio")
+  chamados_solicitados OrdemServico[] @relation("SolicitanteOS")
+  chamados_atribuidos  OrdemServico[] @relation("TecnicoOS")
+  auditorias           AuditoriaLog[]
 
   @@map("usuarios")
 }
@@ -94,6 +95,7 @@ model OrdemServico {
   codigo               String     @unique @default(dbgenerated("concat('OS-', floor(random() * 900000 + 100000)::text)"))
   titulo               String
   descricao            String
+  categoria            String?    @default("GERAL") // ELETRICA, HIDRAULICA, ALVENARIA, CLIMATIZACAO, PINTURA, GERAL
   prioridade           Prioridade @default(MEDIA)
   status               StatusOS   @default(RECEBIDO)
   
@@ -117,6 +119,8 @@ model OrdemServico {
   ordem_vinculada_id   String?
   ordem_vinculada      OrdemServico?  @relation("HistoricoOS", fields: [ordem_vinculada_id], references: [id])
   ordens_derivadas     OrdemServico[] @relation("HistoricoOS")
+
+  agendamentos         AgendaVistoria[]
 
   criado_em            DateTime   @default(now())
   atualizado           DateTime   @updatedAt
@@ -142,14 +146,16 @@ model AuditoriaLog {
 }
 
 model AgendaVistoria {
-  id        String   @id @default(uuid())
-  titulo    String
-  subtitulo String
-  horario   String
-  tipo      String   @default("geral") // eletrica, hidraulica, acessibilidade, geral
-  concluido Boolean  @default(false)
-  tecnico   String?
-  criado_em DateTime @default(now())
+  id               String        @id @default(uuid())
+  titulo           String
+  subtitulo        String
+  horario          String
+  tipo             String        @default("geral") // eletrica, hidraulica, acessibilidade, geral
+  concluido        Boolean       @default(false)
+  tecnico          String?
+  ordem_servico_id String?
+  ordem_servico    OrdemServico? @relation(fields: [ordem_servico_id], references: [id])
+  criado_em        DateTime      @default(now())
 
   @@map("agenda_vistorias")
 }

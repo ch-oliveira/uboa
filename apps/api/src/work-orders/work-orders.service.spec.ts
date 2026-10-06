@@ -158,4 +158,144 @@ describe('WorkOrdersService - Ciclo de Vida da OS', () => {
     );
     expect(mockPrismaService.auditoriaLog.create).toHaveBeenCalled();
   });
+
+  it('deve bloquear atribuição se o técnico atingir o limite de sobrecarga (>= 3 ordens em execução)', async () => {
+    mockPrismaService.ordemServico.findFirst.mockResolvedValue({
+      id: 'os-7',
+      codigo: 'OS-100007',
+      status: StatusOS.EM_TRIAGEM,
+      categoria: 'ELETRICA',
+      prioridade: Prioridade.MEDIA,
+      criado_em: new Date(),
+    });
+
+    mockPrismaService.usuario.findFirst.mockResolvedValue({
+      id: 'tec-sobrecarregado',
+      nome: 'Carlos Eletricista',
+      role: Role.TECNICO,
+      especialidade: 'ELETRICA',
+    });
+
+    // Simula 3 ordens já em execução para este técnico
+    mockPrismaService.ordemServico.count = vi.fn().mockResolvedValue(3);
+
+    await expect(
+      service.update('os-7', { technician: 'Carlos Eletricista' }, { role: Role.GESTOR, id: 'gestor-1' })
+    ).rejects.toThrow(BadRequestException);
+  });
+
+  it('deve bloquear atribuição em caso de incompatibilidade técnica de especialidade', async () => {
+    mockPrismaService.ordemServico.findFirst.mockResolvedValue({
+      id: 'os-8',
+      codigo: 'OS-100008',
+      status: StatusOS.EM_TRIAGEM,
+      categoria: 'HIDRAULICA',
+      prioridade: Prioridade.MEDIA,
+      criado_em: new Date(),
+    });
+
+    mockPrismaService.usuario.findFirst.mockResolvedValue({
+      id: 'tec-eletrica',
+      nome: 'João Eletricista',
+      role: Role.TECNICO,
+      especialidade: 'ELETRICA',
+    });
+
+    mockPrismaService.ordemServico.count = vi.fn().mockResolvedValue(1);
+
+    await expect(
+      service.update('os-8', { technician: 'João Eletricista' }, { role: Role.GESTOR, id: 'gestor-1' })
+    ).rejects.toThrow(BadRequestException);
+  });
+
+  it('deve sincronizar e criar evento na AgendaVistoria ao transicionar para AGENDADO', async () => {
+    mockPrismaService.ordemServico.findFirst.mockResolvedValue({
+      id: 'os-9',
+      codigo: 'OS-100009',
+      status: StatusOS.EM_TRIAGEM,
+      categoria: 'ELETRICA',
+      prioridade: Prioridade.MEDIA,
+      tecnico_atribuido_id: 'tec-1',
+      predio: { nome: 'EMEF Paulo Freire' },
+      tecnico: { nome: 'Carlos Silva' },
+      criado_em: new Date(),
+    });
+
+    mockPrismaService.agendaVistoria = {
+      create: vi.fn(),
+    };
+
+    mockPrismaService.$transaction = vi.fn().mockImplementation(async (callback) => {
+      return callback({
+        ordemServico: {
+          update: vi.fn().mockResolvedValue({
+            id: 'os-9',
+            codigo: 'OS-100009',
+            status: StatusOS.AGENDADO,
+            prioridade: Prioridade.MEDIA,
+            criado_em: new Date(),
+          }),
+        },
+        agendaVistoria: mockPrismaService.agendaVistoria,
+        auditoriaLog: mockPrismaService.auditoriaLog,
+      });
+    });
+
+    const res = await service.update(
+      'os-9',
+      { status: 'AGENDADO', horarioAgendamento: '14:30' },
+      { role: Role.GESTOR, id: 'gestor-1' }
+    );
+
+    expect(res.success).toBe(true);
+    expect(mockPrismaService.agendaVistoria.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          horario: '14:30',
+          ordem_servico_id: 'os-9',
+        }),
+      })
+    );
+  });
+
+  it('deve recalcular data_limite_sla imediatamente na triagem ao alterar prioridade', async () => {
+    mockPrismaService.ordemServico.findFirst.mockResolvedValue({
+      id: 'os-10',
+      codigo: 'OS-100010',
+      status: StatusOS.EM_TRIAGEM,
+      categoria: 'GERAL',
+      prioridade: Prioridade.BAIXA,
+      criado_em: new Date(Date.now() - 24 * 3600 * 1000), // criada ontem
+    });
+
+    let dadosAtualizados: any = null;
+    mockPrismaService.$transaction = vi.fn().mockImplementation(async (callback) => {
+      return callback({
+        ordemServico: {
+          update: vi.fn().mockImplementation(({ data }) => {
+            dadosAtualizados = data;
+            return {
+              id: 'os-10',
+              codigo: 'OS-100010',
+              status: StatusOS.EM_TRIAGEM,
+              prioridade: data.prioridade,
+              data_limite_sla: data.data_limite_sla,
+              criado_em: new Date(),
+            };
+          }),
+        },
+        auditoriaLog: mockPrismaService.auditoriaLog,
+      });
+    });
+
+    // Gestor eleva prioridade de BAIXA para URGENTE
+    await service.update('os-10', { prioridade: 'URGENTE' }, { role: Role.GESTOR, id: 'gestor-1' });
+
+    expect(dadosAtualizados.prioridade).toBe(Prioridade.URGENTE);
+    expect(dadosAtualizados.data_limite_sla).toBeDefined();
+    // Prazo de URGENTE é 4h a partir de agora
+    const diffHours = (dadosAtualizados.data_limite_sla.getTime() - Date.now()) / (3600 * 1000);
+    expect(diffHours).toBeGreaterThan(3.9);
+    expect(diffHours).toBeLessThan(4.1);
+  });
 });
