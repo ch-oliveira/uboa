@@ -191,11 +191,18 @@ exports.Prisma.AgendaVistoriaScalarFieldEnum = {
   titulo: 'titulo',
   subtitulo: 'subtitulo',
   horario: 'horario',
+  data_agendada: 'data_agendada',
   tipo: 'tipo',
+  recorrencia: 'recorrencia',
   concluido: 'concluido',
   tecnico: 'tecnico',
+  tecnico_id: 'tecnico_id',
+  predio_id: 'predio_id',
+  laudo_tecnico: 'laudo_tecnico',
+  fotos_vistoria: 'fotos_vistoria',
   ordem_servico_id: 'ordem_servico_id',
-  criado_em: 'criado_em'
+  criado_em: 'criado_em',
+  atualizado: 'atualizado'
 };
 
 exports.Prisma.ConfiguracaoSistemaScalarFieldEnum = {

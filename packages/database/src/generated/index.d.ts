@@ -1453,10 +1453,12 @@ export namespace Prisma {
 
   export type PredioCountOutputType = {
     ordens_servico: number
+    vistorias: number
   }
 
   export type PredioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ordens_servico?: boolean | PredioCountOutputTypeCountOrdens_servicoArgs
+    vistorias?: boolean | PredioCountOutputTypeCountVistoriasArgs
   }
 
   // Custom InputTypes
@@ -1475,6 +1477,13 @@ export namespace Prisma {
    */
   export type PredioCountOutputTypeCountOrdens_servicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrdemServicoWhereInput
+  }
+
+  /**
+   * PredioCountOutputType without action
+   */
+  export type PredioCountOutputTypeCountVistoriasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgendaVistoriaWhereInput
   }
 
 
@@ -3068,6 +3077,7 @@ export namespace Prisma {
     atualizado?: boolean
     gestor?: boolean | Predio$gestorArgs<ExtArgs>
     ordens_servico?: boolean | Predio$ordens_servicoArgs<ExtArgs>
+    vistorias?: boolean | Predio$vistoriasArgs<ExtArgs>
     _count?: boolean | PredioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["predio"]>
 
@@ -3128,6 +3138,7 @@ export namespace Prisma {
   export type PredioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     gestor?: boolean | Predio$gestorArgs<ExtArgs>
     ordens_servico?: boolean | Predio$ordens_servicoArgs<ExtArgs>
+    vistorias?: boolean | Predio$vistoriasArgs<ExtArgs>
     _count?: boolean | PredioCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PredioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3142,6 +3153,7 @@ export namespace Prisma {
     objects: {
       gestor: Prisma.$UsuarioPayload<ExtArgs> | null
       ordens_servico: Prisma.$OrdemServicoPayload<ExtArgs>[]
+      vistorias: Prisma.$AgendaVistoriaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3554,6 +3566,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     gestor<T extends Predio$gestorArgs<ExtArgs> = {}>(args?: Subset<T, Predio$gestorArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordens_servico<T extends Predio$ordens_servicoArgs<ExtArgs> = {}>(args?: Subset<T, Predio$ordens_servicoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    vistorias<T extends Predio$vistoriasArgs<ExtArgs> = {}>(args?: Subset<T, Predio$vistoriasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgendaVistoriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4033,6 +4046,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OrdemServicoScalarFieldEnum | OrdemServicoScalarFieldEnum[]
+  }
+
+  /**
+   * Predio.vistorias
+   */
+  export type Predio$vistoriasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgendaVistoria
+     */
+    select?: AgendaVistoriaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgendaVistoria
+     */
+    omit?: AgendaVistoriaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgendaVistoriaInclude<ExtArgs> | null
+    where?: AgendaVistoriaWhereInput
+    orderBy?: AgendaVistoriaOrderByWithRelationInput | AgendaVistoriaOrderByWithRelationInput[]
+    cursor?: AgendaVistoriaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AgendaVistoriaScalarFieldEnum | AgendaVistoriaScalarFieldEnum[]
   }
 
   /**
@@ -6523,11 +6560,17 @@ export namespace Prisma {
     titulo: string | null
     subtitulo: string | null
     horario: string | null
+    data_agendada: Date | null
     tipo: string | null
+    recorrencia: string | null
     concluido: boolean | null
     tecnico: string | null
+    tecnico_id: string | null
+    predio_id: string | null
+    laudo_tecnico: string | null
     ordem_servico_id: string | null
     criado_em: Date | null
+    atualizado: Date | null
   }
 
   export type AgendaVistoriaMaxAggregateOutputType = {
@@ -6535,11 +6578,17 @@ export namespace Prisma {
     titulo: string | null
     subtitulo: string | null
     horario: string | null
+    data_agendada: Date | null
     tipo: string | null
+    recorrencia: string | null
     concluido: boolean | null
     tecnico: string | null
+    tecnico_id: string | null
+    predio_id: string | null
+    laudo_tecnico: string | null
     ordem_servico_id: string | null
     criado_em: Date | null
+    atualizado: Date | null
   }
 
   export type AgendaVistoriaCountAggregateOutputType = {
@@ -6547,11 +6596,18 @@ export namespace Prisma {
     titulo: number
     subtitulo: number
     horario: number
+    data_agendada: number
     tipo: number
+    recorrencia: number
     concluido: number
     tecnico: number
+    tecnico_id: number
+    predio_id: number
+    laudo_tecnico: number
+    fotos_vistoria: number
     ordem_servico_id: number
     criado_em: number
+    atualizado: number
     _all: number
   }
 
@@ -6561,11 +6617,17 @@ export namespace Prisma {
     titulo?: true
     subtitulo?: true
     horario?: true
+    data_agendada?: true
     tipo?: true
+    recorrencia?: true
     concluido?: true
     tecnico?: true
+    tecnico_id?: true
+    predio_id?: true
+    laudo_tecnico?: true
     ordem_servico_id?: true
     criado_em?: true
+    atualizado?: true
   }
 
   export type AgendaVistoriaMaxAggregateInputType = {
@@ -6573,11 +6635,17 @@ export namespace Prisma {
     titulo?: true
     subtitulo?: true
     horario?: true
+    data_agendada?: true
     tipo?: true
+    recorrencia?: true
     concluido?: true
     tecnico?: true
+    tecnico_id?: true
+    predio_id?: true
+    laudo_tecnico?: true
     ordem_servico_id?: true
     criado_em?: true
+    atualizado?: true
   }
 
   export type AgendaVistoriaCountAggregateInputType = {
@@ -6585,11 +6653,18 @@ export namespace Prisma {
     titulo?: true
     subtitulo?: true
     horario?: true
+    data_agendada?: true
     tipo?: true
+    recorrencia?: true
     concluido?: true
     tecnico?: true
+    tecnico_id?: true
+    predio_id?: true
+    laudo_tecnico?: true
+    fotos_vistoria?: true
     ordem_servico_id?: true
     criado_em?: true
+    atualizado?: true
     _all?: true
   }
 
@@ -6670,11 +6745,18 @@ export namespace Prisma {
     titulo: string
     subtitulo: string
     horario: string
+    data_agendada: Date | null
     tipo: string
+    recorrencia: string | null
     concluido: boolean
     tecnico: string | null
+    tecnico_id: string | null
+    predio_id: string | null
+    laudo_tecnico: string | null
+    fotos_vistoria: string[]
     ordem_servico_id: string | null
     criado_em: Date
+    atualizado: Date
     _count: AgendaVistoriaCountAggregateOutputType | null
     _min: AgendaVistoriaMinAggregateOutputType | null
     _max: AgendaVistoriaMaxAggregateOutputType | null
@@ -6699,11 +6781,19 @@ export namespace Prisma {
     titulo?: boolean
     subtitulo?: boolean
     horario?: boolean
+    data_agendada?: boolean
     tipo?: boolean
+    recorrencia?: boolean
     concluido?: boolean
     tecnico?: boolean
+    tecnico_id?: boolean
+    predio_id?: boolean
+    laudo_tecnico?: boolean
+    fotos_vistoria?: boolean
     ordem_servico_id?: boolean
     criado_em?: boolean
+    atualizado?: boolean
+    predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
   }, ExtArgs["result"]["agendaVistoria"]>
 
@@ -6712,11 +6802,19 @@ export namespace Prisma {
     titulo?: boolean
     subtitulo?: boolean
     horario?: boolean
+    data_agendada?: boolean
     tipo?: boolean
+    recorrencia?: boolean
     concluido?: boolean
     tecnico?: boolean
+    tecnico_id?: boolean
+    predio_id?: boolean
+    laudo_tecnico?: boolean
+    fotos_vistoria?: boolean
     ordem_servico_id?: boolean
     criado_em?: boolean
+    atualizado?: boolean
+    predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
   }, ExtArgs["result"]["agendaVistoria"]>
 
@@ -6725,11 +6823,19 @@ export namespace Prisma {
     titulo?: boolean
     subtitulo?: boolean
     horario?: boolean
+    data_agendada?: boolean
     tipo?: boolean
+    recorrencia?: boolean
     concluido?: boolean
     tecnico?: boolean
+    tecnico_id?: boolean
+    predio_id?: boolean
+    laudo_tecnico?: boolean
+    fotos_vistoria?: boolean
     ordem_servico_id?: boolean
     criado_em?: boolean
+    atualizado?: boolean
+    predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
   }, ExtArgs["result"]["agendaVistoria"]>
 
@@ -6738,27 +6844,38 @@ export namespace Prisma {
     titulo?: boolean
     subtitulo?: boolean
     horario?: boolean
+    data_agendada?: boolean
     tipo?: boolean
+    recorrencia?: boolean
     concluido?: boolean
     tecnico?: boolean
+    tecnico_id?: boolean
+    predio_id?: boolean
+    laudo_tecnico?: boolean
+    fotos_vistoria?: boolean
     ordem_servico_id?: boolean
     criado_em?: boolean
+    atualizado?: boolean
   }
 
-  export type AgendaVistoriaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "subtitulo" | "horario" | "tipo" | "concluido" | "tecnico" | "ordem_servico_id" | "criado_em", ExtArgs["result"]["agendaVistoria"]>
+  export type AgendaVistoriaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "subtitulo" | "horario" | "data_agendada" | "tipo" | "recorrencia" | "concluido" | "tecnico" | "tecnico_id" | "predio_id" | "laudo_tecnico" | "fotos_vistoria" | "ordem_servico_id" | "criado_em" | "atualizado", ExtArgs["result"]["agendaVistoria"]>
   export type AgendaVistoriaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
   }
   export type AgendaVistoriaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
   }
   export type AgendaVistoriaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
   }
 
   export type $AgendaVistoriaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "AgendaVistoria"
     objects: {
+      predio: Prisma.$PredioPayload<ExtArgs> | null
       ordem_servico: Prisma.$OrdemServicoPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -6766,11 +6883,18 @@ export namespace Prisma {
       titulo: string
       subtitulo: string
       horario: string
+      data_agendada: Date | null
       tipo: string
+      recorrencia: string | null
       concluido: boolean
       tecnico: string | null
+      tecnico_id: string | null
+      predio_id: string | null
+      laudo_tecnico: string | null
+      fotos_vistoria: string[]
       ordem_servico_id: string | null
       criado_em: Date
+      atualizado: Date
     }, ExtArgs["result"]["agendaVistoria"]>
     composites: {}
   }
@@ -7165,6 +7289,7 @@ export namespace Prisma {
    */
   export interface Prisma__AgendaVistoriaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    predio<T extends AgendaVistoria$predioArgs<ExtArgs> = {}>(args?: Subset<T, AgendaVistoria$predioArgs<ExtArgs>>): Prisma__PredioClient<$Result.GetResult<Prisma.$PredioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordem_servico<T extends AgendaVistoria$ordem_servicoArgs<ExtArgs> = {}>(args?: Subset<T, AgendaVistoria$ordem_servicoArgs<ExtArgs>>): Prisma__OrdemServicoClient<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -7199,11 +7324,18 @@ export namespace Prisma {
     readonly titulo: FieldRef<"AgendaVistoria", 'String'>
     readonly subtitulo: FieldRef<"AgendaVistoria", 'String'>
     readonly horario: FieldRef<"AgendaVistoria", 'String'>
+    readonly data_agendada: FieldRef<"AgendaVistoria", 'DateTime'>
     readonly tipo: FieldRef<"AgendaVistoria", 'String'>
+    readonly recorrencia: FieldRef<"AgendaVistoria", 'String'>
     readonly concluido: FieldRef<"AgendaVistoria", 'Boolean'>
     readonly tecnico: FieldRef<"AgendaVistoria", 'String'>
+    readonly tecnico_id: FieldRef<"AgendaVistoria", 'String'>
+    readonly predio_id: FieldRef<"AgendaVistoria", 'String'>
+    readonly laudo_tecnico: FieldRef<"AgendaVistoria", 'String'>
+    readonly fotos_vistoria: FieldRef<"AgendaVistoria", 'String[]'>
     readonly ordem_servico_id: FieldRef<"AgendaVistoria", 'String'>
     readonly criado_em: FieldRef<"AgendaVistoria", 'DateTime'>
+    readonly atualizado: FieldRef<"AgendaVistoria", 'DateTime'>
   }
     
 
@@ -7597,6 +7729,25 @@ export namespace Prisma {
      * Limit how many AgendaVistorias to delete.
      */
     limit?: number
+  }
+
+  /**
+   * AgendaVistoria.predio
+   */
+  export type AgendaVistoria$predioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Predio
+     */
+    select?: PredioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Predio
+     */
+    omit?: PredioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PredioInclude<ExtArgs> | null
+    where?: PredioWhereInput
   }
 
   /**
@@ -8964,11 +9115,18 @@ export namespace Prisma {
     titulo: 'titulo',
     subtitulo: 'subtitulo',
     horario: 'horario',
+    data_agendada: 'data_agendada',
     tipo: 'tipo',
+    recorrencia: 'recorrencia',
     concluido: 'concluido',
     tecnico: 'tecnico',
+    tecnico_id: 'tecnico_id',
+    predio_id: 'predio_id',
+    laudo_tecnico: 'laudo_tecnico',
+    fotos_vistoria: 'fotos_vistoria',
     ordem_servico_id: 'ordem_servico_id',
-    criado_em: 'criado_em'
+    criado_em: 'criado_em',
+    atualizado: 'atualizado'
   };
 
   export type AgendaVistoriaScalarFieldEnum = (typeof AgendaVistoriaScalarFieldEnum)[keyof typeof AgendaVistoriaScalarFieldEnum]
@@ -9311,6 +9469,7 @@ export namespace Prisma {
     atualizado?: DateTimeFilter<"Predio"> | Date | string
     gestor?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
     ordens_servico?: OrdemServicoListRelationFilter
+    vistorias?: AgendaVistoriaListRelationFilter
   }
 
   export type PredioOrderByWithRelationInput = {
@@ -9330,6 +9489,7 @@ export namespace Prisma {
     atualizado?: SortOrder
     gestor?: UsuarioOrderByWithRelationInput
     ordens_servico?: OrdemServicoOrderByRelationAggregateInput
+    vistorias?: AgendaVistoriaOrderByRelationAggregateInput
   }
 
   export type PredioWhereUniqueInput = Prisma.AtLeast<{
@@ -9352,6 +9512,7 @@ export namespace Prisma {
     atualizado?: DateTimeFilter<"Predio"> | Date | string
     gestor?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
     ordens_servico?: OrdemServicoListRelationFilter
+    vistorias?: AgendaVistoriaListRelationFilter
   }, "id">
 
   export type PredioOrderByWithAggregationInput = {
@@ -9619,11 +9780,19 @@ export namespace Prisma {
     titulo?: StringFilter<"AgendaVistoria"> | string
     subtitulo?: StringFilter<"AgendaVistoria"> | string
     horario?: StringFilter<"AgendaVistoria"> | string
+    data_agendada?: DateTimeNullableFilter<"AgendaVistoria"> | Date | string | null
     tipo?: StringFilter<"AgendaVistoria"> | string
+    recorrencia?: StringNullableFilter<"AgendaVistoria"> | string | null
     concluido?: BoolFilter<"AgendaVistoria"> | boolean
     tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
+    tecnico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    predio_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    laudo_tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
+    fotos_vistoria?: StringNullableListFilter<"AgendaVistoria">
     ordem_servico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
     criado_em?: DateTimeFilter<"AgendaVistoria"> | Date | string
+    atualizado?: DateTimeFilter<"AgendaVistoria"> | Date | string
+    predio?: XOR<PredioNullableScalarRelationFilter, PredioWhereInput> | null
     ordem_servico?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
   }
 
@@ -9632,11 +9801,19 @@ export namespace Prisma {
     titulo?: SortOrder
     subtitulo?: SortOrder
     horario?: SortOrder
+    data_agendada?: SortOrderInput | SortOrder
     tipo?: SortOrder
+    recorrencia?: SortOrderInput | SortOrder
     concluido?: SortOrder
     tecnico?: SortOrderInput | SortOrder
+    tecnico_id?: SortOrderInput | SortOrder
+    predio_id?: SortOrderInput | SortOrder
+    laudo_tecnico?: SortOrderInput | SortOrder
+    fotos_vistoria?: SortOrder
     ordem_servico_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
+    atualizado?: SortOrder
+    predio?: PredioOrderByWithRelationInput
     ordem_servico?: OrdemServicoOrderByWithRelationInput
   }
 
@@ -9648,11 +9825,19 @@ export namespace Prisma {
     titulo?: StringFilter<"AgendaVistoria"> | string
     subtitulo?: StringFilter<"AgendaVistoria"> | string
     horario?: StringFilter<"AgendaVistoria"> | string
+    data_agendada?: DateTimeNullableFilter<"AgendaVistoria"> | Date | string | null
     tipo?: StringFilter<"AgendaVistoria"> | string
+    recorrencia?: StringNullableFilter<"AgendaVistoria"> | string | null
     concluido?: BoolFilter<"AgendaVistoria"> | boolean
     tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
+    tecnico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    predio_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    laudo_tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
+    fotos_vistoria?: StringNullableListFilter<"AgendaVistoria">
     ordem_servico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
     criado_em?: DateTimeFilter<"AgendaVistoria"> | Date | string
+    atualizado?: DateTimeFilter<"AgendaVistoria"> | Date | string
+    predio?: XOR<PredioNullableScalarRelationFilter, PredioWhereInput> | null
     ordem_servico?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
   }, "id">
 
@@ -9661,11 +9846,18 @@ export namespace Prisma {
     titulo?: SortOrder
     subtitulo?: SortOrder
     horario?: SortOrder
+    data_agendada?: SortOrderInput | SortOrder
     tipo?: SortOrder
+    recorrencia?: SortOrderInput | SortOrder
     concluido?: SortOrder
     tecnico?: SortOrderInput | SortOrder
+    tecnico_id?: SortOrderInput | SortOrder
+    predio_id?: SortOrderInput | SortOrder
+    laudo_tecnico?: SortOrderInput | SortOrder
+    fotos_vistoria?: SortOrder
     ordem_servico_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
+    atualizado?: SortOrder
     _count?: AgendaVistoriaCountOrderByAggregateInput
     _max?: AgendaVistoriaMaxOrderByAggregateInput
     _min?: AgendaVistoriaMinOrderByAggregateInput
@@ -9679,11 +9871,18 @@ export namespace Prisma {
     titulo?: StringWithAggregatesFilter<"AgendaVistoria"> | string
     subtitulo?: StringWithAggregatesFilter<"AgendaVistoria"> | string
     horario?: StringWithAggregatesFilter<"AgendaVistoria"> | string
+    data_agendada?: DateTimeNullableWithAggregatesFilter<"AgendaVistoria"> | Date | string | null
     tipo?: StringWithAggregatesFilter<"AgendaVistoria"> | string
+    recorrencia?: StringNullableWithAggregatesFilter<"AgendaVistoria"> | string | null
     concluido?: BoolWithAggregatesFilter<"AgendaVistoria"> | boolean
     tecnico?: StringNullableWithAggregatesFilter<"AgendaVistoria"> | string | null
+    tecnico_id?: StringNullableWithAggregatesFilter<"AgendaVistoria"> | string | null
+    predio_id?: StringNullableWithAggregatesFilter<"AgendaVistoria"> | string | null
+    laudo_tecnico?: StringNullableWithAggregatesFilter<"AgendaVistoria"> | string | null
+    fotos_vistoria?: StringNullableListFilter<"AgendaVistoria">
     ordem_servico_id?: StringNullableWithAggregatesFilter<"AgendaVistoria"> | string | null
     criado_em?: DateTimeWithAggregatesFilter<"AgendaVistoria"> | Date | string
+    atualizado?: DateTimeWithAggregatesFilter<"AgendaVistoria"> | Date | string
   }
 
   export type ConfiguracaoSistemaWhereInput = {
@@ -9940,6 +10139,7 @@ export namespace Prisma {
     atualizado?: Date | string
     gestor?: UsuarioCreateNestedOneWithoutPredios_geridosInput
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUncheckedCreateInput = {
@@ -9958,6 +10158,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUpdateInput = {
@@ -9976,6 +10177,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     gestor?: UsuarioUpdateOneWithoutPredios_geridosNestedInput
     ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateInput = {
@@ -9994,6 +10196,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioCreateManyInput = {
@@ -10292,10 +10495,17 @@ export namespace Prisma {
     titulo: string
     subtitulo: string
     horario: string
+    data_agendada?: Date | string | null
     tipo?: string
+    recorrencia?: string | null
     concluido?: boolean
     tecnico?: string | null
+    tecnico_id?: string | null
+    laudo_tecnico?: string | null
+    fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     criado_em?: Date | string
+    atualizado?: Date | string
+    predio?: PredioCreateNestedOneWithoutVistoriasInput
     ordem_servico?: OrdemServicoCreateNestedOneWithoutAgendamentosInput
   }
 
@@ -10304,11 +10514,18 @@ export namespace Prisma {
     titulo: string
     subtitulo: string
     horario: string
+    data_agendada?: Date | string | null
     tipo?: string
+    recorrencia?: string | null
     concluido?: boolean
     tecnico?: string | null
+    tecnico_id?: string | null
+    predio_id?: string | null
+    laudo_tecnico?: string | null
+    fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     ordem_servico_id?: string | null
     criado_em?: Date | string
+    atualizado?: Date | string
   }
 
   export type AgendaVistoriaUpdateInput = {
@@ -10316,10 +10533,17 @@ export namespace Prisma {
     titulo?: StringFieldUpdateOperationsInput | string
     subtitulo?: StringFieldUpdateOperationsInput | string
     horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
     concluido?: BoolFieldUpdateOperationsInput | boolean
     tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneWithoutVistoriasNestedInput
     ordem_servico?: OrdemServicoUpdateOneWithoutAgendamentosNestedInput
   }
 
@@ -10328,11 +10552,18 @@ export namespace Prisma {
     titulo?: StringFieldUpdateOperationsInput | string
     subtitulo?: StringFieldUpdateOperationsInput | string
     horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
     concluido?: BoolFieldUpdateOperationsInput | boolean
     tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AgendaVistoriaCreateManyInput = {
@@ -10340,11 +10571,18 @@ export namespace Prisma {
     titulo: string
     subtitulo: string
     horario: string
+    data_agendada?: Date | string | null
     tipo?: string
+    recorrencia?: string | null
     concluido?: boolean
     tecnico?: string | null
+    tecnico_id?: string | null
+    predio_id?: string | null
+    laudo_tecnico?: string | null
+    fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     ordem_servico_id?: string | null
     criado_em?: Date | string
+    atualizado?: Date | string
   }
 
   export type AgendaVistoriaUpdateManyMutationInput = {
@@ -10352,10 +10590,16 @@ export namespace Prisma {
     titulo?: StringFieldUpdateOperationsInput | string
     subtitulo?: StringFieldUpdateOperationsInput | string
     horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
     concluido?: BoolFieldUpdateOperationsInput | boolean
     tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AgendaVistoriaUncheckedUpdateManyInput = {
@@ -10363,11 +10607,18 @@ export namespace Prisma {
     titulo?: StringFieldUpdateOperationsInput | string
     subtitulo?: StringFieldUpdateOperationsInput | string
     horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
     concluido?: BoolFieldUpdateOperationsInput | boolean
     tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ConfiguracaoSistemaCreateInput = {
@@ -10791,6 +11042,16 @@ export namespace Prisma {
     isNot?: UsuarioWhereInput | null
   }
 
+  export type AgendaVistoriaListRelationFilter = {
+    every?: AgendaVistoriaWhereInput
+    some?: AgendaVistoriaWhereInput
+    none?: AgendaVistoriaWhereInput
+  }
+
+  export type AgendaVistoriaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type PredioCountOrderByAggregateInput = {
     id?: SortOrder
     nome?: SortOrder
@@ -10942,16 +11203,6 @@ export namespace Prisma {
   export type OrdemServicoNullableScalarRelationFilter = {
     is?: OrdemServicoWhereInput | null
     isNot?: OrdemServicoWhereInput | null
-  }
-
-  export type AgendaVistoriaListRelationFilter = {
-    every?: AgendaVistoriaWhereInput
-    some?: AgendaVistoriaWhereInput
-    none?: AgendaVistoriaWhereInput
-  }
-
-  export type AgendaVistoriaOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type OrdemServicoCountOrderByAggregateInput = {
@@ -11148,16 +11399,28 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
+  export type PredioNullableScalarRelationFilter = {
+    is?: PredioWhereInput | null
+    isNot?: PredioWhereInput | null
+  }
+
   export type AgendaVistoriaCountOrderByAggregateInput = {
     id?: SortOrder
     titulo?: SortOrder
     subtitulo?: SortOrder
     horario?: SortOrder
+    data_agendada?: SortOrder
     tipo?: SortOrder
+    recorrencia?: SortOrder
     concluido?: SortOrder
     tecnico?: SortOrder
+    tecnico_id?: SortOrder
+    predio_id?: SortOrder
+    laudo_tecnico?: SortOrder
+    fotos_vistoria?: SortOrder
     ordem_servico_id?: SortOrder
     criado_em?: SortOrder
+    atualizado?: SortOrder
   }
 
   export type AgendaVistoriaMaxOrderByAggregateInput = {
@@ -11165,11 +11428,17 @@ export namespace Prisma {
     titulo?: SortOrder
     subtitulo?: SortOrder
     horario?: SortOrder
+    data_agendada?: SortOrder
     tipo?: SortOrder
+    recorrencia?: SortOrder
     concluido?: SortOrder
     tecnico?: SortOrder
+    tecnico_id?: SortOrder
+    predio_id?: SortOrder
+    laudo_tecnico?: SortOrder
     ordem_servico_id?: SortOrder
     criado_em?: SortOrder
+    atualizado?: SortOrder
   }
 
   export type AgendaVistoriaMinOrderByAggregateInput = {
@@ -11177,11 +11446,17 @@ export namespace Prisma {
     titulo?: SortOrder
     subtitulo?: SortOrder
     horario?: SortOrder
+    data_agendada?: SortOrder
     tipo?: SortOrder
+    recorrencia?: SortOrder
     concluido?: SortOrder
     tecnico?: SortOrder
+    tecnico_id?: SortOrder
+    predio_id?: SortOrder
+    laudo_tecnico?: SortOrder
     ordem_servico_id?: SortOrder
     criado_em?: SortOrder
+    atualizado?: SortOrder
   }
 
   export type ConfiguracaoSistemaCountOrderByAggregateInput = {
@@ -11477,11 +11752,25 @@ export namespace Prisma {
     connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
   }
 
+  export type AgendaVistoriaCreateNestedManyWithoutPredioInput = {
+    create?: XOR<AgendaVistoriaCreateWithoutPredioInput, AgendaVistoriaUncheckedCreateWithoutPredioInput> | AgendaVistoriaCreateWithoutPredioInput[] | AgendaVistoriaUncheckedCreateWithoutPredioInput[]
+    connectOrCreate?: AgendaVistoriaCreateOrConnectWithoutPredioInput | AgendaVistoriaCreateOrConnectWithoutPredioInput[]
+    createMany?: AgendaVistoriaCreateManyPredioInputEnvelope
+    connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+  }
+
   export type OrdemServicoUncheckedCreateNestedManyWithoutPredioInput = {
     create?: XOR<OrdemServicoCreateWithoutPredioInput, OrdemServicoUncheckedCreateWithoutPredioInput> | OrdemServicoCreateWithoutPredioInput[] | OrdemServicoUncheckedCreateWithoutPredioInput[]
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutPredioInput | OrdemServicoCreateOrConnectWithoutPredioInput[]
     createMany?: OrdemServicoCreateManyPredioInputEnvelope
     connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput = {
+    create?: XOR<AgendaVistoriaCreateWithoutPredioInput, AgendaVistoriaUncheckedCreateWithoutPredioInput> | AgendaVistoriaCreateWithoutPredioInput[] | AgendaVistoriaUncheckedCreateWithoutPredioInput[]
+    connectOrCreate?: AgendaVistoriaCreateOrConnectWithoutPredioInput | AgendaVistoriaCreateOrConnectWithoutPredioInput[]
+    createMany?: AgendaVistoriaCreateManyPredioInputEnvelope
+    connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
   }
 
   export type EnumTipoPredioFieldUpdateOperationsInput = {
@@ -11528,6 +11817,20 @@ export namespace Prisma {
     deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
   }
 
+  export type AgendaVistoriaUpdateManyWithoutPredioNestedInput = {
+    create?: XOR<AgendaVistoriaCreateWithoutPredioInput, AgendaVistoriaUncheckedCreateWithoutPredioInput> | AgendaVistoriaCreateWithoutPredioInput[] | AgendaVistoriaUncheckedCreateWithoutPredioInput[]
+    connectOrCreate?: AgendaVistoriaCreateOrConnectWithoutPredioInput | AgendaVistoriaCreateOrConnectWithoutPredioInput[]
+    upsert?: AgendaVistoriaUpsertWithWhereUniqueWithoutPredioInput | AgendaVistoriaUpsertWithWhereUniqueWithoutPredioInput[]
+    createMany?: AgendaVistoriaCreateManyPredioInputEnvelope
+    set?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    disconnect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    delete?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    update?: AgendaVistoriaUpdateWithWhereUniqueWithoutPredioInput | AgendaVistoriaUpdateWithWhereUniqueWithoutPredioInput[]
+    updateMany?: AgendaVistoriaUpdateManyWithWhereWithoutPredioInput | AgendaVistoriaUpdateManyWithWhereWithoutPredioInput[]
+    deleteMany?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
+  }
+
   export type OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput = {
     create?: XOR<OrdemServicoCreateWithoutPredioInput, OrdemServicoUncheckedCreateWithoutPredioInput> | OrdemServicoCreateWithoutPredioInput[] | OrdemServicoUncheckedCreateWithoutPredioInput[]
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutPredioInput | OrdemServicoCreateOrConnectWithoutPredioInput[]
@@ -11540,6 +11843,20 @@ export namespace Prisma {
     update?: OrdemServicoUpdateWithWhereUniqueWithoutPredioInput | OrdemServicoUpdateWithWhereUniqueWithoutPredioInput[]
     updateMany?: OrdemServicoUpdateManyWithWhereWithoutPredioInput | OrdemServicoUpdateManyWithWhereWithoutPredioInput[]
     deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
+  }
+
+  export type AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput = {
+    create?: XOR<AgendaVistoriaCreateWithoutPredioInput, AgendaVistoriaUncheckedCreateWithoutPredioInput> | AgendaVistoriaCreateWithoutPredioInput[] | AgendaVistoriaUncheckedCreateWithoutPredioInput[]
+    connectOrCreate?: AgendaVistoriaCreateOrConnectWithoutPredioInput | AgendaVistoriaCreateOrConnectWithoutPredioInput[]
+    upsert?: AgendaVistoriaUpsertWithWhereUniqueWithoutPredioInput | AgendaVistoriaUpsertWithWhereUniqueWithoutPredioInput[]
+    createMany?: AgendaVistoriaCreateManyPredioInputEnvelope
+    set?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    disconnect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    delete?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    update?: AgendaVistoriaUpdateWithWhereUniqueWithoutPredioInput | AgendaVistoriaUpdateWithWhereUniqueWithoutPredioInput[]
+    updateMany?: AgendaVistoriaUpdateManyWithWhereWithoutPredioInput | AgendaVistoriaUpdateManyWithWhereWithoutPredioInput[]
+    deleteMany?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
   }
 
   export type OrdemServicoCreatefotosInput = {
@@ -11734,10 +12051,35 @@ export namespace Prisma {
     update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutAuditoriasInput, UsuarioUpdateWithoutAuditoriasInput>, UsuarioUncheckedUpdateWithoutAuditoriasInput>
   }
 
+  export type AgendaVistoriaCreatefotos_vistoriaInput = {
+    set: string[]
+  }
+
+  export type PredioCreateNestedOneWithoutVistoriasInput = {
+    create?: XOR<PredioCreateWithoutVistoriasInput, PredioUncheckedCreateWithoutVistoriasInput>
+    connectOrCreate?: PredioCreateOrConnectWithoutVistoriasInput
+    connect?: PredioWhereUniqueInput
+  }
+
   export type OrdemServicoCreateNestedOneWithoutAgendamentosInput = {
     create?: XOR<OrdemServicoCreateWithoutAgendamentosInput, OrdemServicoUncheckedCreateWithoutAgendamentosInput>
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutAgendamentosInput
     connect?: OrdemServicoWhereUniqueInput
+  }
+
+  export type AgendaVistoriaUpdatefotos_vistoriaInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type PredioUpdateOneWithoutVistoriasNestedInput = {
+    create?: XOR<PredioCreateWithoutVistoriasInput, PredioUncheckedCreateWithoutVistoriasInput>
+    connectOrCreate?: PredioCreateOrConnectWithoutVistoriasInput
+    upsert?: PredioUpsertWithoutVistoriasInput
+    disconnect?: PredioWhereInput | boolean
+    delete?: PredioWhereInput | boolean
+    connect?: PredioWhereUniqueInput
+    update?: XOR<XOR<PredioUpdateToOneWithWhereWithoutVistoriasInput, PredioUpdateWithoutVistoriasInput>, PredioUncheckedUpdateWithoutVistoriasInput>
   }
 
   export type OrdemServicoUpdateOneWithoutAgendamentosNestedInput = {
@@ -12090,6 +12432,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUncheckedCreateWithoutGestorInput = {
@@ -12107,6 +12450,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
   }
 
   export type PredioCreateOrConnectWithoutGestorInput = {
@@ -12486,6 +12830,52 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AgendaVistoriaCreateWithoutPredioInput = {
+    id?: string
+    titulo: string
+    subtitulo: string
+    horario: string
+    data_agendada?: Date | string | null
+    tipo?: string
+    recorrencia?: string | null
+    concluido?: boolean
+    tecnico?: string | null
+    tecnico_id?: string | null
+    laudo_tecnico?: string | null
+    fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordem_servico?: OrdemServicoCreateNestedOneWithoutAgendamentosInput
+  }
+
+  export type AgendaVistoriaUncheckedCreateWithoutPredioInput = {
+    id?: string
+    titulo: string
+    subtitulo: string
+    horario: string
+    data_agendada?: Date | string | null
+    tipo?: string
+    recorrencia?: string | null
+    concluido?: boolean
+    tecnico?: string | null
+    tecnico_id?: string | null
+    laudo_tecnico?: string | null
+    fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    ordem_servico_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type AgendaVistoriaCreateOrConnectWithoutPredioInput = {
+    where: AgendaVistoriaWhereUniqueInput
+    create: XOR<AgendaVistoriaCreateWithoutPredioInput, AgendaVistoriaUncheckedCreateWithoutPredioInput>
+  }
+
+  export type AgendaVistoriaCreateManyPredioInputEnvelope = {
+    data: AgendaVistoriaCreateManyPredioInput | AgendaVistoriaCreateManyPredioInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsuarioUpsertWithoutPredios_geridosInput = {
     update: XOR<UsuarioUpdateWithoutPredios_geridosInput, UsuarioUncheckedUpdateWithoutPredios_geridosInput>
     create: XOR<UsuarioCreateWithoutPredios_geridosInput, UsuarioUncheckedCreateWithoutPredios_geridosInput>
@@ -12547,6 +12937,44 @@ export namespace Prisma {
     data: XOR<OrdemServicoUpdateManyMutationInput, OrdemServicoUncheckedUpdateManyWithoutPredioInput>
   }
 
+  export type AgendaVistoriaUpsertWithWhereUniqueWithoutPredioInput = {
+    where: AgendaVistoriaWhereUniqueInput
+    update: XOR<AgendaVistoriaUpdateWithoutPredioInput, AgendaVistoriaUncheckedUpdateWithoutPredioInput>
+    create: XOR<AgendaVistoriaCreateWithoutPredioInput, AgendaVistoriaUncheckedCreateWithoutPredioInput>
+  }
+
+  export type AgendaVistoriaUpdateWithWhereUniqueWithoutPredioInput = {
+    where: AgendaVistoriaWhereUniqueInput
+    data: XOR<AgendaVistoriaUpdateWithoutPredioInput, AgendaVistoriaUncheckedUpdateWithoutPredioInput>
+  }
+
+  export type AgendaVistoriaUpdateManyWithWhereWithoutPredioInput = {
+    where: AgendaVistoriaScalarWhereInput
+    data: XOR<AgendaVistoriaUpdateManyMutationInput, AgendaVistoriaUncheckedUpdateManyWithoutPredioInput>
+  }
+
+  export type AgendaVistoriaScalarWhereInput = {
+    AND?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
+    OR?: AgendaVistoriaScalarWhereInput[]
+    NOT?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
+    id?: StringFilter<"AgendaVistoria"> | string
+    titulo?: StringFilter<"AgendaVistoria"> | string
+    subtitulo?: StringFilter<"AgendaVistoria"> | string
+    horario?: StringFilter<"AgendaVistoria"> | string
+    data_agendada?: DateTimeNullableFilter<"AgendaVistoria"> | Date | string | null
+    tipo?: StringFilter<"AgendaVistoria"> | string
+    recorrencia?: StringNullableFilter<"AgendaVistoria"> | string | null
+    concluido?: BoolFilter<"AgendaVistoria"> | boolean
+    tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
+    tecnico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    predio_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    laudo_tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
+    fotos_vistoria?: StringNullableListFilter<"AgendaVistoria">
+    ordem_servico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    criado_em?: DateTimeFilter<"AgendaVistoria"> | Date | string
+    atualizado?: DateTimeFilter<"AgendaVistoria"> | Date | string
+  }
+
   export type PredioCreateWithoutOrdens_servicoInput = {
     id?: string
     nome: string
@@ -12562,6 +12990,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     gestor?: UsuarioCreateNestedOneWithoutPredios_geridosInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUncheckedCreateWithoutOrdens_servicoInput = {
@@ -12579,6 +13008,7 @@ export namespace Prisma {
     gestor_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
   }
 
   export type PredioCreateOrConnectWithoutOrdens_servicoInput = {
@@ -12780,10 +13210,17 @@ export namespace Prisma {
     titulo: string
     subtitulo: string
     horario: string
+    data_agendada?: Date | string | null
     tipo?: string
+    recorrencia?: string | null
     concluido?: boolean
     tecnico?: string | null
+    tecnico_id?: string | null
+    laudo_tecnico?: string | null
+    fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     criado_em?: Date | string
+    atualizado?: Date | string
+    predio?: PredioCreateNestedOneWithoutVistoriasInput
   }
 
   export type AgendaVistoriaUncheckedCreateWithoutOrdem_servicoInput = {
@@ -12791,10 +13228,17 @@ export namespace Prisma {
     titulo: string
     subtitulo: string
     horario: string
+    data_agendada?: Date | string | null
     tipo?: string
+    recorrencia?: string | null
     concluido?: boolean
     tecnico?: string | null
+    tecnico_id?: string | null
+    predio_id?: string | null
+    laudo_tecnico?: string | null
+    fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     criado_em?: Date | string
+    atualizado?: Date | string
   }
 
   export type AgendaVistoriaCreateOrConnectWithoutOrdem_servicoInput = {
@@ -12833,6 +13277,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     gestor?: UsuarioUpdateOneWithoutPredios_geridosNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateWithoutOrdens_servicoInput = {
@@ -12850,6 +13295,7 @@ export namespace Prisma {
     gestor_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
   }
 
   export type UsuarioUpsertWithoutChamados_solicitadosInput = {
@@ -13033,21 +13479,6 @@ export namespace Prisma {
     data: XOR<AgendaVistoriaUpdateManyMutationInput, AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoInput>
   }
 
-  export type AgendaVistoriaScalarWhereInput = {
-    AND?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
-    OR?: AgendaVistoriaScalarWhereInput[]
-    NOT?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
-    id?: StringFilter<"AgendaVistoria"> | string
-    titulo?: StringFilter<"AgendaVistoria"> | string
-    subtitulo?: StringFilter<"AgendaVistoria"> | string
-    horario?: StringFilter<"AgendaVistoria"> | string
-    tipo?: StringFilter<"AgendaVistoria"> | string
-    concluido?: BoolFilter<"AgendaVistoria"> | boolean
-    tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
-    ordem_servico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
-    criado_em?: DateTimeFilter<"AgendaVistoria"> | Date | string
-  }
-
   export type UsuarioCreateWithoutAuditoriasInput = {
     id?: string
     nome: string
@@ -13132,6 +13563,47 @@ export namespace Prisma {
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
   }
 
+  export type PredioCreateWithoutVistoriasInput = {
+    id?: string
+    nome: string
+    tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
+    endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    gestor?: UsuarioCreateNestedOneWithoutPredios_geridosInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
+  }
+
+  export type PredioUncheckedCreateWithoutVistoriasInput = {
+    id?: string
+    nome: string
+    tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
+    endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
+    gestor_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
+  }
+
+  export type PredioCreateOrConnectWithoutVistoriasInput = {
+    where: PredioWhereUniqueInput
+    create: XOR<PredioCreateWithoutVistoriasInput, PredioUncheckedCreateWithoutVistoriasInput>
+  }
+
   export type OrdemServicoCreateWithoutAgendamentosInput = {
     id?: string
     codigo?: string
@@ -13183,6 +13655,53 @@ export namespace Prisma {
   export type OrdemServicoCreateOrConnectWithoutAgendamentosInput = {
     where: OrdemServicoWhereUniqueInput
     create: XOR<OrdemServicoCreateWithoutAgendamentosInput, OrdemServicoUncheckedCreateWithoutAgendamentosInput>
+  }
+
+  export type PredioUpsertWithoutVistoriasInput = {
+    update: XOR<PredioUpdateWithoutVistoriasInput, PredioUncheckedUpdateWithoutVistoriasInput>
+    create: XOR<PredioCreateWithoutVistoriasInput, PredioUncheckedCreateWithoutVistoriasInput>
+    where?: PredioWhereInput
+  }
+
+  export type PredioUpdateToOneWithWhereWithoutVistoriasInput = {
+    where?: PredioWhereInput
+    data: XOR<PredioUpdateWithoutVistoriasInput, PredioUncheckedUpdateWithoutVistoriasInput>
+  }
+
+  export type PredioUpdateWithoutVistoriasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
+    endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    gestor?: UsuarioUpdateOneWithoutPredios_geridosNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
+  }
+
+  export type PredioUncheckedUpdateWithoutVistoriasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
+    endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
+    gestor_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
   }
 
   export type OrdemServicoUpsertWithoutAgendamentosInput = {
@@ -13329,6 +13848,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateWithoutGestorInput = {
@@ -13346,6 +13866,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateManyWithoutGestorInput = {
@@ -13556,6 +14077,24 @@ export namespace Prisma {
     atualizado?: Date | string
   }
 
+  export type AgendaVistoriaCreateManyPredioInput = {
+    id?: string
+    titulo: string
+    subtitulo: string
+    horario: string
+    data_agendada?: Date | string | null
+    tipo?: string
+    recorrencia?: string | null
+    concluido?: boolean
+    tecnico?: string | null
+    tecnico_id?: string | null
+    laudo_tecnico?: string | null
+    fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    ordem_servico_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
   export type OrdemServicoUpdateWithoutPredioInput = {
     id?: StringFieldUpdateOperationsInput | string
     codigo?: StringFieldUpdateOperationsInput | string
@@ -13626,6 +14165,60 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AgendaVistoriaUpdateWithoutPredioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    subtitulo?: StringFieldUpdateOperationsInput | string
+    horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
+    concluido?: BoolFieldUpdateOperationsInput | boolean
+    tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordem_servico?: OrdemServicoUpdateOneWithoutAgendamentosNestedInput
+  }
+
+  export type AgendaVistoriaUncheckedUpdateWithoutPredioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    subtitulo?: StringFieldUpdateOperationsInput | string
+    horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
+    concluido?: BoolFieldUpdateOperationsInput | boolean
+    tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgendaVistoriaUncheckedUpdateManyWithoutPredioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    subtitulo?: StringFieldUpdateOperationsInput | string
+    horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
+    concluido?: BoolFieldUpdateOperationsInput | boolean
+    tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type OrdemServicoCreateManyOrdem_vinculadaInput = {
     id?: string
     codigo?: string
@@ -13653,10 +14246,17 @@ export namespace Prisma {
     titulo: string
     subtitulo: string
     horario: string
+    data_agendada?: Date | string | null
     tipo?: string
+    recorrencia?: string | null
     concluido?: boolean
     tecnico?: string | null
+    tecnico_id?: string | null
+    predio_id?: string | null
+    laudo_tecnico?: string | null
+    fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     criado_em?: Date | string
+    atualizado?: Date | string
   }
 
   export type OrdemServicoUpdateWithoutOrdem_vinculadaInput = {
@@ -13734,10 +14334,17 @@ export namespace Prisma {
     titulo?: StringFieldUpdateOperationsInput | string
     subtitulo?: StringFieldUpdateOperationsInput | string
     horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
     concluido?: BoolFieldUpdateOperationsInput | boolean
     tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneWithoutVistoriasNestedInput
   }
 
   export type AgendaVistoriaUncheckedUpdateWithoutOrdem_servicoInput = {
@@ -13745,10 +14352,17 @@ export namespace Prisma {
     titulo?: StringFieldUpdateOperationsInput | string
     subtitulo?: StringFieldUpdateOperationsInput | string
     horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
     concluido?: BoolFieldUpdateOperationsInput | boolean
     tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoInput = {
@@ -13756,10 +14370,17 @@ export namespace Prisma {
     titulo?: StringFieldUpdateOperationsInput | string
     subtitulo?: StringFieldUpdateOperationsInput | string
     horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
     concluido?: BoolFieldUpdateOperationsInput | boolean
     tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

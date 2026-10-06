@@ -94,6 +94,7 @@ model Predio {
   coordenadas Unsupported("geometry(Point, 4326)")?
 
   ordens_servico OrdemServico[]
+  vistorias      AgendaVistoria[]
 
   @@map("predios")
 }
@@ -158,12 +159,20 @@ model AgendaVistoria {
   titulo           String
   subtitulo        String
   horario          String
+  data_agendada    DateTime?     @default(now())
   tipo             String        @default("geral") // eletrica, hidraulica, acessibilidade, geral
+  recorrencia      String?       @default("UNICA") // UNICA, MENSAL, TRIMESTRAL, SEMESTRAL, ANUAL
   concluido        Boolean       @default(false)
   tecnico          String?
+  tecnico_id       String?
+  predio_id        String?
+  predio           Predio?       @relation(fields: [predio_id], references: [id])
+  laudo_tecnico    String?
+  fotos_vistoria   String[]      @default([])
   ordem_servico_id String?
   ordem_servico    OrdemServico? @relation(fields: [ordem_servico_id], references: [id])
   criado_em        DateTime      @default(now())
+  atualizado       DateTime      @default(now()) @updatedAt
 
   @@map("agenda_vistorias")
 }

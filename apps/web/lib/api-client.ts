@@ -167,10 +167,14 @@ function mapInspectionFromApi(item: any): AgendaEvent {
     title: item.title || item.titulo,
     subtitle: item.location || item.subtitulo || item.subtitle || 'Unidade Municipal',
     time: item.scheduledTime || item.horario || item.time || '14:00',
+    dataAgendada: item.scheduledDate || item.data_agendada || undefined,
     completed: Boolean(item.completed ?? item.concluido),
     type: (item.type || item.tipo || 'geral') as any,
+    recorrencia: item.recorrencia || 'UNICA',
     tecnico: item.technicianName || item.tecnico,
     orderId: item.workOrderId || item.orderId,
+    laudoTecnico: item.laudoTecnico || item.laudo_tecnico,
+    proximaEtapaSugerida: item.proximaEtapaSugerida,
   };
 }
 
@@ -569,6 +573,21 @@ export const apiClient = {
     return {
       success: Boolean(resData.success),
       agendaItem: rawItem ? mapInspectionFromApi(rawItem) : undefined,
+    };
+  },
+
+  async completeAgendaItem(id: string, payload: { laudoTecnico: string; fotosVistoria?: string[] }): Promise<{ success: boolean; agendaItem?: AgendaEvent; message?: string }> {
+    const res = await fetch(`${API_BASE}/agenda/${encodeURIComponent(id)}/concluir`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(payload),
+    });
+    const resData = await res.json();
+    const rawItem = resData.data || resData.agendaItem;
+    return {
+      success: Boolean(resData.success),
+      agendaItem: rawItem ? mapInspectionFromApi(rawItem) : undefined,
+      message: resData.message,
     };
   },
 

@@ -17,12 +17,16 @@ export type { OrdemServico, StatusOS, Prioridade, UnidadeItem, TipoUnidade };
 export interface AgendaEvent {
   id: string;
   time: string;
+  dataAgendada?: string;
   title: string;
   subtitle: string;
   completed: boolean;
-  type: 'eletrica' | 'hidraulica' | 'acessibilidade' | 'geral';
+  type: 'eletrica' | 'hidraulica' | 'acessibilidade' | 'estrutural' | 'geral';
+  recorrencia?: string;
   tecnico?: string;
   orderId?: string;
+  laudoTecnico?: string;
+  proximaEtapaSugerida?: string;
 }
 
 export interface ActivityEvent {
