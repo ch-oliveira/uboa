@@ -4,7 +4,7 @@ services:
     runtime: node
     plan: free
     region: ohio
-    buildCommand: pnpm install && pnpm db:generate && pnpm db:migrate:deploy && pnpm build
+    buildCommand: pnpm install && pnpm --filter @repo/database build && pnpm db:migrate:deploy && pnpm --filter api build
     startCommand: pnpm --filter api start:prod
     envVars:
       - key: NODE_VERSION
