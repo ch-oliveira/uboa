@@ -9,6 +9,8 @@ import { CopilotGlobal } from "@/components/copilot/copilot-global";
 import { OnboardingGlobal } from "@/components/onboarding/onboarding-global";
 
 import { Analytics } from "@vercel/analytics/next";
+import { FlagValues } from "flags/react";
+import { VercelToolbar } from "@vercel/toolbar/next";
 
 const jakarta = Plus_Jakarta_Sans({ 
   subsets: ["latin"],
@@ -21,11 +23,20 @@ export const metadata: Metadata = {
   description: "Sistema Integrado de Manutenção e Zeladoria Pública Inteligente",
 };
 
+const defaultFlagValues = {
+  "copilot-assistant": true,
+  "preventive-maintenance": true,
+  "geo-dispatching": true,
+  "dev-drawer": true,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const shouldInjectToolbar = process.env.NODE_ENV === "development" || process.env.VERCEL_ENV === "preview";
+
   return (
     <html lang="pt-BR">
       <body className={`${jakarta.variable} font-sans antialiased bg-background text-foreground`}>
@@ -40,6 +51,8 @@ export default function RootLayout({
           </OrdersProvider>
         </AuthProvider>
         <Analytics />
+        <FlagValues values={defaultFlagValues} />
+        {shouldInjectToolbar && <VercelToolbar />}
       </body>
     </html>
   );

@@ -1,4 +1,6 @@
 /* global process */
+import createWithVercelToolbar from '@vercel/toolbar/plugins/next';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async rewrites() {
@@ -13,4 +15,7 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+const withVercelToolbar = createWithVercelToolbar();
+
+export default withVercelToolbar(nextConfig);
+
