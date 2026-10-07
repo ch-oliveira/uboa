@@ -40,7 +40,7 @@ import { ActivitiesModal } from './activities-modal';
 import { SolicitanteDashboard } from './solicitante-dashboard';
 import { TopHeader } from '@/components/top-header';
 import { GestorDashboardSkeleton, SolicitanteDashboardSkeleton } from '@/components/skeletons';
-type FilterTab = 'DECISOES' | 'TRIAGEM' | 'EM_EXECUCAO' | 'VALIDACAO' | 'TODOS';
+type FilterTab = 'URGENTES' | 'TRIAGEM' | 'EM_EXECUCAO' | 'VALIDACAO' | 'TODOS';
 
 export default function DashboardPage() {
   const { user, role } = useAuth();
@@ -65,7 +65,7 @@ export default function DashboardPage() {
 
   // Search & Filter State
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState<FilterTab>('DECISOES');
+  const [activeTab, setActiveTab] = useState<FilterTab>('URGENTES');
 
   // Modals & Panels State
   const [isNewOrderModalOpen, setIsNewOrderModalOpen] = useState(false);
@@ -145,17 +145,9 @@ export default function DashboardPage() {
 
       // Tab filter
       switch (activeTab) {
-        case 'DECISOES':
-          // Fila de decisões de hoje: exibe todos que exigem ação da gestora:
-          // 1) Triagem pendente (aparece com Triar)
-          // 2) Aguardando validação (aparece com Validar)
-          // 3) Urgências e altas ativas
-          return order.status !== 'CONCLUIDO' && (
-            order.status === 'TRIAGEM' || 
-            order.status === 'AGUARDANDO' || 
-            order.prioridade === 'URGENTE' || 
-            order.prioridade === 'ALTA'
-          );
+        case 'URGENTES':
+          // Apenas chamados não concluídos com prioridade máxima/urgente
+          return order.status !== 'CONCLUIDO' && order.prioridade === 'URGENTE';
         case 'TRIAGEM':
           return order.status === 'TRIAGEM';
         case 'EM_EXECUCAO':
@@ -226,7 +218,7 @@ export default function DashboardPage() {
   }
 
   function handleStatCardClick(tab: FilterTab) {
-    setActiveTab((prev) => (prev === tab ? 'DECISOES' : tab));
+    setActiveTab((prev) => (prev === tab ? 'TODOS' : tab));
   }
 
   return (
@@ -358,9 +350,9 @@ export default function DashboardPage() {
                   value={String(stats.urgentes)} 
                   subtitle={stats.urgentes > 0 ? "SLA crítico de 4 horas" : "Nenhuma ocorrência crítica ativa"}
                   bgColor={stats.urgentes > 0 ? "bg-red-50" : "bg-emerald-50/60"}
-                  active={activeTab === 'DECISOES'}
-                  onClick={() => handleStatCardClick('DECISOES')}
-                  badgeHint="Filtrar fila de decisões"
+                  active={activeTab === 'URGENTES'}
+                  onClick={() => handleStatCardClick('URGENTES')}
+                  badgeHint="Filtrar chamados urgentes"
                   tag={stats.urgentes > 0 ? "SLA 4h" : "0 críticas"}
                   tagColor={stats.urgentes > 0 ? "bg-red-100 text-red-700 border border-red-200" : "bg-emerald-50 text-emerald-700 border border-emerald-200"}
                 />
@@ -400,11 +392,7 @@ export default function DashboardPage() {
                 <div className="flex flex-col sm:flex-row gap-4 p-5 border-b border-border">
                   <div className="flex items-center gap-2.5">
                     <h2 className="text-sm font-semibold text-foreground">
-                      {activeTab === 'DECISOES' ? (
-                        pendingTriageCount > 0 || orders.filter(o => o.status === 'AGUARDANDO').length > 0
-                          ? 'Fila de Decisões'
-                          : 'Operações em Andamento'
-                       ) : 
+                      {activeTab === 'URGENTES' ? 'Urgências Ativas' : 
                        activeTab === 'TRIAGEM' ? 'Aguardam Triagem' :
                        activeTab === 'EM_EXECUCAO' ? 'Em Execução' :
                        activeTab === 'VALIDACAO' ? 'Precisam de Validação' : 'Todos os Chamados'}
@@ -418,12 +406,12 @@ export default function DashboardPage() {
                     {/* Abas de filtro rápido com contadores claros */}
                     <div className="flex items-center bg-muted/50 p-1 rounded-lg text-[11px] font-medium gap-0.5 shrink-0">
                       <button
-                        onClick={() => setActiveTab('DECISOES')}
+                        onClick={() => setActiveTab('URGENTES')}
                         className={`px-3 py-1.5 rounded-md transition-all cursor-pointer ${
-                          activeTab === 'DECISOES' ? 'bg-background text-primary font-semibold shadow-sm ring-1 ring-primary/10' : 'text-muted-foreground hover:text-foreground'
+                          activeTab === 'URGENTES' ? 'bg-background text-primary font-semibold shadow-sm ring-1 ring-primary/10' : 'text-muted-foreground hover:text-foreground'
                         }`}
                       >
-                        Prioridades
+                        Urgências
                       </button>
                       <button
                         onClick={() => setActiveTab('TRIAGEM')}
@@ -472,8 +460,10 @@ export default function DashboardPage() {
                   
                   <div className="divide-y divide-[#E2E8F0]">
                     {displayedOrders.length === 0 ? (
-                      <div className="p-8 text-center text-[#475569] text-sm">
-                        Nenhum chamado encontrado para o filtro selecionado.
+                      <div className="p-8 text-center text-muted-foreground text-sm">
+                        {activeTab === 'URGENTES'
+                          ? 'Nenhuma ocorrência crítica ou urgente ativa no momento.'
+                          : 'Nenhum chamado encontrado para o filtro selecionado.'}
                       </div>
                     ) : (
                       displayedOrders.map((order) => (
