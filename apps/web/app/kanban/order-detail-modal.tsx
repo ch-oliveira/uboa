@@ -29,7 +29,8 @@ import {
   Camera,
   MapPin,
   MoreVertical,
-  Info
+  Info,
+  Hourglass
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/auth-context';
@@ -602,15 +603,27 @@ export function OrderDetailModal({
                   {status === 'CONCLUIDO' && 'Serviço executado e aceito formalmente sem pendências em aberto.'}
                 </p>
 
-                <div className="flex items-center gap-3 pt-1 text-[11px] text-muted-foreground font-semibold">
+                <div className="flex flex-wrap items-center gap-3 pt-1 text-[11px] text-muted-foreground font-semibold">
                   <span className="flex items-center gap-1 text-foreground font-bold">
                     <Clock size={13} className="text-primary" />
-                    <span>Prazo SLA: {prazoEstimado || calculateDefaultSla(prioridade)}</span>
+                    <span>Prazo SLA: {order.dataLimiteSla ? new Date(order.dataLimiteSla).toLocaleString('pt-BR') : (prazoEstimado || calculateDefaultSla(prioridade))}</span>
                   </span>
                   <span>·</span>
-                  <span className="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                    SLA no Prazo
-                  </span>
+                  {order.slaViolado || (order.dataLimiteSla && new Date(order.dataLimiteSla).getTime() < Date.now() && status !== 'CONCLUIDO' && status !== 'CANCELADO') ? (
+                    <span className="text-rose-700 font-bold bg-rose-50 dark:bg-rose-950/40 px-2.5 py-0.5 rounded-full border border-rose-300 flex items-center gap-1">
+                      <AlertTriangle size={12} className="text-rose-600" />
+                      SLA Estourado / Não Conforme (Auditoria TCE)
+                    </span>
+                  ) : status === 'AGUARDANDO' ? (
+                    <span className="text-amber-700 font-bold bg-amber-50 dark:bg-amber-950/40 px-2.5 py-0.5 rounded-full border border-amber-300 flex items-center gap-1">
+                      <Hourglass size={12} className="text-amber-600" />
+                      Relógio de SLA Congelado ({order.tempoPausaMinutos ? `${order.tempoPausaMinutos} min acumulados` : 'Em pausa'})
+                    </span>
+                  ) : (
+                    <span className="text-emerald-700 font-bold bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-200">
+                      SLA no Prazo
+                    </span>
+                  )}
                 </div>
               </div>
 

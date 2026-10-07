@@ -170,6 +170,11 @@ exports.Prisma.OrdemServicoScalarFieldEnum = {
   data_limite_sla: 'data_limite_sla',
   iniciado_em: 'iniciado_em',
   concluido_em: 'concluido_em',
+  pausado_em: 'pausado_em',
+  tempo_pausa_minutos: 'tempo_pausa_minutos',
+  historico_pausas: 'historico_pausas',
+  sla_violado: 'sla_violado',
+  motivo_violacao_sla: 'motivo_violacao_sla',
   ordem_vinculada_id: 'ordem_vinculada_id',
   criado_em: 'criado_em',
   atualizado: 'atualizado'

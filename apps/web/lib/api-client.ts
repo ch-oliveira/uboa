@@ -118,6 +118,12 @@ function mapWorkOrderFromApi(item: any): OrdemServico {
     motivoPausa: item.pauseReason || item.motivoPausa,
     motivoCancelamento: item.cancellationReason || item.motivoCancelamento,
     ordemVinculadaId: item.linkedOrderId || item.ordemVinculadaId,
+    slaViolado: Boolean(item.isSlaBreached ?? item.sla_violado),
+    motivoViolacaoSla: item.slaBreachReason || item.motivo_violacao_sla,
+    tempoPausaMinutos: item.pauseDurationMinutes ?? item.tempo_pausa_minutos ?? 0,
+    pausadoEm: item.pausedAt || item.pausado_em,
+    historicoPausas: item.pauseHistory || item.historico_pausas || [],
+    liquidRepairTimeMinutes: item.liquidRepairTimeMinutes,
     impedimento: item.impediment || item.impedimento,
     historico: item.history || item.historico,
   };
@@ -751,6 +757,62 @@ export const apiClient = {
       return resData.data || { activeProvider: 'Desconhecido', hasApiKey: false, model: 'Local' };
     } catch {
       return { success: false, activeProvider: 'Offline', hasApiKey: false, model: 'Local' };
+    }
+  },
+
+  // -------------------------------------------------------------
+  // RELATÓRIOS FISCAIS E AUDITORIA (TCE / CGU)
+  // -------------------------------------------------------------
+  async getReportsSummary(filter?: { period?: string; predioId?: string }): Promise<{
+    success: boolean;
+    data?: any;
+    message?: string;
+  }> {
+    try {
+      const query = new URLSearchParams();
+      if (filter?.period) query.append('period', filter.period);
+      if (filter?.predioId) query.append('predioId', filter.predioId);
+
+      const res = await fetch(`${API_BASE}/reports/summary?${query.toString()}`, {
+        headers: getAuthHeaders(),
+      });
+      const resData = await res.json();
+      return {
+        success: Boolean(resData.success),
+        data: resData.data,
+        message: resData.message,
+      };
+    } catch (err: any) {
+      return { success: false, message: err?.message || 'Falha ao buscar resumo de relatórios.' };
+    }
+  },
+
+  async exportAuditCsv(filter?: { period?: string; predioId?: string }): Promise<{
+    success: boolean;
+    data?: {
+      filename: string;
+      csvContent: string;
+      totalRegistros: number;
+      responsavel: string;
+    };
+    message?: string;
+  }> {
+    try {
+      const query = new URLSearchParams();
+      if (filter?.period) query.append('period', filter.period);
+      if (filter?.predioId) query.append('predioId', filter.predioId);
+
+      const res = await fetch(`${API_BASE}/reports/export/audit-csv?${query.toString()}`, {
+        headers: getAuthHeaders(),
+      });
+      const resData = await res.json();
+      return {
+        success: Boolean(resData.success),
+        data: resData.data,
+        message: resData.message,
+      };
+    } catch (err: any) {
+      return { success: false, message: err?.message || 'Falha ao exportar CSV para auditoria.' };
     }
   },
 };

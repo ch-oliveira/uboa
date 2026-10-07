@@ -40,6 +40,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Sidebar } from '@/components/sidebar';
 import { useOrders, type AgendaEvent } from '@/context/orders-context';
+import { useAuth } from '@/context/auth-context';
+import { apiClient } from '@/lib/api-client';
 import { TECNICOS, PREDIOS, type OrdemServico } from '../kanban/data';
 import { TopHeader } from '@/components/top-header';
 import { OrderDetailModal } from '../kanban/order-detail-modal';
@@ -96,6 +98,9 @@ export default function RelatoriosPage() {
     settings,
     updateOrder
   } = useOrders();
+
+  const { user, role } = useAuth();
+  const isAdmin = role === 'ADMIN';
 
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodOption>('MES_ATUAL');
   const [activeDonutHover, setActiveDonutHover] = useState<string | null>(null);
@@ -542,11 +547,69 @@ export default function RelatoriosPage() {
     }).sort((a, b) => b.completed - a.completed);
   }, [orders]);
 
+  // MTTR Líquido (Média estrita sobre CONCLUIDO descontando tempo de pausa)
+  const mttrLiquido = useMemo(() => {
+    const concluidas = (periodOrders.length > 0 ? periodOrders : orders).filter(o => o.status === 'CONCLUIDO');
+    if (concluidas.length === 0) return '0.0';
+    let somaMin = 0;
+    for (const c of concluidas) {
+      if (c.liquidRepairTimeMinutes !== undefined) {
+        somaMin += c.liquidRepairTimeMinutes;
+      } else if (c.openedAt && (c.concluidoEm || (c as any).concluido_em)) {
+        const gross = Math.max(0, Math.floor((new Date(c.concluidoEm || (c as any).concluido_em).getTime() - new Date(c.openedAt).getTime()) / 60000));
+        const pause = c.tempoPausaMinutos || (c as any).tempo_pausa_minutos || 0;
+        somaMin += Math.max(0, gross - pause);
+      } else {
+        somaMin += 180;
+      }
+    }
+    return (somaMin / concluidas.length / 60).toFixed(1);
+  }, [orders, periodOrders]);
+
+  // Eficiência Preventiva & Conformidade Fiscal (Meta 80%, Alerta 70%)
+  const conformidadePreventiva = useMemo(() => {
+    const totalOS = (periodOrders.length > 0 ? periodOrders : orders).length;
+    const totalVistorias = agenda.length;
+    const totalAcoes = totalOS + totalVistorias;
+    const indice = totalAcoes > 0 ? Math.round((totalVistorias / totalAcoes) * 100) : 100;
+    let nivel: 'CONFORME' | 'ATENCAO' | 'CRITICO' = 'CONFORME';
+    let mensagem = 'Meta Municipal Cumprida (≥ 80%)';
+    if (indice < 70) {
+      nivel = 'CRITICO';
+      mensagem = 'Alerta Crítico: Abaixo de 70% (Risco TCE)';
+    } else if (indice < 80) {
+      nivel = 'ATENCAO';
+      mensagem = 'Alerta de Atenção: Entre 70% e 79.9%';
+    }
+    return { indice, nivel, mensagem };
+  }, [orders, periodOrders, agenda]);
+
   function handlePrint() {
     window.print();
   }
 
-  function handleExportCSV() {
+  async function handleExportCSV() {
+    try {
+      showToast('Gerando relatório fiscal oficial para o Tribunal de Contas...');
+      const res = await apiClient.exportAuditCsv({ period: selectedPeriod });
+      if (res.success && res.data?.csvContent) {
+        const blob = new Blob([res.data.csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', res.data.filename || `relatorio-fiscal-tce-${new Date().toISOString().slice(0, 10)}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        showToast('Relatório fiscal oficial (TCE / CGU) exportado com sucesso.');
+        return;
+      }
+    } catch {
+      // Fallback local
+    }
+
+    // Fallback local
     const headers = ['Indicador', 'Valor Registrado', 'Unidade de Medida'];
     const rows = [
       ['Chamados Ativos Hoje (Backlog)', stats.totalOpen, 'chamados'],
@@ -556,30 +619,44 @@ export default function RelatoriosPage() {
       ['Total de Ordens Registradas (Ciclo)', metrics.total, 'chamados'],
       ['Ordens Concluídas', metrics.concluidos, 'chamados'],
       ['Taxa Geral de Resolução', `${metrics.taxaResolucao}%`, 'percentual'],
-      ['Tempo Médio de Atendimento (MTTR Médio)', '3.4', 'horas'],
-      ['Eficiência Preventiva', '94%', 'percentual'],
-      ['Chamados Urgentes Registrados', metrics.urgentes, 'chamados'],
-      ['Chamados Alta Prioridade', metrics.altas, 'chamados'],
-      ['Chamados Média Prioridade', metrics.medias, 'chamados'],
-      ['Chamados Baixa Prioridade', metrics.baixas, 'chamados'],
-      ['Setor Educação', metrics.educacao, 'ocorrências'],
-      ['Setor Saúde', metrics.saude, 'ocorrências'],
-      ['Setor Administrativo', metrics.admin, 'ocorrências'],
-      ['Especialidade Hidráulica', metrics.hidraulica, 'ocorrências'],
-      ['Especialidade Elétrica', metrics.eletrica, 'ocorrências'],
-      ['Especialidade Acessibilidade', metrics.acessibilidade, 'ocorrências'],
-      ['Especialidade Alvenaria/Telhados', metrics.alvenaria, 'ocorrências'],
+      ['Tempo Médio de Atendimento (MTTR Líquido)', mttrLiquido, 'horas'],
+      ['Eficiência Preventiva', `${conformidadePreventiva.indice}%`, 'percentual'],
+      ['Conformidade Fiscal', conformidadePreventiva.mensagem, 'auditoria'],
     ];
 
-    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(';'), ...rows.map(e => e.join(';'))].join('\n');
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `relatorio_executivo_zelo_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute('download', `relatorio_fiscal_zelo_${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    showToast('Relatório CSV exportado com sucesso com dados 100% reais.');
+    showToast('Relatório CSV exportado localmente com sucesso.');
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="flex h-screen bg-background text-foreground font-sans antialiased overflow-hidden">
+        <Sidebar currentRoute="/relatorios" />
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-slate-50/50 dark:bg-slate-900/50">
+          <div className="max-w-md p-8 bg-card border border-border rounded-2xl shadow-xl space-y-4">
+            <div className="w-16 h-16 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mx-auto">
+              <ShieldCheck className="w-8 h-8" />
+            </div>
+            <h2 className="text-xl font-bold tracking-tight">Acesso Restrito: Auditoria e Controle Fiscal</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              O módulo de relatórios analíticos, cálculo oficial de MTTR para auditoria e emissão de demonstrativos fiscais para o Tribunal de Contas (TCE / CGU) é de acesso exclusivo para <strong>Administradores Municipais</strong>.
+            </p>
+            <div className="pt-2">
+              <Link href="/chamados">
+                <Button className="w-full">Voltar aos Chamados</Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -940,9 +1017,15 @@ export default function RelatoriosPage() {
                     </div>
 
                     <div className="mt-3 pt-2 border-t border-border flex items-center justify-between text-[11px]">
-                      <span className="text-muted-foreground">MTTR médio: <strong>4.8h</strong></span>
-                      <span className="font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded">
-                        Classe A
+                      <span className="text-muted-foreground">MTTR médio líquido: <strong>{mttrLiquido}h</strong></span>
+                      <span className={`font-bold px-2 py-0.5 rounded ${
+                        conformidadePreventiva.nivel === 'CONFORME'
+                          ? 'text-emerald-700 bg-emerald-50 dark:bg-emerald-950/40'
+                          : conformidadePreventiva.nivel === 'ATENCAO'
+                          ? 'text-amber-700 bg-amber-50 dark:bg-amber-950/40'
+                          : 'text-rose-700 bg-rose-50 dark:bg-rose-950/40'
+                      }`}>
+                        {conformidadePreventiva.nivel === 'CONFORME' ? 'Meta ≥ 80%' : conformidadePreventiva.nivel === 'ATENCAO' ? 'Atenção 70-79%' : 'Crítico < 70%'}
                       </span>
                     </div>
                   </div>

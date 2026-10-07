@@ -221,6 +221,20 @@ function SortableKanbanCard({
                 Pausado
               </span>
             )}
+
+            {(order.slaViolado || (order.dataLimiteSla && new Date(order.dataLimiteSla).getTime() < Date.now() && order.status !== 'CONCLUIDO' && order.status !== 'CANCELADO')) && (
+              <span title="Prazo fatal do SLA estourado para auditoria do Tribunal de Contas" className="inline-flex items-center gap-1 text-[10px] font-extrabold px-1.5 py-0.5 rounded-md bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 uppercase tracking-wider">
+                <AlertTriangle size={10} className="shrink-0 text-rose-600" />
+                SLA Estourado
+              </span>
+            )}
+
+            {order.status === 'AGUARDANDO' && (
+              <span title={order.motivoPausa || 'Relógio de SLA congelado'} className="inline-flex items-center gap-1 text-[10px] font-extrabold px-1.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 uppercase tracking-wider">
+                <Clock size={10} className="shrink-0 text-amber-600" />
+                SLA Congelado
+              </span>
+            )}
           </div>
 
           <span className="text-xs font-mono text-muted-foreground mt-0.5">
@@ -1041,15 +1055,23 @@ function ChamadosContent() {
                               {order.predio}
                             </td>
                             <td className="py-4 px-4">
-                              <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2 py-0.5 rounded-lg ${
-                                isUrgente 
-                                  ? 'bg-destructive/10 text-destructive' 
-                                  : isAlta 
-                                  ? 'bg-amber-100 text-amber-700' 
-                                  : 'bg-muted text-muted-foreground'
-                              }`}>
-                                {isUrgente ? 'Urgente' : isAlta ? 'Alta' : 'Média'}
-                              </span>
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2 py-0.5 rounded-lg ${
+                                  isUrgente 
+                                    ? 'bg-destructive/10 text-destructive' 
+                                    : isAlta 
+                                    ? 'bg-amber-100 text-amber-700' 
+                                    : 'bg-muted text-muted-foreground'
+                                }`}>
+                                  {isUrgente ? 'Urgente' : isAlta ? 'Alta' : 'Média'}
+                                </span>
+                                {(order.slaViolado || (order.dataLimiteSla && new Date(order.dataLimiteSla).getTime() < Date.now() && order.status !== 'CONCLUIDO' && order.status !== 'CANCELADO')) && (
+                                  <span title="SLA Estourado (Auditoria TCE)" className="inline-flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300">
+                                    <AlertTriangle size={10} className="shrink-0" />
+                                    SLA
+                                  </span>
+                                )}
+                              </div>
                             </td>
                             <td className="py-4 px-4 text-xs font-medium text-foreground">
                               {order.status === 'TRIAGEM' && 'Triagem'}

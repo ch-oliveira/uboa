@@ -11,6 +11,7 @@ import { WorkOrdersModule } from './work-orders/work-orders.module.js';
 import { AgendaModule } from './agenda/agenda.module.js';
 import { SettingsModule } from './settings/settings.module.js';
 import { AiModule } from './ai/ai.module.js';
+import { ReportsModule } from './reports/reports.module.js';
 import { JwtAuthGuard } from './auth/jwt-auth.guard.js';
 import { RolesGuard } from './auth/roles.guard.js';
 
@@ -30,6 +31,7 @@ import { RolesGuard } from './auth/roles.guard.js';
     AgendaModule,
     SettingsModule,
     AiModule,
+    ReportsModule,
   ],
   controllers: [AppController],
   providers: [

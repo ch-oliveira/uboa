@@ -30,6 +30,12 @@ export interface WorkOrderResponse {
   linkedOrderId?: string;
   category?: string;
   categoria?: string;
+  pausedAt?: string;
+  pauseDurationMinutes?: number;
+  pauseHistory?: any[];
+  isSlaBreached?: boolean;
+  slaBreachReason?: string;
+  liquidRepairTimeMinutes?: number;
 }
 
 export interface WorkOrdersMeta {
@@ -131,6 +137,25 @@ export class WorkOrdersService {
   constructor(private readonly prisma: PrismaService) {}
 
   private mapOrder(o: any): WorkOrderResponse {
+    const isConcluded = o.status === StatusOS.CONCLUIDO;
+    const isCancelled = o.status === StatusOS.CANCELADO;
+    const isBreached = Boolean(
+      o.sla_violado ||
+        (o.data_limite_sla &&
+          new Date(o.data_limite_sla).getTime() < Date.now() &&
+          !isConcluded &&
+          !isCancelled),
+    );
+
+    let liquidRepairTimeMinutes: number | undefined;
+    if (o.concluido_em && o.criado_em) {
+      const grossMinutes = Math.max(
+        0,
+        Math.floor((new Date(o.concluido_em).getTime() - new Date(o.criado_em).getTime()) / 60000),
+      );
+      liquidRepairTimeMinutes = Math.max(0, grossMinutes - (o.tempo_pausa_minutos || 0));
+    }
+
     return {
       id: o.id,
       code: o.codigo,
@@ -152,6 +177,12 @@ export class WorkOrdersService {
       slaDeadline: o.data_limite_sla ? o.data_limite_sla.toISOString() : undefined,
       startedAt: o.iniciado_em ? o.iniciado_em.toISOString() : undefined,
       completedAt: o.concluido_em ? o.concluido_em.toISOString() : undefined,
+      pausedAt: o.pausado_em ? o.pausado_em.toISOString() : undefined,
+      pauseDurationMinutes: o.tempo_pausa_minutos || 0,
+      pauseHistory: o.historico_pausas || [],
+      isSlaBreached: isBreached,
+      slaBreachReason: o.motivo_violacao_sla || undefined,
+      liquidRepairTimeMinutes,
       linkedOrderId: o.ordem_vinculada_id || undefined,
       category: o.categoria || 'GERAL',
       categoria: o.categoria || 'GERAL',
@@ -573,16 +604,51 @@ export class WorkOrdersService {
         }
       }
 
-      // Pausa (AGUARDANDO) - Justificativa obrigatória
+      // Pausa (AGUARDANDO) - Justificativa obrigatória e congelamento de relógio de SLA
       if (targetStatus === StatusOS.AGUARDANDO) {
         const motivoPausa = updates.motivoPausa || updates.motivo_pausa;
         if (!motivoPausa || typeof motivoPausa !== 'string' || !motivoPausa.trim()) {
           throw new BadRequestException('Para pausar o chamado (AGUARDANDO), o motivo da pausa é obrigatório.');
         }
         updateData.motivo_pausa = motivoPausa.trim();
+        if (!existing.pausado_em) {
+          updateData.pausado_em = new Date();
+        }
       }
 
-      // Conclusão (CONCLUIDO) - Foto comprobatória obrigatória
+      // Retomada ou saída de AGUARDANDO: congela o relógio e desconta período pausado
+      if (existing.status === StatusOS.AGUARDANDO && targetStatus !== StatusOS.AGUARDANDO) {
+        if (existing.pausado_em) {
+          const pauseMinutes = Math.max(
+            0,
+            Math.floor((Date.now() - new Date(existing.pausado_em).getTime()) / 60000),
+          );
+          updateData.tempo_pausa_minutos = (existing.tempo_pausa_minutos || 0) + pauseMinutes;
+          updateData.pausado_em = null;
+
+          // Congela e prorroga o prazo fatal de SLA pelo tempo exato em que a OS permaneceu pausada
+          if (existing.data_limite_sla) {
+            updateData.data_limite_sla = new Date(
+              new Date(existing.data_limite_sla).getTime() + pauseMinutes * 60000,
+            );
+          }
+
+          const existingHistory = Array.isArray(existing.historico_pausas)
+            ? existing.historico_pausas
+            : [];
+          updateData.historico_pausas = [
+            ...existingHistory,
+            {
+              motivo: existing.motivo_pausa || 'Aguardando peças/insumos',
+              pausado_em: new Date(existing.pausado_em).toISOString(),
+              retomado_em: new Date().toISOString(),
+              duracao_minutos: pauseMinutes,
+            },
+          ];
+        }
+      }
+
+      // Conclusão (CONCLUIDO) - Foto comprobatória obrigatória e verificação fiscal de SLA
       if (targetStatus === StatusOS.CONCLUIDO) {
         const fotosConclusao = Array.isArray(updates.fotosConclusao || updates.fotos_conclusao)
           ? (updates.fotosConclusao || updates.fotos_conclusao)
@@ -598,7 +664,24 @@ export class WorkOrdersService {
         if (fotosConclusao.length > 0) {
           updateData.fotos_conclusao = fotosConclusao;
         }
-        updateData.concluido_em = new Date();
+        const now = new Date();
+        updateData.concluido_em = now;
+
+        // Se estava pausada no momento da conclusão direta, finaliza a contagem da pausa
+        if (existing.pausado_em) {
+          const pauseMinutes = Math.max(
+            0,
+            Math.floor((now.getTime() - new Date(existing.pausado_em).getTime()) / 60000),
+          );
+          updateData.tempo_pausa_minutos = (existing.tempo_pausa_minutos || 0) + pauseMinutes;
+          updateData.pausado_em = null;
+        }
+
+        const deadline = updateData.data_limite_sla || existing.data_limite_sla;
+        if (deadline && now.getTime() > new Date(deadline).getTime()) {
+          updateData.sla_violado = true;
+          updateData.motivo_violacao_sla = `Conclusão efetuada em ${now.toISOString()}, ultrapassando o prazo regulamentar de SLA (${new Date(deadline).toISOString()}).`;
+        }
       }
 
       // Cancelamento (CANCELADO) - Apenas Admin/Gestor com motivo obrigatório

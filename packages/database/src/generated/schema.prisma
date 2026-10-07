@@ -124,6 +124,11 @@ model OrdemServico {
   data_limite_sla     DateTime? // Prazo fatal calculado na criação/triagem
   iniciado_em         DateTime? // Timestamp gravado na transição para EM_EXECUCAO
   concluido_em        DateTime? // Timestamp gravado na transição para CONCLUIDO
+  pausado_em          DateTime? // Timestamp gravado ao pausar em AGUARDANDO
+  tempo_pausa_minutos Int       @default(0) // Tempo total acumulado em pausa (descontado do MTTR e estendendo SLA)
+  historico_pausas    Json?     @default("[]") // Lista de períodos de pausa com justificativas para auditoria
+  sla_violado         Boolean   @default(false) // Flag de infração de prazo para fiscalização do Tribunal de Contas
+  motivo_violacao_sla String? // Descrição ou justificativa da extrapolação do prazo
 
   ordem_vinculada_id String?
   ordem_vinculada    OrdemServico?  @relation("HistoricoOS", fields: [ordem_vinculada_id], references: [id])

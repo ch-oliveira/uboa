@@ -30,6 +30,12 @@ export interface OrdemServico {
   motivoPausa?: string;
   motivoCancelamento?: string;
   ordemVinculadaId?: string;
+  slaViolado?: boolean;
+  motivoViolacaoSla?: string;
+  tempoPausaMinutos?: number;
+  pausadoEm?: string;
+  historicoPausas?: any[];
+  liquidRepairTimeMinutes?: number;
   impedimento?: {
     ativo: boolean;
     motivo: string;

@@ -4097,8 +4097,18 @@ export namespace Prisma {
 
   export type AggregateOrdemServico = {
     _count: OrdemServicoCountAggregateOutputType | null
+    _avg: OrdemServicoAvgAggregateOutputType | null
+    _sum: OrdemServicoSumAggregateOutputType | null
     _min: OrdemServicoMinAggregateOutputType | null
     _max: OrdemServicoMaxAggregateOutputType | null
+  }
+
+  export type OrdemServicoAvgAggregateOutputType = {
+    tempo_pausa_minutos: number | null
+  }
+
+  export type OrdemServicoSumAggregateOutputType = {
+    tempo_pausa_minutos: number | null
   }
 
   export type OrdemServicoMinAggregateOutputType = {
@@ -4117,6 +4127,10 @@ export namespace Prisma {
     data_limite_sla: Date | null
     iniciado_em: Date | null
     concluido_em: Date | null
+    pausado_em: Date | null
+    tempo_pausa_minutos: number | null
+    sla_violado: boolean | null
+    motivo_violacao_sla: string | null
     ordem_vinculada_id: string | null
     criado_em: Date | null
     atualizado: Date | null
@@ -4138,6 +4152,10 @@ export namespace Prisma {
     data_limite_sla: Date | null
     iniciado_em: Date | null
     concluido_em: Date | null
+    pausado_em: Date | null
+    tempo_pausa_minutos: number | null
+    sla_violado: boolean | null
+    motivo_violacao_sla: string | null
     ordem_vinculada_id: string | null
     criado_em: Date | null
     atualizado: Date | null
@@ -4161,12 +4179,25 @@ export namespace Prisma {
     data_limite_sla: number
     iniciado_em: number
     concluido_em: number
+    pausado_em: number
+    tempo_pausa_minutos: number
+    historico_pausas: number
+    sla_violado: number
+    motivo_violacao_sla: number
     ordem_vinculada_id: number
     criado_em: number
     atualizado: number
     _all: number
   }
 
+
+  export type OrdemServicoAvgAggregateInputType = {
+    tempo_pausa_minutos?: true
+  }
+
+  export type OrdemServicoSumAggregateInputType = {
+    tempo_pausa_minutos?: true
+  }
 
   export type OrdemServicoMinAggregateInputType = {
     id?: true
@@ -4184,6 +4215,10 @@ export namespace Prisma {
     data_limite_sla?: true
     iniciado_em?: true
     concluido_em?: true
+    pausado_em?: true
+    tempo_pausa_minutos?: true
+    sla_violado?: true
+    motivo_violacao_sla?: true
     ordem_vinculada_id?: true
     criado_em?: true
     atualizado?: true
@@ -4205,6 +4240,10 @@ export namespace Prisma {
     data_limite_sla?: true
     iniciado_em?: true
     concluido_em?: true
+    pausado_em?: true
+    tempo_pausa_minutos?: true
+    sla_violado?: true
+    motivo_violacao_sla?: true
     ordem_vinculada_id?: true
     criado_em?: true
     atualizado?: true
@@ -4228,6 +4267,11 @@ export namespace Prisma {
     data_limite_sla?: true
     iniciado_em?: true
     concluido_em?: true
+    pausado_em?: true
+    tempo_pausa_minutos?: true
+    historico_pausas?: true
+    sla_violado?: true
+    motivo_violacao_sla?: true
     ordem_vinculada_id?: true
     criado_em?: true
     atualizado?: true
@@ -4272,6 +4316,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: OrdemServicoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OrdemServicoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: OrdemServicoMinAggregateInputType
@@ -4302,6 +4358,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: OrdemServicoCountAggregateInputType | true
+    _avg?: OrdemServicoAvgAggregateInputType
+    _sum?: OrdemServicoSumAggregateInputType
     _min?: OrdemServicoMinAggregateInputType
     _max?: OrdemServicoMaxAggregateInputType
   }
@@ -4324,10 +4382,17 @@ export namespace Prisma {
     data_limite_sla: Date | null
     iniciado_em: Date | null
     concluido_em: Date | null
+    pausado_em: Date | null
+    tempo_pausa_minutos: number
+    historico_pausas: JsonValue | null
+    sla_violado: boolean
+    motivo_violacao_sla: string | null
     ordem_vinculada_id: string | null
     criado_em: Date
     atualizado: Date
     _count: OrdemServicoCountAggregateOutputType | null
+    _avg: OrdemServicoAvgAggregateOutputType | null
+    _sum: OrdemServicoSumAggregateOutputType | null
     _min: OrdemServicoMinAggregateOutputType | null
     _max: OrdemServicoMaxAggregateOutputType | null
   }
@@ -4364,6 +4429,11 @@ export namespace Prisma {
     data_limite_sla?: boolean
     iniciado_em?: boolean
     concluido_em?: boolean
+    pausado_em?: boolean
+    tempo_pausa_minutos?: boolean
+    historico_pausas?: boolean
+    sla_violado?: boolean
+    motivo_violacao_sla?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
@@ -4394,6 +4464,11 @@ export namespace Prisma {
     data_limite_sla?: boolean
     iniciado_em?: boolean
     concluido_em?: boolean
+    pausado_em?: boolean
+    tempo_pausa_minutos?: boolean
+    historico_pausas?: boolean
+    sla_violado?: boolean
+    motivo_violacao_sla?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
@@ -4421,6 +4496,11 @@ export namespace Prisma {
     data_limite_sla?: boolean
     iniciado_em?: boolean
     concluido_em?: boolean
+    pausado_em?: boolean
+    tempo_pausa_minutos?: boolean
+    historico_pausas?: boolean
+    sla_violado?: boolean
+    motivo_violacao_sla?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
@@ -4448,12 +4528,17 @@ export namespace Prisma {
     data_limite_sla?: boolean
     iniciado_em?: boolean
     concluido_em?: boolean
+    pausado_em?: boolean
+    tempo_pausa_minutos?: boolean
+    historico_pausas?: boolean
+    sla_violado?: boolean
+    motivo_violacao_sla?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
   }
 
-  export type OrdemServicoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo" | "titulo" | "descricao" | "categoria" | "prioridade" | "status" | "predio_id" | "solicitante_id" | "tecnico_atribuido_id" | "fotos" | "fotos_conclusao" | "motivo_pausa" | "motivo_cancelamento" | "data_limite_sla" | "iniciado_em" | "concluido_em" | "ordem_vinculada_id" | "criado_em" | "atualizado", ExtArgs["result"]["ordemServico"]>
+  export type OrdemServicoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo" | "titulo" | "descricao" | "categoria" | "prioridade" | "status" | "predio_id" | "solicitante_id" | "tecnico_atribuido_id" | "fotos" | "fotos_conclusao" | "motivo_pausa" | "motivo_cancelamento" | "data_limite_sla" | "iniciado_em" | "concluido_em" | "pausado_em" | "tempo_pausa_minutos" | "historico_pausas" | "sla_violado" | "motivo_violacao_sla" | "ordem_vinculada_id" | "criado_em" | "atualizado", ExtArgs["result"]["ordemServico"]>
   export type OrdemServicoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
@@ -4504,6 +4589,11 @@ export namespace Prisma {
       data_limite_sla: Date | null
       iniciado_em: Date | null
       concluido_em: Date | null
+      pausado_em: Date | null
+      tempo_pausa_minutos: number
+      historico_pausas: Prisma.JsonValue | null
+      sla_violado: boolean
+      motivo_violacao_sla: string | null
       ordem_vinculada_id: string | null
       criado_em: Date
       atualizado: Date
@@ -4953,6 +5043,11 @@ export namespace Prisma {
     readonly data_limite_sla: FieldRef<"OrdemServico", 'DateTime'>
     readonly iniciado_em: FieldRef<"OrdemServico", 'DateTime'>
     readonly concluido_em: FieldRef<"OrdemServico", 'DateTime'>
+    readonly pausado_em: FieldRef<"OrdemServico", 'DateTime'>
+    readonly tempo_pausa_minutos: FieldRef<"OrdemServico", 'Int'>
+    readonly historico_pausas: FieldRef<"OrdemServico", 'Json'>
+    readonly sla_violado: FieldRef<"OrdemServico", 'Boolean'>
+    readonly motivo_violacao_sla: FieldRef<"OrdemServico", 'String'>
     readonly ordem_vinculada_id: FieldRef<"OrdemServico", 'String'>
     readonly criado_em: FieldRef<"OrdemServico", 'DateTime'>
     readonly atualizado: FieldRef<"OrdemServico", 'DateTime'>
@@ -9088,6 +9183,11 @@ export namespace Prisma {
     data_limite_sla: 'data_limite_sla',
     iniciado_em: 'iniciado_em',
     concluido_em: 'concluido_em',
+    pausado_em: 'pausado_em',
+    tempo_pausa_minutos: 'tempo_pausa_minutos',
+    historico_pausas: 'historico_pausas',
+    sla_violado: 'sla_violado',
+    motivo_violacao_sla: 'motivo_violacao_sla',
     ordem_vinculada_id: 'ordem_vinculada_id',
     criado_em: 'criado_em',
     atualizado: 'atualizado'
@@ -9323,20 +9423,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'AuditAction'
-   */
-  export type EnumAuditActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuditAction'>
-    
-
-
-  /**
-   * Reference to a field of type 'AuditAction[]'
-   */
-  export type ListEnumAuditActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuditAction[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -9347,6 +9433,20 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'AuditAction'
+   */
+  export type EnumAuditActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuditAction'>
+    
+
+
+  /**
+   * Reference to a field of type 'AuditAction[]'
+   */
+  export type ListEnumAuditActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuditAction[]'>
     
   /**
    * Deep Input Types
@@ -9578,6 +9678,11 @@ export namespace Prisma {
     data_limite_sla?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
     iniciado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
     concluido_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    pausado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    tempo_pausa_minutos?: IntFilter<"OrdemServico"> | number
+    historico_pausas?: JsonNullableFilter<"OrdemServico">
+    sla_violado?: BoolFilter<"OrdemServico"> | boolean
+    motivo_violacao_sla?: StringNullableFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
     atualizado?: DateTimeFilter<"OrdemServico"> | Date | string
@@ -9607,6 +9712,11 @@ export namespace Prisma {
     data_limite_sla?: SortOrderInput | SortOrder
     iniciado_em?: SortOrderInput | SortOrder
     concluido_em?: SortOrderInput | SortOrder
+    pausado_em?: SortOrderInput | SortOrder
+    tempo_pausa_minutos?: SortOrder
+    historico_pausas?: SortOrderInput | SortOrder
+    sla_violado?: SortOrder
+    motivo_violacao_sla?: SortOrderInput | SortOrder
     ordem_vinculada_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -9639,6 +9749,11 @@ export namespace Prisma {
     data_limite_sla?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
     iniciado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
     concluido_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    pausado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    tempo_pausa_minutos?: IntFilter<"OrdemServico"> | number
+    historico_pausas?: JsonNullableFilter<"OrdemServico">
+    sla_violado?: BoolFilter<"OrdemServico"> | boolean
+    motivo_violacao_sla?: StringNullableFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
     atualizado?: DateTimeFilter<"OrdemServico"> | Date | string
@@ -9668,12 +9783,19 @@ export namespace Prisma {
     data_limite_sla?: SortOrderInput | SortOrder
     iniciado_em?: SortOrderInput | SortOrder
     concluido_em?: SortOrderInput | SortOrder
+    pausado_em?: SortOrderInput | SortOrder
+    tempo_pausa_minutos?: SortOrder
+    historico_pausas?: SortOrderInput | SortOrder
+    sla_violado?: SortOrder
+    motivo_violacao_sla?: SortOrderInput | SortOrder
     ordem_vinculada_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
     _count?: OrdemServicoCountOrderByAggregateInput
+    _avg?: OrdemServicoAvgOrderByAggregateInput
     _max?: OrdemServicoMaxOrderByAggregateInput
     _min?: OrdemServicoMinOrderByAggregateInput
+    _sum?: OrdemServicoSumOrderByAggregateInput
   }
 
   export type OrdemServicoScalarWhereWithAggregatesInput = {
@@ -9697,6 +9819,11 @@ export namespace Prisma {
     data_limite_sla?: DateTimeNullableWithAggregatesFilter<"OrdemServico"> | Date | string | null
     iniciado_em?: DateTimeNullableWithAggregatesFilter<"OrdemServico"> | Date | string | null
     concluido_em?: DateTimeNullableWithAggregatesFilter<"OrdemServico"> | Date | string | null
+    pausado_em?: DateTimeNullableWithAggregatesFilter<"OrdemServico"> | Date | string | null
+    tempo_pausa_minutos?: IntWithAggregatesFilter<"OrdemServico"> | number
+    historico_pausas?: JsonNullableWithAggregatesFilter<"OrdemServico">
+    sla_violado?: BoolWithAggregatesFilter<"OrdemServico"> | boolean
+    motivo_violacao_sla?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeWithAggregatesFilter<"OrdemServico"> | Date | string
     atualizado?: DateTimeWithAggregatesFilter<"OrdemServico"> | Date | string
@@ -10264,6 +10391,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -10292,6 +10424,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -10314,6 +10451,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -10342,6 +10484,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10367,6 +10514,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -10387,6 +10539,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10409,6 +10566,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11189,6 +11351,29 @@ export namespace Prisma {
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type PredioScalarRelationFilter = {
     is?: PredioWhereInput
@@ -11223,9 +11408,18 @@ export namespace Prisma {
     data_limite_sla?: SortOrder
     iniciado_em?: SortOrder
     concluido_em?: SortOrder
+    pausado_em?: SortOrder
+    tempo_pausa_minutos?: SortOrder
+    historico_pausas?: SortOrder
+    sla_violado?: SortOrder
+    motivo_violacao_sla?: SortOrder
     ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
+  }
+
+  export type OrdemServicoAvgOrderByAggregateInput = {
+    tempo_pausa_minutos?: SortOrder
   }
 
   export type OrdemServicoMaxOrderByAggregateInput = {
@@ -11244,6 +11438,10 @@ export namespace Prisma {
     data_limite_sla?: SortOrder
     iniciado_em?: SortOrder
     concluido_em?: SortOrder
+    pausado_em?: SortOrder
+    tempo_pausa_minutos?: SortOrder
+    sla_violado?: SortOrder
+    motivo_violacao_sla?: SortOrder
     ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -11265,9 +11463,17 @@ export namespace Prisma {
     data_limite_sla?: SortOrder
     iniciado_em?: SortOrder
     concluido_em?: SortOrder
+    pausado_em?: SortOrder
+    tempo_pausa_minutos?: SortOrder
+    sla_violado?: SortOrder
+    motivo_violacao_sla?: SortOrder
     ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
+  }
+
+  export type OrdemServicoSumOrderByAggregateInput = {
+    tempo_pausa_minutos?: SortOrder
   }
 
   export type EnumPrioridadeWithAggregatesFilter<$PrismaModel = never> = {
@@ -11303,21 +11509,14 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
-
-  export type EnumAuditActionFilter<$PrismaModel = never> = {
-    equals?: $Enums.AuditAction | EnumAuditActionFieldRefInput<$PrismaModel>
-    in?: $Enums.AuditAction[] | ListEnumAuditActionFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AuditAction[] | ListEnumAuditActionFieldRefInput<$PrismaModel>
-    not?: NestedEnumAuditActionFilter<$PrismaModel> | $Enums.AuditAction
-  }
-  export type JsonNullableFilter<$PrismaModel = never> =
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
       >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
     equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
     path?: string[]
     mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
@@ -11332,6 +11531,16 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type EnumAuditActionFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuditAction | EnumAuditActionFieldRefInput<$PrismaModel>
+    in?: $Enums.AuditAction[] | ListEnumAuditActionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuditAction[] | ListEnumAuditActionFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuditActionFilter<$PrismaModel> | $Enums.AuditAction
   }
 
   export type AuditoriaLogCountOrderByAggregateInput = {
@@ -11371,32 +11580,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAuditActionFilter<$PrismaModel>
     _max?: NestedEnumAuditActionFilter<$PrismaModel>
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type PredioNullableScalarRelationFilter = {
@@ -12376,23 +12559,6 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
-
-  export type NestedEnumAuditActionFilter<$PrismaModel = never> = {
-    equals?: $Enums.AuditAction | EnumAuditActionFieldRefInput<$PrismaModel>
-    in?: $Enums.AuditAction[] | ListEnumAuditActionFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AuditAction[] | ListEnumAuditActionFieldRefInput<$PrismaModel>
-    not?: NestedEnumAuditActionFilter<$PrismaModel> | $Enums.AuditAction
-  }
-
-  export type NestedEnumAuditActionWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.AuditAction | EnumAuditActionFieldRefInput<$PrismaModel>
-    in?: $Enums.AuditAction[] | ListEnumAuditActionFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AuditAction[] | ListEnumAuditActionFieldRefInput<$PrismaModel>
-    not?: NestedEnumAuditActionWithAggregatesFilter<$PrismaModel> | $Enums.AuditAction
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumAuditActionFilter<$PrismaModel>
-    _max?: NestedEnumAuditActionFilter<$PrismaModel>
-  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -12415,6 +12581,23 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumAuditActionFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuditAction | EnumAuditActionFieldRefInput<$PrismaModel>
+    in?: $Enums.AuditAction[] | ListEnumAuditActionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuditAction[] | ListEnumAuditActionFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuditActionFilter<$PrismaModel> | $Enums.AuditAction
+  }
+
+  export type NestedEnumAuditActionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuditAction | EnumAuditActionFieldRefInput<$PrismaModel>
+    in?: $Enums.AuditAction[] | ListEnumAuditActionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuditAction[] | ListEnumAuditActionFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuditActionWithAggregatesFilter<$PrismaModel> | $Enums.AuditAction
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAuditActionFilter<$PrismaModel>
+    _max?: NestedEnumAuditActionFilter<$PrismaModel>
   }
 
   export type PredioCreateWithoutGestorInput = {
@@ -12478,6 +12661,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -12504,6 +12692,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -12536,6 +12729,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -12562,6 +12760,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -12682,6 +12885,11 @@ export namespace Prisma {
     data_limite_sla?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
     iniciado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
     concluido_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    pausado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    tempo_pausa_minutos?: IntFilter<"OrdemServico"> | number
+    historico_pausas?: JsonNullableFilter<"OrdemServico">
+    sla_violado?: BoolFilter<"OrdemServico"> | boolean
+    motivo_violacao_sla?: StringNullableFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
     atualizado?: DateTimeFilter<"OrdemServico"> | Date | string
@@ -12787,6 +12995,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
@@ -12813,6 +13026,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -13109,6 +13327,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -13136,6 +13359,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -13162,6 +13390,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -13189,6 +13422,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
@@ -13414,6 +13652,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -13441,6 +13684,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13619,6 +13867,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -13646,6 +13899,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -13730,6 +13988,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -13757,6 +14020,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13796,6 +14064,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -13818,6 +14091,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -13900,6 +14178,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -13926,6 +14209,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13950,6 +14238,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13970,6 +14263,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -13996,6 +14294,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14020,6 +14323,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14072,6 +14380,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -14110,6 +14423,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
@@ -14136,6 +14454,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14160,6 +14483,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14237,6 +14565,11 @@ export namespace Prisma {
     data_limite_sla?: Date | string | null
     iniciado_em?: Date | string | null
     concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -14274,6 +14607,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -14301,6 +14639,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -14325,6 +14668,11 @@ export namespace Prisma {
     data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
