@@ -151,10 +151,14 @@ interface OrdersContextType {
   updateSettings: (newSettings: Partial<SystemSettings>) => Promise<void>;
   resetSettings: () => void;
 
-  // Sidebar Retrátil
+  // Sidebar Retrátil & Navegação Mobile
   isSidebarCollapsed: boolean;
   toggleSidebar: () => void;
   setSidebarCollapsed: (collapsed: boolean) => void;
+  isMobileNavOpen: boolean;
+  openMobileNav: () => void;
+  closeMobileNav: () => void;
+  toggleMobileNav: () => void;
 
   // Copilot IA (Google Gemini Function Calling)
   isCopilotOpen: boolean;
@@ -216,8 +220,13 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
   const [activities, setActivities] = useState<ActivityEvent[]>(DEFAULT_ACTIVITIES);
   const [settings, setSettings] = useState<SystemSettings>(DEFAULT_SETTINGS);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isCopilotOpen, setIsCopilotOpen] = useState(false);
   const [readNotificationIds, setReadNotificationIds] = useState<Set<string>>(new Set());
+
+  const openMobileNav = useCallback(() => setIsMobileNavOpen(true), []);
+  const closeMobileNav = useCallback(() => setIsMobileNavOpen(false), []);
+  const toggleMobileNav = useCallback(() => setIsMobileNavOpen((prev) => !prev), []);
 
   const openCopilot = useCallback(() => setIsCopilotOpen(true), []);
   const closeCopilot = useCallback(() => setIsCopilotOpen(false), []);
@@ -673,6 +682,10 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
         isSidebarCollapsed,
         toggleSidebar,
         setSidebarCollapsed,
+        isMobileNavOpen,
+        openMobileNav,
+        closeMobileNav,
+        toggleMobileNav,
         isCopilotOpen,
         openCopilot,
         closeCopilot,

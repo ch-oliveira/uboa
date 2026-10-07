@@ -104,7 +104,7 @@ function KanbanColumnDroppable({
   return (
     <div
       ref={setNodeRef}
-      className={`space-y-3 rounded-xl transition-all p-2.5 min-h-[480px] flex flex-col flex-1 ${
+      className={`space-y-3 rounded-xl transition-all p-2.5 min-h-[480px] flex flex-col flex-1 shrink-0 w-[84vw] max-w-[320px] md:w-auto md:shrink md:max-w-none snap-center ${
         isOver ? 'bg-muted/80 ring-2 ring-primary/30' : 'bg-muted/40 border border-transparent'
       }`}
     >
@@ -669,22 +669,22 @@ function ChamadosContent() {
         />
 
         {/* Scrollable Container */}
-        <div className="flex-1 overflow-y-auto p-8 space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6">
 
           {/* CABEÇALHO DA PÁGINA (Padrão Ouro UI/UX) */}
-          <div className="bg-muted/50 rounded-2xl p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="bg-muted/50 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-foreground">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
                 Chamados
               </h1>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                 Da triagem à solução, acompanhe cada etapa do atendimento.
               </p>
             </div>
             <div className="flex items-center shrink-0">
               <Button 
                 onClick={() => setIsNewModalOpen(true)}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-4 py-2 font-semibold text-sm shadow-xs transition-colors cursor-pointer flex items-center gap-2"
+                className="w-full sm:w-auto justify-center bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-4 py-2 font-semibold text-sm shadow-xs transition-colors cursor-pointer flex items-center gap-2"
               >
                 <Plus className="h-4 w-4" />
                 Novo chamado
@@ -730,8 +730,8 @@ function ChamadosContent() {
           )}
 
           {/* Subtitle Stats & View Switcher (Image 2) */}
-          <div className="flex items-center justify-between pt-1">
-            <div className="text-sm font-medium text-foreground">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+            <div className="flex flex-wrap items-center gap-y-1 text-xs sm:text-sm font-medium text-foreground">
               <span>{stats.totalOpen} ativos</span>
               <span className="mx-2 text-muted-foreground">·</span>
               <span className="text-destructive font-semibold">{stats.urgentes} urgentes ativos</span>
@@ -740,7 +740,7 @@ function ChamadosContent() {
             </div>
 
             {/* Segmented View Switcher: Lista / Quadro */}
-            <div className="bg-muted p-1 rounded-xl flex items-center gap-1">
+            <div className="bg-muted p-1 rounded-xl flex items-center gap-1 self-start sm:self-auto">
               <button
                 type="button"
                 onClick={() => setViewMode('lista')}
@@ -902,14 +902,14 @@ function ChamadosContent() {
               onDragOver={handleDragOver}
               onDragEnd={handleDragEnd}
             >
-              <div className={`grid gap-5 items-start ${
+              <div className={`flex overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:overflow-x-visible md:pb-0 gap-4 sm:gap-5 items-start ${
                 kanbanColumns.length === 4
-                  ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-4'
+                  ? 'md:grid-cols-2 xl:grid-cols-4'
                   : kanbanColumns.length === 5
-                  ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5'
+                  ? 'md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5'
                   : kanbanColumns.length === 3
-                  ? 'grid-cols-1 md:grid-cols-3'
-                  : 'grid-cols-1 md:grid-cols-2 xl:grid-cols-4'
+                  ? 'md:grid-cols-3'
+                  : 'md:grid-cols-2 xl:grid-cols-4'
               }`}>
                 {kanbanColumns.map((col) => (
                   <KanbanColumnDroppable
@@ -974,7 +974,7 @@ function ChamadosContent() {
             /* LISTA VIEW */
             <div className="bg-background rounded-lg border border-border shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
+                <table className="w-full text-left text-sm min-w-[760px]">
                   <thead className="bg-muted border-b border-border text-[10px] font-bold text-foreground/80 uppercase tracking-wider select-none">
                     <tr>
                       <th 

@@ -60,7 +60,7 @@ export function AgendaModal({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-6 py-5 border-b border-border flex items-center justify-between bg-muted/70">
+        <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-border flex items-center justify-between bg-muted/70">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-[#E1E7EF] flex items-center justify-center">
               {getIcon()}
@@ -88,9 +88,9 @@ export function AgendaModal({
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-5 overflow-y-auto max-h-[70vh]">
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-5 overflow-y-auto max-h-[75vh]">
           {/* Metadata Cards */}
-          <div className="grid grid-cols-2 gap-3 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <div className="flex items-center gap-2.5 p-3 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0]">
               <Clock size={16} className="text-[#475569] shrink-0" />
               <div>
@@ -177,7 +177,7 @@ export function AgendaModal({
             </p>
 
             {/* Ação 1: Registrar Visita Técnica */}
-            <div className="p-3.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-between gap-3">
+            <div className="p-3.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex-1">
                 <div className="flex items-center gap-1.5 text-xs font-bold text-[#0F172A]">
                   <CalendarCheck size={14} className="text-[#0A2540]" />
@@ -193,7 +193,7 @@ export function AgendaModal({
                   onToggleComplete(event.id);
                   onClose();
                 }}
-                className={`text-xs font-bold rounded-md px-3.5 py-2 shrink-0 cursor-pointer ${
+                className={`w-full sm:w-auto text-xs font-bold rounded-md px-3.5 py-2 shrink-0 cursor-pointer ${
                   event.completed
                     ? 'bg-transparent border border-border text-muted-foreground hover:bg-muted/50'
                     : 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-xs'
@@ -205,7 +205,7 @@ export function AgendaModal({
 
             {/* Ação 2: Concluir Chamado Vinculado */}
             {linkedOrder && (
-              <div className="p-3.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-between gap-3">
+              <div className="p-3.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex-1">
                   <div className="flex items-center gap-1.5 text-xs font-bold text-[#0F172A]">
                     <FileCheck2 size={14} className="text-[#0A2540]" />
@@ -224,7 +224,7 @@ export function AgendaModal({
                       onClose();
                     }
                   }}
-                  className={`text-xs font-bold rounded-md px-3.5 py-2 shrink-0 cursor-pointer ${
+                  className={`w-full sm:w-auto text-xs font-bold rounded-md px-3.5 py-2 shrink-0 cursor-pointer ${
                     isOrderCompleted
                       ? 'bg-[#E1E7EF] text-[#475569] cursor-not-allowed opacity-75'
                       : 'bg-[#0A2540] hover:bg-[#081C32] text-white shadow-xs'

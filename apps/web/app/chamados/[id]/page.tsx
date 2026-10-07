@@ -247,7 +247,7 @@ export default function ChamadoDetailPage() {
         {/* ======================================================== */}
         {/* 1. TOP BAR — Refactoring UI: Hierarquia Clara & Breadcrumbs */}
         {/* ======================================================== */}
-        <header className="bg-white border-b border-slate-200/80 px-6 py-3.5 flex items-center justify-between sticky top-0 z-20">
+        <header className="bg-white border-b border-slate-200/80 px-4 sm:px-6 py-3 sm:py-3.5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 sticky top-0 z-20">
           <div className="flex items-center gap-3">
             <Link 
               href="/chamados"
@@ -298,10 +298,10 @@ export default function ChamadoDetailPage() {
         {/* ======================================================== */}
         {/* 2. CONTEÚDO PRINCIPAL — Grid Balanceada de 2 Colunas     */}
         {/* ======================================================== */}
-        <div className="flex-1 p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
+        <div className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
           
           {/* Header Card: Título, Prédio e Badges de Criticidade */}
-          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-xs space-y-4">
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-6 shadow-xs space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <span className="font-mono text-xs font-bold text-blue-900 bg-blue-50 border border-blue-100 px-2.5 py-0.5 rounded-md">
@@ -350,8 +350,8 @@ export default function ChamadoDetailPage() {
             </div>
 
             {/* Stepper Operacional de 5 Etapas */}
-            <div className="pt-4 border-t border-slate-100">
-              <div className="grid grid-cols-5 gap-2 sm:gap-3">
+            <div className="pt-4 border-t border-slate-100 overflow-x-auto pb-1">
+              <div className="grid grid-cols-5 min-w-[320px] sm:min-w-0 gap-2 sm:gap-3">
                 {STAGES_FLOW.map((stage, idx) => {
                   const isPassed = currentStageIndex > idx;
                   const isCurrent = currentStageIndex === idx;

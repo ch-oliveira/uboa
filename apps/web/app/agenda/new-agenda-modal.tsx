@@ -165,11 +165,11 @@ export function NewAgendaModal({ isOpen, onClose, onCreate }: Props) {
           </div>
 
           {/* Footer buttons */}
-          <div className="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
-            <Button type="button" variant="outline" onClick={onClose} className="rounded-lg">
+          <div className="pt-4 border-t border-slate-100 flex flex-col-reverse sm:flex-row sm:items-center justify-end gap-2 sm:gap-3">
+            <Button type="button" variant="outline" onClick={onClose} className="w-full sm:w-auto rounded-lg">
               Cancelar
             </Button>
-            <Button type="submit" className="bg-blue-900 hover:bg-blue-950 text-white rounded-lg font-semibold">
+            <Button type="submit" className="w-full sm:w-auto bg-blue-900 hover:bg-blue-950 text-white rounded-lg font-semibold">
               Salvar Agendamento
             </Button>
           </div>

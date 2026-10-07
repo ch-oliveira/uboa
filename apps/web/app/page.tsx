@@ -259,27 +259,27 @@ export default function DashboardPage() {
             showToast={showToast}
           />
         ) : (
-          <div className="flex-1 overflow-y-auto p-8 space-y-6">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6">
           
           {/* CABEÇALHO DA PÁGINA (Padrão Ouro UI/UX) */}
-          <div data-tour="header-welcome" className="bg-muted/50 rounded-2xl p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div data-tour="header-welcome" className="bg-muted/50 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-foreground">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
                 {pendingTriageCount > 0 
                   ? 'Decisões da Zeladoria' 
                   : 'Visão Geral'}
               </h1>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                 {pendingTriageCount > 0 
                   ? `Você tem ${pendingTriageCount} chamado(s) aguardando triagem. Priorize com apoio inteligente.`
                   : 'Acompanhe o deslocamento das equipes e o volume operacional.'}
               </p>
             </div>
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 shrink-0">
               {pendingTriageCount > 0 && (
                 <Button
                   onClick={handleOpenTriageNext}
-                  className="bg-purple-100 text-purple-700 hover:bg-purple-200 px-4 py-2 rounded-xl font-semibold text-sm transition-all flex items-center gap-2 cursor-pointer shadow-xs"
+                  className="bg-purple-100 text-purple-700 hover:bg-purple-200 px-3.5 sm:px-4 py-2 rounded-xl font-semibold text-xs sm:text-sm transition-all flex items-center gap-2 cursor-pointer shadow-xs"
                 >
                   <Sparkles size={14} />
                   <span>Triar próximo</span>
@@ -288,7 +288,7 @@ export default function DashboardPage() {
               )}
               <Button
                 onClick={() => setIsNewOrderModalOpen(true)}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-xl font-semibold text-sm transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground px-3.5 sm:px-4 py-2 rounded-xl font-semibold text-xs sm:text-sm transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
               >
                 <Plus size={14} />
                 <span>Novo chamado</span>
@@ -451,7 +451,7 @@ export default function DashboardPage() {
                 
                 {/* Linhas da Tabela com Responsável, Prazo e Próximo Passo */}
                 <div className="w-full">
-                  <div className="grid grid-cols-12 text-[10px] font-bold text-foreground/80 uppercase tracking-wider px-6 py-3 border-b border-border bg-muted">
+                  <div className="hidden sm:grid grid-cols-12 text-[10px] font-bold text-foreground/80 uppercase tracking-wider px-6 py-3 border-b border-border bg-muted">
                     <div className="col-span-5">Chamado & Unidade</div>
                     <div className="col-span-2">Prioridade</div>
                     <div className="col-span-3">Responsável & Prazo</div>
@@ -815,100 +815,167 @@ function PriorityRow({
   const cleanId = order.id.replace(/^(os-|OS-)/i, '');
 
   return (
-    <div 
-      onClick={onOpenDetail}
-      className="grid grid-cols-12 items-center px-6 py-3 hover:bg-muted/50 transition-colors group cursor-pointer border-b border-border last:border-0"
-    >
-      {/* 1. Chamado & Unidade */}
-      <div className="col-span-5 pr-3 min-w-0">
-        <div className="flex items-center gap-2">
-          <span className="text-[11px] font-mono font-medium text-muted-foreground uppercase">
-            #{cleanId}
-          </span>
-          <h4 className="text-[13px] font-medium text-foreground truncate">
-            {order.titulo}
-          </h4>
+    <>
+      {/* Desktop Grid Row (sm: and above) */}
+      <div 
+        onClick={onOpenDetail}
+        className="hidden sm:grid grid-cols-12 items-center px-6 py-3 hover:bg-muted/50 transition-colors group cursor-pointer border-b border-border last:border-0"
+      >
+        {/* 1. Chamado & Unidade */}
+        <div className="col-span-5 pr-3 min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-mono font-medium text-muted-foreground uppercase">
+              #{cleanId}
+            </span>
+            <h4 className="text-[13px] font-medium text-foreground truncate">
+              {order.titulo}
+            </h4>
+          </div>
+          <p className="text-[11px] text-muted-foreground mt-0.5 truncate flex items-center gap-1.5">
+            <Building2 size={11} className="shrink-0 opacity-70" />
+            <span>{order.predio}</span>
+          </p>
         </div>
-        <p className="text-[11px] text-muted-foreground mt-0.5 truncate flex items-center gap-1.5">
-          <Building2 size={11} className="shrink-0 opacity-70" />
-          <span>{order.predio}</span>
-        </p>
-      </div>
 
-      {/* 2. Prioridade */}
-      <div className="col-span-2 flex items-center">
-          {isUrgente ? (
-            <div className="flex items-center gap-1.5 text-foreground text-[11px] font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.6)]" />
-              Urgente
+        {/* 2. Prioridade */}
+        <div className="col-span-2 flex items-center">
+            {isUrgente ? (
+              <div className="flex items-center gap-1.5 text-foreground text-[11px] font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.6)]" />
+                Urgente
+              </div>
+            ) : isAlta ? (
+              <div className="flex items-center gap-1.5 text-foreground text-[11px] font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                Alta
+              </div>
+            ) : (
+              <div className="flex items-center gap-1.5 text-muted-foreground text-[11px] font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                Média
+              </div>
+            )}
+        </div>
+
+        {/* 3. Quem cuida disso & Prazo */}
+        <div className="col-span-3 pr-2 min-w-0">
+          {order.tecnico ? (
+            <div className="flex items-center gap-1.5 text-[11px] font-medium text-foreground truncate">
+              <User size={11} className="text-muted-foreground shrink-0" />
+              <span className="truncate">{order.tecnico}</span>
             </div>
-          ) : isAlta ? (
-            <div className="flex items-center gap-1.5 text-foreground text-[11px] font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
-              Alta
+          ) : order.status === 'EM_EXECUCAO' ? (
+            <div className="flex items-center gap-1.5 text-[11px] font-medium text-foreground truncate">
+              <User size={11} className="text-muted-foreground shrink-0" />
+              <span className="truncate">Equipe Operacional</span>
             </div>
           ) : (
-            <div className="flex items-center gap-1.5 text-muted-foreground text-[11px] font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-              Média
-            </div>
+            <span className="text-[11px] font-medium text-muted-foreground">
+              {order.status === 'TRIAGEM' ? 'Definir na triagem' : 'Definir no planejamento'}
+            </span>
           )}
-      </div>
+          <div className="flex items-center gap-1 text-[11px] text-muted-foreground mt-1">
+            <Clock size={10} className="opacity-70 shrink-0" />
+            <span>SLA: Hoje 18:00</span>
+          </div>
+        </div>
 
-      {/* 3. Quem cuida disso & Prazo */}
-      <div className="col-span-3 pr-2 min-w-0">
-        {order.tecnico ? (
-          <div className="flex items-center gap-1.5 text-[11px] font-medium text-foreground truncate">
-            <User size={11} className="text-muted-foreground shrink-0" />
-            <span className="truncate">{order.tecnico}</span>
-          </div>
-        ) : order.status === 'EM_EXECUCAO' ? (
-          <div className="flex items-center gap-1.5 text-[11px] font-medium text-foreground truncate">
-            <User size={11} className="text-muted-foreground shrink-0" />
-            <span className="truncate">Equipe Operacional</span>
-          </div>
-        ) : (
-          <span className="text-[11px] font-medium text-muted-foreground">
-            {order.status === 'TRIAGEM' ? 'Definir na triagem' : 'Definir no planejamento'}
-          </span>
-        )}
-        <div className="flex items-center gap-1 text-[11px] text-muted-foreground mt-1">
-          <Clock size={10} className="opacity-70 shrink-0" />
-          <span>SLA: Hoje 18:00</span>
+        {/* 4. Próximo passo / Ação rápida */}
+        <div className="col-span-2 flex items-center justify-end">
+          {order.status === 'TRIAGEM' ? (
+            <span className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors shadow-sm">
+              <span>Triar chamado</span>
+              <ArrowRight size={11} />
+            </span>
+          ) : order.status === 'AGENDADO' ? (
+            <span className="inline-flex items-center gap-1.5 hover:bg-muted text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors cursor-pointer">
+              <span>Escalar equipe</span>
+              <ArrowRight size={11} />
+            </span>
+          ) : order.status === 'EM_EXECUCAO' ? (
+            <span className="inline-flex items-center gap-1.5 hover:bg-muted text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors cursor-pointer">
+              <span>Acompanhar</span>
+              <ArrowRight size={11} />
+            </span>
+          ) : order.status === 'AGUARDANDO' ? (
+            <span className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors shadow-sm">
+              <CheckCircle2 size={11} />
+              <span>Validar</span>
+              <ArrowRight size={11} />
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 text-muted-foreground text-[11px] font-medium">
+              <span>Finalizado</span>
+              <Check size={11} />
+            </span>
+          )}
         </div>
       </div>
 
-      {/* 4. Próximo passo / Ação rápida */}
-      <div className="col-span-2 flex items-center justify-end">
-        {order.status === 'TRIAGEM' ? (
-          <span className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors shadow-sm">
-            <span>Triar chamado</span>
-            <ArrowRight size={11} />
+      {/* Mobile Card Layout (sm:hidden) */}
+      <div 
+        onClick={onOpenDetail}
+        className="sm:hidden p-4 hover:bg-muted/50 transition-colors cursor-pointer border-b border-border last:border-0 space-y-2.5"
+      >
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-[11px] font-mono font-bold text-muted-foreground uppercase">
+            #{cleanId}
           </span>
-        ) : order.status === 'AGENDADO' ? (
-          <span className="inline-flex items-center gap-1.5 hover:bg-muted text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors cursor-pointer">
-            <span>Escalar equipe</span>
-            <ArrowRight size={11} />
-          </span>
-        ) : order.status === 'EM_EXECUCAO' ? (
-          <span className="inline-flex items-center gap-1.5 hover:bg-muted text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors cursor-pointer">
-            <span>Acompanhar</span>
-            <ArrowRight size={11} />
-          </span>
-        ) : order.status === 'AGUARDANDO' ? (
-          <span className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors shadow-sm">
-            <CheckCircle2 size={11} />
-            <span>Validar</span>
-            <ArrowRight size={11} />
-          </span>
-        ) : (
-          <span className="inline-flex items-center gap-1 text-muted-foreground text-[11px] font-medium">
-            <span>Finalizado</span>
-            <Check size={11} />
-          </span>
-        )}
+          {isUrgente ? (
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.6)]" />
+              Urgente
+            </span>
+          ) : isAlta ? (
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+              Alta
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-medium px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+              Média
+            </span>
+          )}
+        </div>
+
+        <div>
+          <h4 className="text-[13px] font-bold text-foreground leading-snug">
+            {order.titulo}
+          </h4>
+          <p className="text-[11px] text-muted-foreground mt-1 flex items-center gap-1.5">
+            <Building2 size={12} className="shrink-0 opacity-70" />
+            <span>{order.predio}</span>
+          </p>
+        </div>
+
+        <div className="flex items-center justify-between pt-2 border-t border-border/60 text-xs">
+          <div className="flex items-center gap-1.5 text-muted-foreground text-[11px]">
+            <User size={11} className="opacity-70 shrink-0" />
+            <span className="truncate max-w-[130px] font-medium">{order.tecnico || (order.status === 'TRIAGEM' ? 'A triar' : 'A definir')}</span>
+          </div>
+
+          <div>
+            {order.status === 'TRIAGEM' ? (
+              <span className="inline-flex items-center gap-1 bg-primary text-primary-foreground px-2.5 py-1 rounded-md text-[11px] font-semibold shadow-xs">
+                <span>Triar</span>
+                <ArrowRight size={11} />
+              </span>
+            ) : order.status === 'AGUARDANDO' ? (
+              <span className="inline-flex items-center gap-1 bg-primary text-primary-foreground px-2.5 py-1 rounded-md text-[11px] font-semibold shadow-xs">
+                <CheckCircle2 size={11} />
+                <span>Validar</span>
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 text-primary text-[11px] font-semibold hover:underline">
+                <span>Ver</span>
+                <ArrowRight size={11} />
+              </span>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

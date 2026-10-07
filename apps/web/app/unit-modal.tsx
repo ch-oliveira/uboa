@@ -82,7 +82,7 @@ export function UnitModal({ unitName, isOpen, onClose, orders, onSelectOrder, on
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-6 py-5 border-b border-[#F1F5F9] flex items-start justify-between bg-[#F8FAFC]">
+        <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-[#F1F5F9] flex items-start justify-between bg-[#F8FAFC]">
           <div className="flex items-start gap-3">
             <div className="w-11 h-11 rounded-lg bg-[#E1E7EF] flex items-center justify-center shrink-0 mt-0.5">
               {getCategoryIcon(unitInfo?.tipo)}
@@ -97,7 +97,7 @@ export function UnitModal({ unitName, isOpen, onClose, orders, onSelectOrder, on
                   {unitOrders.length} chamados registrados
                 </span>
               </div>
-              <h2 className="text-2xl font-extrabold text-[#0F172A] mt-0.5">
+              <h2 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] mt-0.5">
                 {unitName}
               </h2>
               
@@ -128,7 +128,7 @@ export function UnitModal({ unitName, isOpen, onClose, orders, onSelectOrder, on
         </div>
 
         {/* Scrollable Body */}
-        <div className="p-6 overflow-y-auto space-y-6 flex-1">
+        <div className="p-4 sm:p-6 overflow-y-auto space-y-4 sm:space-y-6 flex-1">
           
           {/* Section: Informações de Endereço & Responsável */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -292,14 +292,14 @@ export function UnitModal({ unitName, isOpen, onClose, orders, onSelectOrder, on
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-[#F1F5F9] bg-[#F8FAFC] flex justify-between items-center">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-[#F1F5F9] bg-[#F8FAFC] flex flex-col-reverse sm:flex-row sm:justify-between items-center gap-2 sm:gap-3">
           {onNewOrder ? (
             <Button
               onClick={() => {
                 onClose();
                 onNewOrder(unitName);
               }}
-              className="bg-[#0A2540] hover:bg-[#081C32] text-white rounded-md px-4 py-2 font-semibold text-xs cursor-pointer"
+              className="w-full sm:w-auto justify-center bg-[#0A2540] hover:bg-[#081C32] text-white rounded-md px-4 py-2 font-semibold text-xs cursor-pointer"
             >
               + Novo chamado nesta unidade
             </Button>
@@ -310,7 +310,7 @@ export function UnitModal({ unitName, isOpen, onClose, orders, onSelectOrder, on
           <Button 
             variant="ghost" 
             onClick={onClose} 
-            className="rounded-md text-xs font-bold text-[#475569] hover:text-[#0F172A] cursor-pointer"
+            className="w-full sm:w-auto justify-center rounded-md text-xs font-bold text-[#475569] hover:text-[#0F172A] cursor-pointer"
           >
             Fechar
           </Button>

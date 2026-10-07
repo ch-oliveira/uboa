@@ -181,22 +181,22 @@ export default function AgendaPage() {
         />
 
         {/* Scrollable Container */}
-        <div className="flex-1 overflow-y-auto p-8 space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6">
 
           {/* CABEÇALHO DA PÁGINA (Padrão Ouro UI/UX) */}
-          <div className="bg-muted/50 rounded-2xl p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="bg-muted/50 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-foreground">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
                 Agenda e Planejamento
               </h1>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                 Programe as visitas técnicas e otimize o trabalho em campo.
               </p>
             </div>
             <div className="flex items-center shrink-0">
               <Button 
                 onClick={() => setIsNewModalOpen(true)}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-4 py-2 font-semibold text-sm shadow-xs transition-colors cursor-pointer flex items-center gap-2"
+                className="w-full sm:w-auto justify-center bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-4 py-2 font-semibold text-sm shadow-xs transition-colors cursor-pointer flex items-center gap-2"
               >
                 <Plus className="h-4 w-4" />
                 Agendar visita
@@ -225,7 +225,7 @@ export default function AgendaPage() {
             </div>
 
             {/* Controles de Semana e Visualização */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               {/* Controles de navegação de semana */}
               <div className="flex items-center bg-input border border-border rounded-xl shadow-2xs p-1">
                 <button
@@ -307,11 +307,11 @@ export default function AgendaPage() {
 
           {/* WEEK GRID VIEW (5 DIAS: SEG A SEX) */}
           {viewMode === 'semana' ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 items-start pt-2">
+            <div className="flex overflow-x-auto pb-4 snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:overflow-x-visible lg:pb-0 gap-4 items-start pt-2">
               {weekDays.map((day) => (
                 <div 
                   key={day.key}
-                  className={`bg-card rounded-lg p-4 min-h-[420px] flex flex-col justify-between transition-all border shadow-sm ${
+                  className={`bg-card rounded-lg p-4 min-h-[420px] flex flex-col justify-between transition-all border shadow-sm min-w-[260px] xs:min-w-[280px] w-[82vw] max-w-[320px] snap-center shrink-0 lg:min-w-0 lg:w-auto lg:shrink lg:max-w-none ${
                     day.isToday 
                       ? 'border-primary ring-1 ring-primary' 
                       : 'border-border'

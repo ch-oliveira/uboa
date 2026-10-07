@@ -714,27 +714,27 @@ export default function RelatoriosPage() {
           />
 
           {/* Scrollable Body */}
-          <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-8">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
             
             {/* CABEÇALHO DA PÁGINA COM NAVEGAÇÃO DE FOCO */}
-            <div className="bg-card border border-border rounded-2xl p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-5">
+            <div className="bg-card border border-border rounded-2xl p-4 sm:p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-5">
               <div>
                 <div className="flex items-center gap-2">
-                  <h1 className="text-2xl font-black tracking-tight text-foreground">
+                  <h1 className="text-xl sm:text-2xl font-black tracking-tight text-foreground">
                     Relatórios e Indicadores
                   </h1>
-                  <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+                  <span className="text-[10px] sm:text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
                     Central de Inteligência
                   </span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                   Diagnóstico operacional do presente e previsibilidade estratégica para as próximas ações.
                 </p>
               </div>
 
               {/* Seletor de Período e Seletor Rápido */}
-              <div className="flex flex-wrap items-center gap-3 shrink-0">
-                <div className="flex items-center bg-muted/60 p-1 rounded-xl border border-border">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 shrink-0">
+                <div className="flex items-center bg-muted/60 p-1 rounded-xl border border-border overflow-x-auto max-w-full">
                   {[
                     { id: 'MES_ATUAL', label: 'Este Mês' },
                     { id: 'ULTIMOS_30', label: 'Últimos 30d' },
@@ -744,7 +744,7 @@ export default function RelatoriosPage() {
                     <button
                       key={p.id}
                       onClick={() => setSelectedPeriod(p.id as PeriodOption)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                         selectedPeriod === p.id
                           ? 'bg-card text-foreground shadow-xs'
                           : 'text-muted-foreground hover:text-foreground'
@@ -753,6 +753,25 @@ export default function RelatoriosPage() {
                       {p.label}
                     </button>
                   ))}
+                </div>
+
+                <div className="flex sm:hidden items-center gap-2 w-full">
+                  <Button 
+                    variant="outline"
+                    onClick={handleExportCSV}
+                    className="flex-1 rounded-lg text-xs font-semibold h-8 border-border hover:bg-muted"
+                  >
+                    <Download className="mr-1.5 h-3.5 w-3.5" />
+                    CSV
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    onClick={() => setIsPreviewModalOpen(true)}
+                    className="flex-1 rounded-lg text-xs font-semibold h-8 border-border"
+                  >
+                    <Eye className="mr-1.5 h-3.5 w-3.5" />
+                    Prévia
+                  </Button>
                 </div>
               </div>
             </div>

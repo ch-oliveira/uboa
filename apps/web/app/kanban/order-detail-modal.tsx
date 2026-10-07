@@ -347,15 +347,15 @@ export function OrderDetailModal({
   const currentStageIndex = STAGES_FLOW.findIndex((s) => s.id === status);
 
   return (
-    <div className={isPageMode ? "w-full flex justify-center pb-8" : "fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-foreground/40 backdrop-blur-xs animate-in fade-in duration-200"}>
+    <div className={isPageMode ? "w-full flex justify-center pb-8" : "fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-5 bg-foreground/40 backdrop-blur-xs animate-in fade-in duration-200"}>
       <div 
-        className={`ds-card w-full max-w-4xl overflow-hidden flex flex-col ${isPageMode ? 'shadow-xs border-transparent' : 'shadow-popover h-[90vh]'}`}
+        className={`ds-card w-full max-w-4xl overflow-hidden flex flex-col ${isPageMode ? 'shadow-xs border-transparent' : 'shadow-popover h-[96vh] sm:h-[90vh]'}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* ======================================================== */}
         {/* 1. CABEÇALHO COM IDENTIFICAÇÃO E AÇÕES RÁPIDAS           */}
         {/* ======================================================== */}
-        <div className="px-6 py-4 border-b border-border flex items-center justify-between bg-muted/80">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border flex items-center justify-between bg-muted/80">
           <div className="flex flex-wrap items-center gap-2.5">
             <span className="text-xs font-black px-2.5 py-1 bg-primary/10 text-primary rounded-lg tracking-wider font-mono">
               {displayCode}
@@ -473,7 +473,7 @@ export function OrderDetailModal({
         {/* ======================================================== */}
         {/* NAVEGAÇÃO INTERNA (TABS)                                 */}
         {/* ======================================================== */}
-        <div className="flex items-center gap-6 px-6 border-b border-border bg-muted/10 shrink-0 overflow-x-auto custom-scrollbar">
+        <div className="flex items-center gap-4 sm:gap-6 px-4 sm:px-6 border-b border-border bg-muted/10 shrink-0 overflow-x-auto custom-scrollbar">
           <button 
             onClick={() => setActiveTab('geral')}
             className={`py-3.5 text-xs font-bold border-b-2 transition-colors whitespace-nowrap ${
@@ -504,7 +504,7 @@ export function OrderDetailModal({
           
           {/* TAB 1: VISÃO GERAL */}
           {activeTab === 'geral' && (
-            <div className="flex-1 p-5 sm:p-6 space-y-6 overflow-y-auto custom-scrollbar animate-in fade-in duration-200">
+            <div className="flex-1 p-4 sm:p-6 space-y-4 sm:space-y-6 overflow-y-auto custom-scrollbar animate-in fade-in duration-200">
 
           {/* TÍTULO PRINCIPAL DO CHAMADO */}
           <div>
@@ -531,8 +531,8 @@ export function OrderDetailModal({
           {/* ======================================================== */}
           {/* STEPPER DE FLUXO (ESTEIRA SEM CORTES DE TEXTO)           */}
           {/* ======================================================== */}
-          <div className="bg-muted/30 p-3 rounded-lg border border-border">
-            <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
+          <div className="bg-muted/30 p-2 sm:p-3 rounded-lg border border-border overflow-x-auto">
+            <div className="grid grid-cols-5 min-w-[330px] sm:min-w-0 gap-1.5 sm:gap-2">
               {STAGES_FLOW.map((stg, idx) => {
                 const isActive = status === stg.id;
                 const isPassed = currentStageIndex > idx;
@@ -1064,7 +1064,7 @@ export function OrderDetailModal({
         {/* ======================================================== */}
         {/* RODAPÉ COM AÇÕES CLARAS (SEM CONFUSÃO DE SALVAMENTO)     */}
         {/* ======================================================== */}
-        <div className="px-6 py-4 border-t border-border flex items-center justify-between bg-muted/80 shrink-0">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-muted/80 shrink-0">
           <div className="flex items-center gap-3 text-xs text-muted-foreground">
             {isDirty ? (
               <span className="inline-flex items-center gap-1.5 text-amber-700 font-bold bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200 shadow-sm animate-in fade-in">
@@ -1079,7 +1079,7 @@ export function OrderDetailModal({
             )}
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
             <Button
               variant="outline"
               onClick={onClose}

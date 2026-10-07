@@ -22,7 +22,8 @@ import {
   Phone, 
   Server, 
   Wrench, 
-  X
+  X,
+  Menu
 } from 'lucide-react';
 import { Sidebar } from '@/components/sidebar';
 import { Button } from '@/components/ui/button';
@@ -47,7 +48,8 @@ export default function ConfiguracoesPage() {
     activities,
     exportBackupData, 
     importBackupData, 
-    resetAllData 
+    resetAllData,
+    toggleMobileNav
   } = useOrders();
 
   const [activeTab, setActiveTab] = useState<SettingsTab>('geral');
@@ -194,18 +196,26 @@ export default function ConfiguracoesPage() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col h-full overflow-y-auto">
         {/* Header Bar */}
-        <header className="px-8 py-6 bg-background border-b border-border shrink-0 sticky top-0 z-20 shadow-xs">
+        <header className="px-4 sm:px-6 md:px-8 py-4 sm:py-6 bg-background border-b border-border shrink-0 sticky top-0 z-20 shadow-xs">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <div className="flex items-center gap-3">
-                <h1 className="text-2xl font-black text-foreground tracking-tight">Configurações do Sistema</h1>
+              <div className="flex items-center gap-2.5">
+                <button
+                  type="button"
+                  onClick={toggleMobileNav}
+                  className="md:hidden p-2 -ml-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl transition-colors cursor-pointer"
+                  aria-label="Abrir menu de navegação"
+                >
+                  <Menu className="h-5 w-5" />
+                </button>
+                <h1 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">Configurações do Sistema</h1>
               </div>
               <p className="text-xs text-muted-foreground font-medium mt-1">
                 Gerencie os parâmetros municipais, metas de SLA, alertas e equipe técnica
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               {isAdmin && (
                 <Button
                   variant="outline"
@@ -240,7 +250,7 @@ export default function ConfiguracoesPage() {
           </div>
 
           {/* Navigation Tabs */}
-          <div className="flex items-center gap-2 mt-6 border-b border-border overflow-x-auto">
+          <div className="flex items-center gap-2 mt-4 sm:mt-6 border-b border-border overflow-x-auto pb-1.5 no-scrollbar">
             <TabButton 
               active={activeTab === 'geral'} 
               onClick={() => setActiveTab('geral')} 
@@ -268,18 +278,18 @@ export default function ConfiguracoesPage() {
             />
             {isAdmin && (
               <TabButton 
-                active={activeTab === 'dados'} 
-                onClick={() => setActiveTab('dados')} 
-                icon={<Database size={16} />} 
-                label="DevTools & Dados" 
-                badge="ADMIN"
-              />
-            )}
-          </div>
-        </header>
+              active={activeTab === 'dados'} 
+              onClick={() => setActiveTab('dados')} 
+              icon={<Database size={16} />} 
+              label="DevTools & Dados" 
+              badge="ADMIN"
+            />
+          )}
+        </div>
+      </header>
 
-        {/* Content Body */}
-        <div className="p-8 max-w-6xl w-full mx-auto space-y-6">
+      {/* Content Body */}
+      <div className="p-4 sm:p-6 md:p-8 max-w-6xl w-full mx-auto space-y-6">
 
           {/* TAB 1: GERAL & MUNICÍPIO */}
           {activeTab === 'geral' && (

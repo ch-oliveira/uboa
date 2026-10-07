@@ -435,20 +435,20 @@ export function NewOrderModal({
             </div>
 
             {/* Modal Footer */}
-            <div className="pt-2 flex items-center justify-end gap-2.5 border-t border-border">
+            <div className="pt-3 flex flex-col-reverse sm:flex-row sm:items-center justify-end gap-2 sm:gap-2.5 border-t border-border">
               <Button
                 type="button"
                 variant="outline"
                 disabled={isSubmitting}
                 onClick={handleAttemptClose}
-                className="rounded-md border-border text-muted-foreground font-semibold cursor-pointer"
+                className="w-full sm:w-auto rounded-md border-border text-muted-foreground font-semibold cursor-pointer"
               >
                 Cancelar
               </Button>
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-md font-bold shadow-sm px-6 flex items-center gap-2 cursor-pointer"
+                className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground rounded-md font-bold shadow-sm px-6 flex items-center justify-center gap-2 cursor-pointer"
               >
                 {isSubmitting ? (
                   <>

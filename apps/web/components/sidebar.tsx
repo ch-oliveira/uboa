@@ -48,7 +48,7 @@ export function Sidebar({
   onOpenSettings,
   onOpenCopilot,
 }: SidebarProps) {
-  const { stats, units, isSidebarCollapsed, toggleSidebar, openCopilot } = useOrders();
+  const { stats, units, isSidebarCollapsed, toggleSidebar, openCopilot, isMobileNavOpen, closeMobileNav } = useOrders();
   const { user, role, logout } = useAuth();
   const { resetTour } = useOnboarding();
 
@@ -66,27 +66,166 @@ export function Sidebar({
       if (event.key === 'Escape') {
         setIsUserMenuOpen(false);
         setIsLogoutModalOpen(false);
+        closeMobileNav();
       }
     }
     if (isUserMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
+    } else {
       document.addEventListener('keydown', handleKeyDown);
     }
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isUserMenuOpen]);
+  }, [isUserMenuOpen, closeMobileNav]);
 
   const isGestor = role === 'GESTOR' || role === 'ADMIN';
   const isTecnico = role === 'TECNICO';
 
   return (
-    <aside 
-      className={`${
-        isSidebarCollapsed ? 'w-[72px]' : 'w-64'
-      } flex flex-col h-full shrink-0 select-none print:hidden transition-[width] duration-300 ease-in-out relative z-40 bg-[#FAFAFA] border-r border-border`}
-    >
+    <>
+      {/* Mobile Drawer Navigation (Slide-over overlay on small screens) */}
+      {isMobileNavOpen && (
+        <div className="fixed inset-0 z-50 md:hidden flex">
+          {/* Backdrop overlay */}
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity duration-200"
+            onClick={closeMobileNav}
+            aria-hidden="true"
+          />
+
+          {/* Drawer content */}
+          <aside className="relative w-72 max-w-[85vw] bg-[#FAFAFA] border-r border-border h-full shadow-2xl flex flex-col z-10 animate-in slide-in-from-left duration-250 select-none">
+            {/* Mobile Brand Header */}
+            <div className="px-5 py-4 flex items-center justify-between border-b border-border min-h-[64px] bg-[#FAFAFA]">
+              <Logo href="/" size="md" textStyle="simple" />
+              <button
+                type="button"
+                onClick={closeMobileNav}
+                className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
+                title="Fechar menu"
+                aria-label="Fechar menu"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Mobile Nav items */}
+            <nav className="flex-1 px-3 py-3 overflow-y-auto">
+              <div className="space-y-0.5 mb-6">
+                <SidebarNavItem 
+                  icon={<Sun size={15} />} 
+                  label="Hoje" 
+                  href="/" 
+                  active={currentRoute === '/'} 
+                  onClick={closeMobileNav}
+                />
+                <SidebarNavItem 
+                  icon={<Inbox size={15} />} 
+                  label="Chamados" 
+                  href="/chamados" 
+                  active={currentRoute === '/chamados'} 
+                  badge={stats.totalOpen > 0 ? String(stats.totalOpen) : undefined}
+                  onClick={closeMobileNav}
+                />
+                {(isGestor || isTecnico) && (
+                  <SidebarNavItem 
+                    icon={<Calendar size={15} />} 
+                    label="Agenda" 
+                    href="/agenda"
+                    active={currentRoute === '/agenda'}
+                    onClick={() => { closeMobileNav(); onOpenAgenda?.(); }}
+                  />
+                )}
+              </div>
+
+              {isGestor && (
+                <div>
+                  <div className="px-3 mb-2">
+                    <p className="text-[10px] font-semibold text-muted-foreground tracking-widest uppercase">
+                      Gestão
+                    </p>
+                  </div>
+                  <div className="space-y-0.5">
+                    <SidebarNavItem 
+                      icon={<Building2 size={15} />} 
+                      label="Unidades" 
+                      href="/unidades" 
+                      active={currentRoute === '/unidades'} 
+                      badge={units.length > 0 ? String(units.length) : undefined}
+                      onClick={closeMobileNav}
+                    />
+                    <SidebarNavItem 
+                      icon={<TrendingUp size={15} />} 
+                      label="Relatórios" 
+                      href="/relatorios"
+                      active={currentRoute === '/relatorios'}
+                      onClick={() => { closeMobileNav(); onOpenReports?.(); }}
+                    />
+                    <SidebarNavItem 
+                      icon={<Sparkles size={15} />}
+                      label="Urbi (IA)" 
+                      active={false}
+                      onClick={() => { closeMobileNav(); (onOpenCopilot || openCopilot)(); }}
+                      shortcut="Ctrl+J"
+                      tooltip="Consultar Urbi (IA)"
+                      accent
+                    />
+                  </div>
+                </div>
+              )}
+            </nav>
+
+            {/* Mobile Footer */}
+            <div className="px-3 py-3 border-t border-border bg-[#FAFAFA]">
+              {isGestor && (
+                <div className="mb-2">
+                  <SidebarNavItem 
+                    icon={<Settings size={15} />} 
+                    label="Configurações" 
+                    href="/configuracoes"
+                    active={currentRoute === '/configuracoes'}
+                    onClick={() => { closeMobileNav(); onOpenSettings?.(); }}
+                  />
+                </div>
+              )}
+
+              {/* Mobile User card */}
+              <div className="flex items-center justify-between p-2 rounded-xl bg-card border border-border shadow-2xs">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <Avatar className="h-8 w-8 rounded-full border border-border">
+                    <AvatarImage src={user?.avatar} alt={user?.nome} />
+                    <AvatarFallback className="text-xs bg-primary/10 text-primary font-bold">
+                      {user?.nome ? user.nome.charAt(0) : 'U'}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="min-w-0">
+                    <p className="text-xs font-bold text-foreground truncate">{user?.nome || 'Usuário'}</p>
+                    <p className="text-[10px] text-muted-foreground truncate">{user?.cargo || (isGestor ? 'Gestor' : isTecnico ? 'Técnico' : 'Solicitante')}</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => { closeMobileNav(); setIsLogoutModalOpen(true); }}
+                  className="p-1.5 text-muted-foreground hover:text-destructive hover:bg-muted rounded-lg transition-colors cursor-pointer"
+                  title="Sair da conta"
+                >
+                  <LogOut size={16} />
+                </button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      )}
+
+      {/* Desktop Persistent Sidebar */}
+      <aside 
+        className={`${
+          isSidebarCollapsed ? 'w-[72px]' : 'w-64'
+        } hidden md:flex flex-col h-full shrink-0 select-none print:hidden transition-[width] duration-300 ease-in-out relative z-40 bg-[#FAFAFA] border-r border-border`}
+      >
       {/* Brand Header */}
       <div className={`px-4 py-5 flex items-center ${isSidebarCollapsed ? 'justify-center' : 'justify-between'} min-h-[68px]`}>
         {isSidebarCollapsed ? (
@@ -345,6 +484,7 @@ export function Sidebar({
         </div>
       )}
     </aside>
+    </>
   );
 }
 
@@ -492,7 +632,7 @@ function SidebarNavItem({
         <SidebarTooltip label={tooltip || label} shortcut={shortcut} />
       </div>
     );
-    if (href) return <Link href={href} className="block my-1">{el}</Link>;
+    if (href) return <Link href={href} onClick={onClick} className="block my-1">{el}</Link>;
     return <div className="my-1">{el}</div>;
   }
 
@@ -541,6 +681,6 @@ function SidebarNavItem({
     </div>
   );
 
-  if (href) return <Link href={href} className="block mb-0.5">{el}</Link>;
+  if (href) return <Link href={href} onClick={onClick} className="block mb-0.5">{el}</Link>;
   return <div className="mb-0.5">{el}</div>;
 }
