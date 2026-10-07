@@ -14,7 +14,6 @@ export interface UserResponse {
   phoneNumber?: string;
   especialidade?: string;
   active: boolean;
-  tokenVersion: number;
   createdAt: string;
 }
 
@@ -31,7 +30,6 @@ export class UsersService {
       phoneNumber: u.telefone || undefined,
       especialidade: u.especialidade || undefined,
       active: u.ativo !== false,
-      tokenVersion: u.token_version,
       createdAt: u.criado_em.toISOString(),
     };
   }
@@ -52,7 +50,6 @@ export class UsersService {
         telefone: true,
         especialidade: true,
         ativo: true,
-        token_version: true,
         criado_em: true,
       },
       orderBy: { nome: 'asc' },
@@ -80,7 +77,6 @@ export class UsersService {
         telefone: true,
         especialidade: true,
         ativo: true,
-        token_version: true,
         criado_em: true,
       },
     });

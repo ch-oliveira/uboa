@@ -71,7 +71,7 @@ export class FacilitiesService {
       motivoDesativacao: p.motivo_desativacao || undefined,
       managerId: p.gestor_id || undefined,
       managerName: p.gestor?.nome || 'Gestão da Unidade',
-      phoneNumber: p.gestor?.telefone || '(11) 4589-0000',
+      phoneNumber: '(11) 3241-8900', // Canal institucional oficial de zeladoria municipal
       openTicketsCount: openCount,
       urgentTicketsCount: urgentCount,
       completedTicketsCount: completedCount,

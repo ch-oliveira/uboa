@@ -10,13 +10,13 @@ export class AgendaController {
   constructor(private readonly agendaService: AgendaService) {}
 
   @Get()
-  async findAll() {
-    return this.agendaService.findAll();
+  async findAll(@CurrentUser() user?: any) {
+    return this.agendaService.findAll(user);
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.agendaService.findOne(id);
+  async findOne(@Param('id') id: string, @CurrentUser() user?: any) {
+    return this.agendaService.findOne(id, user);
   }
 
   @Roles(Role.ADMIN, Role.GESTOR)

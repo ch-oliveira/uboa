@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
-import { AuditAction } from '@repo/database';
+import { AuditAction, Role } from '@repo/database';
 import type { ApiResponse } from '../common/interfaces/api-response.interface.js';
 import type { CreateInspectionDto, CompleteInspectionDto } from './dto/agenda.dto.js';
 
@@ -52,8 +52,25 @@ export class AgendaService {
     };
   }
 
-  async findAll(): Promise<ApiResponse<InspectionResponse[]>> {
+  async findAll(currentUser?: any): Promise<ApiResponse<InspectionResponse[]>> {
+    const where: any = {};
+
+    // 1. Escopo forçado por perfil de usuário (Proteção contra BOLA / IDOR)
+    if (currentUser?.role === Role.SOLICITANTE) {
+      if (currentUser.facilityName) {
+        where.predio = {
+          nome: { contains: currentUser.facilityName, mode: 'insensitive' },
+        };
+      }
+    } else if (currentUser?.role === Role.TECNICO) {
+      where.OR = [
+        { tecnico_id: currentUser.id },
+        { tecnico: { contains: currentUser.name, mode: 'insensitive' } },
+      ];
+    }
+
     const items = await this.prisma.agendaVistoria.findMany({
+      where,
       include: {
         predio: true,
         ordem_servico: true,
@@ -72,7 +89,7 @@ export class AgendaService {
     };
   }
 
-  async findOne(id: string): Promise<ApiResponse<InspectionResponse>> {
+  async findOne(id: string, currentUser?: any): Promise<ApiResponse<InspectionResponse>> {
     const item = await this.prisma.agendaVistoria.findUnique({
       where: { id },
       include: { predio: true, ordem_servico: true },
@@ -80,6 +97,29 @@ export class AgendaService {
 
     if (!item) {
       throw new NotFoundException(`Vistoria ${id} não encontrada.`);
+    }
+
+    // 2. Proteção de Acesso por Escopo (BOLA)
+    if (currentUser) {
+      if (currentUser.role === Role.SOLICITANTE) {
+        const matchesFacility =
+          currentUser.facilityName &&
+          item.predio?.nome?.toLowerCase().includes(currentUser.facilityName.toLowerCase());
+        if (!matchesFacility) {
+          throw new ForbiddenException(
+            'Acesso negado. Solicitantes só podem consultar vistorias da sua própria unidade.',
+          );
+        }
+      } else if (currentUser.role === Role.TECNICO) {
+        const isAssigned =
+          item.tecnico_id === currentUser.id ||
+          (item.tecnico && item.tecnico.toLowerCase().includes(currentUser.name?.toLowerCase()));
+        if (!isAssigned) {
+          throw new ForbiddenException(
+            'Acesso negado. Técnicos só podem consultar vistorias atribuídas a eles.',
+          );
+        }
+      }
     }
 
     return {

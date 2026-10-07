@@ -4,6 +4,8 @@ import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import { AppModule } from './app.module.js';
 
+import { GlobalHttpExceptionFilter } from './common/filters/http-exception.filter.js';
+
 async function bootstrap() {
   // Validação estrita de segredos para ambiente de produção
   if (process.env.NODE_ENV === 'production') {
@@ -21,6 +23,8 @@ async function bootstrap() {
     crossOriginResourcePolicy: false,
     contentSecurityPolicy: false, // O frontend Next.js define sua própria política
   }));
+
+  app.useGlobalFilters(new GlobalHttpExceptionFilter());
 
   app.useGlobalPipes(
     new ValidationPipe({
