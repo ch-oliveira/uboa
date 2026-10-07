@@ -8,6 +8,8 @@ import { DevDrawer } from "@/components/dev-drawer";
 import { CopilotGlobal } from "@/components/copilot/copilot-global";
 import { OnboardingGlobal } from "@/components/onboarding/onboarding-global";
 
+import { Analytics } from "@vercel/analytics/next";
+
 const jakarta = Plus_Jakarta_Sans({ 
   subsets: ["latin"],
   variable: "--font-sans",
@@ -37,6 +39,7 @@ export default function RootLayout({
             </OnboardingProvider>
           </OrdersProvider>
         </AuthProvider>
+        <Analytics />
       </body>
     </html>
   );
