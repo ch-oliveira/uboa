@@ -147,8 +147,8 @@ export function DevDrawer() {
     setTimeout(() => setCopiedToken(false), 2000);
   }
 
-  // Exclusivo para perfil ADMIN (programador)
-  if (!isAdmin || !isOpen) return null;
+  // Exclusivo para perfil ADMIN em ambiente de desenvolvimento/staging
+  if (process.env.NODE_ENV === 'production' || !isAdmin || !isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-slate-950/40 backdrop-blur-xs animate-in fade-in duration-200">

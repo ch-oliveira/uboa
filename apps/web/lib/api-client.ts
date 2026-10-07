@@ -244,7 +244,11 @@ export const apiClient = {
   async loginQuick(
     role: 'GESTOR' | 'TECNICO' | 'SOLICITANTE_ESCOLA' | 'SOLICITANTE_UBS' | 'ADMIN',
     passwordOverride?: string,
-  ): Promise<{ success: boolean; user?: UserAccount; token?: string }> {
+  ): Promise<{ success: boolean; user?: UserAccount; token?: string; message?: string }> {
+    if (process.env.NODE_ENV === 'production') {
+      return { success: false, message: 'Acesso rápido desabilitado em ambiente de produção por segurança.' };
+    }
+
     let email = 'gestor@urboa.gov.br';
     if (role === 'ADMIN') email = 'admin@urboa.gov.br';
     else if (role === 'TECNICO') email = 'carlos.tecnico@urboa.gov.br';
@@ -252,6 +256,9 @@ export const apiClient = {
     else if (role === 'SOLICITANTE_UBS') email = 'marcelo.ubs@urboa.gov.br';
 
     const devPassword = passwordOverride || process.env.NEXT_PUBLIC_DEV_PASSWORD || 'Urboa@2026!';
+    if (!devPassword) {
+      return { success: false, message: 'Senha de desenvolvimento não configurada.' };
+    }
     return this.login(email, devPassword);
   },
 

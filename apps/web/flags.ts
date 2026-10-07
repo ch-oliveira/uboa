@@ -42,12 +42,12 @@ export const geoDispatchingFlag = flag({
 export const devDrawerFlag = flag({
   key: "dev-drawer",
   description: "Exibe a gaveta de testes rápidos e alternância de perfis (Admin, Síndico, Técnico)",
-  defaultValue: true,
+  defaultValue: process.env.NODE_ENV !== "production",
   options: [
     { label: "Visível", value: true },
     { label: "Oculto", value: false },
   ],
   decide() {
-    return true;
+    return process.env.NODE_ENV !== "production";
   },
 });
