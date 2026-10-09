@@ -803,21 +803,21 @@ DIRETRIZES DE COMUNICAÇÃO:
     const localFallback = (): TriageResult => ({
       suggestedPriority: (req.prioridade as TriagePriority) || 'MEDIA',
       requerConfirmacao: true,
-      dadosInformados: `${req.titulo}; Unidade: ${req.predio}.`,
-      possivelImpacto: 'Avaliação automática indisponível. Revise manualmente os critérios de impacto.',
+      dadosInformados: `${req.titulo}; Unidade: ${req.predio}.${req.fotos?.length ? ` [${req.fotos.length} evidência(s) fotográfica(s) anexada(s) no chamado]` : ''}`,
+      possivelImpacto: 'Avaliação automática indisponível. Revise manualmente as fotos anexadas e os critérios de impacto.',
       perguntasEmAberto: [
         'A falha interrompe a rotina de trabalho ou atendimento do setor?',
         'Há risco imediato para os ocupantes do prédio público?',
         'Existe alternativa técnica ou remanejamento provisório até a visita?',
       ],
       criteriosMatriz: [
-        { criterio: 'Risco à Segurança', status: 'A_CONFIRMAR', observacao: 'Avaliar presencialmente.' },
+        { criterio: 'Risco à Segurança', status: 'A_CONFIRMAR', observacao: 'Avaliar presencialmente ou pelas fotos anexadas.' },
         { criterio: 'Interrupção de Serviço Essencial', status: 'A_CONFIRMAR', observacao: 'Avaliar com o solicitante.' },
         { criterio: 'Alcance do Problema', status: 'A_CONFIRMAR', observacao: 'Extensão não informada.' },
-        { criterio: 'Tempo até Agravamento', status: 'A_CONFIRMAR', observacao: 'Requere vistoria.' },
+        { criterio: 'Tempo até Agravamento', status: 'A_CONFIRMAR', observacao: 'Requer vistoria.' },
         { criterio: 'Existência de Alternativa', status: 'A_CONFIRMAR', observacao: 'Checar com a unidade.' },
       ],
-      fundamentacaoTecnica: 'Motor semântico indisponível. Resultado gerado pelo motor local de palavras-chave.',
+      fundamentacaoTecnica: 'Motor semântico indisponível. Resultado gerado pelo motor local de palavras-chave. As fotos anexadas servem de apoio à conferência manual.',
       provider: 'local-fallback',
       confidence: 'BAIXA',
     });
@@ -842,22 +842,38 @@ ALTA    = risco relevante ou essencial sem alternativa (SLA 24h)
 MEDIA   = impacto funcional contido, alternativa parcial (SLA 72h)
 BAIXA   = estético ou inconveniência sem impacto operacional (SLA 168h)
 
-Responda APENAS com JSON válido (sem markdown, sem texto extra):
-{"suggestedPriority":"URGENTE|ALTA|MEDIA|BAIXA","confidence":"ALTA|MEDIA|BAIXA","requerConfirmacao":true,"dadosInformados":"fatos objetivos do chamado","possivelImpacto":"consequência se não atendido","perguntasEmAberto":["p1","p2","p3"],"criteriosMatriz":[{"criterio":"Risco à Segurança e Integridade Física","status":"ATENDIDO|PARCIAL|NAO_APLICAVEL|A_CONFIRMAR","observacao":""},{"criterio":"Interrupção de Serviço Essencial","status":"...","observacao":""},{"criterio":"Alcance e Abrangência do Problema","status":"...","observacao":""},{"criterio":"Tempo até Agravamento do Dano","status":"...","observacao":""},{"criterio":"Existência de Alternativa ou Contingência","status":"...","observacao":""}],"fundamentacaoTecnica":"justificativa técnica"}
+EVIDÊNCIAS FOTOGRÁFICAS:
+Se houver imagens anexadas ao chamado, examine-as minuciosamente como apoio fundamental à decisão de triagem. Avalie gravidade visual aparente (ex: poça d'água sob quadro de luz, alagamento, trinca profunda, fiação rompida, mofo/goteira). Descreva sucintamente a evidência visual observada em 'dadosInformados' e incorpore na 'fundamentacaoTecnica'.
 
-Regras: seja técnico e direto. Não invente fatos. Use A_CONFIRMAR quando faltar informação. confidence=ALTA se texto claro, BAIXA se vago.`;
+Responda APENAS com JSON válido (sem markdown, sem texto extra):
+{"suggestedPriority":"URGENTE|ALTA|MEDIA|BAIXA","confidence":"ALTA|MEDIA|BAIXA","requerConfirmacao":true,"dadosInformados":"fatos objetivos do chamado e observações visuais das fotos","possivelImpacto":"consequência se não atendido","perguntasEmAberto":["p1","p2","p3"],"criteriosMatriz":[{"criterio":"Risco à Segurança e Integridade Física","status":"ATENDIDO|PARCIAL|NAO_APLICAVEL|A_CONFIRMAR","observacao":""},{"criterio":"Interrupção de Serviço Essencial","status":"...","observacao":""},{"criterio":"Alcance e Abrangência do Problema","status":"...","observacao":""},{"criterio":"Tempo até Agravamento do Dano","status":"...","observacao":""},{"criterio":"Existência de Alternativa ou Contingência","status":"...","observacao":""}],"fundamentacaoTecnica":"justificativa técnica com base no relato e fotos"}
+
+Regras: seja técnico e direto. Não invente fatos. Use A_CONFIRMAR quando faltar informação. confidence=ALTA se evidências claras, BAIXA se vago.`;
 
     const chamadoText = `TÍTULO: ${req.titulo}
 DESCRIÇÃO: ${(req.descricao || 'Não informada').slice(0, 500)}
 PRÉDIO: ${req.predio}${req.categoria ? `\nCATEGORIA: ${req.categoria}` : ''}${req.localizacao ? `\nLOCAL INTERNO: ${req.localizacao}` : ''}
 PRIORIDADE ATUAL: ${req.prioridade || 'Não definida'}
-FOTOS: ${req.fotos?.length ? req.fotos.length + ' foto(s)' : 'Nenhuma'}`;
+FOTOS ANEXADAS: ${req.fotos?.length ? req.fotos.length + ' foto(s) enviada(s) pelo solicitante' : 'Nenhuma foto anexada'}`;
+
+    const userParts: any[] = [{ text: chamadoText }];
+    if (Array.isArray(req.fotos) && req.fotos.length > 0) {
+      for (const foto of req.fotos.slice(0, 3)) {
+        if (typeof foto === 'string') {
+          const match = foto.match(/^data:(image\/[a-zA-Z0-9+.-]+);base64,(.+)$/);
+          if (match) {
+            userParts.push({
+              inlineData: {
+                mimeType: match[1],
+                data: match[2],
+              },
+            });
+          }
+        }
+      }
+    }
 
     // Ordem otimizada: modelo mais rápido e estável primeiro.
-    // gemini-flash-latest → mais atualizado e disponível
-    // gemini-3.5-flash   → fallback confiável
-    // gemini-3.5-flash-lite → fallback econômico
-    // gemini-3.8-flash   → reserva final
     const preferredModels = [
       'gemini-flash-latest',
       'gemini-3.5-flash',
@@ -869,12 +885,12 @@ FOTOS: ${req.fotos?.length ? req.fotos.length + ' foto(s)' : 'Nenhuma'}`;
       try {
         const response = await this.genAI.models.generateContent({
           model,
-          contents: [{ role: 'user', parts: [{ text: chamadoText }] }],
+          contents: [{ role: 'user', parts: userParts }],
           config: {
             systemInstruction,
             temperature: 0.05,
             responseMimeType: 'application/json',
-            maxOutputTokens: 800, // JSON da triagem nunca ultrapassa ~600 tokens
+            maxOutputTokens: 800,
           },
         });
 

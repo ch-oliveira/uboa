@@ -28,6 +28,30 @@ export class WorkOrdersController {
     return this.workOrdersService.trackPublic(codigo);
   }
 
+  @Roles(Role.ADMIN, Role.GESTOR, Role.TECNICO)
+  @Get('nearby/opportunities')
+  async findNearby(
+    @Query('lat') lat?: string,
+    @Query('lng') lng?: string,
+    @Query('radius') radius?: string,
+    @CurrentUser() user?: any,
+  ) {
+    return this.workOrdersService.findNearbyOpportunities(
+      {
+        lat: lat ? parseFloat(lat) : undefined,
+        lng: lng ? parseFloat(lng) : undefined,
+        radiusKm: radius ? parseFloat(radius) : 5,
+      },
+      user,
+    );
+  }
+
+  @Roles(Role.ADMIN, Role.GESTOR, Role.TECNICO)
+  @Put(':id/claim')
+  async claim(@Param('id') id: string, @CurrentUser() user?: any) {
+    return this.workOrdersService.claim(id, user);
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string, @CurrentUser() user?: any) {
     return this.workOrdersService.findOne(id, user);

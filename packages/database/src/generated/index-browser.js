@@ -232,6 +232,29 @@ exports.Prisma.ConfiguracaoSistemaScalarFieldEnum = {
   atualizado: 'atualizado'
 };
 
+exports.Prisma.ManifestacaoScalarFieldEnum = {
+  id: 'id',
+  protocolo: 'protocolo',
+  tipo: 'tipo',
+  categoria: 'categoria',
+  descricao: 'descricao',
+  predio_id: 'predio_id',
+  local_referencia: 'local_referencia',
+  bairro: 'bairro',
+  anonimo: 'anonimo',
+  manifestante_nome: 'manifestante_nome',
+  manifestante_email: 'manifestante_email',
+  manifestante_telefone: 'manifestante_telefone',
+  status: 'status',
+  resposta_oficial: 'resposta_oficial',
+  respondido_em: 'respondido_em',
+  respondido_por_id: 'respondido_por_id',
+  motivo_arquivamento: 'motivo_arquivamento',
+  ordem_servico_id: 'ordem_servico_id',
+  criado_em: 'criado_em',
+  atualizado: 'atualizado'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -295,13 +318,30 @@ exports.AuditAction = exports.$Enums.AuditAction = {
   DELETE: 'DELETE'
 };
 
+exports.TipoManifestacao = exports.$Enums.TipoManifestacao = {
+  RECLAMACAO: 'RECLAMACAO',
+  ELOGIO: 'ELOGIO',
+  SUGESTAO: 'SUGESTAO',
+  OUTRO: 'OUTRO'
+};
+
+exports.StatusManifestacao = exports.$Enums.StatusManifestacao = {
+  RECEBIDA: 'RECEBIDA',
+  EM_ANALISE: 'EM_ANALISE',
+  RESPONDIDA: 'RESPONDIDA',
+  ENCAMINHADA: 'ENCAMINHADA',
+  ARQUIVADA: 'ARQUIVADA',
+  CONVERTIDA_EM_OS: 'CONVERTIDA_EM_OS'
+};
+
 exports.Prisma.ModelName = {
   Usuario: 'Usuario',
   Predio: 'Predio',
   OrdemServico: 'OrdemServico',
   AuditoriaLog: 'AuditoriaLog',
   AgendaVistoria: 'AgendaVistoria',
-  ConfiguracaoSistema: 'ConfiguracaoSistema'
+  ConfiguracaoSistema: 'ConfiguracaoSistema',
+  Manifestacao: 'Manifestacao'
 };
 
 /**

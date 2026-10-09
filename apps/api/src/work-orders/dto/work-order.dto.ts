@@ -178,6 +178,16 @@ export class UpdateWorkOrderDto {
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
+  photos?: string[];
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  fotos?: string[];
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
   fotosConclusao?: string[];
 
   @IsArray()

@@ -96,6 +96,7 @@ describe('Security & RBAC Enforcement Suite', () => {
         sub: 'usr-nonexistent',
         email: 'fake@urboa.gov.br',
         role: Role.ADMIN,
+        tokenVersion: 1,
       };
 
       await expect(jwtStrategy.validate(payload)).rejects.toThrow(UnauthorizedException);

@@ -15,6 +15,11 @@ describe('WorkOrdersService - Ciclo de Vida da OS', () => {
       create: vi.fn(),
       update: vi.fn(),
       delete: vi.fn(),
+      count: vi.fn(),
+    },
+    agendaVistoria: {
+      create: vi.fn(),
+      findMany: vi.fn(),
     },
     predio: {
       findFirst: vi.fn(),
@@ -223,6 +228,7 @@ describe('WorkOrdersService - Ciclo de Vida da OS', () => {
 
     mockPrismaService.agendaVistoria = {
       create: vi.fn(),
+      findMany: vi.fn(),
     };
 
     mockPrismaService.$transaction = vi.fn().mockImplementation(async (callback) => {

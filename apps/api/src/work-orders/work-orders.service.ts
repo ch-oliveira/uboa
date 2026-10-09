@@ -259,6 +259,44 @@ export class WorkOrdersService {
 
     const data: WorkOrderResponse[] = items.map((o: any) => this.mapOrder(o));
 
+    // Regra Operacional: Em atendimento e Urgentes no topo, Concluídas/Canceladas no fim
+    const statusWeight: Record<string, number> = {
+      IN_PROGRESS: 1, // Em atendimento primeiro
+      WAITING: 2,     // Pausado aguardando
+      TRIAGE: 3,      // Triagem / Aberto
+      SCHEDULED: 4,   // Agendado
+      COMPLETED: 10,  // Concluído no final
+      CANCELLED: 11,  // Cancelado no final
+    };
+
+    const priorityWeight: Record<string, number> = {
+      URGENT: 1,
+      HIGH: 2,
+      MEDIUM: 3,
+      LOW: 4,
+    };
+
+    data.sort((a, b) => {
+      // 1. Concluídas e Canceladas sempre no fim
+      const isEndedA = a.status === 'COMPLETED' || a.status === 'CANCELLED';
+      const isEndedB = b.status === 'COMPLETED' || b.status === 'CANCELLED';
+      if (isEndedA && !isEndedB) return 1;
+      if (!isEndedA && isEndedB) return -1;
+
+      // 2. Se ambos ativos: quem está IN_PROGRESS vem primeiro
+      const sA = statusWeight[a.status] || 99;
+      const sB = statusWeight[b.status] || 99;
+      if (sA !== sB) return sA - sB;
+
+      // 3. Prioridade (URGENT > HIGH > MEDIUM > LOW)
+      const pA = priorityWeight[a.priority] || 99;
+      const pB = priorityWeight[b.priority] || 99;
+      if (pA !== pB) return pA - pB;
+
+      // 4. Data de abertura mais recente primeiro
+      return new Date(b.openedAt).getTime() - new Date(a.openedAt).getTime();
+    });
+
     const nonConcluded = data.filter((o) => o.status !== 'COMPLETED' && o.status !== 'CANCELLED');
     const meta: WorkOrdersMeta = {
       totalCount: data.length,
@@ -537,6 +575,11 @@ export class WorkOrdersService {
       updateData.categoria = (updates.categoria || updates.category).toUpperCase();
     }
 
+    if (updates.photos !== undefined || updates.fotos !== undefined) {
+      const photos = Array.isArray(updates.photos || updates.fotos) ? (updates.photos || updates.fotos) : [];
+      updateData.fotos = photos.slice(0, 10);
+    }
+
     // Validação de Atribuição de Técnico: Trava de Sobrecarga e Compatibilidade de Especialidade
     const technician = updates.technicianName || updates.technician || updates.tecnico;
     let tecnicoUser: any = null;
@@ -801,6 +844,133 @@ export class WorkOrdersService {
       success: true,
       data: null,
       message: `Ordem de serviço ${existing.codigo} cancelada com sucesso para preservação de histórico e auditoria.`,
+    };
+  }
+
+  private calcularDistanciaKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return Math.round(R * c * 10) / 10;
+  }
+
+  async findNearbyOpportunities(
+    params: { lat?: number; lng?: number; radiusKm?: number },
+    currentUser?: any,
+  ): Promise<ApiResponse<any[]>> {
+    let refLat = params.lat;
+    let refLng = params.lng;
+
+    if ((!refLat || !refLng) && currentUser?.id) {
+      const activeOrder = await this.prisma.ordemServico.findFirst({
+        where: {
+          tecnico_atribuido_id: currentUser.id,
+          status: { in: [StatusOS.EM_EXECUCAO, StatusOS.AGUARDANDO] },
+        },
+        include: { predio: true },
+      });
+      if (activeOrder?.predio?.latitude && activeOrder?.predio?.longitude) {
+        refLat = activeOrder.predio.latitude;
+        refLng = activeOrder.predio.longitude;
+      }
+    }
+
+    if (!refLat || !refLng) {
+      refLat = -23.5505;
+      refLng = -46.6333;
+    }
+
+    const openOrders = await this.prisma.ordemServico.findMany({
+      where: {
+        status: { in: [StatusOS.RECEBIDO, StatusOS.EM_TRIAGEM, StatusOS.AGENDADO] },
+        OR: [
+          { tecnico_atribuido_id: null },
+          currentUser?.id ? { tecnico_atribuido_id: { not: currentUser.id } } : {},
+        ],
+      },
+      include: { predio: true },
+      take: 20,
+    });
+
+    const userSpecialty = currentUser?.especialidade?.toUpperCase() || 'ELETRICA';
+
+    const opportunities = openOrders.map((o) => {
+      let dist = 1.2;
+      if (o.predio?.latitude && o.predio?.longitude && refLat && refLng) {
+        dist = this.calcularDistanciaKm(refLat, refLng, o.predio.latitude, o.predio.longitude);
+      }
+      const match = (o.categoria?.toUpperCase() || 'GERAL') === userSpecialty;
+
+      return {
+        osId: o.id,
+        codigo: o.codigo,
+        titulo: o.titulo,
+        categoria: o.categoria || 'GERAL',
+        prioridade: o.prioridade,
+        predioNome: o.predio?.nome || 'Unidade Municipal',
+        distanciaKm: dist,
+        compatibilidade: match ? 'EXATA' : 'GERAL',
+      };
+    });
+
+    opportunities.sort((a, b) => a.distanciaKm - b.distanciaKm);
+
+    return {
+      success: true,
+      data: opportunities,
+      message: `${opportunities.length} oportunidades próximas encontradas.`,
+    };
+  }
+
+  async claim(idOrCode: string, currentUser: any): Promise<ApiResponse<WorkOrderResponse>> {
+    if (!currentUser?.id) {
+      throw new ForbiddenException('Usuário não autenticado.');
+    }
+
+    const existing = await this.prisma.ordemServico.findFirst({
+      where: { OR: [{ id: idOrCode }, { codigo: idOrCode }] },
+      include: { predio: true, solicitante: true, tecnico: true },
+    });
+
+    if (!existing) throw new NotFoundException('Ordem de serviço não encontrada.');
+
+    if (existing.status === StatusOS.CONCLUIDO || existing.status === StatusOS.CANCELADO) {
+      throw new BadRequestException('Não é possível assumir uma ordem concluída ou cancelada.');
+    }
+
+    const updated = await this.prisma.$transaction(async (tx) => {
+      const order = await tx.ordemServico.update({
+        where: { id: existing.id },
+        data: {
+          tecnico_atribuido_id: currentUser.id,
+          status: existing.status === StatusOS.RECEBIDO ? StatusOS.EM_TRIAGEM : existing.status,
+        },
+        include: { predio: true, solicitante: true, tecnico: true },
+      });
+
+      await tx.auditoriaLog.create({
+        data: {
+          entidade_afetada: 'OrdemServico',
+          entidade_id: order.id,
+          acao: AuditAction.UPDATE,
+          usuario_id: currentUser.id,
+          dados_antigos: { tecnico_atribuido_id: existing.tecnico_atribuido_id },
+          dados_novos: { tecnico_atribuido_id: currentUser.id, acao: 'Técnico assumiu a OS por proximidade' },
+        },
+      });
+
+      return order;
+    });
+
+    return {
+      success: true,
+      data: this.mapOrder(updated),
+      message: `Ordem de serviço ${updated.codigo} atribuída com sucesso à sua rota.`,
     };
   }
 }

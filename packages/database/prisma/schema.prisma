@@ -46,6 +46,22 @@ enum StatusOS {
   CANCELADO
 }
 
+enum TipoManifestacao {
+  RECLAMACAO
+  ELOGIO
+  SUGESTAO
+  OUTRO
+}
+
+enum StatusManifestacao {
+  RECEBIDA
+  EM_ANALISE
+  RESPONDIDA
+  ENCAMINHADA
+  ARQUIVADA
+  CONVERTIDA_EM_OS
+}
+
 enum AuditAction {
   CREATE
   UPDATE
@@ -65,10 +81,11 @@ model Usuario {
   criado_em     DateTime @default(now())
   atualizado    DateTime @updatedAt
 
-  predios_geridos      Predio[]       @relation("GestorPredio")
-  chamados_solicitados OrdemServico[] @relation("SolicitanteOS")
-  chamados_atribuidos  OrdemServico[] @relation("TecnicoOS")
-  auditorias           AuditoriaLog[]
+  predios_geridos           Predio[]        @relation("GestorPredio")
+  chamados_solicitados      OrdemServico[]  @relation("SolicitanteOS")
+  chamados_atribuidos       OrdemServico[]  @relation("TecnicoOS")
+  manifestacoes_respondidas Manifestacao[]  @relation("ManifestacaoRespondente")
+  auditorias                AuditoriaLog[]
 
   @@map("usuarios")
 }
@@ -95,6 +112,7 @@ model Predio {
 
   ordens_servico OrdemServico[]
   vistorias      AgendaVistoria[]
+  manifestacoes  Manifestacao[]
 
   @@map("predios")
 }
@@ -135,6 +153,7 @@ model OrdemServico {
   ordens_derivadas     OrdemServico[] @relation("HistoricoOS")
 
   agendamentos         AgendaVistoria[]
+  manifestacoes_origem Manifestacao[] @relation("ManifestacaoOS")
 
   criado_em            DateTime   @default(now())
   atualizado           DateTime   @updatedAt
@@ -204,5 +223,43 @@ model ConfiguracaoSistema {
   atualizado       DateTime @updatedAt
 
   @@map("configuracoes_sistema")
+}
+
+model Manifestacao {
+  id                    String             @id @default(uuid())
+  protocolo             String             @unique @default(dbgenerated("concat('OUV-', floor(random() * 900000 + 100000)::text)"))
+  tipo                  TipoManifestacao   @default(RECLAMACAO)
+  categoria             String             @default("GERAL") // Atendimento, Alimentação / Merenda, Limpeza, Ruído, Gestão, Geral
+  descricao             String
+  
+  predio_id             String?
+  predio                Predio?            @relation(fields: [predio_id], references: [id])
+  
+  local_referencia      String?            // Ex: "Rua das Flores, próx. ao nº 120", "Praça Central"
+  bairro                String?            // Ex: "Centro", "Jardim América"
+  
+  anonimo               Boolean            @default(false)
+  manifestante_nome     String?
+  manifestante_email    String?
+  manifestante_telefone String?
+  
+  status                StatusManifestacao @default(RECEBIDA)
+  
+  resposta_oficial      String?
+  respondido_em         DateTime?
+  respondido_por_id     String?
+  respondido_por        Usuario?           @relation("ManifestacaoRespondente", fields: [respondido_por_id], references: [id])
+  
+  motivo_arquivamento   String?
+  
+  ordem_servico_id      String?
+  ordem_servico         OrdemServico?      @relation("ManifestacaoOS", fields: [ordem_servico_id], references: [id])
+  
+  criado_em             DateTime           @default(now())
+  atualizado            DateTime           @updatedAt
+
+  @@index([predio_id, status])
+  @@index([status, criado_em])
+  @@map("manifestacoes")
 }
 

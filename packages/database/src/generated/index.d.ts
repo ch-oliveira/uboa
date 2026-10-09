@@ -43,6 +43,11 @@ export type AgendaVistoria = $Result.DefaultSelection<Prisma.$AgendaVistoriaPayl
  * 
  */
 export type ConfiguracaoSistema = $Result.DefaultSelection<Prisma.$ConfiguracaoSistemaPayload>
+/**
+ * Model Manifestacao
+ * 
+ */
+export type Manifestacao = $Result.DefaultSelection<Prisma.$ManifestacaoPayload>
 
 /**
  * Enums
@@ -92,6 +97,28 @@ export const StatusOS: {
 export type StatusOS = (typeof StatusOS)[keyof typeof StatusOS]
 
 
+export const TipoManifestacao: {
+  RECLAMACAO: 'RECLAMACAO',
+  ELOGIO: 'ELOGIO',
+  SUGESTAO: 'SUGESTAO',
+  OUTRO: 'OUTRO'
+};
+
+export type TipoManifestacao = (typeof TipoManifestacao)[keyof typeof TipoManifestacao]
+
+
+export const StatusManifestacao: {
+  RECEBIDA: 'RECEBIDA',
+  EM_ANALISE: 'EM_ANALISE',
+  RESPONDIDA: 'RESPONDIDA',
+  ENCAMINHADA: 'ENCAMINHADA',
+  ARQUIVADA: 'ARQUIVADA',
+  CONVERTIDA_EM_OS: 'CONVERTIDA_EM_OS'
+};
+
+export type StatusManifestacao = (typeof StatusManifestacao)[keyof typeof StatusManifestacao]
+
+
 export const AuditAction: {
   CREATE: 'CREATE',
   UPDATE: 'UPDATE',
@@ -117,6 +144,14 @@ export const Prioridade: typeof $Enums.Prioridade
 export type StatusOS = $Enums.StatusOS
 
 export const StatusOS: typeof $Enums.StatusOS
+
+export type TipoManifestacao = $Enums.TipoManifestacao
+
+export const TipoManifestacao: typeof $Enums.TipoManifestacao
+
+export type StatusManifestacao = $Enums.StatusManifestacao
+
+export const StatusManifestacao: typeof $Enums.StatusManifestacao
 
 export type AuditAction = $Enums.AuditAction
 
@@ -299,6 +334,16 @@ export class PrismaClient<
     * ```
     */
   get configuracaoSistema(): Prisma.ConfiguracaoSistemaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.manifestacao`: Exposes CRUD operations for the **Manifestacao** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Manifestacaos
+    * const manifestacaos = await prisma.manifestacao.findMany()
+    * ```
+    */
+  get manifestacao(): Prisma.ManifestacaoDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -745,7 +790,8 @@ export namespace Prisma {
     OrdemServico: 'OrdemServico',
     AuditoriaLog: 'AuditoriaLog',
     AgendaVistoria: 'AgendaVistoria',
-    ConfiguracaoSistema: 'ConfiguracaoSistema'
+    ConfiguracaoSistema: 'ConfiguracaoSistema',
+    Manifestacao: 'Manifestacao'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -764,7 +810,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "predio" | "ordemServico" | "auditoriaLog" | "agendaVistoria" | "configuracaoSistema"
+      modelProps: "usuario" | "predio" | "ordemServico" | "auditoriaLog" | "agendaVistoria" | "configuracaoSistema" | "manifestacao"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1212,6 +1258,80 @@ export namespace Prisma {
           }
         }
       }
+      Manifestacao: {
+        payload: Prisma.$ManifestacaoPayload<ExtArgs>
+        fields: Prisma.ManifestacaoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ManifestacaoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManifestacaoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ManifestacaoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManifestacaoPayload>
+          }
+          findFirst: {
+            args: Prisma.ManifestacaoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManifestacaoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ManifestacaoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManifestacaoPayload>
+          }
+          findMany: {
+            args: Prisma.ManifestacaoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManifestacaoPayload>[]
+          }
+          create: {
+            args: Prisma.ManifestacaoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManifestacaoPayload>
+          }
+          createMany: {
+            args: Prisma.ManifestacaoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ManifestacaoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManifestacaoPayload>[]
+          }
+          delete: {
+            args: Prisma.ManifestacaoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManifestacaoPayload>
+          }
+          update: {
+            args: Prisma.ManifestacaoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManifestacaoPayload>
+          }
+          deleteMany: {
+            args: Prisma.ManifestacaoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ManifestacaoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ManifestacaoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManifestacaoPayload>[]
+          }
+          upsert: {
+            args: Prisma.ManifestacaoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManifestacaoPayload>
+          }
+          aggregate: {
+            args: Prisma.ManifestacaoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateManifestacao>
+          }
+          groupBy: {
+            args: Prisma.ManifestacaoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ManifestacaoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ManifestacaoCountArgs<ExtArgs>
+            result: $Utils.Optional<ManifestacaoCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1314,6 +1434,7 @@ export namespace Prisma {
     auditoriaLog?: AuditoriaLogOmit
     agendaVistoria?: AgendaVistoriaOmit
     configuracaoSistema?: ConfiguracaoSistemaOmit
+    manifestacao?: ManifestacaoOmit
   }
 
   /* Types for Logging */
@@ -1397,6 +1518,7 @@ export namespace Prisma {
     predios_geridos: number
     chamados_solicitados: number
     chamados_atribuidos: number
+    manifestacoes_respondidas: number
     auditorias: number
   }
 
@@ -1404,6 +1526,7 @@ export namespace Prisma {
     predios_geridos?: boolean | UsuarioCountOutputTypeCountPredios_geridosArgs
     chamados_solicitados?: boolean | UsuarioCountOutputTypeCountChamados_solicitadosArgs
     chamados_atribuidos?: boolean | UsuarioCountOutputTypeCountChamados_atribuidosArgs
+    manifestacoes_respondidas?: boolean | UsuarioCountOutputTypeCountManifestacoes_respondidasArgs
     auditorias?: boolean | UsuarioCountOutputTypeCountAuditoriasArgs
   }
 
@@ -1442,6 +1565,13 @@ export namespace Prisma {
   /**
    * UsuarioCountOutputType without action
    */
+  export type UsuarioCountOutputTypeCountManifestacoes_respondidasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ManifestacaoWhereInput
+  }
+
+  /**
+   * UsuarioCountOutputType without action
+   */
   export type UsuarioCountOutputTypeCountAuditoriasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AuditoriaLogWhereInput
   }
@@ -1454,11 +1584,13 @@ export namespace Prisma {
   export type PredioCountOutputType = {
     ordens_servico: number
     vistorias: number
+    manifestacoes: number
   }
 
   export type PredioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ordens_servico?: boolean | PredioCountOutputTypeCountOrdens_servicoArgs
     vistorias?: boolean | PredioCountOutputTypeCountVistoriasArgs
+    manifestacoes?: boolean | PredioCountOutputTypeCountManifestacoesArgs
   }
 
   // Custom InputTypes
@@ -1486,6 +1618,13 @@ export namespace Prisma {
     where?: AgendaVistoriaWhereInput
   }
 
+  /**
+   * PredioCountOutputType without action
+   */
+  export type PredioCountOutputTypeCountManifestacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ManifestacaoWhereInput
+  }
+
 
   /**
    * Count Type OrdemServicoCountOutputType
@@ -1494,11 +1633,13 @@ export namespace Prisma {
   export type OrdemServicoCountOutputType = {
     ordens_derivadas: number
     agendamentos: number
+    manifestacoes_origem: number
   }
 
   export type OrdemServicoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ordens_derivadas?: boolean | OrdemServicoCountOutputTypeCountOrdens_derivadasArgs
     agendamentos?: boolean | OrdemServicoCountOutputTypeCountAgendamentosArgs
+    manifestacoes_origem?: boolean | OrdemServicoCountOutputTypeCountManifestacoes_origemArgs
   }
 
   // Custom InputTypes
@@ -1524,6 +1665,13 @@ export namespace Prisma {
    */
   export type OrdemServicoCountOutputTypeCountAgendamentosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AgendaVistoriaWhereInput
+  }
+
+  /**
+   * OrdemServicoCountOutputType without action
+   */
+  export type OrdemServicoCountOutputTypeCountManifestacoes_origemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ManifestacaoWhereInput
   }
 
 
@@ -1780,6 +1928,7 @@ export namespace Prisma {
     predios_geridos?: boolean | Usuario$predios_geridosArgs<ExtArgs>
     chamados_solicitados?: boolean | Usuario$chamados_solicitadosArgs<ExtArgs>
     chamados_atribuidos?: boolean | Usuario$chamados_atribuidosArgs<ExtArgs>
+    manifestacoes_respondidas?: boolean | Usuario$manifestacoes_respondidasArgs<ExtArgs>
     auditorias?: boolean | Usuario$auditoriasArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["usuario"]>
@@ -1831,6 +1980,7 @@ export namespace Prisma {
     predios_geridos?: boolean | Usuario$predios_geridosArgs<ExtArgs>
     chamados_solicitados?: boolean | Usuario$chamados_solicitadosArgs<ExtArgs>
     chamados_atribuidos?: boolean | Usuario$chamados_atribuidosArgs<ExtArgs>
+    manifestacoes_respondidas?: boolean | Usuario$manifestacoes_respondidasArgs<ExtArgs>
     auditorias?: boolean | Usuario$auditoriasArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -1843,6 +1993,7 @@ export namespace Prisma {
       predios_geridos: Prisma.$PredioPayload<ExtArgs>[]
       chamados_solicitados: Prisma.$OrdemServicoPayload<ExtArgs>[]
       chamados_atribuidos: Prisma.$OrdemServicoPayload<ExtArgs>[]
+      manifestacoes_respondidas: Prisma.$ManifestacaoPayload<ExtArgs>[]
       auditorias: Prisma.$AuditoriaLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -2254,6 +2405,7 @@ export namespace Prisma {
     predios_geridos<T extends Usuario$predios_geridosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$predios_geridosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PredioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chamados_solicitados<T extends Usuario$chamados_solicitadosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$chamados_solicitadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chamados_atribuidos<T extends Usuario$chamados_atribuidosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$chamados_atribuidosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    manifestacoes_respondidas<T extends Usuario$manifestacoes_respondidasArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$manifestacoes_respondidasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     auditorias<T extends Usuario$auditoriasArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$auditoriasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditoriaLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2755,6 +2907,30 @@ export namespace Prisma {
   }
 
   /**
+   * Usuario.manifestacoes_respondidas
+   */
+  export type Usuario$manifestacoes_respondidasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoInclude<ExtArgs> | null
+    where?: ManifestacaoWhereInput
+    orderBy?: ManifestacaoOrderByWithRelationInput | ManifestacaoOrderByWithRelationInput[]
+    cursor?: ManifestacaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ManifestacaoScalarFieldEnum | ManifestacaoScalarFieldEnum[]
+  }
+
+  /**
    * Usuario.auditorias
    */
   export type Usuario$auditoriasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3078,6 +3254,7 @@ export namespace Prisma {
     gestor?: boolean | Predio$gestorArgs<ExtArgs>
     ordens_servico?: boolean | Predio$ordens_servicoArgs<ExtArgs>
     vistorias?: boolean | Predio$vistoriasArgs<ExtArgs>
+    manifestacoes?: boolean | Predio$manifestacoesArgs<ExtArgs>
     _count?: boolean | PredioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["predio"]>
 
@@ -3139,6 +3316,7 @@ export namespace Prisma {
     gestor?: boolean | Predio$gestorArgs<ExtArgs>
     ordens_servico?: boolean | Predio$ordens_servicoArgs<ExtArgs>
     vistorias?: boolean | Predio$vistoriasArgs<ExtArgs>
+    manifestacoes?: boolean | Predio$manifestacoesArgs<ExtArgs>
     _count?: boolean | PredioCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PredioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3154,6 +3332,7 @@ export namespace Prisma {
       gestor: Prisma.$UsuarioPayload<ExtArgs> | null
       ordens_servico: Prisma.$OrdemServicoPayload<ExtArgs>[]
       vistorias: Prisma.$AgendaVistoriaPayload<ExtArgs>[]
+      manifestacoes: Prisma.$ManifestacaoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3567,6 +3746,7 @@ export namespace Prisma {
     gestor<T extends Predio$gestorArgs<ExtArgs> = {}>(args?: Subset<T, Predio$gestorArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordens_servico<T extends Predio$ordens_servicoArgs<ExtArgs> = {}>(args?: Subset<T, Predio$ordens_servicoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     vistorias<T extends Predio$vistoriasArgs<ExtArgs> = {}>(args?: Subset<T, Predio$vistoriasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgendaVistoriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    manifestacoes<T extends Predio$manifestacoesArgs<ExtArgs> = {}>(args?: Subset<T, Predio$manifestacoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4073,6 +4253,30 @@ export namespace Prisma {
   }
 
   /**
+   * Predio.manifestacoes
+   */
+  export type Predio$manifestacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoInclude<ExtArgs> | null
+    where?: ManifestacaoWhereInput
+    orderBy?: ManifestacaoOrderByWithRelationInput | ManifestacaoOrderByWithRelationInput[]
+    cursor?: ManifestacaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ManifestacaoScalarFieldEnum | ManifestacaoScalarFieldEnum[]
+  }
+
+  /**
    * Predio without action
    */
   export type PredioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4443,6 +4647,7 @@ export namespace Prisma {
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
     ordens_derivadas?: boolean | OrdemServico$ordens_derivadasArgs<ExtArgs>
     agendamentos?: boolean | OrdemServico$agendamentosArgs<ExtArgs>
+    manifestacoes_origem?: boolean | OrdemServico$manifestacoes_origemArgs<ExtArgs>
     _count?: boolean | OrdemServicoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ordemServico"]>
 
@@ -4546,6 +4751,7 @@ export namespace Prisma {
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
     ordens_derivadas?: boolean | OrdemServico$ordens_derivadasArgs<ExtArgs>
     agendamentos?: boolean | OrdemServico$agendamentosArgs<ExtArgs>
+    manifestacoes_origem?: boolean | OrdemServico$manifestacoes_origemArgs<ExtArgs>
     _count?: boolean | OrdemServicoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OrdemServicoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4570,6 +4776,7 @@ export namespace Prisma {
       ordem_vinculada: Prisma.$OrdemServicoPayload<ExtArgs> | null
       ordens_derivadas: Prisma.$OrdemServicoPayload<ExtArgs>[]
       agendamentos: Prisma.$AgendaVistoriaPayload<ExtArgs>[]
+      manifestacoes_origem: Prisma.$ManifestacaoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4997,6 +5204,7 @@ export namespace Prisma {
     ordem_vinculada<T extends OrdemServico$ordem_vinculadaArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$ordem_vinculadaArgs<ExtArgs>>): Prisma__OrdemServicoClient<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordens_derivadas<T extends OrdemServico$ordens_derivadasArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$ordens_derivadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     agendamentos<T extends OrdemServico$agendamentosArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$agendamentosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgendaVistoriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    manifestacoes_origem<T extends OrdemServico$manifestacoes_origemArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$manifestacoes_origemArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5530,6 +5738,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AgendaVistoriaScalarFieldEnum | AgendaVistoriaScalarFieldEnum[]
+  }
+
+  /**
+   * OrdemServico.manifestacoes_origem
+   */
+  export type OrdemServico$manifestacoes_origemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoInclude<ExtArgs> | null
+    where?: ManifestacaoWhereInput
+    orderBy?: ManifestacaoOrderByWithRelationInput | ManifestacaoOrderByWithRelationInput[]
+    cursor?: ManifestacaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ManifestacaoScalarFieldEnum | ManifestacaoScalarFieldEnum[]
   }
 
   /**
@@ -9115,6 +9347,1332 @@ export namespace Prisma {
 
 
   /**
+   * Model Manifestacao
+   */
+
+  export type AggregateManifestacao = {
+    _count: ManifestacaoCountAggregateOutputType | null
+    _min: ManifestacaoMinAggregateOutputType | null
+    _max: ManifestacaoMaxAggregateOutputType | null
+  }
+
+  export type ManifestacaoMinAggregateOutputType = {
+    id: string | null
+    protocolo: string | null
+    tipo: $Enums.TipoManifestacao | null
+    categoria: string | null
+    descricao: string | null
+    predio_id: string | null
+    local_referencia: string | null
+    bairro: string | null
+    anonimo: boolean | null
+    manifestante_nome: string | null
+    manifestante_email: string | null
+    manifestante_telefone: string | null
+    status: $Enums.StatusManifestacao | null
+    resposta_oficial: string | null
+    respondido_em: Date | null
+    respondido_por_id: string | null
+    motivo_arquivamento: string | null
+    ordem_servico_id: string | null
+    criado_em: Date | null
+    atualizado: Date | null
+  }
+
+  export type ManifestacaoMaxAggregateOutputType = {
+    id: string | null
+    protocolo: string | null
+    tipo: $Enums.TipoManifestacao | null
+    categoria: string | null
+    descricao: string | null
+    predio_id: string | null
+    local_referencia: string | null
+    bairro: string | null
+    anonimo: boolean | null
+    manifestante_nome: string | null
+    manifestante_email: string | null
+    manifestante_telefone: string | null
+    status: $Enums.StatusManifestacao | null
+    resposta_oficial: string | null
+    respondido_em: Date | null
+    respondido_por_id: string | null
+    motivo_arquivamento: string | null
+    ordem_servico_id: string | null
+    criado_em: Date | null
+    atualizado: Date | null
+  }
+
+  export type ManifestacaoCountAggregateOutputType = {
+    id: number
+    protocolo: number
+    tipo: number
+    categoria: number
+    descricao: number
+    predio_id: number
+    local_referencia: number
+    bairro: number
+    anonimo: number
+    manifestante_nome: number
+    manifestante_email: number
+    manifestante_telefone: number
+    status: number
+    resposta_oficial: number
+    respondido_em: number
+    respondido_por_id: number
+    motivo_arquivamento: number
+    ordem_servico_id: number
+    criado_em: number
+    atualizado: number
+    _all: number
+  }
+
+
+  export type ManifestacaoMinAggregateInputType = {
+    id?: true
+    protocolo?: true
+    tipo?: true
+    categoria?: true
+    descricao?: true
+    predio_id?: true
+    local_referencia?: true
+    bairro?: true
+    anonimo?: true
+    manifestante_nome?: true
+    manifestante_email?: true
+    manifestante_telefone?: true
+    status?: true
+    resposta_oficial?: true
+    respondido_em?: true
+    respondido_por_id?: true
+    motivo_arquivamento?: true
+    ordem_servico_id?: true
+    criado_em?: true
+    atualizado?: true
+  }
+
+  export type ManifestacaoMaxAggregateInputType = {
+    id?: true
+    protocolo?: true
+    tipo?: true
+    categoria?: true
+    descricao?: true
+    predio_id?: true
+    local_referencia?: true
+    bairro?: true
+    anonimo?: true
+    manifestante_nome?: true
+    manifestante_email?: true
+    manifestante_telefone?: true
+    status?: true
+    resposta_oficial?: true
+    respondido_em?: true
+    respondido_por_id?: true
+    motivo_arquivamento?: true
+    ordem_servico_id?: true
+    criado_em?: true
+    atualizado?: true
+  }
+
+  export type ManifestacaoCountAggregateInputType = {
+    id?: true
+    protocolo?: true
+    tipo?: true
+    categoria?: true
+    descricao?: true
+    predio_id?: true
+    local_referencia?: true
+    bairro?: true
+    anonimo?: true
+    manifestante_nome?: true
+    manifestante_email?: true
+    manifestante_telefone?: true
+    status?: true
+    resposta_oficial?: true
+    respondido_em?: true
+    respondido_por_id?: true
+    motivo_arquivamento?: true
+    ordem_servico_id?: true
+    criado_em?: true
+    atualizado?: true
+    _all?: true
+  }
+
+  export type ManifestacaoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Manifestacao to aggregate.
+     */
+    where?: ManifestacaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Manifestacaos to fetch.
+     */
+    orderBy?: ManifestacaoOrderByWithRelationInput | ManifestacaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ManifestacaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Manifestacaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Manifestacaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Manifestacaos
+    **/
+    _count?: true | ManifestacaoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ManifestacaoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ManifestacaoMaxAggregateInputType
+  }
+
+  export type GetManifestacaoAggregateType<T extends ManifestacaoAggregateArgs> = {
+        [P in keyof T & keyof AggregateManifestacao]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateManifestacao[P]>
+      : GetScalarType<T[P], AggregateManifestacao[P]>
+  }
+
+
+
+
+  export type ManifestacaoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ManifestacaoWhereInput
+    orderBy?: ManifestacaoOrderByWithAggregationInput | ManifestacaoOrderByWithAggregationInput[]
+    by: ManifestacaoScalarFieldEnum[] | ManifestacaoScalarFieldEnum
+    having?: ManifestacaoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ManifestacaoCountAggregateInputType | true
+    _min?: ManifestacaoMinAggregateInputType
+    _max?: ManifestacaoMaxAggregateInputType
+  }
+
+  export type ManifestacaoGroupByOutputType = {
+    id: string
+    protocolo: string
+    tipo: $Enums.TipoManifestacao
+    categoria: string
+    descricao: string
+    predio_id: string | null
+    local_referencia: string | null
+    bairro: string | null
+    anonimo: boolean
+    manifestante_nome: string | null
+    manifestante_email: string | null
+    manifestante_telefone: string | null
+    status: $Enums.StatusManifestacao
+    resposta_oficial: string | null
+    respondido_em: Date | null
+    respondido_por_id: string | null
+    motivo_arquivamento: string | null
+    ordem_servico_id: string | null
+    criado_em: Date
+    atualizado: Date
+    _count: ManifestacaoCountAggregateOutputType | null
+    _min: ManifestacaoMinAggregateOutputType | null
+    _max: ManifestacaoMaxAggregateOutputType | null
+  }
+
+  type GetManifestacaoGroupByPayload<T extends ManifestacaoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ManifestacaoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ManifestacaoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ManifestacaoGroupByOutputType[P]>
+            : GetScalarType<T[P], ManifestacaoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ManifestacaoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    protocolo?: boolean
+    tipo?: boolean
+    categoria?: boolean
+    descricao?: boolean
+    predio_id?: boolean
+    local_referencia?: boolean
+    bairro?: boolean
+    anonimo?: boolean
+    manifestante_nome?: boolean
+    manifestante_email?: boolean
+    manifestante_telefone?: boolean
+    status?: boolean
+    resposta_oficial?: boolean
+    respondido_em?: boolean
+    respondido_por_id?: boolean
+    motivo_arquivamento?: boolean
+    ordem_servico_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    predio?: boolean | Manifestacao$predioArgs<ExtArgs>
+    respondido_por?: boolean | Manifestacao$respondido_porArgs<ExtArgs>
+    ordem_servico?: boolean | Manifestacao$ordem_servicoArgs<ExtArgs>
+  }, ExtArgs["result"]["manifestacao"]>
+
+  export type ManifestacaoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    protocolo?: boolean
+    tipo?: boolean
+    categoria?: boolean
+    descricao?: boolean
+    predio_id?: boolean
+    local_referencia?: boolean
+    bairro?: boolean
+    anonimo?: boolean
+    manifestante_nome?: boolean
+    manifestante_email?: boolean
+    manifestante_telefone?: boolean
+    status?: boolean
+    resposta_oficial?: boolean
+    respondido_em?: boolean
+    respondido_por_id?: boolean
+    motivo_arquivamento?: boolean
+    ordem_servico_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    predio?: boolean | Manifestacao$predioArgs<ExtArgs>
+    respondido_por?: boolean | Manifestacao$respondido_porArgs<ExtArgs>
+    ordem_servico?: boolean | Manifestacao$ordem_servicoArgs<ExtArgs>
+  }, ExtArgs["result"]["manifestacao"]>
+
+  export type ManifestacaoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    protocolo?: boolean
+    tipo?: boolean
+    categoria?: boolean
+    descricao?: boolean
+    predio_id?: boolean
+    local_referencia?: boolean
+    bairro?: boolean
+    anonimo?: boolean
+    manifestante_nome?: boolean
+    manifestante_email?: boolean
+    manifestante_telefone?: boolean
+    status?: boolean
+    resposta_oficial?: boolean
+    respondido_em?: boolean
+    respondido_por_id?: boolean
+    motivo_arquivamento?: boolean
+    ordem_servico_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    predio?: boolean | Manifestacao$predioArgs<ExtArgs>
+    respondido_por?: boolean | Manifestacao$respondido_porArgs<ExtArgs>
+    ordem_servico?: boolean | Manifestacao$ordem_servicoArgs<ExtArgs>
+  }, ExtArgs["result"]["manifestacao"]>
+
+  export type ManifestacaoSelectScalar = {
+    id?: boolean
+    protocolo?: boolean
+    tipo?: boolean
+    categoria?: boolean
+    descricao?: boolean
+    predio_id?: boolean
+    local_referencia?: boolean
+    bairro?: boolean
+    anonimo?: boolean
+    manifestante_nome?: boolean
+    manifestante_email?: boolean
+    manifestante_telefone?: boolean
+    status?: boolean
+    resposta_oficial?: boolean
+    respondido_em?: boolean
+    respondido_por_id?: boolean
+    motivo_arquivamento?: boolean
+    ordem_servico_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+  }
+
+  export type ManifestacaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "protocolo" | "tipo" | "categoria" | "descricao" | "predio_id" | "local_referencia" | "bairro" | "anonimo" | "manifestante_nome" | "manifestante_email" | "manifestante_telefone" | "status" | "resposta_oficial" | "respondido_em" | "respondido_por_id" | "motivo_arquivamento" | "ordem_servico_id" | "criado_em" | "atualizado", ExtArgs["result"]["manifestacao"]>
+  export type ManifestacaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    predio?: boolean | Manifestacao$predioArgs<ExtArgs>
+    respondido_por?: boolean | Manifestacao$respondido_porArgs<ExtArgs>
+    ordem_servico?: boolean | Manifestacao$ordem_servicoArgs<ExtArgs>
+  }
+  export type ManifestacaoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    predio?: boolean | Manifestacao$predioArgs<ExtArgs>
+    respondido_por?: boolean | Manifestacao$respondido_porArgs<ExtArgs>
+    ordem_servico?: boolean | Manifestacao$ordem_servicoArgs<ExtArgs>
+  }
+  export type ManifestacaoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    predio?: boolean | Manifestacao$predioArgs<ExtArgs>
+    respondido_por?: boolean | Manifestacao$respondido_porArgs<ExtArgs>
+    ordem_servico?: boolean | Manifestacao$ordem_servicoArgs<ExtArgs>
+  }
+
+  export type $ManifestacaoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Manifestacao"
+    objects: {
+      predio: Prisma.$PredioPayload<ExtArgs> | null
+      respondido_por: Prisma.$UsuarioPayload<ExtArgs> | null
+      ordem_servico: Prisma.$OrdemServicoPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      protocolo: string
+      tipo: $Enums.TipoManifestacao
+      categoria: string
+      descricao: string
+      predio_id: string | null
+      local_referencia: string | null
+      bairro: string | null
+      anonimo: boolean
+      manifestante_nome: string | null
+      manifestante_email: string | null
+      manifestante_telefone: string | null
+      status: $Enums.StatusManifestacao
+      resposta_oficial: string | null
+      respondido_em: Date | null
+      respondido_por_id: string | null
+      motivo_arquivamento: string | null
+      ordem_servico_id: string | null
+      criado_em: Date
+      atualizado: Date
+    }, ExtArgs["result"]["manifestacao"]>
+    composites: {}
+  }
+
+  type ManifestacaoGetPayload<S extends boolean | null | undefined | ManifestacaoDefaultArgs> = $Result.GetResult<Prisma.$ManifestacaoPayload, S>
+
+  type ManifestacaoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ManifestacaoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ManifestacaoCountAggregateInputType | true
+    }
+
+  export interface ManifestacaoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Manifestacao'], meta: { name: 'Manifestacao' } }
+    /**
+     * Find zero or one Manifestacao that matches the filter.
+     * @param {ManifestacaoFindUniqueArgs} args - Arguments to find a Manifestacao
+     * @example
+     * // Get one Manifestacao
+     * const manifestacao = await prisma.manifestacao.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ManifestacaoFindUniqueArgs>(args: SelectSubset<T, ManifestacaoFindUniqueArgs<ExtArgs>>): Prisma__ManifestacaoClient<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Manifestacao that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ManifestacaoFindUniqueOrThrowArgs} args - Arguments to find a Manifestacao
+     * @example
+     * // Get one Manifestacao
+     * const manifestacao = await prisma.manifestacao.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ManifestacaoFindUniqueOrThrowArgs>(args: SelectSubset<T, ManifestacaoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ManifestacaoClient<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Manifestacao that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManifestacaoFindFirstArgs} args - Arguments to find a Manifestacao
+     * @example
+     * // Get one Manifestacao
+     * const manifestacao = await prisma.manifestacao.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ManifestacaoFindFirstArgs>(args?: SelectSubset<T, ManifestacaoFindFirstArgs<ExtArgs>>): Prisma__ManifestacaoClient<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Manifestacao that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManifestacaoFindFirstOrThrowArgs} args - Arguments to find a Manifestacao
+     * @example
+     * // Get one Manifestacao
+     * const manifestacao = await prisma.manifestacao.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ManifestacaoFindFirstOrThrowArgs>(args?: SelectSubset<T, ManifestacaoFindFirstOrThrowArgs<ExtArgs>>): Prisma__ManifestacaoClient<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Manifestacaos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManifestacaoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Manifestacaos
+     * const manifestacaos = await prisma.manifestacao.findMany()
+     * 
+     * // Get first 10 Manifestacaos
+     * const manifestacaos = await prisma.manifestacao.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const manifestacaoWithIdOnly = await prisma.manifestacao.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ManifestacaoFindManyArgs>(args?: SelectSubset<T, ManifestacaoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Manifestacao.
+     * @param {ManifestacaoCreateArgs} args - Arguments to create a Manifestacao.
+     * @example
+     * // Create one Manifestacao
+     * const Manifestacao = await prisma.manifestacao.create({
+     *   data: {
+     *     // ... data to create a Manifestacao
+     *   }
+     * })
+     * 
+     */
+    create<T extends ManifestacaoCreateArgs>(args: SelectSubset<T, ManifestacaoCreateArgs<ExtArgs>>): Prisma__ManifestacaoClient<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Manifestacaos.
+     * @param {ManifestacaoCreateManyArgs} args - Arguments to create many Manifestacaos.
+     * @example
+     * // Create many Manifestacaos
+     * const manifestacao = await prisma.manifestacao.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ManifestacaoCreateManyArgs>(args?: SelectSubset<T, ManifestacaoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Manifestacaos and returns the data saved in the database.
+     * @param {ManifestacaoCreateManyAndReturnArgs} args - Arguments to create many Manifestacaos.
+     * @example
+     * // Create many Manifestacaos
+     * const manifestacao = await prisma.manifestacao.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Manifestacaos and only return the `id`
+     * const manifestacaoWithIdOnly = await prisma.manifestacao.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ManifestacaoCreateManyAndReturnArgs>(args?: SelectSubset<T, ManifestacaoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Manifestacao.
+     * @param {ManifestacaoDeleteArgs} args - Arguments to delete one Manifestacao.
+     * @example
+     * // Delete one Manifestacao
+     * const Manifestacao = await prisma.manifestacao.delete({
+     *   where: {
+     *     // ... filter to delete one Manifestacao
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ManifestacaoDeleteArgs>(args: SelectSubset<T, ManifestacaoDeleteArgs<ExtArgs>>): Prisma__ManifestacaoClient<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Manifestacao.
+     * @param {ManifestacaoUpdateArgs} args - Arguments to update one Manifestacao.
+     * @example
+     * // Update one Manifestacao
+     * const manifestacao = await prisma.manifestacao.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ManifestacaoUpdateArgs>(args: SelectSubset<T, ManifestacaoUpdateArgs<ExtArgs>>): Prisma__ManifestacaoClient<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Manifestacaos.
+     * @param {ManifestacaoDeleteManyArgs} args - Arguments to filter Manifestacaos to delete.
+     * @example
+     * // Delete a few Manifestacaos
+     * const { count } = await prisma.manifestacao.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ManifestacaoDeleteManyArgs>(args?: SelectSubset<T, ManifestacaoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Manifestacaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManifestacaoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Manifestacaos
+     * const manifestacao = await prisma.manifestacao.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ManifestacaoUpdateManyArgs>(args: SelectSubset<T, ManifestacaoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Manifestacaos and returns the data updated in the database.
+     * @param {ManifestacaoUpdateManyAndReturnArgs} args - Arguments to update many Manifestacaos.
+     * @example
+     * // Update many Manifestacaos
+     * const manifestacao = await prisma.manifestacao.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Manifestacaos and only return the `id`
+     * const manifestacaoWithIdOnly = await prisma.manifestacao.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ManifestacaoUpdateManyAndReturnArgs>(args: SelectSubset<T, ManifestacaoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Manifestacao.
+     * @param {ManifestacaoUpsertArgs} args - Arguments to update or create a Manifestacao.
+     * @example
+     * // Update or create a Manifestacao
+     * const manifestacao = await prisma.manifestacao.upsert({
+     *   create: {
+     *     // ... data to create a Manifestacao
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Manifestacao we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ManifestacaoUpsertArgs>(args: SelectSubset<T, ManifestacaoUpsertArgs<ExtArgs>>): Prisma__ManifestacaoClient<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Manifestacaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManifestacaoCountArgs} args - Arguments to filter Manifestacaos to count.
+     * @example
+     * // Count the number of Manifestacaos
+     * const count = await prisma.manifestacao.count({
+     *   where: {
+     *     // ... the filter for the Manifestacaos we want to count
+     *   }
+     * })
+    **/
+    count<T extends ManifestacaoCountArgs>(
+      args?: Subset<T, ManifestacaoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ManifestacaoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Manifestacao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManifestacaoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ManifestacaoAggregateArgs>(args: Subset<T, ManifestacaoAggregateArgs>): Prisma.PrismaPromise<GetManifestacaoAggregateType<T>>
+
+    /**
+     * Group by Manifestacao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManifestacaoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ManifestacaoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ManifestacaoGroupByArgs['orderBy'] }
+        : { orderBy?: ManifestacaoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ManifestacaoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetManifestacaoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Manifestacao model
+   */
+  readonly fields: ManifestacaoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Manifestacao.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ManifestacaoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    predio<T extends Manifestacao$predioArgs<ExtArgs> = {}>(args?: Subset<T, Manifestacao$predioArgs<ExtArgs>>): Prisma__PredioClient<$Result.GetResult<Prisma.$PredioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    respondido_por<T extends Manifestacao$respondido_porArgs<ExtArgs> = {}>(args?: Subset<T, Manifestacao$respondido_porArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    ordem_servico<T extends Manifestacao$ordem_servicoArgs<ExtArgs> = {}>(args?: Subset<T, Manifestacao$ordem_servicoArgs<ExtArgs>>): Prisma__OrdemServicoClient<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Manifestacao model
+   */
+  interface ManifestacaoFieldRefs {
+    readonly id: FieldRef<"Manifestacao", 'String'>
+    readonly protocolo: FieldRef<"Manifestacao", 'String'>
+    readonly tipo: FieldRef<"Manifestacao", 'TipoManifestacao'>
+    readonly categoria: FieldRef<"Manifestacao", 'String'>
+    readonly descricao: FieldRef<"Manifestacao", 'String'>
+    readonly predio_id: FieldRef<"Manifestacao", 'String'>
+    readonly local_referencia: FieldRef<"Manifestacao", 'String'>
+    readonly bairro: FieldRef<"Manifestacao", 'String'>
+    readonly anonimo: FieldRef<"Manifestacao", 'Boolean'>
+    readonly manifestante_nome: FieldRef<"Manifestacao", 'String'>
+    readonly manifestante_email: FieldRef<"Manifestacao", 'String'>
+    readonly manifestante_telefone: FieldRef<"Manifestacao", 'String'>
+    readonly status: FieldRef<"Manifestacao", 'StatusManifestacao'>
+    readonly resposta_oficial: FieldRef<"Manifestacao", 'String'>
+    readonly respondido_em: FieldRef<"Manifestacao", 'DateTime'>
+    readonly respondido_por_id: FieldRef<"Manifestacao", 'String'>
+    readonly motivo_arquivamento: FieldRef<"Manifestacao", 'String'>
+    readonly ordem_servico_id: FieldRef<"Manifestacao", 'String'>
+    readonly criado_em: FieldRef<"Manifestacao", 'DateTime'>
+    readonly atualizado: FieldRef<"Manifestacao", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Manifestacao findUnique
+   */
+  export type ManifestacaoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoInclude<ExtArgs> | null
+    /**
+     * Filter, which Manifestacao to fetch.
+     */
+    where: ManifestacaoWhereUniqueInput
+  }
+
+  /**
+   * Manifestacao findUniqueOrThrow
+   */
+  export type ManifestacaoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoInclude<ExtArgs> | null
+    /**
+     * Filter, which Manifestacao to fetch.
+     */
+    where: ManifestacaoWhereUniqueInput
+  }
+
+  /**
+   * Manifestacao findFirst
+   */
+  export type ManifestacaoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoInclude<ExtArgs> | null
+    /**
+     * Filter, which Manifestacao to fetch.
+     */
+    where?: ManifestacaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Manifestacaos to fetch.
+     */
+    orderBy?: ManifestacaoOrderByWithRelationInput | ManifestacaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Manifestacaos.
+     */
+    cursor?: ManifestacaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Manifestacaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Manifestacaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Manifestacaos.
+     */
+    distinct?: ManifestacaoScalarFieldEnum | ManifestacaoScalarFieldEnum[]
+  }
+
+  /**
+   * Manifestacao findFirstOrThrow
+   */
+  export type ManifestacaoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoInclude<ExtArgs> | null
+    /**
+     * Filter, which Manifestacao to fetch.
+     */
+    where?: ManifestacaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Manifestacaos to fetch.
+     */
+    orderBy?: ManifestacaoOrderByWithRelationInput | ManifestacaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Manifestacaos.
+     */
+    cursor?: ManifestacaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Manifestacaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Manifestacaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Manifestacaos.
+     */
+    distinct?: ManifestacaoScalarFieldEnum | ManifestacaoScalarFieldEnum[]
+  }
+
+  /**
+   * Manifestacao findMany
+   */
+  export type ManifestacaoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoInclude<ExtArgs> | null
+    /**
+     * Filter, which Manifestacaos to fetch.
+     */
+    where?: ManifestacaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Manifestacaos to fetch.
+     */
+    orderBy?: ManifestacaoOrderByWithRelationInput | ManifestacaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Manifestacaos.
+     */
+    cursor?: ManifestacaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Manifestacaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Manifestacaos.
+     */
+    skip?: number
+    distinct?: ManifestacaoScalarFieldEnum | ManifestacaoScalarFieldEnum[]
+  }
+
+  /**
+   * Manifestacao create
+   */
+  export type ManifestacaoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Manifestacao.
+     */
+    data: XOR<ManifestacaoCreateInput, ManifestacaoUncheckedCreateInput>
+  }
+
+  /**
+   * Manifestacao createMany
+   */
+  export type ManifestacaoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Manifestacaos.
+     */
+    data: ManifestacaoCreateManyInput | ManifestacaoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Manifestacao createManyAndReturn
+   */
+  export type ManifestacaoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * The data used to create many Manifestacaos.
+     */
+    data: ManifestacaoCreateManyInput | ManifestacaoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Manifestacao update
+   */
+  export type ManifestacaoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Manifestacao.
+     */
+    data: XOR<ManifestacaoUpdateInput, ManifestacaoUncheckedUpdateInput>
+    /**
+     * Choose, which Manifestacao to update.
+     */
+    where: ManifestacaoWhereUniqueInput
+  }
+
+  /**
+   * Manifestacao updateMany
+   */
+  export type ManifestacaoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Manifestacaos.
+     */
+    data: XOR<ManifestacaoUpdateManyMutationInput, ManifestacaoUncheckedUpdateManyInput>
+    /**
+     * Filter which Manifestacaos to update
+     */
+    where?: ManifestacaoWhereInput
+    /**
+     * Limit how many Manifestacaos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Manifestacao updateManyAndReturn
+   */
+  export type ManifestacaoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * The data used to update Manifestacaos.
+     */
+    data: XOR<ManifestacaoUpdateManyMutationInput, ManifestacaoUncheckedUpdateManyInput>
+    /**
+     * Filter which Manifestacaos to update
+     */
+    where?: ManifestacaoWhereInput
+    /**
+     * Limit how many Manifestacaos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Manifestacao upsert
+   */
+  export type ManifestacaoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Manifestacao to update in case it exists.
+     */
+    where: ManifestacaoWhereUniqueInput
+    /**
+     * In case the Manifestacao found by the `where` argument doesn't exist, create a new Manifestacao with this data.
+     */
+    create: XOR<ManifestacaoCreateInput, ManifestacaoUncheckedCreateInput>
+    /**
+     * In case the Manifestacao was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ManifestacaoUpdateInput, ManifestacaoUncheckedUpdateInput>
+  }
+
+  /**
+   * Manifestacao delete
+   */
+  export type ManifestacaoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoInclude<ExtArgs> | null
+    /**
+     * Filter which Manifestacao to delete.
+     */
+    where: ManifestacaoWhereUniqueInput
+  }
+
+  /**
+   * Manifestacao deleteMany
+   */
+  export type ManifestacaoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Manifestacaos to delete
+     */
+    where?: ManifestacaoWhereInput
+    /**
+     * Limit how many Manifestacaos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Manifestacao.predio
+   */
+  export type Manifestacao$predioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Predio
+     */
+    select?: PredioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Predio
+     */
+    omit?: PredioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PredioInclude<ExtArgs> | null
+    where?: PredioWhereInput
+  }
+
+  /**
+   * Manifestacao.respondido_por
+   */
+  export type Manifestacao$respondido_porArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Usuario
+     */
+    omit?: UsuarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    where?: UsuarioWhereInput
+  }
+
+  /**
+   * Manifestacao.ordem_servico
+   */
+  export type Manifestacao$ordem_servicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrdemServico
+     */
+    select?: OrdemServicoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrdemServico
+     */
+    omit?: OrdemServicoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrdemServicoInclude<ExtArgs> | null
+    where?: OrdemServicoWhereInput
+  }
+
+  /**
+   * Manifestacao without action
+   */
+  export type ManifestacaoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -9255,6 +10813,32 @@ export namespace Prisma {
   };
 
   export type ConfiguracaoSistemaScalarFieldEnum = (typeof ConfiguracaoSistemaScalarFieldEnum)[keyof typeof ConfiguracaoSistemaScalarFieldEnum]
+
+
+  export const ManifestacaoScalarFieldEnum: {
+    id: 'id',
+    protocolo: 'protocolo',
+    tipo: 'tipo',
+    categoria: 'categoria',
+    descricao: 'descricao',
+    predio_id: 'predio_id',
+    local_referencia: 'local_referencia',
+    bairro: 'bairro',
+    anonimo: 'anonimo',
+    manifestante_nome: 'manifestante_nome',
+    manifestante_email: 'manifestante_email',
+    manifestante_telefone: 'manifestante_telefone',
+    status: 'status',
+    resposta_oficial: 'resposta_oficial',
+    respondido_em: 'respondido_em',
+    respondido_por_id: 'respondido_por_id',
+    motivo_arquivamento: 'motivo_arquivamento',
+    ordem_servico_id: 'ordem_servico_id',
+    criado_em: 'criado_em',
+    atualizado: 'atualizado'
+  };
+
+  export type ManifestacaoScalarFieldEnum = (typeof ManifestacaoScalarFieldEnum)[keyof typeof ManifestacaoScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -9448,6 +11032,34 @@ export namespace Prisma {
    */
   export type ListEnumAuditActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuditAction[]'>
     
+
+
+  /**
+   * Reference to a field of type 'TipoManifestacao'
+   */
+  export type EnumTipoManifestacaoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoManifestacao'>
+    
+
+
+  /**
+   * Reference to a field of type 'TipoManifestacao[]'
+   */
+  export type ListEnumTipoManifestacaoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoManifestacao[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'StatusManifestacao'
+   */
+  export type EnumStatusManifestacaoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusManifestacao'>
+    
+
+
+  /**
+   * Reference to a field of type 'StatusManifestacao[]'
+   */
+  export type ListEnumStatusManifestacaoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusManifestacao[]'>
+    
   /**
    * Deep Input Types
    */
@@ -9471,6 +11083,7 @@ export namespace Prisma {
     predios_geridos?: PredioListRelationFilter
     chamados_solicitados?: OrdemServicoListRelationFilter
     chamados_atribuidos?: OrdemServicoListRelationFilter
+    manifestacoes_respondidas?: ManifestacaoListRelationFilter
     auditorias?: AuditoriaLogListRelationFilter
   }
 
@@ -9489,6 +11102,7 @@ export namespace Prisma {
     predios_geridos?: PredioOrderByRelationAggregateInput
     chamados_solicitados?: OrdemServicoOrderByRelationAggregateInput
     chamados_atribuidos?: OrdemServicoOrderByRelationAggregateInput
+    manifestacoes_respondidas?: ManifestacaoOrderByRelationAggregateInput
     auditorias?: AuditoriaLogOrderByRelationAggregateInput
   }
 
@@ -9510,6 +11124,7 @@ export namespace Prisma {
     predios_geridos?: PredioListRelationFilter
     chamados_solicitados?: OrdemServicoListRelationFilter
     chamados_atribuidos?: OrdemServicoListRelationFilter
+    manifestacoes_respondidas?: ManifestacaoListRelationFilter
     auditorias?: AuditoriaLogListRelationFilter
   }, "id" | "email">
 
@@ -9570,6 +11185,7 @@ export namespace Prisma {
     gestor?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
     ordens_servico?: OrdemServicoListRelationFilter
     vistorias?: AgendaVistoriaListRelationFilter
+    manifestacoes?: ManifestacaoListRelationFilter
   }
 
   export type PredioOrderByWithRelationInput = {
@@ -9590,6 +11206,7 @@ export namespace Prisma {
     gestor?: UsuarioOrderByWithRelationInput
     ordens_servico?: OrdemServicoOrderByRelationAggregateInput
     vistorias?: AgendaVistoriaOrderByRelationAggregateInput
+    manifestacoes?: ManifestacaoOrderByRelationAggregateInput
   }
 
   export type PredioWhereUniqueInput = Prisma.AtLeast<{
@@ -9613,6 +11230,7 @@ export namespace Prisma {
     gestor?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
     ordens_servico?: OrdemServicoListRelationFilter
     vistorias?: AgendaVistoriaListRelationFilter
+    manifestacoes?: ManifestacaoListRelationFilter
   }, "id">
 
   export type PredioOrderByWithAggregationInput = {
@@ -9692,6 +11310,7 @@ export namespace Prisma {
     ordem_vinculada?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
     ordens_derivadas?: OrdemServicoListRelationFilter
     agendamentos?: AgendaVistoriaListRelationFilter
+    manifestacoes_origem?: ManifestacaoListRelationFilter
   }
 
   export type OrdemServicoOrderByWithRelationInput = {
@@ -9726,6 +11345,7 @@ export namespace Prisma {
     ordem_vinculada?: OrdemServicoOrderByWithRelationInput
     ordens_derivadas?: OrdemServicoOrderByRelationAggregateInput
     agendamentos?: AgendaVistoriaOrderByRelationAggregateInput
+    manifestacoes_origem?: ManifestacaoOrderByRelationAggregateInput
   }
 
   export type OrdemServicoWhereUniqueInput = Prisma.AtLeast<{
@@ -9763,6 +11383,7 @@ export namespace Prisma {
     ordem_vinculada?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
     ordens_derivadas?: OrdemServicoListRelationFilter
     agendamentos?: AgendaVistoriaListRelationFilter
+    manifestacoes_origem?: ManifestacaoListRelationFilter
   }, "id" | "codigo">
 
   export type OrdemServicoOrderByWithAggregationInput = {
@@ -10136,6 +11757,142 @@ export namespace Prisma {
     atualizado?: DateTimeWithAggregatesFilter<"ConfiguracaoSistema"> | Date | string
   }
 
+  export type ManifestacaoWhereInput = {
+    AND?: ManifestacaoWhereInput | ManifestacaoWhereInput[]
+    OR?: ManifestacaoWhereInput[]
+    NOT?: ManifestacaoWhereInput | ManifestacaoWhereInput[]
+    id?: StringFilter<"Manifestacao"> | string
+    protocolo?: StringFilter<"Manifestacao"> | string
+    tipo?: EnumTipoManifestacaoFilter<"Manifestacao"> | $Enums.TipoManifestacao
+    categoria?: StringFilter<"Manifestacao"> | string
+    descricao?: StringFilter<"Manifestacao"> | string
+    predio_id?: StringNullableFilter<"Manifestacao"> | string | null
+    local_referencia?: StringNullableFilter<"Manifestacao"> | string | null
+    bairro?: StringNullableFilter<"Manifestacao"> | string | null
+    anonimo?: BoolFilter<"Manifestacao"> | boolean
+    manifestante_nome?: StringNullableFilter<"Manifestacao"> | string | null
+    manifestante_email?: StringNullableFilter<"Manifestacao"> | string | null
+    manifestante_telefone?: StringNullableFilter<"Manifestacao"> | string | null
+    status?: EnumStatusManifestacaoFilter<"Manifestacao"> | $Enums.StatusManifestacao
+    resposta_oficial?: StringNullableFilter<"Manifestacao"> | string | null
+    respondido_em?: DateTimeNullableFilter<"Manifestacao"> | Date | string | null
+    respondido_por_id?: StringNullableFilter<"Manifestacao"> | string | null
+    motivo_arquivamento?: StringNullableFilter<"Manifestacao"> | string | null
+    ordem_servico_id?: StringNullableFilter<"Manifestacao"> | string | null
+    criado_em?: DateTimeFilter<"Manifestacao"> | Date | string
+    atualizado?: DateTimeFilter<"Manifestacao"> | Date | string
+    predio?: XOR<PredioNullableScalarRelationFilter, PredioWhereInput> | null
+    respondido_por?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    ordem_servico?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
+  }
+
+  export type ManifestacaoOrderByWithRelationInput = {
+    id?: SortOrder
+    protocolo?: SortOrder
+    tipo?: SortOrder
+    categoria?: SortOrder
+    descricao?: SortOrder
+    predio_id?: SortOrderInput | SortOrder
+    local_referencia?: SortOrderInput | SortOrder
+    bairro?: SortOrderInput | SortOrder
+    anonimo?: SortOrder
+    manifestante_nome?: SortOrderInput | SortOrder
+    manifestante_email?: SortOrderInput | SortOrder
+    manifestante_telefone?: SortOrderInput | SortOrder
+    status?: SortOrder
+    resposta_oficial?: SortOrderInput | SortOrder
+    respondido_em?: SortOrderInput | SortOrder
+    respondido_por_id?: SortOrderInput | SortOrder
+    motivo_arquivamento?: SortOrderInput | SortOrder
+    ordem_servico_id?: SortOrderInput | SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    predio?: PredioOrderByWithRelationInput
+    respondido_por?: UsuarioOrderByWithRelationInput
+    ordem_servico?: OrdemServicoOrderByWithRelationInput
+  }
+
+  export type ManifestacaoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    protocolo?: string
+    AND?: ManifestacaoWhereInput | ManifestacaoWhereInput[]
+    OR?: ManifestacaoWhereInput[]
+    NOT?: ManifestacaoWhereInput | ManifestacaoWhereInput[]
+    tipo?: EnumTipoManifestacaoFilter<"Manifestacao"> | $Enums.TipoManifestacao
+    categoria?: StringFilter<"Manifestacao"> | string
+    descricao?: StringFilter<"Manifestacao"> | string
+    predio_id?: StringNullableFilter<"Manifestacao"> | string | null
+    local_referencia?: StringNullableFilter<"Manifestacao"> | string | null
+    bairro?: StringNullableFilter<"Manifestacao"> | string | null
+    anonimo?: BoolFilter<"Manifestacao"> | boolean
+    manifestante_nome?: StringNullableFilter<"Manifestacao"> | string | null
+    manifestante_email?: StringNullableFilter<"Manifestacao"> | string | null
+    manifestante_telefone?: StringNullableFilter<"Manifestacao"> | string | null
+    status?: EnumStatusManifestacaoFilter<"Manifestacao"> | $Enums.StatusManifestacao
+    resposta_oficial?: StringNullableFilter<"Manifestacao"> | string | null
+    respondido_em?: DateTimeNullableFilter<"Manifestacao"> | Date | string | null
+    respondido_por_id?: StringNullableFilter<"Manifestacao"> | string | null
+    motivo_arquivamento?: StringNullableFilter<"Manifestacao"> | string | null
+    ordem_servico_id?: StringNullableFilter<"Manifestacao"> | string | null
+    criado_em?: DateTimeFilter<"Manifestacao"> | Date | string
+    atualizado?: DateTimeFilter<"Manifestacao"> | Date | string
+    predio?: XOR<PredioNullableScalarRelationFilter, PredioWhereInput> | null
+    respondido_por?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    ordem_servico?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
+  }, "id" | "protocolo">
+
+  export type ManifestacaoOrderByWithAggregationInput = {
+    id?: SortOrder
+    protocolo?: SortOrder
+    tipo?: SortOrder
+    categoria?: SortOrder
+    descricao?: SortOrder
+    predio_id?: SortOrderInput | SortOrder
+    local_referencia?: SortOrderInput | SortOrder
+    bairro?: SortOrderInput | SortOrder
+    anonimo?: SortOrder
+    manifestante_nome?: SortOrderInput | SortOrder
+    manifestante_email?: SortOrderInput | SortOrder
+    manifestante_telefone?: SortOrderInput | SortOrder
+    status?: SortOrder
+    resposta_oficial?: SortOrderInput | SortOrder
+    respondido_em?: SortOrderInput | SortOrder
+    respondido_por_id?: SortOrderInput | SortOrder
+    motivo_arquivamento?: SortOrderInput | SortOrder
+    ordem_servico_id?: SortOrderInput | SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    _count?: ManifestacaoCountOrderByAggregateInput
+    _max?: ManifestacaoMaxOrderByAggregateInput
+    _min?: ManifestacaoMinOrderByAggregateInput
+  }
+
+  export type ManifestacaoScalarWhereWithAggregatesInput = {
+    AND?: ManifestacaoScalarWhereWithAggregatesInput | ManifestacaoScalarWhereWithAggregatesInput[]
+    OR?: ManifestacaoScalarWhereWithAggregatesInput[]
+    NOT?: ManifestacaoScalarWhereWithAggregatesInput | ManifestacaoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Manifestacao"> | string
+    protocolo?: StringWithAggregatesFilter<"Manifestacao"> | string
+    tipo?: EnumTipoManifestacaoWithAggregatesFilter<"Manifestacao"> | $Enums.TipoManifestacao
+    categoria?: StringWithAggregatesFilter<"Manifestacao"> | string
+    descricao?: StringWithAggregatesFilter<"Manifestacao"> | string
+    predio_id?: StringNullableWithAggregatesFilter<"Manifestacao"> | string | null
+    local_referencia?: StringNullableWithAggregatesFilter<"Manifestacao"> | string | null
+    bairro?: StringNullableWithAggregatesFilter<"Manifestacao"> | string | null
+    anonimo?: BoolWithAggregatesFilter<"Manifestacao"> | boolean
+    manifestante_nome?: StringNullableWithAggregatesFilter<"Manifestacao"> | string | null
+    manifestante_email?: StringNullableWithAggregatesFilter<"Manifestacao"> | string | null
+    manifestante_telefone?: StringNullableWithAggregatesFilter<"Manifestacao"> | string | null
+    status?: EnumStatusManifestacaoWithAggregatesFilter<"Manifestacao"> | $Enums.StatusManifestacao
+    resposta_oficial?: StringNullableWithAggregatesFilter<"Manifestacao"> | string | null
+    respondido_em?: DateTimeNullableWithAggregatesFilter<"Manifestacao"> | Date | string | null
+    respondido_por_id?: StringNullableWithAggregatesFilter<"Manifestacao"> | string | null
+    motivo_arquivamento?: StringNullableWithAggregatesFilter<"Manifestacao"> | string | null
+    ordem_servico_id?: StringNullableWithAggregatesFilter<"Manifestacao"> | string | null
+    criado_em?: DateTimeWithAggregatesFilter<"Manifestacao"> | Date | string
+    atualizado?: DateTimeWithAggregatesFilter<"Manifestacao"> | Date | string
+  }
+
   export type UsuarioCreateInput = {
     id?: string
     nome: string
@@ -10151,6 +11908,7 @@ export namespace Prisma {
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
+    manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutUsuarioInput
   }
 
@@ -10169,6 +11927,7 @@ export namespace Prisma {
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
@@ -10187,6 +11946,7 @@ export namespace Prisma {
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
+    manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -10205,6 +11965,7 @@ export namespace Prisma {
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -10267,6 +12028,7 @@ export namespace Prisma {
     gestor?: UsuarioCreateNestedOneWithoutPredios_geridosInput
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUncheckedCreateInput = {
@@ -10286,6 +12048,7 @@ export namespace Prisma {
     atualizado?: Date | string
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUpdateInput = {
@@ -10305,6 +12068,7 @@ export namespace Prisma {
     gestor?: UsuarioUpdateOneWithoutPredios_geridosNestedInput
     ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateInput = {
@@ -10324,6 +12088,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioCreateManyInput = {
@@ -10404,6 +12169,7 @@ export namespace Prisma {
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
   }
 
   export type OrdemServicoUncheckedCreateInput = {
@@ -10434,6 +12200,7 @@ export namespace Prisma {
     atualizado?: Date | string
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
   }
 
   export type OrdemServicoUpdateInput = {
@@ -10464,6 +12231,7 @@ export namespace Prisma {
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateInput = {
@@ -10494,6 +12262,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
   }
 
   export type OrdemServicoCreateManyInput = {
@@ -10937,6 +12706,164 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ManifestacaoCreateInput = {
+    id?: string
+    protocolo?: string
+    tipo?: $Enums.TipoManifestacao
+    categoria?: string
+    descricao: string
+    local_referencia?: string | null
+    bairro?: string | null
+    anonimo?: boolean
+    manifestante_nome?: string | null
+    manifestante_email?: string | null
+    manifestante_telefone?: string | null
+    status?: $Enums.StatusManifestacao
+    resposta_oficial?: string | null
+    respondido_em?: Date | string | null
+    motivo_arquivamento?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio?: PredioCreateNestedOneWithoutManifestacoesInput
+    respondido_por?: UsuarioCreateNestedOneWithoutManifestacoes_respondidasInput
+    ordem_servico?: OrdemServicoCreateNestedOneWithoutManifestacoes_origemInput
+  }
+
+  export type ManifestacaoUncheckedCreateInput = {
+    id?: string
+    protocolo?: string
+    tipo?: $Enums.TipoManifestacao
+    categoria?: string
+    descricao: string
+    predio_id?: string | null
+    local_referencia?: string | null
+    bairro?: string | null
+    anonimo?: boolean
+    manifestante_nome?: string | null
+    manifestante_email?: string | null
+    manifestante_telefone?: string | null
+    status?: $Enums.StatusManifestacao
+    resposta_oficial?: string | null
+    respondido_em?: Date | string | null
+    respondido_por_id?: string | null
+    motivo_arquivamento?: string | null
+    ordem_servico_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type ManifestacaoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneWithoutManifestacoesNestedInput
+    respondido_por?: UsuarioUpdateOneWithoutManifestacoes_respondidasNestedInput
+    ordem_servico?: OrdemServicoUpdateOneWithoutManifestacoes_origemNestedInput
+  }
+
+  export type ManifestacaoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    respondido_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManifestacaoCreateManyInput = {
+    id?: string
+    protocolo?: string
+    tipo?: $Enums.TipoManifestacao
+    categoria?: string
+    descricao: string
+    predio_id?: string | null
+    local_referencia?: string | null
+    bairro?: string | null
+    anonimo?: boolean
+    manifestante_nome?: string | null
+    manifestante_email?: string | null
+    manifestante_telefone?: string | null
+    status?: $Enums.StatusManifestacao
+    resposta_oficial?: string | null
+    respondido_em?: Date | string | null
+    respondido_por_id?: string | null
+    motivo_arquivamento?: string | null
+    ordem_servico_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type ManifestacaoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManifestacaoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    respondido_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -11013,6 +12940,12 @@ export namespace Prisma {
     none?: OrdemServicoWhereInput
   }
 
+  export type ManifestacaoListRelationFilter = {
+    every?: ManifestacaoWhereInput
+    some?: ManifestacaoWhereInput
+    none?: ManifestacaoWhereInput
+  }
+
   export type AuditoriaLogListRelationFilter = {
     every?: AuditoriaLogWhereInput
     some?: AuditoriaLogWhereInput
@@ -11029,6 +12962,10 @@ export namespace Prisma {
   }
 
   export type OrdemServicoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ManifestacaoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11726,6 +13663,109 @@ export namespace Prisma {
     preventiva_goal?: SortOrder
   }
 
+  export type EnumTipoManifestacaoFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoManifestacao | EnumTipoManifestacaoFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoManifestacao[] | ListEnumTipoManifestacaoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoManifestacao[] | ListEnumTipoManifestacaoFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoManifestacaoFilter<$PrismaModel> | $Enums.TipoManifestacao
+  }
+
+  export type EnumStatusManifestacaoFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusManifestacao | EnumStatusManifestacaoFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusManifestacao[] | ListEnumStatusManifestacaoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusManifestacao[] | ListEnumStatusManifestacaoFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusManifestacaoFilter<$PrismaModel> | $Enums.StatusManifestacao
+  }
+
+  export type ManifestacaoCountOrderByAggregateInput = {
+    id?: SortOrder
+    protocolo?: SortOrder
+    tipo?: SortOrder
+    categoria?: SortOrder
+    descricao?: SortOrder
+    predio_id?: SortOrder
+    local_referencia?: SortOrder
+    bairro?: SortOrder
+    anonimo?: SortOrder
+    manifestante_nome?: SortOrder
+    manifestante_email?: SortOrder
+    manifestante_telefone?: SortOrder
+    status?: SortOrder
+    resposta_oficial?: SortOrder
+    respondido_em?: SortOrder
+    respondido_por_id?: SortOrder
+    motivo_arquivamento?: SortOrder
+    ordem_servico_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type ManifestacaoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    protocolo?: SortOrder
+    tipo?: SortOrder
+    categoria?: SortOrder
+    descricao?: SortOrder
+    predio_id?: SortOrder
+    local_referencia?: SortOrder
+    bairro?: SortOrder
+    anonimo?: SortOrder
+    manifestante_nome?: SortOrder
+    manifestante_email?: SortOrder
+    manifestante_telefone?: SortOrder
+    status?: SortOrder
+    resposta_oficial?: SortOrder
+    respondido_em?: SortOrder
+    respondido_por_id?: SortOrder
+    motivo_arquivamento?: SortOrder
+    ordem_servico_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type ManifestacaoMinOrderByAggregateInput = {
+    id?: SortOrder
+    protocolo?: SortOrder
+    tipo?: SortOrder
+    categoria?: SortOrder
+    descricao?: SortOrder
+    predio_id?: SortOrder
+    local_referencia?: SortOrder
+    bairro?: SortOrder
+    anonimo?: SortOrder
+    manifestante_nome?: SortOrder
+    manifestante_email?: SortOrder
+    manifestante_telefone?: SortOrder
+    status?: SortOrder
+    resposta_oficial?: SortOrder
+    respondido_em?: SortOrder
+    respondido_por_id?: SortOrder
+    motivo_arquivamento?: SortOrder
+    ordem_servico_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type EnumTipoManifestacaoWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoManifestacao | EnumTipoManifestacaoFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoManifestacao[] | ListEnumTipoManifestacaoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoManifestacao[] | ListEnumTipoManifestacaoFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoManifestacaoWithAggregatesFilter<$PrismaModel> | $Enums.TipoManifestacao
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTipoManifestacaoFilter<$PrismaModel>
+    _max?: NestedEnumTipoManifestacaoFilter<$PrismaModel>
+  }
+
+  export type EnumStatusManifestacaoWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusManifestacao | EnumStatusManifestacaoFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusManifestacao[] | ListEnumStatusManifestacaoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusManifestacao[] | ListEnumStatusManifestacaoFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusManifestacaoWithAggregatesFilter<$PrismaModel> | $Enums.StatusManifestacao
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusManifestacaoFilter<$PrismaModel>
+    _max?: NestedEnumStatusManifestacaoFilter<$PrismaModel>
+  }
+
   export type PredioCreateNestedManyWithoutGestorInput = {
     create?: XOR<PredioCreateWithoutGestorInput, PredioUncheckedCreateWithoutGestorInput> | PredioCreateWithoutGestorInput[] | PredioUncheckedCreateWithoutGestorInput[]
     connectOrCreate?: PredioCreateOrConnectWithoutGestorInput | PredioCreateOrConnectWithoutGestorInput[]
@@ -11745,6 +13785,13 @@ export namespace Prisma {
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutTecnicoInput | OrdemServicoCreateOrConnectWithoutTecnicoInput[]
     createMany?: OrdemServicoCreateManyTecnicoInputEnvelope
     connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type ManifestacaoCreateNestedManyWithoutRespondido_porInput = {
+    create?: XOR<ManifestacaoCreateWithoutRespondido_porInput, ManifestacaoUncheckedCreateWithoutRespondido_porInput> | ManifestacaoCreateWithoutRespondido_porInput[] | ManifestacaoUncheckedCreateWithoutRespondido_porInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutRespondido_porInput | ManifestacaoCreateOrConnectWithoutRespondido_porInput[]
+    createMany?: ManifestacaoCreateManyRespondido_porInputEnvelope
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
   }
 
   export type AuditoriaLogCreateNestedManyWithoutUsuarioInput = {
@@ -11773,6 +13820,13 @@ export namespace Prisma {
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutTecnicoInput | OrdemServicoCreateOrConnectWithoutTecnicoInput[]
     createMany?: OrdemServicoCreateManyTecnicoInputEnvelope
     connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput = {
+    create?: XOR<ManifestacaoCreateWithoutRespondido_porInput, ManifestacaoUncheckedCreateWithoutRespondido_porInput> | ManifestacaoCreateWithoutRespondido_porInput[] | ManifestacaoUncheckedCreateWithoutRespondido_porInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutRespondido_porInput | ManifestacaoCreateOrConnectWithoutRespondido_porInput[]
+    createMany?: ManifestacaoCreateManyRespondido_porInputEnvelope
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
   }
 
   export type AuditoriaLogUncheckedCreateNestedManyWithoutUsuarioInput = {
@@ -11852,6 +13906,20 @@ export namespace Prisma {
     deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
   }
 
+  export type ManifestacaoUpdateManyWithoutRespondido_porNestedInput = {
+    create?: XOR<ManifestacaoCreateWithoutRespondido_porInput, ManifestacaoUncheckedCreateWithoutRespondido_porInput> | ManifestacaoCreateWithoutRespondido_porInput[] | ManifestacaoUncheckedCreateWithoutRespondido_porInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutRespondido_porInput | ManifestacaoCreateOrConnectWithoutRespondido_porInput[]
+    upsert?: ManifestacaoUpsertWithWhereUniqueWithoutRespondido_porInput | ManifestacaoUpsertWithWhereUniqueWithoutRespondido_porInput[]
+    createMany?: ManifestacaoCreateManyRespondido_porInputEnvelope
+    set?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    disconnect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    delete?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    update?: ManifestacaoUpdateWithWhereUniqueWithoutRespondido_porInput | ManifestacaoUpdateWithWhereUniqueWithoutRespondido_porInput[]
+    updateMany?: ManifestacaoUpdateManyWithWhereWithoutRespondido_porInput | ManifestacaoUpdateManyWithWhereWithoutRespondido_porInput[]
+    deleteMany?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
+  }
+
   export type AuditoriaLogUpdateManyWithoutUsuarioNestedInput = {
     create?: XOR<AuditoriaLogCreateWithoutUsuarioInput, AuditoriaLogUncheckedCreateWithoutUsuarioInput> | AuditoriaLogCreateWithoutUsuarioInput[] | AuditoriaLogUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: AuditoriaLogCreateOrConnectWithoutUsuarioInput | AuditoriaLogCreateOrConnectWithoutUsuarioInput[]
@@ -11908,6 +13976,20 @@ export namespace Prisma {
     deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
   }
 
+  export type ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput = {
+    create?: XOR<ManifestacaoCreateWithoutRespondido_porInput, ManifestacaoUncheckedCreateWithoutRespondido_porInput> | ManifestacaoCreateWithoutRespondido_porInput[] | ManifestacaoUncheckedCreateWithoutRespondido_porInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutRespondido_porInput | ManifestacaoCreateOrConnectWithoutRespondido_porInput[]
+    upsert?: ManifestacaoUpsertWithWhereUniqueWithoutRespondido_porInput | ManifestacaoUpsertWithWhereUniqueWithoutRespondido_porInput[]
+    createMany?: ManifestacaoCreateManyRespondido_porInputEnvelope
+    set?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    disconnect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    delete?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    update?: ManifestacaoUpdateWithWhereUniqueWithoutRespondido_porInput | ManifestacaoUpdateWithWhereUniqueWithoutRespondido_porInput[]
+    updateMany?: ManifestacaoUpdateManyWithWhereWithoutRespondido_porInput | ManifestacaoUpdateManyWithWhereWithoutRespondido_porInput[]
+    deleteMany?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
+  }
+
   export type AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput = {
     create?: XOR<AuditoriaLogCreateWithoutUsuarioInput, AuditoriaLogUncheckedCreateWithoutUsuarioInput> | AuditoriaLogCreateWithoutUsuarioInput[] | AuditoriaLogUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: AuditoriaLogCreateOrConnectWithoutUsuarioInput | AuditoriaLogCreateOrConnectWithoutUsuarioInput[]
@@ -11942,6 +14024,13 @@ export namespace Prisma {
     connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
   }
 
+  export type ManifestacaoCreateNestedManyWithoutPredioInput = {
+    create?: XOR<ManifestacaoCreateWithoutPredioInput, ManifestacaoUncheckedCreateWithoutPredioInput> | ManifestacaoCreateWithoutPredioInput[] | ManifestacaoUncheckedCreateWithoutPredioInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutPredioInput | ManifestacaoCreateOrConnectWithoutPredioInput[]
+    createMany?: ManifestacaoCreateManyPredioInputEnvelope
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+  }
+
   export type OrdemServicoUncheckedCreateNestedManyWithoutPredioInput = {
     create?: XOR<OrdemServicoCreateWithoutPredioInput, OrdemServicoUncheckedCreateWithoutPredioInput> | OrdemServicoCreateWithoutPredioInput[] | OrdemServicoUncheckedCreateWithoutPredioInput[]
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutPredioInput | OrdemServicoCreateOrConnectWithoutPredioInput[]
@@ -11954,6 +14043,13 @@ export namespace Prisma {
     connectOrCreate?: AgendaVistoriaCreateOrConnectWithoutPredioInput | AgendaVistoriaCreateOrConnectWithoutPredioInput[]
     createMany?: AgendaVistoriaCreateManyPredioInputEnvelope
     connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+  }
+
+  export type ManifestacaoUncheckedCreateNestedManyWithoutPredioInput = {
+    create?: XOR<ManifestacaoCreateWithoutPredioInput, ManifestacaoUncheckedCreateWithoutPredioInput> | ManifestacaoCreateWithoutPredioInput[] | ManifestacaoUncheckedCreateWithoutPredioInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutPredioInput | ManifestacaoCreateOrConnectWithoutPredioInput[]
+    createMany?: ManifestacaoCreateManyPredioInputEnvelope
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
   }
 
   export type EnumTipoPredioFieldUpdateOperationsInput = {
@@ -12014,6 +14110,20 @@ export namespace Prisma {
     deleteMany?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
   }
 
+  export type ManifestacaoUpdateManyWithoutPredioNestedInput = {
+    create?: XOR<ManifestacaoCreateWithoutPredioInput, ManifestacaoUncheckedCreateWithoutPredioInput> | ManifestacaoCreateWithoutPredioInput[] | ManifestacaoUncheckedCreateWithoutPredioInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutPredioInput | ManifestacaoCreateOrConnectWithoutPredioInput[]
+    upsert?: ManifestacaoUpsertWithWhereUniqueWithoutPredioInput | ManifestacaoUpsertWithWhereUniqueWithoutPredioInput[]
+    createMany?: ManifestacaoCreateManyPredioInputEnvelope
+    set?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    disconnect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    delete?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    update?: ManifestacaoUpdateWithWhereUniqueWithoutPredioInput | ManifestacaoUpdateWithWhereUniqueWithoutPredioInput[]
+    updateMany?: ManifestacaoUpdateManyWithWhereWithoutPredioInput | ManifestacaoUpdateManyWithWhereWithoutPredioInput[]
+    deleteMany?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
+  }
+
   export type OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput = {
     create?: XOR<OrdemServicoCreateWithoutPredioInput, OrdemServicoUncheckedCreateWithoutPredioInput> | OrdemServicoCreateWithoutPredioInput[] | OrdemServicoUncheckedCreateWithoutPredioInput[]
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutPredioInput | OrdemServicoCreateOrConnectWithoutPredioInput[]
@@ -12040,6 +14150,20 @@ export namespace Prisma {
     update?: AgendaVistoriaUpdateWithWhereUniqueWithoutPredioInput | AgendaVistoriaUpdateWithWhereUniqueWithoutPredioInput[]
     updateMany?: AgendaVistoriaUpdateManyWithWhereWithoutPredioInput | AgendaVistoriaUpdateManyWithWhereWithoutPredioInput[]
     deleteMany?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
+  }
+
+  export type ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput = {
+    create?: XOR<ManifestacaoCreateWithoutPredioInput, ManifestacaoUncheckedCreateWithoutPredioInput> | ManifestacaoCreateWithoutPredioInput[] | ManifestacaoUncheckedCreateWithoutPredioInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutPredioInput | ManifestacaoCreateOrConnectWithoutPredioInput[]
+    upsert?: ManifestacaoUpsertWithWhereUniqueWithoutPredioInput | ManifestacaoUpsertWithWhereUniqueWithoutPredioInput[]
+    createMany?: ManifestacaoCreateManyPredioInputEnvelope
+    set?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    disconnect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    delete?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    update?: ManifestacaoUpdateWithWhereUniqueWithoutPredioInput | ManifestacaoUpdateWithWhereUniqueWithoutPredioInput[]
+    updateMany?: ManifestacaoUpdateManyWithWhereWithoutPredioInput | ManifestacaoUpdateManyWithWhereWithoutPredioInput[]
+    deleteMany?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
   }
 
   export type OrdemServicoCreatefotosInput = {
@@ -12088,6 +14212,13 @@ export namespace Prisma {
     connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
   }
 
+  export type ManifestacaoCreateNestedManyWithoutOrdem_servicoInput = {
+    create?: XOR<ManifestacaoCreateWithoutOrdem_servicoInput, ManifestacaoUncheckedCreateWithoutOrdem_servicoInput> | ManifestacaoCreateWithoutOrdem_servicoInput[] | ManifestacaoUncheckedCreateWithoutOrdem_servicoInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutOrdem_servicoInput | ManifestacaoCreateOrConnectWithoutOrdem_servicoInput[]
+    createMany?: ManifestacaoCreateManyOrdem_servicoInputEnvelope
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+  }
+
   export type OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput = {
     create?: XOR<OrdemServicoCreateWithoutOrdem_vinculadaInput, OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput> | OrdemServicoCreateWithoutOrdem_vinculadaInput[] | OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput[]
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutOrdem_vinculadaInput | OrdemServicoCreateOrConnectWithoutOrdem_vinculadaInput[]
@@ -12100,6 +14231,13 @@ export namespace Prisma {
     connectOrCreate?: AgendaVistoriaCreateOrConnectWithoutOrdem_servicoInput | AgendaVistoriaCreateOrConnectWithoutOrdem_servicoInput[]
     createMany?: AgendaVistoriaCreateManyOrdem_servicoInputEnvelope
     connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+  }
+
+  export type ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput = {
+    create?: XOR<ManifestacaoCreateWithoutOrdem_servicoInput, ManifestacaoUncheckedCreateWithoutOrdem_servicoInput> | ManifestacaoCreateWithoutOrdem_servicoInput[] | ManifestacaoUncheckedCreateWithoutOrdem_servicoInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutOrdem_servicoInput | ManifestacaoCreateOrConnectWithoutOrdem_servicoInput[]
+    createMany?: ManifestacaoCreateManyOrdem_servicoInputEnvelope
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
   }
 
   export type EnumPrioridadeFieldUpdateOperationsInput = {
@@ -12188,6 +14326,20 @@ export namespace Prisma {
     deleteMany?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
   }
 
+  export type ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput = {
+    create?: XOR<ManifestacaoCreateWithoutOrdem_servicoInput, ManifestacaoUncheckedCreateWithoutOrdem_servicoInput> | ManifestacaoCreateWithoutOrdem_servicoInput[] | ManifestacaoUncheckedCreateWithoutOrdem_servicoInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutOrdem_servicoInput | ManifestacaoCreateOrConnectWithoutOrdem_servicoInput[]
+    upsert?: ManifestacaoUpsertWithWhereUniqueWithoutOrdem_servicoInput | ManifestacaoUpsertWithWhereUniqueWithoutOrdem_servicoInput[]
+    createMany?: ManifestacaoCreateManyOrdem_servicoInputEnvelope
+    set?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    disconnect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    delete?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    update?: ManifestacaoUpdateWithWhereUniqueWithoutOrdem_servicoInput | ManifestacaoUpdateWithWhereUniqueWithoutOrdem_servicoInput[]
+    updateMany?: ManifestacaoUpdateManyWithWhereWithoutOrdem_servicoInput | ManifestacaoUpdateManyWithWhereWithoutOrdem_servicoInput[]
+    deleteMany?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
+  }
+
   export type OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput = {
     create?: XOR<OrdemServicoCreateWithoutOrdem_vinculadaInput, OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput> | OrdemServicoCreateWithoutOrdem_vinculadaInput[] | OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput[]
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutOrdem_vinculadaInput | OrdemServicoCreateOrConnectWithoutOrdem_vinculadaInput[]
@@ -12214,6 +14366,20 @@ export namespace Prisma {
     update?: AgendaVistoriaUpdateWithWhereUniqueWithoutOrdem_servicoInput | AgendaVistoriaUpdateWithWhereUniqueWithoutOrdem_servicoInput[]
     updateMany?: AgendaVistoriaUpdateManyWithWhereWithoutOrdem_servicoInput | AgendaVistoriaUpdateManyWithWhereWithoutOrdem_servicoInput[]
     deleteMany?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
+  }
+
+  export type ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput = {
+    create?: XOR<ManifestacaoCreateWithoutOrdem_servicoInput, ManifestacaoUncheckedCreateWithoutOrdem_servicoInput> | ManifestacaoCreateWithoutOrdem_servicoInput[] | ManifestacaoUncheckedCreateWithoutOrdem_servicoInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutOrdem_servicoInput | ManifestacaoCreateOrConnectWithoutOrdem_servicoInput[]
+    upsert?: ManifestacaoUpsertWithWhereUniqueWithoutOrdem_servicoInput | ManifestacaoUpsertWithWhereUniqueWithoutOrdem_servicoInput[]
+    createMany?: ManifestacaoCreateManyOrdem_servicoInputEnvelope
+    set?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    disconnect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    delete?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    update?: ManifestacaoUpdateWithWhereUniqueWithoutOrdem_servicoInput | ManifestacaoUpdateWithWhereUniqueWithoutOrdem_servicoInput[]
+    updateMany?: ManifestacaoUpdateManyWithWhereWithoutOrdem_servicoInput | ManifestacaoUpdateManyWithWhereWithoutOrdem_servicoInput[]
+    deleteMany?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
   }
 
   export type UsuarioCreateNestedOneWithoutAuditoriasInput = {
@@ -12273,6 +14439,62 @@ export namespace Prisma {
     delete?: OrdemServicoWhereInput | boolean
     connect?: OrdemServicoWhereUniqueInput
     update?: XOR<XOR<OrdemServicoUpdateToOneWithWhereWithoutAgendamentosInput, OrdemServicoUpdateWithoutAgendamentosInput>, OrdemServicoUncheckedUpdateWithoutAgendamentosInput>
+  }
+
+  export type PredioCreateNestedOneWithoutManifestacoesInput = {
+    create?: XOR<PredioCreateWithoutManifestacoesInput, PredioUncheckedCreateWithoutManifestacoesInput>
+    connectOrCreate?: PredioCreateOrConnectWithoutManifestacoesInput
+    connect?: PredioWhereUniqueInput
+  }
+
+  export type UsuarioCreateNestedOneWithoutManifestacoes_respondidasInput = {
+    create?: XOR<UsuarioCreateWithoutManifestacoes_respondidasInput, UsuarioUncheckedCreateWithoutManifestacoes_respondidasInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutManifestacoes_respondidasInput
+    connect?: UsuarioWhereUniqueInput
+  }
+
+  export type OrdemServicoCreateNestedOneWithoutManifestacoes_origemInput = {
+    create?: XOR<OrdemServicoCreateWithoutManifestacoes_origemInput, OrdemServicoUncheckedCreateWithoutManifestacoes_origemInput>
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutManifestacoes_origemInput
+    connect?: OrdemServicoWhereUniqueInput
+  }
+
+  export type EnumTipoManifestacaoFieldUpdateOperationsInput = {
+    set?: $Enums.TipoManifestacao
+  }
+
+  export type EnumStatusManifestacaoFieldUpdateOperationsInput = {
+    set?: $Enums.StatusManifestacao
+  }
+
+  export type PredioUpdateOneWithoutManifestacoesNestedInput = {
+    create?: XOR<PredioCreateWithoutManifestacoesInput, PredioUncheckedCreateWithoutManifestacoesInput>
+    connectOrCreate?: PredioCreateOrConnectWithoutManifestacoesInput
+    upsert?: PredioUpsertWithoutManifestacoesInput
+    disconnect?: PredioWhereInput | boolean
+    delete?: PredioWhereInput | boolean
+    connect?: PredioWhereUniqueInput
+    update?: XOR<XOR<PredioUpdateToOneWithWhereWithoutManifestacoesInput, PredioUpdateWithoutManifestacoesInput>, PredioUncheckedUpdateWithoutManifestacoesInput>
+  }
+
+  export type UsuarioUpdateOneWithoutManifestacoes_respondidasNestedInput = {
+    create?: XOR<UsuarioCreateWithoutManifestacoes_respondidasInput, UsuarioUncheckedCreateWithoutManifestacoes_respondidasInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutManifestacoes_respondidasInput
+    upsert?: UsuarioUpsertWithoutManifestacoes_respondidasInput
+    disconnect?: UsuarioWhereInput | boolean
+    delete?: UsuarioWhereInput | boolean
+    connect?: UsuarioWhereUniqueInput
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutManifestacoes_respondidasInput, UsuarioUpdateWithoutManifestacoes_respondidasInput>, UsuarioUncheckedUpdateWithoutManifestacoes_respondidasInput>
+  }
+
+  export type OrdemServicoUpdateOneWithoutManifestacoes_origemNestedInput = {
+    create?: XOR<OrdemServicoCreateWithoutManifestacoes_origemInput, OrdemServicoUncheckedCreateWithoutManifestacoes_origemInput>
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutManifestacoes_origemInput
+    upsert?: OrdemServicoUpsertWithoutManifestacoes_origemInput
+    disconnect?: OrdemServicoWhereInput | boolean
+    delete?: OrdemServicoWhereInput | boolean
+    connect?: OrdemServicoWhereUniqueInput
+    update?: XOR<XOR<OrdemServicoUpdateToOneWithWhereWithoutManifestacoes_origemInput, OrdemServicoUpdateWithoutManifestacoes_origemInput>, OrdemServicoUncheckedUpdateWithoutManifestacoes_origemInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -12600,6 +14822,40 @@ export namespace Prisma {
     _max?: NestedEnumAuditActionFilter<$PrismaModel>
   }
 
+  export type NestedEnumTipoManifestacaoFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoManifestacao | EnumTipoManifestacaoFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoManifestacao[] | ListEnumTipoManifestacaoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoManifestacao[] | ListEnumTipoManifestacaoFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoManifestacaoFilter<$PrismaModel> | $Enums.TipoManifestacao
+  }
+
+  export type NestedEnumStatusManifestacaoFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusManifestacao | EnumStatusManifestacaoFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusManifestacao[] | ListEnumStatusManifestacaoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusManifestacao[] | ListEnumStatusManifestacaoFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusManifestacaoFilter<$PrismaModel> | $Enums.StatusManifestacao
+  }
+
+  export type NestedEnumTipoManifestacaoWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoManifestacao | EnumTipoManifestacaoFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoManifestacao[] | ListEnumTipoManifestacaoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoManifestacao[] | ListEnumTipoManifestacaoFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoManifestacaoWithAggregatesFilter<$PrismaModel> | $Enums.TipoManifestacao
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTipoManifestacaoFilter<$PrismaModel>
+    _max?: NestedEnumTipoManifestacaoFilter<$PrismaModel>
+  }
+
+  export type NestedEnumStatusManifestacaoWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusManifestacao | EnumStatusManifestacaoFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusManifestacao[] | ListEnumStatusManifestacaoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusManifestacao[] | ListEnumStatusManifestacaoFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusManifestacaoWithAggregatesFilter<$PrismaModel> | $Enums.StatusManifestacao
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusManifestacaoFilter<$PrismaModel>
+    _max?: NestedEnumStatusManifestacaoFilter<$PrismaModel>
+  }
+
   export type PredioCreateWithoutGestorInput = {
     id?: string
     nome: string
@@ -12616,6 +14872,7 @@ export namespace Prisma {
     atualizado?: Date | string
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUncheckedCreateWithoutGestorInput = {
@@ -12634,6 +14891,7 @@ export namespace Prisma {
     atualizado?: Date | string
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPredioInput
   }
 
   export type PredioCreateOrConnectWithoutGestorInput = {
@@ -12673,6 +14931,7 @@ export namespace Prisma {
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
   }
 
   export type OrdemServicoUncheckedCreateWithoutSolicitanteInput = {
@@ -12702,6 +14961,7 @@ export namespace Prisma {
     atualizado?: Date | string
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
   }
 
   export type OrdemServicoCreateOrConnectWithoutSolicitanteInput = {
@@ -12741,6 +15001,7 @@ export namespace Prisma {
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
   }
 
   export type OrdemServicoUncheckedCreateWithoutTecnicoInput = {
@@ -12770,6 +15031,7 @@ export namespace Prisma {
     atualizado?: Date | string
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
   }
 
   export type OrdemServicoCreateOrConnectWithoutTecnicoInput = {
@@ -12779,6 +15041,60 @@ export namespace Prisma {
 
   export type OrdemServicoCreateManyTecnicoInputEnvelope = {
     data: OrdemServicoCreateManyTecnicoInput | OrdemServicoCreateManyTecnicoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ManifestacaoCreateWithoutRespondido_porInput = {
+    id?: string
+    protocolo?: string
+    tipo?: $Enums.TipoManifestacao
+    categoria?: string
+    descricao: string
+    local_referencia?: string | null
+    bairro?: string | null
+    anonimo?: boolean
+    manifestante_nome?: string | null
+    manifestante_email?: string | null
+    manifestante_telefone?: string | null
+    status?: $Enums.StatusManifestacao
+    resposta_oficial?: string | null
+    respondido_em?: Date | string | null
+    motivo_arquivamento?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio?: PredioCreateNestedOneWithoutManifestacoesInput
+    ordem_servico?: OrdemServicoCreateNestedOneWithoutManifestacoes_origemInput
+  }
+
+  export type ManifestacaoUncheckedCreateWithoutRespondido_porInput = {
+    id?: string
+    protocolo?: string
+    tipo?: $Enums.TipoManifestacao
+    categoria?: string
+    descricao: string
+    predio_id?: string | null
+    local_referencia?: string | null
+    bairro?: string | null
+    anonimo?: boolean
+    manifestante_nome?: string | null
+    manifestante_email?: string | null
+    manifestante_telefone?: string | null
+    status?: $Enums.StatusManifestacao
+    resposta_oficial?: string | null
+    respondido_em?: Date | string | null
+    motivo_arquivamento?: string | null
+    ordem_servico_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type ManifestacaoCreateOrConnectWithoutRespondido_porInput = {
+    where: ManifestacaoWhereUniqueInput
+    create: XOR<ManifestacaoCreateWithoutRespondido_porInput, ManifestacaoUncheckedCreateWithoutRespondido_porInput>
+  }
+
+  export type ManifestacaoCreateManyRespondido_porInputEnvelope = {
+    data: ManifestacaoCreateManyRespondido_porInput | ManifestacaoCreateManyRespondido_porInput[]
     skipDuplicates?: boolean
   }
 
@@ -12911,6 +15227,48 @@ export namespace Prisma {
     data: XOR<OrdemServicoUpdateManyMutationInput, OrdemServicoUncheckedUpdateManyWithoutTecnicoInput>
   }
 
+  export type ManifestacaoUpsertWithWhereUniqueWithoutRespondido_porInput = {
+    where: ManifestacaoWhereUniqueInput
+    update: XOR<ManifestacaoUpdateWithoutRespondido_porInput, ManifestacaoUncheckedUpdateWithoutRespondido_porInput>
+    create: XOR<ManifestacaoCreateWithoutRespondido_porInput, ManifestacaoUncheckedCreateWithoutRespondido_porInput>
+  }
+
+  export type ManifestacaoUpdateWithWhereUniqueWithoutRespondido_porInput = {
+    where: ManifestacaoWhereUniqueInput
+    data: XOR<ManifestacaoUpdateWithoutRespondido_porInput, ManifestacaoUncheckedUpdateWithoutRespondido_porInput>
+  }
+
+  export type ManifestacaoUpdateManyWithWhereWithoutRespondido_porInput = {
+    where: ManifestacaoScalarWhereInput
+    data: XOR<ManifestacaoUpdateManyMutationInput, ManifestacaoUncheckedUpdateManyWithoutRespondido_porInput>
+  }
+
+  export type ManifestacaoScalarWhereInput = {
+    AND?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
+    OR?: ManifestacaoScalarWhereInput[]
+    NOT?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
+    id?: StringFilter<"Manifestacao"> | string
+    protocolo?: StringFilter<"Manifestacao"> | string
+    tipo?: EnumTipoManifestacaoFilter<"Manifestacao"> | $Enums.TipoManifestacao
+    categoria?: StringFilter<"Manifestacao"> | string
+    descricao?: StringFilter<"Manifestacao"> | string
+    predio_id?: StringNullableFilter<"Manifestacao"> | string | null
+    local_referencia?: StringNullableFilter<"Manifestacao"> | string | null
+    bairro?: StringNullableFilter<"Manifestacao"> | string | null
+    anonimo?: BoolFilter<"Manifestacao"> | boolean
+    manifestante_nome?: StringNullableFilter<"Manifestacao"> | string | null
+    manifestante_email?: StringNullableFilter<"Manifestacao"> | string | null
+    manifestante_telefone?: StringNullableFilter<"Manifestacao"> | string | null
+    status?: EnumStatusManifestacaoFilter<"Manifestacao"> | $Enums.StatusManifestacao
+    resposta_oficial?: StringNullableFilter<"Manifestacao"> | string | null
+    respondido_em?: DateTimeNullableFilter<"Manifestacao"> | Date | string | null
+    respondido_por_id?: StringNullableFilter<"Manifestacao"> | string | null
+    motivo_arquivamento?: StringNullableFilter<"Manifestacao"> | string | null
+    ordem_servico_id?: StringNullableFilter<"Manifestacao"> | string | null
+    criado_em?: DateTimeFilter<"Manifestacao"> | Date | string
+    atualizado?: DateTimeFilter<"Manifestacao"> | Date | string
+  }
+
   export type AuditoriaLogUpsertWithWhereUniqueWithoutUsuarioInput = {
     where: AuditoriaLogWhereUniqueInput
     update: XOR<AuditoriaLogUpdateWithoutUsuarioInput, AuditoriaLogUncheckedUpdateWithoutUsuarioInput>
@@ -12955,6 +15313,7 @@ export namespace Prisma {
     atualizado?: Date | string
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
+    manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutUsuarioInput
   }
 
@@ -12972,6 +15331,7 @@ export namespace Prisma {
     atualizado?: Date | string
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
@@ -13007,6 +15367,7 @@ export namespace Prisma {
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
   }
 
   export type OrdemServicoUncheckedCreateWithoutPredioInput = {
@@ -13036,6 +15397,7 @@ export namespace Prisma {
     atualizado?: Date | string
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
   }
 
   export type OrdemServicoCreateOrConnectWithoutPredioInput = {
@@ -13094,6 +15456,60 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ManifestacaoCreateWithoutPredioInput = {
+    id?: string
+    protocolo?: string
+    tipo?: $Enums.TipoManifestacao
+    categoria?: string
+    descricao: string
+    local_referencia?: string | null
+    bairro?: string | null
+    anonimo?: boolean
+    manifestante_nome?: string | null
+    manifestante_email?: string | null
+    manifestante_telefone?: string | null
+    status?: $Enums.StatusManifestacao
+    resposta_oficial?: string | null
+    respondido_em?: Date | string | null
+    motivo_arquivamento?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    respondido_por?: UsuarioCreateNestedOneWithoutManifestacoes_respondidasInput
+    ordem_servico?: OrdemServicoCreateNestedOneWithoutManifestacoes_origemInput
+  }
+
+  export type ManifestacaoUncheckedCreateWithoutPredioInput = {
+    id?: string
+    protocolo?: string
+    tipo?: $Enums.TipoManifestacao
+    categoria?: string
+    descricao: string
+    local_referencia?: string | null
+    bairro?: string | null
+    anonimo?: boolean
+    manifestante_nome?: string | null
+    manifestante_email?: string | null
+    manifestante_telefone?: string | null
+    status?: $Enums.StatusManifestacao
+    resposta_oficial?: string | null
+    respondido_em?: Date | string | null
+    respondido_por_id?: string | null
+    motivo_arquivamento?: string | null
+    ordem_servico_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type ManifestacaoCreateOrConnectWithoutPredioInput = {
+    where: ManifestacaoWhereUniqueInput
+    create: XOR<ManifestacaoCreateWithoutPredioInput, ManifestacaoUncheckedCreateWithoutPredioInput>
+  }
+
+  export type ManifestacaoCreateManyPredioInputEnvelope = {
+    data: ManifestacaoCreateManyPredioInput | ManifestacaoCreateManyPredioInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsuarioUpsertWithoutPredios_geridosInput = {
     update: XOR<UsuarioUpdateWithoutPredios_geridosInput, UsuarioUncheckedUpdateWithoutPredios_geridosInput>
     create: XOR<UsuarioCreateWithoutPredios_geridosInput, UsuarioUncheckedCreateWithoutPredios_geridosInput>
@@ -13119,6 +15535,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
+    manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -13136,6 +15553,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -13193,6 +15611,22 @@ export namespace Prisma {
     atualizado?: DateTimeFilter<"AgendaVistoria"> | Date | string
   }
 
+  export type ManifestacaoUpsertWithWhereUniqueWithoutPredioInput = {
+    where: ManifestacaoWhereUniqueInput
+    update: XOR<ManifestacaoUpdateWithoutPredioInput, ManifestacaoUncheckedUpdateWithoutPredioInput>
+    create: XOR<ManifestacaoCreateWithoutPredioInput, ManifestacaoUncheckedCreateWithoutPredioInput>
+  }
+
+  export type ManifestacaoUpdateWithWhereUniqueWithoutPredioInput = {
+    where: ManifestacaoWhereUniqueInput
+    data: XOR<ManifestacaoUpdateWithoutPredioInput, ManifestacaoUncheckedUpdateWithoutPredioInput>
+  }
+
+  export type ManifestacaoUpdateManyWithWhereWithoutPredioInput = {
+    where: ManifestacaoScalarWhereInput
+    data: XOR<ManifestacaoUpdateManyMutationInput, ManifestacaoUncheckedUpdateManyWithoutPredioInput>
+  }
+
   export type PredioCreateWithoutOrdens_servicoInput = {
     id?: string
     nome: string
@@ -13209,6 +15643,7 @@ export namespace Prisma {
     atualizado?: Date | string
     gestor?: UsuarioCreateNestedOneWithoutPredios_geridosInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUncheckedCreateWithoutOrdens_servicoInput = {
@@ -13227,6 +15662,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPredioInput
   }
 
   export type PredioCreateOrConnectWithoutOrdens_servicoInput = {
@@ -13248,6 +15684,7 @@ export namespace Prisma {
     atualizado?: Date | string
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
     chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
+    manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutUsuarioInput
   }
 
@@ -13265,6 +15702,7 @@ export namespace Prisma {
     atualizado?: Date | string
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
     chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
@@ -13287,6 +15725,7 @@ export namespace Prisma {
     atualizado?: Date | string
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
+    manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutUsuarioInput
   }
 
@@ -13304,6 +15743,7 @@ export namespace Prisma {
     atualizado?: Date | string
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
@@ -13339,6 +15779,7 @@ export namespace Prisma {
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
   }
 
   export type OrdemServicoUncheckedCreateWithoutOrdens_derivadasInput = {
@@ -13368,6 +15809,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
   }
 
   export type OrdemServicoCreateOrConnectWithoutOrdens_derivadasInput = {
@@ -13402,6 +15844,7 @@ export namespace Prisma {
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
   }
 
   export type OrdemServicoUncheckedCreateWithoutOrdem_vinculadaInput = {
@@ -13431,6 +15874,7 @@ export namespace Prisma {
     atualizado?: Date | string
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
   }
 
   export type OrdemServicoCreateOrConnectWithoutOrdem_vinculadaInput = {
@@ -13489,6 +15933,60 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ManifestacaoCreateWithoutOrdem_servicoInput = {
+    id?: string
+    protocolo?: string
+    tipo?: $Enums.TipoManifestacao
+    categoria?: string
+    descricao: string
+    local_referencia?: string | null
+    bairro?: string | null
+    anonimo?: boolean
+    manifestante_nome?: string | null
+    manifestante_email?: string | null
+    manifestante_telefone?: string | null
+    status?: $Enums.StatusManifestacao
+    resposta_oficial?: string | null
+    respondido_em?: Date | string | null
+    motivo_arquivamento?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio?: PredioCreateNestedOneWithoutManifestacoesInput
+    respondido_por?: UsuarioCreateNestedOneWithoutManifestacoes_respondidasInput
+  }
+
+  export type ManifestacaoUncheckedCreateWithoutOrdem_servicoInput = {
+    id?: string
+    protocolo?: string
+    tipo?: $Enums.TipoManifestacao
+    categoria?: string
+    descricao: string
+    predio_id?: string | null
+    local_referencia?: string | null
+    bairro?: string | null
+    anonimo?: boolean
+    manifestante_nome?: string | null
+    manifestante_email?: string | null
+    manifestante_telefone?: string | null
+    status?: $Enums.StatusManifestacao
+    resposta_oficial?: string | null
+    respondido_em?: Date | string | null
+    respondido_por_id?: string | null
+    motivo_arquivamento?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type ManifestacaoCreateOrConnectWithoutOrdem_servicoInput = {
+    where: ManifestacaoWhereUniqueInput
+    create: XOR<ManifestacaoCreateWithoutOrdem_servicoInput, ManifestacaoUncheckedCreateWithoutOrdem_servicoInput>
+  }
+
+  export type ManifestacaoCreateManyOrdem_servicoInputEnvelope = {
+    data: ManifestacaoCreateManyOrdem_servicoInput | ManifestacaoCreateManyOrdem_servicoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PredioUpsertWithoutOrdens_servicoInput = {
     update: XOR<PredioUpdateWithoutOrdens_servicoInput, PredioUncheckedUpdateWithoutOrdens_servicoInput>
     create: XOR<PredioCreateWithoutOrdens_servicoInput, PredioUncheckedCreateWithoutOrdens_servicoInput>
@@ -13516,6 +16014,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     gestor?: UsuarioUpdateOneWithoutPredios_geridosNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateWithoutOrdens_servicoInput = {
@@ -13534,6 +16033,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput
   }
 
   export type UsuarioUpsertWithoutChamados_solicitadosInput = {
@@ -13561,6 +16061,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
     chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
+    manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -13578,6 +16079,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -13606,6 +16108,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
+    manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -13623,6 +16126,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -13664,6 +16168,7 @@ export namespace Prisma {
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateWithoutOrdens_derivadasInput = {
@@ -13693,6 +16198,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
   }
 
   export type OrdemServicoUpsertWithWhereUniqueWithoutOrdem_vinculadaInput = {
@@ -13727,6 +16233,22 @@ export namespace Prisma {
     data: XOR<AgendaVistoriaUpdateManyMutationInput, AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoInput>
   }
 
+  export type ManifestacaoUpsertWithWhereUniqueWithoutOrdem_servicoInput = {
+    where: ManifestacaoWhereUniqueInput
+    update: XOR<ManifestacaoUpdateWithoutOrdem_servicoInput, ManifestacaoUncheckedUpdateWithoutOrdem_servicoInput>
+    create: XOR<ManifestacaoCreateWithoutOrdem_servicoInput, ManifestacaoUncheckedCreateWithoutOrdem_servicoInput>
+  }
+
+  export type ManifestacaoUpdateWithWhereUniqueWithoutOrdem_servicoInput = {
+    where: ManifestacaoWhereUniqueInput
+    data: XOR<ManifestacaoUpdateWithoutOrdem_servicoInput, ManifestacaoUncheckedUpdateWithoutOrdem_servicoInput>
+  }
+
+  export type ManifestacaoUpdateManyWithWhereWithoutOrdem_servicoInput = {
+    where: ManifestacaoScalarWhereInput
+    data: XOR<ManifestacaoUpdateManyMutationInput, ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoInput>
+  }
+
   export type UsuarioCreateWithoutAuditoriasInput = {
     id?: string
     nome: string
@@ -13742,6 +16264,7 @@ export namespace Prisma {
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
+    manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
   }
 
   export type UsuarioUncheckedCreateWithoutAuditoriasInput = {
@@ -13759,6 +16282,7 @@ export namespace Prisma {
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
   }
 
   export type UsuarioCreateOrConnectWithoutAuditoriasInput = {
@@ -13792,6 +16316,7 @@ export namespace Prisma {
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
+    manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
   }
 
   export type UsuarioUncheckedUpdateWithoutAuditoriasInput = {
@@ -13809,6 +16334,7 @@ export namespace Prisma {
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
   }
 
   export type PredioCreateWithoutVistoriasInput = {
@@ -13827,6 +16353,7 @@ export namespace Prisma {
     atualizado?: Date | string
     gestor?: UsuarioCreateNestedOneWithoutPredios_geridosInput
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUncheckedCreateWithoutVistoriasInput = {
@@ -13845,6 +16372,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPredioInput
   }
 
   export type PredioCreateOrConnectWithoutVistoriasInput = {
@@ -13879,6 +16407,7 @@ export namespace Prisma {
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
+    manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
   }
 
   export type OrdemServicoUncheckedCreateWithoutAgendamentosInput = {
@@ -13908,6 +16437,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
+    manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
   }
 
   export type OrdemServicoCreateOrConnectWithoutAgendamentosInput = {
@@ -13942,6 +16472,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     gestor?: UsuarioUpdateOneWithoutPredios_geridosNestedInput
     ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateWithoutVistoriasInput = {
@@ -13960,6 +16491,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput
   }
 
   export type OrdemServicoUpsertWithoutAgendamentosInput = {
@@ -14000,6 +16532,7 @@ export namespace Prisma {
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
+    manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateWithoutAgendamentosInput = {
@@ -14029,6 +16562,323 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
+    manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type PredioCreateWithoutManifestacoesInput = {
+    id?: string
+    nome: string
+    tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
+    endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    gestor?: UsuarioCreateNestedOneWithoutPredios_geridosInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
+  }
+
+  export type PredioUncheckedCreateWithoutManifestacoesInput = {
+    id?: string
+    nome: string
+    tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
+    endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
+    gestor_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
+  }
+
+  export type PredioCreateOrConnectWithoutManifestacoesInput = {
+    where: PredioWhereUniqueInput
+    create: XOR<PredioCreateWithoutManifestacoesInput, PredioUncheckedCreateWithoutManifestacoesInput>
+  }
+
+  export type UsuarioCreateWithoutManifestacoes_respondidasInput = {
+    id?: string
+    nome: string
+    email: string
+    senha_hash: string
+    role?: $Enums.Role
+    especialidade?: string | null
+    telefone?: string | null
+    ativo?: boolean
+    token_version?: number
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predios_geridos?: PredioCreateNestedManyWithoutGestorInput
+    chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
+    chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutManifestacoes_respondidasInput = {
+    id?: string
+    nome: string
+    email: string
+    senha_hash: string
+    role?: $Enums.Role
+    especialidade?: string | null
+    telefone?: string | null
+    ativo?: boolean
+    token_version?: number
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
+    chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
+    chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutManifestacoes_respondidasInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutManifestacoes_respondidasInput, UsuarioUncheckedCreateWithoutManifestacoes_respondidasInput>
+  }
+
+  export type OrdemServicoCreateWithoutManifestacoes_origemInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
+    tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
+    ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
+    agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
+  }
+
+  export type OrdemServicoUncheckedCreateWithoutManifestacoes_origemInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    predio_id: string
+    solicitante_id: string
+    tecnico_atribuido_id?: string | null
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    ordem_vinculada_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
+    agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
+  }
+
+  export type OrdemServicoCreateOrConnectWithoutManifestacoes_origemInput = {
+    where: OrdemServicoWhereUniqueInput
+    create: XOR<OrdemServicoCreateWithoutManifestacoes_origemInput, OrdemServicoUncheckedCreateWithoutManifestacoes_origemInput>
+  }
+
+  export type PredioUpsertWithoutManifestacoesInput = {
+    update: XOR<PredioUpdateWithoutManifestacoesInput, PredioUncheckedUpdateWithoutManifestacoesInput>
+    create: XOR<PredioCreateWithoutManifestacoesInput, PredioUncheckedCreateWithoutManifestacoesInput>
+    where?: PredioWhereInput
+  }
+
+  export type PredioUpdateToOneWithWhereWithoutManifestacoesInput = {
+    where?: PredioWhereInput
+    data: XOR<PredioUpdateWithoutManifestacoesInput, PredioUncheckedUpdateWithoutManifestacoesInput>
+  }
+
+  export type PredioUpdateWithoutManifestacoesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
+    endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    gestor?: UsuarioUpdateOneWithoutPredios_geridosNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
+  }
+
+  export type PredioUncheckedUpdateWithoutManifestacoesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
+    endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
+    gestor_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
+  }
+
+  export type UsuarioUpsertWithoutManifestacoes_respondidasInput = {
+    update: XOR<UsuarioUpdateWithoutManifestacoes_respondidasInput, UsuarioUncheckedUpdateWithoutManifestacoes_respondidasInput>
+    create: XOR<UsuarioCreateWithoutManifestacoes_respondidasInput, UsuarioUncheckedCreateWithoutManifestacoes_respondidasInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutManifestacoes_respondidasInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutManifestacoes_respondidasInput, UsuarioUncheckedUpdateWithoutManifestacoes_respondidasInput>
+  }
+
+  export type UsuarioUpdateWithoutManifestacoes_respondidasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    senha_hash?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    especialidade?: NullableStringFieldUpdateOperationsInput | string | null
+    telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    token_version?: IntFieldUpdateOperationsInput | number
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
+    chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
+    chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutManifestacoes_respondidasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    senha_hash?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    especialidade?: NullableStringFieldUpdateOperationsInput | string | null
+    telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    token_version?: IntFieldUpdateOperationsInput | number
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
+    chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
+    chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type OrdemServicoUpsertWithoutManifestacoes_origemInput = {
+    update: XOR<OrdemServicoUpdateWithoutManifestacoes_origemInput, OrdemServicoUncheckedUpdateWithoutManifestacoes_origemInput>
+    create: XOR<OrdemServicoCreateWithoutManifestacoes_origemInput, OrdemServicoUncheckedCreateWithoutManifestacoes_origemInput>
+    where?: OrdemServicoWhereInput
+  }
+
+  export type OrdemServicoUpdateToOneWithWhereWithoutManifestacoes_origemInput = {
+    where?: OrdemServicoWhereInput
+    data: XOR<OrdemServicoUpdateWithoutManifestacoes_origemInput, OrdemServicoUncheckedUpdateWithoutManifestacoes_origemInput>
+  }
+
+  export type OrdemServicoUpdateWithoutManifestacoes_origemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
+    tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
+    ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
+    agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type OrdemServicoUncheckedUpdateWithoutManifestacoes_origemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    predio_id?: StringFieldUpdateOperationsInput | string
+    solicitante_id?: StringFieldUpdateOperationsInput | string
+    tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
+    agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
   }
 
   export type PredioCreateManyGestorInput = {
@@ -14101,6 +16951,28 @@ export namespace Prisma {
     atualizado?: Date | string
   }
 
+  export type ManifestacaoCreateManyRespondido_porInput = {
+    id?: string
+    protocolo?: string
+    tipo?: $Enums.TipoManifestacao
+    categoria?: string
+    descricao: string
+    predio_id?: string | null
+    local_referencia?: string | null
+    bairro?: string | null
+    anonimo?: boolean
+    manifestante_nome?: string | null
+    manifestante_email?: string | null
+    manifestante_telefone?: string | null
+    status?: $Enums.StatusManifestacao
+    resposta_oficial?: string | null
+    respondido_em?: Date | string | null
+    motivo_arquivamento?: string | null
+    ordem_servico_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
   export type AuditoriaLogCreateManyUsuarioInput = {
     id?: string
     entidade_afetada: string
@@ -14127,6 +16999,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateWithoutGestorInput = {
@@ -14145,6 +17018,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateManyWithoutGestorInput = {
@@ -14190,6 +17064,7 @@ export namespace Prisma {
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateWithoutSolicitanteInput = {
@@ -14219,6 +17094,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateManyWithoutSolicitanteInput = {
@@ -14275,6 +17151,7 @@ export namespace Prisma {
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateWithoutTecnicoInput = {
@@ -14304,6 +17181,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateManyWithoutTecnicoInput = {
@@ -14329,6 +17207,72 @@ export namespace Prisma {
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManifestacaoUpdateWithoutRespondido_porInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneWithoutManifestacoesNestedInput
+    ordem_servico?: OrdemServicoUpdateOneWithoutManifestacoes_origemNestedInput
+  }
+
+  export type ManifestacaoUncheckedUpdateWithoutRespondido_porInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManifestacaoUncheckedUpdateManyWithoutRespondido_porInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14408,6 +17352,28 @@ export namespace Prisma {
     atualizado?: Date | string
   }
 
+  export type ManifestacaoCreateManyPredioInput = {
+    id?: string
+    protocolo?: string
+    tipo?: $Enums.TipoManifestacao
+    categoria?: string
+    descricao: string
+    local_referencia?: string | null
+    bairro?: string | null
+    anonimo?: boolean
+    manifestante_nome?: string | null
+    manifestante_email?: string | null
+    manifestante_telefone?: string | null
+    status?: $Enums.StatusManifestacao
+    resposta_oficial?: string | null
+    respondido_em?: Date | string | null
+    respondido_por_id?: string | null
+    motivo_arquivamento?: string | null
+    ordem_servico_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
   export type OrdemServicoUpdateWithoutPredioInput = {
     id?: StringFieldUpdateOperationsInput | string
     codigo?: StringFieldUpdateOperationsInput | string
@@ -14435,6 +17401,7 @@ export namespace Prisma {
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateWithoutPredioInput = {
@@ -14464,6 +17431,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateManyWithoutPredioInput = {
@@ -14547,6 +17515,72 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ManifestacaoUpdateWithoutPredioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    respondido_por?: UsuarioUpdateOneWithoutManifestacoes_respondidasNestedInput
+    ordem_servico?: OrdemServicoUpdateOneWithoutManifestacoes_origemNestedInput
+  }
+
+  export type ManifestacaoUncheckedUpdateWithoutPredioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    respondido_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManifestacaoUncheckedUpdateManyWithoutPredioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    respondido_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type OrdemServicoCreateManyOrdem_vinculadaInput = {
     id?: string
     codigo?: string
@@ -14592,6 +17626,28 @@ export namespace Prisma {
     atualizado?: Date | string
   }
 
+  export type ManifestacaoCreateManyOrdem_servicoInput = {
+    id?: string
+    protocolo?: string
+    tipo?: $Enums.TipoManifestacao
+    categoria?: string
+    descricao: string
+    predio_id?: string | null
+    local_referencia?: string | null
+    bairro?: string | null
+    anonimo?: boolean
+    manifestante_nome?: string | null
+    manifestante_email?: string | null
+    manifestante_telefone?: string | null
+    status?: $Enums.StatusManifestacao
+    resposta_oficial?: string | null
+    respondido_em?: Date | string | null
+    respondido_por_id?: string | null
+    motivo_arquivamento?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
   export type OrdemServicoUpdateWithoutOrdem_vinculadaInput = {
     id?: StringFieldUpdateOperationsInput | string
     codigo?: StringFieldUpdateOperationsInput | string
@@ -14619,6 +17675,7 @@ export namespace Prisma {
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateWithoutOrdem_vinculadaInput = {
@@ -14648,6 +17705,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
   }
 
   export type OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaInput = {
@@ -14727,6 +17785,72 @@ export namespace Prisma {
     predio_id?: NullableStringFieldUpdateOperationsInput | string | null
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManifestacaoUpdateWithoutOrdem_servicoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneWithoutManifestacoesNestedInput
+    respondido_por?: UsuarioUpdateOneWithoutManifestacoes_respondidasNestedInput
+  }
+
+  export type ManifestacaoUncheckedUpdateWithoutOrdem_servicoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    respondido_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    respondido_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }

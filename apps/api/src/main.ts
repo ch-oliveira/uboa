@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import { AppModule } from './app.module.js';
 
+import { json, urlencoded } from 'express';
 import { GlobalHttpExceptionFilter } from './common/filters/http-exception.filter.js';
 
 async function bootstrap() {
@@ -18,6 +19,9 @@ async function bootstrap() {
   }
 
   const app = await NestFactory.create(AppModule);
+
+  app.use(json({ limit: '20mb' }));
+  app.use(urlencoded({ extended: true, limit: '20mb' }));
 
   app.use(helmet({
     crossOriginResourcePolicy: false,
@@ -60,7 +64,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   const port = process.env.PORT ?? 3001;
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
   Logger.log(`Urboa NestJS API inicializada com sucesso na porta ${port}`, 'Bootstrap');
 }
 
