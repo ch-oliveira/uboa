@@ -58,13 +58,23 @@ export class ManifestacoesService {
    */
   async create(dto: CreateManifestacaoDto) {
     let predio = null;
+    let localRefExtra = dto.localReferencia?.trim() || null;
+
     if (dto.predioId) {
-      predio = await this.prisma.predio.findUnique({
-        where: { id: dto.predioId },
+      predio = await this.prisma.predio.findFirst({
+        where: {
+          OR: [
+            { id: dto.predioId },
+            { nome: { equals: dto.predioId, mode: 'insensitive' } },
+            { nome: { contains: dto.predioId, mode: 'insensitive' } },
+          ],
+        },
       });
 
       if (!predio) {
-        throw new NotFoundException(`Unidade pública não encontrada com ID: ${dto.predioId}`);
+        localRefExtra = localRefExtra
+          ? `${localRefExtra} • Unidade indicada: ${dto.predioId}`
+          : `Unidade indicada: ${dto.predioId}`;
       }
     }
 
@@ -77,7 +87,7 @@ export class ManifestacoesService {
         categoria: (dto.categoria || 'GERAL').trim().toUpperCase(),
         descricao: dto.descricao.trim(),
         predio_id: predio ? predio.id : null,
-        local_referencia: dto.localReferencia?.trim() || null,
+        local_referencia: localRefExtra,
         bairro: dto.bairro?.trim() || null,
         anonimo: dto.anonimo ?? false,
         manifestante_nome: dto.anonimo ? null : (dto.nome?.trim() || null),

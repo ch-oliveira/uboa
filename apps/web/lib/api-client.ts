@@ -12,7 +12,19 @@ import type { OrdemServico, StatusOS, Prioridade } from '@/app/kanban/data';
 import type { UnidadeItem, TipoUnidade } from '@/types/units';
 import type { AgendaEvent, SystemSettings } from '@/context/orders-context';
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api').replace(/\/+$/, '');
+export function getApiBase(): string {
+  if (typeof window !== 'undefined') {
+    // No navegador em produção ou em localhost:
+    // Se NEXT_PUBLIC_API_URL foi configurado e não aponta para o localhost padrão, utilize-o.
+    if (process.env.NEXT_PUBLIC_API_URL && !process.env.NEXT_PUBLIC_API_URL.includes('localhost:3001')) {
+      return process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, '');
+    }
+    // Rota relativa absoluta usando a origem atual do browser + '/api', aproveitando rewrites do Next.js
+    return `${window.location.origin}/api`;
+  }
+  return (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api').replace(/\/+$/, '');
+}
+
 const STORAGE_KEY_TOKEN = 'zelo_auth_token_v1';
 
 function getAuthToken(): string | null {
@@ -204,19 +216,21 @@ function mapSettingsFromApi(item: any): SystemSettings {
     autoDispatch: item.autoDispatchEnabled ?? item.autoDispatch ?? false,
     tecnicosList: item.tecnicosList || [],
     themeMode: item.themeMode || 'system',
-    apiEndpoint: API_BASE,
+    apiEndpoint: getApiBase(),
     useMockData: false,
   };
 }
 
 export const apiClient = {
-  baseUrl: API_BASE,
+  get baseUrl() {
+    return getApiBase();
+  },
 
   // -------------------------------------------------------------
   // AUTENTICAÇÃO
   // -------------------------------------------------------------
   async login(email: string, password?: string): Promise<{ success: boolean; user?: UserAccount; token?: string; message?: string }> {
-    const res = await fetch(`${API_BASE}/auth/login`, {
+    const res = await fetch(`${getApiBase()}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -267,7 +281,7 @@ export const apiClient = {
     if (!token) return { success: false };
 
     try {
-      const res = await fetch(`${API_BASE}/auth/me`, {
+      const res = await fetch(`${getApiBase()}/auth/me`, {
         cache: 'no-store',
         headers: getAuthHeaders(tokenOverride ? { Authorization: `Bearer ${tokenOverride}` } : {}),
       });
@@ -285,7 +299,7 @@ export const apiClient = {
 
   async logout(): Promise<void> {
     try {
-      await fetch(`${API_BASE}/auth/logout`, {
+      await fetch(`${getApiBase()}/auth/logout`, {
         method: 'POST',
         headers: getAuthHeaders(),
       });
@@ -312,7 +326,7 @@ export const apiClient = {
     status?: string;
     prioridade?: string;
   }): Promise<{ success: boolean; orders: OrdemServico[]; stats?: any }> {
-    const url = new URL(`${API_BASE}/work-orders`);
+    const url = new URL(`${getApiBase()}/work-orders`);
     if (params) {
       Object.entries(params).forEach(([key, val]) => {
         if (val) url.searchParams.set(key, val);
@@ -335,7 +349,7 @@ export const apiClient = {
   },
 
   async getWorkOrder(idOrCode: string): Promise<{ success: boolean; order?: OrdemServico }> {
-    const res = await fetch(`${API_BASE}/work-orders/${encodeURIComponent(idOrCode)}`, {
+    const res = await fetch(`${getApiBase()}/work-orders/${encodeURIComponent(idOrCode)}`, {
       cache: 'no-store',
       headers: getAuthHeaders(),
     });
@@ -348,7 +362,7 @@ export const apiClient = {
   },
 
   async getPublicTrack(codigo: string): Promise<{ success: boolean; data?: any; message?: string }> {
-    const res = await fetch(`${API_BASE}/work-orders/public/track/${encodeURIComponent(codigo)}`, {
+    const res = await fetch(`${getApiBase()}/work-orders/public/track/${encodeURIComponent(codigo)}`, {
       cache: 'no-store',
     });
     const resData = await res.json();
@@ -374,7 +388,7 @@ export const apiClient = {
       fotosConclusao: order.fotosConclusao || [],
     };
 
-    const res = await fetch(`${API_BASE}/work-orders`, {
+    const res = await fetch(`${getApiBase()}/work-orders`, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify(payload),
@@ -408,7 +422,7 @@ export const apiClient = {
       payload.fotos_conclusao = updates.fotosConclusao;
     }
 
-    const res = await fetch(`${API_BASE}/work-orders/${encodeURIComponent(idOrCode)}`, {
+    const res = await fetch(`${getApiBase()}/work-orders/${encodeURIComponent(idOrCode)}`, {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify(payload),
@@ -425,7 +439,7 @@ export const apiClient = {
   },
 
   async deleteWorkOrder(idOrCode: string, motivoCancelamento?: string): Promise<{ success: boolean; message?: string }> {
-    const res = await fetch(`${API_BASE}/work-orders/${encodeURIComponent(idOrCode)}`, {
+    const res = await fetch(`${getApiBase()}/work-orders/${encodeURIComponent(idOrCode)}`, {
       method: 'DELETE',
       headers: getAuthHeaders(),
       body: JSON.stringify({ motivoCancelamento: motivoCancelamento || 'Cancelamento solicitado via painel web' }),
@@ -437,7 +451,7 @@ export const apiClient = {
   // UNIDADES MUNICIPAIS (FACILITIES)
   // -------------------------------------------------------------
   async getFacilities(): Promise<{ success: boolean; units: UnidadeItem[] }> {
-    const res = await fetch(`${API_BASE}/facilities`, {
+    const res = await fetch(`${getApiBase()}/facilities`, {
       cache: 'no-store',
       headers: getAuthHeaders(),
     });
@@ -470,7 +484,7 @@ export const apiClient = {
       telefone: facility.telefone,
     };
 
-    const res = await fetch(`${API_BASE}/facilities`, {
+    const res = await fetch(`${getApiBase()}/facilities`, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify(payload),
@@ -505,7 +519,7 @@ export const apiClient = {
       telefone: facility.telefone,
     };
 
-    const res = await fetch(`${API_BASE}/facilities/${encodeURIComponent(id)}`, {
+    const res = await fetch(`${getApiBase()}/facilities/${encodeURIComponent(id)}`, {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify(payload),
@@ -520,7 +534,7 @@ export const apiClient = {
   },
 
   async deleteFacility(id: string): Promise<{ success: boolean; message?: string }> {
-    const res = await fetch(`${API_BASE}/facilities/${encodeURIComponent(id)}`, {
+    const res = await fetch(`${getApiBase()}/facilities/${encodeURIComponent(id)}`, {
       method: 'DELETE',
       headers: getAuthHeaders(),
     });
@@ -535,7 +549,7 @@ export const apiClient = {
   // USUÁRIOS
   // -------------------------------------------------------------
   async getUsers(): Promise<{ success: boolean; users: any[] }> {
-    const res = await fetch(`${API_BASE}/users`, {
+    const res = await fetch(`${getApiBase()}/users`, {
       cache: 'no-store',
       headers: getAuthHeaders(),
     });
@@ -551,7 +565,7 @@ export const apiClient = {
   // AGENDA / VISTORIAS (POSTGRESQL)
   // -------------------------------------------------------------
   async getAgenda(): Promise<{ success: boolean; agenda: AgendaEvent[] }> {
-    const res = await fetch(`${API_BASE}/agenda`, {
+    const res = await fetch(`${getApiBase()}/agenda`, {
       cache: 'no-store',
       headers: getAuthHeaders(),
     });
@@ -574,7 +588,7 @@ export const apiClient = {
       technicianName: event.tecnico || event.technicianName,
     };
 
-    const res = await fetch(`${API_BASE}/agenda`, {
+    const res = await fetch(`${getApiBase()}/agenda`, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify(payload),
@@ -588,7 +602,7 @@ export const apiClient = {
   },
 
   async toggleAgendaItem(id: string): Promise<{ success: boolean; agendaItem: any }> {
-    const res = await fetch(`${API_BASE}/agenda/${encodeURIComponent(id)}`, {
+    const res = await fetch(`${getApiBase()}/agenda/${encodeURIComponent(id)}`, {
       method: 'PUT',
       headers: getAuthHeaders(),
     });
@@ -601,7 +615,7 @@ export const apiClient = {
   },
 
   async completeAgendaItem(id: string, payload: { laudoTecnico: string; fotosVistoria?: string[] }): Promise<{ success: boolean; agendaItem?: AgendaEvent; message?: string }> {
-    const res = await fetch(`${API_BASE}/agenda/${encodeURIComponent(id)}/concluir`, {
+    const res = await fetch(`${getApiBase()}/agenda/${encodeURIComponent(id)}/concluir`, {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify(payload),
@@ -619,7 +633,7 @@ export const apiClient = {
   // CONFIGURAÇÕES DO SISTEMA (POSTGRESQL)
   // -------------------------------------------------------------
   async getSettings(): Promise<{ success: boolean; settings: SystemSettings }> {
-    const res = await fetch(`${API_BASE}/settings`, {
+    const res = await fetch(`${getApiBase()}/settings`, {
       cache: 'no-store',
       headers: getAuthHeaders(),
     });
@@ -632,7 +646,7 @@ export const apiClient = {
   },
 
   async updateSettings(updates: any): Promise<{ success: boolean; settings: SystemSettings; message?: string }> {
-    const res = await fetch(`${API_BASE}/settings`, {
+    const res = await fetch(`${getApiBase()}/settings`, {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify(updates),
@@ -672,7 +686,7 @@ export const apiClient = {
     error?: string;
   }> {
     try {
-      const res = await fetch(`${API_BASE}/ai/triage`, {
+      const res = await fetch(`${getApiBase()}/ai/triage`, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(order),
@@ -728,7 +742,7 @@ export const apiClient = {
     message?: string;
   }> {
     try {
-      const res = await fetch(`${API_BASE}/ai/chat`, {
+      const res = await fetch(`${getApiBase()}/ai/chat`, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify({ message, history }),
@@ -768,7 +782,7 @@ export const apiClient = {
     model: string;
   }> {
     try {
-      const res = await fetch(`${API_BASE}/ai/status`, {
+      const res = await fetch(`${getApiBase()}/ai/status`, {
         headers: getAuthHeaders(),
       });
       const resData = await res.json();
@@ -791,7 +805,7 @@ export const apiClient = {
       if (filter?.period) query.append('period', filter.period);
       if (filter?.predioId) query.append('predioId', filter.predioId);
 
-      const res = await fetch(`${API_BASE}/reports/summary?${query.toString()}`, {
+      const res = await fetch(`${getApiBase()}/reports/summary?${query.toString()}`, {
         headers: getAuthHeaders(),
       });
       const resData = await res.json();
@@ -820,7 +834,7 @@ export const apiClient = {
       if (filter?.period) query.append('period', filter.period);
       if (filter?.predioId) query.append('predioId', filter.predioId);
 
-      const res = await fetch(`${API_BASE}/reports/export/audit-csv?${query.toString()}`, {
+      const res = await fetch(`${getApiBase()}/reports/export/audit-csv?${query.toString()}`, {
         headers: getAuthHeaders(),
       });
       const resData = await res.json();
@@ -855,7 +869,7 @@ export const apiClient = {
     data?: any;
   }> {
     try {
-      const res = await fetch(`${API_BASE}/manifestacoes`, {
+      const res = await fetch(`${getApiBase()}/manifestacoes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -879,7 +893,7 @@ export const apiClient = {
   }> {
     try {
       const clean = encodeURIComponent(protocolo.trim().toUpperCase());
-      const res = await fetch(`${API_BASE}/manifestacoes/public/track/${clean}`);
+      const res = await fetch(`${getApiBase()}/manifestacoes/public/track/${clean}`);
       const resData = await res.json();
       return {
         success: Boolean(resData.success),
@@ -911,7 +925,7 @@ export const apiClient = {
       if (params?.categoria) query.append('categoria', params.categoria);
       if (params?.busca) query.append('busca', params.busca);
 
-      const res = await fetch(`${API_BASE}/manifestacoes?${query.toString()}`, {
+      const res = await fetch(`${getApiBase()}/manifestacoes?${query.toString()}`, {
         headers: getAuthHeaders(),
       });
       const resData = await res.json();
@@ -939,7 +953,7 @@ export const apiClient = {
     message?: string;
   }> {
     try {
-      const res = await fetch(`${API_BASE}/manifestacoes/${id}/responder`, {
+      const res = await fetch(`${getApiBase()}/manifestacoes/${id}/responder`, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(data),
@@ -969,7 +983,7 @@ export const apiClient = {
     message?: string;
   }> {
     try {
-      const res = await fetch(`${API_BASE}/manifestacoes/${id}/converter-os`, {
+      const res = await fetch(`${getApiBase()}/manifestacoes/${id}/converter-os`, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(data || {}),

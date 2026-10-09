@@ -11,6 +11,7 @@ describe('ManifestacoesService - Gestão de Ouvidoria e Reclamações Cidadãs',
     prismaMock = {
       predio: {
         findUnique: vi.fn(),
+        findFirst: vi.fn(),
       },
       manifestacao: {
         create: vi.fn(),
@@ -40,6 +41,7 @@ describe('ManifestacoesService - Gestão de Ouvidoria e Reclamações Cidadãs',
         endereco: 'Rua das Flores, 123',
       };
       prismaMock.predio.findUnique.mockResolvedValue(predio);
+      prismaMock.predio.findFirst.mockResolvedValue(predio);
 
       const fakeCreated = {
         id: 'manif-1',
@@ -140,15 +142,45 @@ describe('ManifestacoesService - Gestão de Ouvidoria e Reclamações Cidadãs',
       );
     });
 
-    it('deve lançar NotFoundException se a unidade pública especificada não existir', async () => {
-      prismaMock.predio.findUnique.mockResolvedValue(null);
+    it('deve registrar com fallback para local_referencia se a unidade indicada não constar no catálogo', async () => {
+      prismaMock.predio.findFirst.mockResolvedValue(null);
+      prismaMock.manifestacao.create.mockResolvedValue({
+        id: 'manif-fallback',
+        protocolo: 'OUV-999999',
+        tipo: TipoManifestacao.RECLAMACAO,
+        categoria: 'GERAL',
+        descricao: 'Reclamação sobre atendimento geral.',
+        predio_id: null,
+        predio: null,
+        local_referencia: 'Unidade indicada: Unidade Desconhecida',
+        bairro: null,
+        anonimo: false,
+        manifestante_nome: null,
+        manifestante_email: null,
+        manifestante_telefone: null,
+        status: StatusManifestacao.RECEBIDA,
+        resposta_oficial: null,
+        respondido_em: null,
+        motivo_arquivamento: null,
+        ordem_servico_id: null,
+        criado_em: new Date('2026-10-08T10:00:00Z'),
+        atualizado: new Date('2026-10-08T10:00:00Z'),
+      });
 
-      await expect(
-        service.create({
-          predioId: 'predio-inexistente',
-          descricao: 'Reclamação sobre atendimento geral.',
+      const res = await service.create({
+        predioId: 'Unidade Desconhecida',
+        descricao: 'Reclamação sobre atendimento geral.',
+      });
+
+      expect(res.success).toBe(true);
+      expect(prismaMock.manifestacao.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            predio_id: null,
+            local_referencia: 'Unidade indicada: Unidade Desconhecida',
+          }),
         }),
-      ).rejects.toThrow(NotFoundException);
+      );
     });
   });
 
