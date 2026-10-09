@@ -12,6 +12,8 @@ import {
   Loader2,
   Zap,
   BrainCircuit,
+  Camera,
+  Eye,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Prioridade, OrdemServico } from '@/app/kanban/data';
@@ -20,6 +22,7 @@ import { analyzeTriageUrbi } from '@/lib/triage-engine';
 import { useUrbiSemanticTriage } from './use-urbi-semantic-triage';
 import { UrbiTriageModalCriteria } from './urbi-triage-modal-criteria';
 import { UrbiDowngradeDialog } from './urbi-downgrade-dialog';
+import { ImageLightboxModal } from '@/components/ui/image-lightbox';
 
 interface Props {
   order: OrdemServico;
@@ -38,6 +41,8 @@ export function UrbiTriageCard({
   const [showDowngradeModal, setShowDowngradeModal] = useState(false);
   const [pendingPriority, setPendingPriority] = useState<Prioridade | null>(null);
   const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   // Hook de triagem de dois estágios: local imediato → semântico via Gemini
   const { triage, source, confidence, isAnalyzing } = useUrbiSemanticTriage(order);
@@ -272,6 +277,62 @@ export function UrbiTriageCard({
         )}
       </div>
 
+      {/* Bloco de Evidências Fotográficas — Apoio Direto à Decisão de Triagem */}
+      {order.fotos && order.fotos.length > 0 ? (
+        <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+              <Camera size={13} className="text-blue-900" />
+              Evidências Fotográficas ({order.fotos.length})
+            </span>
+            <span className="text-[10px] text-slate-500 font-medium flex items-center gap-1">
+              <Eye size={11} />
+              Toque para ampliar
+            </span>
+          </div>
+
+          <div className="grid grid-cols-4 gap-2">
+            {order.fotos.map((imgSrc, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => {
+                  setLightboxIndex(idx);
+                  setLightboxOpen(true);
+                }}
+                className="group relative aspect-square rounded-lg overflow-hidden border border-slate-200 bg-slate-100 hover:border-blue-900 hover:ring-2 hover:ring-blue-900/20 transition-all cursor-pointer shadow-2xs"
+                title={`Ver foto ${idx + 1} em alta resolução`}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={imgSrc}
+                  alt={`Evidência ${idx + 1}`}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                  <Eye size={14} className="text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-sm" />
+                </div>
+                <span className="absolute bottom-1 left-1 px-1 py-0.2 rounded text-[9px] font-bold bg-black/60 text-white backdrop-blur-xs">
+                  #{idx + 1}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          <p className="text-[10px] text-slate-500 leading-tight">
+            Inspeção visual enviada pelo solicitante para embasar a criticidade antes de confirmar a prioridade.
+          </p>
+        </div>
+      ) : (
+        <div className="px-2.5 py-1.5 rounded-lg bg-slate-50/60 border border-dashed border-slate-200 flex items-center justify-between text-[10px] text-slate-500">
+          <span className="flex items-center gap-1.5">
+            <Camera size={12} className="text-slate-400" />
+            Nenhuma foto anexada no momento da abertura
+          </span>
+          <span className="text-slate-400 font-normal">Triagem baseada no relato escrito</span>
+        </div>
+      )}
+
       {/* Grid de 4 Botões de Prioridade */}
       <div className="grid grid-cols-4 gap-1.5">
         {(['BAIXA', 'MEDIA', 'ALTA', 'URGENTE'] as Prioridade[]).map((pri) => {
@@ -339,6 +400,15 @@ export function UrbiTriageCard({
           setShowDowngradeModal(false);
           setPendingPriority(null);
         }}
+      />
+
+      <ImageLightboxModal
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        images={order.fotos || []}
+        initialIndex={lightboxIndex}
+        title="Evidência Fotográfica do Chamado"
+        subtitle={`Chamado ${order.id} • ${order.predio}`}
       />
     </div>
   );

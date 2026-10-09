@@ -15,6 +15,7 @@ import {
   Sparkles,
   X,
   Compass,
+  Megaphone,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useOrders } from '@/context/orders-context';
@@ -29,6 +30,7 @@ export type AppRoute =
   | '/unidades' 
   | '/agenda' 
   | '/relatorios' 
+  | '/ouvidoria'
   | '/configuracoes'
   | '/abrir-chamado'
   | '/landing';
@@ -163,6 +165,13 @@ export function Sidebar({
                       href="/relatorios"
                       active={currentRoute === '/relatorios'}
                       onClick={() => { closeMobileNav(); onOpenReports?.(); }}
+                    />
+                    <SidebarNavItem 
+                      icon={<Megaphone size={15} />} 
+                      label="Ouvidoria" 
+                      href="/ouvidoria"
+                      active={currentRoute === '/ouvidoria'}
+                      onClick={closeMobileNav}
                     />
                     <SidebarNavItem 
                       icon={<Sparkles size={15} />}
@@ -312,6 +321,13 @@ export function Sidebar({
                 href="/relatorios"
                 active={currentRoute === '/relatorios'}
                 onClick={onOpenReports}
+                isCollapsed={isSidebarCollapsed}
+              />
+              <SidebarNavItem 
+                icon={<Megaphone size={15} />} 
+                label="Ouvidoria" 
+                href="/ouvidoria"
+                active={currentRoute === '/ouvidoria'}
                 isCollapsed={isSidebarCollapsed}
               />
               <SidebarNavItem 

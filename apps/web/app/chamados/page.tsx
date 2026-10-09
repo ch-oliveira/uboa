@@ -42,7 +42,8 @@ import {
   ArrowRight,
   ArrowLeft,
   ArrowUpRight,
-  GripVertical
+  GripVertical,
+  Camera,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Toast } from '@/components/ui/toast';
@@ -233,6 +234,13 @@ function SortableKanbanCard({
               <span title={order.motivoPausa || 'Relógio de SLA congelado'} className="inline-flex items-center gap-1 text-[10px] font-extrabold px-1.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 uppercase tracking-wider">
                 <Clock size={10} className="shrink-0 text-amber-600" />
                 SLA Congelado
+              </span>
+            )}
+
+            {order.fotos && order.fotos.length > 0 && (
+              <span title={`${order.fotos.length} evidência(s) fotográfica(s) anexada(s)`} className="inline-flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300">
+                <Camera size={10} className="shrink-0" />
+                {order.fotos.length}
               </span>
             )}
           </div>
@@ -1049,7 +1057,15 @@ function ChamadosContent() {
                               #{order.id.replace('os-', '')}
                             </td>
                             <td className="py-4 px-4 font-bold text-xs text-foreground group-hover:text-foreground">
-                              {order.titulo}
+                              <div className="flex items-center gap-2">
+                                <span>{order.titulo}</span>
+                                {order.fotos && order.fotos.length > 0 && (
+                                  <span title={`${order.fotos.length} foto(s) anexada(s)`} className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-700 bg-blue-50 dark:bg-blue-950/60 dark:text-blue-300 px-1.5 py-0.5 rounded shrink-0">
+                                    <Camera size={10} />
+                                    {order.fotos.length}
+                                  </span>
+                                )}
+                              </div>
                             </td>
                             <td className="py-4 px-4 text-xs text-muted-foreground">
                               {order.predio}

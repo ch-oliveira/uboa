@@ -19,7 +19,11 @@ import {
   Loader2,
   ChevronRight,
   ShieldAlert,
-  ArrowRight
+  ArrowRight,
+  Camera,
+  UploadCloud,
+  Eye,
+  Plus,
 } from 'lucide-react';
 import { Sidebar } from '@/components/sidebar';
 import { Button } from '@/components/ui/button';
@@ -34,6 +38,8 @@ import {
 } from '@/app/kanban/data';
 import { getPriorityBadgeInfo, getStatusBadge } from '@/lib/badges';
 import { UrbiTriageCard } from '@/components/triage/urbi-triage-card';
+import { ImageLightboxModal } from '@/components/ui/image-lightbox';
+import { compressImage } from '@/lib/image-utils';
 
 // Fluxo operacional sequencial de 5 fases (ABNT NBR 5674)
 const STAGES_FLOW: { id: StatusOS; label: string; step: number; description: string }[] = [
@@ -57,8 +63,48 @@ export default function ChamadoDetailPage() {
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
   const [commentSuccess, setCommentSuccess] = useState(false);
   const [isAdvancing, setIsAdvancing] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const photoInputRef = React.useRef<HTMLInputElement>(null);
 
   const orderId = String(params?.id || '');
+
+  async function handleAddPhoto(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files;
+    if (!files || files.length === 0 || !order) return;
+
+    setIsUploadingPhoto(true);
+    try {
+      const added: string[] = [];
+      for (const file of Array.from(files)) {
+        const compressed = await compressImage(file);
+        added.push(compressed);
+      }
+      const updatedFotos = [...(order.fotos || []), ...added].slice(0, 10);
+      const now = new Date();
+      const timeStr = `Hoje, ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const authorName = user?.nome || 'Gestor Operacional';
+
+      const historyItem: HistoricoItem = {
+        data: timeStr,
+        descricao: `${added.length} nova(s) foto(s) anexada(s) à ordem de serviço por ${authorName}.`,
+        autor: authorName,
+        tipo: 'COMENTARIO',
+      };
+
+      const updated: OrdemServico = {
+        ...order,
+        fotos: updatedFotos,
+        historico: [historyItem, ...(order.historico || [])],
+      };
+
+      await updateOrder(updated);
+    } finally {
+      setIsUploadingPhoto(false);
+      if (photoInputRef.current) photoInputRef.current.value = '';
+    }
+  }
 
   // Localiza o chamado correspondente na base por código formatado ou ID numérico
   const order = useMemo(() => {
@@ -415,6 +461,89 @@ export default function ChamadoDetailPage() {
                 </div>
               </div>
 
+              {/* Card 2.5: Evidências Fotográficas do Chamado */}
+              <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-xs space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="p-2 rounded-xl bg-blue-50 text-blue-900 border border-blue-100">
+                      <Camera size={16} />
+                    </span>
+                    <div>
+                      <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                        Evidências Fotográficas ({order.fotos?.length || 0})
+                      </h3>
+                      <p className="text-[11px] text-slate-400">
+                        Fotos anexadas na abertura e vistorias de campo
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <input
+                      ref={photoInputRef}
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      className="hidden"
+                      onChange={handleAddPhoto}
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      disabled={isUploadingPhoto}
+                      onClick={() => photoInputRef.current?.click()}
+                      className="text-xs font-semibold text-slate-700 border-slate-200 hover:bg-slate-50 rounded-xl h-8 px-3 flex items-center gap-1.5 cursor-pointer shadow-xs"
+                    >
+                      {isUploadingPhoto ? (
+                        <Loader2 size={12} className="animate-spin" />
+                      ) : (
+                        <Plus size={13} />
+                      )}
+                      <span>Anexar Foto</span>
+                    </Button>
+                  </div>
+                </div>
+
+                {order.fotos && order.fotos.length > 0 ? (
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+                    {order.fotos.map((imgSrc, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => {
+                          setLightboxIndex(idx);
+                          setLightboxOpen(true);
+                        }}
+                        className="group relative aspect-square rounded-xl overflow-hidden border border-slate-200 bg-slate-100 hover:border-blue-900 hover:ring-2 hover:ring-blue-900/20 transition-all cursor-pointer shadow-xs text-left"
+                        title={`Clique para ampliar foto ${idx + 1}`}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={imgSrc}
+                          alt={`Evidência ${idx + 1}`}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                          <Eye size={18} className="text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md" />
+                        </div>
+                        <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md text-[10px] font-bold bg-black/70 text-white backdrop-blur-xs">
+                          Foto #{idx + 1}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="py-8 px-4 rounded-xl border border-dashed border-slate-200 text-center bg-slate-50/50 space-y-2">
+                    <Camera size={24} className="text-slate-300 mx-auto" />
+                    <p className="text-xs font-semibold text-slate-600">Nenhuma foto registrada para esta solicitação</p>
+                    <p className="text-[11px] text-slate-400 max-w-xs mx-auto">
+                      Fotos adicionadas pelo solicitante via QR code ou pela equipe técnica facilitam a triagem e o laudo fiscal.
+                    </p>
+                  </div>
+                )}
+              </div>
+
               {/* Card 3: Linha do Tempo e Apontamentos Técnicos */}
               <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-xs space-y-5">
                 <div className="flex items-center justify-between">
@@ -612,6 +741,15 @@ export default function ChamadoDetailPage() {
 
         </div>
       </main>
+
+      <ImageLightboxModal
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        images={order.fotos || []}
+        initialIndex={lightboxIndex}
+        title="Evidência Fotográfica do Chamado"
+        subtitle={`Chamado ${order.id} • ${order.predio}`}
+      />
     </div>
   );
 }

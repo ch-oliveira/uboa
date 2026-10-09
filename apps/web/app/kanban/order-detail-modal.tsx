@@ -30,7 +30,9 @@ import {
   MapPin,
   MoreVertical,
   Info,
-  Hourglass
+  Hourglass,
+  Eye,
+  UploadCloud,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/auth-context';
@@ -46,6 +48,8 @@ import {
 import { getPriorityBadge } from '@/lib/badges';
 import { UrbiTriageCard } from '@/components/triage/urbi-triage-card';
 import { analyzeTriageUrbi } from '@/lib/triage-engine';
+import { ImageLightboxModal } from '@/components/ui/image-lightbox';
+import { compressImage } from '@/lib/image-utils';
 
 interface Props {
   order: OrdemServico | null;
@@ -88,6 +92,11 @@ export function OrderDetailModal({
   const [descricao, setDescricao] = useState('');
   const [localizacao, setLocalizacao] = useState('');
   const [prazoEstimado, setPrazoEstimado] = useState('');
+  const [fotos, setFotos] = useState<string[]>([]);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
   
   // Apontamentos & Linha do Tempo
   const [newComment, setNewComment] = useState('');
@@ -115,6 +124,7 @@ export function OrderDetailModal({
       setDescricao(order.descricao || '');
       setLocalizacao(order.localizacao || 'Prédio Principal - Áreas de Acesso');
       setPrazoEstimado(order.prazoEstimado || calculateDefaultSla(order.prioridade));
+      setFotos(order.fotos || []);
 
       // Garante que o histórico sempre começa com a abertura oficial do chamado
       const baseHistory: HistoricoItem[] = (order.historico && order.historico.length > 0)
@@ -137,6 +147,42 @@ export function OrderDetailModal({
       setShowPrintModal(false);
     }
   }, [order]);
+
+  async function handleAddPhoto(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files;
+    if (!files || files.length === 0 || !order) return;
+    setIsUploadingPhoto(true);
+    try {
+      const added: string[] = [];
+      for (const file of Array.from(files)) {
+        const compressed = await compressImage(file);
+        added.push(compressed);
+      }
+      const updatedFotos = [...fotos, ...added].slice(0, 10);
+      setFotos(updatedFotos);
+
+      const now = new Date();
+      const timeStr = `Hoje, ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const author = user?.nome || 'Gestor Operacional';
+      const historyItem: HistoricoItem = {
+        data: timeStr,
+        descricao: `${added.length} foto(s) anexada(s) à ordem de serviço por ${author}.`,
+        autor: author,
+        tipo: 'COMENTARIO',
+      };
+      const updatedHistory = [historyItem, ...historico];
+      setHistorico(updatedHistory);
+
+      await onUpdate({
+        ...order,
+        fotos: updatedFotos,
+        historico: updatedHistory,
+      });
+    } finally {
+      setIsUploadingPhoto(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  }
 
   // Cálculo automático do SLA padrão com base na prioridade
   function calculateDefaultSla(pri: Prioridade) {
@@ -328,6 +374,7 @@ export function OrderDetailModal({
       descricao: descricao || undefined,
       prazoEstimado: prazoEstimado || calculateDefaultSla(prioridade),
       historico: newHist,
+      fotos,
     };
 
     try {
@@ -853,29 +900,75 @@ export function OrderDetailModal({
                 </div>
 
                 {/* Evidências Fotográficas */}
-                <div className="pt-5 border-t border-border/50">
-                  <div className="flex items-center justify-between mb-3">
+                <div className="pt-5 border-t border-border/50 space-y-3">
+                  <div className="flex items-center justify-between">
                     <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
-                      <Camera size={13} />
-                      Evidências Fotográficas
+                      <Camera size={13} className="text-primary" />
+                      Evidências Fotográficas ({fotos.length})
                     </span>
-                    <span className="text-[10px] font-bold text-primary cursor-pointer hover:underline">
-                      + Adicionar Foto
-                    </span>
+                    <div>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        className="hidden"
+                        onChange={handleAddPhoto}
+                      />
+                      <button
+                        type="button"
+                        disabled={isUploadingPhoto}
+                        onClick={() => fileInputRef.current?.click()}
+                        className="text-[10px] font-bold text-primary hover:underline flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                      >
+                        {isUploadingPhoto ? (
+                          <Loader2 size={11} className="animate-spin" />
+                        ) : (
+                          <UploadCloud size={11} />
+                        )}
+                        <span>+ Adicionar Foto</span>
+                      </button>
+                    </div>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className="aspect-4/3 rounded-xl bg-muted/40 border border-dashed border-border flex flex-col items-center justify-center p-2 text-center text-muted-foreground hover:bg-muted/60 transition-colors cursor-pointer group">
+                  {fotos.length > 0 ? (
+                    <div className="grid grid-cols-3 gap-2.5">
+                      {fotos.map((imgSrc, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => {
+                            setLightboxIndex(idx);
+                            setLightboxOpen(true);
+                          }}
+                          className="group relative aspect-4/3 rounded-xl overflow-hidden border border-border bg-muted hover:border-primary hover:ring-2 hover:ring-primary/20 transition-all cursor-pointer shadow-2xs text-left"
+                          title={`Ampliar foto ${idx + 1}`}
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={imgSrc}
+                            alt={`Evidência ${idx + 1}`}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                          />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                            <Eye size={16} className="text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md" />
+                          </div>
+                          <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-black/70 text-white backdrop-blur-xs">
+                            #{idx + 1}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <div
+                      onClick={() => fileInputRef.current?.click()}
+                      className="p-4 rounded-xl bg-muted/40 border border-dashed border-border flex flex-col items-center justify-center text-center text-muted-foreground hover:bg-muted/60 transition-colors cursor-pointer group"
+                    >
                       <Camera size={18} className="text-muted-foreground group-hover:text-primary mb-1" />
-                      <span className="text-[10px] font-bold">Foto do Local</span>
+                      <span className="text-[11px] font-semibold text-foreground">Nenhuma foto anexada</span>
+                      <span className="text-[10px] text-muted-foreground mt-0.5">Clique para anexar evidência do local</span>
                     </div>
-                    <div className="aspect-4/3 rounded-xl bg-muted border border-border p-2 flex flex-col justify-end text-[10px] font-bold text-muted-foreground relative overflow-hidden bg-cover bg-center shadow-sm" style={{ backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)' }}>
-                      <span className="text-white relative z-10">Antes do Reparo</span>
-                    </div>
-                    <div className="aspect-4/3 rounded-xl bg-muted/20 border border-dashed border-border flex flex-col items-center justify-center p-2 text-center text-muted-foreground">
-                      <span className="text-[10px] font-medium">Após Conclusão</span>
-                    </div>
-                  </div>
+                  )}
                 </div>
 
               </div>
@@ -1298,6 +1391,15 @@ export function OrderDetailModal({
           </div>
         </div>
       )}
+
+      <ImageLightboxModal
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        images={fotos}
+        initialIndex={lightboxIndex}
+        title="Evidência Fotográfica do Chamado"
+        subtitle={`Chamado ${order?.id || ''} • ${order?.predio || ''}`}
+      />
 
     </div>
   );

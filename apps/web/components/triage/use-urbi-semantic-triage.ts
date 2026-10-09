@@ -31,13 +31,13 @@ const triageCache = new Map<string, {
 const inFlight = new Map<string, Promise<void>>();
 
 function buildFingerprint(order: Partial<OrdemServico>): string {
-  // Usa apenas campos estáveis e semanticamente relevantes.
-  // Exclui campos dinâmicos (historico, fotos, status) que mudam sem alterar a triagem.
+  // Usa campos estáveis e semanticamente relevantes, incluindo quantidade de fotos anexadas.
   return [
     order.id ?? '',
     (order.titulo ?? '').trim(),
     (order.descricao ?? '').trim().slice(0, 200), // cap para evitar chaves gigantes
     (order.predio ?? '').trim(),
+    String(order.fotos?.length ?? 0),
   ].join('\x00'); // null-byte como separador (nunca aparece em texto normal)
 }
 

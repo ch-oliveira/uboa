@@ -369,6 +369,9 @@ export const apiClient = {
       descricao: order.descricao,
       tecnico: order.tecnico,
       categoria: order.categoria,
+      fotos: order.fotos || (order as any).photos || [],
+      photos: order.fotos || (order as any).photos || [],
+      fotosConclusao: order.fotosConclusao || [],
     };
 
     const res = await fetch(`${API_BASE}/work-orders`, {
@@ -396,6 +399,14 @@ export const apiClient = {
     if (updates.descricao) payload.description = updates.descricao;
     if (updates.tecnico) payload.technicianName = updates.tecnico;
     if (updates.categoria) payload.categoria = updates.categoria;
+    if (updates.fotos || (updates as any).photos) {
+      payload.fotos = updates.fotos || (updates as any).photos;
+      payload.photos = updates.fotos || (updates as any).photos;
+    }
+    if (updates.fotosConclusao) {
+      payload.fotosConclusao = updates.fotosConclusao;
+      payload.fotos_conclusao = updates.fotosConclusao;
+    }
 
     const res = await fetch(`${API_BASE}/work-orders/${encodeURIComponent(idOrCode)}`, {
       method: 'PUT',
@@ -822,4 +833,156 @@ export const apiClient = {
       return { success: false, message: err?.message || 'Falha ao exportar CSV para auditoria.' };
     }
   },
+
+  // -------------------------------------------------------------
+  // MANIFESTAÇÕES & OUVIDORIA CIDADÃ
+  // -------------------------------------------------------------
+  async createManifestacao(data: {
+    predioId?: string;
+    localReferencia?: string;
+    bairro?: string;
+    tipo?: string;
+    categoria?: string;
+    descricao: string;
+    anonimo?: boolean;
+    nome?: string;
+    email?: string;
+    telefone?: string;
+  }): Promise<{
+    success: boolean;
+    protocolo?: string;
+    message?: string;
+    data?: any;
+  }> {
+    try {
+      const res = await fetch(`${API_BASE}/manifestacoes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const resData = await res.json();
+      return {
+        success: Boolean(resData.success),
+        protocolo: resData.protocolo,
+        message: resData.message || (res.ok ? 'Manifestação registrada com sucesso.' : 'Falha ao registrar manifestação.'),
+        data: resData.data,
+      };
+    } catch (err: any) {
+      return { success: false, message: err?.message || 'Erro de conexão ao enviar manifestação.' };
+    }
+  },
+
+  async trackManifestacao(protocolo: string): Promise<{
+    success: boolean;
+    data?: any;
+    message?: string;
+  }> {
+    try {
+      const clean = encodeURIComponent(protocolo.trim().toUpperCase());
+      const res = await fetch(`${API_BASE}/manifestacoes/public/track/${clean}`);
+      const resData = await res.json();
+      return {
+        success: Boolean(resData.success),
+        data: resData.data,
+        message: resData.message,
+      };
+    } catch (err: any) {
+      return { success: false, message: err?.message || 'Falha ao consultar manifestação.' };
+    }
+  },
+
+  async getManifestacoes(params?: {
+    predioId?: string;
+    status?: string;
+    tipo?: string;
+    categoria?: string;
+    busca?: string;
+  }): Promise<{
+    success: boolean;
+    data?: any[];
+    meta?: any;
+    message?: string;
+  }> {
+    try {
+      const query = new URLSearchParams();
+      if (params?.predioId) query.append('predioId', params.predioId);
+      if (params?.status) query.append('status', params.status);
+      if (params?.tipo) query.append('tipo', params.tipo);
+      if (params?.categoria) query.append('categoria', params.categoria);
+      if (params?.busca) query.append('busca', params.busca);
+
+      const res = await fetch(`${API_BASE}/manifestacoes?${query.toString()}`, {
+        headers: getAuthHeaders(),
+      });
+      const resData = await res.json();
+      return {
+        success: Boolean(resData.success),
+        data: resData.data || [],
+        meta: resData.meta,
+        message: resData.message,
+      };
+    } catch (err: any) {
+      return { success: false, data: [], message: err?.message || 'Falha ao buscar manifestações.' };
+    }
+  },
+
+  async responderManifestacao(
+    id: string,
+    data: {
+      resposta: string;
+      acao?: 'RESPONDER' | 'ARQUIVAR' | 'ENCAMINHAR';
+      motivoArquivamento?: string;
+    },
+  ): Promise<{
+    success: boolean;
+    data?: any;
+    message?: string;
+  }> {
+    try {
+      const res = await fetch(`${API_BASE}/manifestacoes/${id}/responder`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(data),
+      });
+      const resData = await res.json();
+      return {
+        success: Boolean(resData.success),
+        data: resData.data,
+        message: resData.message,
+      };
+    } catch (err: any) {
+      return { success: false, message: err?.message || 'Falha ao emitir parecer oficial.' };
+    }
+  },
+
+  async converterManifestacaoOS(
+    id: string,
+    data?: {
+      predioId?: string;
+      titulo?: string;
+      categoria?: string;
+      prioridade?: string;
+    },
+  ): Promise<{
+    success: boolean;
+    data?: any;
+    message?: string;
+  }> {
+    try {
+      const res = await fetch(`${API_BASE}/manifestacoes/${id}/converter-os`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(data || {}),
+      });
+      const resData = await res.json();
+      return {
+        success: Boolean(resData.success),
+        data: resData.data,
+        message: resData.message,
+      };
+    } catch (err: any) {
+      return { success: false, message: err?.message || 'Falha ao converter em OS técnica.' };
+    }
+  },
 };
+
