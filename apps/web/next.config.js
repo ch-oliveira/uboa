@@ -4,7 +4,7 @@ import createWithVercelToolbar from '@vercel/toolbar/plugins/next';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async rewrites() {
-    const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api';
+    const rawApiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api').trim().replace(/[\r\n]+/g, '');
     const apiUrl = rawApiUrl.replace(/\/+$/, '');
     return [
       {

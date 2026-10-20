@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 const COOKIE_NAME = 'zelo_auth_token_v1';
 
 function getBackendApiUrl(): string {
-  const url = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api';
+  const url = (process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api').trim().replace(/[\r\n]+/g, '');
   return url.replace(/\/+$/, '');
 }
 

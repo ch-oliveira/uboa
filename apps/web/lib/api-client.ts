@@ -19,7 +19,7 @@ export function getApiBase(): string {
     // garantindo envio automático e seguro de cookies HttpOnly (Lax/Secure).
     return '/api';
   }
-  return (process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api').replace(/\/+$/, '');
+  return (process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api').trim().replace(/[\r\n]+/g, '').replace(/\/+$/, '');
 }
 
 const STORAGE_KEY_TOKEN = 'zelo_auth_token_v1';
