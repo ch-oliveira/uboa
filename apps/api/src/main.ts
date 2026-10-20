@@ -38,12 +38,14 @@ async function bootstrap() {
     }),
   );
   
-  const rawFrontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  const rawFrontendUrl = process.env.FRONTEND_URL || 'http://localhost:3002';
   const frontendUrl = rawFrontendUrl.replace(/\/+$/, '');
   const allowedOrigins = [
     frontendUrl,
     'http://localhost:3000',
     'http://127.0.0.1:3000',
+    'http://localhost:3002',
+    'http://127.0.0.1:3002',
   ];
 
   app.enableCors({
@@ -63,7 +65,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
-  const port = process.env.PORT ?? 3001;
+  const port = process.env.PORT ?? 3003;
   await app.listen(port, '0.0.0.0');
   Logger.log(`Urboa NestJS API inicializada com sucesso na porta ${port}`, 'Bootstrap');
 }

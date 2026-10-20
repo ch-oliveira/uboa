@@ -14,15 +14,12 @@ import type { AgendaEvent, SystemSettings } from '@/context/orders-context';
 
 export function getApiBase(): string {
   if (typeof window !== 'undefined') {
-    // No navegador em produção ou em localhost:
-    // Se NEXT_PUBLIC_API_URL foi configurado e não aponta para o localhost padrão, utilize-o.
-    if (process.env.NEXT_PUBLIC_API_URL && !process.env.NEXT_PUBLIC_API_URL.includes('localhost:3001')) {
-      return process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, '');
-    }
-    // Rota relativa absoluta usando a origem atual do browser + '/api', aproveitando rewrites do Next.js
-    return `${window.location.origin}/api`;
+    // No navegador, sempre usamos rotas relativas /api (First-Party Same-Origin).
+    // O Next.js processa auth internamente e faz rewrite transparente das APIs para o backend,
+    // garantindo envio automático e seguro de cookies HttpOnly (Lax/Secure).
+    return '/api';
   }
-  return (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api').replace(/\/+$/, '');
+  return (process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api').replace(/\/+$/, '');
 }
 
 const STORAGE_KEY_TOKEN = 'zelo_auth_token_v1';
@@ -237,11 +234,11 @@ export const apiClient = {
     });
     const resData = await res.json();
     const user = mapUserFromApi(resData.data?.user || resData.user);
-    const token = resData.data?.token || resData.token;
 
-    if (resData.success && token && typeof window !== 'undefined') {
+    // Remove qualquer resquício legado do token no localStorage
+    if (typeof window !== 'undefined') {
       try {
-        localStorage.setItem(STORAGE_KEY_TOKEN, token);
+        localStorage.removeItem(STORAGE_KEY_TOKEN);
       } catch {
         // Ignora erro de storage
       }
@@ -250,7 +247,6 @@ export const apiClient = {
     return {
       success: Boolean(resData.success),
       user,
-      token,
       message: resData.message,
     };
   },
@@ -277,17 +273,18 @@ export const apiClient = {
   },
 
   async getMe(tokenOverride?: string): Promise<{ success: boolean; user?: UserAccount }> {
-    const token = tokenOverride || getAuthToken();
-    if (!token) return { success: false };
-
     try {
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (tokenOverride) {
+        headers['Authorization'] = `Bearer ${tokenOverride}`;
+      }
       const res = await fetch(`${getApiBase()}/auth/me`, {
         cache: 'no-store',
-        headers: getAuthHeaders(tokenOverride ? { Authorization: `Bearer ${tokenOverride}` } : {}),
+        headers,
       });
       if (!res.ok) return { success: false };
       const resData = await res.json();
-      const user = mapUserFromApi(resData.data || resData.user);
+      const user = mapUserFromApi(resData.data?.user || resData.data || resData.user);
       return {
         success: Boolean(resData.success && user),
         user,

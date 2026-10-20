@@ -43,23 +43,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Validação no mount: verifica token ativo diretamente contra o servidor via /api/auth/me
+  // Validação no mount: verifica token ativo diretamente contra o servidor via /api/auth/me (HttpOnly Cookie)
   useEffect(() => {
     let isMounted = true;
 
     async function validateCurrentSession() {
       try {
-        const savedToken = localStorage.getItem(STORAGE_KEY_TOKEN);
-        if (!savedToken) {
-          if (isMounted) {
-            setUser(null);
-            setToken(null);
-            setIsLoading(false);
-          }
-          return;
-        }
-
-        const meResult = await apiClient.getMe(savedToken);
+        const meResult = await apiClient.getMe();
         if (isMounted) {
           if (meResult.success && meResult.user) {
             const verifiedUser = meResult.user;
@@ -67,10 +57,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               delete verifiedUser.predio;
             }
             setUser(verifiedUser);
-            setToken(savedToken);
+            setToken('active_cookie_session');
             localStorage.setItem(STORAGE_KEY_AUTH, JSON.stringify(verifiedUser));
+            localStorage.removeItem(STORAGE_KEY_TOKEN);
           } else {
-            // Token inválido, expirado ou usuário revogado
+            // Sessão inexistente ou expirada
             setUser(null);
             setToken(null);
             localStorage.removeItem(STORAGE_KEY_AUTH);
@@ -82,6 +73,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (isMounted) {
           setUser(null);
           setToken(null);
+          localStorage.removeItem(STORAGE_KEY_AUTH);
+          localStorage.removeItem(STORAGE_KEY_TOKEN);
         }
       } finally {
         if (isMounted) {
@@ -137,15 +130,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const cleanEmail = email.trim().toLowerCase().replace(/@urboa\.gov\.br$/i, '@zelo.gov.br');
     try {
       const data = await apiClient.login(cleanEmail, password);
-      if (data.success && data.user && data.token) {
+      if (data.success && data.user) {
         const userObj = data.user;
         if (userObj.role !== 'SOLICITANTE') {
           delete userObj.predio;
         }
         setUser(userObj);
-        setToken(data.token);
+        setToken('active_cookie_session');
         localStorage.setItem(STORAGE_KEY_AUTH, JSON.stringify(userObj));
-        localStorage.setItem(STORAGE_KEY_TOKEN, data.token);
+        localStorage.removeItem(STORAGE_KEY_TOKEN);
         return { success: true };
       }
       return { 
@@ -163,15 +156,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   async function loginQuick(quickRole: 'GESTOR' | 'TECNICO' | 'SOLICITANTE_ESCOLA' | 'SOLICITANTE_UBS' | 'ADMIN') {
     try {
       const data = await apiClient.loginQuick(quickRole);
-      if (data.success && data.user && data.token) {
+      if (data.success && data.user) {
         const userObj = data.user;
         if (userObj.role !== 'SOLICITANTE') {
           delete userObj.predio;
         }
         setUser(userObj);
-        setToken(data.token);
+        setToken('active_cookie_session');
         localStorage.setItem(STORAGE_KEY_AUTH, JSON.stringify(userObj));
-        localStorage.setItem(STORAGE_KEY_TOKEN, data.token);
+        localStorage.removeItem(STORAGE_KEY_TOKEN);
         router.push('/');
       }
     } catch (e) {
@@ -179,8 +172,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  function logout() {
-    apiClient.logout();
+  async function logout() {
+    await apiClient.logout();
     setUser(null);
     setToken(null);
     localStorage.removeItem(STORAGE_KEY_AUTH);

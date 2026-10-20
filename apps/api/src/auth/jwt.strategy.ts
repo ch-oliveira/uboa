@@ -14,7 +14,19 @@ export interface JwtPayload {
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly prisma: PrismaService) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (req: any) => {
+          if (req?.cookies?.['zelo_auth_token_v1']) {
+            return req.cookies['zelo_auth_token_v1'];
+          }
+          if (typeof req?.headers?.cookie === 'string') {
+            const match = req.headers.cookie.match(/(?:^|;\s*)zelo_auth_token_v1=([^;]+)/);
+            if (match) return decodeURIComponent(match[1]);
+          }
+          return null;
+        },
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ]),
       ignoreExpiration: false,
       secretOrKey: process.env.JWT_SECRET || 'urboa_dev_fallback_insecure_key_change_in_prod_32c',
     });
