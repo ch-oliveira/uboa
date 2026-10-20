@@ -14,10 +14,9 @@ import type { AgendaEvent, SystemSettings } from '@/context/orders-context';
 
 export function getApiBase(): string {
   if (typeof window !== 'undefined') {
-    // No navegador, sempre usamos rotas relativas /api (First-Party Same-Origin).
-    // O Next.js processa auth internamente e faz rewrite transparente das APIs para o backend,
-    // garantindo envio automático e seguro de cookies HttpOnly (Lax/Secure).
-    return '/api';
+    // No navegador, sempre usamos a origem do mesmo domínio + /api (ex: https://uboa.vercel.app/api),
+    // 100% compatível com o construtor new URL() e mantendo o transporte seguro de cookies HttpOnly
+    return `${window.location.origin}/api`;
   }
   return (process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api').trim().replace(/[\r\n]+/g, '').replace(/\/+$/, '');
 }
@@ -323,7 +322,9 @@ export const apiClient = {
     status?: string;
     prioridade?: string;
   }): Promise<{ success: boolean; orders: OrdemServico[]; stats?: any }> {
-    const url = new URL(`${getApiBase()}/work-orders`);
+    const base = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3003';
+    const apiBase = getApiBase();
+    const url = new URL(apiBase.startsWith('http') ? `${apiBase}/work-orders` : `${base}${apiBase}/work-orders`);
     if (params) {
       Object.entries(params).forEach(([key, val]) => {
         if (val) url.searchParams.set(key, val);
