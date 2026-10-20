@@ -15,6 +15,10 @@ export interface AuthenticatedUserResponse {
   facilityName?: string;
   active: boolean;
   avatar: string;
+  prefeituraId?: string;
+  prefeituraNome?: string;
+  prefeituraSlug?: string;
+  modulosAtivos?: string[];
 }
 
 export interface AuthSessionResponse {
@@ -30,6 +34,7 @@ export class AuthService {
   ) {}
 
   public mapAuthUser(user: any): AuthenticatedUserResponse {
+    const prefeitura = user.prefeitura;
     return {
       id: user.id,
       name: user.nome,
@@ -39,6 +44,10 @@ export class AuthService {
       facilityName: user.role === Role.SOLICITANTE ? (user.predios_geridos?.[0]?.nome || 'EMEF Paulo Freire') : undefined,
       active: user.ativo !== false,
       avatar: `https://i.pravatar.cc/150?u=${encodeURIComponent(user.nome)}`,
+      prefeituraId: user.prefeitura_id || prefeitura?.id || 'prefeitura-default',
+      prefeituraNome: prefeitura?.nome || 'Prefeitura Municipal de Gestão Urbana',
+      prefeituraSlug: prefeitura?.slug || 'default',
+      modulosAtivos: prefeitura?.modulos_ativos || ['ZELADORIA_PREDIAL', 'OUVIDORIA_CIDADA', 'AGENDA_PREVENTIVA', 'COPILOT_IA'],
     };
   }
 
@@ -60,7 +69,7 @@ export class AuthService {
           { email: cleanEmail },
         ],
       },
-      include: { predios_geridos: true },
+      include: { predios_geridos: true, prefeitura: true },
     });
 
     if (!user) {
@@ -78,11 +87,14 @@ export class AuthService {
       throw new UnauthorizedException('Credenciais inválidas. Verifique seu e-mail e senha.');
     }
 
+    const prefeituraId = user.prefeitura_id || user.prefeitura?.id || 'prefeitura-default';
+
     const payload: JwtPayload = {
       sub: user.id,
       email: user.email,
       role: user.role,
       tokenVersion: user.token_version,
+      prefeituraId,
     };
 
     const token = await this.jwtService.signAsync(payload);
@@ -101,7 +113,7 @@ export class AuthService {
   async getMe(userId: string): Promise<ApiResponse<AuthenticatedUserResponse>> {
     const user = await this.prisma.usuario.findUnique({
       where: { id: userId },
-      include: { predios_geridos: true },
+      include: { predios_geridos: true, prefeitura: true },
     });
 
     if (!user || user.ativo === false) {

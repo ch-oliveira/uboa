@@ -15,6 +15,7 @@ export interface UserResponse {
   especialidade?: string;
   active: boolean;
   createdAt: string;
+  prefeituraId?: string;
 }
 
 @Injectable()
@@ -31,13 +32,17 @@ export class UsersService {
       especialidade: u.especialidade || undefined,
       active: u.ativo !== false,
       createdAt: u.criado_em.toISOString(),
+      prefeituraId: u.prefeitura_id || undefined,
     };
   }
 
-  async findAll(role?: string): Promise<ApiResponse<UserResponse[]>> {
+  async findAll(role?: string, currentUser?: any): Promise<ApiResponse<UserResponse[]>> {
     const where: any = {};
     if (role && Object.values(Role).includes(role as Role)) {
       where.role = role as Role;
+    }
+    if (currentUser?.prefeituraId) {
+      where.prefeitura_id = currentUser.prefeituraId;
     }
 
     const users = await this.prisma.usuario.findMany({
@@ -51,6 +56,7 @@ export class UsersService {
         especialidade: true,
         ativo: true,
         criado_em: true,
+        prefeitura_id: true,
       },
       orderBy: { nome: 'asc' },
     });
@@ -76,8 +82,7 @@ export class UsersService {
         role: true,
         telefone: true,
         especialidade: true,
-        ativo: true,
-        criado_em: true,
+        prefeitura_id: true,
       },
     });
 
@@ -109,6 +114,7 @@ export class UsersService {
       throw new ConflictException('Já existe um usuário com este e-mail.');
     }
 
+    const prefeituraId = currentUser?.prefeituraId || currentUser?.prefeitura_id || 'prefeitura-default';
     const passwordHash = await bcrypt.hash(dto.senha, 10);
     const user = await this.prisma.usuario.create({
       data: {
@@ -120,6 +126,7 @@ export class UsersService {
         especialidade: dto.especialidade?.trim()?.toUpperCase() || (targetRole === Role.TECNICO ? 'GERAL' : undefined),
         ativo: true,
         token_version: 1,
+        prefeitura_id: prefeituraId,
       },
       select: {
         id: true,
@@ -131,6 +138,7 @@ export class UsersService {
         ativo: true,
         token_version: true,
         criado_em: true,
+        prefeitura_id: true,
       },
     });
 

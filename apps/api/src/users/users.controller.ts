@@ -17,8 +17,8 @@ export class UsersController {
   }
 
   @Get()
-  async findAll(@Query('role') role?: string) {
-    return this.usersService.findAll(role);
+  async findAll(@Query('role') role?: string, @CurrentUser() user?: any) {
+    return this.usersService.findAll(role, user);
   }
 
   @Get(':id')

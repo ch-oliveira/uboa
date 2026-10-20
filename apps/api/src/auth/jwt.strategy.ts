@@ -8,6 +8,7 @@ export interface JwtPayload {
   email: string;
   role: string;
   tokenVersion: number;
+  prefeituraId?: string;
 }
 
 @Injectable()
@@ -35,7 +36,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: JwtPayload) {
     const user = await this.prisma.usuario.findUnique({
       where: { id: payload.sub },
-      include: { predios_geridos: true },
+      include: { predios_geridos: true, prefeitura: true },
     });
 
     if (!user) {
@@ -50,6 +51,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('Sessão revogada ou expirada. Faça login novamente.');
     }
 
+    const prefeitura = user.prefeitura;
+
     return {
       id: user.id,
       name: user.nome,
@@ -58,6 +61,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       phoneNumber: user.telefone || undefined,
       facilityName: user.predios_geridos?.[0]?.nome || undefined,
       avatar: `https://i.pravatar.cc/150?u=${encodeURIComponent(user.nome)}`,
+      prefeituraId: user.prefeitura_id || prefeitura?.id || payload.prefeituraId || 'prefeitura-default',
+      prefeituraNome: prefeitura?.nome || 'Prefeitura Municipal de Gestão Urbana',
+      prefeituraSlug: prefeitura?.slug || 'default',
+      modulosAtivos: prefeitura?.modulos_ativos || ['ZELADORIA_PREDIAL', 'OUVIDORIA_CIDADA', 'AGENDA_PREVENTIVA', 'COPILOT_IA'],
     };
   }
 }

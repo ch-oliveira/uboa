@@ -121,6 +121,19 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.PrefeituraScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  nome: 'nome',
+  cnpj: 'cnpj',
+  brasao_url: 'brasao_url',
+  modulos_ativos: 'modulos_ativos',
+  ativo: 'ativo',
+  metadata: 'metadata',
+  criado_em: 'criado_em',
+  atualizado: 'atualizado'
+};
+
 exports.Prisma.UsuarioScalarFieldEnum = {
   id: 'id',
   nome: 'nome',
@@ -132,7 +145,8 @@ exports.Prisma.UsuarioScalarFieldEnum = {
   ativo: 'ativo',
   token_version: 'token_version',
   criado_em: 'criado_em',
-  atualizado: 'atualizado'
+  atualizado: 'atualizado',
+  prefeitura_id: 'prefeitura_id'
 };
 
 exports.Prisma.PredioScalarFieldEnum = {
@@ -149,7 +163,8 @@ exports.Prisma.PredioScalarFieldEnum = {
   motivo_desativacao: 'motivo_desativacao',
   gestor_id: 'gestor_id',
   criado_em: 'criado_em',
-  atualizado: 'atualizado'
+  atualizado: 'atualizado',
+  prefeitura_id: 'prefeitura_id'
 };
 
 exports.Prisma.OrdemServicoScalarFieldEnum = {
@@ -175,6 +190,7 @@ exports.Prisma.OrdemServicoScalarFieldEnum = {
   historico_pausas: 'historico_pausas',
   sla_violado: 'sla_violado',
   motivo_violacao_sla: 'motivo_violacao_sla',
+  prefeitura_id: 'prefeitura_id',
   ordem_vinculada_id: 'ordem_vinculada_id',
   criado_em: 'criado_em',
   atualizado: 'atualizado'
@@ -186,6 +202,7 @@ exports.Prisma.AuditoriaLogScalarFieldEnum = {
   entidade_id: 'entidade_id',
   acao: 'acao',
   usuario_id: 'usuario_id',
+  prefeitura_id: 'prefeitura_id',
   dados_antigos: 'dados_antigos',
   dados_novos: 'dados_novos',
   criado_em: 'criado_em'
@@ -206,6 +223,7 @@ exports.Prisma.AgendaVistoriaScalarFieldEnum = {
   laudo_tecnico: 'laudo_tecnico',
   fotos_vistoria: 'fotos_vistoria',
   ordem_servico_id: 'ordem_servico_id',
+  prefeitura_id: 'prefeitura_id',
   criado_em: 'criado_em',
   atualizado: 'atualizado'
 };
@@ -228,6 +246,7 @@ exports.Prisma.ConfiguracaoSistemaScalarFieldEnum = {
   push_notif: 'push_notif',
   whatsapp_alerts: 'whatsapp_alerts',
   auto_dispatch: 'auto_dispatch',
+  prefeitura_id: 'prefeitura_id',
   criado_em: 'criado_em',
   atualizado: 'atualizado'
 };
@@ -251,6 +270,7 @@ exports.Prisma.ManifestacaoScalarFieldEnum = {
   respondido_por_id: 'respondido_por_id',
   motivo_arquivamento: 'motivo_arquivamento',
   ordem_servico_id: 'ordem_servico_id',
+  prefeitura_id: 'prefeitura_id',
   criado_em: 'criado_em',
   atualizado: 'atualizado'
 };
@@ -270,16 +290,25 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+exports.ModuloSistema = exports.$Enums.ModuloSistema = {
+  ZELADORIA_PREDIAL: 'ZELADORIA_PREDIAL',
+  OUVIDORIA_CIDADA: 'OUVIDORIA_CIDADA',
+  AGENDA_PREVENTIVA: 'AGENDA_PREVENTIVA',
+  GESTAO_MATERIAIS: 'GESTAO_MATERIAIS',
+  COPILOT_IA: 'COPILOT_IA',
+  PORTAL_TRANSPARENCIA: 'PORTAL_TRANSPARENCIA'
+};
+
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   GESTOR: 'GESTOR',
@@ -335,6 +364,7 @@ exports.StatusManifestacao = exports.$Enums.StatusManifestacao = {
 };
 
 exports.Prisma.ModelName = {
+  Prefeitura: 'Prefeitura',
   Usuario: 'Usuario',
   Predio: 'Predio',
   OrdemServico: 'OrdemServico',

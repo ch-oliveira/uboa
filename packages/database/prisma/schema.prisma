@@ -68,6 +68,39 @@ enum AuditAction {
   DELETE
 }
 
+enum ModuloSistema {
+  ZELADORIA_PREDIAL
+  OUVIDORIA_CIDADA
+  AGENDA_PREVENTIVA
+  GESTAO_MATERIAIS
+  COPILOT_IA
+  PORTAL_TRANSPARENCIA
+}
+
+model Prefeitura {
+  id             String          @id @default(uuid())
+  slug           String          @unique // ex: "default", "osasco", "americana"
+  nome           String          // "Prefeitura Municipal de Gestão Urbana"
+  cnpj           String?         @unique
+  brasao_url     String?
+  modulos_ativos ModuloSistema[] @default([ZELADORIA_PREDIAL, OUVIDORIA_CIDADA, AGENDA_PREVENTIVA, COPILOT_IA])
+  ativo          Boolean         @default(true)
+  metadata       Json?           @default("{}")
+
+  configuracao   ConfiguracaoSistema?
+  usuarios       Usuario[]
+  predios        Predio[]
+  ordens_servico OrdemServico[]
+  manifestacoes  Manifestacao[]
+  vistorias      AgendaVistoria[]
+  auditorias     AuditoriaLog[]
+
+  criado_em      DateTime        @default(now())
+  atualizado     DateTime        @updatedAt
+
+  @@map("prefeituras")
+}
+
 model Usuario {
   id            String   @id @default(uuid())
   nome          String
@@ -81,12 +114,17 @@ model Usuario {
   criado_em     DateTime @default(now())
   atualizado    DateTime @updatedAt
 
+  prefeitura_id String?
+  prefeitura    Prefeitura? @relation(fields: [prefeitura_id], references: [id])
+
   predios_geridos           Predio[]        @relation("GestorPredio")
   chamados_solicitados      OrdemServico[]  @relation("SolicitanteOS")
   chamados_atribuidos       OrdemServico[]  @relation("TecnicoOS")
   manifestacoes_respondidas Manifestacao[]  @relation("ManifestacaoRespondente")
   auditorias                AuditoriaLog[]
 
+  @@index([prefeitura_id, role])
+  @@index([prefeitura_id, email])
   @@map("usuarios")
 }
 
@@ -107,6 +145,9 @@ model Predio {
   criado_em           DateTime   @default(now())
   atualizado          DateTime   @updatedAt
 
+  prefeitura_id       String?
+  prefeitura          Prefeitura? @relation(fields: [prefeitura_id], references: [id])
+
   // PostGIS: O tipo Unsupported permite que o Prisma conviva com tipos do DB.
   coordenadas Unsupported("geometry(Point, 4326)")?
 
@@ -114,6 +155,8 @@ model Predio {
   vistorias      AgendaVistoria[]
   manifestacoes  Manifestacao[]
 
+  @@index([prefeitura_id, ativo])
+  @@index([prefeitura_id, tipo])
   @@map("predios")
 }
 
@@ -148,6 +191,9 @@ model OrdemServico {
   sla_violado          Boolean    @default(false) // Flag de infração de prazo para fiscalização do Tribunal de Contas
   motivo_violacao_sla  String?    // Descrição ou justificativa da extrapolação do prazo
 
+  prefeitura_id        String?
+  prefeitura           Prefeitura? @relation(fields: [prefeitura_id], references: [id])
+
   ordem_vinculada_id   String?
   ordem_vinculada      OrdemServico?  @relation("HistoricoOS", fields: [ordem_vinculada_id], references: [id])
   ordens_derivadas     OrdemServico[] @relation("HistoricoOS")
@@ -158,6 +204,9 @@ model OrdemServico {
   criado_em            DateTime   @default(now())
   atualizado           DateTime   @updatedAt
 
+  @@index([prefeitura_id, status])
+  @@index([prefeitura_id, prioridade])
+  @@index([prefeitura_id, predio_id, criado_em])
   @@map("ordens_servico")
 }
 
@@ -170,11 +219,15 @@ model AuditoriaLog {
   usuario_id       String
   usuario          Usuario     @relation(fields: [usuario_id], references: [id])
   
+  prefeitura_id    String?
+  prefeitura       Prefeitura? @relation(fields: [prefeitura_id], references: [id])
+
   dados_antigos    Json?
   dados_novos      Json?
   
   criado_em        DateTime    @default(now())
 
+  @@index([prefeitura_id, criado_em])
   @@map("auditoria_logs")
 }
 
@@ -195,32 +248,41 @@ model AgendaVistoria {
   fotos_vistoria   String[]      @default([])
   ordem_servico_id String?
   ordem_servico    OrdemServico? @relation(fields: [ordem_servico_id], references: [id])
+
+  prefeitura_id    String?
+  prefeitura       Prefeitura?   @relation(fields: [prefeitura_id], references: [id])
+
   criado_em        DateTime      @default(now())
   atualizado       DateTime      @default(now()) @updatedAt
 
+  @@index([prefeitura_id, concluido])
   @@map("agenda_vistorias")
 }
 
 model ConfiguracaoSistema {
-  id               String   @id @default("default")
-  prefeitura_nome  String   @default("Prefeitura Municipal de Gestão Urbana")
-  secretaria_nome  String   @default("Secretaria de Infraestrutura e Zeladoria Predial")
-  gestor_nome      String   @default("Mariana Alves")
-  gestor_cargo     String   @default("Gestora Municipal de Zeladoria")
-  gestor_email     String   @default("mariana.alves@gestaourbana.gov.br")
-  gestor_telefone  String   @default("(11) 3241-8900")
-  sla_urgente_h    Int      @default(4)
-  sla_alta_h       Int      @default(24)
-  sla_media_h      Int      @default(72)
-  sla_baixa_h      Int      @default(168)
-  mttr_alert_h     Int      @default(8)
-  preventiva_goal  Int      @default(90)
-  sound_alerts     Boolean  @default(true)
-  push_notif       Boolean  @default(true)
-  whatsapp_alerts  Boolean  @default(false)
-  auto_dispatch    Boolean  @default(false)
-  criado_em        DateTime @default(now())
-  atualizado       DateTime @updatedAt
+  id               String      @id @default("default")
+  prefeitura_nome  String      @default("Prefeitura Municipal de Gestão Urbana")
+  secretaria_nome  String      @default("Secretaria de Infraestrutura e Zeladoria Predial")
+  gestor_nome      String      @default("Mariana Alves")
+  gestor_cargo     String      @default("Gestora Municipal de Zeladoria")
+  gestor_email     String      @default("mariana.alves@gestaourbana.gov.br")
+  gestor_telefone  String      @default("(11) 3241-8900")
+  sla_urgente_h    Int         @default(4)
+  sla_alta_h       Int         @default(24)
+  sla_media_h      Int         @default(72)
+  sla_baixa_h      Int         @default(168)
+  mttr_alert_h     Int         @default(8)
+  preventiva_goal  Int         @default(90)
+  sound_alerts     Boolean     @default(true)
+  push_notif       Boolean     @default(true)
+  whatsapp_alerts  Boolean     @default(false)
+  auto_dispatch    Boolean     @default(false)
+
+  prefeitura_id    String?     @unique
+  prefeitura       Prefeitura? @relation(fields: [prefeitura_id], references: [id], onDelete: Cascade)
+
+  criado_em        DateTime    @default(now())
+  atualizado       DateTime    @updatedAt
 
   @@map("configuracoes_sistema")
 }
@@ -254,12 +316,16 @@ model Manifestacao {
   
   ordem_servico_id      String?
   ordem_servico         OrdemServico?      @relation("ManifestacaoOS", fields: [ordem_servico_id], references: [id])
+
+  prefeitura_id         String?
+  prefeitura            Prefeitura?        @relation(fields: [prefeitura_id], references: [id])
   
   criado_em             DateTime           @default(now())
   atualizado            DateTime           @updatedAt
 
+  @@index([prefeitura_id, status])
+  @@index([prefeitura_id, protocolo])
   @@index([predio_id, status])
   @@index([status, criado_em])
   @@map("manifestacoes")
 }
-

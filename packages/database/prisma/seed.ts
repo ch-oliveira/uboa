@@ -14,6 +14,31 @@ async function main() {
   await prisma.agendaVistoria.deleteMany();
   await prisma.predio.deleteMany();
   await prisma.usuario.deleteMany();
+  await prisma.manifestacao.deleteMany();
+  await prisma.configuracaoSistema.deleteMany();
+  await prisma.prefeitura.deleteMany();
+
+  // 0. Criar/Garantir Prefeitura Padrão (Tenant Zero / Cliente Piloto de 200k)
+  const prefeituraPadrao = await prisma.prefeitura.upsert({
+    where: { slug: 'default' },
+    update: {
+      nome: 'Prefeitura Municipal de Gestão Urbana',
+      ativo: true,
+    },
+    create: {
+      id: 'prefeitura-default',
+      slug: 'default',
+      nome: 'Prefeitura Municipal de Gestão Urbana',
+      cnpj: '46.123.456/0001-78',
+      ativo: true,
+      modulos_ativos: [
+        'ZELADORIA_PREDIAL',
+        'OUVIDORIA_CIDADA',
+        'AGENDA_PREVENTIVA',
+        'COPILOT_IA',
+      ],
+    },
+  });
 
   // Senha configurável via variável de ambiente (SEED_DEFAULT_PASSWORD) com fallback para dev local
   const seedPassword = process.env.SEED_DEFAULT_PASSWORD || 'Urboa@2026!';
@@ -555,9 +580,17 @@ async function main() {
       entidade_id: 'seed-inicial',
       acao: AuditAction.CREATE,
       usuario_id: admin.id,
-      dados_novos: { status: 'Base municipal sincronizada e populada com 26 ordens de serviço ativas' },
+      dados_novos: { status: 'Base municipal sincronizada e populada com 26 ordens de serviço ativas no Tenant Padrão' },
     },
   });
+
+  // 7. Vincular todos os registros criados ao Tenant Padrão (Multi-Tenant Ready)
+  await prisma.usuario.updateMany({ data: { prefeitura_id: prefeituraPadrao.id } });
+  await prisma.predio.updateMany({ data: { prefeitura_id: prefeituraPadrao.id } });
+  await prisma.ordemServico.updateMany({ data: { prefeitura_id: prefeituraPadrao.id } });
+  await prisma.agendaVistoria.updateMany({ data: { prefeitura_id: prefeituraPadrao.id } });
+  await prisma.configuracaoSistema.updateMany({ data: { prefeitura_id: prefeituraPadrao.id } });
+  await prisma.auditoriaLog.updateMany({ data: { prefeitura_id: prefeituraPadrao.id } });
 }
 
 main()

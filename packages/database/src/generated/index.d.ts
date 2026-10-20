@@ -14,6 +14,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
+ * Model Prefeitura
+ * 
+ */
+export type Prefeitura = $Result.DefaultSelection<Prisma.$PrefeituraPayload>
+/**
  * Model Usuario
  * 
  */
@@ -127,6 +132,18 @@ export const AuditAction: {
 
 export type AuditAction = (typeof AuditAction)[keyof typeof AuditAction]
 
+
+export const ModuloSistema: {
+  ZELADORIA_PREDIAL: 'ZELADORIA_PREDIAL',
+  OUVIDORIA_CIDADA: 'OUVIDORIA_CIDADA',
+  AGENDA_PREVENTIVA: 'AGENDA_PREVENTIVA',
+  GESTAO_MATERIAIS: 'GESTAO_MATERIAIS',
+  COPILOT_IA: 'COPILOT_IA',
+  PORTAL_TRANSPARENCIA: 'PORTAL_TRANSPARENCIA'
+};
+
+export type ModuloSistema = (typeof ModuloSistema)[keyof typeof ModuloSistema]
+
 }
 
 export type Role = $Enums.Role
@@ -157,6 +174,10 @@ export type AuditAction = $Enums.AuditAction
 
 export const AuditAction: typeof $Enums.AuditAction
 
+export type ModuloSistema = $Enums.ModuloSistema
+
+export const ModuloSistema: typeof $Enums.ModuloSistema
+
 /**
  * ##  Prisma Client ʲˢ
  *
@@ -164,8 +185,8 @@ export const AuditAction: typeof $Enums.AuditAction
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Usuarios
- * const usuarios = await prisma.usuario.findMany()
+ * // Fetch zero or more Prefeituras
+ * const prefeituras = await prisma.prefeitura.findMany()
  * ```
  *
  *
@@ -185,8 +206,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Usuarios
-   * const usuarios = await prisma.usuario.findMany()
+   * // Fetch zero or more Prefeituras
+   * const prefeituras = await prisma.prefeitura.findMany()
    * ```
    *
    *
@@ -276,6 +297,16 @@ export class PrismaClient<
   }>>
 
       /**
+   * `prisma.prefeitura`: Exposes CRUD operations for the **Prefeitura** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Prefeituras
+    * const prefeituras = await prisma.prefeitura.findMany()
+    * ```
+    */
+  get prefeitura(): Prisma.PrefeituraDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.usuario`: Exposes CRUD operations for the **Usuario** model.
     * Example usage:
     * ```ts
@@ -785,6 +816,7 @@ export namespace Prisma {
 
 
   export const ModelName: {
+    Prefeitura: 'Prefeitura',
     Usuario: 'Usuario',
     Predio: 'Predio',
     OrdemServico: 'OrdemServico',
@@ -810,10 +842,84 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "predio" | "ordemServico" | "auditoriaLog" | "agendaVistoria" | "configuracaoSistema" | "manifestacao"
+      modelProps: "prefeitura" | "usuario" | "predio" | "ordemServico" | "auditoriaLog" | "agendaVistoria" | "configuracaoSistema" | "manifestacao"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
+      Prefeitura: {
+        payload: Prisma.$PrefeituraPayload<ExtArgs>
+        fields: Prisma.PrefeituraFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PrefeituraFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrefeituraPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PrefeituraFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrefeituraPayload>
+          }
+          findFirst: {
+            args: Prisma.PrefeituraFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrefeituraPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PrefeituraFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrefeituraPayload>
+          }
+          findMany: {
+            args: Prisma.PrefeituraFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrefeituraPayload>[]
+          }
+          create: {
+            args: Prisma.PrefeituraCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrefeituraPayload>
+          }
+          createMany: {
+            args: Prisma.PrefeituraCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PrefeituraCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrefeituraPayload>[]
+          }
+          delete: {
+            args: Prisma.PrefeituraDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrefeituraPayload>
+          }
+          update: {
+            args: Prisma.PrefeituraUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrefeituraPayload>
+          }
+          deleteMany: {
+            args: Prisma.PrefeituraDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PrefeituraUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PrefeituraUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrefeituraPayload>[]
+          }
+          upsert: {
+            args: Prisma.PrefeituraUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrefeituraPayload>
+          }
+          aggregate: {
+            args: Prisma.PrefeituraAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePrefeitura>
+          }
+          groupBy: {
+            args: Prisma.PrefeituraGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PrefeituraGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PrefeituraCountArgs<ExtArgs>
+            result: $Utils.Optional<PrefeituraCountAggregateOutputType> | number
+          }
+        }
+      }
       Usuario: {
         payload: Prisma.$UsuarioPayload<ExtArgs>
         fields: Prisma.UsuarioFieldRefs
@@ -1428,6 +1534,7 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig
   }
   export type GlobalOmitConfig = {
+    prefeitura?: PrefeituraOmit
     usuario?: UsuarioOmit
     predio?: PredioOmit
     ordemServico?: OrdemServicoOmit
@@ -1508,6 +1615,82 @@ export namespace Prisma {
   /**
    * Count Types
    */
+
+
+  /**
+   * Count Type PrefeituraCountOutputType
+   */
+
+  export type PrefeituraCountOutputType = {
+    usuarios: number
+    predios: number
+    ordens_servico: number
+    manifestacoes: number
+    vistorias: number
+    auditorias: number
+  }
+
+  export type PrefeituraCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuarios?: boolean | PrefeituraCountOutputTypeCountUsuariosArgs
+    predios?: boolean | PrefeituraCountOutputTypeCountPrediosArgs
+    ordens_servico?: boolean | PrefeituraCountOutputTypeCountOrdens_servicoArgs
+    manifestacoes?: boolean | PrefeituraCountOutputTypeCountManifestacoesArgs
+    vistorias?: boolean | PrefeituraCountOutputTypeCountVistoriasArgs
+    auditorias?: boolean | PrefeituraCountOutputTypeCountAuditoriasArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PrefeituraCountOutputType without action
+   */
+  export type PrefeituraCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrefeituraCountOutputType
+     */
+    select?: PrefeituraCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PrefeituraCountOutputType without action
+   */
+  export type PrefeituraCountOutputTypeCountUsuariosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UsuarioWhereInput
+  }
+
+  /**
+   * PrefeituraCountOutputType without action
+   */
+  export type PrefeituraCountOutputTypeCountPrediosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PredioWhereInput
+  }
+
+  /**
+   * PrefeituraCountOutputType without action
+   */
+  export type PrefeituraCountOutputTypeCountOrdens_servicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrdemServicoWhereInput
+  }
+
+  /**
+   * PrefeituraCountOutputType without action
+   */
+  export type PrefeituraCountOutputTypeCountManifestacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ManifestacaoWhereInput
+  }
+
+  /**
+   * PrefeituraCountOutputType without action
+   */
+  export type PrefeituraCountOutputTypeCountVistoriasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgendaVistoriaWhereInput
+  }
+
+  /**
+   * PrefeituraCountOutputType without action
+   */
+  export type PrefeituraCountOutputTypeCountAuditoriasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuditoriaLogWhereInput
+  }
 
 
   /**
@@ -1680,6 +1863,1296 @@ export namespace Prisma {
    */
 
   /**
+   * Model Prefeitura
+   */
+
+  export type AggregatePrefeitura = {
+    _count: PrefeituraCountAggregateOutputType | null
+    _min: PrefeituraMinAggregateOutputType | null
+    _max: PrefeituraMaxAggregateOutputType | null
+  }
+
+  export type PrefeituraMinAggregateOutputType = {
+    id: string | null
+    slug: string | null
+    nome: string | null
+    cnpj: string | null
+    brasao_url: string | null
+    ativo: boolean | null
+    criado_em: Date | null
+    atualizado: Date | null
+  }
+
+  export type PrefeituraMaxAggregateOutputType = {
+    id: string | null
+    slug: string | null
+    nome: string | null
+    cnpj: string | null
+    brasao_url: string | null
+    ativo: boolean | null
+    criado_em: Date | null
+    atualizado: Date | null
+  }
+
+  export type PrefeituraCountAggregateOutputType = {
+    id: number
+    slug: number
+    nome: number
+    cnpj: number
+    brasao_url: number
+    modulos_ativos: number
+    ativo: number
+    metadata: number
+    criado_em: number
+    atualizado: number
+    _all: number
+  }
+
+
+  export type PrefeituraMinAggregateInputType = {
+    id?: true
+    slug?: true
+    nome?: true
+    cnpj?: true
+    brasao_url?: true
+    ativo?: true
+    criado_em?: true
+    atualizado?: true
+  }
+
+  export type PrefeituraMaxAggregateInputType = {
+    id?: true
+    slug?: true
+    nome?: true
+    cnpj?: true
+    brasao_url?: true
+    ativo?: true
+    criado_em?: true
+    atualizado?: true
+  }
+
+  export type PrefeituraCountAggregateInputType = {
+    id?: true
+    slug?: true
+    nome?: true
+    cnpj?: true
+    brasao_url?: true
+    modulos_ativos?: true
+    ativo?: true
+    metadata?: true
+    criado_em?: true
+    atualizado?: true
+    _all?: true
+  }
+
+  export type PrefeituraAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Prefeitura to aggregate.
+     */
+    where?: PrefeituraWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Prefeituras to fetch.
+     */
+    orderBy?: PrefeituraOrderByWithRelationInput | PrefeituraOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PrefeituraWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Prefeituras from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Prefeituras.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Prefeituras
+    **/
+    _count?: true | PrefeituraCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PrefeituraMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PrefeituraMaxAggregateInputType
+  }
+
+  export type GetPrefeituraAggregateType<T extends PrefeituraAggregateArgs> = {
+        [P in keyof T & keyof AggregatePrefeitura]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePrefeitura[P]>
+      : GetScalarType<T[P], AggregatePrefeitura[P]>
+  }
+
+
+
+
+  export type PrefeituraGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PrefeituraWhereInput
+    orderBy?: PrefeituraOrderByWithAggregationInput | PrefeituraOrderByWithAggregationInput[]
+    by: PrefeituraScalarFieldEnum[] | PrefeituraScalarFieldEnum
+    having?: PrefeituraScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PrefeituraCountAggregateInputType | true
+    _min?: PrefeituraMinAggregateInputType
+    _max?: PrefeituraMaxAggregateInputType
+  }
+
+  export type PrefeituraGroupByOutputType = {
+    id: string
+    slug: string
+    nome: string
+    cnpj: string | null
+    brasao_url: string | null
+    modulos_ativos: $Enums.ModuloSistema[]
+    ativo: boolean
+    metadata: JsonValue | null
+    criado_em: Date
+    atualizado: Date
+    _count: PrefeituraCountAggregateOutputType | null
+    _min: PrefeituraMinAggregateOutputType | null
+    _max: PrefeituraMaxAggregateOutputType | null
+  }
+
+  type GetPrefeituraGroupByPayload<T extends PrefeituraGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PrefeituraGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PrefeituraGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PrefeituraGroupByOutputType[P]>
+            : GetScalarType<T[P], PrefeituraGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PrefeituraSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    nome?: boolean
+    cnpj?: boolean
+    brasao_url?: boolean
+    modulos_ativos?: boolean
+    ativo?: boolean
+    metadata?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    configuracao?: boolean | Prefeitura$configuracaoArgs<ExtArgs>
+    usuarios?: boolean | Prefeitura$usuariosArgs<ExtArgs>
+    predios?: boolean | Prefeitura$prediosArgs<ExtArgs>
+    ordens_servico?: boolean | Prefeitura$ordens_servicoArgs<ExtArgs>
+    manifestacoes?: boolean | Prefeitura$manifestacoesArgs<ExtArgs>
+    vistorias?: boolean | Prefeitura$vistoriasArgs<ExtArgs>
+    auditorias?: boolean | Prefeitura$auditoriasArgs<ExtArgs>
+    _count?: boolean | PrefeituraCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["prefeitura"]>
+
+  export type PrefeituraSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    nome?: boolean
+    cnpj?: boolean
+    brasao_url?: boolean
+    modulos_ativos?: boolean
+    ativo?: boolean
+    metadata?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+  }, ExtArgs["result"]["prefeitura"]>
+
+  export type PrefeituraSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    nome?: boolean
+    cnpj?: boolean
+    brasao_url?: boolean
+    modulos_ativos?: boolean
+    ativo?: boolean
+    metadata?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+  }, ExtArgs["result"]["prefeitura"]>
+
+  export type PrefeituraSelectScalar = {
+    id?: boolean
+    slug?: boolean
+    nome?: boolean
+    cnpj?: boolean
+    brasao_url?: boolean
+    modulos_ativos?: boolean
+    ativo?: boolean
+    metadata?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+  }
+
+  export type PrefeituraOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "nome" | "cnpj" | "brasao_url" | "modulos_ativos" | "ativo" | "metadata" | "criado_em" | "atualizado", ExtArgs["result"]["prefeitura"]>
+  export type PrefeituraInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    configuracao?: boolean | Prefeitura$configuracaoArgs<ExtArgs>
+    usuarios?: boolean | Prefeitura$usuariosArgs<ExtArgs>
+    predios?: boolean | Prefeitura$prediosArgs<ExtArgs>
+    ordens_servico?: boolean | Prefeitura$ordens_servicoArgs<ExtArgs>
+    manifestacoes?: boolean | Prefeitura$manifestacoesArgs<ExtArgs>
+    vistorias?: boolean | Prefeitura$vistoriasArgs<ExtArgs>
+    auditorias?: boolean | Prefeitura$auditoriasArgs<ExtArgs>
+    _count?: boolean | PrefeituraCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PrefeituraIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PrefeituraIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $PrefeituraPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Prefeitura"
+    objects: {
+      configuracao: Prisma.$ConfiguracaoSistemaPayload<ExtArgs> | null
+      usuarios: Prisma.$UsuarioPayload<ExtArgs>[]
+      predios: Prisma.$PredioPayload<ExtArgs>[]
+      ordens_servico: Prisma.$OrdemServicoPayload<ExtArgs>[]
+      manifestacoes: Prisma.$ManifestacaoPayload<ExtArgs>[]
+      vistorias: Prisma.$AgendaVistoriaPayload<ExtArgs>[]
+      auditorias: Prisma.$AuditoriaLogPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      slug: string
+      nome: string
+      cnpj: string | null
+      brasao_url: string | null
+      modulos_ativos: $Enums.ModuloSistema[]
+      ativo: boolean
+      metadata: Prisma.JsonValue | null
+      criado_em: Date
+      atualizado: Date
+    }, ExtArgs["result"]["prefeitura"]>
+    composites: {}
+  }
+
+  type PrefeituraGetPayload<S extends boolean | null | undefined | PrefeituraDefaultArgs> = $Result.GetResult<Prisma.$PrefeituraPayload, S>
+
+  type PrefeituraCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PrefeituraFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PrefeituraCountAggregateInputType | true
+    }
+
+  export interface PrefeituraDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Prefeitura'], meta: { name: 'Prefeitura' } }
+    /**
+     * Find zero or one Prefeitura that matches the filter.
+     * @param {PrefeituraFindUniqueArgs} args - Arguments to find a Prefeitura
+     * @example
+     * // Get one Prefeitura
+     * const prefeitura = await prisma.prefeitura.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PrefeituraFindUniqueArgs>(args: SelectSubset<T, PrefeituraFindUniqueArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Prefeitura that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PrefeituraFindUniqueOrThrowArgs} args - Arguments to find a Prefeitura
+     * @example
+     * // Get one Prefeitura
+     * const prefeitura = await prisma.prefeitura.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PrefeituraFindUniqueOrThrowArgs>(args: SelectSubset<T, PrefeituraFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Prefeitura that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrefeituraFindFirstArgs} args - Arguments to find a Prefeitura
+     * @example
+     * // Get one Prefeitura
+     * const prefeitura = await prisma.prefeitura.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PrefeituraFindFirstArgs>(args?: SelectSubset<T, PrefeituraFindFirstArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Prefeitura that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrefeituraFindFirstOrThrowArgs} args - Arguments to find a Prefeitura
+     * @example
+     * // Get one Prefeitura
+     * const prefeitura = await prisma.prefeitura.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PrefeituraFindFirstOrThrowArgs>(args?: SelectSubset<T, PrefeituraFindFirstOrThrowArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Prefeituras that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrefeituraFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Prefeituras
+     * const prefeituras = await prisma.prefeitura.findMany()
+     * 
+     * // Get first 10 Prefeituras
+     * const prefeituras = await prisma.prefeitura.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const prefeituraWithIdOnly = await prisma.prefeitura.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PrefeituraFindManyArgs>(args?: SelectSubset<T, PrefeituraFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Prefeitura.
+     * @param {PrefeituraCreateArgs} args - Arguments to create a Prefeitura.
+     * @example
+     * // Create one Prefeitura
+     * const Prefeitura = await prisma.prefeitura.create({
+     *   data: {
+     *     // ... data to create a Prefeitura
+     *   }
+     * })
+     * 
+     */
+    create<T extends PrefeituraCreateArgs>(args: SelectSubset<T, PrefeituraCreateArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Prefeituras.
+     * @param {PrefeituraCreateManyArgs} args - Arguments to create many Prefeituras.
+     * @example
+     * // Create many Prefeituras
+     * const prefeitura = await prisma.prefeitura.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PrefeituraCreateManyArgs>(args?: SelectSubset<T, PrefeituraCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Prefeituras and returns the data saved in the database.
+     * @param {PrefeituraCreateManyAndReturnArgs} args - Arguments to create many Prefeituras.
+     * @example
+     * // Create many Prefeituras
+     * const prefeitura = await prisma.prefeitura.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Prefeituras and only return the `id`
+     * const prefeituraWithIdOnly = await prisma.prefeitura.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PrefeituraCreateManyAndReturnArgs>(args?: SelectSubset<T, PrefeituraCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Prefeitura.
+     * @param {PrefeituraDeleteArgs} args - Arguments to delete one Prefeitura.
+     * @example
+     * // Delete one Prefeitura
+     * const Prefeitura = await prisma.prefeitura.delete({
+     *   where: {
+     *     // ... filter to delete one Prefeitura
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PrefeituraDeleteArgs>(args: SelectSubset<T, PrefeituraDeleteArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Prefeitura.
+     * @param {PrefeituraUpdateArgs} args - Arguments to update one Prefeitura.
+     * @example
+     * // Update one Prefeitura
+     * const prefeitura = await prisma.prefeitura.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PrefeituraUpdateArgs>(args: SelectSubset<T, PrefeituraUpdateArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Prefeituras.
+     * @param {PrefeituraDeleteManyArgs} args - Arguments to filter Prefeituras to delete.
+     * @example
+     * // Delete a few Prefeituras
+     * const { count } = await prisma.prefeitura.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PrefeituraDeleteManyArgs>(args?: SelectSubset<T, PrefeituraDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Prefeituras.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrefeituraUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Prefeituras
+     * const prefeitura = await prisma.prefeitura.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PrefeituraUpdateManyArgs>(args: SelectSubset<T, PrefeituraUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Prefeituras and returns the data updated in the database.
+     * @param {PrefeituraUpdateManyAndReturnArgs} args - Arguments to update many Prefeituras.
+     * @example
+     * // Update many Prefeituras
+     * const prefeitura = await prisma.prefeitura.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Prefeituras and only return the `id`
+     * const prefeituraWithIdOnly = await prisma.prefeitura.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PrefeituraUpdateManyAndReturnArgs>(args: SelectSubset<T, PrefeituraUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Prefeitura.
+     * @param {PrefeituraUpsertArgs} args - Arguments to update or create a Prefeitura.
+     * @example
+     * // Update or create a Prefeitura
+     * const prefeitura = await prisma.prefeitura.upsert({
+     *   create: {
+     *     // ... data to create a Prefeitura
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Prefeitura we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PrefeituraUpsertArgs>(args: SelectSubset<T, PrefeituraUpsertArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Prefeituras.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrefeituraCountArgs} args - Arguments to filter Prefeituras to count.
+     * @example
+     * // Count the number of Prefeituras
+     * const count = await prisma.prefeitura.count({
+     *   where: {
+     *     // ... the filter for the Prefeituras we want to count
+     *   }
+     * })
+    **/
+    count<T extends PrefeituraCountArgs>(
+      args?: Subset<T, PrefeituraCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PrefeituraCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Prefeitura.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrefeituraAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PrefeituraAggregateArgs>(args: Subset<T, PrefeituraAggregateArgs>): Prisma.PrismaPromise<GetPrefeituraAggregateType<T>>
+
+    /**
+     * Group by Prefeitura.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrefeituraGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PrefeituraGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PrefeituraGroupByArgs['orderBy'] }
+        : { orderBy?: PrefeituraGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PrefeituraGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPrefeituraGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Prefeitura model
+   */
+  readonly fields: PrefeituraFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Prefeitura.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PrefeituraClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    configuracao<T extends Prefeitura$configuracaoArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$configuracaoArgs<ExtArgs>>): Prisma__ConfiguracaoSistemaClient<$Result.GetResult<Prisma.$ConfiguracaoSistemaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    usuarios<T extends Prefeitura$usuariosArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$usuariosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    predios<T extends Prefeitura$prediosArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$prediosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PredioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ordens_servico<T extends Prefeitura$ordens_servicoArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$ordens_servicoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    manifestacoes<T extends Prefeitura$manifestacoesArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$manifestacoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    vistorias<T extends Prefeitura$vistoriasArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$vistoriasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgendaVistoriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    auditorias<T extends Prefeitura$auditoriasArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$auditoriasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditoriaLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Prefeitura model
+   */
+  interface PrefeituraFieldRefs {
+    readonly id: FieldRef<"Prefeitura", 'String'>
+    readonly slug: FieldRef<"Prefeitura", 'String'>
+    readonly nome: FieldRef<"Prefeitura", 'String'>
+    readonly cnpj: FieldRef<"Prefeitura", 'String'>
+    readonly brasao_url: FieldRef<"Prefeitura", 'String'>
+    readonly modulos_ativos: FieldRef<"Prefeitura", 'ModuloSistema[]'>
+    readonly ativo: FieldRef<"Prefeitura", 'Boolean'>
+    readonly metadata: FieldRef<"Prefeitura", 'Json'>
+    readonly criado_em: FieldRef<"Prefeitura", 'DateTime'>
+    readonly atualizado: FieldRef<"Prefeitura", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Prefeitura findUnique
+   */
+  export type PrefeituraFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    /**
+     * Filter, which Prefeitura to fetch.
+     */
+    where: PrefeituraWhereUniqueInput
+  }
+
+  /**
+   * Prefeitura findUniqueOrThrow
+   */
+  export type PrefeituraFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    /**
+     * Filter, which Prefeitura to fetch.
+     */
+    where: PrefeituraWhereUniqueInput
+  }
+
+  /**
+   * Prefeitura findFirst
+   */
+  export type PrefeituraFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    /**
+     * Filter, which Prefeitura to fetch.
+     */
+    where?: PrefeituraWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Prefeituras to fetch.
+     */
+    orderBy?: PrefeituraOrderByWithRelationInput | PrefeituraOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Prefeituras.
+     */
+    cursor?: PrefeituraWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Prefeituras from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Prefeituras.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Prefeituras.
+     */
+    distinct?: PrefeituraScalarFieldEnum | PrefeituraScalarFieldEnum[]
+  }
+
+  /**
+   * Prefeitura findFirstOrThrow
+   */
+  export type PrefeituraFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    /**
+     * Filter, which Prefeitura to fetch.
+     */
+    where?: PrefeituraWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Prefeituras to fetch.
+     */
+    orderBy?: PrefeituraOrderByWithRelationInput | PrefeituraOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Prefeituras.
+     */
+    cursor?: PrefeituraWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Prefeituras from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Prefeituras.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Prefeituras.
+     */
+    distinct?: PrefeituraScalarFieldEnum | PrefeituraScalarFieldEnum[]
+  }
+
+  /**
+   * Prefeitura findMany
+   */
+  export type PrefeituraFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    /**
+     * Filter, which Prefeituras to fetch.
+     */
+    where?: PrefeituraWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Prefeituras to fetch.
+     */
+    orderBy?: PrefeituraOrderByWithRelationInput | PrefeituraOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Prefeituras.
+     */
+    cursor?: PrefeituraWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Prefeituras from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Prefeituras.
+     */
+    skip?: number
+    distinct?: PrefeituraScalarFieldEnum | PrefeituraScalarFieldEnum[]
+  }
+
+  /**
+   * Prefeitura create
+   */
+  export type PrefeituraCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Prefeitura.
+     */
+    data: XOR<PrefeituraCreateInput, PrefeituraUncheckedCreateInput>
+  }
+
+  /**
+   * Prefeitura createMany
+   */
+  export type PrefeituraCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Prefeituras.
+     */
+    data: PrefeituraCreateManyInput | PrefeituraCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Prefeitura createManyAndReturn
+   */
+  export type PrefeituraCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * The data used to create many Prefeituras.
+     */
+    data: PrefeituraCreateManyInput | PrefeituraCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Prefeitura update
+   */
+  export type PrefeituraUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Prefeitura.
+     */
+    data: XOR<PrefeituraUpdateInput, PrefeituraUncheckedUpdateInput>
+    /**
+     * Choose, which Prefeitura to update.
+     */
+    where: PrefeituraWhereUniqueInput
+  }
+
+  /**
+   * Prefeitura updateMany
+   */
+  export type PrefeituraUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Prefeituras.
+     */
+    data: XOR<PrefeituraUpdateManyMutationInput, PrefeituraUncheckedUpdateManyInput>
+    /**
+     * Filter which Prefeituras to update
+     */
+    where?: PrefeituraWhereInput
+    /**
+     * Limit how many Prefeituras to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Prefeitura updateManyAndReturn
+   */
+  export type PrefeituraUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * The data used to update Prefeituras.
+     */
+    data: XOR<PrefeituraUpdateManyMutationInput, PrefeituraUncheckedUpdateManyInput>
+    /**
+     * Filter which Prefeituras to update
+     */
+    where?: PrefeituraWhereInput
+    /**
+     * Limit how many Prefeituras to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Prefeitura upsert
+   */
+  export type PrefeituraUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Prefeitura to update in case it exists.
+     */
+    where: PrefeituraWhereUniqueInput
+    /**
+     * In case the Prefeitura found by the `where` argument doesn't exist, create a new Prefeitura with this data.
+     */
+    create: XOR<PrefeituraCreateInput, PrefeituraUncheckedCreateInput>
+    /**
+     * In case the Prefeitura was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PrefeituraUpdateInput, PrefeituraUncheckedUpdateInput>
+  }
+
+  /**
+   * Prefeitura delete
+   */
+  export type PrefeituraDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    /**
+     * Filter which Prefeitura to delete.
+     */
+    where: PrefeituraWhereUniqueInput
+  }
+
+  /**
+   * Prefeitura deleteMany
+   */
+  export type PrefeituraDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Prefeituras to delete
+     */
+    where?: PrefeituraWhereInput
+    /**
+     * Limit how many Prefeituras to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Prefeitura.configuracao
+   */
+  export type Prefeitura$configuracaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConfiguracaoSistema
+     */
+    select?: ConfiguracaoSistemaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConfiguracaoSistema
+     */
+    omit?: ConfiguracaoSistemaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConfiguracaoSistemaInclude<ExtArgs> | null
+    where?: ConfiguracaoSistemaWhereInput
+  }
+
+  /**
+   * Prefeitura.usuarios
+   */
+  export type Prefeitura$usuariosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Usuario
+     */
+    omit?: UsuarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    where?: UsuarioWhereInput
+    orderBy?: UsuarioOrderByWithRelationInput | UsuarioOrderByWithRelationInput[]
+    cursor?: UsuarioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UsuarioScalarFieldEnum | UsuarioScalarFieldEnum[]
+  }
+
+  /**
+   * Prefeitura.predios
+   */
+  export type Prefeitura$prediosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Predio
+     */
+    select?: PredioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Predio
+     */
+    omit?: PredioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PredioInclude<ExtArgs> | null
+    where?: PredioWhereInput
+    orderBy?: PredioOrderByWithRelationInput | PredioOrderByWithRelationInput[]
+    cursor?: PredioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PredioScalarFieldEnum | PredioScalarFieldEnum[]
+  }
+
+  /**
+   * Prefeitura.ordens_servico
+   */
+  export type Prefeitura$ordens_servicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrdemServico
+     */
+    select?: OrdemServicoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrdemServico
+     */
+    omit?: OrdemServicoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrdemServicoInclude<ExtArgs> | null
+    where?: OrdemServicoWhereInput
+    orderBy?: OrdemServicoOrderByWithRelationInput | OrdemServicoOrderByWithRelationInput[]
+    cursor?: OrdemServicoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrdemServicoScalarFieldEnum | OrdemServicoScalarFieldEnum[]
+  }
+
+  /**
+   * Prefeitura.manifestacoes
+   */
+  export type Prefeitura$manifestacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manifestacao
+     */
+    select?: ManifestacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manifestacao
+     */
+    omit?: ManifestacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManifestacaoInclude<ExtArgs> | null
+    where?: ManifestacaoWhereInput
+    orderBy?: ManifestacaoOrderByWithRelationInput | ManifestacaoOrderByWithRelationInput[]
+    cursor?: ManifestacaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ManifestacaoScalarFieldEnum | ManifestacaoScalarFieldEnum[]
+  }
+
+  /**
+   * Prefeitura.vistorias
+   */
+  export type Prefeitura$vistoriasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgendaVistoria
+     */
+    select?: AgendaVistoriaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgendaVistoria
+     */
+    omit?: AgendaVistoriaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgendaVistoriaInclude<ExtArgs> | null
+    where?: AgendaVistoriaWhereInput
+    orderBy?: AgendaVistoriaOrderByWithRelationInput | AgendaVistoriaOrderByWithRelationInput[]
+    cursor?: AgendaVistoriaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AgendaVistoriaScalarFieldEnum | AgendaVistoriaScalarFieldEnum[]
+  }
+
+  /**
+   * Prefeitura.auditorias
+   */
+  export type Prefeitura$auditoriasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditoriaLog
+     */
+    select?: AuditoriaLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditoriaLog
+     */
+    omit?: AuditoriaLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditoriaLogInclude<ExtArgs> | null
+    where?: AuditoriaLogWhereInput
+    orderBy?: AuditoriaLogOrderByWithRelationInput | AuditoriaLogOrderByWithRelationInput[]
+    cursor?: AuditoriaLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AuditoriaLogScalarFieldEnum | AuditoriaLogScalarFieldEnum[]
+  }
+
+  /**
+   * Prefeitura without action
+   */
+  export type PrefeituraDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Usuario
    */
 
@@ -1711,6 +3184,7 @@ export namespace Prisma {
     token_version: number | null
     criado_em: Date | null
     atualizado: Date | null
+    prefeitura_id: string | null
   }
 
   export type UsuarioMaxAggregateOutputType = {
@@ -1725,6 +3199,7 @@ export namespace Prisma {
     token_version: number | null
     criado_em: Date | null
     atualizado: Date | null
+    prefeitura_id: string | null
   }
 
   export type UsuarioCountAggregateOutputType = {
@@ -1739,6 +3214,7 @@ export namespace Prisma {
     token_version: number
     criado_em: number
     atualizado: number
+    prefeitura_id: number
     _all: number
   }
 
@@ -1763,6 +3239,7 @@ export namespace Prisma {
     token_version?: true
     criado_em?: true
     atualizado?: true
+    prefeitura_id?: true
   }
 
   export type UsuarioMaxAggregateInputType = {
@@ -1777,6 +3254,7 @@ export namespace Prisma {
     token_version?: true
     criado_em?: true
     atualizado?: true
+    prefeitura_id?: true
   }
 
   export type UsuarioCountAggregateInputType = {
@@ -1791,6 +3269,7 @@ export namespace Prisma {
     token_version?: true
     criado_em?: true
     atualizado?: true
+    prefeitura_id?: true
     _all?: true
   }
 
@@ -1892,6 +3371,7 @@ export namespace Prisma {
     token_version: number
     criado_em: Date
     atualizado: Date
+    prefeitura_id: string | null
     _count: UsuarioCountAggregateOutputType | null
     _avg: UsuarioAvgAggregateOutputType | null
     _sum: UsuarioSumAggregateOutputType | null
@@ -1925,6 +3405,8 @@ export namespace Prisma {
     token_version?: boolean
     criado_em?: boolean
     atualizado?: boolean
+    prefeitura_id?: boolean
+    prefeitura?: boolean | Usuario$prefeituraArgs<ExtArgs>
     predios_geridos?: boolean | Usuario$predios_geridosArgs<ExtArgs>
     chamados_solicitados?: boolean | Usuario$chamados_solicitadosArgs<ExtArgs>
     chamados_atribuidos?: boolean | Usuario$chamados_atribuidosArgs<ExtArgs>
@@ -1945,6 +3427,8 @@ export namespace Prisma {
     token_version?: boolean
     criado_em?: boolean
     atualizado?: boolean
+    prefeitura_id?: boolean
+    prefeitura?: boolean | Usuario$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["usuario"]>
 
   export type UsuarioSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1959,6 +3443,8 @@ export namespace Prisma {
     token_version?: boolean
     criado_em?: boolean
     atualizado?: boolean
+    prefeitura_id?: boolean
+    prefeitura?: boolean | Usuario$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["usuario"]>
 
   export type UsuarioSelectScalar = {
@@ -1973,10 +3459,12 @@ export namespace Prisma {
     token_version?: boolean
     criado_em?: boolean
     atualizado?: boolean
+    prefeitura_id?: boolean
   }
 
-  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "email" | "senha_hash" | "role" | "especialidade" | "telefone" | "ativo" | "token_version" | "criado_em" | "atualizado", ExtArgs["result"]["usuario"]>
+  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "email" | "senha_hash" | "role" | "especialidade" | "telefone" | "ativo" | "token_version" | "criado_em" | "atualizado" | "prefeitura_id", ExtArgs["result"]["usuario"]>
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prefeitura?: boolean | Usuario$prefeituraArgs<ExtArgs>
     predios_geridos?: boolean | Usuario$predios_geridosArgs<ExtArgs>
     chamados_solicitados?: boolean | Usuario$chamados_solicitadosArgs<ExtArgs>
     chamados_atribuidos?: boolean | Usuario$chamados_atribuidosArgs<ExtArgs>
@@ -1984,12 +3472,17 @@ export namespace Prisma {
     auditorias?: boolean | Usuario$auditoriasArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type UsuarioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type UsuarioIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UsuarioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prefeitura?: boolean | Usuario$prefeituraArgs<ExtArgs>
+  }
+  export type UsuarioIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prefeitura?: boolean | Usuario$prefeituraArgs<ExtArgs>
+  }
 
   export type $UsuarioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Usuario"
     objects: {
+      prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
       predios_geridos: Prisma.$PredioPayload<ExtArgs>[]
       chamados_solicitados: Prisma.$OrdemServicoPayload<ExtArgs>[]
       chamados_atribuidos: Prisma.$OrdemServicoPayload<ExtArgs>[]
@@ -2008,6 +3501,7 @@ export namespace Prisma {
       token_version: number
       criado_em: Date
       atualizado: Date
+      prefeitura_id: string | null
     }, ExtArgs["result"]["usuario"]>
     composites: {}
   }
@@ -2402,6 +3896,7 @@ export namespace Prisma {
    */
   export interface Prisma__UsuarioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    prefeitura<T extends Usuario$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     predios_geridos<T extends Usuario$predios_geridosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$predios_geridosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PredioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chamados_solicitados<T extends Usuario$chamados_solicitadosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$chamados_solicitadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chamados_atribuidos<T extends Usuario$chamados_atribuidosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$chamados_atribuidosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2447,6 +3942,7 @@ export namespace Prisma {
     readonly token_version: FieldRef<"Usuario", 'Int'>
     readonly criado_em: FieldRef<"Usuario", 'DateTime'>
     readonly atualizado: FieldRef<"Usuario", 'DateTime'>
+    readonly prefeitura_id: FieldRef<"Usuario", 'String'>
   }
     
 
@@ -2696,6 +4192,10 @@ export namespace Prisma {
      */
     data: UsuarioCreateManyInput | UsuarioCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2766,6 +4266,10 @@ export namespace Prisma {
      * Limit how many Usuarios to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2832,6 +4336,25 @@ export namespace Prisma {
      * Limit how many Usuarios to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Usuario.prefeitura
+   */
+  export type Usuario$prefeituraArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    where?: PrefeituraWhereInput
   }
 
   /**
@@ -3012,6 +4535,7 @@ export namespace Prisma {
     gestor_id: string | null
     criado_em: Date | null
     atualizado: Date | null
+    prefeitura_id: string | null
   }
 
   export type PredioMaxAggregateOutputType = {
@@ -3029,6 +4553,7 @@ export namespace Prisma {
     gestor_id: string | null
     criado_em: Date | null
     atualizado: Date | null
+    prefeitura_id: string | null
   }
 
   export type PredioCountAggregateOutputType = {
@@ -3046,6 +4571,7 @@ export namespace Prisma {
     gestor_id: number
     criado_em: number
     atualizado: number
+    prefeitura_id: number
     _all: number
   }
 
@@ -3077,6 +4603,7 @@ export namespace Prisma {
     gestor_id?: true
     criado_em?: true
     atualizado?: true
+    prefeitura_id?: true
   }
 
   export type PredioMaxAggregateInputType = {
@@ -3094,6 +4621,7 @@ export namespace Prisma {
     gestor_id?: true
     criado_em?: true
     atualizado?: true
+    prefeitura_id?: true
   }
 
   export type PredioCountAggregateInputType = {
@@ -3111,6 +4639,7 @@ export namespace Prisma {
     gestor_id?: true
     criado_em?: true
     atualizado?: true
+    prefeitura_id?: true
     _all?: true
   }
 
@@ -3215,6 +4744,7 @@ export namespace Prisma {
     gestor_id: string | null
     criado_em: Date
     atualizado: Date
+    prefeitura_id: string | null
     _count: PredioCountAggregateOutputType | null
     _avg: PredioAvgAggregateOutputType | null
     _sum: PredioSumAggregateOutputType | null
@@ -3251,7 +4781,9 @@ export namespace Prisma {
     gestor_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
+    prefeitura_id?: boolean
     gestor?: boolean | Predio$gestorArgs<ExtArgs>
+    prefeitura?: boolean | Predio$prefeituraArgs<ExtArgs>
     ordens_servico?: boolean | Predio$ordens_servicoArgs<ExtArgs>
     vistorias?: boolean | Predio$vistoriasArgs<ExtArgs>
     manifestacoes?: boolean | Predio$manifestacoesArgs<ExtArgs>
@@ -3273,7 +4805,9 @@ export namespace Prisma {
     gestor_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
+    prefeitura_id?: boolean
     gestor?: boolean | Predio$gestorArgs<ExtArgs>
+    prefeitura?: boolean | Predio$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["predio"]>
 
   export type PredioSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3291,7 +4825,9 @@ export namespace Prisma {
     gestor_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
+    prefeitura_id?: boolean
     gestor?: boolean | Predio$gestorArgs<ExtArgs>
+    prefeitura?: boolean | Predio$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["predio"]>
 
   export type PredioSelectScalar = {
@@ -3309,11 +4845,13 @@ export namespace Prisma {
     gestor_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
+    prefeitura_id?: boolean
   }
 
-  export type PredioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "tipo" | "setor" | "porte" | "capacidade" | "endereco" | "latitude" | "longitude" | "ativo" | "motivo_desativacao" | "gestor_id" | "criado_em" | "atualizado", ExtArgs["result"]["predio"]>
+  export type PredioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "tipo" | "setor" | "porte" | "capacidade" | "endereco" | "latitude" | "longitude" | "ativo" | "motivo_desativacao" | "gestor_id" | "criado_em" | "atualizado" | "prefeitura_id", ExtArgs["result"]["predio"]>
   export type PredioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     gestor?: boolean | Predio$gestorArgs<ExtArgs>
+    prefeitura?: boolean | Predio$prefeituraArgs<ExtArgs>
     ordens_servico?: boolean | Predio$ordens_servicoArgs<ExtArgs>
     vistorias?: boolean | Predio$vistoriasArgs<ExtArgs>
     manifestacoes?: boolean | Predio$manifestacoesArgs<ExtArgs>
@@ -3321,15 +4859,18 @@ export namespace Prisma {
   }
   export type PredioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     gestor?: boolean | Predio$gestorArgs<ExtArgs>
+    prefeitura?: boolean | Predio$prefeituraArgs<ExtArgs>
   }
   export type PredioIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     gestor?: boolean | Predio$gestorArgs<ExtArgs>
+    prefeitura?: boolean | Predio$prefeituraArgs<ExtArgs>
   }
 
   export type $PredioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Predio"
     objects: {
       gestor: Prisma.$UsuarioPayload<ExtArgs> | null
+      prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
       ordens_servico: Prisma.$OrdemServicoPayload<ExtArgs>[]
       vistorias: Prisma.$AgendaVistoriaPayload<ExtArgs>[]
       manifestacoes: Prisma.$ManifestacaoPayload<ExtArgs>[]
@@ -3349,6 +4890,7 @@ export namespace Prisma {
       gestor_id: string | null
       criado_em: Date
       atualizado: Date
+      prefeitura_id: string | null
     }, ExtArgs["result"]["predio"]>
     composites: {}
   }
@@ -3744,6 +5286,7 @@ export namespace Prisma {
   export interface Prisma__PredioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     gestor<T extends Predio$gestorArgs<ExtArgs> = {}>(args?: Subset<T, Predio$gestorArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    prefeitura<T extends Predio$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, Predio$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordens_servico<T extends Predio$ordens_servicoArgs<ExtArgs> = {}>(args?: Subset<T, Predio$ordens_servicoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     vistorias<T extends Predio$vistoriasArgs<ExtArgs> = {}>(args?: Subset<T, Predio$vistoriasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgendaVistoriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     manifestacoes<T extends Predio$manifestacoesArgs<ExtArgs> = {}>(args?: Subset<T, Predio$manifestacoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3790,6 +5333,7 @@ export namespace Prisma {
     readonly gestor_id: FieldRef<"Predio", 'String'>
     readonly criado_em: FieldRef<"Predio", 'DateTime'>
     readonly atualizado: FieldRef<"Predio", 'DateTime'>
+    readonly prefeitura_id: FieldRef<"Predio", 'String'>
   }
     
 
@@ -4205,6 +5749,25 @@ export namespace Prisma {
   }
 
   /**
+   * Predio.prefeitura
+   */
+  export type Predio$prefeituraArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    where?: PrefeituraWhereInput
+  }
+
+  /**
    * Predio.ordens_servico
    */
   export type Predio$ordens_servicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4335,6 +5898,7 @@ export namespace Prisma {
     tempo_pausa_minutos: number | null
     sla_violado: boolean | null
     motivo_violacao_sla: string | null
+    prefeitura_id: string | null
     ordem_vinculada_id: string | null
     criado_em: Date | null
     atualizado: Date | null
@@ -4360,6 +5924,7 @@ export namespace Prisma {
     tempo_pausa_minutos: number | null
     sla_violado: boolean | null
     motivo_violacao_sla: string | null
+    prefeitura_id: string | null
     ordem_vinculada_id: string | null
     criado_em: Date | null
     atualizado: Date | null
@@ -4388,6 +5953,7 @@ export namespace Prisma {
     historico_pausas: number
     sla_violado: number
     motivo_violacao_sla: number
+    prefeitura_id: number
     ordem_vinculada_id: number
     criado_em: number
     atualizado: number
@@ -4423,6 +5989,7 @@ export namespace Prisma {
     tempo_pausa_minutos?: true
     sla_violado?: true
     motivo_violacao_sla?: true
+    prefeitura_id?: true
     ordem_vinculada_id?: true
     criado_em?: true
     atualizado?: true
@@ -4448,6 +6015,7 @@ export namespace Prisma {
     tempo_pausa_minutos?: true
     sla_violado?: true
     motivo_violacao_sla?: true
+    prefeitura_id?: true
     ordem_vinculada_id?: true
     criado_em?: true
     atualizado?: true
@@ -4476,6 +6044,7 @@ export namespace Prisma {
     historico_pausas?: true
     sla_violado?: true
     motivo_violacao_sla?: true
+    prefeitura_id?: true
     ordem_vinculada_id?: true
     criado_em?: true
     atualizado?: true
@@ -4591,6 +6160,7 @@ export namespace Prisma {
     historico_pausas: JsonValue | null
     sla_violado: boolean
     motivo_violacao_sla: string | null
+    prefeitura_id: string | null
     ordem_vinculada_id: string | null
     criado_em: Date
     atualizado: Date
@@ -4638,12 +6208,14 @@ export namespace Prisma {
     historico_pausas?: boolean
     sla_violado?: boolean
     motivo_violacao_sla?: boolean
+    prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
     ordens_derivadas?: boolean | OrdemServico$ordens_derivadasArgs<ExtArgs>
     agendamentos?: boolean | OrdemServico$agendamentosArgs<ExtArgs>
@@ -4674,12 +6246,14 @@ export namespace Prisma {
     historico_pausas?: boolean
     sla_violado?: boolean
     motivo_violacao_sla?: boolean
+    prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }, ExtArgs["result"]["ordemServico"]>
 
@@ -4706,12 +6280,14 @@ export namespace Prisma {
     historico_pausas?: boolean
     sla_violado?: boolean
     motivo_violacao_sla?: boolean
+    prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }, ExtArgs["result"]["ordemServico"]>
 
@@ -4738,16 +6314,18 @@ export namespace Prisma {
     historico_pausas?: boolean
     sla_violado?: boolean
     motivo_violacao_sla?: boolean
+    prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
   }
 
-  export type OrdemServicoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo" | "titulo" | "descricao" | "categoria" | "prioridade" | "status" | "predio_id" | "solicitante_id" | "tecnico_atribuido_id" | "fotos" | "fotos_conclusao" | "motivo_pausa" | "motivo_cancelamento" | "data_limite_sla" | "iniciado_em" | "concluido_em" | "pausado_em" | "tempo_pausa_minutos" | "historico_pausas" | "sla_violado" | "motivo_violacao_sla" | "ordem_vinculada_id" | "criado_em" | "atualizado", ExtArgs["result"]["ordemServico"]>
+  export type OrdemServicoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo" | "titulo" | "descricao" | "categoria" | "prioridade" | "status" | "predio_id" | "solicitante_id" | "tecnico_atribuido_id" | "fotos" | "fotos_conclusao" | "motivo_pausa" | "motivo_cancelamento" | "data_limite_sla" | "iniciado_em" | "concluido_em" | "pausado_em" | "tempo_pausa_minutos" | "historico_pausas" | "sla_violado" | "motivo_violacao_sla" | "prefeitura_id" | "ordem_vinculada_id" | "criado_em" | "atualizado", ExtArgs["result"]["ordemServico"]>
   export type OrdemServicoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
     ordens_derivadas?: boolean | OrdemServico$ordens_derivadasArgs<ExtArgs>
     agendamentos?: boolean | OrdemServico$agendamentosArgs<ExtArgs>
@@ -4758,12 +6336,14 @@ export namespace Prisma {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }
   export type OrdemServicoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }
 
@@ -4773,6 +6353,7 @@ export namespace Prisma {
       predio: Prisma.$PredioPayload<ExtArgs>
       solicitante: Prisma.$UsuarioPayload<ExtArgs>
       tecnico: Prisma.$UsuarioPayload<ExtArgs> | null
+      prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
       ordem_vinculada: Prisma.$OrdemServicoPayload<ExtArgs> | null
       ordens_derivadas: Prisma.$OrdemServicoPayload<ExtArgs>[]
       agendamentos: Prisma.$AgendaVistoriaPayload<ExtArgs>[]
@@ -4801,6 +6382,7 @@ export namespace Prisma {
       historico_pausas: Prisma.JsonValue | null
       sla_violado: boolean
       motivo_violacao_sla: string | null
+      prefeitura_id: string | null
       ordem_vinculada_id: string | null
       criado_em: Date
       atualizado: Date
@@ -5201,6 +6783,7 @@ export namespace Prisma {
     predio<T extends PredioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PredioDefaultArgs<ExtArgs>>): Prisma__PredioClient<$Result.GetResult<Prisma.$PredioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     solicitante<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tecnico<T extends OrdemServico$tecnicoArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$tecnicoArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    prefeitura<T extends OrdemServico$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordem_vinculada<T extends OrdemServico$ordem_vinculadaArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$ordem_vinculadaArgs<ExtArgs>>): Prisma__OrdemServicoClient<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordens_derivadas<T extends OrdemServico$ordens_derivadasArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$ordens_derivadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     agendamentos<T extends OrdemServico$agendamentosArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$agendamentosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgendaVistoriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5256,6 +6839,7 @@ export namespace Prisma {
     readonly historico_pausas: FieldRef<"OrdemServico", 'Json'>
     readonly sla_violado: FieldRef<"OrdemServico", 'Boolean'>
     readonly motivo_violacao_sla: FieldRef<"OrdemServico", 'String'>
+    readonly prefeitura_id: FieldRef<"OrdemServico", 'String'>
     readonly ordem_vinculada_id: FieldRef<"OrdemServico", 'String'>
     readonly criado_em: FieldRef<"OrdemServico", 'DateTime'>
     readonly atualizado: FieldRef<"OrdemServico", 'DateTime'>
@@ -5674,6 +7258,25 @@ export namespace Prisma {
   }
 
   /**
+   * OrdemServico.prefeitura
+   */
+  export type OrdemServico$prefeituraArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    where?: PrefeituraWhereInput
+  }
+
+  /**
    * OrdemServico.ordem_vinculada
    */
   export type OrdemServico$ordem_vinculadaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5799,6 +7402,7 @@ export namespace Prisma {
     entidade_id: string | null
     acao: $Enums.AuditAction | null
     usuario_id: string | null
+    prefeitura_id: string | null
     criado_em: Date | null
   }
 
@@ -5808,6 +7412,7 @@ export namespace Prisma {
     entidade_id: string | null
     acao: $Enums.AuditAction | null
     usuario_id: string | null
+    prefeitura_id: string | null
     criado_em: Date | null
   }
 
@@ -5817,6 +7422,7 @@ export namespace Prisma {
     entidade_id: number
     acao: number
     usuario_id: number
+    prefeitura_id: number
     dados_antigos: number
     dados_novos: number
     criado_em: number
@@ -5830,6 +7436,7 @@ export namespace Prisma {
     entidade_id?: true
     acao?: true
     usuario_id?: true
+    prefeitura_id?: true
     criado_em?: true
   }
 
@@ -5839,6 +7446,7 @@ export namespace Prisma {
     entidade_id?: true
     acao?: true
     usuario_id?: true
+    prefeitura_id?: true
     criado_em?: true
   }
 
@@ -5848,6 +7456,7 @@ export namespace Prisma {
     entidade_id?: true
     acao?: true
     usuario_id?: true
+    prefeitura_id?: true
     dados_antigos?: true
     dados_novos?: true
     criado_em?: true
@@ -5932,6 +7541,7 @@ export namespace Prisma {
     entidade_id: string
     acao: $Enums.AuditAction
     usuario_id: string
+    prefeitura_id: string | null
     dados_antigos: JsonValue | null
     dados_novos: JsonValue | null
     criado_em: Date
@@ -5960,10 +7570,12 @@ export namespace Prisma {
     entidade_id?: boolean
     acao?: boolean
     usuario_id?: boolean
+    prefeitura_id?: boolean
     dados_antigos?: boolean
     dados_novos?: boolean
     criado_em?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    prefeitura?: boolean | AuditoriaLog$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["auditoriaLog"]>
 
   export type AuditoriaLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5972,10 +7584,12 @@ export namespace Prisma {
     entidade_id?: boolean
     acao?: boolean
     usuario_id?: boolean
+    prefeitura_id?: boolean
     dados_antigos?: boolean
     dados_novos?: boolean
     criado_em?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    prefeitura?: boolean | AuditoriaLog$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["auditoriaLog"]>
 
   export type AuditoriaLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5984,10 +7598,12 @@ export namespace Prisma {
     entidade_id?: boolean
     acao?: boolean
     usuario_id?: boolean
+    prefeitura_id?: boolean
     dados_antigos?: boolean
     dados_novos?: boolean
     criado_em?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    prefeitura?: boolean | AuditoriaLog$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["auditoriaLog"]>
 
   export type AuditoriaLogSelectScalar = {
@@ -5996,26 +7612,31 @@ export namespace Prisma {
     entidade_id?: boolean
     acao?: boolean
     usuario_id?: boolean
+    prefeitura_id?: boolean
     dados_antigos?: boolean
     dados_novos?: boolean
     criado_em?: boolean
   }
 
-  export type AuditoriaLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "entidade_afetada" | "entidade_id" | "acao" | "usuario_id" | "dados_antigos" | "dados_novos" | "criado_em", ExtArgs["result"]["auditoriaLog"]>
+  export type AuditoriaLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "entidade_afetada" | "entidade_id" | "acao" | "usuario_id" | "prefeitura_id" | "dados_antigos" | "dados_novos" | "criado_em", ExtArgs["result"]["auditoriaLog"]>
   export type AuditoriaLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    prefeitura?: boolean | AuditoriaLog$prefeituraArgs<ExtArgs>
   }
   export type AuditoriaLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    prefeitura?: boolean | AuditoriaLog$prefeituraArgs<ExtArgs>
   }
   export type AuditoriaLogIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    prefeitura?: boolean | AuditoriaLog$prefeituraArgs<ExtArgs>
   }
 
   export type $AuditoriaLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "AuditoriaLog"
     objects: {
       usuario: Prisma.$UsuarioPayload<ExtArgs>
+      prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6023,6 +7644,7 @@ export namespace Prisma {
       entidade_id: string
       acao: $Enums.AuditAction
       usuario_id: string
+      prefeitura_id: string | null
       dados_antigos: Prisma.JsonValue | null
       dados_novos: Prisma.JsonValue | null
       criado_em: Date
@@ -6421,6 +8043,7 @@ export namespace Prisma {
   export interface Prisma__AuditoriaLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    prefeitura<T extends AuditoriaLog$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, AuditoriaLog$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6455,6 +8078,7 @@ export namespace Prisma {
     readonly entidade_id: FieldRef<"AuditoriaLog", 'String'>
     readonly acao: FieldRef<"AuditoriaLog", 'AuditAction'>
     readonly usuario_id: FieldRef<"AuditoriaLog", 'String'>
+    readonly prefeitura_id: FieldRef<"AuditoriaLog", 'String'>
     readonly dados_antigos: FieldRef<"AuditoriaLog", 'Json'>
     readonly dados_novos: FieldRef<"AuditoriaLog", 'Json'>
     readonly criado_em: FieldRef<"AuditoriaLog", 'DateTime'>
@@ -6854,6 +8478,25 @@ export namespace Prisma {
   }
 
   /**
+   * AuditoriaLog.prefeitura
+   */
+  export type AuditoriaLog$prefeituraArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    where?: PrefeituraWhereInput
+  }
+
+  /**
    * AuditoriaLog without action
    */
   export type AuditoriaLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6896,6 +8539,7 @@ export namespace Prisma {
     predio_id: string | null
     laudo_tecnico: string | null
     ordem_servico_id: string | null
+    prefeitura_id: string | null
     criado_em: Date | null
     atualizado: Date | null
   }
@@ -6914,6 +8558,7 @@ export namespace Prisma {
     predio_id: string | null
     laudo_tecnico: string | null
     ordem_servico_id: string | null
+    prefeitura_id: string | null
     criado_em: Date | null
     atualizado: Date | null
   }
@@ -6933,6 +8578,7 @@ export namespace Prisma {
     laudo_tecnico: number
     fotos_vistoria: number
     ordem_servico_id: number
+    prefeitura_id: number
     criado_em: number
     atualizado: number
     _all: number
@@ -6953,6 +8599,7 @@ export namespace Prisma {
     predio_id?: true
     laudo_tecnico?: true
     ordem_servico_id?: true
+    prefeitura_id?: true
     criado_em?: true
     atualizado?: true
   }
@@ -6971,6 +8618,7 @@ export namespace Prisma {
     predio_id?: true
     laudo_tecnico?: true
     ordem_servico_id?: true
+    prefeitura_id?: true
     criado_em?: true
     atualizado?: true
   }
@@ -6990,6 +8638,7 @@ export namespace Prisma {
     laudo_tecnico?: true
     fotos_vistoria?: true
     ordem_servico_id?: true
+    prefeitura_id?: true
     criado_em?: true
     atualizado?: true
     _all?: true
@@ -7082,6 +8731,7 @@ export namespace Prisma {
     laudo_tecnico: string | null
     fotos_vistoria: string[]
     ordem_servico_id: string | null
+    prefeitura_id: string | null
     criado_em: Date
     atualizado: Date
     _count: AgendaVistoriaCountAggregateOutputType | null
@@ -7118,10 +8768,12 @@ export namespace Prisma {
     laudo_tecnico?: boolean
     fotos_vistoria?: boolean
     ordem_servico_id?: boolean
+    prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
+    prefeitura?: boolean | AgendaVistoria$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["agendaVistoria"]>
 
   export type AgendaVistoriaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7139,10 +8791,12 @@ export namespace Prisma {
     laudo_tecnico?: boolean
     fotos_vistoria?: boolean
     ordem_servico_id?: boolean
+    prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
+    prefeitura?: boolean | AgendaVistoria$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["agendaVistoria"]>
 
   export type AgendaVistoriaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7160,10 +8814,12 @@ export namespace Prisma {
     laudo_tecnico?: boolean
     fotos_vistoria?: boolean
     ordem_servico_id?: boolean
+    prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
+    prefeitura?: boolean | AgendaVistoria$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["agendaVistoria"]>
 
   export type AgendaVistoriaSelectScalar = {
@@ -7181,22 +8837,26 @@ export namespace Prisma {
     laudo_tecnico?: boolean
     fotos_vistoria?: boolean
     ordem_servico_id?: boolean
+    prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
   }
 
-  export type AgendaVistoriaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "subtitulo" | "horario" | "data_agendada" | "tipo" | "recorrencia" | "concluido" | "tecnico" | "tecnico_id" | "predio_id" | "laudo_tecnico" | "fotos_vistoria" | "ordem_servico_id" | "criado_em" | "atualizado", ExtArgs["result"]["agendaVistoria"]>
+  export type AgendaVistoriaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "subtitulo" | "horario" | "data_agendada" | "tipo" | "recorrencia" | "concluido" | "tecnico" | "tecnico_id" | "predio_id" | "laudo_tecnico" | "fotos_vistoria" | "ordem_servico_id" | "prefeitura_id" | "criado_em" | "atualizado", ExtArgs["result"]["agendaVistoria"]>
   export type AgendaVistoriaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
+    prefeitura?: boolean | AgendaVistoria$prefeituraArgs<ExtArgs>
   }
   export type AgendaVistoriaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
+    prefeitura?: boolean | AgendaVistoria$prefeituraArgs<ExtArgs>
   }
   export type AgendaVistoriaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
+    prefeitura?: boolean | AgendaVistoria$prefeituraArgs<ExtArgs>
   }
 
   export type $AgendaVistoriaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7204,6 +8864,7 @@ export namespace Prisma {
     objects: {
       predio: Prisma.$PredioPayload<ExtArgs> | null
       ordem_servico: Prisma.$OrdemServicoPayload<ExtArgs> | null
+      prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7220,6 +8881,7 @@ export namespace Prisma {
       laudo_tecnico: string | null
       fotos_vistoria: string[]
       ordem_servico_id: string | null
+      prefeitura_id: string | null
       criado_em: Date
       atualizado: Date
     }, ExtArgs["result"]["agendaVistoria"]>
@@ -7618,6 +9280,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     predio<T extends AgendaVistoria$predioArgs<ExtArgs> = {}>(args?: Subset<T, AgendaVistoria$predioArgs<ExtArgs>>): Prisma__PredioClient<$Result.GetResult<Prisma.$PredioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordem_servico<T extends AgendaVistoria$ordem_servicoArgs<ExtArgs> = {}>(args?: Subset<T, AgendaVistoria$ordem_servicoArgs<ExtArgs>>): Prisma__OrdemServicoClient<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    prefeitura<T extends AgendaVistoria$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, AgendaVistoria$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7661,6 +9324,7 @@ export namespace Prisma {
     readonly laudo_tecnico: FieldRef<"AgendaVistoria", 'String'>
     readonly fotos_vistoria: FieldRef<"AgendaVistoria", 'String[]'>
     readonly ordem_servico_id: FieldRef<"AgendaVistoria", 'String'>
+    readonly prefeitura_id: FieldRef<"AgendaVistoria", 'String'>
     readonly criado_em: FieldRef<"AgendaVistoria", 'DateTime'>
     readonly atualizado: FieldRef<"AgendaVistoria", 'DateTime'>
   }
@@ -8097,6 +9761,25 @@ export namespace Prisma {
   }
 
   /**
+   * AgendaVistoria.prefeitura
+   */
+  export type AgendaVistoria$prefeituraArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    where?: PrefeituraWhereInput
+  }
+
+  /**
    * AgendaVistoria without action
    */
   export type AgendaVistoriaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8163,6 +9846,7 @@ export namespace Prisma {
     push_notif: boolean | null
     whatsapp_alerts: boolean | null
     auto_dispatch: boolean | null
+    prefeitura_id: string | null
     criado_em: Date | null
     atualizado: Date | null
   }
@@ -8185,6 +9869,7 @@ export namespace Prisma {
     push_notif: boolean | null
     whatsapp_alerts: boolean | null
     auto_dispatch: boolean | null
+    prefeitura_id: string | null
     criado_em: Date | null
     atualizado: Date | null
   }
@@ -8207,6 +9892,7 @@ export namespace Prisma {
     push_notif: number
     whatsapp_alerts: number
     auto_dispatch: number
+    prefeitura_id: number
     criado_em: number
     atualizado: number
     _all: number
@@ -8249,6 +9935,7 @@ export namespace Prisma {
     push_notif?: true
     whatsapp_alerts?: true
     auto_dispatch?: true
+    prefeitura_id?: true
     criado_em?: true
     atualizado?: true
   }
@@ -8271,6 +9958,7 @@ export namespace Prisma {
     push_notif?: true
     whatsapp_alerts?: true
     auto_dispatch?: true
+    prefeitura_id?: true
     criado_em?: true
     atualizado?: true
   }
@@ -8293,6 +9981,7 @@ export namespace Prisma {
     push_notif?: true
     whatsapp_alerts?: true
     auto_dispatch?: true
+    prefeitura_id?: true
     criado_em?: true
     atualizado?: true
     _all?: true
@@ -8402,6 +10091,7 @@ export namespace Prisma {
     push_notif: boolean
     whatsapp_alerts: boolean
     auto_dispatch: boolean
+    prefeitura_id: string | null
     criado_em: Date
     atualizado: Date
     _count: ConfiguracaoSistemaCountAggregateOutputType | null
@@ -8443,8 +10133,10 @@ export namespace Prisma {
     push_notif?: boolean
     whatsapp_alerts?: boolean
     auto_dispatch?: boolean
+    prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
+    prefeitura?: boolean | ConfiguracaoSistema$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["configuracaoSistema"]>
 
   export type ConfiguracaoSistemaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8465,8 +10157,10 @@ export namespace Prisma {
     push_notif?: boolean
     whatsapp_alerts?: boolean
     auto_dispatch?: boolean
+    prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
+    prefeitura?: boolean | ConfiguracaoSistema$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["configuracaoSistema"]>
 
   export type ConfiguracaoSistemaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8487,8 +10181,10 @@ export namespace Prisma {
     push_notif?: boolean
     whatsapp_alerts?: boolean
     auto_dispatch?: boolean
+    prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
+    prefeitura?: boolean | ConfiguracaoSistema$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["configuracaoSistema"]>
 
   export type ConfiguracaoSistemaSelectScalar = {
@@ -8509,15 +10205,27 @@ export namespace Prisma {
     push_notif?: boolean
     whatsapp_alerts?: boolean
     auto_dispatch?: boolean
+    prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
   }
 
-  export type ConfiguracaoSistemaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "prefeitura_nome" | "secretaria_nome" | "gestor_nome" | "gestor_cargo" | "gestor_email" | "gestor_telefone" | "sla_urgente_h" | "sla_alta_h" | "sla_media_h" | "sla_baixa_h" | "mttr_alert_h" | "preventiva_goal" | "sound_alerts" | "push_notif" | "whatsapp_alerts" | "auto_dispatch" | "criado_em" | "atualizado", ExtArgs["result"]["configuracaoSistema"]>
+  export type ConfiguracaoSistemaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "prefeitura_nome" | "secretaria_nome" | "gestor_nome" | "gestor_cargo" | "gestor_email" | "gestor_telefone" | "sla_urgente_h" | "sla_alta_h" | "sla_media_h" | "sla_baixa_h" | "mttr_alert_h" | "preventiva_goal" | "sound_alerts" | "push_notif" | "whatsapp_alerts" | "auto_dispatch" | "prefeitura_id" | "criado_em" | "atualizado", ExtArgs["result"]["configuracaoSistema"]>
+  export type ConfiguracaoSistemaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prefeitura?: boolean | ConfiguracaoSistema$prefeituraArgs<ExtArgs>
+  }
+  export type ConfiguracaoSistemaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prefeitura?: boolean | ConfiguracaoSistema$prefeituraArgs<ExtArgs>
+  }
+  export type ConfiguracaoSistemaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prefeitura?: boolean | ConfiguracaoSistema$prefeituraArgs<ExtArgs>
+  }
 
   export type $ConfiguracaoSistemaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ConfiguracaoSistema"
-    objects: {}
+    objects: {
+      prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       prefeitura_nome: string
@@ -8536,6 +10244,7 @@ export namespace Prisma {
       push_notif: boolean
       whatsapp_alerts: boolean
       auto_dispatch: boolean
+      prefeitura_id: string | null
       criado_em: Date
       atualizado: Date
     }, ExtArgs["result"]["configuracaoSistema"]>
@@ -8932,6 +10641,7 @@ export namespace Prisma {
    */
   export interface Prisma__ConfiguracaoSistemaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    prefeitura<T extends ConfiguracaoSistema$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, ConfiguracaoSistema$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8978,6 +10688,7 @@ export namespace Prisma {
     readonly push_notif: FieldRef<"ConfiguracaoSistema", 'Boolean'>
     readonly whatsapp_alerts: FieldRef<"ConfiguracaoSistema", 'Boolean'>
     readonly auto_dispatch: FieldRef<"ConfiguracaoSistema", 'Boolean'>
+    readonly prefeitura_id: FieldRef<"ConfiguracaoSistema", 'String'>
     readonly criado_em: FieldRef<"ConfiguracaoSistema", 'DateTime'>
     readonly atualizado: FieldRef<"ConfiguracaoSistema", 'DateTime'>
   }
@@ -8997,6 +10708,10 @@ export namespace Prisma {
      */
     omit?: ConfiguracaoSistemaOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConfiguracaoSistemaInclude<ExtArgs> | null
+    /**
      * Filter, which ConfiguracaoSistema to fetch.
      */
     where: ConfiguracaoSistemaWhereUniqueInput
@@ -9015,6 +10730,10 @@ export namespace Prisma {
      */
     omit?: ConfiguracaoSistemaOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConfiguracaoSistemaInclude<ExtArgs> | null
+    /**
      * Filter, which ConfiguracaoSistema to fetch.
      */
     where: ConfiguracaoSistemaWhereUniqueInput
@@ -9032,6 +10751,10 @@ export namespace Prisma {
      * Omit specific fields from the ConfiguracaoSistema
      */
     omit?: ConfiguracaoSistemaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConfiguracaoSistemaInclude<ExtArgs> | null
     /**
      * Filter, which ConfiguracaoSistema to fetch.
      */
@@ -9081,6 +10804,10 @@ export namespace Prisma {
      */
     omit?: ConfiguracaoSistemaOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConfiguracaoSistemaInclude<ExtArgs> | null
+    /**
      * Filter, which ConfiguracaoSistema to fetch.
      */
     where?: ConfiguracaoSistemaWhereInput
@@ -9129,6 +10856,10 @@ export namespace Prisma {
      */
     omit?: ConfiguracaoSistemaOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConfiguracaoSistemaInclude<ExtArgs> | null
+    /**
      * Filter, which ConfiguracaoSistemas to fetch.
      */
     where?: ConfiguracaoSistemaWhereInput
@@ -9172,6 +10903,10 @@ export namespace Prisma {
      */
     omit?: ConfiguracaoSistemaOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConfiguracaoSistemaInclude<ExtArgs> | null
+    /**
      * The data needed to create a ConfiguracaoSistema.
      */
     data: XOR<ConfiguracaoSistemaCreateInput, ConfiguracaoSistemaUncheckedCreateInput>
@@ -9205,6 +10940,10 @@ export namespace Prisma {
      */
     data: ConfiguracaoSistemaCreateManyInput | ConfiguracaoSistemaCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConfiguracaoSistemaIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -9219,6 +10958,10 @@ export namespace Prisma {
      * Omit specific fields from the ConfiguracaoSistema
      */
     omit?: ConfiguracaoSistemaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConfiguracaoSistemaInclude<ExtArgs> | null
     /**
      * The data needed to update a ConfiguracaoSistema.
      */
@@ -9271,6 +11014,10 @@ export namespace Prisma {
      * Limit how many ConfiguracaoSistemas to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConfiguracaoSistemaIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -9285,6 +11032,10 @@ export namespace Prisma {
      * Omit specific fields from the ConfiguracaoSistema
      */
     omit?: ConfiguracaoSistemaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConfiguracaoSistemaInclude<ExtArgs> | null
     /**
      * The filter to search for the ConfiguracaoSistema to update in case it exists.
      */
@@ -9312,6 +11063,10 @@ export namespace Prisma {
      */
     omit?: ConfiguracaoSistemaOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConfiguracaoSistemaInclude<ExtArgs> | null
+    /**
      * Filter which ConfiguracaoSistema to delete.
      */
     where: ConfiguracaoSistemaWhereUniqueInput
@@ -9332,6 +11087,25 @@ export namespace Prisma {
   }
 
   /**
+   * ConfiguracaoSistema.prefeitura
+   */
+  export type ConfiguracaoSistema$prefeituraArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    where?: PrefeituraWhereInput
+  }
+
+  /**
    * ConfiguracaoSistema without action
    */
   export type ConfiguracaoSistemaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9343,6 +11117,10 @@ export namespace Prisma {
      * Omit specific fields from the ConfiguracaoSistema
      */
     omit?: ConfiguracaoSistemaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConfiguracaoSistemaInclude<ExtArgs> | null
   }
 
 
@@ -9375,6 +11153,7 @@ export namespace Prisma {
     respondido_por_id: string | null
     motivo_arquivamento: string | null
     ordem_servico_id: string | null
+    prefeitura_id: string | null
     criado_em: Date | null
     atualizado: Date | null
   }
@@ -9398,6 +11177,7 @@ export namespace Prisma {
     respondido_por_id: string | null
     motivo_arquivamento: string | null
     ordem_servico_id: string | null
+    prefeitura_id: string | null
     criado_em: Date | null
     atualizado: Date | null
   }
@@ -9421,6 +11201,7 @@ export namespace Prisma {
     respondido_por_id: number
     motivo_arquivamento: number
     ordem_servico_id: number
+    prefeitura_id: number
     criado_em: number
     atualizado: number
     _all: number
@@ -9446,6 +11227,7 @@ export namespace Prisma {
     respondido_por_id?: true
     motivo_arquivamento?: true
     ordem_servico_id?: true
+    prefeitura_id?: true
     criado_em?: true
     atualizado?: true
   }
@@ -9469,6 +11251,7 @@ export namespace Prisma {
     respondido_por_id?: true
     motivo_arquivamento?: true
     ordem_servico_id?: true
+    prefeitura_id?: true
     criado_em?: true
     atualizado?: true
   }
@@ -9492,6 +11275,7 @@ export namespace Prisma {
     respondido_por_id?: true
     motivo_arquivamento?: true
     ordem_servico_id?: true
+    prefeitura_id?: true
     criado_em?: true
     atualizado?: true
     _all?: true
@@ -9588,6 +11372,7 @@ export namespace Prisma {
     respondido_por_id: string | null
     motivo_arquivamento: string | null
     ordem_servico_id: string | null
+    prefeitura_id: string | null
     criado_em: Date
     atualizado: Date
     _count: ManifestacaoCountAggregateOutputType | null
@@ -9628,11 +11413,13 @@ export namespace Prisma {
     respondido_por_id?: boolean
     motivo_arquivamento?: boolean
     ordem_servico_id?: boolean
+    prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | Manifestacao$predioArgs<ExtArgs>
     respondido_por?: boolean | Manifestacao$respondido_porArgs<ExtArgs>
     ordem_servico?: boolean | Manifestacao$ordem_servicoArgs<ExtArgs>
+    prefeitura?: boolean | Manifestacao$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["manifestacao"]>
 
   export type ManifestacaoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -9654,11 +11441,13 @@ export namespace Prisma {
     respondido_por_id?: boolean
     motivo_arquivamento?: boolean
     ordem_servico_id?: boolean
+    prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | Manifestacao$predioArgs<ExtArgs>
     respondido_por?: boolean | Manifestacao$respondido_porArgs<ExtArgs>
     ordem_servico?: boolean | Manifestacao$ordem_servicoArgs<ExtArgs>
+    prefeitura?: boolean | Manifestacao$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["manifestacao"]>
 
   export type ManifestacaoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -9680,11 +11469,13 @@ export namespace Prisma {
     respondido_por_id?: boolean
     motivo_arquivamento?: boolean
     ordem_servico_id?: boolean
+    prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | Manifestacao$predioArgs<ExtArgs>
     respondido_por?: boolean | Manifestacao$respondido_porArgs<ExtArgs>
     ordem_servico?: boolean | Manifestacao$ordem_servicoArgs<ExtArgs>
+    prefeitura?: boolean | Manifestacao$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["manifestacao"]>
 
   export type ManifestacaoSelectScalar = {
@@ -9706,25 +11497,29 @@ export namespace Prisma {
     respondido_por_id?: boolean
     motivo_arquivamento?: boolean
     ordem_servico_id?: boolean
+    prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
   }
 
-  export type ManifestacaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "protocolo" | "tipo" | "categoria" | "descricao" | "predio_id" | "local_referencia" | "bairro" | "anonimo" | "manifestante_nome" | "manifestante_email" | "manifestante_telefone" | "status" | "resposta_oficial" | "respondido_em" | "respondido_por_id" | "motivo_arquivamento" | "ordem_servico_id" | "criado_em" | "atualizado", ExtArgs["result"]["manifestacao"]>
+  export type ManifestacaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "protocolo" | "tipo" | "categoria" | "descricao" | "predio_id" | "local_referencia" | "bairro" | "anonimo" | "manifestante_nome" | "manifestante_email" | "manifestante_telefone" | "status" | "resposta_oficial" | "respondido_em" | "respondido_por_id" | "motivo_arquivamento" | "ordem_servico_id" | "prefeitura_id" | "criado_em" | "atualizado", ExtArgs["result"]["manifestacao"]>
   export type ManifestacaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | Manifestacao$predioArgs<ExtArgs>
     respondido_por?: boolean | Manifestacao$respondido_porArgs<ExtArgs>
     ordem_servico?: boolean | Manifestacao$ordem_servicoArgs<ExtArgs>
+    prefeitura?: boolean | Manifestacao$prefeituraArgs<ExtArgs>
   }
   export type ManifestacaoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | Manifestacao$predioArgs<ExtArgs>
     respondido_por?: boolean | Manifestacao$respondido_porArgs<ExtArgs>
     ordem_servico?: boolean | Manifestacao$ordem_servicoArgs<ExtArgs>
+    prefeitura?: boolean | Manifestacao$prefeituraArgs<ExtArgs>
   }
   export type ManifestacaoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | Manifestacao$predioArgs<ExtArgs>
     respondido_por?: boolean | Manifestacao$respondido_porArgs<ExtArgs>
     ordem_servico?: boolean | Manifestacao$ordem_servicoArgs<ExtArgs>
+    prefeitura?: boolean | Manifestacao$prefeituraArgs<ExtArgs>
   }
 
   export type $ManifestacaoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9733,6 +11528,7 @@ export namespace Prisma {
       predio: Prisma.$PredioPayload<ExtArgs> | null
       respondido_por: Prisma.$UsuarioPayload<ExtArgs> | null
       ordem_servico: Prisma.$OrdemServicoPayload<ExtArgs> | null
+      prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9753,6 +11549,7 @@ export namespace Prisma {
       respondido_por_id: string | null
       motivo_arquivamento: string | null
       ordem_servico_id: string | null
+      prefeitura_id: string | null
       criado_em: Date
       atualizado: Date
     }, ExtArgs["result"]["manifestacao"]>
@@ -10152,6 +11949,7 @@ export namespace Prisma {
     predio<T extends Manifestacao$predioArgs<ExtArgs> = {}>(args?: Subset<T, Manifestacao$predioArgs<ExtArgs>>): Prisma__PredioClient<$Result.GetResult<Prisma.$PredioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     respondido_por<T extends Manifestacao$respondido_porArgs<ExtArgs> = {}>(args?: Subset<T, Manifestacao$respondido_porArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordem_servico<T extends Manifestacao$ordem_servicoArgs<ExtArgs> = {}>(args?: Subset<T, Manifestacao$ordem_servicoArgs<ExtArgs>>): Prisma__OrdemServicoClient<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    prefeitura<T extends Manifestacao$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, Manifestacao$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10199,6 +11997,7 @@ export namespace Prisma {
     readonly respondido_por_id: FieldRef<"Manifestacao", 'String'>
     readonly motivo_arquivamento: FieldRef<"Manifestacao", 'String'>
     readonly ordem_servico_id: FieldRef<"Manifestacao", 'String'>
+    readonly prefeitura_id: FieldRef<"Manifestacao", 'String'>
     readonly criado_em: FieldRef<"Manifestacao", 'DateTime'>
     readonly atualizado: FieldRef<"Manifestacao", 'DateTime'>
   }
@@ -10654,6 +12453,25 @@ export namespace Prisma {
   }
 
   /**
+   * Manifestacao.prefeitura
+   */
+  export type Manifestacao$prefeituraArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    where?: PrefeituraWhereInput
+  }
+
+  /**
    * Manifestacao without action
    */
   export type ManifestacaoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10686,6 +12504,22 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+  export const PrefeituraScalarFieldEnum: {
+    id: 'id',
+    slug: 'slug',
+    nome: 'nome',
+    cnpj: 'cnpj',
+    brasao_url: 'brasao_url',
+    modulos_ativos: 'modulos_ativos',
+    ativo: 'ativo',
+    metadata: 'metadata',
+    criado_em: 'criado_em',
+    atualizado: 'atualizado'
+  };
+
+  export type PrefeituraScalarFieldEnum = (typeof PrefeituraScalarFieldEnum)[keyof typeof PrefeituraScalarFieldEnum]
+
+
   export const UsuarioScalarFieldEnum: {
     id: 'id',
     nome: 'nome',
@@ -10697,7 +12531,8 @@ export namespace Prisma {
     ativo: 'ativo',
     token_version: 'token_version',
     criado_em: 'criado_em',
-    atualizado: 'atualizado'
+    atualizado: 'atualizado',
+    prefeitura_id: 'prefeitura_id'
   };
 
   export type UsuarioScalarFieldEnum = (typeof UsuarioScalarFieldEnum)[keyof typeof UsuarioScalarFieldEnum]
@@ -10717,7 +12552,8 @@ export namespace Prisma {
     motivo_desativacao: 'motivo_desativacao',
     gestor_id: 'gestor_id',
     criado_em: 'criado_em',
-    atualizado: 'atualizado'
+    atualizado: 'atualizado',
+    prefeitura_id: 'prefeitura_id'
   };
 
   export type PredioScalarFieldEnum = (typeof PredioScalarFieldEnum)[keyof typeof PredioScalarFieldEnum]
@@ -10746,6 +12582,7 @@ export namespace Prisma {
     historico_pausas: 'historico_pausas',
     sla_violado: 'sla_violado',
     motivo_violacao_sla: 'motivo_violacao_sla',
+    prefeitura_id: 'prefeitura_id',
     ordem_vinculada_id: 'ordem_vinculada_id',
     criado_em: 'criado_em',
     atualizado: 'atualizado'
@@ -10760,6 +12597,7 @@ export namespace Prisma {
     entidade_id: 'entidade_id',
     acao: 'acao',
     usuario_id: 'usuario_id',
+    prefeitura_id: 'prefeitura_id',
     dados_antigos: 'dados_antigos',
     dados_novos: 'dados_novos',
     criado_em: 'criado_em'
@@ -10783,6 +12621,7 @@ export namespace Prisma {
     laudo_tecnico: 'laudo_tecnico',
     fotos_vistoria: 'fotos_vistoria',
     ordem_servico_id: 'ordem_servico_id',
+    prefeitura_id: 'prefeitura_id',
     criado_em: 'criado_em',
     atualizado: 'atualizado'
   };
@@ -10808,6 +12647,7 @@ export namespace Prisma {
     push_notif: 'push_notif',
     whatsapp_alerts: 'whatsapp_alerts',
     auto_dispatch: 'auto_dispatch',
+    prefeitura_id: 'prefeitura_id',
     criado_em: 'criado_em',
     atualizado: 'atualizado'
   };
@@ -10834,6 +12674,7 @@ export namespace Prisma {
     respondido_por_id: 'respondido_por_id',
     motivo_arquivamento: 'motivo_arquivamento',
     ordem_servico_id: 'ordem_servico_id',
+    prefeitura_id: 'prefeitura_id',
     criado_em: 'criado_em',
     atualizado: 'atualizado'
   };
@@ -10865,14 +12706,6 @@ export namespace Prisma {
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
-  export const NullsOrder: {
-    first: 'first',
-    last: 'last'
-  };
-
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
   export const JsonNullValueFilter: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull,
@@ -10880,6 +12713,14 @@ export namespace Prisma {
   };
 
   export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -10902,16 +12743,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Role'
+   * Reference to a field of type 'ModuloSistema[]'
    */
-  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
+  export type ListEnumModuloSistemaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ModuloSistema[]'>
     
 
 
   /**
-   * Reference to a field of type 'Role[]'
+   * Reference to a field of type 'ModuloSistema'
    */
-  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+  export type EnumModuloSistemaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ModuloSistema'>
     
 
 
@@ -10923,16 +12764,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'Json'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
   /**
-   * Reference to a field of type 'Int[]'
+   * Reference to a field of type 'QueryMode'
    */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -10947,6 +12788,34 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Role'
+   */
+  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
+    
+
+
+  /**
+   * Reference to a field of type 'Role[]'
+   */
+  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -11007,20 +12876,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-  /**
-   * Reference to a field of type 'QueryMode'
-   */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-  /**
    * Reference to a field of type 'AuditAction'
    */
   export type EnumAuditActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuditAction'>
@@ -11065,6 +12920,104 @@ export namespace Prisma {
    */
 
 
+  export type PrefeituraWhereInput = {
+    AND?: PrefeituraWhereInput | PrefeituraWhereInput[]
+    OR?: PrefeituraWhereInput[]
+    NOT?: PrefeituraWhereInput | PrefeituraWhereInput[]
+    id?: StringFilter<"Prefeitura"> | string
+    slug?: StringFilter<"Prefeitura"> | string
+    nome?: StringFilter<"Prefeitura"> | string
+    cnpj?: StringNullableFilter<"Prefeitura"> | string | null
+    brasao_url?: StringNullableFilter<"Prefeitura"> | string | null
+    modulos_ativos?: EnumModuloSistemaNullableListFilter<"Prefeitura">
+    ativo?: BoolFilter<"Prefeitura"> | boolean
+    metadata?: JsonNullableFilter<"Prefeitura">
+    criado_em?: DateTimeFilter<"Prefeitura"> | Date | string
+    atualizado?: DateTimeFilter<"Prefeitura"> | Date | string
+    configuracao?: XOR<ConfiguracaoSistemaNullableScalarRelationFilter, ConfiguracaoSistemaWhereInput> | null
+    usuarios?: UsuarioListRelationFilter
+    predios?: PredioListRelationFilter
+    ordens_servico?: OrdemServicoListRelationFilter
+    manifestacoes?: ManifestacaoListRelationFilter
+    vistorias?: AgendaVistoriaListRelationFilter
+    auditorias?: AuditoriaLogListRelationFilter
+  }
+
+  export type PrefeituraOrderByWithRelationInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    nome?: SortOrder
+    cnpj?: SortOrderInput | SortOrder
+    brasao_url?: SortOrderInput | SortOrder
+    modulos_ativos?: SortOrder
+    ativo?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    configuracao?: ConfiguracaoSistemaOrderByWithRelationInput
+    usuarios?: UsuarioOrderByRelationAggregateInput
+    predios?: PredioOrderByRelationAggregateInput
+    ordens_servico?: OrdemServicoOrderByRelationAggregateInput
+    manifestacoes?: ManifestacaoOrderByRelationAggregateInput
+    vistorias?: AgendaVistoriaOrderByRelationAggregateInput
+    auditorias?: AuditoriaLogOrderByRelationAggregateInput
+  }
+
+  export type PrefeituraWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    cnpj?: string
+    AND?: PrefeituraWhereInput | PrefeituraWhereInput[]
+    OR?: PrefeituraWhereInput[]
+    NOT?: PrefeituraWhereInput | PrefeituraWhereInput[]
+    nome?: StringFilter<"Prefeitura"> | string
+    brasao_url?: StringNullableFilter<"Prefeitura"> | string | null
+    modulos_ativos?: EnumModuloSistemaNullableListFilter<"Prefeitura">
+    ativo?: BoolFilter<"Prefeitura"> | boolean
+    metadata?: JsonNullableFilter<"Prefeitura">
+    criado_em?: DateTimeFilter<"Prefeitura"> | Date | string
+    atualizado?: DateTimeFilter<"Prefeitura"> | Date | string
+    configuracao?: XOR<ConfiguracaoSistemaNullableScalarRelationFilter, ConfiguracaoSistemaWhereInput> | null
+    usuarios?: UsuarioListRelationFilter
+    predios?: PredioListRelationFilter
+    ordens_servico?: OrdemServicoListRelationFilter
+    manifestacoes?: ManifestacaoListRelationFilter
+    vistorias?: AgendaVistoriaListRelationFilter
+    auditorias?: AuditoriaLogListRelationFilter
+  }, "id" | "slug" | "cnpj">
+
+  export type PrefeituraOrderByWithAggregationInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    nome?: SortOrder
+    cnpj?: SortOrderInput | SortOrder
+    brasao_url?: SortOrderInput | SortOrder
+    modulos_ativos?: SortOrder
+    ativo?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    _count?: PrefeituraCountOrderByAggregateInput
+    _max?: PrefeituraMaxOrderByAggregateInput
+    _min?: PrefeituraMinOrderByAggregateInput
+  }
+
+  export type PrefeituraScalarWhereWithAggregatesInput = {
+    AND?: PrefeituraScalarWhereWithAggregatesInput | PrefeituraScalarWhereWithAggregatesInput[]
+    OR?: PrefeituraScalarWhereWithAggregatesInput[]
+    NOT?: PrefeituraScalarWhereWithAggregatesInput | PrefeituraScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Prefeitura"> | string
+    slug?: StringWithAggregatesFilter<"Prefeitura"> | string
+    nome?: StringWithAggregatesFilter<"Prefeitura"> | string
+    cnpj?: StringNullableWithAggregatesFilter<"Prefeitura"> | string | null
+    brasao_url?: StringNullableWithAggregatesFilter<"Prefeitura"> | string | null
+    modulos_ativos?: EnumModuloSistemaNullableListFilter<"Prefeitura">
+    ativo?: BoolWithAggregatesFilter<"Prefeitura"> | boolean
+    metadata?: JsonNullableWithAggregatesFilter<"Prefeitura">
+    criado_em?: DateTimeWithAggregatesFilter<"Prefeitura"> | Date | string
+    atualizado?: DateTimeWithAggregatesFilter<"Prefeitura"> | Date | string
+  }
+
   export type UsuarioWhereInput = {
     AND?: UsuarioWhereInput | UsuarioWhereInput[]
     OR?: UsuarioWhereInput[]
@@ -11080,6 +13033,8 @@ export namespace Prisma {
     token_version?: IntFilter<"Usuario"> | number
     criado_em?: DateTimeFilter<"Usuario"> | Date | string
     atualizado?: DateTimeFilter<"Usuario"> | Date | string
+    prefeitura_id?: StringNullableFilter<"Usuario"> | string | null
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
     predios_geridos?: PredioListRelationFilter
     chamados_solicitados?: OrdemServicoListRelationFilter
     chamados_atribuidos?: OrdemServicoListRelationFilter
@@ -11099,6 +13054,8 @@ export namespace Prisma {
     token_version?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
+    prefeitura?: PrefeituraOrderByWithRelationInput
     predios_geridos?: PredioOrderByRelationAggregateInput
     chamados_solicitados?: OrdemServicoOrderByRelationAggregateInput
     chamados_atribuidos?: OrdemServicoOrderByRelationAggregateInput
@@ -11121,6 +13078,8 @@ export namespace Prisma {
     token_version?: IntFilter<"Usuario"> | number
     criado_em?: DateTimeFilter<"Usuario"> | Date | string
     atualizado?: DateTimeFilter<"Usuario"> | Date | string
+    prefeitura_id?: StringNullableFilter<"Usuario"> | string | null
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
     predios_geridos?: PredioListRelationFilter
     chamados_solicitados?: OrdemServicoListRelationFilter
     chamados_atribuidos?: OrdemServicoListRelationFilter
@@ -11140,6 +13099,7 @@ export namespace Prisma {
     token_version?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
     _count?: UsuarioCountOrderByAggregateInput
     _avg?: UsuarioAvgOrderByAggregateInput
     _max?: UsuarioMaxOrderByAggregateInput
@@ -11162,6 +13122,7 @@ export namespace Prisma {
     token_version?: IntWithAggregatesFilter<"Usuario"> | number
     criado_em?: DateTimeWithAggregatesFilter<"Usuario"> | Date | string
     atualizado?: DateTimeWithAggregatesFilter<"Usuario"> | Date | string
+    prefeitura_id?: StringNullableWithAggregatesFilter<"Usuario"> | string | null
   }
 
   export type PredioWhereInput = {
@@ -11182,7 +13143,9 @@ export namespace Prisma {
     gestor_id?: StringNullableFilter<"Predio"> | string | null
     criado_em?: DateTimeFilter<"Predio"> | Date | string
     atualizado?: DateTimeFilter<"Predio"> | Date | string
+    prefeitura_id?: StringNullableFilter<"Predio"> | string | null
     gestor?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
     ordens_servico?: OrdemServicoListRelationFilter
     vistorias?: AgendaVistoriaListRelationFilter
     manifestacoes?: ManifestacaoListRelationFilter
@@ -11203,7 +13166,9 @@ export namespace Prisma {
     gestor_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
     gestor?: UsuarioOrderByWithRelationInput
+    prefeitura?: PrefeituraOrderByWithRelationInput
     ordens_servico?: OrdemServicoOrderByRelationAggregateInput
     vistorias?: AgendaVistoriaOrderByRelationAggregateInput
     manifestacoes?: ManifestacaoOrderByRelationAggregateInput
@@ -11227,7 +13192,9 @@ export namespace Prisma {
     gestor_id?: StringNullableFilter<"Predio"> | string | null
     criado_em?: DateTimeFilter<"Predio"> | Date | string
     atualizado?: DateTimeFilter<"Predio"> | Date | string
+    prefeitura_id?: StringNullableFilter<"Predio"> | string | null
     gestor?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
     ordens_servico?: OrdemServicoListRelationFilter
     vistorias?: AgendaVistoriaListRelationFilter
     manifestacoes?: ManifestacaoListRelationFilter
@@ -11248,6 +13215,7 @@ export namespace Prisma {
     gestor_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
     _count?: PredioCountOrderByAggregateInput
     _avg?: PredioAvgOrderByAggregateInput
     _max?: PredioMaxOrderByAggregateInput
@@ -11273,6 +13241,7 @@ export namespace Prisma {
     gestor_id?: StringNullableWithAggregatesFilter<"Predio"> | string | null
     criado_em?: DateTimeWithAggregatesFilter<"Predio"> | Date | string
     atualizado?: DateTimeWithAggregatesFilter<"Predio"> | Date | string
+    prefeitura_id?: StringNullableWithAggregatesFilter<"Predio"> | string | null
   }
 
   export type OrdemServicoWhereInput = {
@@ -11301,12 +13270,14 @@ export namespace Prisma {
     historico_pausas?: JsonNullableFilter<"OrdemServico">
     sla_violado?: BoolFilter<"OrdemServico"> | boolean
     motivo_violacao_sla?: StringNullableFilter<"OrdemServico"> | string | null
+    prefeitura_id?: StringNullableFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
     atualizado?: DateTimeFilter<"OrdemServico"> | Date | string
     predio?: XOR<PredioScalarRelationFilter, PredioWhereInput>
     solicitante?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     tecnico?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
     ordem_vinculada?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
     ordens_derivadas?: OrdemServicoListRelationFilter
     agendamentos?: AgendaVistoriaListRelationFilter
@@ -11336,12 +13307,14 @@ export namespace Prisma {
     historico_pausas?: SortOrderInput | SortOrder
     sla_violado?: SortOrder
     motivo_violacao_sla?: SortOrderInput | SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
     ordem_vinculada_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
     predio?: PredioOrderByWithRelationInput
     solicitante?: UsuarioOrderByWithRelationInput
     tecnico?: UsuarioOrderByWithRelationInput
+    prefeitura?: PrefeituraOrderByWithRelationInput
     ordem_vinculada?: OrdemServicoOrderByWithRelationInput
     ordens_derivadas?: OrdemServicoOrderByRelationAggregateInput
     agendamentos?: AgendaVistoriaOrderByRelationAggregateInput
@@ -11374,12 +13347,14 @@ export namespace Prisma {
     historico_pausas?: JsonNullableFilter<"OrdemServico">
     sla_violado?: BoolFilter<"OrdemServico"> | boolean
     motivo_violacao_sla?: StringNullableFilter<"OrdemServico"> | string | null
+    prefeitura_id?: StringNullableFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
     atualizado?: DateTimeFilter<"OrdemServico"> | Date | string
     predio?: XOR<PredioScalarRelationFilter, PredioWhereInput>
     solicitante?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     tecnico?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
     ordem_vinculada?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
     ordens_derivadas?: OrdemServicoListRelationFilter
     agendamentos?: AgendaVistoriaListRelationFilter
@@ -11409,6 +13384,7 @@ export namespace Prisma {
     historico_pausas?: SortOrderInput | SortOrder
     sla_violado?: SortOrder
     motivo_violacao_sla?: SortOrderInput | SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
     ordem_vinculada_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -11445,6 +13421,7 @@ export namespace Prisma {
     historico_pausas?: JsonNullableWithAggregatesFilter<"OrdemServico">
     sla_violado?: BoolWithAggregatesFilter<"OrdemServico"> | boolean
     motivo_violacao_sla?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
+    prefeitura_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeWithAggregatesFilter<"OrdemServico"> | Date | string
     atualizado?: DateTimeWithAggregatesFilter<"OrdemServico"> | Date | string
@@ -11459,10 +13436,12 @@ export namespace Prisma {
     entidade_id?: StringFilter<"AuditoriaLog"> | string
     acao?: EnumAuditActionFilter<"AuditoriaLog"> | $Enums.AuditAction
     usuario_id?: StringFilter<"AuditoriaLog"> | string
+    prefeitura_id?: StringNullableFilter<"AuditoriaLog"> | string | null
     dados_antigos?: JsonNullableFilter<"AuditoriaLog">
     dados_novos?: JsonNullableFilter<"AuditoriaLog">
     criado_em?: DateTimeFilter<"AuditoriaLog"> | Date | string
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
   }
 
   export type AuditoriaLogOrderByWithRelationInput = {
@@ -11471,10 +13450,12 @@ export namespace Prisma {
     entidade_id?: SortOrder
     acao?: SortOrder
     usuario_id?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
     dados_antigos?: SortOrderInput | SortOrder
     dados_novos?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     usuario?: UsuarioOrderByWithRelationInput
+    prefeitura?: PrefeituraOrderByWithRelationInput
   }
 
   export type AuditoriaLogWhereUniqueInput = Prisma.AtLeast<{
@@ -11486,10 +13467,12 @@ export namespace Prisma {
     entidade_id?: StringFilter<"AuditoriaLog"> | string
     acao?: EnumAuditActionFilter<"AuditoriaLog"> | $Enums.AuditAction
     usuario_id?: StringFilter<"AuditoriaLog"> | string
+    prefeitura_id?: StringNullableFilter<"AuditoriaLog"> | string | null
     dados_antigos?: JsonNullableFilter<"AuditoriaLog">
     dados_novos?: JsonNullableFilter<"AuditoriaLog">
     criado_em?: DateTimeFilter<"AuditoriaLog"> | Date | string
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
   }, "id">
 
   export type AuditoriaLogOrderByWithAggregationInput = {
@@ -11498,6 +13481,7 @@ export namespace Prisma {
     entidade_id?: SortOrder
     acao?: SortOrder
     usuario_id?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
     dados_antigos?: SortOrderInput | SortOrder
     dados_novos?: SortOrderInput | SortOrder
     criado_em?: SortOrder
@@ -11515,6 +13499,7 @@ export namespace Prisma {
     entidade_id?: StringWithAggregatesFilter<"AuditoriaLog"> | string
     acao?: EnumAuditActionWithAggregatesFilter<"AuditoriaLog"> | $Enums.AuditAction
     usuario_id?: StringWithAggregatesFilter<"AuditoriaLog"> | string
+    prefeitura_id?: StringNullableWithAggregatesFilter<"AuditoriaLog"> | string | null
     dados_antigos?: JsonNullableWithAggregatesFilter<"AuditoriaLog">
     dados_novos?: JsonNullableWithAggregatesFilter<"AuditoriaLog">
     criado_em?: DateTimeWithAggregatesFilter<"AuditoriaLog"> | Date | string
@@ -11538,10 +13523,12 @@ export namespace Prisma {
     laudo_tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
     fotos_vistoria?: StringNullableListFilter<"AgendaVistoria">
     ordem_servico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    prefeitura_id?: StringNullableFilter<"AgendaVistoria"> | string | null
     criado_em?: DateTimeFilter<"AgendaVistoria"> | Date | string
     atualizado?: DateTimeFilter<"AgendaVistoria"> | Date | string
     predio?: XOR<PredioNullableScalarRelationFilter, PredioWhereInput> | null
     ordem_servico?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
   }
 
   export type AgendaVistoriaOrderByWithRelationInput = {
@@ -11559,10 +13546,12 @@ export namespace Prisma {
     laudo_tecnico?: SortOrderInput | SortOrder
     fotos_vistoria?: SortOrder
     ordem_servico_id?: SortOrderInput | SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
     predio?: PredioOrderByWithRelationInput
     ordem_servico?: OrdemServicoOrderByWithRelationInput
+    prefeitura?: PrefeituraOrderByWithRelationInput
   }
 
   export type AgendaVistoriaWhereUniqueInput = Prisma.AtLeast<{
@@ -11583,10 +13572,12 @@ export namespace Prisma {
     laudo_tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
     fotos_vistoria?: StringNullableListFilter<"AgendaVistoria">
     ordem_servico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    prefeitura_id?: StringNullableFilter<"AgendaVistoria"> | string | null
     criado_em?: DateTimeFilter<"AgendaVistoria"> | Date | string
     atualizado?: DateTimeFilter<"AgendaVistoria"> | Date | string
     predio?: XOR<PredioNullableScalarRelationFilter, PredioWhereInput> | null
     ordem_servico?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
   }, "id">
 
   export type AgendaVistoriaOrderByWithAggregationInput = {
@@ -11604,6 +13595,7 @@ export namespace Prisma {
     laudo_tecnico?: SortOrderInput | SortOrder
     fotos_vistoria?: SortOrder
     ordem_servico_id?: SortOrderInput | SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
     _count?: AgendaVistoriaCountOrderByAggregateInput
@@ -11629,6 +13621,7 @@ export namespace Prisma {
     laudo_tecnico?: StringNullableWithAggregatesFilter<"AgendaVistoria"> | string | null
     fotos_vistoria?: StringNullableListFilter<"AgendaVistoria">
     ordem_servico_id?: StringNullableWithAggregatesFilter<"AgendaVistoria"> | string | null
+    prefeitura_id?: StringNullableWithAggregatesFilter<"AgendaVistoria"> | string | null
     criado_em?: DateTimeWithAggregatesFilter<"AgendaVistoria"> | Date | string
     atualizado?: DateTimeWithAggregatesFilter<"AgendaVistoria"> | Date | string
   }
@@ -11654,8 +13647,10 @@ export namespace Prisma {
     push_notif?: BoolFilter<"ConfiguracaoSistema"> | boolean
     whatsapp_alerts?: BoolFilter<"ConfiguracaoSistema"> | boolean
     auto_dispatch?: BoolFilter<"ConfiguracaoSistema"> | boolean
+    prefeitura_id?: StringNullableFilter<"ConfiguracaoSistema"> | string | null
     criado_em?: DateTimeFilter<"ConfiguracaoSistema"> | Date | string
     atualizado?: DateTimeFilter<"ConfiguracaoSistema"> | Date | string
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
   }
 
   export type ConfiguracaoSistemaOrderByWithRelationInput = {
@@ -11676,12 +13671,15 @@ export namespace Prisma {
     push_notif?: SortOrder
     whatsapp_alerts?: SortOrder
     auto_dispatch?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
+    prefeitura?: PrefeituraOrderByWithRelationInput
   }
 
   export type ConfiguracaoSistemaWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    prefeitura_id?: string
     AND?: ConfiguracaoSistemaWhereInput | ConfiguracaoSistemaWhereInput[]
     OR?: ConfiguracaoSistemaWhereInput[]
     NOT?: ConfiguracaoSistemaWhereInput | ConfiguracaoSistemaWhereInput[]
@@ -11703,7 +13701,8 @@ export namespace Prisma {
     auto_dispatch?: BoolFilter<"ConfiguracaoSistema"> | boolean
     criado_em?: DateTimeFilter<"ConfiguracaoSistema"> | Date | string
     atualizado?: DateTimeFilter<"ConfiguracaoSistema"> | Date | string
-  }, "id">
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
+  }, "id" | "prefeitura_id">
 
   export type ConfiguracaoSistemaOrderByWithAggregationInput = {
     id?: SortOrder
@@ -11723,6 +13722,7 @@ export namespace Prisma {
     push_notif?: SortOrder
     whatsapp_alerts?: SortOrder
     auto_dispatch?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
     _count?: ConfiguracaoSistemaCountOrderByAggregateInput
@@ -11753,6 +13753,7 @@ export namespace Prisma {
     push_notif?: BoolWithAggregatesFilter<"ConfiguracaoSistema"> | boolean
     whatsapp_alerts?: BoolWithAggregatesFilter<"ConfiguracaoSistema"> | boolean
     auto_dispatch?: BoolWithAggregatesFilter<"ConfiguracaoSistema"> | boolean
+    prefeitura_id?: StringNullableWithAggregatesFilter<"ConfiguracaoSistema"> | string | null
     criado_em?: DateTimeWithAggregatesFilter<"ConfiguracaoSistema"> | Date | string
     atualizado?: DateTimeWithAggregatesFilter<"ConfiguracaoSistema"> | Date | string
   }
@@ -11779,11 +13780,13 @@ export namespace Prisma {
     respondido_por_id?: StringNullableFilter<"Manifestacao"> | string | null
     motivo_arquivamento?: StringNullableFilter<"Manifestacao"> | string | null
     ordem_servico_id?: StringNullableFilter<"Manifestacao"> | string | null
+    prefeitura_id?: StringNullableFilter<"Manifestacao"> | string | null
     criado_em?: DateTimeFilter<"Manifestacao"> | Date | string
     atualizado?: DateTimeFilter<"Manifestacao"> | Date | string
     predio?: XOR<PredioNullableScalarRelationFilter, PredioWhereInput> | null
     respondido_por?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
     ordem_servico?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
   }
 
   export type ManifestacaoOrderByWithRelationInput = {
@@ -11805,11 +13808,13 @@ export namespace Prisma {
     respondido_por_id?: SortOrderInput | SortOrder
     motivo_arquivamento?: SortOrderInput | SortOrder
     ordem_servico_id?: SortOrderInput | SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
     predio?: PredioOrderByWithRelationInput
     respondido_por?: UsuarioOrderByWithRelationInput
     ordem_servico?: OrdemServicoOrderByWithRelationInput
+    prefeitura?: PrefeituraOrderByWithRelationInput
   }
 
   export type ManifestacaoWhereUniqueInput = Prisma.AtLeast<{
@@ -11834,11 +13839,13 @@ export namespace Prisma {
     respondido_por_id?: StringNullableFilter<"Manifestacao"> | string | null
     motivo_arquivamento?: StringNullableFilter<"Manifestacao"> | string | null
     ordem_servico_id?: StringNullableFilter<"Manifestacao"> | string | null
+    prefeitura_id?: StringNullableFilter<"Manifestacao"> | string | null
     criado_em?: DateTimeFilter<"Manifestacao"> | Date | string
     atualizado?: DateTimeFilter<"Manifestacao"> | Date | string
     predio?: XOR<PredioNullableScalarRelationFilter, PredioWhereInput> | null
     respondido_por?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
     ordem_servico?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
   }, "id" | "protocolo">
 
   export type ManifestacaoOrderByWithAggregationInput = {
@@ -11860,6 +13867,7 @@ export namespace Prisma {
     respondido_por_id?: SortOrderInput | SortOrder
     motivo_arquivamento?: SortOrderInput | SortOrder
     ordem_servico_id?: SortOrderInput | SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
     _count?: ManifestacaoCountOrderByAggregateInput
@@ -11889,8 +13897,128 @@ export namespace Prisma {
     respondido_por_id?: StringNullableWithAggregatesFilter<"Manifestacao"> | string | null
     motivo_arquivamento?: StringNullableWithAggregatesFilter<"Manifestacao"> | string | null
     ordem_servico_id?: StringNullableWithAggregatesFilter<"Manifestacao"> | string | null
+    prefeitura_id?: StringNullableWithAggregatesFilter<"Manifestacao"> | string | null
     criado_em?: DateTimeWithAggregatesFilter<"Manifestacao"> | Date | string
     atualizado?: DateTimeWithAggregatesFilter<"Manifestacao"> | Date | string
+  }
+
+  export type PrefeituraCreateInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraUncheckedCreateInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioUncheckedCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioUncheckedCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraCreateManyInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type PrefeituraUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PrefeituraUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UsuarioCreateInput = {
@@ -11905,6 +14033,7 @@ export namespace Prisma {
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutUsuariosInput
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
@@ -11924,6 +14053,7 @@ export namespace Prisma {
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura_id?: string | null
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
@@ -11943,6 +14073,7 @@ export namespace Prisma {
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutUsuariosNestedInput
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
@@ -11962,6 +14093,7 @@ export namespace Prisma {
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
@@ -11981,6 +14113,7 @@ export namespace Prisma {
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura_id?: string | null
   }
 
   export type UsuarioUpdateManyMutationInput = {
@@ -12009,6 +14142,7 @@ export namespace Prisma {
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PredioCreateInput = {
@@ -12026,6 +14160,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     gestor?: UsuarioCreateNestedOneWithoutPredios_geridosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutPrediosInput
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPredioInput
@@ -12046,6 +14181,7 @@ export namespace Prisma {
     gestor_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura_id?: string | null
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPredioInput
@@ -12066,6 +14202,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     gestor?: UsuarioUpdateOneWithoutPredios_geridosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutPrediosNestedInput
     ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUpdateManyWithoutPredioNestedInput
@@ -12086,6 +14223,7 @@ export namespace Prisma {
     gestor_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput
@@ -12106,6 +14244,7 @@ export namespace Prisma {
     gestor_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura_id?: string | null
   }
 
   export type PredioUpdateManyMutationInput = {
@@ -12139,6 +14278,7 @@ export namespace Prisma {
     gestor_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrdemServicoCreateInput = {
@@ -12166,6 +14306,7 @@ export namespace Prisma {
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
@@ -12195,6 +14336,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -12228,6 +14370,7 @@ export namespace Prisma {
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
@@ -12257,6 +14400,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12288,6 +14432,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -12340,6 +14485,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12354,6 +14500,7 @@ export namespace Prisma {
     dados_novos?: NullableJsonNullValueInput | InputJsonValue
     criado_em?: Date | string
     usuario: UsuarioCreateNestedOneWithoutAuditoriasInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutAuditoriasInput
   }
 
   export type AuditoriaLogUncheckedCreateInput = {
@@ -12362,6 +14509,7 @@ export namespace Prisma {
     entidade_id: string
     acao: $Enums.AuditAction
     usuario_id: string
+    prefeitura_id?: string | null
     dados_antigos?: NullableJsonNullValueInput | InputJsonValue
     dados_novos?: NullableJsonNullValueInput | InputJsonValue
     criado_em?: Date | string
@@ -12376,6 +14524,7 @@ export namespace Prisma {
     dados_novos?: NullableJsonNullValueInput | InputJsonValue
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     usuario?: UsuarioUpdateOneRequiredWithoutAuditoriasNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutAuditoriasNestedInput
   }
 
   export type AuditoriaLogUncheckedUpdateInput = {
@@ -12384,6 +14533,7 @@ export namespace Prisma {
     entidade_id?: StringFieldUpdateOperationsInput | string
     acao?: EnumAuditActionFieldUpdateOperationsInput | $Enums.AuditAction
     usuario_id?: StringFieldUpdateOperationsInput | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     dados_antigos?: NullableJsonNullValueInput | InputJsonValue
     dados_novos?: NullableJsonNullValueInput | InputJsonValue
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12395,6 +14545,7 @@ export namespace Prisma {
     entidade_id: string
     acao: $Enums.AuditAction
     usuario_id: string
+    prefeitura_id?: string | null
     dados_antigos?: NullableJsonNullValueInput | InputJsonValue
     dados_novos?: NullableJsonNullValueInput | InputJsonValue
     criado_em?: Date | string
@@ -12416,6 +14567,7 @@ export namespace Prisma {
     entidade_id?: StringFieldUpdateOperationsInput | string
     acao?: EnumAuditActionFieldUpdateOperationsInput | $Enums.AuditAction
     usuario_id?: StringFieldUpdateOperationsInput | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     dados_antigos?: NullableJsonNullValueInput | InputJsonValue
     dados_novos?: NullableJsonNullValueInput | InputJsonValue
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12438,6 +14590,7 @@ export namespace Prisma {
     atualizado?: Date | string
     predio?: PredioCreateNestedOneWithoutVistoriasInput
     ordem_servico?: OrdemServicoCreateNestedOneWithoutAgendamentosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutVistoriasInput
   }
 
   export type AgendaVistoriaUncheckedCreateInput = {
@@ -12455,6 +14608,7 @@ export namespace Prisma {
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     ordem_servico_id?: string | null
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -12476,6 +14630,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneWithoutVistoriasNestedInput
     ordem_servico?: OrdemServicoUpdateOneWithoutAgendamentosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutVistoriasNestedInput
   }
 
   export type AgendaVistoriaUncheckedUpdateInput = {
@@ -12493,6 +14648,7 @@ export namespace Prisma {
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12512,6 +14668,7 @@ export namespace Prisma {
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     ordem_servico_id?: string | null
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -12548,6 +14705,7 @@ export namespace Prisma {
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12572,6 +14730,7 @@ export namespace Prisma {
     auto_dispatch?: boolean
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutConfiguracaoInput
   }
 
   export type ConfiguracaoSistemaUncheckedCreateInput = {
@@ -12592,6 +14751,7 @@ export namespace Prisma {
     push_notif?: boolean
     whatsapp_alerts?: boolean
     auto_dispatch?: boolean
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -12616,6 +14776,7 @@ export namespace Prisma {
     auto_dispatch?: BoolFieldUpdateOperationsInput | boolean
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutConfiguracaoNestedInput
   }
 
   export type ConfiguracaoSistemaUncheckedUpdateInput = {
@@ -12636,6 +14797,7 @@ export namespace Prisma {
     push_notif?: BoolFieldUpdateOperationsInput | boolean
     whatsapp_alerts?: BoolFieldUpdateOperationsInput | boolean
     auto_dispatch?: BoolFieldUpdateOperationsInput | boolean
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12658,6 +14820,7 @@ export namespace Prisma {
     push_notif?: boolean
     whatsapp_alerts?: boolean
     auto_dispatch?: boolean
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -12702,6 +14865,7 @@ export namespace Prisma {
     push_notif?: BoolFieldUpdateOperationsInput | boolean
     whatsapp_alerts?: BoolFieldUpdateOperationsInput | boolean
     auto_dispatch?: BoolFieldUpdateOperationsInput | boolean
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12727,6 +14891,7 @@ export namespace Prisma {
     predio?: PredioCreateNestedOneWithoutManifestacoesInput
     respondido_por?: UsuarioCreateNestedOneWithoutManifestacoes_respondidasInput
     ordem_servico?: OrdemServicoCreateNestedOneWithoutManifestacoes_origemInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutManifestacoesInput
   }
 
   export type ManifestacaoUncheckedCreateInput = {
@@ -12748,6 +14913,7 @@ export namespace Prisma {
     respondido_por_id?: string | null
     motivo_arquivamento?: string | null
     ordem_servico_id?: string | null
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -12773,6 +14939,7 @@ export namespace Prisma {
     predio?: PredioUpdateOneWithoutManifestacoesNestedInput
     respondido_por?: UsuarioUpdateOneWithoutManifestacoes_respondidasNestedInput
     ordem_servico?: OrdemServicoUpdateOneWithoutManifestacoes_origemNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutManifestacoesNestedInput
   }
 
   export type ManifestacaoUncheckedUpdateInput = {
@@ -12794,6 +14961,7 @@ export namespace Prisma {
     respondido_por_id?: NullableStringFieldUpdateOperationsInput | string | null
     motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12817,6 +14985,7 @@ export namespace Prisma {
     respondido_por_id?: string | null
     motivo_arquivamento?: string | null
     ordem_servico_id?: string | null
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -12860,6 +15029,7 @@ export namespace Prisma {
     respondido_por_id?: NullableStringFieldUpdateOperationsInput | string | null
     motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12879,13 +15049,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type EnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
-  }
-
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -12901,20 +15064,40 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type EnumModuloSistemaNullableListFilter<$PrismaModel = never> = {
+    equals?: $Enums.ModuloSistema[] | ListEnumModuloSistemaFieldRefInput<$PrismaModel> | null
+    has?: $Enums.ModuloSistema | EnumModuloSistemaFieldRefInput<$PrismaModel> | null
+    hasEvery?: $Enums.ModuloSistema[] | ListEnumModuloSistemaFieldRefInput<$PrismaModel>
+    hasSome?: $Enums.ModuloSistema[] | ListEnumModuloSistemaFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -12926,6 +15109,17 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type ConfiguracaoSistemaNullableScalarRelationFilter = {
+    is?: ConfiguracaoSistemaWhereInput | null
+    isNot?: ConfiguracaoSistemaWhereInput | null
+  }
+
+  export type UsuarioListRelationFilter = {
+    every?: UsuarioWhereInput
+    some?: UsuarioWhereInput
+    none?: UsuarioWhereInput
   }
 
   export type PredioListRelationFilter = {
@@ -12946,6 +15140,12 @@ export namespace Prisma {
     none?: ManifestacaoWhereInput
   }
 
+  export type AgendaVistoriaListRelationFilter = {
+    every?: AgendaVistoriaWhereInput
+    some?: AgendaVistoriaWhereInput
+    none?: AgendaVistoriaWhereInput
+  }
+
   export type AuditoriaLogListRelationFilter = {
     every?: AuditoriaLogWhereInput
     some?: AuditoriaLogWhereInput
@@ -12955,6 +15155,10 @@ export namespace Prisma {
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type UsuarioOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type PredioOrderByRelationAggregateInput = {
@@ -12969,58 +15173,47 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type AgendaVistoriaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type AuditoriaLogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type UsuarioCountOrderByAggregateInput = {
+  export type PrefeituraCountOrderByAggregateInput = {
     id?: SortOrder
+    slug?: SortOrder
     nome?: SortOrder
-    email?: SortOrder
-    senha_hash?: SortOrder
-    role?: SortOrder
-    especialidade?: SortOrder
-    telefone?: SortOrder
+    cnpj?: SortOrder
+    brasao_url?: SortOrder
+    modulos_ativos?: SortOrder
     ativo?: SortOrder
-    token_version?: SortOrder
+    metadata?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
   }
 
-  export type UsuarioAvgOrderByAggregateInput = {
-    token_version?: SortOrder
-  }
-
-  export type UsuarioMaxOrderByAggregateInput = {
+  export type PrefeituraMaxOrderByAggregateInput = {
     id?: SortOrder
+    slug?: SortOrder
     nome?: SortOrder
-    email?: SortOrder
-    senha_hash?: SortOrder
-    role?: SortOrder
-    especialidade?: SortOrder
-    telefone?: SortOrder
+    cnpj?: SortOrder
+    brasao_url?: SortOrder
     ativo?: SortOrder
-    token_version?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
   }
 
-  export type UsuarioMinOrderByAggregateInput = {
+  export type PrefeituraMinOrderByAggregateInput = {
     id?: SortOrder
+    slug?: SortOrder
     nome?: SortOrder
-    email?: SortOrder
-    senha_hash?: SortOrder
-    role?: SortOrder
-    especialidade?: SortOrder
-    telefone?: SortOrder
+    cnpj?: SortOrder
+    brasao_url?: SortOrder
     ativo?: SortOrder
-    token_version?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
-  }
-
-  export type UsuarioSumOrderByAggregateInput = {
-    token_version?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -13039,16 +15232,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -13076,6 +15259,132 @@ export namespace Prisma {
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
   }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type EnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type PrefeituraNullableScalarRelationFilter = {
+    is?: PrefeituraWhereInput | null
+    isNot?: PrefeituraWhereInput | null
+  }
+
+  export type UsuarioCountOrderByAggregateInput = {
+    id?: SortOrder
+    nome?: SortOrder
+    email?: SortOrder
+    senha_hash?: SortOrder
+    role?: SortOrder
+    especialidade?: SortOrder
+    telefone?: SortOrder
+    ativo?: SortOrder
+    token_version?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    prefeitura_id?: SortOrder
+  }
+
+  export type UsuarioAvgOrderByAggregateInput = {
+    token_version?: SortOrder
+  }
+
+  export type UsuarioMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nome?: SortOrder
+    email?: SortOrder
+    senha_hash?: SortOrder
+    role?: SortOrder
+    especialidade?: SortOrder
+    telefone?: SortOrder
+    ativo?: SortOrder
+    token_version?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    prefeitura_id?: SortOrder
+  }
+
+  export type UsuarioMinOrderByAggregateInput = {
+    id?: SortOrder
+    nome?: SortOrder
+    email?: SortOrder
+    senha_hash?: SortOrder
+    role?: SortOrder
+    especialidade?: SortOrder
+    telefone?: SortOrder
+    ativo?: SortOrder
+    token_version?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    prefeitura_id?: SortOrder
+  }
+
+  export type UsuarioSumOrderByAggregateInput = {
+    token_version?: SortOrder
+  }
+
+  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
@@ -13091,20 +15400,6 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type EnumTipoPredioFilter<$PrismaModel = never> = {
@@ -13141,16 +15436,6 @@ export namespace Prisma {
     isNot?: UsuarioWhereInput | null
   }
 
-  export type AgendaVistoriaListRelationFilter = {
-    every?: AgendaVistoriaWhereInput
-    some?: AgendaVistoriaWhereInput
-    none?: AgendaVistoriaWhereInput
-  }
-
-  export type AgendaVistoriaOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type PredioCountOrderByAggregateInput = {
     id?: SortOrder
     nome?: SortOrder
@@ -13166,6 +15451,7 @@ export namespace Prisma {
     gestor_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
+    prefeitura_id?: SortOrder
   }
 
   export type PredioAvgOrderByAggregateInput = {
@@ -13189,6 +15475,7 @@ export namespace Prisma {
     gestor_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
+    prefeitura_id?: SortOrder
   }
 
   export type PredioMinOrderByAggregateInput = {
@@ -13206,6 +15493,7 @@ export namespace Prisma {
     gestor_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
+    prefeitura_id?: SortOrder
   }
 
   export type PredioSumOrderByAggregateInput = {
@@ -13288,29 +15576,6 @@ export namespace Prisma {
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type PredioScalarRelationFilter = {
     is?: PredioWhereInput
@@ -13350,6 +15615,7 @@ export namespace Prisma {
     historico_pausas?: SortOrder
     sla_violado?: SortOrder
     motivo_violacao_sla?: SortOrder
+    prefeitura_id?: SortOrder
     ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -13379,6 +15645,7 @@ export namespace Prisma {
     tempo_pausa_minutos?: SortOrder
     sla_violado?: SortOrder
     motivo_violacao_sla?: SortOrder
+    prefeitura_id?: SortOrder
     ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -13404,6 +15671,7 @@ export namespace Prisma {
     tempo_pausa_minutos?: SortOrder
     sla_violado?: SortOrder
     motivo_violacao_sla?: SortOrder
+    prefeitura_id?: SortOrder
     ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -13446,32 +15714,6 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
-  }
 
   export type EnumAuditActionFilter<$PrismaModel = never> = {
     equals?: $Enums.AuditAction | EnumAuditActionFieldRefInput<$PrismaModel>
@@ -13486,6 +15728,7 @@ export namespace Prisma {
     entidade_id?: SortOrder
     acao?: SortOrder
     usuario_id?: SortOrder
+    prefeitura_id?: SortOrder
     dados_antigos?: SortOrder
     dados_novos?: SortOrder
     criado_em?: SortOrder
@@ -13497,6 +15740,7 @@ export namespace Prisma {
     entidade_id?: SortOrder
     acao?: SortOrder
     usuario_id?: SortOrder
+    prefeitura_id?: SortOrder
     criado_em?: SortOrder
   }
 
@@ -13506,6 +15750,7 @@ export namespace Prisma {
     entidade_id?: SortOrder
     acao?: SortOrder
     usuario_id?: SortOrder
+    prefeitura_id?: SortOrder
     criado_em?: SortOrder
   }
 
@@ -13539,6 +15784,7 @@ export namespace Prisma {
     laudo_tecnico?: SortOrder
     fotos_vistoria?: SortOrder
     ordem_servico_id?: SortOrder
+    prefeitura_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
   }
@@ -13557,6 +15803,7 @@ export namespace Prisma {
     predio_id?: SortOrder
     laudo_tecnico?: SortOrder
     ordem_servico_id?: SortOrder
+    prefeitura_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
   }
@@ -13575,6 +15822,7 @@ export namespace Prisma {
     predio_id?: SortOrder
     laudo_tecnico?: SortOrder
     ordem_servico_id?: SortOrder
+    prefeitura_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
   }
@@ -13597,6 +15845,7 @@ export namespace Prisma {
     push_notif?: SortOrder
     whatsapp_alerts?: SortOrder
     auto_dispatch?: SortOrder
+    prefeitura_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
   }
@@ -13628,6 +15877,7 @@ export namespace Prisma {
     push_notif?: SortOrder
     whatsapp_alerts?: SortOrder
     auto_dispatch?: SortOrder
+    prefeitura_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
   }
@@ -13650,6 +15900,7 @@ export namespace Prisma {
     push_notif?: SortOrder
     whatsapp_alerts?: SortOrder
     auto_dispatch?: SortOrder
+    prefeitura_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
   }
@@ -13696,6 +15947,7 @@ export namespace Prisma {
     respondido_por_id?: SortOrder
     motivo_arquivamento?: SortOrder
     ordem_servico_id?: SortOrder
+    prefeitura_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
   }
@@ -13719,6 +15971,7 @@ export namespace Prisma {
     respondido_por_id?: SortOrder
     motivo_arquivamento?: SortOrder
     ordem_servico_id?: SortOrder
+    prefeitura_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
   }
@@ -13742,6 +15995,7 @@ export namespace Prisma {
     respondido_por_id?: SortOrder
     motivo_arquivamento?: SortOrder
     ordem_servico_id?: SortOrder
+    prefeitura_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
   }
@@ -13764,6 +16018,321 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumStatusManifestacaoFilter<$PrismaModel>
     _max?: NestedEnumStatusManifestacaoFilter<$PrismaModel>
+  }
+
+  export type PrefeituraCreatemodulos_ativosInput = {
+    set: $Enums.ModuloSistema[]
+  }
+
+  export type ConfiguracaoSistemaCreateNestedOneWithoutPrefeituraInput = {
+    create?: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
+    connectOrCreate?: ConfiguracaoSistemaCreateOrConnectWithoutPrefeituraInput
+    connect?: ConfiguracaoSistemaWhereUniqueInput
+  }
+
+  export type UsuarioCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<UsuarioCreateWithoutPrefeituraInput, UsuarioUncheckedCreateWithoutPrefeituraInput> | UsuarioCreateWithoutPrefeituraInput[] | UsuarioUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: UsuarioCreateOrConnectWithoutPrefeituraInput | UsuarioCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: UsuarioCreateManyPrefeituraInputEnvelope
+    connect?: UsuarioWhereUniqueInput | UsuarioWhereUniqueInput[]
+  }
+
+  export type PredioCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<PredioCreateWithoutPrefeituraInput, PredioUncheckedCreateWithoutPrefeituraInput> | PredioCreateWithoutPrefeituraInput[] | PredioUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: PredioCreateOrConnectWithoutPrefeituraInput | PredioCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: PredioCreateManyPrefeituraInputEnvelope
+    connect?: PredioWhereUniqueInput | PredioWhereUniqueInput[]
+  }
+
+  export type OrdemServicoCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<OrdemServicoCreateWithoutPrefeituraInput, OrdemServicoUncheckedCreateWithoutPrefeituraInput> | OrdemServicoCreateWithoutPrefeituraInput[] | OrdemServicoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutPrefeituraInput | OrdemServicoCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: OrdemServicoCreateManyPrefeituraInputEnvelope
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type ManifestacaoCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<ManifestacaoCreateWithoutPrefeituraInput, ManifestacaoUncheckedCreateWithoutPrefeituraInput> | ManifestacaoCreateWithoutPrefeituraInput[] | ManifestacaoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutPrefeituraInput | ManifestacaoCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: ManifestacaoCreateManyPrefeituraInputEnvelope
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+  }
+
+  export type AgendaVistoriaCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<AgendaVistoriaCreateWithoutPrefeituraInput, AgendaVistoriaUncheckedCreateWithoutPrefeituraInput> | AgendaVistoriaCreateWithoutPrefeituraInput[] | AgendaVistoriaUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AgendaVistoriaCreateOrConnectWithoutPrefeituraInput | AgendaVistoriaCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: AgendaVistoriaCreateManyPrefeituraInputEnvelope
+    connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+  }
+
+  export type AuditoriaLogCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<AuditoriaLogCreateWithoutPrefeituraInput, AuditoriaLogUncheckedCreateWithoutPrefeituraInput> | AuditoriaLogCreateWithoutPrefeituraInput[] | AuditoriaLogUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AuditoriaLogCreateOrConnectWithoutPrefeituraInput | AuditoriaLogCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: AuditoriaLogCreateManyPrefeituraInputEnvelope
+    connect?: AuditoriaLogWhereUniqueInput | AuditoriaLogWhereUniqueInput[]
+  }
+
+  export type ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput = {
+    create?: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
+    connectOrCreate?: ConfiguracaoSistemaCreateOrConnectWithoutPrefeituraInput
+    connect?: ConfiguracaoSistemaWhereUniqueInput
+  }
+
+  export type UsuarioUncheckedCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<UsuarioCreateWithoutPrefeituraInput, UsuarioUncheckedCreateWithoutPrefeituraInput> | UsuarioCreateWithoutPrefeituraInput[] | UsuarioUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: UsuarioCreateOrConnectWithoutPrefeituraInput | UsuarioCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: UsuarioCreateManyPrefeituraInputEnvelope
+    connect?: UsuarioWhereUniqueInput | UsuarioWhereUniqueInput[]
+  }
+
+  export type PredioUncheckedCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<PredioCreateWithoutPrefeituraInput, PredioUncheckedCreateWithoutPrefeituraInput> | PredioCreateWithoutPrefeituraInput[] | PredioUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: PredioCreateOrConnectWithoutPrefeituraInput | PredioCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: PredioCreateManyPrefeituraInputEnvelope
+    connect?: PredioWhereUniqueInput | PredioWhereUniqueInput[]
+  }
+
+  export type OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<OrdemServicoCreateWithoutPrefeituraInput, OrdemServicoUncheckedCreateWithoutPrefeituraInput> | OrdemServicoCreateWithoutPrefeituraInput[] | OrdemServicoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutPrefeituraInput | OrdemServicoCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: OrdemServicoCreateManyPrefeituraInputEnvelope
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<ManifestacaoCreateWithoutPrefeituraInput, ManifestacaoUncheckedCreateWithoutPrefeituraInput> | ManifestacaoCreateWithoutPrefeituraInput[] | ManifestacaoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutPrefeituraInput | ManifestacaoCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: ManifestacaoCreateManyPrefeituraInputEnvelope
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+  }
+
+  export type AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<AgendaVistoriaCreateWithoutPrefeituraInput, AgendaVistoriaUncheckedCreateWithoutPrefeituraInput> | AgendaVistoriaCreateWithoutPrefeituraInput[] | AgendaVistoriaUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AgendaVistoriaCreateOrConnectWithoutPrefeituraInput | AgendaVistoriaCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: AgendaVistoriaCreateManyPrefeituraInputEnvelope
+    connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+  }
+
+  export type AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<AuditoriaLogCreateWithoutPrefeituraInput, AuditoriaLogUncheckedCreateWithoutPrefeituraInput> | AuditoriaLogCreateWithoutPrefeituraInput[] | AuditoriaLogUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AuditoriaLogCreateOrConnectWithoutPrefeituraInput | AuditoriaLogCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: AuditoriaLogCreateManyPrefeituraInputEnvelope
+    connect?: AuditoriaLogWhereUniqueInput | AuditoriaLogWhereUniqueInput[]
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type PrefeituraUpdatemodulos_ativosInput = {
+    set?: $Enums.ModuloSistema[]
+    push?: $Enums.ModuloSistema | $Enums.ModuloSistema[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type ConfiguracaoSistemaUpdateOneWithoutPrefeituraNestedInput = {
+    create?: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
+    connectOrCreate?: ConfiguracaoSistemaCreateOrConnectWithoutPrefeituraInput
+    upsert?: ConfiguracaoSistemaUpsertWithoutPrefeituraInput
+    disconnect?: ConfiguracaoSistemaWhereInput | boolean
+    delete?: ConfiguracaoSistemaWhereInput | boolean
+    connect?: ConfiguracaoSistemaWhereUniqueInput
+    update?: XOR<XOR<ConfiguracaoSistemaUpdateToOneWithWhereWithoutPrefeituraInput, ConfiguracaoSistemaUpdateWithoutPrefeituraInput>, ConfiguracaoSistemaUncheckedUpdateWithoutPrefeituraInput>
+  }
+
+  export type UsuarioUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<UsuarioCreateWithoutPrefeituraInput, UsuarioUncheckedCreateWithoutPrefeituraInput> | UsuarioCreateWithoutPrefeituraInput[] | UsuarioUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: UsuarioCreateOrConnectWithoutPrefeituraInput | UsuarioCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: UsuarioUpsertWithWhereUniqueWithoutPrefeituraInput | UsuarioUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: UsuarioCreateManyPrefeituraInputEnvelope
+    set?: UsuarioWhereUniqueInput | UsuarioWhereUniqueInput[]
+    disconnect?: UsuarioWhereUniqueInput | UsuarioWhereUniqueInput[]
+    delete?: UsuarioWhereUniqueInput | UsuarioWhereUniqueInput[]
+    connect?: UsuarioWhereUniqueInput | UsuarioWhereUniqueInput[]
+    update?: UsuarioUpdateWithWhereUniqueWithoutPrefeituraInput | UsuarioUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: UsuarioUpdateManyWithWhereWithoutPrefeituraInput | UsuarioUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: UsuarioScalarWhereInput | UsuarioScalarWhereInput[]
+  }
+
+  export type PredioUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<PredioCreateWithoutPrefeituraInput, PredioUncheckedCreateWithoutPrefeituraInput> | PredioCreateWithoutPrefeituraInput[] | PredioUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: PredioCreateOrConnectWithoutPrefeituraInput | PredioCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: PredioUpsertWithWhereUniqueWithoutPrefeituraInput | PredioUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: PredioCreateManyPrefeituraInputEnvelope
+    set?: PredioWhereUniqueInput | PredioWhereUniqueInput[]
+    disconnect?: PredioWhereUniqueInput | PredioWhereUniqueInput[]
+    delete?: PredioWhereUniqueInput | PredioWhereUniqueInput[]
+    connect?: PredioWhereUniqueInput | PredioWhereUniqueInput[]
+    update?: PredioUpdateWithWhereUniqueWithoutPrefeituraInput | PredioUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: PredioUpdateManyWithWhereWithoutPrefeituraInput | PredioUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: PredioScalarWhereInput | PredioScalarWhereInput[]
+  }
+
+  export type OrdemServicoUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<OrdemServicoCreateWithoutPrefeituraInput, OrdemServicoUncheckedCreateWithoutPrefeituraInput> | OrdemServicoCreateWithoutPrefeituraInput[] | OrdemServicoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutPrefeituraInput | OrdemServicoCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: OrdemServicoUpsertWithWhereUniqueWithoutPrefeituraInput | OrdemServicoUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: OrdemServicoCreateManyPrefeituraInputEnvelope
+    set?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    disconnect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    delete?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    update?: OrdemServicoUpdateWithWhereUniqueWithoutPrefeituraInput | OrdemServicoUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: OrdemServicoUpdateManyWithWhereWithoutPrefeituraInput | OrdemServicoUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
+  }
+
+  export type ManifestacaoUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<ManifestacaoCreateWithoutPrefeituraInput, ManifestacaoUncheckedCreateWithoutPrefeituraInput> | ManifestacaoCreateWithoutPrefeituraInput[] | ManifestacaoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutPrefeituraInput | ManifestacaoCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: ManifestacaoUpsertWithWhereUniqueWithoutPrefeituraInput | ManifestacaoUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: ManifestacaoCreateManyPrefeituraInputEnvelope
+    set?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    disconnect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    delete?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    update?: ManifestacaoUpdateWithWhereUniqueWithoutPrefeituraInput | ManifestacaoUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: ManifestacaoUpdateManyWithWhereWithoutPrefeituraInput | ManifestacaoUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
+  }
+
+  export type AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<AgendaVistoriaCreateWithoutPrefeituraInput, AgendaVistoriaUncheckedCreateWithoutPrefeituraInput> | AgendaVistoriaCreateWithoutPrefeituraInput[] | AgendaVistoriaUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AgendaVistoriaCreateOrConnectWithoutPrefeituraInput | AgendaVistoriaCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: AgendaVistoriaUpsertWithWhereUniqueWithoutPrefeituraInput | AgendaVistoriaUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: AgendaVistoriaCreateManyPrefeituraInputEnvelope
+    set?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    disconnect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    delete?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    update?: AgendaVistoriaUpdateWithWhereUniqueWithoutPrefeituraInput | AgendaVistoriaUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: AgendaVistoriaUpdateManyWithWhereWithoutPrefeituraInput | AgendaVistoriaUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
+  }
+
+  export type AuditoriaLogUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<AuditoriaLogCreateWithoutPrefeituraInput, AuditoriaLogUncheckedCreateWithoutPrefeituraInput> | AuditoriaLogCreateWithoutPrefeituraInput[] | AuditoriaLogUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AuditoriaLogCreateOrConnectWithoutPrefeituraInput | AuditoriaLogCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: AuditoriaLogUpsertWithWhereUniqueWithoutPrefeituraInput | AuditoriaLogUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: AuditoriaLogCreateManyPrefeituraInputEnvelope
+    set?: AuditoriaLogWhereUniqueInput | AuditoriaLogWhereUniqueInput[]
+    disconnect?: AuditoriaLogWhereUniqueInput | AuditoriaLogWhereUniqueInput[]
+    delete?: AuditoriaLogWhereUniqueInput | AuditoriaLogWhereUniqueInput[]
+    connect?: AuditoriaLogWhereUniqueInput | AuditoriaLogWhereUniqueInput[]
+    update?: AuditoriaLogUpdateWithWhereUniqueWithoutPrefeituraInput | AuditoriaLogUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: AuditoriaLogUpdateManyWithWhereWithoutPrefeituraInput | AuditoriaLogUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: AuditoriaLogScalarWhereInput | AuditoriaLogScalarWhereInput[]
+  }
+
+  export type ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput = {
+    create?: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
+    connectOrCreate?: ConfiguracaoSistemaCreateOrConnectWithoutPrefeituraInput
+    upsert?: ConfiguracaoSistemaUpsertWithoutPrefeituraInput
+    disconnect?: ConfiguracaoSistemaWhereInput | boolean
+    delete?: ConfiguracaoSistemaWhereInput | boolean
+    connect?: ConfiguracaoSistemaWhereUniqueInput
+    update?: XOR<XOR<ConfiguracaoSistemaUpdateToOneWithWhereWithoutPrefeituraInput, ConfiguracaoSistemaUpdateWithoutPrefeituraInput>, ConfiguracaoSistemaUncheckedUpdateWithoutPrefeituraInput>
+  }
+
+  export type UsuarioUncheckedUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<UsuarioCreateWithoutPrefeituraInput, UsuarioUncheckedCreateWithoutPrefeituraInput> | UsuarioCreateWithoutPrefeituraInput[] | UsuarioUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: UsuarioCreateOrConnectWithoutPrefeituraInput | UsuarioCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: UsuarioUpsertWithWhereUniqueWithoutPrefeituraInput | UsuarioUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: UsuarioCreateManyPrefeituraInputEnvelope
+    set?: UsuarioWhereUniqueInput | UsuarioWhereUniqueInput[]
+    disconnect?: UsuarioWhereUniqueInput | UsuarioWhereUniqueInput[]
+    delete?: UsuarioWhereUniqueInput | UsuarioWhereUniqueInput[]
+    connect?: UsuarioWhereUniqueInput | UsuarioWhereUniqueInput[]
+    update?: UsuarioUpdateWithWhereUniqueWithoutPrefeituraInput | UsuarioUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: UsuarioUpdateManyWithWhereWithoutPrefeituraInput | UsuarioUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: UsuarioScalarWhereInput | UsuarioScalarWhereInput[]
+  }
+
+  export type PredioUncheckedUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<PredioCreateWithoutPrefeituraInput, PredioUncheckedCreateWithoutPrefeituraInput> | PredioCreateWithoutPrefeituraInput[] | PredioUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: PredioCreateOrConnectWithoutPrefeituraInput | PredioCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: PredioUpsertWithWhereUniqueWithoutPrefeituraInput | PredioUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: PredioCreateManyPrefeituraInputEnvelope
+    set?: PredioWhereUniqueInput | PredioWhereUniqueInput[]
+    disconnect?: PredioWhereUniqueInput | PredioWhereUniqueInput[]
+    delete?: PredioWhereUniqueInput | PredioWhereUniqueInput[]
+    connect?: PredioWhereUniqueInput | PredioWhereUniqueInput[]
+    update?: PredioUpdateWithWhereUniqueWithoutPrefeituraInput | PredioUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: PredioUpdateManyWithWhereWithoutPrefeituraInput | PredioUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: PredioScalarWhereInput | PredioScalarWhereInput[]
+  }
+
+  export type OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<OrdemServicoCreateWithoutPrefeituraInput, OrdemServicoUncheckedCreateWithoutPrefeituraInput> | OrdemServicoCreateWithoutPrefeituraInput[] | OrdemServicoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutPrefeituraInput | OrdemServicoCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: OrdemServicoUpsertWithWhereUniqueWithoutPrefeituraInput | OrdemServicoUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: OrdemServicoCreateManyPrefeituraInputEnvelope
+    set?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    disconnect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    delete?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    update?: OrdemServicoUpdateWithWhereUniqueWithoutPrefeituraInput | OrdemServicoUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: OrdemServicoUpdateManyWithWhereWithoutPrefeituraInput | OrdemServicoUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
+  }
+
+  export type ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<ManifestacaoCreateWithoutPrefeituraInput, ManifestacaoUncheckedCreateWithoutPrefeituraInput> | ManifestacaoCreateWithoutPrefeituraInput[] | ManifestacaoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: ManifestacaoCreateOrConnectWithoutPrefeituraInput | ManifestacaoCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: ManifestacaoUpsertWithWhereUniqueWithoutPrefeituraInput | ManifestacaoUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: ManifestacaoCreateManyPrefeituraInputEnvelope
+    set?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    disconnect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    delete?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+    update?: ManifestacaoUpdateWithWhereUniqueWithoutPrefeituraInput | ManifestacaoUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: ManifestacaoUpdateManyWithWhereWithoutPrefeituraInput | ManifestacaoUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
+  }
+
+  export type AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<AgendaVistoriaCreateWithoutPrefeituraInput, AgendaVistoriaUncheckedCreateWithoutPrefeituraInput> | AgendaVistoriaCreateWithoutPrefeituraInput[] | AgendaVistoriaUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AgendaVistoriaCreateOrConnectWithoutPrefeituraInput | AgendaVistoriaCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: AgendaVistoriaUpsertWithWhereUniqueWithoutPrefeituraInput | AgendaVistoriaUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: AgendaVistoriaCreateManyPrefeituraInputEnvelope
+    set?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    disconnect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    delete?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    update?: AgendaVistoriaUpdateWithWhereUniqueWithoutPrefeituraInput | AgendaVistoriaUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: AgendaVistoriaUpdateManyWithWhereWithoutPrefeituraInput | AgendaVistoriaUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
+  }
+
+  export type AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<AuditoriaLogCreateWithoutPrefeituraInput, AuditoriaLogUncheckedCreateWithoutPrefeituraInput> | AuditoriaLogCreateWithoutPrefeituraInput[] | AuditoriaLogUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AuditoriaLogCreateOrConnectWithoutPrefeituraInput | AuditoriaLogCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: AuditoriaLogUpsertWithWhereUniqueWithoutPrefeituraInput | AuditoriaLogUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: AuditoriaLogCreateManyPrefeituraInputEnvelope
+    set?: AuditoriaLogWhereUniqueInput | AuditoriaLogWhereUniqueInput[]
+    disconnect?: AuditoriaLogWhereUniqueInput | AuditoriaLogWhereUniqueInput[]
+    delete?: AuditoriaLogWhereUniqueInput | AuditoriaLogWhereUniqueInput[]
+    connect?: AuditoriaLogWhereUniqueInput | AuditoriaLogWhereUniqueInput[]
+    update?: AuditoriaLogUpdateWithWhereUniqueWithoutPrefeituraInput | AuditoriaLogUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: AuditoriaLogUpdateManyWithWhereWithoutPrefeituraInput | AuditoriaLogUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: AuditoriaLogScalarWhereInput | AuditoriaLogScalarWhereInput[]
+  }
+
+  export type PrefeituraCreateNestedOneWithoutUsuariosInput = {
+    create?: XOR<PrefeituraCreateWithoutUsuariosInput, PrefeituraUncheckedCreateWithoutUsuariosInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutUsuariosInput
+    connect?: PrefeituraWhereUniqueInput
   }
 
   export type PredioCreateNestedManyWithoutGestorInput = {
@@ -13836,20 +16405,8 @@ export namespace Prisma {
     connect?: AuditoriaLogWhereUniqueInput | AuditoriaLogWhereUniqueInput[]
   }
 
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
-  }
-
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -13860,8 +16417,14 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type PrefeituraUpdateOneWithoutUsuariosNestedInput = {
+    create?: XOR<PrefeituraCreateWithoutUsuariosInput, PrefeituraUncheckedCreateWithoutUsuariosInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutUsuariosInput
+    upsert?: PrefeituraUpsertWithoutUsuariosInput
+    disconnect?: PrefeituraWhereInput | boolean
+    delete?: PrefeituraWhereInput | boolean
+    connect?: PrefeituraWhereUniqueInput
+    update?: XOR<XOR<PrefeituraUpdateToOneWithWhereWithoutUsuariosInput, PrefeituraUpdateWithoutUsuariosInput>, PrefeituraUncheckedUpdateWithoutUsuariosInput>
   }
 
   export type PredioUpdateManyWithoutGestorNestedInput = {
@@ -14010,6 +16573,12 @@ export namespace Prisma {
     connect?: UsuarioWhereUniqueInput
   }
 
+  export type PrefeituraCreateNestedOneWithoutPrediosInput = {
+    create?: XOR<PrefeituraCreateWithoutPrediosInput, PrefeituraUncheckedCreateWithoutPrediosInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutPrediosInput
+    connect?: PrefeituraWhereUniqueInput
+  }
+
   export type OrdemServicoCreateNestedManyWithoutPredioInput = {
     create?: XOR<OrdemServicoCreateWithoutPredioInput, OrdemServicoUncheckedCreateWithoutPredioInput> | OrdemServicoCreateWithoutPredioInput[] | OrdemServicoUncheckedCreateWithoutPredioInput[]
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutPredioInput | OrdemServicoCreateOrConnectWithoutPredioInput[]
@@ -14080,6 +16649,16 @@ export namespace Prisma {
     delete?: UsuarioWhereInput | boolean
     connect?: UsuarioWhereUniqueInput
     update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutPredios_geridosInput, UsuarioUpdateWithoutPredios_geridosInput>, UsuarioUncheckedUpdateWithoutPredios_geridosInput>
+  }
+
+  export type PrefeituraUpdateOneWithoutPrediosNestedInput = {
+    create?: XOR<PrefeituraCreateWithoutPrediosInput, PrefeituraUncheckedCreateWithoutPrediosInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutPrediosInput
+    upsert?: PrefeituraUpsertWithoutPrediosInput
+    disconnect?: PrefeituraWhereInput | boolean
+    delete?: PrefeituraWhereInput | boolean
+    connect?: PrefeituraWhereUniqueInput
+    update?: XOR<XOR<PrefeituraUpdateToOneWithWhereWithoutPrediosInput, PrefeituraUpdateWithoutPrediosInput>, PrefeituraUncheckedUpdateWithoutPrediosInput>
   }
 
   export type OrdemServicoUpdateManyWithoutPredioNestedInput = {
@@ -14192,6 +16771,12 @@ export namespace Prisma {
     connect?: UsuarioWhereUniqueInput
   }
 
+  export type PrefeituraCreateNestedOneWithoutOrdens_servicoInput = {
+    create?: XOR<PrefeituraCreateWithoutOrdens_servicoInput, PrefeituraUncheckedCreateWithoutOrdens_servicoInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutOrdens_servicoInput
+    connect?: PrefeituraWhereUniqueInput
+  }
+
   export type OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput = {
     create?: XOR<OrdemServicoCreateWithoutOrdens_derivadasInput, OrdemServicoUncheckedCreateWithoutOrdens_derivadasInput>
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutOrdens_derivadasInput
@@ -14286,6 +16871,16 @@ export namespace Prisma {
     delete?: UsuarioWhereInput | boolean
     connect?: UsuarioWhereUniqueInput
     update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutChamados_atribuidosInput, UsuarioUpdateWithoutChamados_atribuidosInput>, UsuarioUncheckedUpdateWithoutChamados_atribuidosInput>
+  }
+
+  export type PrefeituraUpdateOneWithoutOrdens_servicoNestedInput = {
+    create?: XOR<PrefeituraCreateWithoutOrdens_servicoInput, PrefeituraUncheckedCreateWithoutOrdens_servicoInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutOrdens_servicoInput
+    upsert?: PrefeituraUpsertWithoutOrdens_servicoInput
+    disconnect?: PrefeituraWhereInput | boolean
+    delete?: PrefeituraWhereInput | boolean
+    connect?: PrefeituraWhereUniqueInput
+    update?: XOR<XOR<PrefeituraUpdateToOneWithWhereWithoutOrdens_servicoInput, PrefeituraUpdateWithoutOrdens_servicoInput>, PrefeituraUncheckedUpdateWithoutOrdens_servicoInput>
   }
 
   export type OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput = {
@@ -14388,6 +16983,12 @@ export namespace Prisma {
     connect?: UsuarioWhereUniqueInput
   }
 
+  export type PrefeituraCreateNestedOneWithoutAuditoriasInput = {
+    create?: XOR<PrefeituraCreateWithoutAuditoriasInput, PrefeituraUncheckedCreateWithoutAuditoriasInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutAuditoriasInput
+    connect?: PrefeituraWhereUniqueInput
+  }
+
   export type EnumAuditActionFieldUpdateOperationsInput = {
     set?: $Enums.AuditAction
   }
@@ -14398,6 +16999,16 @@ export namespace Prisma {
     upsert?: UsuarioUpsertWithoutAuditoriasInput
     connect?: UsuarioWhereUniqueInput
     update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutAuditoriasInput, UsuarioUpdateWithoutAuditoriasInput>, UsuarioUncheckedUpdateWithoutAuditoriasInput>
+  }
+
+  export type PrefeituraUpdateOneWithoutAuditoriasNestedInput = {
+    create?: XOR<PrefeituraCreateWithoutAuditoriasInput, PrefeituraUncheckedCreateWithoutAuditoriasInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutAuditoriasInput
+    upsert?: PrefeituraUpsertWithoutAuditoriasInput
+    disconnect?: PrefeituraWhereInput | boolean
+    delete?: PrefeituraWhereInput | boolean
+    connect?: PrefeituraWhereUniqueInput
+    update?: XOR<XOR<PrefeituraUpdateToOneWithWhereWithoutAuditoriasInput, PrefeituraUpdateWithoutAuditoriasInput>, PrefeituraUncheckedUpdateWithoutAuditoriasInput>
   }
 
   export type AgendaVistoriaCreatefotos_vistoriaInput = {
@@ -14414,6 +17025,12 @@ export namespace Prisma {
     create?: XOR<OrdemServicoCreateWithoutAgendamentosInput, OrdemServicoUncheckedCreateWithoutAgendamentosInput>
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutAgendamentosInput
     connect?: OrdemServicoWhereUniqueInput
+  }
+
+  export type PrefeituraCreateNestedOneWithoutVistoriasInput = {
+    create?: XOR<PrefeituraCreateWithoutVistoriasInput, PrefeituraUncheckedCreateWithoutVistoriasInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutVistoriasInput
+    connect?: PrefeituraWhereUniqueInput
   }
 
   export type AgendaVistoriaUpdatefotos_vistoriaInput = {
@@ -14441,6 +17058,32 @@ export namespace Prisma {
     update?: XOR<XOR<OrdemServicoUpdateToOneWithWhereWithoutAgendamentosInput, OrdemServicoUpdateWithoutAgendamentosInput>, OrdemServicoUncheckedUpdateWithoutAgendamentosInput>
   }
 
+  export type PrefeituraUpdateOneWithoutVistoriasNestedInput = {
+    create?: XOR<PrefeituraCreateWithoutVistoriasInput, PrefeituraUncheckedCreateWithoutVistoriasInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutVistoriasInput
+    upsert?: PrefeituraUpsertWithoutVistoriasInput
+    disconnect?: PrefeituraWhereInput | boolean
+    delete?: PrefeituraWhereInput | boolean
+    connect?: PrefeituraWhereUniqueInput
+    update?: XOR<XOR<PrefeituraUpdateToOneWithWhereWithoutVistoriasInput, PrefeituraUpdateWithoutVistoriasInput>, PrefeituraUncheckedUpdateWithoutVistoriasInput>
+  }
+
+  export type PrefeituraCreateNestedOneWithoutConfiguracaoInput = {
+    create?: XOR<PrefeituraCreateWithoutConfiguracaoInput, PrefeituraUncheckedCreateWithoutConfiguracaoInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutConfiguracaoInput
+    connect?: PrefeituraWhereUniqueInput
+  }
+
+  export type PrefeituraUpdateOneWithoutConfiguracaoNestedInput = {
+    create?: XOR<PrefeituraCreateWithoutConfiguracaoInput, PrefeituraUncheckedCreateWithoutConfiguracaoInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutConfiguracaoInput
+    upsert?: PrefeituraUpsertWithoutConfiguracaoInput
+    disconnect?: PrefeituraWhereInput | boolean
+    delete?: PrefeituraWhereInput | boolean
+    connect?: PrefeituraWhereUniqueInput
+    update?: XOR<XOR<PrefeituraUpdateToOneWithWhereWithoutConfiguracaoInput, PrefeituraUpdateWithoutConfiguracaoInput>, PrefeituraUncheckedUpdateWithoutConfiguracaoInput>
+  }
+
   export type PredioCreateNestedOneWithoutManifestacoesInput = {
     create?: XOR<PredioCreateWithoutManifestacoesInput, PredioUncheckedCreateWithoutManifestacoesInput>
     connectOrCreate?: PredioCreateOrConnectWithoutManifestacoesInput
@@ -14457,6 +17100,12 @@ export namespace Prisma {
     create?: XOR<OrdemServicoCreateWithoutManifestacoes_origemInput, OrdemServicoUncheckedCreateWithoutManifestacoes_origemInput>
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutManifestacoes_origemInput
     connect?: OrdemServicoWhereUniqueInput
+  }
+
+  export type PrefeituraCreateNestedOneWithoutManifestacoesInput = {
+    create?: XOR<PrefeituraCreateWithoutManifestacoesInput, PrefeituraUncheckedCreateWithoutManifestacoesInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutManifestacoesInput
+    connect?: PrefeituraWhereUniqueInput
   }
 
   export type EnumTipoManifestacaoFieldUpdateOperationsInput = {
@@ -14497,6 +17146,16 @@ export namespace Prisma {
     update?: XOR<XOR<OrdemServicoUpdateToOneWithWhereWithoutManifestacoes_origemInput, OrdemServicoUpdateWithoutManifestacoes_origemInput>, OrdemServicoUncheckedUpdateWithoutManifestacoes_origemInput>
   }
 
+  export type PrefeituraUpdateOneWithoutManifestacoesNestedInput = {
+    create?: XOR<PrefeituraCreateWithoutManifestacoesInput, PrefeituraUncheckedCreateWithoutManifestacoesInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutManifestacoesInput
+    upsert?: PrefeituraUpsertWithoutManifestacoesInput
+    disconnect?: PrefeituraWhereInput | boolean
+    delete?: PrefeituraWhereInput | boolean
+    connect?: PrefeituraWhereUniqueInput
+    update?: XOR<XOR<PrefeituraUpdateToOneWithWhereWithoutManifestacoesInput, PrefeituraUpdateWithoutManifestacoesInput>, PrefeituraUncheckedUpdateWithoutManifestacoesInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -14509,13 +17168,6 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringFilter<$PrismaModel> | string
-  }
-
-  export type NestedEnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -14535,17 +17187,6 @@ export namespace Prisma {
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -14576,14 +17217,15 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -14621,6 +17263,60 @@ export namespace Prisma {
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
+  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
@@ -14647,20 +17343,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedEnumTipoPredioFilter<$PrismaModel = never> = {
@@ -14781,29 +17463,6 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
-  export type NestedJsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type NestedEnumAuditActionFilter<$PrismaModel = never> = {
     equals?: $Enums.AuditAction | EnumAuditActionFieldRefInput<$PrismaModel>
@@ -14856,6 +17515,691 @@ export namespace Prisma {
     _max?: NestedEnumStatusManifestacaoFilter<$PrismaModel>
   }
 
+  export type ConfiguracaoSistemaCreateWithoutPrefeituraInput = {
+    id?: string
+    prefeitura_nome?: string
+    secretaria_nome?: string
+    gestor_nome?: string
+    gestor_cargo?: string
+    gestor_email?: string
+    gestor_telefone?: string
+    sla_urgente_h?: number
+    sla_alta_h?: number
+    sla_media_h?: number
+    sla_baixa_h?: number
+    mttr_alert_h?: number
+    preventiva_goal?: number
+    sound_alerts?: boolean
+    push_notif?: boolean
+    whatsapp_alerts?: boolean
+    auto_dispatch?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput = {
+    id?: string
+    prefeitura_nome?: string
+    secretaria_nome?: string
+    gestor_nome?: string
+    gestor_cargo?: string
+    gestor_email?: string
+    gestor_telefone?: string
+    sla_urgente_h?: number
+    sla_alta_h?: number
+    sla_media_h?: number
+    sla_baixa_h?: number
+    mttr_alert_h?: number
+    preventiva_goal?: number
+    sound_alerts?: boolean
+    push_notif?: boolean
+    whatsapp_alerts?: boolean
+    auto_dispatch?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type ConfiguracaoSistemaCreateOrConnectWithoutPrefeituraInput = {
+    where: ConfiguracaoSistemaWhereUniqueInput
+    create: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type UsuarioCreateWithoutPrefeituraInput = {
+    id?: string
+    nome: string
+    email: string
+    senha_hash: string
+    role?: $Enums.Role
+    especialidade?: string | null
+    telefone?: string | null
+    ativo?: boolean
+    token_version?: number
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predios_geridos?: PredioCreateNestedManyWithoutGestorInput
+    chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
+    chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
+    manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutPrefeituraInput = {
+    id?: string
+    nome: string
+    email: string
+    senha_hash: string
+    role?: $Enums.Role
+    especialidade?: string | null
+    telefone?: string | null
+    ativo?: boolean
+    token_version?: number
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
+    chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
+    chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutPrefeituraInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutPrefeituraInput, UsuarioUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type UsuarioCreateManyPrefeituraInputEnvelope = {
+    data: UsuarioCreateManyPrefeituraInput | UsuarioCreateManyPrefeituraInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PredioCreateWithoutPrefeituraInput = {
+    id?: string
+    nome: string
+    tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
+    endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    gestor?: UsuarioCreateNestedOneWithoutPredios_geridosInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPredioInput
+  }
+
+  export type PredioUncheckedCreateWithoutPrefeituraInput = {
+    id?: string
+    nome: string
+    tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
+    endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
+    gestor_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPredioInput
+  }
+
+  export type PredioCreateOrConnectWithoutPrefeituraInput = {
+    where: PredioWhereUniqueInput
+    create: XOR<PredioCreateWithoutPrefeituraInput, PredioUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type PredioCreateManyPrefeituraInputEnvelope = {
+    data: PredioCreateManyPrefeituraInput | PredioCreateManyPrefeituraInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OrdemServicoCreateWithoutPrefeituraInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
+    tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
+    ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
+    agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
+  }
+
+  export type OrdemServicoUncheckedCreateWithoutPrefeituraInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    predio_id: string
+    solicitante_id: string
+    tecnico_atribuido_id?: string | null
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    ordem_vinculada_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
+    agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
+  }
+
+  export type OrdemServicoCreateOrConnectWithoutPrefeituraInput = {
+    where: OrdemServicoWhereUniqueInput
+    create: XOR<OrdemServicoCreateWithoutPrefeituraInput, OrdemServicoUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type OrdemServicoCreateManyPrefeituraInputEnvelope = {
+    data: OrdemServicoCreateManyPrefeituraInput | OrdemServicoCreateManyPrefeituraInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ManifestacaoCreateWithoutPrefeituraInput = {
+    id?: string
+    protocolo?: string
+    tipo?: $Enums.TipoManifestacao
+    categoria?: string
+    descricao: string
+    local_referencia?: string | null
+    bairro?: string | null
+    anonimo?: boolean
+    manifestante_nome?: string | null
+    manifestante_email?: string | null
+    manifestante_telefone?: string | null
+    status?: $Enums.StatusManifestacao
+    resposta_oficial?: string | null
+    respondido_em?: Date | string | null
+    motivo_arquivamento?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio?: PredioCreateNestedOneWithoutManifestacoesInput
+    respondido_por?: UsuarioCreateNestedOneWithoutManifestacoes_respondidasInput
+    ordem_servico?: OrdemServicoCreateNestedOneWithoutManifestacoes_origemInput
+  }
+
+  export type ManifestacaoUncheckedCreateWithoutPrefeituraInput = {
+    id?: string
+    protocolo?: string
+    tipo?: $Enums.TipoManifestacao
+    categoria?: string
+    descricao: string
+    predio_id?: string | null
+    local_referencia?: string | null
+    bairro?: string | null
+    anonimo?: boolean
+    manifestante_nome?: string | null
+    manifestante_email?: string | null
+    manifestante_telefone?: string | null
+    status?: $Enums.StatusManifestacao
+    resposta_oficial?: string | null
+    respondido_em?: Date | string | null
+    respondido_por_id?: string | null
+    motivo_arquivamento?: string | null
+    ordem_servico_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type ManifestacaoCreateOrConnectWithoutPrefeituraInput = {
+    where: ManifestacaoWhereUniqueInput
+    create: XOR<ManifestacaoCreateWithoutPrefeituraInput, ManifestacaoUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type ManifestacaoCreateManyPrefeituraInputEnvelope = {
+    data: ManifestacaoCreateManyPrefeituraInput | ManifestacaoCreateManyPrefeituraInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AgendaVistoriaCreateWithoutPrefeituraInput = {
+    id?: string
+    titulo: string
+    subtitulo: string
+    horario: string
+    data_agendada?: Date | string | null
+    tipo?: string
+    recorrencia?: string | null
+    concluido?: boolean
+    tecnico?: string | null
+    tecnico_id?: string | null
+    laudo_tecnico?: string | null
+    fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio?: PredioCreateNestedOneWithoutVistoriasInput
+    ordem_servico?: OrdemServicoCreateNestedOneWithoutAgendamentosInput
+  }
+
+  export type AgendaVistoriaUncheckedCreateWithoutPrefeituraInput = {
+    id?: string
+    titulo: string
+    subtitulo: string
+    horario: string
+    data_agendada?: Date | string | null
+    tipo?: string
+    recorrencia?: string | null
+    concluido?: boolean
+    tecnico?: string | null
+    tecnico_id?: string | null
+    predio_id?: string | null
+    laudo_tecnico?: string | null
+    fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    ordem_servico_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type AgendaVistoriaCreateOrConnectWithoutPrefeituraInput = {
+    where: AgendaVistoriaWhereUniqueInput
+    create: XOR<AgendaVistoriaCreateWithoutPrefeituraInput, AgendaVistoriaUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type AgendaVistoriaCreateManyPrefeituraInputEnvelope = {
+    data: AgendaVistoriaCreateManyPrefeituraInput | AgendaVistoriaCreateManyPrefeituraInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AuditoriaLogCreateWithoutPrefeituraInput = {
+    id?: string
+    entidade_afetada: string
+    entidade_id: string
+    acao: $Enums.AuditAction
+    dados_antigos?: NullableJsonNullValueInput | InputJsonValue
+    dados_novos?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutAuditoriasInput
+  }
+
+  export type AuditoriaLogUncheckedCreateWithoutPrefeituraInput = {
+    id?: string
+    entidade_afetada: string
+    entidade_id: string
+    acao: $Enums.AuditAction
+    usuario_id: string
+    dados_antigos?: NullableJsonNullValueInput | InputJsonValue
+    dados_novos?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+  }
+
+  export type AuditoriaLogCreateOrConnectWithoutPrefeituraInput = {
+    where: AuditoriaLogWhereUniqueInput
+    create: XOR<AuditoriaLogCreateWithoutPrefeituraInput, AuditoriaLogUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type AuditoriaLogCreateManyPrefeituraInputEnvelope = {
+    data: AuditoriaLogCreateManyPrefeituraInput | AuditoriaLogCreateManyPrefeituraInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConfiguracaoSistemaUpsertWithoutPrefeituraInput = {
+    update: XOR<ConfiguracaoSistemaUpdateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedUpdateWithoutPrefeituraInput>
+    create: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
+    where?: ConfiguracaoSistemaWhereInput
+  }
+
+  export type ConfiguracaoSistemaUpdateToOneWithWhereWithoutPrefeituraInput = {
+    where?: ConfiguracaoSistemaWhereInput
+    data: XOR<ConfiguracaoSistemaUpdateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedUpdateWithoutPrefeituraInput>
+  }
+
+  export type ConfiguracaoSistemaUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    prefeitura_nome?: StringFieldUpdateOperationsInput | string
+    secretaria_nome?: StringFieldUpdateOperationsInput | string
+    gestor_nome?: StringFieldUpdateOperationsInput | string
+    gestor_cargo?: StringFieldUpdateOperationsInput | string
+    gestor_email?: StringFieldUpdateOperationsInput | string
+    gestor_telefone?: StringFieldUpdateOperationsInput | string
+    sla_urgente_h?: IntFieldUpdateOperationsInput | number
+    sla_alta_h?: IntFieldUpdateOperationsInput | number
+    sla_media_h?: IntFieldUpdateOperationsInput | number
+    sla_baixa_h?: IntFieldUpdateOperationsInput | number
+    mttr_alert_h?: IntFieldUpdateOperationsInput | number
+    preventiva_goal?: IntFieldUpdateOperationsInput | number
+    sound_alerts?: BoolFieldUpdateOperationsInput | boolean
+    push_notif?: BoolFieldUpdateOperationsInput | boolean
+    whatsapp_alerts?: BoolFieldUpdateOperationsInput | boolean
+    auto_dispatch?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConfiguracaoSistemaUncheckedUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    prefeitura_nome?: StringFieldUpdateOperationsInput | string
+    secretaria_nome?: StringFieldUpdateOperationsInput | string
+    gestor_nome?: StringFieldUpdateOperationsInput | string
+    gestor_cargo?: StringFieldUpdateOperationsInput | string
+    gestor_email?: StringFieldUpdateOperationsInput | string
+    gestor_telefone?: StringFieldUpdateOperationsInput | string
+    sla_urgente_h?: IntFieldUpdateOperationsInput | number
+    sla_alta_h?: IntFieldUpdateOperationsInput | number
+    sla_media_h?: IntFieldUpdateOperationsInput | number
+    sla_baixa_h?: IntFieldUpdateOperationsInput | number
+    mttr_alert_h?: IntFieldUpdateOperationsInput | number
+    preventiva_goal?: IntFieldUpdateOperationsInput | number
+    sound_alerts?: BoolFieldUpdateOperationsInput | boolean
+    push_notif?: BoolFieldUpdateOperationsInput | boolean
+    whatsapp_alerts?: BoolFieldUpdateOperationsInput | boolean
+    auto_dispatch?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UsuarioUpsertWithWhereUniqueWithoutPrefeituraInput = {
+    where: UsuarioWhereUniqueInput
+    update: XOR<UsuarioUpdateWithoutPrefeituraInput, UsuarioUncheckedUpdateWithoutPrefeituraInput>
+    create: XOR<UsuarioCreateWithoutPrefeituraInput, UsuarioUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type UsuarioUpdateWithWhereUniqueWithoutPrefeituraInput = {
+    where: UsuarioWhereUniqueInput
+    data: XOR<UsuarioUpdateWithoutPrefeituraInput, UsuarioUncheckedUpdateWithoutPrefeituraInput>
+  }
+
+  export type UsuarioUpdateManyWithWhereWithoutPrefeituraInput = {
+    where: UsuarioScalarWhereInput
+    data: XOR<UsuarioUpdateManyMutationInput, UsuarioUncheckedUpdateManyWithoutPrefeituraInput>
+  }
+
+  export type UsuarioScalarWhereInput = {
+    AND?: UsuarioScalarWhereInput | UsuarioScalarWhereInput[]
+    OR?: UsuarioScalarWhereInput[]
+    NOT?: UsuarioScalarWhereInput | UsuarioScalarWhereInput[]
+    id?: StringFilter<"Usuario"> | string
+    nome?: StringFilter<"Usuario"> | string
+    email?: StringFilter<"Usuario"> | string
+    senha_hash?: StringFilter<"Usuario"> | string
+    role?: EnumRoleFilter<"Usuario"> | $Enums.Role
+    especialidade?: StringNullableFilter<"Usuario"> | string | null
+    telefone?: StringNullableFilter<"Usuario"> | string | null
+    ativo?: BoolFilter<"Usuario"> | boolean
+    token_version?: IntFilter<"Usuario"> | number
+    criado_em?: DateTimeFilter<"Usuario"> | Date | string
+    atualizado?: DateTimeFilter<"Usuario"> | Date | string
+    prefeitura_id?: StringNullableFilter<"Usuario"> | string | null
+  }
+
+  export type PredioUpsertWithWhereUniqueWithoutPrefeituraInput = {
+    where: PredioWhereUniqueInput
+    update: XOR<PredioUpdateWithoutPrefeituraInput, PredioUncheckedUpdateWithoutPrefeituraInput>
+    create: XOR<PredioCreateWithoutPrefeituraInput, PredioUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type PredioUpdateWithWhereUniqueWithoutPrefeituraInput = {
+    where: PredioWhereUniqueInput
+    data: XOR<PredioUpdateWithoutPrefeituraInput, PredioUncheckedUpdateWithoutPrefeituraInput>
+  }
+
+  export type PredioUpdateManyWithWhereWithoutPrefeituraInput = {
+    where: PredioScalarWhereInput
+    data: XOR<PredioUpdateManyMutationInput, PredioUncheckedUpdateManyWithoutPrefeituraInput>
+  }
+
+  export type PredioScalarWhereInput = {
+    AND?: PredioScalarWhereInput | PredioScalarWhereInput[]
+    OR?: PredioScalarWhereInput[]
+    NOT?: PredioScalarWhereInput | PredioScalarWhereInput[]
+    id?: StringFilter<"Predio"> | string
+    nome?: StringFilter<"Predio"> | string
+    tipo?: EnumTipoPredioFilter<"Predio"> | $Enums.TipoPredio
+    setor?: StringNullableFilter<"Predio"> | string | null
+    porte?: StringNullableFilter<"Predio"> | string | null
+    capacidade?: IntNullableFilter<"Predio"> | number | null
+    endereco?: StringFilter<"Predio"> | string
+    latitude?: FloatNullableFilter<"Predio"> | number | null
+    longitude?: FloatNullableFilter<"Predio"> | number | null
+    ativo?: BoolFilter<"Predio"> | boolean
+    motivo_desativacao?: StringNullableFilter<"Predio"> | string | null
+    gestor_id?: StringNullableFilter<"Predio"> | string | null
+    criado_em?: DateTimeFilter<"Predio"> | Date | string
+    atualizado?: DateTimeFilter<"Predio"> | Date | string
+    prefeitura_id?: StringNullableFilter<"Predio"> | string | null
+  }
+
+  export type OrdemServicoUpsertWithWhereUniqueWithoutPrefeituraInput = {
+    where: OrdemServicoWhereUniqueInput
+    update: XOR<OrdemServicoUpdateWithoutPrefeituraInput, OrdemServicoUncheckedUpdateWithoutPrefeituraInput>
+    create: XOR<OrdemServicoCreateWithoutPrefeituraInput, OrdemServicoUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type OrdemServicoUpdateWithWhereUniqueWithoutPrefeituraInput = {
+    where: OrdemServicoWhereUniqueInput
+    data: XOR<OrdemServicoUpdateWithoutPrefeituraInput, OrdemServicoUncheckedUpdateWithoutPrefeituraInput>
+  }
+
+  export type OrdemServicoUpdateManyWithWhereWithoutPrefeituraInput = {
+    where: OrdemServicoScalarWhereInput
+    data: XOR<OrdemServicoUpdateManyMutationInput, OrdemServicoUncheckedUpdateManyWithoutPrefeituraInput>
+  }
+
+  export type OrdemServicoScalarWhereInput = {
+    AND?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
+    OR?: OrdemServicoScalarWhereInput[]
+    NOT?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
+    id?: StringFilter<"OrdemServico"> | string
+    codigo?: StringFilter<"OrdemServico"> | string
+    titulo?: StringFilter<"OrdemServico"> | string
+    descricao?: StringFilter<"OrdemServico"> | string
+    categoria?: StringNullableFilter<"OrdemServico"> | string | null
+    prioridade?: EnumPrioridadeFilter<"OrdemServico"> | $Enums.Prioridade
+    status?: EnumStatusOSFilter<"OrdemServico"> | $Enums.StatusOS
+    predio_id?: StringFilter<"OrdemServico"> | string
+    solicitante_id?: StringFilter<"OrdemServico"> | string
+    tecnico_atribuido_id?: StringNullableFilter<"OrdemServico"> | string | null
+    fotos?: StringNullableListFilter<"OrdemServico">
+    fotos_conclusao?: StringNullableListFilter<"OrdemServico">
+    motivo_pausa?: StringNullableFilter<"OrdemServico"> | string | null
+    motivo_cancelamento?: StringNullableFilter<"OrdemServico"> | string | null
+    data_limite_sla?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    iniciado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    concluido_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    pausado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    tempo_pausa_minutos?: IntFilter<"OrdemServico"> | number
+    historico_pausas?: JsonNullableFilter<"OrdemServico">
+    sla_violado?: BoolFilter<"OrdemServico"> | boolean
+    motivo_violacao_sla?: StringNullableFilter<"OrdemServico"> | string | null
+    prefeitura_id?: StringNullableFilter<"OrdemServico"> | string | null
+    ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
+    criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
+    atualizado?: DateTimeFilter<"OrdemServico"> | Date | string
+  }
+
+  export type ManifestacaoUpsertWithWhereUniqueWithoutPrefeituraInput = {
+    where: ManifestacaoWhereUniqueInput
+    update: XOR<ManifestacaoUpdateWithoutPrefeituraInput, ManifestacaoUncheckedUpdateWithoutPrefeituraInput>
+    create: XOR<ManifestacaoCreateWithoutPrefeituraInput, ManifestacaoUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type ManifestacaoUpdateWithWhereUniqueWithoutPrefeituraInput = {
+    where: ManifestacaoWhereUniqueInput
+    data: XOR<ManifestacaoUpdateWithoutPrefeituraInput, ManifestacaoUncheckedUpdateWithoutPrefeituraInput>
+  }
+
+  export type ManifestacaoUpdateManyWithWhereWithoutPrefeituraInput = {
+    where: ManifestacaoScalarWhereInput
+    data: XOR<ManifestacaoUpdateManyMutationInput, ManifestacaoUncheckedUpdateManyWithoutPrefeituraInput>
+  }
+
+  export type ManifestacaoScalarWhereInput = {
+    AND?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
+    OR?: ManifestacaoScalarWhereInput[]
+    NOT?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
+    id?: StringFilter<"Manifestacao"> | string
+    protocolo?: StringFilter<"Manifestacao"> | string
+    tipo?: EnumTipoManifestacaoFilter<"Manifestacao"> | $Enums.TipoManifestacao
+    categoria?: StringFilter<"Manifestacao"> | string
+    descricao?: StringFilter<"Manifestacao"> | string
+    predio_id?: StringNullableFilter<"Manifestacao"> | string | null
+    local_referencia?: StringNullableFilter<"Manifestacao"> | string | null
+    bairro?: StringNullableFilter<"Manifestacao"> | string | null
+    anonimo?: BoolFilter<"Manifestacao"> | boolean
+    manifestante_nome?: StringNullableFilter<"Manifestacao"> | string | null
+    manifestante_email?: StringNullableFilter<"Manifestacao"> | string | null
+    manifestante_telefone?: StringNullableFilter<"Manifestacao"> | string | null
+    status?: EnumStatusManifestacaoFilter<"Manifestacao"> | $Enums.StatusManifestacao
+    resposta_oficial?: StringNullableFilter<"Manifestacao"> | string | null
+    respondido_em?: DateTimeNullableFilter<"Manifestacao"> | Date | string | null
+    respondido_por_id?: StringNullableFilter<"Manifestacao"> | string | null
+    motivo_arquivamento?: StringNullableFilter<"Manifestacao"> | string | null
+    ordem_servico_id?: StringNullableFilter<"Manifestacao"> | string | null
+    prefeitura_id?: StringNullableFilter<"Manifestacao"> | string | null
+    criado_em?: DateTimeFilter<"Manifestacao"> | Date | string
+    atualizado?: DateTimeFilter<"Manifestacao"> | Date | string
+  }
+
+  export type AgendaVistoriaUpsertWithWhereUniqueWithoutPrefeituraInput = {
+    where: AgendaVistoriaWhereUniqueInput
+    update: XOR<AgendaVistoriaUpdateWithoutPrefeituraInput, AgendaVistoriaUncheckedUpdateWithoutPrefeituraInput>
+    create: XOR<AgendaVistoriaCreateWithoutPrefeituraInput, AgendaVistoriaUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type AgendaVistoriaUpdateWithWhereUniqueWithoutPrefeituraInput = {
+    where: AgendaVistoriaWhereUniqueInput
+    data: XOR<AgendaVistoriaUpdateWithoutPrefeituraInput, AgendaVistoriaUncheckedUpdateWithoutPrefeituraInput>
+  }
+
+  export type AgendaVistoriaUpdateManyWithWhereWithoutPrefeituraInput = {
+    where: AgendaVistoriaScalarWhereInput
+    data: XOR<AgendaVistoriaUpdateManyMutationInput, AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraInput>
+  }
+
+  export type AgendaVistoriaScalarWhereInput = {
+    AND?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
+    OR?: AgendaVistoriaScalarWhereInput[]
+    NOT?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
+    id?: StringFilter<"AgendaVistoria"> | string
+    titulo?: StringFilter<"AgendaVistoria"> | string
+    subtitulo?: StringFilter<"AgendaVistoria"> | string
+    horario?: StringFilter<"AgendaVistoria"> | string
+    data_agendada?: DateTimeNullableFilter<"AgendaVistoria"> | Date | string | null
+    tipo?: StringFilter<"AgendaVistoria"> | string
+    recorrencia?: StringNullableFilter<"AgendaVistoria"> | string | null
+    concluido?: BoolFilter<"AgendaVistoria"> | boolean
+    tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
+    tecnico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    predio_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    laudo_tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
+    fotos_vistoria?: StringNullableListFilter<"AgendaVistoria">
+    ordem_servico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    prefeitura_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    criado_em?: DateTimeFilter<"AgendaVistoria"> | Date | string
+    atualizado?: DateTimeFilter<"AgendaVistoria"> | Date | string
+  }
+
+  export type AuditoriaLogUpsertWithWhereUniqueWithoutPrefeituraInput = {
+    where: AuditoriaLogWhereUniqueInput
+    update: XOR<AuditoriaLogUpdateWithoutPrefeituraInput, AuditoriaLogUncheckedUpdateWithoutPrefeituraInput>
+    create: XOR<AuditoriaLogCreateWithoutPrefeituraInput, AuditoriaLogUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type AuditoriaLogUpdateWithWhereUniqueWithoutPrefeituraInput = {
+    where: AuditoriaLogWhereUniqueInput
+    data: XOR<AuditoriaLogUpdateWithoutPrefeituraInput, AuditoriaLogUncheckedUpdateWithoutPrefeituraInput>
+  }
+
+  export type AuditoriaLogUpdateManyWithWhereWithoutPrefeituraInput = {
+    where: AuditoriaLogScalarWhereInput
+    data: XOR<AuditoriaLogUpdateManyMutationInput, AuditoriaLogUncheckedUpdateManyWithoutPrefeituraInput>
+  }
+
+  export type AuditoriaLogScalarWhereInput = {
+    AND?: AuditoriaLogScalarWhereInput | AuditoriaLogScalarWhereInput[]
+    OR?: AuditoriaLogScalarWhereInput[]
+    NOT?: AuditoriaLogScalarWhereInput | AuditoriaLogScalarWhereInput[]
+    id?: StringFilter<"AuditoriaLog"> | string
+    entidade_afetada?: StringFilter<"AuditoriaLog"> | string
+    entidade_id?: StringFilter<"AuditoriaLog"> | string
+    acao?: EnumAuditActionFilter<"AuditoriaLog"> | $Enums.AuditAction
+    usuario_id?: StringFilter<"AuditoriaLog"> | string
+    prefeitura_id?: StringNullableFilter<"AuditoriaLog"> | string | null
+    dados_antigos?: JsonNullableFilter<"AuditoriaLog">
+    dados_novos?: JsonNullableFilter<"AuditoriaLog">
+    criado_em?: DateTimeFilter<"AuditoriaLog"> | Date | string
+  }
+
+  export type PrefeituraCreateWithoutUsuariosInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaCreateNestedOneWithoutPrefeituraInput
+    predios?: PredioCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraUncheckedCreateWithoutUsuariosInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput
+    predios?: PredioUncheckedCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraCreateOrConnectWithoutUsuariosInput = {
+    where: PrefeituraWhereUniqueInput
+    create: XOR<PrefeituraCreateWithoutUsuariosInput, PrefeituraUncheckedCreateWithoutUsuariosInput>
+  }
+
   export type PredioCreateWithoutGestorInput = {
     id?: string
     nome: string
@@ -14870,6 +18214,7 @@ export namespace Prisma {
     motivo_desativacao?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutPrediosInput
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPredioInput
@@ -14889,6 +18234,7 @@ export namespace Prisma {
     motivo_desativacao?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura_id?: string | null
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPredioInput
@@ -14928,6 +18274,7 @@ export namespace Prisma {
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
@@ -14956,6 +18303,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -14998,6 +18346,7 @@ export namespace Prisma {
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
@@ -15026,6 +18375,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -15064,6 +18414,7 @@ export namespace Prisma {
     atualizado?: Date | string
     predio?: PredioCreateNestedOneWithoutManifestacoesInput
     ordem_servico?: OrdemServicoCreateNestedOneWithoutManifestacoes_origemInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutManifestacoesInput
   }
 
   export type ManifestacaoUncheckedCreateWithoutRespondido_porInput = {
@@ -15084,6 +18435,7 @@ export namespace Prisma {
     respondido_em?: Date | string | null
     motivo_arquivamento?: string | null
     ordem_servico_id?: string | null
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -15106,6 +18458,7 @@ export namespace Prisma {
     dados_antigos?: NullableJsonNullValueInput | InputJsonValue
     dados_novos?: NullableJsonNullValueInput | InputJsonValue
     criado_em?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutAuditoriasInput
   }
 
   export type AuditoriaLogUncheckedCreateWithoutUsuarioInput = {
@@ -15113,6 +18466,7 @@ export namespace Prisma {
     entidade_afetada: string
     entidade_id: string
     acao: $Enums.AuditAction
+    prefeitura_id?: string | null
     dados_antigos?: NullableJsonNullValueInput | InputJsonValue
     dados_novos?: NullableJsonNullValueInput | InputJsonValue
     criado_em?: Date | string
@@ -15126,6 +18480,55 @@ export namespace Prisma {
   export type AuditoriaLogCreateManyUsuarioInputEnvelope = {
     data: AuditoriaLogCreateManyUsuarioInput | AuditoriaLogCreateManyUsuarioInput[]
     skipDuplicates?: boolean
+  }
+
+  export type PrefeituraUpsertWithoutUsuariosInput = {
+    update: XOR<PrefeituraUpdateWithoutUsuariosInput, PrefeituraUncheckedUpdateWithoutUsuariosInput>
+    create: XOR<PrefeituraCreateWithoutUsuariosInput, PrefeituraUncheckedCreateWithoutUsuariosInput>
+    where?: PrefeituraWhereInput
+  }
+
+  export type PrefeituraUpdateToOneWithWhereWithoutUsuariosInput = {
+    where?: PrefeituraWhereInput
+    data: XOR<PrefeituraUpdateWithoutUsuariosInput, PrefeituraUncheckedUpdateWithoutUsuariosInput>
+  }
+
+  export type PrefeituraUpdateWithoutUsuariosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUpdateOneWithoutPrefeituraNestedInput
+    predios?: PredioUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraUncheckedUpdateWithoutUsuariosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput
+    predios?: PredioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioUpsertWithWhereUniqueWithoutGestorInput = {
@@ -15144,26 +18547,6 @@ export namespace Prisma {
     data: XOR<PredioUpdateManyMutationInput, PredioUncheckedUpdateManyWithoutGestorInput>
   }
 
-  export type PredioScalarWhereInput = {
-    AND?: PredioScalarWhereInput | PredioScalarWhereInput[]
-    OR?: PredioScalarWhereInput[]
-    NOT?: PredioScalarWhereInput | PredioScalarWhereInput[]
-    id?: StringFilter<"Predio"> | string
-    nome?: StringFilter<"Predio"> | string
-    tipo?: EnumTipoPredioFilter<"Predio"> | $Enums.TipoPredio
-    setor?: StringNullableFilter<"Predio"> | string | null
-    porte?: StringNullableFilter<"Predio"> | string | null
-    capacidade?: IntNullableFilter<"Predio"> | number | null
-    endereco?: StringFilter<"Predio"> | string
-    latitude?: FloatNullableFilter<"Predio"> | number | null
-    longitude?: FloatNullableFilter<"Predio"> | number | null
-    ativo?: BoolFilter<"Predio"> | boolean
-    motivo_desativacao?: StringNullableFilter<"Predio"> | string | null
-    gestor_id?: StringNullableFilter<"Predio"> | string | null
-    criado_em?: DateTimeFilter<"Predio"> | Date | string
-    atualizado?: DateTimeFilter<"Predio"> | Date | string
-  }
-
   export type OrdemServicoUpsertWithWhereUniqueWithoutSolicitanteInput = {
     where: OrdemServicoWhereUniqueInput
     update: XOR<OrdemServicoUpdateWithoutSolicitanteInput, OrdemServicoUncheckedUpdateWithoutSolicitanteInput>
@@ -15178,37 +18561,6 @@ export namespace Prisma {
   export type OrdemServicoUpdateManyWithWhereWithoutSolicitanteInput = {
     where: OrdemServicoScalarWhereInput
     data: XOR<OrdemServicoUpdateManyMutationInput, OrdemServicoUncheckedUpdateManyWithoutSolicitanteInput>
-  }
-
-  export type OrdemServicoScalarWhereInput = {
-    AND?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
-    OR?: OrdemServicoScalarWhereInput[]
-    NOT?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
-    id?: StringFilter<"OrdemServico"> | string
-    codigo?: StringFilter<"OrdemServico"> | string
-    titulo?: StringFilter<"OrdemServico"> | string
-    descricao?: StringFilter<"OrdemServico"> | string
-    categoria?: StringNullableFilter<"OrdemServico"> | string | null
-    prioridade?: EnumPrioridadeFilter<"OrdemServico"> | $Enums.Prioridade
-    status?: EnumStatusOSFilter<"OrdemServico"> | $Enums.StatusOS
-    predio_id?: StringFilter<"OrdemServico"> | string
-    solicitante_id?: StringFilter<"OrdemServico"> | string
-    tecnico_atribuido_id?: StringNullableFilter<"OrdemServico"> | string | null
-    fotos?: StringNullableListFilter<"OrdemServico">
-    fotos_conclusao?: StringNullableListFilter<"OrdemServico">
-    motivo_pausa?: StringNullableFilter<"OrdemServico"> | string | null
-    motivo_cancelamento?: StringNullableFilter<"OrdemServico"> | string | null
-    data_limite_sla?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
-    iniciado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
-    concluido_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
-    pausado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
-    tempo_pausa_minutos?: IntFilter<"OrdemServico"> | number
-    historico_pausas?: JsonNullableFilter<"OrdemServico">
-    sla_violado?: BoolFilter<"OrdemServico"> | boolean
-    motivo_violacao_sla?: StringNullableFilter<"OrdemServico"> | string | null
-    ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
-    criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
-    atualizado?: DateTimeFilter<"OrdemServico"> | Date | string
   }
 
   export type OrdemServicoUpsertWithWhereUniqueWithoutTecnicoInput = {
@@ -15243,32 +18595,6 @@ export namespace Prisma {
     data: XOR<ManifestacaoUpdateManyMutationInput, ManifestacaoUncheckedUpdateManyWithoutRespondido_porInput>
   }
 
-  export type ManifestacaoScalarWhereInput = {
-    AND?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
-    OR?: ManifestacaoScalarWhereInput[]
-    NOT?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
-    id?: StringFilter<"Manifestacao"> | string
-    protocolo?: StringFilter<"Manifestacao"> | string
-    tipo?: EnumTipoManifestacaoFilter<"Manifestacao"> | $Enums.TipoManifestacao
-    categoria?: StringFilter<"Manifestacao"> | string
-    descricao?: StringFilter<"Manifestacao"> | string
-    predio_id?: StringNullableFilter<"Manifestacao"> | string | null
-    local_referencia?: StringNullableFilter<"Manifestacao"> | string | null
-    bairro?: StringNullableFilter<"Manifestacao"> | string | null
-    anonimo?: BoolFilter<"Manifestacao"> | boolean
-    manifestante_nome?: StringNullableFilter<"Manifestacao"> | string | null
-    manifestante_email?: StringNullableFilter<"Manifestacao"> | string | null
-    manifestante_telefone?: StringNullableFilter<"Manifestacao"> | string | null
-    status?: EnumStatusManifestacaoFilter<"Manifestacao"> | $Enums.StatusManifestacao
-    resposta_oficial?: StringNullableFilter<"Manifestacao"> | string | null
-    respondido_em?: DateTimeNullableFilter<"Manifestacao"> | Date | string | null
-    respondido_por_id?: StringNullableFilter<"Manifestacao"> | string | null
-    motivo_arquivamento?: StringNullableFilter<"Manifestacao"> | string | null
-    ordem_servico_id?: StringNullableFilter<"Manifestacao"> | string | null
-    criado_em?: DateTimeFilter<"Manifestacao"> | Date | string
-    atualizado?: DateTimeFilter<"Manifestacao"> | Date | string
-  }
-
   export type AuditoriaLogUpsertWithWhereUniqueWithoutUsuarioInput = {
     where: AuditoriaLogWhereUniqueInput
     update: XOR<AuditoriaLogUpdateWithoutUsuarioInput, AuditoriaLogUncheckedUpdateWithoutUsuarioInput>
@@ -15285,20 +18611,6 @@ export namespace Prisma {
     data: XOR<AuditoriaLogUpdateManyMutationInput, AuditoriaLogUncheckedUpdateManyWithoutUsuarioInput>
   }
 
-  export type AuditoriaLogScalarWhereInput = {
-    AND?: AuditoriaLogScalarWhereInput | AuditoriaLogScalarWhereInput[]
-    OR?: AuditoriaLogScalarWhereInput[]
-    NOT?: AuditoriaLogScalarWhereInput | AuditoriaLogScalarWhereInput[]
-    id?: StringFilter<"AuditoriaLog"> | string
-    entidade_afetada?: StringFilter<"AuditoriaLog"> | string
-    entidade_id?: StringFilter<"AuditoriaLog"> | string
-    acao?: EnumAuditActionFilter<"AuditoriaLog"> | $Enums.AuditAction
-    usuario_id?: StringFilter<"AuditoriaLog"> | string
-    dados_antigos?: JsonNullableFilter<"AuditoriaLog">
-    dados_novos?: JsonNullableFilter<"AuditoriaLog">
-    criado_em?: DateTimeFilter<"AuditoriaLog"> | Date | string
-  }
-
   export type UsuarioCreateWithoutPredios_geridosInput = {
     id?: string
     nome: string
@@ -15311,6 +18623,7 @@ export namespace Prisma {
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutUsuariosInput
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
     manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
@@ -15329,6 +18642,7 @@ export namespace Prisma {
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura_id?: string | null
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
     manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
@@ -15338,6 +18652,49 @@ export namespace Prisma {
   export type UsuarioCreateOrConnectWithoutPredios_geridosInput = {
     where: UsuarioWhereUniqueInput
     create: XOR<UsuarioCreateWithoutPredios_geridosInput, UsuarioUncheckedCreateWithoutPredios_geridosInput>
+  }
+
+  export type PrefeituraCreateWithoutPrediosInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraUncheckedCreateWithoutPrediosInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioUncheckedCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraCreateOrConnectWithoutPrediosInput = {
+    where: PrefeituraWhereUniqueInput
+    create: XOR<PrefeituraCreateWithoutPrediosInput, PrefeituraUncheckedCreateWithoutPrediosInput>
   }
 
   export type OrdemServicoCreateWithoutPredioInput = {
@@ -15364,6 +18721,7 @@ export namespace Prisma {
     atualizado?: Date | string
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
@@ -15392,6 +18750,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -15426,6 +18785,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     ordem_servico?: OrdemServicoCreateNestedOneWithoutAgendamentosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutVistoriasInput
   }
 
   export type AgendaVistoriaUncheckedCreateWithoutPredioInput = {
@@ -15442,6 +18802,7 @@ export namespace Prisma {
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     ordem_servico_id?: string | null
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -15476,6 +18837,7 @@ export namespace Prisma {
     atualizado?: Date | string
     respondido_por?: UsuarioCreateNestedOneWithoutManifestacoes_respondidasInput
     ordem_servico?: OrdemServicoCreateNestedOneWithoutManifestacoes_origemInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutManifestacoesInput
   }
 
   export type ManifestacaoUncheckedCreateWithoutPredioInput = {
@@ -15496,6 +18858,7 @@ export namespace Prisma {
     respondido_por_id?: string | null
     motivo_arquivamento?: string | null
     ordem_servico_id?: string | null
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -15533,6 +18896,7 @@ export namespace Prisma {
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutUsuariosNestedInput
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
     manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
@@ -15551,10 +18915,60 @@ export namespace Prisma {
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
     manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type PrefeituraUpsertWithoutPrediosInput = {
+    update: XOR<PrefeituraUpdateWithoutPrediosInput, PrefeituraUncheckedUpdateWithoutPrediosInput>
+    create: XOR<PrefeituraCreateWithoutPrediosInput, PrefeituraUncheckedCreateWithoutPrediosInput>
+    where?: PrefeituraWhereInput
+  }
+
+  export type PrefeituraUpdateToOneWithWhereWithoutPrediosInput = {
+    where?: PrefeituraWhereInput
+    data: XOR<PrefeituraUpdateWithoutPrediosInput, PrefeituraUncheckedUpdateWithoutPrediosInput>
+  }
+
+  export type PrefeituraUpdateWithoutPrediosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraUncheckedUpdateWithoutPrediosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithWhereUniqueWithoutPredioInput = {
@@ -15589,28 +19003,6 @@ export namespace Prisma {
     data: XOR<AgendaVistoriaUpdateManyMutationInput, AgendaVistoriaUncheckedUpdateManyWithoutPredioInput>
   }
 
-  export type AgendaVistoriaScalarWhereInput = {
-    AND?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
-    OR?: AgendaVistoriaScalarWhereInput[]
-    NOT?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
-    id?: StringFilter<"AgendaVistoria"> | string
-    titulo?: StringFilter<"AgendaVistoria"> | string
-    subtitulo?: StringFilter<"AgendaVistoria"> | string
-    horario?: StringFilter<"AgendaVistoria"> | string
-    data_agendada?: DateTimeNullableFilter<"AgendaVistoria"> | Date | string | null
-    tipo?: StringFilter<"AgendaVistoria"> | string
-    recorrencia?: StringNullableFilter<"AgendaVistoria"> | string | null
-    concluido?: BoolFilter<"AgendaVistoria"> | boolean
-    tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
-    tecnico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
-    predio_id?: StringNullableFilter<"AgendaVistoria"> | string | null
-    laudo_tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
-    fotos_vistoria?: StringNullableListFilter<"AgendaVistoria">
-    ordem_servico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
-    criado_em?: DateTimeFilter<"AgendaVistoria"> | Date | string
-    atualizado?: DateTimeFilter<"AgendaVistoria"> | Date | string
-  }
-
   export type ManifestacaoUpsertWithWhereUniqueWithoutPredioInput = {
     where: ManifestacaoWhereUniqueInput
     update: XOR<ManifestacaoUpdateWithoutPredioInput, ManifestacaoUncheckedUpdateWithoutPredioInput>
@@ -15642,6 +19034,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     gestor?: UsuarioCreateNestedOneWithoutPredios_geridosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutPrediosInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPredioInput
   }
@@ -15661,6 +19054,7 @@ export namespace Prisma {
     gestor_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura_id?: string | null
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPredioInput
   }
@@ -15682,6 +19076,7 @@ export namespace Prisma {
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutUsuariosInput
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
     chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
     manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
@@ -15700,6 +19095,7 @@ export namespace Prisma {
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura_id?: string | null
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
     chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
     manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
@@ -15723,6 +19119,7 @@ export namespace Prisma {
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutUsuariosInput
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
     manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
@@ -15741,6 +19138,7 @@ export namespace Prisma {
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura_id?: string | null
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
     manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
@@ -15750,6 +19148,49 @@ export namespace Prisma {
   export type UsuarioCreateOrConnectWithoutChamados_atribuidosInput = {
     where: UsuarioWhereUniqueInput
     create: XOR<UsuarioCreateWithoutChamados_atribuidosInput, UsuarioUncheckedCreateWithoutChamados_atribuidosInput>
+  }
+
+  export type PrefeituraCreateWithoutOrdens_servicoInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraUncheckedCreateWithoutOrdens_servicoInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioUncheckedCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioUncheckedCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraCreateOrConnectWithoutOrdens_servicoInput = {
+    where: PrefeituraWhereUniqueInput
+    create: XOR<PrefeituraCreateWithoutOrdens_servicoInput, PrefeituraUncheckedCreateWithoutOrdens_servicoInput>
   }
 
   export type OrdemServicoCreateWithoutOrdens_derivadasInput = {
@@ -15777,6 +19218,7 @@ export namespace Prisma {
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
     manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
@@ -15805,6 +19247,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -15842,6 +19285,7 @@ export namespace Prisma {
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
     manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
@@ -15870,6 +19314,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
@@ -15903,6 +19348,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     predio?: PredioCreateNestedOneWithoutVistoriasInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutVistoriasInput
   }
 
   export type AgendaVistoriaUncheckedCreateWithoutOrdem_servicoInput = {
@@ -15919,6 +19365,7 @@ export namespace Prisma {
     predio_id?: string | null
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -15953,6 +19400,7 @@ export namespace Prisma {
     atualizado?: Date | string
     predio?: PredioCreateNestedOneWithoutManifestacoesInput
     respondido_por?: UsuarioCreateNestedOneWithoutManifestacoes_respondidasInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutManifestacoesInput
   }
 
   export type ManifestacaoUncheckedCreateWithoutOrdem_servicoInput = {
@@ -15973,6 +19421,7 @@ export namespace Prisma {
     respondido_em?: Date | string | null
     respondido_por_id?: string | null
     motivo_arquivamento?: string | null
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -16013,6 +19462,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     gestor?: UsuarioUpdateOneWithoutPredios_geridosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutPrediosNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUpdateManyWithoutPredioNestedInput
   }
@@ -16032,6 +19482,7 @@ export namespace Prisma {
     gestor_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput
   }
@@ -16059,6 +19510,7 @@ export namespace Prisma {
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutUsuariosNestedInput
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
     chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
     manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
@@ -16077,6 +19529,7 @@ export namespace Prisma {
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
     manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
@@ -16106,6 +19559,7 @@ export namespace Prisma {
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutUsuariosNestedInput
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
     manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
@@ -16124,10 +19578,60 @@ export namespace Prisma {
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
     manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type PrefeituraUpsertWithoutOrdens_servicoInput = {
+    update: XOR<PrefeituraUpdateWithoutOrdens_servicoInput, PrefeituraUncheckedUpdateWithoutOrdens_servicoInput>
+    create: XOR<PrefeituraCreateWithoutOrdens_servicoInput, PrefeituraUncheckedCreateWithoutOrdens_servicoInput>
+    where?: PrefeituraWhereInput
+  }
+
+  export type PrefeituraUpdateToOneWithWhereWithoutOrdens_servicoInput = {
+    where?: PrefeituraWhereInput
+    data: XOR<PrefeituraUpdateWithoutOrdens_servicoInput, PrefeituraUncheckedUpdateWithoutOrdens_servicoInput>
+  }
+
+  export type PrefeituraUpdateWithoutOrdens_servicoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraUncheckedUpdateWithoutOrdens_servicoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithoutOrdens_derivadasInput = {
@@ -16166,6 +19670,7 @@ export namespace Prisma {
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
     manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
@@ -16194,6 +19699,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16261,6 +19767,7 @@ export namespace Prisma {
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutUsuariosInput
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
@@ -16279,6 +19786,7 @@ export namespace Prisma {
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura_id?: string | null
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
@@ -16288,6 +19796,49 @@ export namespace Prisma {
   export type UsuarioCreateOrConnectWithoutAuditoriasInput = {
     where: UsuarioWhereUniqueInput
     create: XOR<UsuarioCreateWithoutAuditoriasInput, UsuarioUncheckedCreateWithoutAuditoriasInput>
+  }
+
+  export type PrefeituraCreateWithoutAuditoriasInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraUncheckedCreateWithoutAuditoriasInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioUncheckedCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioUncheckedCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraCreateOrConnectWithoutAuditoriasInput = {
+    where: PrefeituraWhereUniqueInput
+    create: XOR<PrefeituraCreateWithoutAuditoriasInput, PrefeituraUncheckedCreateWithoutAuditoriasInput>
   }
 
   export type UsuarioUpsertWithoutAuditoriasInput = {
@@ -16313,6 +19864,7 @@ export namespace Prisma {
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutUsuariosNestedInput
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
@@ -16331,10 +19883,60 @@ export namespace Prisma {
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
     manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
+  }
+
+  export type PrefeituraUpsertWithoutAuditoriasInput = {
+    update: XOR<PrefeituraUpdateWithoutAuditoriasInput, PrefeituraUncheckedUpdateWithoutAuditoriasInput>
+    create: XOR<PrefeituraCreateWithoutAuditoriasInput, PrefeituraUncheckedCreateWithoutAuditoriasInput>
+    where?: PrefeituraWhereInput
+  }
+
+  export type PrefeituraUpdateToOneWithWhereWithoutAuditoriasInput = {
+    where?: PrefeituraWhereInput
+    data: XOR<PrefeituraUpdateWithoutAuditoriasInput, PrefeituraUncheckedUpdateWithoutAuditoriasInput>
+  }
+
+  export type PrefeituraUpdateWithoutAuditoriasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraUncheckedUpdateWithoutAuditoriasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioCreateWithoutVistoriasInput = {
@@ -16352,6 +19954,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     gestor?: UsuarioCreateNestedOneWithoutPredios_geridosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutPrediosInput
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPredioInput
   }
@@ -16371,6 +19974,7 @@ export namespace Prisma {
     gestor_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura_id?: string | null
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPredioInput
   }
@@ -16405,6 +20009,7 @@ export namespace Prisma {
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
@@ -16433,6 +20038,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -16443,6 +20049,49 @@ export namespace Prisma {
   export type OrdemServicoCreateOrConnectWithoutAgendamentosInput = {
     where: OrdemServicoWhereUniqueInput
     create: XOR<OrdemServicoCreateWithoutAgendamentosInput, OrdemServicoUncheckedCreateWithoutAgendamentosInput>
+  }
+
+  export type PrefeituraCreateWithoutVistoriasInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraUncheckedCreateWithoutVistoriasInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioUncheckedCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioUncheckedCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraCreateOrConnectWithoutVistoriasInput = {
+    where: PrefeituraWhereUniqueInput
+    create: XOR<PrefeituraCreateWithoutVistoriasInput, PrefeituraUncheckedCreateWithoutVistoriasInput>
   }
 
   export type PredioUpsertWithoutVistoriasInput = {
@@ -16471,6 +20120,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     gestor?: UsuarioUpdateOneWithoutPredios_geridosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutPrediosNestedInput
     ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUpdateManyWithoutPredioNestedInput
   }
@@ -16490,6 +20140,7 @@ export namespace Prisma {
     gestor_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput
   }
@@ -16530,6 +20181,7 @@ export namespace Prisma {
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
@@ -16558,11 +20210,153 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
     manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type PrefeituraUpsertWithoutVistoriasInput = {
+    update: XOR<PrefeituraUpdateWithoutVistoriasInput, PrefeituraUncheckedUpdateWithoutVistoriasInput>
+    create: XOR<PrefeituraCreateWithoutVistoriasInput, PrefeituraUncheckedCreateWithoutVistoriasInput>
+    where?: PrefeituraWhereInput
+  }
+
+  export type PrefeituraUpdateToOneWithWhereWithoutVistoriasInput = {
+    where?: PrefeituraWhereInput
+    data: XOR<PrefeituraUpdateWithoutVistoriasInput, PrefeituraUncheckedUpdateWithoutVistoriasInput>
+  }
+
+  export type PrefeituraUpdateWithoutVistoriasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraUncheckedUpdateWithoutVistoriasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraCreateWithoutConfiguracaoInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    usuarios?: UsuarioCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraUncheckedCreateWithoutConfiguracaoInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    usuarios?: UsuarioUncheckedCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioUncheckedCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraCreateOrConnectWithoutConfiguracaoInput = {
+    where: PrefeituraWhereUniqueInput
+    create: XOR<PrefeituraCreateWithoutConfiguracaoInput, PrefeituraUncheckedCreateWithoutConfiguracaoInput>
+  }
+
+  export type PrefeituraUpsertWithoutConfiguracaoInput = {
+    update: XOR<PrefeituraUpdateWithoutConfiguracaoInput, PrefeituraUncheckedUpdateWithoutConfiguracaoInput>
+    create: XOR<PrefeituraCreateWithoutConfiguracaoInput, PrefeituraUncheckedCreateWithoutConfiguracaoInput>
+    where?: PrefeituraWhereInput
+  }
+
+  export type PrefeituraUpdateToOneWithWhereWithoutConfiguracaoInput = {
+    where?: PrefeituraWhereInput
+    data: XOR<PrefeituraUpdateWithoutConfiguracaoInput, PrefeituraUncheckedUpdateWithoutConfiguracaoInput>
+  }
+
+  export type PrefeituraUpdateWithoutConfiguracaoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarios?: UsuarioUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraUncheckedUpdateWithoutConfiguracaoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarios?: UsuarioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioCreateWithoutManifestacoesInput = {
@@ -16580,6 +20374,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     gestor?: UsuarioCreateNestedOneWithoutPredios_geridosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutPrediosInput
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
   }
@@ -16599,6 +20394,7 @@ export namespace Prisma {
     gestor_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura_id?: string | null
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
   }
@@ -16620,6 +20416,7 @@ export namespace Prisma {
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutUsuariosInput
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
@@ -16638,6 +20435,7 @@ export namespace Prisma {
     token_version?: number
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura_id?: string | null
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
@@ -16674,6 +20472,7 @@ export namespace Prisma {
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
@@ -16702,6 +20501,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -16712,6 +20512,49 @@ export namespace Prisma {
   export type OrdemServicoCreateOrConnectWithoutManifestacoes_origemInput = {
     where: OrdemServicoWhereUniqueInput
     create: XOR<OrdemServicoCreateWithoutManifestacoes_origemInput, OrdemServicoUncheckedCreateWithoutManifestacoes_origemInput>
+  }
+
+  export type PrefeituraCreateWithoutManifestacoesInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraUncheckedCreateWithoutManifestacoesInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioUncheckedCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioUncheckedCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraCreateOrConnectWithoutManifestacoesInput = {
+    where: PrefeituraWhereUniqueInput
+    create: XOR<PrefeituraCreateWithoutManifestacoesInput, PrefeituraUncheckedCreateWithoutManifestacoesInput>
   }
 
   export type PredioUpsertWithoutManifestacoesInput = {
@@ -16740,6 +20583,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     gestor?: UsuarioUpdateOneWithoutPredios_geridosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutPrediosNestedInput
     ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
   }
@@ -16759,6 +20603,7 @@ export namespace Prisma {
     gestor_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
   }
@@ -16786,6 +20631,7 @@ export namespace Prisma {
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutUsuariosNestedInput
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
@@ -16804,6 +20650,7 @@ export namespace Prisma {
     token_version?: IntFieldUpdateOperationsInput | number
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
@@ -16846,6 +20693,7 @@ export namespace Prisma {
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
@@ -16874,11 +20722,531 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type PrefeituraUpsertWithoutManifestacoesInput = {
+    update: XOR<PrefeituraUpdateWithoutManifestacoesInput, PrefeituraUncheckedUpdateWithoutManifestacoesInput>
+    create: XOR<PrefeituraCreateWithoutManifestacoesInput, PrefeituraUncheckedCreateWithoutManifestacoesInput>
+    where?: PrefeituraWhereInput
+  }
+
+  export type PrefeituraUpdateToOneWithWhereWithoutManifestacoesInput = {
+    where?: PrefeituraWhereInput
+    data: XOR<PrefeituraUpdateWithoutManifestacoesInput, PrefeituraUncheckedUpdateWithoutManifestacoesInput>
+  }
+
+  export type PrefeituraUpdateWithoutManifestacoesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraUncheckedUpdateWithoutManifestacoesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type UsuarioCreateManyPrefeituraInput = {
+    id?: string
+    nome: string
+    email: string
+    senha_hash: string
+    role?: $Enums.Role
+    especialidade?: string | null
+    telefone?: string | null
+    ativo?: boolean
+    token_version?: number
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type PredioCreateManyPrefeituraInput = {
+    id?: string
+    nome: string
+    tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
+    endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
+    gestor_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type OrdemServicoCreateManyPrefeituraInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    predio_id: string
+    solicitante_id: string
+    tecnico_atribuido_id?: string | null
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    ordem_vinculada_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type ManifestacaoCreateManyPrefeituraInput = {
+    id?: string
+    protocolo?: string
+    tipo?: $Enums.TipoManifestacao
+    categoria?: string
+    descricao: string
+    predio_id?: string | null
+    local_referencia?: string | null
+    bairro?: string | null
+    anonimo?: boolean
+    manifestante_nome?: string | null
+    manifestante_email?: string | null
+    manifestante_telefone?: string | null
+    status?: $Enums.StatusManifestacao
+    resposta_oficial?: string | null
+    respondido_em?: Date | string | null
+    respondido_por_id?: string | null
+    motivo_arquivamento?: string | null
+    ordem_servico_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type AgendaVistoriaCreateManyPrefeituraInput = {
+    id?: string
+    titulo: string
+    subtitulo: string
+    horario: string
+    data_agendada?: Date | string | null
+    tipo?: string
+    recorrencia?: string | null
+    concluido?: boolean
+    tecnico?: string | null
+    tecnico_id?: string | null
+    predio_id?: string | null
+    laudo_tecnico?: string | null
+    fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    ordem_servico_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type AuditoriaLogCreateManyPrefeituraInput = {
+    id?: string
+    entidade_afetada: string
+    entidade_id: string
+    acao: $Enums.AuditAction
+    usuario_id: string
+    dados_antigos?: NullableJsonNullValueInput | InputJsonValue
+    dados_novos?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+  }
+
+  export type UsuarioUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    senha_hash?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    especialidade?: NullableStringFieldUpdateOperationsInput | string | null
+    telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    token_version?: IntFieldUpdateOperationsInput | number
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
+    chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
+    chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
+    manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    senha_hash?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    especialidade?: NullableStringFieldUpdateOperationsInput | string | null
+    telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    token_version?: IntFieldUpdateOperationsInput | number
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
+    chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
+    chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateManyWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    senha_hash?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    especialidade?: NullableStringFieldUpdateOperationsInput | string | null
+    telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    token_version?: IntFieldUpdateOperationsInput | number
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PredioUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
+    endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    gestor?: UsuarioUpdateOneWithoutPredios_geridosNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPredioNestedInput
+  }
+
+  export type PredioUncheckedUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
+    endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
+    gestor_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput
+  }
+
+  export type PredioUncheckedUpdateManyWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
+    endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
+    gestor_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrdemServicoUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
+    tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
+    ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
+    agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type OrdemServicoUncheckedUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    predio_id?: StringFieldUpdateOperationsInput | string
+    solicitante_id?: StringFieldUpdateOperationsInput | string
+    tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
+    agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type OrdemServicoUncheckedUpdateManyWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    predio_id?: StringFieldUpdateOperationsInput | string
+    solicitante_id?: StringFieldUpdateOperationsInput | string
+    tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManifestacaoUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneWithoutManifestacoesNestedInput
+    respondido_por?: UsuarioUpdateOneWithoutManifestacoes_respondidasNestedInput
+    ordem_servico?: OrdemServicoUpdateOneWithoutManifestacoes_origemNestedInput
+  }
+
+  export type ManifestacaoUncheckedUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    respondido_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManifestacaoUncheckedUpdateManyWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    protocolo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoManifestacaoFieldUpdateOperationsInput | $Enums.TipoManifestacao
+    categoria?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    local_referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: NullableStringFieldUpdateOperationsInput | string | null
+    anonimo?: BoolFieldUpdateOperationsInput | boolean
+    manifestante_nome?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_email?: NullableStringFieldUpdateOperationsInput | string | null
+    manifestante_telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusManifestacaoFieldUpdateOperationsInput | $Enums.StatusManifestacao
+    resposta_oficial?: NullableStringFieldUpdateOperationsInput | string | null
+    respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    respondido_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgendaVistoriaUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    subtitulo?: StringFieldUpdateOperationsInput | string
+    horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
+    concluido?: BoolFieldUpdateOperationsInput | boolean
+    tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneWithoutVistoriasNestedInput
+    ordem_servico?: OrdemServicoUpdateOneWithoutAgendamentosNestedInput
+  }
+
+  export type AgendaVistoriaUncheckedUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    subtitulo?: StringFieldUpdateOperationsInput | string
+    horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
+    concluido?: BoolFieldUpdateOperationsInput | boolean
+    tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    subtitulo?: StringFieldUpdateOperationsInput | string
+    horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
+    concluido?: BoolFieldUpdateOperationsInput | boolean
+    tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditoriaLogUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entidade_afetada?: StringFieldUpdateOperationsInput | string
+    entidade_id?: StringFieldUpdateOperationsInput | string
+    acao?: EnumAuditActionFieldUpdateOperationsInput | $Enums.AuditAction
+    dados_antigos?: NullableJsonNullValueInput | InputJsonValue
+    dados_novos?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutAuditoriasNestedInput
+  }
+
+  export type AuditoriaLogUncheckedUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entidade_afetada?: StringFieldUpdateOperationsInput | string
+    entidade_id?: StringFieldUpdateOperationsInput | string
+    acao?: EnumAuditActionFieldUpdateOperationsInput | $Enums.AuditAction
+    usuario_id?: StringFieldUpdateOperationsInput | string
+    dados_antigos?: NullableJsonNullValueInput | InputJsonValue
+    dados_novos?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditoriaLogUncheckedUpdateManyWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entidade_afetada?: StringFieldUpdateOperationsInput | string
+    entidade_id?: StringFieldUpdateOperationsInput | string
+    acao?: EnumAuditActionFieldUpdateOperationsInput | $Enums.AuditAction
+    usuario_id?: StringFieldUpdateOperationsInput | string
+    dados_antigos?: NullableJsonNullValueInput | InputJsonValue
+    dados_novos?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PredioCreateManyGestorInput = {
@@ -16895,6 +21263,7 @@ export namespace Prisma {
     motivo_desativacao?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    prefeitura_id?: string | null
   }
 
   export type OrdemServicoCreateManySolicitanteInput = {
@@ -16919,6 +21288,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -16946,6 +21316,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -16969,6 +21340,7 @@ export namespace Prisma {
     respondido_em?: Date | string | null
     motivo_arquivamento?: string | null
     ordem_servico_id?: string | null
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -16978,6 +21350,7 @@ export namespace Prisma {
     entidade_afetada: string
     entidade_id: string
     acao: $Enums.AuditAction
+    prefeitura_id?: string | null
     dados_antigos?: NullableJsonNullValueInput | InputJsonValue
     dados_novos?: NullableJsonNullValueInput | InputJsonValue
     criado_em?: Date | string
@@ -16997,6 +21370,7 @@ export namespace Prisma {
     motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutPrediosNestedInput
     ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUpdateManyWithoutPredioNestedInput
@@ -17016,6 +21390,7 @@ export namespace Prisma {
     motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput
@@ -17035,6 +21410,7 @@ export namespace Prisma {
     motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrdemServicoUpdateWithoutSolicitanteInput = {
@@ -17061,6 +21437,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
@@ -17089,6 +21466,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17119,6 +21497,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17148,6 +21527,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
@@ -17176,6 +21556,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17206,6 +21587,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17231,6 +21613,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneWithoutManifestacoesNestedInput
     ordem_servico?: OrdemServicoUpdateOneWithoutManifestacoes_origemNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutManifestacoesNestedInput
   }
 
   export type ManifestacaoUncheckedUpdateWithoutRespondido_porInput = {
@@ -17251,6 +21634,7 @@ export namespace Prisma {
     respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17273,6 +21657,7 @@ export namespace Prisma {
     respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17285,6 +21670,7 @@ export namespace Prisma {
     dados_antigos?: NullableJsonNullValueInput | InputJsonValue
     dados_novos?: NullableJsonNullValueInput | InputJsonValue
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutAuditoriasNestedInput
   }
 
   export type AuditoriaLogUncheckedUpdateWithoutUsuarioInput = {
@@ -17292,6 +21678,7 @@ export namespace Prisma {
     entidade_afetada?: StringFieldUpdateOperationsInput | string
     entidade_id?: StringFieldUpdateOperationsInput | string
     acao?: EnumAuditActionFieldUpdateOperationsInput | $Enums.AuditAction
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     dados_antigos?: NullableJsonNullValueInput | InputJsonValue
     dados_novos?: NullableJsonNullValueInput | InputJsonValue
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17302,6 +21689,7 @@ export namespace Prisma {
     entidade_afetada?: StringFieldUpdateOperationsInput | string
     entidade_id?: StringFieldUpdateOperationsInput | string
     acao?: EnumAuditActionFieldUpdateOperationsInput | $Enums.AuditAction
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     dados_antigos?: NullableJsonNullValueInput | InputJsonValue
     dados_novos?: NullableJsonNullValueInput | InputJsonValue
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17329,6 +21717,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -17348,6 +21737,7 @@ export namespace Prisma {
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     ordem_servico_id?: string | null
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -17370,6 +21760,7 @@ export namespace Prisma {
     respondido_por_id?: string | null
     motivo_arquivamento?: string | null
     ordem_servico_id?: string | null
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -17398,6 +21789,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
@@ -17426,6 +21818,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17456,6 +21849,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17477,6 +21871,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordem_servico?: OrdemServicoUpdateOneWithoutAgendamentosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutVistoriasNestedInput
   }
 
   export type AgendaVistoriaUncheckedUpdateWithoutPredioInput = {
@@ -17493,6 +21888,7 @@ export namespace Prisma {
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17511,6 +21907,7 @@ export namespace Prisma {
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17535,6 +21932,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     respondido_por?: UsuarioUpdateOneWithoutManifestacoes_respondidasNestedInput
     ordem_servico?: OrdemServicoUpdateOneWithoutManifestacoes_origemNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutManifestacoesNestedInput
   }
 
   export type ManifestacaoUncheckedUpdateWithoutPredioInput = {
@@ -17555,6 +21953,7 @@ export namespace Prisma {
     respondido_por_id?: NullableStringFieldUpdateOperationsInput | string | null
     motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17577,6 +21976,7 @@ export namespace Prisma {
     respondido_por_id?: NullableStringFieldUpdateOperationsInput | string | null
     motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17604,6 +22004,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -17622,6 +22023,7 @@ export namespace Prisma {
     predio_id?: string | null
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -17644,6 +22046,7 @@ export namespace Prisma {
     respondido_em?: Date | string | null
     respondido_por_id?: string | null
     motivo_arquivamento?: string | null
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -17673,6 +22076,7 @@ export namespace Prisma {
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
     manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
@@ -17701,6 +22105,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -17731,6 +22136,7 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17751,6 +22157,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneWithoutVistoriasNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutVistoriasNestedInput
   }
 
   export type AgendaVistoriaUncheckedUpdateWithoutOrdem_servicoInput = {
@@ -17767,6 +22174,7 @@ export namespace Prisma {
     predio_id?: NullableStringFieldUpdateOperationsInput | string | null
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17785,6 +22193,7 @@ export namespace Prisma {
     predio_id?: NullableStringFieldUpdateOperationsInput | string | null
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17809,6 +22218,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneWithoutManifestacoesNestedInput
     respondido_por?: UsuarioUpdateOneWithoutManifestacoes_respondidasNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutManifestacoesNestedInput
   }
 
   export type ManifestacaoUncheckedUpdateWithoutOrdem_servicoInput = {
@@ -17829,6 +22239,7 @@ export namespace Prisma {
     respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     respondido_por_id?: NullableStringFieldUpdateOperationsInput | string | null
     motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17851,6 +22262,7 @@ export namespace Prisma {
     respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     respondido_por_id?: NullableStringFieldUpdateOperationsInput | string | null
     motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }

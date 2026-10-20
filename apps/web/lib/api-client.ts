@@ -76,6 +76,10 @@ function mapUserFromApi(userObj: any): UserAccount | undefined {
     telefone: userObj.phoneNumber || userObj.telefone,
     predio: userObj.role === 'SOLICITANTE' ? (userObj.facilityName || userObj.predio) : undefined,
     avatar: userObj.avatar,
+    prefeituraId: userObj.prefeituraId,
+    prefeituraNome: userObj.prefeituraNome,
+    prefeituraSlug: userObj.prefeituraSlug,
+    modulosAtivos: userObj.modulosAtivos,
   };
 }
 

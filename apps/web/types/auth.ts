@@ -11,6 +11,10 @@ export interface UserAccount {
   predio?: string;
   avatar?: string;
   telefone?: string;
+  prefeituraId?: string;
+  prefeituraNome?: string;
+  prefeituraSlug?: string;
+  modulosAtivos?: string[];
 }
 
 // Perfis e contas iniciais para demonstração das personas
