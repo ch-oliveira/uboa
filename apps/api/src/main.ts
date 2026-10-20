@@ -53,7 +53,8 @@ async function bootstrap() {
       if (
         !origin ||
         allowedOrigins.includes(origin) ||
-        origin.endsWith('.vercel.app')
+        origin === 'https://uboa.vercel.app' ||
+        (origin.endsWith('.vercel.app') && (origin.includes('uboa') || origin.includes('ch-oliveira')))
       ) {
         callback(null, true);
       } else {
