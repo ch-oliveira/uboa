@@ -53,6 +53,16 @@ export type ConfiguracaoSistema = $Result.DefaultSelection<Prisma.$ConfiguracaoS
  * 
  */
 export type Manifestacao = $Result.DefaultSelection<Prisma.$ManifestacaoPayload>
+/**
+ * Model Material
+ * 
+ */
+export type Material = $Result.DefaultSelection<Prisma.$MaterialPayload>
+/**
+ * Model ItemConsumoOS
+ * 
+ */
+export type ItemConsumoOS = $Result.DefaultSelection<Prisma.$ItemConsumoOSPayload>
 
 /**
  * Enums
@@ -375,6 +385,26 @@ export class PrismaClient<
     * ```
     */
   get manifestacao(): Prisma.ManifestacaoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.material`: Exposes CRUD operations for the **Material** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Materials
+    * const materials = await prisma.material.findMany()
+    * ```
+    */
+  get material(): Prisma.MaterialDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.itemConsumoOS`: Exposes CRUD operations for the **ItemConsumoOS** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ItemConsumoOS
+    * const itemConsumoOS = await prisma.itemConsumoOS.findMany()
+    * ```
+    */
+  get itemConsumoOS(): Prisma.ItemConsumoOSDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -823,7 +853,9 @@ export namespace Prisma {
     AuditoriaLog: 'AuditoriaLog',
     AgendaVistoria: 'AgendaVistoria',
     ConfiguracaoSistema: 'ConfiguracaoSistema',
-    Manifestacao: 'Manifestacao'
+    Manifestacao: 'Manifestacao',
+    Material: 'Material',
+    ItemConsumoOS: 'ItemConsumoOS'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -842,7 +874,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "prefeitura" | "usuario" | "predio" | "ordemServico" | "auditoriaLog" | "agendaVistoria" | "configuracaoSistema" | "manifestacao"
+      modelProps: "prefeitura" | "usuario" | "predio" | "ordemServico" | "auditoriaLog" | "agendaVistoria" | "configuracaoSistema" | "manifestacao" | "material" | "itemConsumoOS"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1438,6 +1470,154 @@ export namespace Prisma {
           }
         }
       }
+      Material: {
+        payload: Prisma.$MaterialPayload<ExtArgs>
+        fields: Prisma.MaterialFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MaterialFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MaterialPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MaterialFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MaterialPayload>
+          }
+          findFirst: {
+            args: Prisma.MaterialFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MaterialPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MaterialFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MaterialPayload>
+          }
+          findMany: {
+            args: Prisma.MaterialFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MaterialPayload>[]
+          }
+          create: {
+            args: Prisma.MaterialCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MaterialPayload>
+          }
+          createMany: {
+            args: Prisma.MaterialCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MaterialCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MaterialPayload>[]
+          }
+          delete: {
+            args: Prisma.MaterialDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MaterialPayload>
+          }
+          update: {
+            args: Prisma.MaterialUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MaterialPayload>
+          }
+          deleteMany: {
+            args: Prisma.MaterialDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MaterialUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MaterialUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MaterialPayload>[]
+          }
+          upsert: {
+            args: Prisma.MaterialUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MaterialPayload>
+          }
+          aggregate: {
+            args: Prisma.MaterialAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMaterial>
+          }
+          groupBy: {
+            args: Prisma.MaterialGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MaterialGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MaterialCountArgs<ExtArgs>
+            result: $Utils.Optional<MaterialCountAggregateOutputType> | number
+          }
+        }
+      }
+      ItemConsumoOS: {
+        payload: Prisma.$ItemConsumoOSPayload<ExtArgs>
+        fields: Prisma.ItemConsumoOSFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ItemConsumoOSFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemConsumoOSPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ItemConsumoOSFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemConsumoOSPayload>
+          }
+          findFirst: {
+            args: Prisma.ItemConsumoOSFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemConsumoOSPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ItemConsumoOSFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemConsumoOSPayload>
+          }
+          findMany: {
+            args: Prisma.ItemConsumoOSFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemConsumoOSPayload>[]
+          }
+          create: {
+            args: Prisma.ItemConsumoOSCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemConsumoOSPayload>
+          }
+          createMany: {
+            args: Prisma.ItemConsumoOSCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ItemConsumoOSCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemConsumoOSPayload>[]
+          }
+          delete: {
+            args: Prisma.ItemConsumoOSDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemConsumoOSPayload>
+          }
+          update: {
+            args: Prisma.ItemConsumoOSUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemConsumoOSPayload>
+          }
+          deleteMany: {
+            args: Prisma.ItemConsumoOSDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ItemConsumoOSUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ItemConsumoOSUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemConsumoOSPayload>[]
+          }
+          upsert: {
+            args: Prisma.ItemConsumoOSUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemConsumoOSPayload>
+          }
+          aggregate: {
+            args: Prisma.ItemConsumoOSAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateItemConsumoOS>
+          }
+          groupBy: {
+            args: Prisma.ItemConsumoOSGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ItemConsumoOSGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ItemConsumoOSCountArgs<ExtArgs>
+            result: $Utils.Optional<ItemConsumoOSCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1542,6 +1722,8 @@ export namespace Prisma {
     agendaVistoria?: AgendaVistoriaOmit
     configuracaoSistema?: ConfiguracaoSistemaOmit
     manifestacao?: ManifestacaoOmit
+    material?: MaterialOmit
+    itemConsumoOS?: ItemConsumoOSOmit
   }
 
   /* Types for Logging */
@@ -1628,6 +1810,7 @@ export namespace Prisma {
     manifestacoes: number
     vistorias: number
     auditorias: number
+    materiais: number
   }
 
   export type PrefeituraCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1637,6 +1820,7 @@ export namespace Prisma {
     manifestacoes?: boolean | PrefeituraCountOutputTypeCountManifestacoesArgs
     vistorias?: boolean | PrefeituraCountOutputTypeCountVistoriasArgs
     auditorias?: boolean | PrefeituraCountOutputTypeCountAuditoriasArgs
+    materiais?: boolean | PrefeituraCountOutputTypeCountMateriaisArgs
   }
 
   // Custom InputTypes
@@ -1690,6 +1874,13 @@ export namespace Prisma {
    */
   export type PrefeituraCountOutputTypeCountAuditoriasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AuditoriaLogWhereInput
+  }
+
+  /**
+   * PrefeituraCountOutputType without action
+   */
+  export type PrefeituraCountOutputTypeCountMateriaisArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MaterialWhereInput
   }
 
 
@@ -1814,12 +2005,14 @@ export namespace Prisma {
    */
 
   export type OrdemServicoCountOutputType = {
+    materiais_consumidos: number
     ordens_derivadas: number
     agendamentos: number
     manifestacoes_origem: number
   }
 
   export type OrdemServicoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    materiais_consumidos?: boolean | OrdemServicoCountOutputTypeCountMateriais_consumidosArgs
     ordens_derivadas?: boolean | OrdemServicoCountOutputTypeCountOrdens_derivadasArgs
     agendamentos?: boolean | OrdemServicoCountOutputTypeCountAgendamentosArgs
     manifestacoes_origem?: boolean | OrdemServicoCountOutputTypeCountManifestacoes_origemArgs
@@ -1834,6 +2027,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the OrdemServicoCountOutputType
      */
     select?: OrdemServicoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * OrdemServicoCountOutputType without action
+   */
+  export type OrdemServicoCountOutputTypeCountMateriais_consumidosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemConsumoOSWhereInput
   }
 
   /**
@@ -1855,6 +2055,37 @@ export namespace Prisma {
    */
   export type OrdemServicoCountOutputTypeCountManifestacoes_origemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ManifestacaoWhereInput
+  }
+
+
+  /**
+   * Count Type MaterialCountOutputType
+   */
+
+  export type MaterialCountOutputType = {
+    itens_consumo: number
+  }
+
+  export type MaterialCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    itens_consumo?: boolean | MaterialCountOutputTypeCountItens_consumoArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * MaterialCountOutputType without action
+   */
+  export type MaterialCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MaterialCountOutputType
+     */
+    select?: MaterialCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * MaterialCountOutputType without action
+   */
+  export type MaterialCountOutputTypeCountItens_consumoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemConsumoOSWhereInput
   }
 
 
@@ -2065,6 +2296,7 @@ export namespace Prisma {
     manifestacoes?: boolean | Prefeitura$manifestacoesArgs<ExtArgs>
     vistorias?: boolean | Prefeitura$vistoriasArgs<ExtArgs>
     auditorias?: boolean | Prefeitura$auditoriasArgs<ExtArgs>
+    materiais?: boolean | Prefeitura$materiaisArgs<ExtArgs>
     _count?: boolean | PrefeituraCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["prefeitura"]>
 
@@ -2116,6 +2348,7 @@ export namespace Prisma {
     manifestacoes?: boolean | Prefeitura$manifestacoesArgs<ExtArgs>
     vistorias?: boolean | Prefeitura$vistoriasArgs<ExtArgs>
     auditorias?: boolean | Prefeitura$auditoriasArgs<ExtArgs>
+    materiais?: boolean | Prefeitura$materiaisArgs<ExtArgs>
     _count?: boolean | PrefeituraCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PrefeituraIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2131,6 +2364,7 @@ export namespace Prisma {
       manifestacoes: Prisma.$ManifestacaoPayload<ExtArgs>[]
       vistorias: Prisma.$AgendaVistoriaPayload<ExtArgs>[]
       auditorias: Prisma.$AuditoriaLogPayload<ExtArgs>[]
+      materiais: Prisma.$MaterialPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2544,6 +2778,7 @@ export namespace Prisma {
     manifestacoes<T extends Prefeitura$manifestacoesArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$manifestacoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     vistorias<T extends Prefeitura$vistoriasArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$vistoriasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgendaVistoriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     auditorias<T extends Prefeitura$auditoriasArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$auditoriasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditoriaLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    materiais<T extends Prefeitura$materiaisArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$materiaisArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3131,6 +3366,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AuditoriaLogScalarFieldEnum | AuditoriaLogScalarFieldEnum[]
+  }
+
+  /**
+   * Prefeitura.materiais
+   */
+  export type Prefeitura$materiaisArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Material
+     */
+    select?: MaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Material
+     */
+    omit?: MaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MaterialInclude<ExtArgs> | null
+    where?: MaterialWhereInput
+    orderBy?: MaterialOrderByWithRelationInput | MaterialOrderByWithRelationInput[]
+    cursor?: MaterialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MaterialScalarFieldEnum | MaterialScalarFieldEnum[]
   }
 
   /**
@@ -5872,10 +6131,16 @@ export namespace Prisma {
 
   export type OrdemServicoAvgAggregateOutputType = {
     tempo_pausa_minutos: number | null
+    custo_materiais: Decimal | null
+    custo_mao_de_obra: Decimal | null
+    custo_total: Decimal | null
   }
 
   export type OrdemServicoSumAggregateOutputType = {
     tempo_pausa_minutos: number | null
+    custo_materiais: Decimal | null
+    custo_mao_de_obra: Decimal | null
+    custo_total: Decimal | null
   }
 
   export type OrdemServicoMinAggregateOutputType = {
@@ -5898,6 +6163,11 @@ export namespace Prisma {
     tempo_pausa_minutos: number | null
     sla_violado: boolean | null
     motivo_violacao_sla: string | null
+    custo_materiais: Decimal | null
+    custo_mao_de_obra: Decimal | null
+    custo_total: Decimal | null
+    empresa_terceirizada: string | null
+    numero_empenho: string | null
     prefeitura_id: string | null
     ordem_vinculada_id: string | null
     criado_em: Date | null
@@ -5924,6 +6194,11 @@ export namespace Prisma {
     tempo_pausa_minutos: number | null
     sla_violado: boolean | null
     motivo_violacao_sla: string | null
+    custo_materiais: Decimal | null
+    custo_mao_de_obra: Decimal | null
+    custo_total: Decimal | null
+    empresa_terceirizada: string | null
+    numero_empenho: string | null
     prefeitura_id: string | null
     ordem_vinculada_id: string | null
     criado_em: Date | null
@@ -5953,6 +6228,11 @@ export namespace Prisma {
     historico_pausas: number
     sla_violado: number
     motivo_violacao_sla: number
+    custo_materiais: number
+    custo_mao_de_obra: number
+    custo_total: number
+    empresa_terceirizada: number
+    numero_empenho: number
     prefeitura_id: number
     ordem_vinculada_id: number
     criado_em: number
@@ -5963,10 +6243,16 @@ export namespace Prisma {
 
   export type OrdemServicoAvgAggregateInputType = {
     tempo_pausa_minutos?: true
+    custo_materiais?: true
+    custo_mao_de_obra?: true
+    custo_total?: true
   }
 
   export type OrdemServicoSumAggregateInputType = {
     tempo_pausa_minutos?: true
+    custo_materiais?: true
+    custo_mao_de_obra?: true
+    custo_total?: true
   }
 
   export type OrdemServicoMinAggregateInputType = {
@@ -5989,6 +6275,11 @@ export namespace Prisma {
     tempo_pausa_minutos?: true
     sla_violado?: true
     motivo_violacao_sla?: true
+    custo_materiais?: true
+    custo_mao_de_obra?: true
+    custo_total?: true
+    empresa_terceirizada?: true
+    numero_empenho?: true
     prefeitura_id?: true
     ordem_vinculada_id?: true
     criado_em?: true
@@ -6015,6 +6306,11 @@ export namespace Prisma {
     tempo_pausa_minutos?: true
     sla_violado?: true
     motivo_violacao_sla?: true
+    custo_materiais?: true
+    custo_mao_de_obra?: true
+    custo_total?: true
+    empresa_terceirizada?: true
+    numero_empenho?: true
     prefeitura_id?: true
     ordem_vinculada_id?: true
     criado_em?: true
@@ -6044,6 +6340,11 @@ export namespace Prisma {
     historico_pausas?: true
     sla_violado?: true
     motivo_violacao_sla?: true
+    custo_materiais?: true
+    custo_mao_de_obra?: true
+    custo_total?: true
+    empresa_terceirizada?: true
+    numero_empenho?: true
     prefeitura_id?: true
     ordem_vinculada_id?: true
     criado_em?: true
@@ -6160,6 +6461,11 @@ export namespace Prisma {
     historico_pausas: JsonValue | null
     sla_violado: boolean
     motivo_violacao_sla: string | null
+    custo_materiais: Decimal | null
+    custo_mao_de_obra: Decimal | null
+    custo_total: Decimal | null
+    empresa_terceirizada: string | null
+    numero_empenho: string | null
     prefeitura_id: string | null
     ordem_vinculada_id: string | null
     criado_em: Date
@@ -6208,6 +6514,11 @@ export namespace Prisma {
     historico_pausas?: boolean
     sla_violado?: boolean
     motivo_violacao_sla?: boolean
+    custo_materiais?: boolean
+    custo_mao_de_obra?: boolean
+    custo_total?: boolean
+    empresa_terceirizada?: boolean
+    numero_empenho?: boolean
     prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
@@ -6215,6 +6526,7 @@ export namespace Prisma {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    materiais_consumidos?: boolean | OrdemServico$materiais_consumidosArgs<ExtArgs>
     prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
     ordens_derivadas?: boolean | OrdemServico$ordens_derivadasArgs<ExtArgs>
@@ -6246,6 +6558,11 @@ export namespace Prisma {
     historico_pausas?: boolean
     sla_violado?: boolean
     motivo_violacao_sla?: boolean
+    custo_materiais?: boolean
+    custo_mao_de_obra?: boolean
+    custo_total?: boolean
+    empresa_terceirizada?: boolean
+    numero_empenho?: boolean
     prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
@@ -6280,6 +6597,11 @@ export namespace Prisma {
     historico_pausas?: boolean
     sla_violado?: boolean
     motivo_violacao_sla?: boolean
+    custo_materiais?: boolean
+    custo_mao_de_obra?: boolean
+    custo_total?: boolean
+    empresa_terceirizada?: boolean
+    numero_empenho?: boolean
     prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
@@ -6314,17 +6636,23 @@ export namespace Prisma {
     historico_pausas?: boolean
     sla_violado?: boolean
     motivo_violacao_sla?: boolean
+    custo_materiais?: boolean
+    custo_mao_de_obra?: boolean
+    custo_total?: boolean
+    empresa_terceirizada?: boolean
+    numero_empenho?: boolean
     prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
   }
 
-  export type OrdemServicoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo" | "titulo" | "descricao" | "categoria" | "prioridade" | "status" | "predio_id" | "solicitante_id" | "tecnico_atribuido_id" | "fotos" | "fotos_conclusao" | "motivo_pausa" | "motivo_cancelamento" | "data_limite_sla" | "iniciado_em" | "concluido_em" | "pausado_em" | "tempo_pausa_minutos" | "historico_pausas" | "sla_violado" | "motivo_violacao_sla" | "prefeitura_id" | "ordem_vinculada_id" | "criado_em" | "atualizado", ExtArgs["result"]["ordemServico"]>
+  export type OrdemServicoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo" | "titulo" | "descricao" | "categoria" | "prioridade" | "status" | "predio_id" | "solicitante_id" | "tecnico_atribuido_id" | "fotos" | "fotos_conclusao" | "motivo_pausa" | "motivo_cancelamento" | "data_limite_sla" | "iniciado_em" | "concluido_em" | "pausado_em" | "tempo_pausa_minutos" | "historico_pausas" | "sla_violado" | "motivo_violacao_sla" | "custo_materiais" | "custo_mao_de_obra" | "custo_total" | "empresa_terceirizada" | "numero_empenho" | "prefeitura_id" | "ordem_vinculada_id" | "criado_em" | "atualizado", ExtArgs["result"]["ordemServico"]>
   export type OrdemServicoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    materiais_consumidos?: boolean | OrdemServico$materiais_consumidosArgs<ExtArgs>
     prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
     ordens_derivadas?: boolean | OrdemServico$ordens_derivadasArgs<ExtArgs>
@@ -6353,6 +6681,7 @@ export namespace Prisma {
       predio: Prisma.$PredioPayload<ExtArgs>
       solicitante: Prisma.$UsuarioPayload<ExtArgs>
       tecnico: Prisma.$UsuarioPayload<ExtArgs> | null
+      materiais_consumidos: Prisma.$ItemConsumoOSPayload<ExtArgs>[]
       prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
       ordem_vinculada: Prisma.$OrdemServicoPayload<ExtArgs> | null
       ordens_derivadas: Prisma.$OrdemServicoPayload<ExtArgs>[]
@@ -6382,6 +6711,11 @@ export namespace Prisma {
       historico_pausas: Prisma.JsonValue | null
       sla_violado: boolean
       motivo_violacao_sla: string | null
+      custo_materiais: Prisma.Decimal | null
+      custo_mao_de_obra: Prisma.Decimal | null
+      custo_total: Prisma.Decimal | null
+      empresa_terceirizada: string | null
+      numero_empenho: string | null
       prefeitura_id: string | null
       ordem_vinculada_id: string | null
       criado_em: Date
@@ -6783,6 +7117,7 @@ export namespace Prisma {
     predio<T extends PredioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PredioDefaultArgs<ExtArgs>>): Prisma__PredioClient<$Result.GetResult<Prisma.$PredioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     solicitante<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tecnico<T extends OrdemServico$tecnicoArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$tecnicoArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    materiais_consumidos<T extends OrdemServico$materiais_consumidosArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$materiais_consumidosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemConsumoOSPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     prefeitura<T extends OrdemServico$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordem_vinculada<T extends OrdemServico$ordem_vinculadaArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$ordem_vinculadaArgs<ExtArgs>>): Prisma__OrdemServicoClient<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordens_derivadas<T extends OrdemServico$ordens_derivadasArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$ordens_derivadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -6839,6 +7174,11 @@ export namespace Prisma {
     readonly historico_pausas: FieldRef<"OrdemServico", 'Json'>
     readonly sla_violado: FieldRef<"OrdemServico", 'Boolean'>
     readonly motivo_violacao_sla: FieldRef<"OrdemServico", 'String'>
+    readonly custo_materiais: FieldRef<"OrdemServico", 'Decimal'>
+    readonly custo_mao_de_obra: FieldRef<"OrdemServico", 'Decimal'>
+    readonly custo_total: FieldRef<"OrdemServico", 'Decimal'>
+    readonly empresa_terceirizada: FieldRef<"OrdemServico", 'String'>
+    readonly numero_empenho: FieldRef<"OrdemServico", 'String'>
     readonly prefeitura_id: FieldRef<"OrdemServico", 'String'>
     readonly ordem_vinculada_id: FieldRef<"OrdemServico", 'String'>
     readonly criado_em: FieldRef<"OrdemServico", 'DateTime'>
@@ -7255,6 +7595,30 @@ export namespace Prisma {
      */
     include?: UsuarioInclude<ExtArgs> | null
     where?: UsuarioWhereInput
+  }
+
+  /**
+   * OrdemServico.materiais_consumidos
+   */
+  export type OrdemServico$materiais_consumidosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemConsumoOS
+     */
+    select?: ItemConsumoOSSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemConsumoOS
+     */
+    omit?: ItemConsumoOSOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemConsumoOSInclude<ExtArgs> | null
+    where?: ItemConsumoOSWhereInput
+    orderBy?: ItemConsumoOSOrderByWithRelationInput | ItemConsumoOSOrderByWithRelationInput[]
+    cursor?: ItemConsumoOSWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ItemConsumoOSScalarFieldEnum | ItemConsumoOSScalarFieldEnum[]
   }
 
   /**
@@ -12491,6 +12855,2425 @@ export namespace Prisma {
 
 
   /**
+   * Model Material
+   */
+
+  export type AggregateMaterial = {
+    _count: MaterialCountAggregateOutputType | null
+    _avg: MaterialAvgAggregateOutputType | null
+    _sum: MaterialSumAggregateOutputType | null
+    _min: MaterialMinAggregateOutputType | null
+    _max: MaterialMaxAggregateOutputType | null
+  }
+
+  export type MaterialAvgAggregateOutputType = {
+    preco_unitario: Decimal | null
+    estoque_atual: number | null
+    estoque_minimo: number | null
+  }
+
+  export type MaterialSumAggregateOutputType = {
+    preco_unitario: Decimal | null
+    estoque_atual: number | null
+    estoque_minimo: number | null
+  }
+
+  export type MaterialMinAggregateOutputType = {
+    id: string | null
+    codigo: string | null
+    nome: string | null
+    categoria: string | null
+    unidade_medida: string | null
+    preco_unitario: Decimal | null
+    estoque_atual: number | null
+    estoque_minimo: number | null
+    ativo: boolean | null
+    prefeitura_id: string | null
+    criado_em: Date | null
+    atualizado: Date | null
+  }
+
+  export type MaterialMaxAggregateOutputType = {
+    id: string | null
+    codigo: string | null
+    nome: string | null
+    categoria: string | null
+    unidade_medida: string | null
+    preco_unitario: Decimal | null
+    estoque_atual: number | null
+    estoque_minimo: number | null
+    ativo: boolean | null
+    prefeitura_id: string | null
+    criado_em: Date | null
+    atualizado: Date | null
+  }
+
+  export type MaterialCountAggregateOutputType = {
+    id: number
+    codigo: number
+    nome: number
+    categoria: number
+    unidade_medida: number
+    preco_unitario: number
+    estoque_atual: number
+    estoque_minimo: number
+    ativo: number
+    prefeitura_id: number
+    criado_em: number
+    atualizado: number
+    _all: number
+  }
+
+
+  export type MaterialAvgAggregateInputType = {
+    preco_unitario?: true
+    estoque_atual?: true
+    estoque_minimo?: true
+  }
+
+  export type MaterialSumAggregateInputType = {
+    preco_unitario?: true
+    estoque_atual?: true
+    estoque_minimo?: true
+  }
+
+  export type MaterialMinAggregateInputType = {
+    id?: true
+    codigo?: true
+    nome?: true
+    categoria?: true
+    unidade_medida?: true
+    preco_unitario?: true
+    estoque_atual?: true
+    estoque_minimo?: true
+    ativo?: true
+    prefeitura_id?: true
+    criado_em?: true
+    atualizado?: true
+  }
+
+  export type MaterialMaxAggregateInputType = {
+    id?: true
+    codigo?: true
+    nome?: true
+    categoria?: true
+    unidade_medida?: true
+    preco_unitario?: true
+    estoque_atual?: true
+    estoque_minimo?: true
+    ativo?: true
+    prefeitura_id?: true
+    criado_em?: true
+    atualizado?: true
+  }
+
+  export type MaterialCountAggregateInputType = {
+    id?: true
+    codigo?: true
+    nome?: true
+    categoria?: true
+    unidade_medida?: true
+    preco_unitario?: true
+    estoque_atual?: true
+    estoque_minimo?: true
+    ativo?: true
+    prefeitura_id?: true
+    criado_em?: true
+    atualizado?: true
+    _all?: true
+  }
+
+  export type MaterialAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Material to aggregate.
+     */
+    where?: MaterialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Materials to fetch.
+     */
+    orderBy?: MaterialOrderByWithRelationInput | MaterialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MaterialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Materials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Materials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Materials
+    **/
+    _count?: true | MaterialCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MaterialAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MaterialSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MaterialMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MaterialMaxAggregateInputType
+  }
+
+  export type GetMaterialAggregateType<T extends MaterialAggregateArgs> = {
+        [P in keyof T & keyof AggregateMaterial]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMaterial[P]>
+      : GetScalarType<T[P], AggregateMaterial[P]>
+  }
+
+
+
+
+  export type MaterialGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MaterialWhereInput
+    orderBy?: MaterialOrderByWithAggregationInput | MaterialOrderByWithAggregationInput[]
+    by: MaterialScalarFieldEnum[] | MaterialScalarFieldEnum
+    having?: MaterialScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MaterialCountAggregateInputType | true
+    _avg?: MaterialAvgAggregateInputType
+    _sum?: MaterialSumAggregateInputType
+    _min?: MaterialMinAggregateInputType
+    _max?: MaterialMaxAggregateInputType
+  }
+
+  export type MaterialGroupByOutputType = {
+    id: string
+    codigo: string
+    nome: string
+    categoria: string
+    unidade_medida: string
+    preco_unitario: Decimal
+    estoque_atual: number
+    estoque_minimo: number
+    ativo: boolean
+    prefeitura_id: string | null
+    criado_em: Date
+    atualizado: Date
+    _count: MaterialCountAggregateOutputType | null
+    _avg: MaterialAvgAggregateOutputType | null
+    _sum: MaterialSumAggregateOutputType | null
+    _min: MaterialMinAggregateOutputType | null
+    _max: MaterialMaxAggregateOutputType | null
+  }
+
+  type GetMaterialGroupByPayload<T extends MaterialGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MaterialGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MaterialGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MaterialGroupByOutputType[P]>
+            : GetScalarType<T[P], MaterialGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MaterialSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    codigo?: boolean
+    nome?: boolean
+    categoria?: boolean
+    unidade_medida?: boolean
+    preco_unitario?: boolean
+    estoque_atual?: boolean
+    estoque_minimo?: boolean
+    ativo?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    prefeitura?: boolean | Material$prefeituraArgs<ExtArgs>
+    itens_consumo?: boolean | Material$itens_consumoArgs<ExtArgs>
+    _count?: boolean | MaterialCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["material"]>
+
+  export type MaterialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    codigo?: boolean
+    nome?: boolean
+    categoria?: boolean
+    unidade_medida?: boolean
+    preco_unitario?: boolean
+    estoque_atual?: boolean
+    estoque_minimo?: boolean
+    ativo?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    prefeitura?: boolean | Material$prefeituraArgs<ExtArgs>
+  }, ExtArgs["result"]["material"]>
+
+  export type MaterialSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    codigo?: boolean
+    nome?: boolean
+    categoria?: boolean
+    unidade_medida?: boolean
+    preco_unitario?: boolean
+    estoque_atual?: boolean
+    estoque_minimo?: boolean
+    ativo?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    prefeitura?: boolean | Material$prefeituraArgs<ExtArgs>
+  }, ExtArgs["result"]["material"]>
+
+  export type MaterialSelectScalar = {
+    id?: boolean
+    codigo?: boolean
+    nome?: boolean
+    categoria?: boolean
+    unidade_medida?: boolean
+    preco_unitario?: boolean
+    estoque_atual?: boolean
+    estoque_minimo?: boolean
+    ativo?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+  }
+
+  export type MaterialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo" | "nome" | "categoria" | "unidade_medida" | "preco_unitario" | "estoque_atual" | "estoque_minimo" | "ativo" | "prefeitura_id" | "criado_em" | "atualizado", ExtArgs["result"]["material"]>
+  export type MaterialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prefeitura?: boolean | Material$prefeituraArgs<ExtArgs>
+    itens_consumo?: boolean | Material$itens_consumoArgs<ExtArgs>
+    _count?: boolean | MaterialCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type MaterialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prefeitura?: boolean | Material$prefeituraArgs<ExtArgs>
+  }
+  export type MaterialIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prefeitura?: boolean | Material$prefeituraArgs<ExtArgs>
+  }
+
+  export type $MaterialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Material"
+    objects: {
+      prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
+      itens_consumo: Prisma.$ItemConsumoOSPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      codigo: string
+      nome: string
+      categoria: string
+      unidade_medida: string
+      preco_unitario: Prisma.Decimal
+      estoque_atual: number
+      estoque_minimo: number
+      ativo: boolean
+      prefeitura_id: string | null
+      criado_em: Date
+      atualizado: Date
+    }, ExtArgs["result"]["material"]>
+    composites: {}
+  }
+
+  type MaterialGetPayload<S extends boolean | null | undefined | MaterialDefaultArgs> = $Result.GetResult<Prisma.$MaterialPayload, S>
+
+  type MaterialCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MaterialFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MaterialCountAggregateInputType | true
+    }
+
+  export interface MaterialDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Material'], meta: { name: 'Material' } }
+    /**
+     * Find zero or one Material that matches the filter.
+     * @param {MaterialFindUniqueArgs} args - Arguments to find a Material
+     * @example
+     * // Get one Material
+     * const material = await prisma.material.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MaterialFindUniqueArgs>(args: SelectSubset<T, MaterialFindUniqueArgs<ExtArgs>>): Prisma__MaterialClient<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Material that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MaterialFindUniqueOrThrowArgs} args - Arguments to find a Material
+     * @example
+     * // Get one Material
+     * const material = await prisma.material.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MaterialFindUniqueOrThrowArgs>(args: SelectSubset<T, MaterialFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MaterialClient<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Material that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MaterialFindFirstArgs} args - Arguments to find a Material
+     * @example
+     * // Get one Material
+     * const material = await prisma.material.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MaterialFindFirstArgs>(args?: SelectSubset<T, MaterialFindFirstArgs<ExtArgs>>): Prisma__MaterialClient<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Material that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MaterialFindFirstOrThrowArgs} args - Arguments to find a Material
+     * @example
+     * // Get one Material
+     * const material = await prisma.material.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MaterialFindFirstOrThrowArgs>(args?: SelectSubset<T, MaterialFindFirstOrThrowArgs<ExtArgs>>): Prisma__MaterialClient<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Materials that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MaterialFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Materials
+     * const materials = await prisma.material.findMany()
+     * 
+     * // Get first 10 Materials
+     * const materials = await prisma.material.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const materialWithIdOnly = await prisma.material.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MaterialFindManyArgs>(args?: SelectSubset<T, MaterialFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Material.
+     * @param {MaterialCreateArgs} args - Arguments to create a Material.
+     * @example
+     * // Create one Material
+     * const Material = await prisma.material.create({
+     *   data: {
+     *     // ... data to create a Material
+     *   }
+     * })
+     * 
+     */
+    create<T extends MaterialCreateArgs>(args: SelectSubset<T, MaterialCreateArgs<ExtArgs>>): Prisma__MaterialClient<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Materials.
+     * @param {MaterialCreateManyArgs} args - Arguments to create many Materials.
+     * @example
+     * // Create many Materials
+     * const material = await prisma.material.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MaterialCreateManyArgs>(args?: SelectSubset<T, MaterialCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Materials and returns the data saved in the database.
+     * @param {MaterialCreateManyAndReturnArgs} args - Arguments to create many Materials.
+     * @example
+     * // Create many Materials
+     * const material = await prisma.material.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Materials and only return the `id`
+     * const materialWithIdOnly = await prisma.material.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MaterialCreateManyAndReturnArgs>(args?: SelectSubset<T, MaterialCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Material.
+     * @param {MaterialDeleteArgs} args - Arguments to delete one Material.
+     * @example
+     * // Delete one Material
+     * const Material = await prisma.material.delete({
+     *   where: {
+     *     // ... filter to delete one Material
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MaterialDeleteArgs>(args: SelectSubset<T, MaterialDeleteArgs<ExtArgs>>): Prisma__MaterialClient<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Material.
+     * @param {MaterialUpdateArgs} args - Arguments to update one Material.
+     * @example
+     * // Update one Material
+     * const material = await prisma.material.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MaterialUpdateArgs>(args: SelectSubset<T, MaterialUpdateArgs<ExtArgs>>): Prisma__MaterialClient<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Materials.
+     * @param {MaterialDeleteManyArgs} args - Arguments to filter Materials to delete.
+     * @example
+     * // Delete a few Materials
+     * const { count } = await prisma.material.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MaterialDeleteManyArgs>(args?: SelectSubset<T, MaterialDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Materials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MaterialUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Materials
+     * const material = await prisma.material.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MaterialUpdateManyArgs>(args: SelectSubset<T, MaterialUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Materials and returns the data updated in the database.
+     * @param {MaterialUpdateManyAndReturnArgs} args - Arguments to update many Materials.
+     * @example
+     * // Update many Materials
+     * const material = await prisma.material.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Materials and only return the `id`
+     * const materialWithIdOnly = await prisma.material.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MaterialUpdateManyAndReturnArgs>(args: SelectSubset<T, MaterialUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Material.
+     * @param {MaterialUpsertArgs} args - Arguments to update or create a Material.
+     * @example
+     * // Update or create a Material
+     * const material = await prisma.material.upsert({
+     *   create: {
+     *     // ... data to create a Material
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Material we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MaterialUpsertArgs>(args: SelectSubset<T, MaterialUpsertArgs<ExtArgs>>): Prisma__MaterialClient<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Materials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MaterialCountArgs} args - Arguments to filter Materials to count.
+     * @example
+     * // Count the number of Materials
+     * const count = await prisma.material.count({
+     *   where: {
+     *     // ... the filter for the Materials we want to count
+     *   }
+     * })
+    **/
+    count<T extends MaterialCountArgs>(
+      args?: Subset<T, MaterialCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MaterialCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Material.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MaterialAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MaterialAggregateArgs>(args: Subset<T, MaterialAggregateArgs>): Prisma.PrismaPromise<GetMaterialAggregateType<T>>
+
+    /**
+     * Group by Material.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MaterialGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MaterialGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MaterialGroupByArgs['orderBy'] }
+        : { orderBy?: MaterialGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MaterialGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMaterialGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Material model
+   */
+  readonly fields: MaterialFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Material.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MaterialClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    prefeitura<T extends Material$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, Material$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    itens_consumo<T extends Material$itens_consumoArgs<ExtArgs> = {}>(args?: Subset<T, Material$itens_consumoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemConsumoOSPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Material model
+   */
+  interface MaterialFieldRefs {
+    readonly id: FieldRef<"Material", 'String'>
+    readonly codigo: FieldRef<"Material", 'String'>
+    readonly nome: FieldRef<"Material", 'String'>
+    readonly categoria: FieldRef<"Material", 'String'>
+    readonly unidade_medida: FieldRef<"Material", 'String'>
+    readonly preco_unitario: FieldRef<"Material", 'Decimal'>
+    readonly estoque_atual: FieldRef<"Material", 'Float'>
+    readonly estoque_minimo: FieldRef<"Material", 'Float'>
+    readonly ativo: FieldRef<"Material", 'Boolean'>
+    readonly prefeitura_id: FieldRef<"Material", 'String'>
+    readonly criado_em: FieldRef<"Material", 'DateTime'>
+    readonly atualizado: FieldRef<"Material", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Material findUnique
+   */
+  export type MaterialFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Material
+     */
+    select?: MaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Material
+     */
+    omit?: MaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MaterialInclude<ExtArgs> | null
+    /**
+     * Filter, which Material to fetch.
+     */
+    where: MaterialWhereUniqueInput
+  }
+
+  /**
+   * Material findUniqueOrThrow
+   */
+  export type MaterialFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Material
+     */
+    select?: MaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Material
+     */
+    omit?: MaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MaterialInclude<ExtArgs> | null
+    /**
+     * Filter, which Material to fetch.
+     */
+    where: MaterialWhereUniqueInput
+  }
+
+  /**
+   * Material findFirst
+   */
+  export type MaterialFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Material
+     */
+    select?: MaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Material
+     */
+    omit?: MaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MaterialInclude<ExtArgs> | null
+    /**
+     * Filter, which Material to fetch.
+     */
+    where?: MaterialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Materials to fetch.
+     */
+    orderBy?: MaterialOrderByWithRelationInput | MaterialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Materials.
+     */
+    cursor?: MaterialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Materials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Materials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Materials.
+     */
+    distinct?: MaterialScalarFieldEnum | MaterialScalarFieldEnum[]
+  }
+
+  /**
+   * Material findFirstOrThrow
+   */
+  export type MaterialFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Material
+     */
+    select?: MaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Material
+     */
+    omit?: MaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MaterialInclude<ExtArgs> | null
+    /**
+     * Filter, which Material to fetch.
+     */
+    where?: MaterialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Materials to fetch.
+     */
+    orderBy?: MaterialOrderByWithRelationInput | MaterialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Materials.
+     */
+    cursor?: MaterialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Materials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Materials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Materials.
+     */
+    distinct?: MaterialScalarFieldEnum | MaterialScalarFieldEnum[]
+  }
+
+  /**
+   * Material findMany
+   */
+  export type MaterialFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Material
+     */
+    select?: MaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Material
+     */
+    omit?: MaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MaterialInclude<ExtArgs> | null
+    /**
+     * Filter, which Materials to fetch.
+     */
+    where?: MaterialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Materials to fetch.
+     */
+    orderBy?: MaterialOrderByWithRelationInput | MaterialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Materials.
+     */
+    cursor?: MaterialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Materials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Materials.
+     */
+    skip?: number
+    distinct?: MaterialScalarFieldEnum | MaterialScalarFieldEnum[]
+  }
+
+  /**
+   * Material create
+   */
+  export type MaterialCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Material
+     */
+    select?: MaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Material
+     */
+    omit?: MaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MaterialInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Material.
+     */
+    data: XOR<MaterialCreateInput, MaterialUncheckedCreateInput>
+  }
+
+  /**
+   * Material createMany
+   */
+  export type MaterialCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Materials.
+     */
+    data: MaterialCreateManyInput | MaterialCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Material createManyAndReturn
+   */
+  export type MaterialCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Material
+     */
+    select?: MaterialSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Material
+     */
+    omit?: MaterialOmit<ExtArgs> | null
+    /**
+     * The data used to create many Materials.
+     */
+    data: MaterialCreateManyInput | MaterialCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MaterialIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Material update
+   */
+  export type MaterialUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Material
+     */
+    select?: MaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Material
+     */
+    omit?: MaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MaterialInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Material.
+     */
+    data: XOR<MaterialUpdateInput, MaterialUncheckedUpdateInput>
+    /**
+     * Choose, which Material to update.
+     */
+    where: MaterialWhereUniqueInput
+  }
+
+  /**
+   * Material updateMany
+   */
+  export type MaterialUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Materials.
+     */
+    data: XOR<MaterialUpdateManyMutationInput, MaterialUncheckedUpdateManyInput>
+    /**
+     * Filter which Materials to update
+     */
+    where?: MaterialWhereInput
+    /**
+     * Limit how many Materials to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Material updateManyAndReturn
+   */
+  export type MaterialUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Material
+     */
+    select?: MaterialSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Material
+     */
+    omit?: MaterialOmit<ExtArgs> | null
+    /**
+     * The data used to update Materials.
+     */
+    data: XOR<MaterialUpdateManyMutationInput, MaterialUncheckedUpdateManyInput>
+    /**
+     * Filter which Materials to update
+     */
+    where?: MaterialWhereInput
+    /**
+     * Limit how many Materials to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MaterialIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Material upsert
+   */
+  export type MaterialUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Material
+     */
+    select?: MaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Material
+     */
+    omit?: MaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MaterialInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Material to update in case it exists.
+     */
+    where: MaterialWhereUniqueInput
+    /**
+     * In case the Material found by the `where` argument doesn't exist, create a new Material with this data.
+     */
+    create: XOR<MaterialCreateInput, MaterialUncheckedCreateInput>
+    /**
+     * In case the Material was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MaterialUpdateInput, MaterialUncheckedUpdateInput>
+  }
+
+  /**
+   * Material delete
+   */
+  export type MaterialDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Material
+     */
+    select?: MaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Material
+     */
+    omit?: MaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MaterialInclude<ExtArgs> | null
+    /**
+     * Filter which Material to delete.
+     */
+    where: MaterialWhereUniqueInput
+  }
+
+  /**
+   * Material deleteMany
+   */
+  export type MaterialDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Materials to delete
+     */
+    where?: MaterialWhereInput
+    /**
+     * Limit how many Materials to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Material.prefeitura
+   */
+  export type Material$prefeituraArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    where?: PrefeituraWhereInput
+  }
+
+  /**
+   * Material.itens_consumo
+   */
+  export type Material$itens_consumoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemConsumoOS
+     */
+    select?: ItemConsumoOSSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemConsumoOS
+     */
+    omit?: ItemConsumoOSOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemConsumoOSInclude<ExtArgs> | null
+    where?: ItemConsumoOSWhereInput
+    orderBy?: ItemConsumoOSOrderByWithRelationInput | ItemConsumoOSOrderByWithRelationInput[]
+    cursor?: ItemConsumoOSWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ItemConsumoOSScalarFieldEnum | ItemConsumoOSScalarFieldEnum[]
+  }
+
+  /**
+   * Material without action
+   */
+  export type MaterialDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Material
+     */
+    select?: MaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Material
+     */
+    omit?: MaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MaterialInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ItemConsumoOS
+   */
+
+  export type AggregateItemConsumoOS = {
+    _count: ItemConsumoOSCountAggregateOutputType | null
+    _avg: ItemConsumoOSAvgAggregateOutputType | null
+    _sum: ItemConsumoOSSumAggregateOutputType | null
+    _min: ItemConsumoOSMinAggregateOutputType | null
+    _max: ItemConsumoOSMaxAggregateOutputType | null
+  }
+
+  export type ItemConsumoOSAvgAggregateOutputType = {
+    quantidade: number | null
+    preco_unitario: Decimal | null
+    preco_total: Decimal | null
+  }
+
+  export type ItemConsumoOSSumAggregateOutputType = {
+    quantidade: number | null
+    preco_unitario: Decimal | null
+    preco_total: Decimal | null
+  }
+
+  export type ItemConsumoOSMinAggregateOutputType = {
+    id: string | null
+    ordem_servico_id: string | null
+    material_id: string | null
+    descricao: string | null
+    quantidade: number | null
+    unidade_medida: string | null
+    preco_unitario: Decimal | null
+    preco_total: Decimal | null
+    criado_em: Date | null
+  }
+
+  export type ItemConsumoOSMaxAggregateOutputType = {
+    id: string | null
+    ordem_servico_id: string | null
+    material_id: string | null
+    descricao: string | null
+    quantidade: number | null
+    unidade_medida: string | null
+    preco_unitario: Decimal | null
+    preco_total: Decimal | null
+    criado_em: Date | null
+  }
+
+  export type ItemConsumoOSCountAggregateOutputType = {
+    id: number
+    ordem_servico_id: number
+    material_id: number
+    descricao: number
+    quantidade: number
+    unidade_medida: number
+    preco_unitario: number
+    preco_total: number
+    criado_em: number
+    _all: number
+  }
+
+
+  export type ItemConsumoOSAvgAggregateInputType = {
+    quantidade?: true
+    preco_unitario?: true
+    preco_total?: true
+  }
+
+  export type ItemConsumoOSSumAggregateInputType = {
+    quantidade?: true
+    preco_unitario?: true
+    preco_total?: true
+  }
+
+  export type ItemConsumoOSMinAggregateInputType = {
+    id?: true
+    ordem_servico_id?: true
+    material_id?: true
+    descricao?: true
+    quantidade?: true
+    unidade_medida?: true
+    preco_unitario?: true
+    preco_total?: true
+    criado_em?: true
+  }
+
+  export type ItemConsumoOSMaxAggregateInputType = {
+    id?: true
+    ordem_servico_id?: true
+    material_id?: true
+    descricao?: true
+    quantidade?: true
+    unidade_medida?: true
+    preco_unitario?: true
+    preco_total?: true
+    criado_em?: true
+  }
+
+  export type ItemConsumoOSCountAggregateInputType = {
+    id?: true
+    ordem_servico_id?: true
+    material_id?: true
+    descricao?: true
+    quantidade?: true
+    unidade_medida?: true
+    preco_unitario?: true
+    preco_total?: true
+    criado_em?: true
+    _all?: true
+  }
+
+  export type ItemConsumoOSAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ItemConsumoOS to aggregate.
+     */
+    where?: ItemConsumoOSWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemConsumoOS to fetch.
+     */
+    orderBy?: ItemConsumoOSOrderByWithRelationInput | ItemConsumoOSOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ItemConsumoOSWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemConsumoOS from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemConsumoOS.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ItemConsumoOS
+    **/
+    _count?: true | ItemConsumoOSCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ItemConsumoOSAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ItemConsumoOSSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ItemConsumoOSMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ItemConsumoOSMaxAggregateInputType
+  }
+
+  export type GetItemConsumoOSAggregateType<T extends ItemConsumoOSAggregateArgs> = {
+        [P in keyof T & keyof AggregateItemConsumoOS]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateItemConsumoOS[P]>
+      : GetScalarType<T[P], AggregateItemConsumoOS[P]>
+  }
+
+
+
+
+  export type ItemConsumoOSGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemConsumoOSWhereInput
+    orderBy?: ItemConsumoOSOrderByWithAggregationInput | ItemConsumoOSOrderByWithAggregationInput[]
+    by: ItemConsumoOSScalarFieldEnum[] | ItemConsumoOSScalarFieldEnum
+    having?: ItemConsumoOSScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ItemConsumoOSCountAggregateInputType | true
+    _avg?: ItemConsumoOSAvgAggregateInputType
+    _sum?: ItemConsumoOSSumAggregateInputType
+    _min?: ItemConsumoOSMinAggregateInputType
+    _max?: ItemConsumoOSMaxAggregateInputType
+  }
+
+  export type ItemConsumoOSGroupByOutputType = {
+    id: string
+    ordem_servico_id: string
+    material_id: string | null
+    descricao: string
+    quantidade: number
+    unidade_medida: string
+    preco_unitario: Decimal
+    preco_total: Decimal
+    criado_em: Date
+    _count: ItemConsumoOSCountAggregateOutputType | null
+    _avg: ItemConsumoOSAvgAggregateOutputType | null
+    _sum: ItemConsumoOSSumAggregateOutputType | null
+    _min: ItemConsumoOSMinAggregateOutputType | null
+    _max: ItemConsumoOSMaxAggregateOutputType | null
+  }
+
+  type GetItemConsumoOSGroupByPayload<T extends ItemConsumoOSGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ItemConsumoOSGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ItemConsumoOSGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ItemConsumoOSGroupByOutputType[P]>
+            : GetScalarType<T[P], ItemConsumoOSGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ItemConsumoOSSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ordem_servico_id?: boolean
+    material_id?: boolean
+    descricao?: boolean
+    quantidade?: boolean
+    unidade_medida?: boolean
+    preco_unitario?: boolean
+    preco_total?: boolean
+    criado_em?: boolean
+    ordem_servico?: boolean | OrdemServicoDefaultArgs<ExtArgs>
+    material?: boolean | ItemConsumoOS$materialArgs<ExtArgs>
+  }, ExtArgs["result"]["itemConsumoOS"]>
+
+  export type ItemConsumoOSSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ordem_servico_id?: boolean
+    material_id?: boolean
+    descricao?: boolean
+    quantidade?: boolean
+    unidade_medida?: boolean
+    preco_unitario?: boolean
+    preco_total?: boolean
+    criado_em?: boolean
+    ordem_servico?: boolean | OrdemServicoDefaultArgs<ExtArgs>
+    material?: boolean | ItemConsumoOS$materialArgs<ExtArgs>
+  }, ExtArgs["result"]["itemConsumoOS"]>
+
+  export type ItemConsumoOSSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ordem_servico_id?: boolean
+    material_id?: boolean
+    descricao?: boolean
+    quantidade?: boolean
+    unidade_medida?: boolean
+    preco_unitario?: boolean
+    preco_total?: boolean
+    criado_em?: boolean
+    ordem_servico?: boolean | OrdemServicoDefaultArgs<ExtArgs>
+    material?: boolean | ItemConsumoOS$materialArgs<ExtArgs>
+  }, ExtArgs["result"]["itemConsumoOS"]>
+
+  export type ItemConsumoOSSelectScalar = {
+    id?: boolean
+    ordem_servico_id?: boolean
+    material_id?: boolean
+    descricao?: boolean
+    quantidade?: boolean
+    unidade_medida?: boolean
+    preco_unitario?: boolean
+    preco_total?: boolean
+    criado_em?: boolean
+  }
+
+  export type ItemConsumoOSOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ordem_servico_id" | "material_id" | "descricao" | "quantidade" | "unidade_medida" | "preco_unitario" | "preco_total" | "criado_em", ExtArgs["result"]["itemConsumoOS"]>
+  export type ItemConsumoOSInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ordem_servico?: boolean | OrdemServicoDefaultArgs<ExtArgs>
+    material?: boolean | ItemConsumoOS$materialArgs<ExtArgs>
+  }
+  export type ItemConsumoOSIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ordem_servico?: boolean | OrdemServicoDefaultArgs<ExtArgs>
+    material?: boolean | ItemConsumoOS$materialArgs<ExtArgs>
+  }
+  export type ItemConsumoOSIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ordem_servico?: boolean | OrdemServicoDefaultArgs<ExtArgs>
+    material?: boolean | ItemConsumoOS$materialArgs<ExtArgs>
+  }
+
+  export type $ItemConsumoOSPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ItemConsumoOS"
+    objects: {
+      ordem_servico: Prisma.$OrdemServicoPayload<ExtArgs>
+      material: Prisma.$MaterialPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      ordem_servico_id: string
+      material_id: string | null
+      descricao: string
+      quantidade: number
+      unidade_medida: string
+      preco_unitario: Prisma.Decimal
+      preco_total: Prisma.Decimal
+      criado_em: Date
+    }, ExtArgs["result"]["itemConsumoOS"]>
+    composites: {}
+  }
+
+  type ItemConsumoOSGetPayload<S extends boolean | null | undefined | ItemConsumoOSDefaultArgs> = $Result.GetResult<Prisma.$ItemConsumoOSPayload, S>
+
+  type ItemConsumoOSCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ItemConsumoOSFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ItemConsumoOSCountAggregateInputType | true
+    }
+
+  export interface ItemConsumoOSDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ItemConsumoOS'], meta: { name: 'ItemConsumoOS' } }
+    /**
+     * Find zero or one ItemConsumoOS that matches the filter.
+     * @param {ItemConsumoOSFindUniqueArgs} args - Arguments to find a ItemConsumoOS
+     * @example
+     * // Get one ItemConsumoOS
+     * const itemConsumoOS = await prisma.itemConsumoOS.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ItemConsumoOSFindUniqueArgs>(args: SelectSubset<T, ItemConsumoOSFindUniqueArgs<ExtArgs>>): Prisma__ItemConsumoOSClient<$Result.GetResult<Prisma.$ItemConsumoOSPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ItemConsumoOS that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ItemConsumoOSFindUniqueOrThrowArgs} args - Arguments to find a ItemConsumoOS
+     * @example
+     * // Get one ItemConsumoOS
+     * const itemConsumoOS = await prisma.itemConsumoOS.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ItemConsumoOSFindUniqueOrThrowArgs>(args: SelectSubset<T, ItemConsumoOSFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ItemConsumoOSClient<$Result.GetResult<Prisma.$ItemConsumoOSPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ItemConsumoOS that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemConsumoOSFindFirstArgs} args - Arguments to find a ItemConsumoOS
+     * @example
+     * // Get one ItemConsumoOS
+     * const itemConsumoOS = await prisma.itemConsumoOS.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ItemConsumoOSFindFirstArgs>(args?: SelectSubset<T, ItemConsumoOSFindFirstArgs<ExtArgs>>): Prisma__ItemConsumoOSClient<$Result.GetResult<Prisma.$ItemConsumoOSPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ItemConsumoOS that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemConsumoOSFindFirstOrThrowArgs} args - Arguments to find a ItemConsumoOS
+     * @example
+     * // Get one ItemConsumoOS
+     * const itemConsumoOS = await prisma.itemConsumoOS.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ItemConsumoOSFindFirstOrThrowArgs>(args?: SelectSubset<T, ItemConsumoOSFindFirstOrThrowArgs<ExtArgs>>): Prisma__ItemConsumoOSClient<$Result.GetResult<Prisma.$ItemConsumoOSPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ItemConsumoOS that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemConsumoOSFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ItemConsumoOS
+     * const itemConsumoOS = await prisma.itemConsumoOS.findMany()
+     * 
+     * // Get first 10 ItemConsumoOS
+     * const itemConsumoOS = await prisma.itemConsumoOS.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const itemConsumoOSWithIdOnly = await prisma.itemConsumoOS.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ItemConsumoOSFindManyArgs>(args?: SelectSubset<T, ItemConsumoOSFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemConsumoOSPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ItemConsumoOS.
+     * @param {ItemConsumoOSCreateArgs} args - Arguments to create a ItemConsumoOS.
+     * @example
+     * // Create one ItemConsumoOS
+     * const ItemConsumoOS = await prisma.itemConsumoOS.create({
+     *   data: {
+     *     // ... data to create a ItemConsumoOS
+     *   }
+     * })
+     * 
+     */
+    create<T extends ItemConsumoOSCreateArgs>(args: SelectSubset<T, ItemConsumoOSCreateArgs<ExtArgs>>): Prisma__ItemConsumoOSClient<$Result.GetResult<Prisma.$ItemConsumoOSPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ItemConsumoOS.
+     * @param {ItemConsumoOSCreateManyArgs} args - Arguments to create many ItemConsumoOS.
+     * @example
+     * // Create many ItemConsumoOS
+     * const itemConsumoOS = await prisma.itemConsumoOS.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ItemConsumoOSCreateManyArgs>(args?: SelectSubset<T, ItemConsumoOSCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ItemConsumoOS and returns the data saved in the database.
+     * @param {ItemConsumoOSCreateManyAndReturnArgs} args - Arguments to create many ItemConsumoOS.
+     * @example
+     * // Create many ItemConsumoOS
+     * const itemConsumoOS = await prisma.itemConsumoOS.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ItemConsumoOS and only return the `id`
+     * const itemConsumoOSWithIdOnly = await prisma.itemConsumoOS.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ItemConsumoOSCreateManyAndReturnArgs>(args?: SelectSubset<T, ItemConsumoOSCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemConsumoOSPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ItemConsumoOS.
+     * @param {ItemConsumoOSDeleteArgs} args - Arguments to delete one ItemConsumoOS.
+     * @example
+     * // Delete one ItemConsumoOS
+     * const ItemConsumoOS = await prisma.itemConsumoOS.delete({
+     *   where: {
+     *     // ... filter to delete one ItemConsumoOS
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ItemConsumoOSDeleteArgs>(args: SelectSubset<T, ItemConsumoOSDeleteArgs<ExtArgs>>): Prisma__ItemConsumoOSClient<$Result.GetResult<Prisma.$ItemConsumoOSPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ItemConsumoOS.
+     * @param {ItemConsumoOSUpdateArgs} args - Arguments to update one ItemConsumoOS.
+     * @example
+     * // Update one ItemConsumoOS
+     * const itemConsumoOS = await prisma.itemConsumoOS.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ItemConsumoOSUpdateArgs>(args: SelectSubset<T, ItemConsumoOSUpdateArgs<ExtArgs>>): Prisma__ItemConsumoOSClient<$Result.GetResult<Prisma.$ItemConsumoOSPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ItemConsumoOS.
+     * @param {ItemConsumoOSDeleteManyArgs} args - Arguments to filter ItemConsumoOS to delete.
+     * @example
+     * // Delete a few ItemConsumoOS
+     * const { count } = await prisma.itemConsumoOS.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ItemConsumoOSDeleteManyArgs>(args?: SelectSubset<T, ItemConsumoOSDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ItemConsumoOS.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemConsumoOSUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ItemConsumoOS
+     * const itemConsumoOS = await prisma.itemConsumoOS.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ItemConsumoOSUpdateManyArgs>(args: SelectSubset<T, ItemConsumoOSUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ItemConsumoOS and returns the data updated in the database.
+     * @param {ItemConsumoOSUpdateManyAndReturnArgs} args - Arguments to update many ItemConsumoOS.
+     * @example
+     * // Update many ItemConsumoOS
+     * const itemConsumoOS = await prisma.itemConsumoOS.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ItemConsumoOS and only return the `id`
+     * const itemConsumoOSWithIdOnly = await prisma.itemConsumoOS.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ItemConsumoOSUpdateManyAndReturnArgs>(args: SelectSubset<T, ItemConsumoOSUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemConsumoOSPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ItemConsumoOS.
+     * @param {ItemConsumoOSUpsertArgs} args - Arguments to update or create a ItemConsumoOS.
+     * @example
+     * // Update or create a ItemConsumoOS
+     * const itemConsumoOS = await prisma.itemConsumoOS.upsert({
+     *   create: {
+     *     // ... data to create a ItemConsumoOS
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ItemConsumoOS we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ItemConsumoOSUpsertArgs>(args: SelectSubset<T, ItemConsumoOSUpsertArgs<ExtArgs>>): Prisma__ItemConsumoOSClient<$Result.GetResult<Prisma.$ItemConsumoOSPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ItemConsumoOS.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemConsumoOSCountArgs} args - Arguments to filter ItemConsumoOS to count.
+     * @example
+     * // Count the number of ItemConsumoOS
+     * const count = await prisma.itemConsumoOS.count({
+     *   where: {
+     *     // ... the filter for the ItemConsumoOS we want to count
+     *   }
+     * })
+    **/
+    count<T extends ItemConsumoOSCountArgs>(
+      args?: Subset<T, ItemConsumoOSCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ItemConsumoOSCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ItemConsumoOS.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemConsumoOSAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ItemConsumoOSAggregateArgs>(args: Subset<T, ItemConsumoOSAggregateArgs>): Prisma.PrismaPromise<GetItemConsumoOSAggregateType<T>>
+
+    /**
+     * Group by ItemConsumoOS.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemConsumoOSGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ItemConsumoOSGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ItemConsumoOSGroupByArgs['orderBy'] }
+        : { orderBy?: ItemConsumoOSGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ItemConsumoOSGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetItemConsumoOSGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ItemConsumoOS model
+   */
+  readonly fields: ItemConsumoOSFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ItemConsumoOS.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ItemConsumoOSClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    ordem_servico<T extends OrdemServicoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServicoDefaultArgs<ExtArgs>>): Prisma__OrdemServicoClient<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    material<T extends ItemConsumoOS$materialArgs<ExtArgs> = {}>(args?: Subset<T, ItemConsumoOS$materialArgs<ExtArgs>>): Prisma__MaterialClient<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ItemConsumoOS model
+   */
+  interface ItemConsumoOSFieldRefs {
+    readonly id: FieldRef<"ItemConsumoOS", 'String'>
+    readonly ordem_servico_id: FieldRef<"ItemConsumoOS", 'String'>
+    readonly material_id: FieldRef<"ItemConsumoOS", 'String'>
+    readonly descricao: FieldRef<"ItemConsumoOS", 'String'>
+    readonly quantidade: FieldRef<"ItemConsumoOS", 'Float'>
+    readonly unidade_medida: FieldRef<"ItemConsumoOS", 'String'>
+    readonly preco_unitario: FieldRef<"ItemConsumoOS", 'Decimal'>
+    readonly preco_total: FieldRef<"ItemConsumoOS", 'Decimal'>
+    readonly criado_em: FieldRef<"ItemConsumoOS", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ItemConsumoOS findUnique
+   */
+  export type ItemConsumoOSFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemConsumoOS
+     */
+    select?: ItemConsumoOSSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemConsumoOS
+     */
+    omit?: ItemConsumoOSOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemConsumoOSInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemConsumoOS to fetch.
+     */
+    where: ItemConsumoOSWhereUniqueInput
+  }
+
+  /**
+   * ItemConsumoOS findUniqueOrThrow
+   */
+  export type ItemConsumoOSFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemConsumoOS
+     */
+    select?: ItemConsumoOSSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemConsumoOS
+     */
+    omit?: ItemConsumoOSOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemConsumoOSInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemConsumoOS to fetch.
+     */
+    where: ItemConsumoOSWhereUniqueInput
+  }
+
+  /**
+   * ItemConsumoOS findFirst
+   */
+  export type ItemConsumoOSFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemConsumoOS
+     */
+    select?: ItemConsumoOSSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemConsumoOS
+     */
+    omit?: ItemConsumoOSOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemConsumoOSInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemConsumoOS to fetch.
+     */
+    where?: ItemConsumoOSWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemConsumoOS to fetch.
+     */
+    orderBy?: ItemConsumoOSOrderByWithRelationInput | ItemConsumoOSOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ItemConsumoOS.
+     */
+    cursor?: ItemConsumoOSWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemConsumoOS from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemConsumoOS.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ItemConsumoOS.
+     */
+    distinct?: ItemConsumoOSScalarFieldEnum | ItemConsumoOSScalarFieldEnum[]
+  }
+
+  /**
+   * ItemConsumoOS findFirstOrThrow
+   */
+  export type ItemConsumoOSFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemConsumoOS
+     */
+    select?: ItemConsumoOSSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemConsumoOS
+     */
+    omit?: ItemConsumoOSOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemConsumoOSInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemConsumoOS to fetch.
+     */
+    where?: ItemConsumoOSWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemConsumoOS to fetch.
+     */
+    orderBy?: ItemConsumoOSOrderByWithRelationInput | ItemConsumoOSOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ItemConsumoOS.
+     */
+    cursor?: ItemConsumoOSWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemConsumoOS from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemConsumoOS.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ItemConsumoOS.
+     */
+    distinct?: ItemConsumoOSScalarFieldEnum | ItemConsumoOSScalarFieldEnum[]
+  }
+
+  /**
+   * ItemConsumoOS findMany
+   */
+  export type ItemConsumoOSFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemConsumoOS
+     */
+    select?: ItemConsumoOSSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemConsumoOS
+     */
+    omit?: ItemConsumoOSOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemConsumoOSInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemConsumoOS to fetch.
+     */
+    where?: ItemConsumoOSWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemConsumoOS to fetch.
+     */
+    orderBy?: ItemConsumoOSOrderByWithRelationInput | ItemConsumoOSOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ItemConsumoOS.
+     */
+    cursor?: ItemConsumoOSWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemConsumoOS from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemConsumoOS.
+     */
+    skip?: number
+    distinct?: ItemConsumoOSScalarFieldEnum | ItemConsumoOSScalarFieldEnum[]
+  }
+
+  /**
+   * ItemConsumoOS create
+   */
+  export type ItemConsumoOSCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemConsumoOS
+     */
+    select?: ItemConsumoOSSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemConsumoOS
+     */
+    omit?: ItemConsumoOSOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemConsumoOSInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ItemConsumoOS.
+     */
+    data: XOR<ItemConsumoOSCreateInput, ItemConsumoOSUncheckedCreateInput>
+  }
+
+  /**
+   * ItemConsumoOS createMany
+   */
+  export type ItemConsumoOSCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ItemConsumoOS.
+     */
+    data: ItemConsumoOSCreateManyInput | ItemConsumoOSCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ItemConsumoOS createManyAndReturn
+   */
+  export type ItemConsumoOSCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemConsumoOS
+     */
+    select?: ItemConsumoOSSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemConsumoOS
+     */
+    omit?: ItemConsumoOSOmit<ExtArgs> | null
+    /**
+     * The data used to create many ItemConsumoOS.
+     */
+    data: ItemConsumoOSCreateManyInput | ItemConsumoOSCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemConsumoOSIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ItemConsumoOS update
+   */
+  export type ItemConsumoOSUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemConsumoOS
+     */
+    select?: ItemConsumoOSSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemConsumoOS
+     */
+    omit?: ItemConsumoOSOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemConsumoOSInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ItemConsumoOS.
+     */
+    data: XOR<ItemConsumoOSUpdateInput, ItemConsumoOSUncheckedUpdateInput>
+    /**
+     * Choose, which ItemConsumoOS to update.
+     */
+    where: ItemConsumoOSWhereUniqueInput
+  }
+
+  /**
+   * ItemConsumoOS updateMany
+   */
+  export type ItemConsumoOSUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ItemConsumoOS.
+     */
+    data: XOR<ItemConsumoOSUpdateManyMutationInput, ItemConsumoOSUncheckedUpdateManyInput>
+    /**
+     * Filter which ItemConsumoOS to update
+     */
+    where?: ItemConsumoOSWhereInput
+    /**
+     * Limit how many ItemConsumoOS to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ItemConsumoOS updateManyAndReturn
+   */
+  export type ItemConsumoOSUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemConsumoOS
+     */
+    select?: ItemConsumoOSSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemConsumoOS
+     */
+    omit?: ItemConsumoOSOmit<ExtArgs> | null
+    /**
+     * The data used to update ItemConsumoOS.
+     */
+    data: XOR<ItemConsumoOSUpdateManyMutationInput, ItemConsumoOSUncheckedUpdateManyInput>
+    /**
+     * Filter which ItemConsumoOS to update
+     */
+    where?: ItemConsumoOSWhereInput
+    /**
+     * Limit how many ItemConsumoOS to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemConsumoOSIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ItemConsumoOS upsert
+   */
+  export type ItemConsumoOSUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemConsumoOS
+     */
+    select?: ItemConsumoOSSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemConsumoOS
+     */
+    omit?: ItemConsumoOSOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemConsumoOSInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ItemConsumoOS to update in case it exists.
+     */
+    where: ItemConsumoOSWhereUniqueInput
+    /**
+     * In case the ItemConsumoOS found by the `where` argument doesn't exist, create a new ItemConsumoOS with this data.
+     */
+    create: XOR<ItemConsumoOSCreateInput, ItemConsumoOSUncheckedCreateInput>
+    /**
+     * In case the ItemConsumoOS was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ItemConsumoOSUpdateInput, ItemConsumoOSUncheckedUpdateInput>
+  }
+
+  /**
+   * ItemConsumoOS delete
+   */
+  export type ItemConsumoOSDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemConsumoOS
+     */
+    select?: ItemConsumoOSSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemConsumoOS
+     */
+    omit?: ItemConsumoOSOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemConsumoOSInclude<ExtArgs> | null
+    /**
+     * Filter which ItemConsumoOS to delete.
+     */
+    where: ItemConsumoOSWhereUniqueInput
+  }
+
+  /**
+   * ItemConsumoOS deleteMany
+   */
+  export type ItemConsumoOSDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ItemConsumoOS to delete
+     */
+    where?: ItemConsumoOSWhereInput
+    /**
+     * Limit how many ItemConsumoOS to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ItemConsumoOS.material
+   */
+  export type ItemConsumoOS$materialArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Material
+     */
+    select?: MaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Material
+     */
+    omit?: MaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MaterialInclude<ExtArgs> | null
+    where?: MaterialWhereInput
+  }
+
+  /**
+   * ItemConsumoOS without action
+   */
+  export type ItemConsumoOSDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemConsumoOS
+     */
+    select?: ItemConsumoOSSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemConsumoOS
+     */
+    omit?: ItemConsumoOSOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemConsumoOSInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -12582,6 +15365,11 @@ export namespace Prisma {
     historico_pausas: 'historico_pausas',
     sla_violado: 'sla_violado',
     motivo_violacao_sla: 'motivo_violacao_sla',
+    custo_materiais: 'custo_materiais',
+    custo_mao_de_obra: 'custo_mao_de_obra',
+    custo_total: 'custo_total',
+    empresa_terceirizada: 'empresa_terceirizada',
+    numero_empenho: 'numero_empenho',
     prefeitura_id: 'prefeitura_id',
     ordem_vinculada_id: 'ordem_vinculada_id',
     criado_em: 'criado_em',
@@ -12680,6 +15468,39 @@ export namespace Prisma {
   };
 
   export type ManifestacaoScalarFieldEnum = (typeof ManifestacaoScalarFieldEnum)[keyof typeof ManifestacaoScalarFieldEnum]
+
+
+  export const MaterialScalarFieldEnum: {
+    id: 'id',
+    codigo: 'codigo',
+    nome: 'nome',
+    categoria: 'categoria',
+    unidade_medida: 'unidade_medida',
+    preco_unitario: 'preco_unitario',
+    estoque_atual: 'estoque_atual',
+    estoque_minimo: 'estoque_minimo',
+    ativo: 'ativo',
+    prefeitura_id: 'prefeitura_id',
+    criado_em: 'criado_em',
+    atualizado: 'atualizado'
+  };
+
+  export type MaterialScalarFieldEnum = (typeof MaterialScalarFieldEnum)[keyof typeof MaterialScalarFieldEnum]
+
+
+  export const ItemConsumoOSScalarFieldEnum: {
+    id: 'id',
+    ordem_servico_id: 'ordem_servico_id',
+    material_id: 'material_id',
+    descricao: 'descricao',
+    quantidade: 'quantidade',
+    unidade_medida: 'unidade_medida',
+    preco_unitario: 'preco_unitario',
+    preco_total: 'preco_total',
+    criado_em: 'criado_em'
+  };
+
+  export type ItemConsumoOSScalarFieldEnum = (typeof ItemConsumoOSScalarFieldEnum)[keyof typeof ItemConsumoOSScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -12876,6 +15697,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Decimal'
+   */
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal[]'
+   */
+  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+  /**
    * Reference to a field of type 'AuditAction'
    */
   export type EnumAuditActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuditAction'>
@@ -12941,6 +15776,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoListRelationFilter
     vistorias?: AgendaVistoriaListRelationFilter
     auditorias?: AuditoriaLogListRelationFilter
+    materiais?: MaterialListRelationFilter
   }
 
   export type PrefeituraOrderByWithRelationInput = {
@@ -12961,6 +15797,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoOrderByRelationAggregateInput
     vistorias?: AgendaVistoriaOrderByRelationAggregateInput
     auditorias?: AuditoriaLogOrderByRelationAggregateInput
+    materiais?: MaterialOrderByRelationAggregateInput
   }
 
   export type PrefeituraWhereUniqueInput = Prisma.AtLeast<{
@@ -12984,6 +15821,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoListRelationFilter
     vistorias?: AgendaVistoriaListRelationFilter
     auditorias?: AuditoriaLogListRelationFilter
+    materiais?: MaterialListRelationFilter
   }, "id" | "slug" | "cnpj">
 
   export type PrefeituraOrderByWithAggregationInput = {
@@ -13270,6 +16108,11 @@ export namespace Prisma {
     historico_pausas?: JsonNullableFilter<"OrdemServico">
     sla_violado?: BoolFilter<"OrdemServico"> | boolean
     motivo_violacao_sla?: StringNullableFilter<"OrdemServico"> | string | null
+    custo_materiais?: DecimalNullableFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: DecimalNullableFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
+    custo_total?: DecimalNullableFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: StringNullableFilter<"OrdemServico"> | string | null
+    numero_empenho?: StringNullableFilter<"OrdemServico"> | string | null
     prefeitura_id?: StringNullableFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
@@ -13277,6 +16120,7 @@ export namespace Prisma {
     predio?: XOR<PredioScalarRelationFilter, PredioWhereInput>
     solicitante?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     tecnico?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    materiais_consumidos?: ItemConsumoOSListRelationFilter
     prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
     ordem_vinculada?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
     ordens_derivadas?: OrdemServicoListRelationFilter
@@ -13307,6 +16151,11 @@ export namespace Prisma {
     historico_pausas?: SortOrderInput | SortOrder
     sla_violado?: SortOrder
     motivo_violacao_sla?: SortOrderInput | SortOrder
+    custo_materiais?: SortOrderInput | SortOrder
+    custo_mao_de_obra?: SortOrderInput | SortOrder
+    custo_total?: SortOrderInput | SortOrder
+    empresa_terceirizada?: SortOrderInput | SortOrder
+    numero_empenho?: SortOrderInput | SortOrder
     prefeitura_id?: SortOrderInput | SortOrder
     ordem_vinculada_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
@@ -13314,6 +16163,7 @@ export namespace Prisma {
     predio?: PredioOrderByWithRelationInput
     solicitante?: UsuarioOrderByWithRelationInput
     tecnico?: UsuarioOrderByWithRelationInput
+    materiais_consumidos?: ItemConsumoOSOrderByRelationAggregateInput
     prefeitura?: PrefeituraOrderByWithRelationInput
     ordem_vinculada?: OrdemServicoOrderByWithRelationInput
     ordens_derivadas?: OrdemServicoOrderByRelationAggregateInput
@@ -13347,6 +16197,11 @@ export namespace Prisma {
     historico_pausas?: JsonNullableFilter<"OrdemServico">
     sla_violado?: BoolFilter<"OrdemServico"> | boolean
     motivo_violacao_sla?: StringNullableFilter<"OrdemServico"> | string | null
+    custo_materiais?: DecimalNullableFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: DecimalNullableFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
+    custo_total?: DecimalNullableFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: StringNullableFilter<"OrdemServico"> | string | null
+    numero_empenho?: StringNullableFilter<"OrdemServico"> | string | null
     prefeitura_id?: StringNullableFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
@@ -13354,6 +16209,7 @@ export namespace Prisma {
     predio?: XOR<PredioScalarRelationFilter, PredioWhereInput>
     solicitante?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     tecnico?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    materiais_consumidos?: ItemConsumoOSListRelationFilter
     prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
     ordem_vinculada?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
     ordens_derivadas?: OrdemServicoListRelationFilter
@@ -13384,6 +16240,11 @@ export namespace Prisma {
     historico_pausas?: SortOrderInput | SortOrder
     sla_violado?: SortOrder
     motivo_violacao_sla?: SortOrderInput | SortOrder
+    custo_materiais?: SortOrderInput | SortOrder
+    custo_mao_de_obra?: SortOrderInput | SortOrder
+    custo_total?: SortOrderInput | SortOrder
+    empresa_terceirizada?: SortOrderInput | SortOrder
+    numero_empenho?: SortOrderInput | SortOrder
     prefeitura_id?: SortOrderInput | SortOrder
     ordem_vinculada_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
@@ -13421,6 +16282,11 @@ export namespace Prisma {
     historico_pausas?: JsonNullableWithAggregatesFilter<"OrdemServico">
     sla_violado?: BoolWithAggregatesFilter<"OrdemServico"> | boolean
     motivo_violacao_sla?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
+    custo_materiais?: DecimalNullableWithAggregatesFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: DecimalNullableWithAggregatesFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
+    custo_total?: DecimalNullableWithAggregatesFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
+    numero_empenho?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     prefeitura_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeWithAggregatesFilter<"OrdemServico"> | Date | string
@@ -13902,6 +16768,182 @@ export namespace Prisma {
     atualizado?: DateTimeWithAggregatesFilter<"Manifestacao"> | Date | string
   }
 
+  export type MaterialWhereInput = {
+    AND?: MaterialWhereInput | MaterialWhereInput[]
+    OR?: MaterialWhereInput[]
+    NOT?: MaterialWhereInput | MaterialWhereInput[]
+    id?: StringFilter<"Material"> | string
+    codigo?: StringFilter<"Material"> | string
+    nome?: StringFilter<"Material"> | string
+    categoria?: StringFilter<"Material"> | string
+    unidade_medida?: StringFilter<"Material"> | string
+    preco_unitario?: DecimalFilter<"Material"> | Decimal | DecimalJsLike | number | string
+    estoque_atual?: FloatFilter<"Material"> | number
+    estoque_minimo?: FloatFilter<"Material"> | number
+    ativo?: BoolFilter<"Material"> | boolean
+    prefeitura_id?: StringNullableFilter<"Material"> | string | null
+    criado_em?: DateTimeFilter<"Material"> | Date | string
+    atualizado?: DateTimeFilter<"Material"> | Date | string
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
+    itens_consumo?: ItemConsumoOSListRelationFilter
+  }
+
+  export type MaterialOrderByWithRelationInput = {
+    id?: SortOrder
+    codigo?: SortOrder
+    nome?: SortOrder
+    categoria?: SortOrder
+    unidade_medida?: SortOrder
+    preco_unitario?: SortOrder
+    estoque_atual?: SortOrder
+    estoque_minimo?: SortOrder
+    ativo?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    prefeitura?: PrefeituraOrderByWithRelationInput
+    itens_consumo?: ItemConsumoOSOrderByRelationAggregateInput
+  }
+
+  export type MaterialWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    prefeitura_id_codigo?: MaterialPrefeitura_idCodigoCompoundUniqueInput
+    AND?: MaterialWhereInput | MaterialWhereInput[]
+    OR?: MaterialWhereInput[]
+    NOT?: MaterialWhereInput | MaterialWhereInput[]
+    codigo?: StringFilter<"Material"> | string
+    nome?: StringFilter<"Material"> | string
+    categoria?: StringFilter<"Material"> | string
+    unidade_medida?: StringFilter<"Material"> | string
+    preco_unitario?: DecimalFilter<"Material"> | Decimal | DecimalJsLike | number | string
+    estoque_atual?: FloatFilter<"Material"> | number
+    estoque_minimo?: FloatFilter<"Material"> | number
+    ativo?: BoolFilter<"Material"> | boolean
+    prefeitura_id?: StringNullableFilter<"Material"> | string | null
+    criado_em?: DateTimeFilter<"Material"> | Date | string
+    atualizado?: DateTimeFilter<"Material"> | Date | string
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
+    itens_consumo?: ItemConsumoOSListRelationFilter
+  }, "id" | "prefeitura_id_codigo">
+
+  export type MaterialOrderByWithAggregationInput = {
+    id?: SortOrder
+    codigo?: SortOrder
+    nome?: SortOrder
+    categoria?: SortOrder
+    unidade_medida?: SortOrder
+    preco_unitario?: SortOrder
+    estoque_atual?: SortOrder
+    estoque_minimo?: SortOrder
+    ativo?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    _count?: MaterialCountOrderByAggregateInput
+    _avg?: MaterialAvgOrderByAggregateInput
+    _max?: MaterialMaxOrderByAggregateInput
+    _min?: MaterialMinOrderByAggregateInput
+    _sum?: MaterialSumOrderByAggregateInput
+  }
+
+  export type MaterialScalarWhereWithAggregatesInput = {
+    AND?: MaterialScalarWhereWithAggregatesInput | MaterialScalarWhereWithAggregatesInput[]
+    OR?: MaterialScalarWhereWithAggregatesInput[]
+    NOT?: MaterialScalarWhereWithAggregatesInput | MaterialScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Material"> | string
+    codigo?: StringWithAggregatesFilter<"Material"> | string
+    nome?: StringWithAggregatesFilter<"Material"> | string
+    categoria?: StringWithAggregatesFilter<"Material"> | string
+    unidade_medida?: StringWithAggregatesFilter<"Material"> | string
+    preco_unitario?: DecimalWithAggregatesFilter<"Material"> | Decimal | DecimalJsLike | number | string
+    estoque_atual?: FloatWithAggregatesFilter<"Material"> | number
+    estoque_minimo?: FloatWithAggregatesFilter<"Material"> | number
+    ativo?: BoolWithAggregatesFilter<"Material"> | boolean
+    prefeitura_id?: StringNullableWithAggregatesFilter<"Material"> | string | null
+    criado_em?: DateTimeWithAggregatesFilter<"Material"> | Date | string
+    atualizado?: DateTimeWithAggregatesFilter<"Material"> | Date | string
+  }
+
+  export type ItemConsumoOSWhereInput = {
+    AND?: ItemConsumoOSWhereInput | ItemConsumoOSWhereInput[]
+    OR?: ItemConsumoOSWhereInput[]
+    NOT?: ItemConsumoOSWhereInput | ItemConsumoOSWhereInput[]
+    id?: StringFilter<"ItemConsumoOS"> | string
+    ordem_servico_id?: StringFilter<"ItemConsumoOS"> | string
+    material_id?: StringNullableFilter<"ItemConsumoOS"> | string | null
+    descricao?: StringFilter<"ItemConsumoOS"> | string
+    quantidade?: FloatFilter<"ItemConsumoOS"> | number
+    unidade_medida?: StringFilter<"ItemConsumoOS"> | string
+    preco_unitario?: DecimalFilter<"ItemConsumoOS"> | Decimal | DecimalJsLike | number | string
+    preco_total?: DecimalFilter<"ItemConsumoOS"> | Decimal | DecimalJsLike | number | string
+    criado_em?: DateTimeFilter<"ItemConsumoOS"> | Date | string
+    ordem_servico?: XOR<OrdemServicoScalarRelationFilter, OrdemServicoWhereInput>
+    material?: XOR<MaterialNullableScalarRelationFilter, MaterialWhereInput> | null
+  }
+
+  export type ItemConsumoOSOrderByWithRelationInput = {
+    id?: SortOrder
+    ordem_servico_id?: SortOrder
+    material_id?: SortOrderInput | SortOrder
+    descricao?: SortOrder
+    quantidade?: SortOrder
+    unidade_medida?: SortOrder
+    preco_unitario?: SortOrder
+    preco_total?: SortOrder
+    criado_em?: SortOrder
+    ordem_servico?: OrdemServicoOrderByWithRelationInput
+    material?: MaterialOrderByWithRelationInput
+  }
+
+  export type ItemConsumoOSWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ItemConsumoOSWhereInput | ItemConsumoOSWhereInput[]
+    OR?: ItemConsumoOSWhereInput[]
+    NOT?: ItemConsumoOSWhereInput | ItemConsumoOSWhereInput[]
+    ordem_servico_id?: StringFilter<"ItemConsumoOS"> | string
+    material_id?: StringNullableFilter<"ItemConsumoOS"> | string | null
+    descricao?: StringFilter<"ItemConsumoOS"> | string
+    quantidade?: FloatFilter<"ItemConsumoOS"> | number
+    unidade_medida?: StringFilter<"ItemConsumoOS"> | string
+    preco_unitario?: DecimalFilter<"ItemConsumoOS"> | Decimal | DecimalJsLike | number | string
+    preco_total?: DecimalFilter<"ItemConsumoOS"> | Decimal | DecimalJsLike | number | string
+    criado_em?: DateTimeFilter<"ItemConsumoOS"> | Date | string
+    ordem_servico?: XOR<OrdemServicoScalarRelationFilter, OrdemServicoWhereInput>
+    material?: XOR<MaterialNullableScalarRelationFilter, MaterialWhereInput> | null
+  }, "id">
+
+  export type ItemConsumoOSOrderByWithAggregationInput = {
+    id?: SortOrder
+    ordem_servico_id?: SortOrder
+    material_id?: SortOrderInput | SortOrder
+    descricao?: SortOrder
+    quantidade?: SortOrder
+    unidade_medida?: SortOrder
+    preco_unitario?: SortOrder
+    preco_total?: SortOrder
+    criado_em?: SortOrder
+    _count?: ItemConsumoOSCountOrderByAggregateInput
+    _avg?: ItemConsumoOSAvgOrderByAggregateInput
+    _max?: ItemConsumoOSMaxOrderByAggregateInput
+    _min?: ItemConsumoOSMinOrderByAggregateInput
+    _sum?: ItemConsumoOSSumOrderByAggregateInput
+  }
+
+  export type ItemConsumoOSScalarWhereWithAggregatesInput = {
+    AND?: ItemConsumoOSScalarWhereWithAggregatesInput | ItemConsumoOSScalarWhereWithAggregatesInput[]
+    OR?: ItemConsumoOSScalarWhereWithAggregatesInput[]
+    NOT?: ItemConsumoOSScalarWhereWithAggregatesInput | ItemConsumoOSScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ItemConsumoOS"> | string
+    ordem_servico_id?: StringWithAggregatesFilter<"ItemConsumoOS"> | string
+    material_id?: StringNullableWithAggregatesFilter<"ItemConsumoOS"> | string | null
+    descricao?: StringWithAggregatesFilter<"ItemConsumoOS"> | string
+    quantidade?: FloatWithAggregatesFilter<"ItemConsumoOS"> | number
+    unidade_medida?: StringWithAggregatesFilter<"ItemConsumoOS"> | string
+    preco_unitario?: DecimalWithAggregatesFilter<"ItemConsumoOS"> | Decimal | DecimalJsLike | number | string
+    preco_total?: DecimalWithAggregatesFilter<"ItemConsumoOS"> | Decimal | DecimalJsLike | number | string
+    criado_em?: DateTimeWithAggregatesFilter<"ItemConsumoOS"> | Date | string
+  }
+
   export type PrefeituraCreateInput = {
     id?: string
     slug: string
@@ -13920,6 +16962,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateInput = {
@@ -13940,6 +16983,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUpdateInput = {
@@ -13960,6 +17004,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateInput = {
@@ -13980,6 +17025,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraCreateManyInput = {
@@ -14301,11 +17347,17 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -14336,10 +17388,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedCreateNestedManyWithoutOrdem_servicoInput
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
     manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
@@ -14365,11 +17423,17 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -14400,10 +17464,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
@@ -14432,6 +17502,11 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -14458,6 +17533,11 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14485,6 +17565,11 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15034,6 +18119,196 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MaterialCreateInput = {
+    id?: string
+    codigo: string
+    nome: string
+    categoria?: string
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    estoque_atual?: number
+    estoque_minimo?: number
+    ativo?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutMateriaisInput
+    itens_consumo?: ItemConsumoOSCreateNestedManyWithoutMaterialInput
+  }
+
+  export type MaterialUncheckedCreateInput = {
+    id?: string
+    codigo: string
+    nome: string
+    categoria?: string
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    estoque_atual?: number
+    estoque_minimo?: number
+    ativo?: boolean
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    itens_consumo?: ItemConsumoOSUncheckedCreateNestedManyWithoutMaterialInput
+  }
+
+  export type MaterialUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estoque_atual?: FloatFieldUpdateOperationsInput | number
+    estoque_minimo?: FloatFieldUpdateOperationsInput | number
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutMateriaisNestedInput
+    itens_consumo?: ItemConsumoOSUpdateManyWithoutMaterialNestedInput
+  }
+
+  export type MaterialUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estoque_atual?: FloatFieldUpdateOperationsInput | number
+    estoque_minimo?: FloatFieldUpdateOperationsInput | number
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    itens_consumo?: ItemConsumoOSUncheckedUpdateManyWithoutMaterialNestedInput
+  }
+
+  export type MaterialCreateManyInput = {
+    id?: string
+    codigo: string
+    nome: string
+    categoria?: string
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    estoque_atual?: number
+    estoque_minimo?: number
+    ativo?: boolean
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type MaterialUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estoque_atual?: FloatFieldUpdateOperationsInput | number
+    estoque_minimo?: FloatFieldUpdateOperationsInput | number
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MaterialUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estoque_atual?: FloatFieldUpdateOperationsInput | number
+    estoque_minimo?: FloatFieldUpdateOperationsInput | number
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemConsumoOSCreateInput = {
+    id?: string
+    descricao: string
+    quantidade?: number
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    preco_total?: Decimal | DecimalJsLike | number | string
+    criado_em?: Date | string
+    ordem_servico: OrdemServicoCreateNestedOneWithoutMateriais_consumidosInput
+    material?: MaterialCreateNestedOneWithoutItens_consumoInput
+  }
+
+  export type ItemConsumoOSUncheckedCreateInput = {
+    id?: string
+    ordem_servico_id: string
+    material_id?: string | null
+    descricao: string
+    quantidade?: number
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    preco_total?: Decimal | DecimalJsLike | number | string
+    criado_em?: Date | string
+  }
+
+  export type ItemConsumoOSUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    quantidade?: FloatFieldUpdateOperationsInput | number
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    preco_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordem_servico?: OrdemServicoUpdateOneRequiredWithoutMateriais_consumidosNestedInput
+    material?: MaterialUpdateOneWithoutItens_consumoNestedInput
+  }
+
+  export type ItemConsumoOSUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ordem_servico_id?: StringFieldUpdateOperationsInput | string
+    material_id?: NullableStringFieldUpdateOperationsInput | string | null
+    descricao?: StringFieldUpdateOperationsInput | string
+    quantidade?: FloatFieldUpdateOperationsInput | number
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    preco_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemConsumoOSCreateManyInput = {
+    id?: string
+    ordem_servico_id: string
+    material_id?: string | null
+    descricao: string
+    quantidade?: number
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    preco_total?: Decimal | DecimalJsLike | number | string
+    criado_em?: Date | string
+  }
+
+  export type ItemConsumoOSUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    quantidade?: FloatFieldUpdateOperationsInput | number
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    preco_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemConsumoOSUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ordem_servico_id?: StringFieldUpdateOperationsInput | string
+    material_id?: NullableStringFieldUpdateOperationsInput | string | null
+    descricao?: StringFieldUpdateOperationsInput | string
+    quantidade?: FloatFieldUpdateOperationsInput | number
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    preco_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -15152,6 +18427,12 @@ export namespace Prisma {
     none?: AuditoriaLogWhereInput
   }
 
+  export type MaterialListRelationFilter = {
+    every?: MaterialWhereInput
+    some?: MaterialWhereInput
+    none?: MaterialWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -15178,6 +18459,10 @@ export namespace Prisma {
   }
 
   export type AuditoriaLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MaterialOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -15577,6 +18862,17 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
   export type PredioScalarRelationFilter = {
     is?: PredioWhereInput
     isNot?: PredioWhereInput
@@ -15587,9 +18883,19 @@ export namespace Prisma {
     isNot?: UsuarioWhereInput
   }
 
+  export type ItemConsumoOSListRelationFilter = {
+    every?: ItemConsumoOSWhereInput
+    some?: ItemConsumoOSWhereInput
+    none?: ItemConsumoOSWhereInput
+  }
+
   export type OrdemServicoNullableScalarRelationFilter = {
     is?: OrdemServicoWhereInput | null
     isNot?: OrdemServicoWhereInput | null
+  }
+
+  export type ItemConsumoOSOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type OrdemServicoCountOrderByAggregateInput = {
@@ -15615,6 +18921,11 @@ export namespace Prisma {
     historico_pausas?: SortOrder
     sla_violado?: SortOrder
     motivo_violacao_sla?: SortOrder
+    custo_materiais?: SortOrder
+    custo_mao_de_obra?: SortOrder
+    custo_total?: SortOrder
+    empresa_terceirizada?: SortOrder
+    numero_empenho?: SortOrder
     prefeitura_id?: SortOrder
     ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
@@ -15623,6 +18934,9 @@ export namespace Prisma {
 
   export type OrdemServicoAvgOrderByAggregateInput = {
     tempo_pausa_minutos?: SortOrder
+    custo_materiais?: SortOrder
+    custo_mao_de_obra?: SortOrder
+    custo_total?: SortOrder
   }
 
   export type OrdemServicoMaxOrderByAggregateInput = {
@@ -15645,6 +18959,11 @@ export namespace Prisma {
     tempo_pausa_minutos?: SortOrder
     sla_violado?: SortOrder
     motivo_violacao_sla?: SortOrder
+    custo_materiais?: SortOrder
+    custo_mao_de_obra?: SortOrder
+    custo_total?: SortOrder
+    empresa_terceirizada?: SortOrder
+    numero_empenho?: SortOrder
     prefeitura_id?: SortOrder
     ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
@@ -15671,6 +18990,11 @@ export namespace Prisma {
     tempo_pausa_minutos?: SortOrder
     sla_violado?: SortOrder
     motivo_violacao_sla?: SortOrder
+    custo_materiais?: SortOrder
+    custo_mao_de_obra?: SortOrder
+    custo_total?: SortOrder
+    empresa_terceirizada?: SortOrder
+    numero_empenho?: SortOrder
     prefeitura_id?: SortOrder
     ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
@@ -15679,6 +19003,9 @@ export namespace Prisma {
 
   export type OrdemServicoSumOrderByAggregateInput = {
     tempo_pausa_minutos?: SortOrder
+    custo_materiais?: SortOrder
+    custo_mao_de_obra?: SortOrder
+    custo_total?: SortOrder
   }
 
   export type EnumPrioridadeWithAggregatesFilter<$PrismaModel = never> = {
@@ -15713,6 +19040,22 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type EnumAuditActionFilter<$PrismaModel = never> = {
@@ -16020,6 +19363,180 @@ export namespace Prisma {
     _max?: NestedEnumStatusManifestacaoFilter<$PrismaModel>
   }
 
+  export type DecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type MaterialPrefeitura_idCodigoCompoundUniqueInput = {
+    prefeitura_id: string
+    codigo: string
+  }
+
+  export type MaterialCountOrderByAggregateInput = {
+    id?: SortOrder
+    codigo?: SortOrder
+    nome?: SortOrder
+    categoria?: SortOrder
+    unidade_medida?: SortOrder
+    preco_unitario?: SortOrder
+    estoque_atual?: SortOrder
+    estoque_minimo?: SortOrder
+    ativo?: SortOrder
+    prefeitura_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type MaterialAvgOrderByAggregateInput = {
+    preco_unitario?: SortOrder
+    estoque_atual?: SortOrder
+    estoque_minimo?: SortOrder
+  }
+
+  export type MaterialMaxOrderByAggregateInput = {
+    id?: SortOrder
+    codigo?: SortOrder
+    nome?: SortOrder
+    categoria?: SortOrder
+    unidade_medida?: SortOrder
+    preco_unitario?: SortOrder
+    estoque_atual?: SortOrder
+    estoque_minimo?: SortOrder
+    ativo?: SortOrder
+    prefeitura_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type MaterialMinOrderByAggregateInput = {
+    id?: SortOrder
+    codigo?: SortOrder
+    nome?: SortOrder
+    categoria?: SortOrder
+    unidade_medida?: SortOrder
+    preco_unitario?: SortOrder
+    estoque_atual?: SortOrder
+    estoque_minimo?: SortOrder
+    ativo?: SortOrder
+    prefeitura_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type MaterialSumOrderByAggregateInput = {
+    preco_unitario?: SortOrder
+    estoque_atual?: SortOrder
+    estoque_minimo?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type OrdemServicoScalarRelationFilter = {
+    is?: OrdemServicoWhereInput
+    isNot?: OrdemServicoWhereInput
+  }
+
+  export type MaterialNullableScalarRelationFilter = {
+    is?: MaterialWhereInput | null
+    isNot?: MaterialWhereInput | null
+  }
+
+  export type ItemConsumoOSCountOrderByAggregateInput = {
+    id?: SortOrder
+    ordem_servico_id?: SortOrder
+    material_id?: SortOrder
+    descricao?: SortOrder
+    quantidade?: SortOrder
+    unidade_medida?: SortOrder
+    preco_unitario?: SortOrder
+    preco_total?: SortOrder
+    criado_em?: SortOrder
+  }
+
+  export type ItemConsumoOSAvgOrderByAggregateInput = {
+    quantidade?: SortOrder
+    preco_unitario?: SortOrder
+    preco_total?: SortOrder
+  }
+
+  export type ItemConsumoOSMaxOrderByAggregateInput = {
+    id?: SortOrder
+    ordem_servico_id?: SortOrder
+    material_id?: SortOrder
+    descricao?: SortOrder
+    quantidade?: SortOrder
+    unidade_medida?: SortOrder
+    preco_unitario?: SortOrder
+    preco_total?: SortOrder
+    criado_em?: SortOrder
+  }
+
+  export type ItemConsumoOSMinOrderByAggregateInput = {
+    id?: SortOrder
+    ordem_servico_id?: SortOrder
+    material_id?: SortOrder
+    descricao?: SortOrder
+    quantidade?: SortOrder
+    unidade_medida?: SortOrder
+    preco_unitario?: SortOrder
+    preco_total?: SortOrder
+    criado_em?: SortOrder
+  }
+
+  export type ItemConsumoOSSumOrderByAggregateInput = {
+    quantidade?: SortOrder
+    preco_unitario?: SortOrder
+    preco_total?: SortOrder
+  }
+
   export type PrefeituraCreatemodulos_ativosInput = {
     set: $Enums.ModuloSistema[]
   }
@@ -16072,6 +19589,13 @@ export namespace Prisma {
     connect?: AuditoriaLogWhereUniqueInput | AuditoriaLogWhereUniqueInput[]
   }
 
+  export type MaterialCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<MaterialCreateWithoutPrefeituraInput, MaterialUncheckedCreateWithoutPrefeituraInput> | MaterialCreateWithoutPrefeituraInput[] | MaterialUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: MaterialCreateOrConnectWithoutPrefeituraInput | MaterialCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: MaterialCreateManyPrefeituraInputEnvelope
+    connect?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+  }
+
   export type ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput = {
     create?: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
     connectOrCreate?: ConfiguracaoSistemaCreateOrConnectWithoutPrefeituraInput
@@ -16118,6 +19642,13 @@ export namespace Prisma {
     connectOrCreate?: AuditoriaLogCreateOrConnectWithoutPrefeituraInput | AuditoriaLogCreateOrConnectWithoutPrefeituraInput[]
     createMany?: AuditoriaLogCreateManyPrefeituraInputEnvelope
     connect?: AuditoriaLogWhereUniqueInput | AuditoriaLogWhereUniqueInput[]
+  }
+
+  export type MaterialUncheckedCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<MaterialCreateWithoutPrefeituraInput, MaterialUncheckedCreateWithoutPrefeituraInput> | MaterialCreateWithoutPrefeituraInput[] | MaterialUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: MaterialCreateOrConnectWithoutPrefeituraInput | MaterialCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: MaterialCreateManyPrefeituraInputEnvelope
+    connect?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -16235,6 +19766,20 @@ export namespace Prisma {
     deleteMany?: AuditoriaLogScalarWhereInput | AuditoriaLogScalarWhereInput[]
   }
 
+  export type MaterialUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<MaterialCreateWithoutPrefeituraInput, MaterialUncheckedCreateWithoutPrefeituraInput> | MaterialCreateWithoutPrefeituraInput[] | MaterialUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: MaterialCreateOrConnectWithoutPrefeituraInput | MaterialCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: MaterialUpsertWithWhereUniqueWithoutPrefeituraInput | MaterialUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: MaterialCreateManyPrefeituraInputEnvelope
+    set?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    disconnect?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    delete?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    connect?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    update?: MaterialUpdateWithWhereUniqueWithoutPrefeituraInput | MaterialUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: MaterialUpdateManyWithWhereWithoutPrefeituraInput | MaterialUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: MaterialScalarWhereInput | MaterialScalarWhereInput[]
+  }
+
   export type ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput = {
     create?: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
     connectOrCreate?: ConfiguracaoSistemaCreateOrConnectWithoutPrefeituraInput
@@ -16327,6 +19872,20 @@ export namespace Prisma {
     update?: AuditoriaLogUpdateWithWhereUniqueWithoutPrefeituraInput | AuditoriaLogUpdateWithWhereUniqueWithoutPrefeituraInput[]
     updateMany?: AuditoriaLogUpdateManyWithWhereWithoutPrefeituraInput | AuditoriaLogUpdateManyWithWhereWithoutPrefeituraInput[]
     deleteMany?: AuditoriaLogScalarWhereInput | AuditoriaLogScalarWhereInput[]
+  }
+
+  export type MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<MaterialCreateWithoutPrefeituraInput, MaterialUncheckedCreateWithoutPrefeituraInput> | MaterialCreateWithoutPrefeituraInput[] | MaterialUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: MaterialCreateOrConnectWithoutPrefeituraInput | MaterialCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: MaterialUpsertWithWhereUniqueWithoutPrefeituraInput | MaterialUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: MaterialCreateManyPrefeituraInputEnvelope
+    set?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    disconnect?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    delete?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    connect?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    update?: MaterialUpdateWithWhereUniqueWithoutPrefeituraInput | MaterialUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: MaterialUpdateManyWithWhereWithoutPrefeituraInput | MaterialUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: MaterialScalarWhereInput | MaterialScalarWhereInput[]
   }
 
   export type PrefeituraCreateNestedOneWithoutUsuariosInput = {
@@ -16771,6 +20330,13 @@ export namespace Prisma {
     connect?: UsuarioWhereUniqueInput
   }
 
+  export type ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput = {
+    create?: XOR<ItemConsumoOSCreateWithoutOrdem_servicoInput, ItemConsumoOSUncheckedCreateWithoutOrdem_servicoInput> | ItemConsumoOSCreateWithoutOrdem_servicoInput[] | ItemConsumoOSUncheckedCreateWithoutOrdem_servicoInput[]
+    connectOrCreate?: ItemConsumoOSCreateOrConnectWithoutOrdem_servicoInput | ItemConsumoOSCreateOrConnectWithoutOrdem_servicoInput[]
+    createMany?: ItemConsumoOSCreateManyOrdem_servicoInputEnvelope
+    connect?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+  }
+
   export type PrefeituraCreateNestedOneWithoutOrdens_servicoInput = {
     create?: XOR<PrefeituraCreateWithoutOrdens_servicoInput, PrefeituraUncheckedCreateWithoutOrdens_servicoInput>
     connectOrCreate?: PrefeituraCreateOrConnectWithoutOrdens_servicoInput
@@ -16802,6 +20368,13 @@ export namespace Prisma {
     connectOrCreate?: ManifestacaoCreateOrConnectWithoutOrdem_servicoInput | ManifestacaoCreateOrConnectWithoutOrdem_servicoInput[]
     createMany?: ManifestacaoCreateManyOrdem_servicoInputEnvelope
     connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+  }
+
+  export type ItemConsumoOSUncheckedCreateNestedManyWithoutOrdem_servicoInput = {
+    create?: XOR<ItemConsumoOSCreateWithoutOrdem_servicoInput, ItemConsumoOSUncheckedCreateWithoutOrdem_servicoInput> | ItemConsumoOSCreateWithoutOrdem_servicoInput[] | ItemConsumoOSUncheckedCreateWithoutOrdem_servicoInput[]
+    connectOrCreate?: ItemConsumoOSCreateOrConnectWithoutOrdem_servicoInput | ItemConsumoOSCreateOrConnectWithoutOrdem_servicoInput[]
+    createMany?: ItemConsumoOSCreateManyOrdem_servicoInputEnvelope
+    connect?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
   }
 
   export type OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput = {
@@ -16847,6 +20420,14 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
   export type PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput = {
     create?: XOR<PredioCreateWithoutOrdens_servicoInput, PredioUncheckedCreateWithoutOrdens_servicoInput>
     connectOrCreate?: PredioCreateOrConnectWithoutOrdens_servicoInput
@@ -16871,6 +20452,20 @@ export namespace Prisma {
     delete?: UsuarioWhereInput | boolean
     connect?: UsuarioWhereUniqueInput
     update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutChamados_atribuidosInput, UsuarioUpdateWithoutChamados_atribuidosInput>, UsuarioUncheckedUpdateWithoutChamados_atribuidosInput>
+  }
+
+  export type ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput = {
+    create?: XOR<ItemConsumoOSCreateWithoutOrdem_servicoInput, ItemConsumoOSUncheckedCreateWithoutOrdem_servicoInput> | ItemConsumoOSCreateWithoutOrdem_servicoInput[] | ItemConsumoOSUncheckedCreateWithoutOrdem_servicoInput[]
+    connectOrCreate?: ItemConsumoOSCreateOrConnectWithoutOrdem_servicoInput | ItemConsumoOSCreateOrConnectWithoutOrdem_servicoInput[]
+    upsert?: ItemConsumoOSUpsertWithWhereUniqueWithoutOrdem_servicoInput | ItemConsumoOSUpsertWithWhereUniqueWithoutOrdem_servicoInput[]
+    createMany?: ItemConsumoOSCreateManyOrdem_servicoInputEnvelope
+    set?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    disconnect?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    delete?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    connect?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    update?: ItemConsumoOSUpdateWithWhereUniqueWithoutOrdem_servicoInput | ItemConsumoOSUpdateWithWhereUniqueWithoutOrdem_servicoInput[]
+    updateMany?: ItemConsumoOSUpdateManyWithWhereWithoutOrdem_servicoInput | ItemConsumoOSUpdateManyWithWhereWithoutOrdem_servicoInput[]
+    deleteMany?: ItemConsumoOSScalarWhereInput | ItemConsumoOSScalarWhereInput[]
   }
 
   export type PrefeituraUpdateOneWithoutOrdens_servicoNestedInput = {
@@ -16933,6 +20528,20 @@ export namespace Prisma {
     update?: ManifestacaoUpdateWithWhereUniqueWithoutOrdem_servicoInput | ManifestacaoUpdateWithWhereUniqueWithoutOrdem_servicoInput[]
     updateMany?: ManifestacaoUpdateManyWithWhereWithoutOrdem_servicoInput | ManifestacaoUpdateManyWithWhereWithoutOrdem_servicoInput[]
     deleteMany?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
+  }
+
+  export type ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoNestedInput = {
+    create?: XOR<ItemConsumoOSCreateWithoutOrdem_servicoInput, ItemConsumoOSUncheckedCreateWithoutOrdem_servicoInput> | ItemConsumoOSCreateWithoutOrdem_servicoInput[] | ItemConsumoOSUncheckedCreateWithoutOrdem_servicoInput[]
+    connectOrCreate?: ItemConsumoOSCreateOrConnectWithoutOrdem_servicoInput | ItemConsumoOSCreateOrConnectWithoutOrdem_servicoInput[]
+    upsert?: ItemConsumoOSUpsertWithWhereUniqueWithoutOrdem_servicoInput | ItemConsumoOSUpsertWithWhereUniqueWithoutOrdem_servicoInput[]
+    createMany?: ItemConsumoOSCreateManyOrdem_servicoInputEnvelope
+    set?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    disconnect?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    delete?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    connect?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    update?: ItemConsumoOSUpdateWithWhereUniqueWithoutOrdem_servicoInput | ItemConsumoOSUpdateWithWhereUniqueWithoutOrdem_servicoInput[]
+    updateMany?: ItemConsumoOSUpdateManyWithWhereWithoutOrdem_servicoInput | ItemConsumoOSUpdateManyWithWhereWithoutOrdem_servicoInput[]
+    deleteMany?: ItemConsumoOSScalarWhereInput | ItemConsumoOSScalarWhereInput[]
   }
 
   export type OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput = {
@@ -17154,6 +20763,110 @@ export namespace Prisma {
     delete?: PrefeituraWhereInput | boolean
     connect?: PrefeituraWhereUniqueInput
     update?: XOR<XOR<PrefeituraUpdateToOneWithWhereWithoutManifestacoesInput, PrefeituraUpdateWithoutManifestacoesInput>, PrefeituraUncheckedUpdateWithoutManifestacoesInput>
+  }
+
+  export type PrefeituraCreateNestedOneWithoutMateriaisInput = {
+    create?: XOR<PrefeituraCreateWithoutMateriaisInput, PrefeituraUncheckedCreateWithoutMateriaisInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutMateriaisInput
+    connect?: PrefeituraWhereUniqueInput
+  }
+
+  export type ItemConsumoOSCreateNestedManyWithoutMaterialInput = {
+    create?: XOR<ItemConsumoOSCreateWithoutMaterialInput, ItemConsumoOSUncheckedCreateWithoutMaterialInput> | ItemConsumoOSCreateWithoutMaterialInput[] | ItemConsumoOSUncheckedCreateWithoutMaterialInput[]
+    connectOrCreate?: ItemConsumoOSCreateOrConnectWithoutMaterialInput | ItemConsumoOSCreateOrConnectWithoutMaterialInput[]
+    createMany?: ItemConsumoOSCreateManyMaterialInputEnvelope
+    connect?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+  }
+
+  export type ItemConsumoOSUncheckedCreateNestedManyWithoutMaterialInput = {
+    create?: XOR<ItemConsumoOSCreateWithoutMaterialInput, ItemConsumoOSUncheckedCreateWithoutMaterialInput> | ItemConsumoOSCreateWithoutMaterialInput[] | ItemConsumoOSUncheckedCreateWithoutMaterialInput[]
+    connectOrCreate?: ItemConsumoOSCreateOrConnectWithoutMaterialInput | ItemConsumoOSCreateOrConnectWithoutMaterialInput[]
+    createMany?: ItemConsumoOSCreateManyMaterialInputEnvelope
+    connect?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+  }
+
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type PrefeituraUpdateOneWithoutMateriaisNestedInput = {
+    create?: XOR<PrefeituraCreateWithoutMateriaisInput, PrefeituraUncheckedCreateWithoutMateriaisInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutMateriaisInput
+    upsert?: PrefeituraUpsertWithoutMateriaisInput
+    disconnect?: PrefeituraWhereInput | boolean
+    delete?: PrefeituraWhereInput | boolean
+    connect?: PrefeituraWhereUniqueInput
+    update?: XOR<XOR<PrefeituraUpdateToOneWithWhereWithoutMateriaisInput, PrefeituraUpdateWithoutMateriaisInput>, PrefeituraUncheckedUpdateWithoutMateriaisInput>
+  }
+
+  export type ItemConsumoOSUpdateManyWithoutMaterialNestedInput = {
+    create?: XOR<ItemConsumoOSCreateWithoutMaterialInput, ItemConsumoOSUncheckedCreateWithoutMaterialInput> | ItemConsumoOSCreateWithoutMaterialInput[] | ItemConsumoOSUncheckedCreateWithoutMaterialInput[]
+    connectOrCreate?: ItemConsumoOSCreateOrConnectWithoutMaterialInput | ItemConsumoOSCreateOrConnectWithoutMaterialInput[]
+    upsert?: ItemConsumoOSUpsertWithWhereUniqueWithoutMaterialInput | ItemConsumoOSUpsertWithWhereUniqueWithoutMaterialInput[]
+    createMany?: ItemConsumoOSCreateManyMaterialInputEnvelope
+    set?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    disconnect?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    delete?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    connect?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    update?: ItemConsumoOSUpdateWithWhereUniqueWithoutMaterialInput | ItemConsumoOSUpdateWithWhereUniqueWithoutMaterialInput[]
+    updateMany?: ItemConsumoOSUpdateManyWithWhereWithoutMaterialInput | ItemConsumoOSUpdateManyWithWhereWithoutMaterialInput[]
+    deleteMany?: ItemConsumoOSScalarWhereInput | ItemConsumoOSScalarWhereInput[]
+  }
+
+  export type ItemConsumoOSUncheckedUpdateManyWithoutMaterialNestedInput = {
+    create?: XOR<ItemConsumoOSCreateWithoutMaterialInput, ItemConsumoOSUncheckedCreateWithoutMaterialInput> | ItemConsumoOSCreateWithoutMaterialInput[] | ItemConsumoOSUncheckedCreateWithoutMaterialInput[]
+    connectOrCreate?: ItemConsumoOSCreateOrConnectWithoutMaterialInput | ItemConsumoOSCreateOrConnectWithoutMaterialInput[]
+    upsert?: ItemConsumoOSUpsertWithWhereUniqueWithoutMaterialInput | ItemConsumoOSUpsertWithWhereUniqueWithoutMaterialInput[]
+    createMany?: ItemConsumoOSCreateManyMaterialInputEnvelope
+    set?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    disconnect?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    delete?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    connect?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
+    update?: ItemConsumoOSUpdateWithWhereUniqueWithoutMaterialInput | ItemConsumoOSUpdateWithWhereUniqueWithoutMaterialInput[]
+    updateMany?: ItemConsumoOSUpdateManyWithWhereWithoutMaterialInput | ItemConsumoOSUpdateManyWithWhereWithoutMaterialInput[]
+    deleteMany?: ItemConsumoOSScalarWhereInput | ItemConsumoOSScalarWhereInput[]
+  }
+
+  export type OrdemServicoCreateNestedOneWithoutMateriais_consumidosInput = {
+    create?: XOR<OrdemServicoCreateWithoutMateriais_consumidosInput, OrdemServicoUncheckedCreateWithoutMateriais_consumidosInput>
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutMateriais_consumidosInput
+    connect?: OrdemServicoWhereUniqueInput
+  }
+
+  export type MaterialCreateNestedOneWithoutItens_consumoInput = {
+    create?: XOR<MaterialCreateWithoutItens_consumoInput, MaterialUncheckedCreateWithoutItens_consumoInput>
+    connectOrCreate?: MaterialCreateOrConnectWithoutItens_consumoInput
+    connect?: MaterialWhereUniqueInput
+  }
+
+  export type OrdemServicoUpdateOneRequiredWithoutMateriais_consumidosNestedInput = {
+    create?: XOR<OrdemServicoCreateWithoutMateriais_consumidosInput, OrdemServicoUncheckedCreateWithoutMateriais_consumidosInput>
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutMateriais_consumidosInput
+    upsert?: OrdemServicoUpsertWithoutMateriais_consumidosInput
+    connect?: OrdemServicoWhereUniqueInput
+    update?: XOR<XOR<OrdemServicoUpdateToOneWithWhereWithoutMateriais_consumidosInput, OrdemServicoUpdateWithoutMateriais_consumidosInput>, OrdemServicoUncheckedUpdateWithoutMateriais_consumidosInput>
+  }
+
+  export type MaterialUpdateOneWithoutItens_consumoNestedInput = {
+    create?: XOR<MaterialCreateWithoutItens_consumoInput, MaterialUncheckedCreateWithoutItens_consumoInput>
+    connectOrCreate?: MaterialCreateOrConnectWithoutItens_consumoInput
+    upsert?: MaterialUpsertWithoutItens_consumoInput
+    disconnect?: MaterialWhereInput | boolean
+    delete?: MaterialWhereInput | boolean
+    connect?: MaterialWhereUniqueInput
+    update?: XOR<XOR<MaterialUpdateToOneWithWhereWithoutItens_consumoInput, MaterialUpdateWithoutItens_consumoInput>, MaterialUncheckedUpdateWithoutItens_consumoInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -17430,6 +21143,17 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
   export type NestedEnumPrioridadeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Prioridade | EnumPrioridadeFieldRefInput<$PrismaModel>
     in?: $Enums.Prioridade[] | ListEnumPrioridadeFieldRefInput<$PrismaModel>
@@ -17462,6 +21186,22 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumAuditActionFilter<$PrismaModel = never> = {
@@ -17513,6 +21253,49 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumStatusManifestacaoFilter<$PrismaModel>
     _max?: NestedEnumStatusManifestacaoFilter<$PrismaModel>
+  }
+
+  export type NestedDecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type ConfiguracaoSistemaCreateWithoutPrefeituraInput = {
@@ -17682,11 +21465,17 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
@@ -17716,9 +21505,15 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedCreateNestedManyWithoutOrdem_servicoInput
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
     manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
@@ -17867,6 +21662,46 @@ export namespace Prisma {
 
   export type AuditoriaLogCreateManyPrefeituraInputEnvelope = {
     data: AuditoriaLogCreateManyPrefeituraInput | AuditoriaLogCreateManyPrefeituraInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MaterialCreateWithoutPrefeituraInput = {
+    id?: string
+    codigo: string
+    nome: string
+    categoria?: string
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    estoque_atual?: number
+    estoque_minimo?: number
+    ativo?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+    itens_consumo?: ItemConsumoOSCreateNestedManyWithoutMaterialInput
+  }
+
+  export type MaterialUncheckedCreateWithoutPrefeituraInput = {
+    id?: string
+    codigo: string
+    nome: string
+    categoria?: string
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    estoque_atual?: number
+    estoque_minimo?: number
+    ativo?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+    itens_consumo?: ItemConsumoOSUncheckedCreateNestedManyWithoutMaterialInput
+  }
+
+  export type MaterialCreateOrConnectWithoutPrefeituraInput = {
+    where: MaterialWhereUniqueInput
+    create: XOR<MaterialCreateWithoutPrefeituraInput, MaterialUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type MaterialCreateManyPrefeituraInputEnvelope = {
+    data: MaterialCreateManyPrefeituraInput | MaterialCreateManyPrefeituraInput[]
     skipDuplicates?: boolean
   }
 
@@ -18038,6 +21873,11 @@ export namespace Prisma {
     historico_pausas?: JsonNullableFilter<"OrdemServico">
     sla_violado?: BoolFilter<"OrdemServico"> | boolean
     motivo_violacao_sla?: StringNullableFilter<"OrdemServico"> | string | null
+    custo_materiais?: DecimalNullableFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: DecimalNullableFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
+    custo_total?: DecimalNullableFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: StringNullableFilter<"OrdemServico"> | string | null
+    numero_empenho?: StringNullableFilter<"OrdemServico"> | string | null
     prefeitura_id?: StringNullableFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
@@ -18157,6 +21997,40 @@ export namespace Prisma {
     criado_em?: DateTimeFilter<"AuditoriaLog"> | Date | string
   }
 
+  export type MaterialUpsertWithWhereUniqueWithoutPrefeituraInput = {
+    where: MaterialWhereUniqueInput
+    update: XOR<MaterialUpdateWithoutPrefeituraInput, MaterialUncheckedUpdateWithoutPrefeituraInput>
+    create: XOR<MaterialCreateWithoutPrefeituraInput, MaterialUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type MaterialUpdateWithWhereUniqueWithoutPrefeituraInput = {
+    where: MaterialWhereUniqueInput
+    data: XOR<MaterialUpdateWithoutPrefeituraInput, MaterialUncheckedUpdateWithoutPrefeituraInput>
+  }
+
+  export type MaterialUpdateManyWithWhereWithoutPrefeituraInput = {
+    where: MaterialScalarWhereInput
+    data: XOR<MaterialUpdateManyMutationInput, MaterialUncheckedUpdateManyWithoutPrefeituraInput>
+  }
+
+  export type MaterialScalarWhereInput = {
+    AND?: MaterialScalarWhereInput | MaterialScalarWhereInput[]
+    OR?: MaterialScalarWhereInput[]
+    NOT?: MaterialScalarWhereInput | MaterialScalarWhereInput[]
+    id?: StringFilter<"Material"> | string
+    codigo?: StringFilter<"Material"> | string
+    nome?: StringFilter<"Material"> | string
+    categoria?: StringFilter<"Material"> | string
+    unidade_medida?: StringFilter<"Material"> | string
+    preco_unitario?: DecimalFilter<"Material"> | Decimal | DecimalJsLike | number | string
+    estoque_atual?: FloatFilter<"Material"> | number
+    estoque_minimo?: FloatFilter<"Material"> | number
+    ativo?: BoolFilter<"Material"> | boolean
+    prefeitura_id?: StringNullableFilter<"Material"> | string | null
+    criado_em?: DateTimeFilter<"Material"> | Date | string
+    atualizado?: DateTimeFilter<"Material"> | Date | string
+  }
+
   export type PrefeituraCreateWithoutUsuariosInput = {
     id?: string
     slug: string
@@ -18174,6 +22048,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutUsuariosInput = {
@@ -18193,6 +22068,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutUsuariosInput = {
@@ -18270,10 +22146,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -18303,10 +22185,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedCreateNestedManyWithoutOrdem_servicoInput
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
     manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
@@ -18342,10 +22230,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
+    materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -18375,10 +22269,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedCreateNestedManyWithoutOrdem_servicoInput
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
     manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
@@ -18510,6 +22410,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutUsuariosInput = {
@@ -18529,6 +22430,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioUpsertWithWhereUniqueWithoutGestorInput = {
@@ -18671,6 +22573,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutPrediosInput = {
@@ -18690,6 +22593,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutPrediosInput = {
@@ -18717,10 +22621,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -18750,10 +22660,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedCreateNestedManyWithoutOrdem_servicoInput
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
     manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
@@ -18950,6 +22866,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutPrediosInput = {
@@ -18969,6 +22886,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithWhereUniqueWithoutPredioInput = {
@@ -19150,6 +23068,38 @@ export namespace Prisma {
     create: XOR<UsuarioCreateWithoutChamados_atribuidosInput, UsuarioUncheckedCreateWithoutChamados_atribuidosInput>
   }
 
+  export type ItemConsumoOSCreateWithoutOrdem_servicoInput = {
+    id?: string
+    descricao: string
+    quantidade?: number
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    preco_total?: Decimal | DecimalJsLike | number | string
+    criado_em?: Date | string
+    material?: MaterialCreateNestedOneWithoutItens_consumoInput
+  }
+
+  export type ItemConsumoOSUncheckedCreateWithoutOrdem_servicoInput = {
+    id?: string
+    material_id?: string | null
+    descricao: string
+    quantidade?: number
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    preco_total?: Decimal | DecimalJsLike | number | string
+    criado_em?: Date | string
+  }
+
+  export type ItemConsumoOSCreateOrConnectWithoutOrdem_servicoInput = {
+    where: ItemConsumoOSWhereUniqueInput
+    create: XOR<ItemConsumoOSCreateWithoutOrdem_servicoInput, ItemConsumoOSUncheckedCreateWithoutOrdem_servicoInput>
+  }
+
+  export type ItemConsumoOSCreateManyOrdem_servicoInputEnvelope = {
+    data: ItemConsumoOSCreateManyOrdem_servicoInput | ItemConsumoOSCreateManyOrdem_servicoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PrefeituraCreateWithoutOrdens_servicoInput = {
     id?: string
     slug: string
@@ -19167,6 +23117,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutOrdens_servicoInput = {
@@ -19186,6 +23137,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutOrdens_servicoInput = {
@@ -19213,11 +23165,17 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
@@ -19247,10 +23205,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedCreateNestedManyWithoutOrdem_servicoInput
     agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
     manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
   }
@@ -19280,11 +23244,17 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
@@ -19314,9 +23284,15 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedCreateNestedManyWithoutOrdem_servicoInput
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
     manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
@@ -19585,6 +23561,37 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
+  export type ItemConsumoOSUpsertWithWhereUniqueWithoutOrdem_servicoInput = {
+    where: ItemConsumoOSWhereUniqueInput
+    update: XOR<ItemConsumoOSUpdateWithoutOrdem_servicoInput, ItemConsumoOSUncheckedUpdateWithoutOrdem_servicoInput>
+    create: XOR<ItemConsumoOSCreateWithoutOrdem_servicoInput, ItemConsumoOSUncheckedCreateWithoutOrdem_servicoInput>
+  }
+
+  export type ItemConsumoOSUpdateWithWhereUniqueWithoutOrdem_servicoInput = {
+    where: ItemConsumoOSWhereUniqueInput
+    data: XOR<ItemConsumoOSUpdateWithoutOrdem_servicoInput, ItemConsumoOSUncheckedUpdateWithoutOrdem_servicoInput>
+  }
+
+  export type ItemConsumoOSUpdateManyWithWhereWithoutOrdem_servicoInput = {
+    where: ItemConsumoOSScalarWhereInput
+    data: XOR<ItemConsumoOSUpdateManyMutationInput, ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoInput>
+  }
+
+  export type ItemConsumoOSScalarWhereInput = {
+    AND?: ItemConsumoOSScalarWhereInput | ItemConsumoOSScalarWhereInput[]
+    OR?: ItemConsumoOSScalarWhereInput[]
+    NOT?: ItemConsumoOSScalarWhereInput | ItemConsumoOSScalarWhereInput[]
+    id?: StringFilter<"ItemConsumoOS"> | string
+    ordem_servico_id?: StringFilter<"ItemConsumoOS"> | string
+    material_id?: StringNullableFilter<"ItemConsumoOS"> | string | null
+    descricao?: StringFilter<"ItemConsumoOS"> | string
+    quantidade?: FloatFilter<"ItemConsumoOS"> | number
+    unidade_medida?: StringFilter<"ItemConsumoOS"> | string
+    preco_unitario?: DecimalFilter<"ItemConsumoOS"> | Decimal | DecimalJsLike | number | string
+    preco_total?: DecimalFilter<"ItemConsumoOS"> | Decimal | DecimalJsLike | number | string
+    criado_em?: DateTimeFilter<"ItemConsumoOS"> | Date | string
+  }
+
   export type PrefeituraUpsertWithoutOrdens_servicoInput = {
     update: XOR<PrefeituraUpdateWithoutOrdens_servicoInput, PrefeituraUncheckedUpdateWithoutOrdens_servicoInput>
     create: XOR<PrefeituraCreateWithoutOrdens_servicoInput, PrefeituraUncheckedCreateWithoutOrdens_servicoInput>
@@ -19613,6 +23620,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutOrdens_servicoInput = {
@@ -19632,6 +23640,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithoutOrdens_derivadasInput = {
@@ -19665,11 +23674,17 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
@@ -19699,10 +23714,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
   }
@@ -19815,6 +23836,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPrefeituraInput
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutAuditoriasInput = {
@@ -19834,6 +23856,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutAuditoriasInput = {
@@ -19918,6 +23941,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUpdateManyWithoutPrefeituraNestedInput
     manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutAuditoriasInput = {
@@ -19937,6 +23961,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioCreateWithoutVistoriasInput = {
@@ -20004,11 +24029,17 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -20038,10 +24069,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedCreateNestedManyWithoutOrdem_servicoInput
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
     manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
   }
@@ -20068,6 +24105,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPrefeituraInput
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutVistoriasInput = {
@@ -20087,6 +24125,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutVistoriasInput = {
@@ -20176,11 +24215,17 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -20210,10 +24255,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
     manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
   }
@@ -20246,6 +24297,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUpdateManyWithoutPrefeituraNestedInput
     manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutVistoriasInput = {
@@ -20265,6 +24317,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraCreateWithoutConfiguracaoInput = {
@@ -20284,6 +24337,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutConfiguracaoInput = {
@@ -20303,6 +24357,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutConfiguracaoInput = {
@@ -20338,6 +24393,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutConfiguracaoInput = {
@@ -20357,6 +24413,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioCreateWithoutManifestacoesInput = {
@@ -20467,11 +24524,17 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -20501,10 +24564,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedCreateNestedManyWithoutOrdem_servicoInput
     ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
   }
@@ -20531,6 +24600,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutManifestacoesInput = {
@@ -20550,6 +24620,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutManifestacoesInput = {
@@ -20688,11 +24759,17 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -20722,10 +24799,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
   }
@@ -20758,6 +24841,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutManifestacoesInput = {
@@ -20777,6 +24861,391 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraCreateWithoutMateriaisInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraUncheckedCreateWithoutMateriaisInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioUncheckedCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioUncheckedCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraCreateOrConnectWithoutMateriaisInput = {
+    where: PrefeituraWhereUniqueInput
+    create: XOR<PrefeituraCreateWithoutMateriaisInput, PrefeituraUncheckedCreateWithoutMateriaisInput>
+  }
+
+  export type ItemConsumoOSCreateWithoutMaterialInput = {
+    id?: string
+    descricao: string
+    quantidade?: number
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    preco_total?: Decimal | DecimalJsLike | number | string
+    criado_em?: Date | string
+    ordem_servico: OrdemServicoCreateNestedOneWithoutMateriais_consumidosInput
+  }
+
+  export type ItemConsumoOSUncheckedCreateWithoutMaterialInput = {
+    id?: string
+    ordem_servico_id: string
+    descricao: string
+    quantidade?: number
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    preco_total?: Decimal | DecimalJsLike | number | string
+    criado_em?: Date | string
+  }
+
+  export type ItemConsumoOSCreateOrConnectWithoutMaterialInput = {
+    where: ItemConsumoOSWhereUniqueInput
+    create: XOR<ItemConsumoOSCreateWithoutMaterialInput, ItemConsumoOSUncheckedCreateWithoutMaterialInput>
+  }
+
+  export type ItemConsumoOSCreateManyMaterialInputEnvelope = {
+    data: ItemConsumoOSCreateManyMaterialInput | ItemConsumoOSCreateManyMaterialInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PrefeituraUpsertWithoutMateriaisInput = {
+    update: XOR<PrefeituraUpdateWithoutMateriaisInput, PrefeituraUncheckedUpdateWithoutMateriaisInput>
+    create: XOR<PrefeituraCreateWithoutMateriaisInput, PrefeituraUncheckedCreateWithoutMateriaisInput>
+    where?: PrefeituraWhereInput
+  }
+
+  export type PrefeituraUpdateToOneWithWhereWithoutMateriaisInput = {
+    where?: PrefeituraWhereInput
+    data: XOR<PrefeituraUpdateWithoutMateriaisInput, PrefeituraUncheckedUpdateWithoutMateriaisInput>
+  }
+
+  export type PrefeituraUpdateWithoutMateriaisInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraUncheckedUpdateWithoutMateriaisInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type ItemConsumoOSUpsertWithWhereUniqueWithoutMaterialInput = {
+    where: ItemConsumoOSWhereUniqueInput
+    update: XOR<ItemConsumoOSUpdateWithoutMaterialInput, ItemConsumoOSUncheckedUpdateWithoutMaterialInput>
+    create: XOR<ItemConsumoOSCreateWithoutMaterialInput, ItemConsumoOSUncheckedCreateWithoutMaterialInput>
+  }
+
+  export type ItemConsumoOSUpdateWithWhereUniqueWithoutMaterialInput = {
+    where: ItemConsumoOSWhereUniqueInput
+    data: XOR<ItemConsumoOSUpdateWithoutMaterialInput, ItemConsumoOSUncheckedUpdateWithoutMaterialInput>
+  }
+
+  export type ItemConsumoOSUpdateManyWithWhereWithoutMaterialInput = {
+    where: ItemConsumoOSScalarWhereInput
+    data: XOR<ItemConsumoOSUpdateManyMutationInput, ItemConsumoOSUncheckedUpdateManyWithoutMaterialInput>
+  }
+
+  export type OrdemServicoCreateWithoutMateriais_consumidosInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
+    tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
+    ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
+    ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
+    agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
+  }
+
+  export type OrdemServicoUncheckedCreateWithoutMateriais_consumidosInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    predio_id: string
+    solicitante_id: string
+    tecnico_atribuido_id?: string | null
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
+    prefeitura_id?: string | null
+    ordem_vinculada_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
+    agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
+  }
+
+  export type OrdemServicoCreateOrConnectWithoutMateriais_consumidosInput = {
+    where: OrdemServicoWhereUniqueInput
+    create: XOR<OrdemServicoCreateWithoutMateriais_consumidosInput, OrdemServicoUncheckedCreateWithoutMateriais_consumidosInput>
+  }
+
+  export type MaterialCreateWithoutItens_consumoInput = {
+    id?: string
+    codigo: string
+    nome: string
+    categoria?: string
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    estoque_atual?: number
+    estoque_minimo?: number
+    ativo?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutMateriaisInput
+  }
+
+  export type MaterialUncheckedCreateWithoutItens_consumoInput = {
+    id?: string
+    codigo: string
+    nome: string
+    categoria?: string
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    estoque_atual?: number
+    estoque_minimo?: number
+    ativo?: boolean
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type MaterialCreateOrConnectWithoutItens_consumoInput = {
+    where: MaterialWhereUniqueInput
+    create: XOR<MaterialCreateWithoutItens_consumoInput, MaterialUncheckedCreateWithoutItens_consumoInput>
+  }
+
+  export type OrdemServicoUpsertWithoutMateriais_consumidosInput = {
+    update: XOR<OrdemServicoUpdateWithoutMateriais_consumidosInput, OrdemServicoUncheckedUpdateWithoutMateriais_consumidosInput>
+    create: XOR<OrdemServicoCreateWithoutMateriais_consumidosInput, OrdemServicoUncheckedCreateWithoutMateriais_consumidosInput>
+    where?: OrdemServicoWhereInput
+  }
+
+  export type OrdemServicoUpdateToOneWithWhereWithoutMateriais_consumidosInput = {
+    where?: OrdemServicoWhereInput
+    data: XOR<OrdemServicoUpdateWithoutMateriais_consumidosInput, OrdemServicoUncheckedUpdateWithoutMateriais_consumidosInput>
+  }
+
+  export type OrdemServicoUpdateWithoutMateriais_consumidosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
+    tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
+    ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
+    ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
+    agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type OrdemServicoUncheckedUpdateWithoutMateriais_consumidosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    predio_id?: StringFieldUpdateOperationsInput | string
+    solicitante_id?: StringFieldUpdateOperationsInput | string
+    tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
+    agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type MaterialUpsertWithoutItens_consumoInput = {
+    update: XOR<MaterialUpdateWithoutItens_consumoInput, MaterialUncheckedUpdateWithoutItens_consumoInput>
+    create: XOR<MaterialCreateWithoutItens_consumoInput, MaterialUncheckedCreateWithoutItens_consumoInput>
+    where?: MaterialWhereInput
+  }
+
+  export type MaterialUpdateToOneWithWhereWithoutItens_consumoInput = {
+    where?: MaterialWhereInput
+    data: XOR<MaterialUpdateWithoutItens_consumoInput, MaterialUncheckedUpdateWithoutItens_consumoInput>
+  }
+
+  export type MaterialUpdateWithoutItens_consumoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estoque_atual?: FloatFieldUpdateOperationsInput | number
+    estoque_minimo?: FloatFieldUpdateOperationsInput | number
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutMateriaisNestedInput
+  }
+
+  export type MaterialUncheckedUpdateWithoutItens_consumoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estoque_atual?: FloatFieldUpdateOperationsInput | number
+    estoque_minimo?: FloatFieldUpdateOperationsInput | number
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UsuarioCreateManyPrefeituraInput = {
@@ -20833,6 +25302,11 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -20889,6 +25363,20 @@ export namespace Prisma {
     dados_antigos?: NullableJsonNullValueInput | InputJsonValue
     dados_novos?: NullableJsonNullValueInput | InputJsonValue
     criado_em?: Date | string
+  }
+
+  export type MaterialCreateManyPrefeituraInput = {
+    id?: string
+    codigo: string
+    nome: string
+    categoria?: string
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    estoque_atual?: number
+    estoque_minimo?: number
+    ativo?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
   }
 
   export type UsuarioUpdateWithoutPrefeituraInput = {
@@ -21020,11 +25508,17 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
@@ -21054,9 +25548,15 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
@@ -21085,6 +25585,11 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21249,6 +25754,50 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MaterialUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estoque_atual?: FloatFieldUpdateOperationsInput | number
+    estoque_minimo?: FloatFieldUpdateOperationsInput | number
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    itens_consumo?: ItemConsumoOSUpdateManyWithoutMaterialNestedInput
+  }
+
+  export type MaterialUncheckedUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estoque_atual?: FloatFieldUpdateOperationsInput | number
+    estoque_minimo?: FloatFieldUpdateOperationsInput | number
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    itens_consumo?: ItemConsumoOSUncheckedUpdateManyWithoutMaterialNestedInput
+  }
+
+  export type MaterialUncheckedUpdateManyWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estoque_atual?: FloatFieldUpdateOperationsInput | number
+    estoque_minimo?: FloatFieldUpdateOperationsInput | number
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PredioCreateManyGestorInput = {
     id?: string
     nome: string
@@ -21288,6 +25837,11 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -21316,6 +25870,11 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -21433,10 +25992,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -21466,10 +26031,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
@@ -21497,6 +26068,11 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21523,10 +26099,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
+    materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -21556,10 +26138,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
@@ -21587,6 +26175,11 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21717,6 +26310,11 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -21785,10 +26383,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -21818,10 +26422,16 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
@@ -21849,6 +26459,11 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21981,6 +26596,17 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ItemConsumoOSCreateManyOrdem_servicoInput = {
+    id?: string
+    material_id?: string | null
+    descricao: string
+    quantidade?: number
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    preco_total?: Decimal | DecimalJsLike | number | string
+    criado_em?: Date | string
+  }
+
   export type OrdemServicoCreateManyOrdem_vinculadaInput = {
     id?: string
     codigo?: string
@@ -22004,6 +26630,11 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: boolean
     motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
     prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -22051,6 +26682,39 @@ export namespace Prisma {
     atualizado?: Date | string
   }
 
+  export type ItemConsumoOSUpdateWithoutOrdem_servicoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    quantidade?: FloatFieldUpdateOperationsInput | number
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    preco_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    material?: MaterialUpdateOneWithoutItens_consumoNestedInput
+  }
+
+  export type ItemConsumoOSUncheckedUpdateWithoutOrdem_servicoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    material_id?: NullableStringFieldUpdateOperationsInput | string | null
+    descricao?: StringFieldUpdateOperationsInput | string
+    quantidade?: FloatFieldUpdateOperationsInput | number
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    preco_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    material_id?: NullableStringFieldUpdateOperationsInput | string | null
+    descricao?: StringFieldUpdateOperationsInput | string
+    quantidade?: FloatFieldUpdateOperationsInput | number
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    preco_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type OrdemServicoUpdateWithoutOrdem_vinculadaInput = {
     id?: StringFieldUpdateOperationsInput | string
     codigo?: StringFieldUpdateOperationsInput | string
@@ -22071,11 +26735,17 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
@@ -22105,9 +26775,15 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
     manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
@@ -22136,6 +26812,11 @@ export namespace Prisma {
     historico_pausas?: NullableJsonNullValueInput | InputJsonValue
     sla_violado?: BoolFieldUpdateOperationsInput | boolean
     motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22265,6 +26946,50 @@ export namespace Prisma {
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemConsumoOSCreateManyMaterialInput = {
+    id?: string
+    ordem_servico_id: string
+    descricao: string
+    quantidade?: number
+    unidade_medida?: string
+    preco_unitario?: Decimal | DecimalJsLike | number | string
+    preco_total?: Decimal | DecimalJsLike | number | string
+    criado_em?: Date | string
+  }
+
+  export type ItemConsumoOSUpdateWithoutMaterialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    quantidade?: FloatFieldUpdateOperationsInput | number
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    preco_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordem_servico?: OrdemServicoUpdateOneRequiredWithoutMateriais_consumidosNestedInput
+  }
+
+  export type ItemConsumoOSUncheckedUpdateWithoutMaterialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ordem_servico_id?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    quantidade?: FloatFieldUpdateOperationsInput | number
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    preco_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemConsumoOSUncheckedUpdateManyWithoutMaterialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ordem_servico_id?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    quantidade?: FloatFieldUpdateOperationsInput | number
+    unidade_medida?: StringFieldUpdateOperationsInput | string
+    preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    preco_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

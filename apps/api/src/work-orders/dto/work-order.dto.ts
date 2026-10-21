@@ -188,10 +188,46 @@ export class UpdateWorkOrderDto {
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
-  fotosConclusao?: string[];
-
-  @IsArray()
-  @IsString({ each: true })
-  @IsOptional()
   fotos_conclusao?: string[];
+
+  @IsString()
+  @IsOptional()
+  empresaTerceirizada?: string;
+
+  @IsString()
+  @IsOptional()
+  numeroEmpenho?: string;
 }
+
+export class AddConsumedMaterialDto {
+  @IsString()
+  @IsOptional()
+  materialId?: string;
+
+  @IsString()
+  descricao!: string;
+
+  @IsOptional()
+  quantidade?: number;
+
+  @IsString()
+  @IsOptional()
+  unidadeMedida?: string;
+
+  @IsOptional()
+  precoUnitario?: number;
+}
+
+export class UpdateFinancialsDto {
+  @IsString()
+  @IsOptional()
+  empresaTerceirizada?: string;
+
+  @IsString()
+  @IsOptional()
+  numeroEmpenho?: string;
+
+  @IsOptional()
+  custoMaoDeObra?: number;
+}
+

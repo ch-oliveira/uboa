@@ -35,7 +35,13 @@ import {
   Flame,
   Layers,
   Compass,
-  CheckCircle
+  CheckCircle,
+  Coins,
+  Receipt,
+  FileSpreadsheet,
+  Search,
+  Filter,
+  Package
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sidebar } from '@/components/sidebar';
@@ -48,7 +54,7 @@ import { OrderDetailModal } from '../kanban/order-detail-modal';
 import { Toast } from '@/components/ui/toast';
 
 type PeriodOption = 'MES_ATUAL' | 'ULTIMOS_30' | 'TRIMESTRE' | 'ANO_2026';
-type ViewFilter = 'ALL' | 'TEMOS' | 'DEPOIS' | 'ESTRATEGICO';
+type ViewFilter = 'ALL' | 'TEMOS' | 'DEPOIS' | 'ESTRATEGICO' | 'FINANCEIRO';
 
 // Helper functions for Donut polar arc generation
 function polarToCartesian(centerX: number, centerY: number, radius: number, angleInDegrees: number) {
@@ -122,6 +128,14 @@ export default function RelatoriosPage() {
     }, 3500);
   }
 
+  // Estados e filtros da Seção Financeira
+  const [financialSearch, setFinancialSearch] = useState('');
+  const [selectedContractor, setSelectedContractor] = useState('TODAS');
+
+  function formatBRL(val?: number) {
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val || 0);
+  }
+
   // Filtro de Ordens por Período Real (Baseado em openedAt/criado_em)
   const periodOrders = useMemo(() => {
     const now = new Date();
@@ -156,6 +170,122 @@ export default function RelatoriosPage() {
       default: return 'Mês Atual';
     }
   }, [selectedPeriod]);
+
+  // Métricas Consolidadas de Medição Financeira & Contratos
+  const financialMetrics = useMemo(() => {
+    let totalMateriais = 0;
+    let totalMaoDeObra = 0;
+    let totalGeral = 0;
+    let countWithCost = 0;
+    const byFacility: Record<string, number> = {};
+    const byCategory: Record<string, number> = {};
+    const contractorsSet = new Set<string>();
+
+    periodOrders.forEach(o => {
+      const mat = Number(o.custoMateriais || 0);
+      const mdo = Number(o.custoMaoDeObra || 0);
+      const tot = o.custoTotal !== undefined && o.custoTotal !== null && Number(o.custoTotal) > 0 
+        ? Number(o.custoTotal) 
+        : (mat + mdo);
+
+      totalMateriais += mat;
+      totalMaoDeObra += mdo;
+      totalGeral += tot;
+
+      if (tot > 0) countWithCost++;
+
+      if (o.empresaTerceirizada && o.empresaTerceirizada.trim()) {
+        contractorsSet.add(o.empresaTerceirizada.trim());
+      }
+
+      const fac = o.predio || 'Não identificado';
+      byFacility[fac] = (byFacility[fac] || 0) + tot;
+
+      const cat = o.categoria || 'Geral';
+      byCategory[cat] = (byCategory[cat] || 0) + tot;
+    });
+
+    const averageCost = countWithCost > 0 ? totalGeral / countWithCost : (periodOrders.length > 0 ? totalGeral / periodOrders.length : 0);
+
+    const sortedFacilities = Object.entries(byFacility)
+      .map(([nome, valor]) => ({ nome, valor }))
+      .sort((a, b) => b.valor - a.valor);
+
+    const sortedCategories = Object.entries(byCategory)
+      .map(([nome, valor]) => ({ nome, valor }))
+      .sort((a, b) => b.valor - a.valor);
+
+    return {
+      totalMateriais,
+      totalMaoDeObra,
+      totalGeral,
+      averageCost,
+      countWithCost,
+      contractors: Array.from(contractorsSet),
+      sortedFacilities,
+      sortedCategories,
+    };
+  }, [periodOrders]);
+
+  const filteredFinancialOrders = useMemo(() => {
+    return periodOrders.filter(o => {
+      const q = financialSearch.toLowerCase().trim();
+      const matchSearch = !q || 
+        o.id.toLowerCase().includes(q) || 
+        (o.predio && o.predio.toLowerCase().includes(q)) || 
+        (o.titulo && o.titulo.toLowerCase().includes(q)) || 
+        (o.empresaTerceirizada && o.empresaTerceirizada.toLowerCase().includes(q)) || 
+        (o.numeroEmpenho && o.numeroEmpenho.toLowerCase().includes(q));
+
+      const matchContractor = selectedContractor === 'TODAS' || 
+        (o.empresaTerceirizada && o.empresaTerceirizada.trim() === selectedContractor);
+
+      return matchSearch && matchContractor;
+    });
+  }, [periodOrders, financialSearch, selectedContractor]);
+
+  function handleExportMeasurementCSV() {
+    const headers = [
+      'Código OS',
+      'Prédio / Equipamento',
+      'Título da Ocorrência',
+      'Categoria',
+      'Status',
+      'Empresa Terceirizada',
+      'Número de Empenho',
+      'Custo Peças (R$)',
+      'Custo Mão de Obra (R$)',
+      'Custo Total (R$)',
+      'Data de Abertura',
+      'Data de Conclusão',
+    ];
+
+    const rows = filteredFinancialOrders.map(o => [
+      `"${o.id}"`,
+      `"${(o.predio || '').replace(/"/g, '""')}"`,
+      `"${(o.titulo || '').replace(/"/g, '""')}"`,
+      `"${o.categoria || 'Geral'}"`,
+      `"${o.status}"`,
+      `"${(o.empresaTerceirizada || 'Administração Direta').replace(/"/g, '""')}"`,
+      `"${(o.numeroEmpenho || 'S/N').replace(/"/g, '""')}"`,
+      (o.custoMateriais || 0).toFixed(2),
+      (o.custoMaoDeObra || 0).toFixed(2),
+      (o.custoTotal || ((o.custoMateriais || 0) + (o.custoMaoDeObra || 0))).toFixed(2),
+      `"${o.dataAbertura || ''}"`,
+      `"${o.concluidoEm || ''}"`,
+    ]);
+
+    const csvContent = '\uFEFF' + [headers.join(';'), ...rows.map(r => r.join(';'))].join('\r\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `Medicao_Manutencao_TCE_${selectedPeriod}_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast('Planilha de medição exportada para prestação de contas (TCE)!');
+  }
 
   // ──────────────────────────────────────────────────────────────────────────
   // 1. "O QUE TEMOS?" — DADOS OPERACIONAIS DO PRESENTE (100% REAIS)
@@ -783,6 +913,7 @@ export default function RelatoriosPage() {
                 { id: 'TEMOS', label: '1. O que temos agora? (Presente)', icon: Activity },
                 { id: 'DEPOIS', label: '2. O que acontece depois? (Previsibilidade & SLA)', icon: CalendarClock },
                 { id: 'ESTRATEGICO', label: '3. Causas Raízes & Histórico', icon: Compass },
+                { id: 'FINANCEIRO', label: '4. Medição Financeira & Contratos (TCE)', icon: Coins },
               ].map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeSectionFilter === tab.id;
@@ -1940,6 +2071,323 @@ export default function RelatoriosPage() {
                       </div>
                     ))}
                   </div>
+                </div>
+
+              </section>
+            )}
+
+            {/* ═════════════════════════════════════════════════════════════ */}
+            {/* SEÇÃO 4: MEDIÇÃO FINANCEIRA, PRESTAÇÃO DE CONTAS & TCE        */}
+            {/* ═════════════════════════════════════════════════════════════ */}
+            {(activeSectionFilter === 'ALL' || activeSectionFilter === 'FINANCEIRO') && (
+              <section className="space-y-4">
+                
+                {/* Banner de Identificação da Seção */}
+                <div className="flex flex-wrap items-center justify-between border-b border-border/80 pb-3 gap-3">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                      <Coins size={18} />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h2 className="text-sm font-bold uppercase tracking-wider text-foreground">
+                          4. Medição Financeira, Contratos & Almoxarifado
+                        </h2>
+                        <span className="text-[10px] font-semibold text-emerald-800 bg-emerald-100/70 border border-emerald-300/50 px-2 py-0.5 rounded-full">
+                          Conformidade TCE
+                        </span>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        Prestação de contas contábil, baixa de peças em almoxarifado e liquidação de contratos terceirizados (Lei 14.133/21).
+                      </p>
+                    </div>
+                  </div>
+
+                  <Button
+                    onClick={handleExportMeasurementCSV}
+                    className="bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-semibold h-8 px-3.5 flex items-center gap-1.5 cursor-pointer shadow-xs"
+                  >
+                    <FileSpreadsheet size={14} />
+                    <span>Exportar Medição para TCE (.csv)</span>
+                  </Button>
+                </div>
+
+                {/* 4 Cards de Métricas Financeiras */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  <div className="bg-card border border-border/80 rounded-2xl p-4 shadow-xs space-y-1">
+                    <div className="flex items-center justify-between text-muted-foreground">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider">Gasto Total Acumulado</span>
+                      <Coins size={15} className="text-emerald-600" />
+                    </div>
+                    <p className="text-2xl font-bold font-mono text-foreground">
+                      {formatBRL(financialMetrics.totalGeral)}
+                    </p>
+                    <p className="text-[11px] text-muted-foreground">
+                      Peças + Mão de obra apuradas no período
+                    </p>
+                  </div>
+
+                  <div className="bg-card border border-border/80 rounded-2xl p-4 shadow-xs space-y-1">
+                    <div className="flex items-center justify-between text-muted-foreground">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider">Peças & Almoxarifado</span>
+                      <Package size={15} className="text-blue-600" />
+                    </div>
+                    <p className="text-2xl font-bold font-mono text-foreground">
+                      {formatBRL(financialMetrics.totalMateriais)}
+                    </p>
+                    <p className="text-[11px] text-muted-foreground">
+                      {financialMetrics.totalGeral > 0 
+                        ? `${((financialMetrics.totalMateriais / financialMetrics.totalGeral) * 100).toFixed(1)}% do orçamento total` 
+                        : 'Sem consumo no período'}
+                    </p>
+                  </div>
+
+                  <div className="bg-card border border-border/80 rounded-2xl p-4 shadow-xs space-y-1">
+                    <div className="flex items-center justify-between text-muted-foreground">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider">Mão de Obra / Terceirizadas</span>
+                      <Receipt size={15} className="text-purple-600" />
+                    </div>
+                    <p className="text-2xl font-bold font-mono text-foreground">
+                      {formatBRL(financialMetrics.totalMaoDeObra)}
+                    </p>
+                    <p className="text-[11px] text-muted-foreground">
+                      {financialMetrics.contractors.length > 0 
+                        ? `${financialMetrics.contractors.length} empresa(s) terceirizada(s)` 
+                        : 'Equipe própria da prefeitura'}
+                    </p>
+                  </div>
+
+                  <div className="bg-card border border-border/80 rounded-2xl p-4 shadow-xs space-y-1">
+                    <div className="flex items-center justify-between text-muted-foreground">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider">Ticket Médio por Chamado</span>
+                      <TrendingUp size={15} className="text-amber-600" />
+                    </div>
+                    <p className="text-2xl font-bold font-mono text-foreground">
+                      {formatBRL(financialMetrics.averageCost)}
+                    </p>
+                    <p className="text-[11px] text-muted-foreground">
+                      {financialMetrics.countWithCost} ordens com medição registrada
+                    </p>
+                  </div>
+                </div>
+
+                {/* Grid Principal: Planilha Contratual + Rankings de Custos */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                  {/* Coluna Esquerda (2 Spans): Planilha de Medição Mensal */}
+                  <div className="lg:col-span-2 bg-card border border-border/80 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div>
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
+                          Planilha de Medição Mensal por Contrato & Empenho
+                        </h3>
+                        <p className="text-[11px] text-muted-foreground">
+                          Exibindo {filteredFinancialOrders.length} de {periodOrders.length} ordens de serviço
+                        </p>
+                      </div>
+
+                      {/* Filtros da Tabela */}
+                      <div className="flex items-center gap-2">
+                        <div className="relative">
+                          <Search size={13} className="absolute left-2.5 top-2.5 text-muted-foreground" />
+                          <input
+                            type="text"
+                            value={financialSearch}
+                            onChange={(e) => setFinancialSearch(e.target.value)}
+                            placeholder="Buscar OS, prédio, empenho..."
+                            className="text-xs bg-muted/40 border border-border rounded-xl pl-8 pr-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary w-44 sm:w-56"
+                          />
+                        </div>
+
+                        {financialMetrics.contractors.length > 0 && (
+                          <select
+                            value={selectedContractor}
+                            onChange={(e) => setSelectedContractor(e.target.value)}
+                            className="text-xs bg-muted/40 border border-border rounded-xl px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary cursor-pointer text-muted-foreground font-medium"
+                          >
+                            <option value="TODAS">Todas as Contratadas</option>
+                            {financialMetrics.contractors.map((c) => (
+                              <option key={c} value={c}>
+                                {c}
+                              </option>
+                            ))}
+                          </select>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Tabela de Medição */}
+                    {filteredFinancialOrders.length > 0 ? (
+                      <div className="overflow-x-auto rounded-xl border border-border/70">
+                        <table className="w-full text-left text-xs text-muted-foreground">
+                          <thead className="bg-muted/50 border-b border-border/80 text-foreground font-semibold uppercase text-[10px]">
+                            <tr>
+                              <th className="py-2.5 px-3">Código</th>
+                              <th className="py-2.5 px-3">Unidade / Prédio</th>
+                              <th className="py-2.5 px-3">Contratada</th>
+                              <th className="py-2.5 px-3">Empenho</th>
+                              <th className="py-2.5 px-3 text-right">Peças (R$)</th>
+                              <th className="py-2.5 px-3 text-right">M. Obra (R$)</th>
+                              <th className="py-2.5 px-3 text-right">Total (R$)</th>
+                              <th className="py-2.5 px-3 text-center">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-border/60">
+                            {filteredFinancialOrders.map((o) => {
+                              const mat = Number(o.custoMateriais || 0);
+                              const mdo = Number(o.custoMaoDeObra || 0);
+                              const tot = o.custoTotal !== undefined && o.custoTotal !== null && Number(o.custoTotal) > 0 
+                                ? Number(o.custoTotal) 
+                                : (mat + mdo);
+
+                              return (
+                                <tr key={o.id} className="hover:bg-muted/30 transition-colors">
+                                  <td className="py-2.5 px-3 font-mono font-bold text-primary">
+                                    <Link href={`/chamados/${o.id}`} className="hover:underline flex items-center gap-1">
+                                      <span>{o.id}</span>
+                                      <ArrowUpRight size={11} className="text-muted-foreground" />
+                                    </Link>
+                                  </td>
+                                  <td className="py-2.5 px-3 font-medium text-foreground truncate max-w-[150px]">
+                                    {o.predio}
+                                  </td>
+                                  <td className="py-2.5 px-3 text-muted-foreground truncate max-w-[130px]" title={o.empresaTerceirizada}>
+                                    {o.empresaTerceirizada || 'Administração Direta'}
+                                  </td>
+                                  <td className="py-2.5 px-3 font-mono text-muted-foreground text-[11px]">
+                                    {o.numeroEmpenho || '—'}
+                                  </td>
+                                  <td className="py-2.5 px-3 text-right font-mono text-foreground">
+                                    {formatBRL(mat)}
+                                  </td>
+                                  <td className="py-2.5 px-3 text-right font-mono text-foreground">
+                                    {formatBRL(mdo)}
+                                  </td>
+                                  <td className="py-2.5 px-3 text-right font-mono font-bold text-foreground">
+                                    {formatBRL(tot)}
+                                  </td>
+                                  <td className="py-2.5 px-3 text-center">
+                                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted border border-border">
+                                      {o.status}
+                                    </span>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                          <tfoot className="bg-muted/40 font-semibold text-foreground border-t border-border">
+                            <tr>
+                              <td colSpan={4} className="py-2.5 px-3 text-right uppercase text-[10px] text-muted-foreground">
+                                Total da Medição Filtrada:
+                              </td>
+                              <td className="py-2.5 px-3 text-right font-mono">
+                                {formatBRL(filteredFinancialOrders.reduce((acc, curr) => acc + Number(curr.custoMateriais || 0), 0))}
+                              </td>
+                              <td className="py-2.5 px-3 text-right font-mono">
+                                {formatBRL(filteredFinancialOrders.reduce((acc, curr) => acc + Number(curr.custoMaoDeObra || 0), 0))}
+                              </td>
+                              <td className="py-2.5 px-3 text-right font-mono font-bold text-emerald-700">
+                                {formatBRL(filteredFinancialOrders.reduce((acc, curr) => {
+                                  const mat = Number(curr.custoMateriais || 0);
+                                  const mdo = Number(curr.custoMaoDeObra || 0);
+                                  const tot = curr.custoTotal !== undefined && curr.custoTotal !== null && Number(curr.custoTotal) > 0 
+                                    ? Number(curr.custoTotal) 
+                                    : (mat + mdo);
+                                  return acc + tot;
+                                }, 0))}
+                              </td>
+                              <td></td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                    ) : (
+                      <div className="py-8 px-4 rounded-xl border border-dashed border-border text-center space-y-1">
+                        <FileSpreadsheet size={24} className="text-muted-foreground/60 mx-auto" />
+                        <p className="text-xs font-semibold text-foreground">Nenhuma ordem encontrada com os filtros selecionados</p>
+                        <p className="text-[11px] text-muted-foreground">Tente limpar os termos de busca ou mudar o período de análise.</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Coluna Direita (1 Span): Rankings e Distribuição de Custos */}
+                  <div className="space-y-4">
+
+                    {/* Ranking de Prédios */}
+                    <div className="bg-card border border-border/80 rounded-2xl p-4 shadow-xs space-y-3">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
+                          Top Equipamentos c/ Maior Gasto
+                        </h3>
+                        <Building2 size={14} className="text-muted-foreground" />
+                      </div>
+
+                      <div className="space-y-2.5">
+                        {financialMetrics.sortedFacilities.slice(0, 5).map((fac, idx) => {
+                          const percent = financialMetrics.totalGeral > 0 
+                            ? (fac.valor / financialMetrics.totalGeral) * 100 
+                            : 0;
+
+                          return (
+                            <div key={fac.nome} className="space-y-1">
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="font-semibold text-foreground truncate max-w-[180px]">
+                                  {idx + 1}. {fac.nome}
+                                </span>
+                                <span className="font-mono text-muted-foreground font-semibold">
+                                  {formatBRL(fac.valor)}
+                                </span>
+                              </div>
+                              <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                                <div 
+                                  className="h-full bg-emerald-600 rounded-full transition-all duration-300"
+                                  style={{ width: `${Math.min(100, Math.max(3, percent))}%` }}
+                                />
+                              </div>
+                            </div>
+                          );
+                        })}
+
+                        {financialMetrics.sortedFacilities.length === 0 && (
+                          <p className="text-xs text-muted-foreground text-center py-4">
+                            Sem lançamentos de custos para prédios no período.
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Gastos por Categoria */}
+                    <div className="bg-card border border-border/80 rounded-2xl p-4 shadow-xs space-y-3">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
+                          Gasto por Categoria Técnica
+                        </h3>
+                        <Wrench size={14} className="text-muted-foreground" />
+                      </div>
+
+                      <div className="space-y-2 text-xs">
+                        {financialMetrics.sortedCategories.map((cat) => (
+                          <div key={cat.nome} className="flex items-center justify-between p-2 rounded-xl bg-muted/30 border border-border/60">
+                            <span className="font-semibold text-foreground capitalize">{cat.nome.toLowerCase()}</span>
+                            <span className="font-mono font-bold text-foreground">{formatBRL(cat.valor)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Nota de Auditoria TCE */}
+                    <div className="bg-emerald-50/50 border border-emerald-200/80 rounded-2xl p-4 space-y-1.5 text-xs text-emerald-950">
+                      <div className="flex items-center gap-1.5 font-bold text-emerald-900">
+                        <ShieldCheck size={14} className="text-emerald-700" />
+                        <span>Conformidade com a Nova Lei de Licitações</span>
+                      </div>
+                      <p className="text-[11px] leading-relaxed text-emerald-800">
+                        A apuração individualizada de peças e medição de mão de obra atende aos requisitos do Art. 12 da Lei 14.133/21, permitindo auditoria direta por processo administrativo.
+                      </p>
+                    </div>
+
+                  </div>
+
                 </div>
 
               </section>

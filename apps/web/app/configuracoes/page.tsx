@@ -23,7 +23,10 @@ import {
   Server, 
   Wrench, 
   X,
-  Menu
+  Menu,
+  Package,
+  Search,
+  Coins
 } from 'lucide-react';
 import { Sidebar } from '@/components/sidebar';
 import { Button } from '@/components/ui/button';
@@ -31,8 +34,10 @@ import { Toast } from '@/components/ui/toast';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useOrders, type TecnicoSettings, type SystemSettings } from '@/context/orders-context';
 import { useAuth } from '@/context/auth-context';
+import { apiClient } from '@/lib/api-client';
+import { type MaterialItem } from '@/app/kanban/data';
 
-type SettingsTab = 'geral' | 'slas' | 'notificacoes' | 'equipe' | 'dados';
+type SettingsTab = 'geral' | 'slas' | 'notificacoes' | 'equipe' | 'materiais' | 'dados';
 
 export default function ConfiguracoesPage() {
   const { role } = useAuth();
@@ -82,6 +87,82 @@ export default function ConfiguracoesPage() {
     setToastType(type);
     setShowToast(true);
     setTimeout(() => setShowToast(false), 3500);
+  }
+
+  // Estados do Almoxarifado / Catálogo de Peças
+  const [materialsList, setMaterialsList] = useState<MaterialItem[]>([]);
+  const [isLoadingMaterials, setIsLoadingMaterials] = useState(false);
+  const [isNewMaterialModalOpen, setIsNewMaterialModalOpen] = useState(false);
+  const [materialSearch, setMaterialSearch] = useState('');
+
+  // Form Novo Material
+  const [newMatCodigo, setNewMatCodigo] = useState('');
+  const [newMatNome, setNewMatNome] = useState('');
+  const [newMatCategoria, setNewMatCategoria] = useState('ELETRICA');
+  const [newMatUnidade, setNewMatUnidade] = useState('UN');
+  const [newMatPreco, setNewMatPreco] = useState<number>(0);
+  const [newMatEstoque, setNewMatEstoque] = useState<number>(10);
+  const [newMatEstoqueMin, setNewMatEstoqueMin] = useState<number>(5);
+  const [isSavingMaterial, setIsSavingMaterial] = useState(false);
+
+  // Carrega catálogo de materiais
+  const loadMaterials = React.useCallback(async () => {
+    setIsLoadingMaterials(true);
+    try {
+      const res = await apiClient.getMaterials();
+      if (res.success && Array.isArray(res.materials)) {
+        setMaterialsList(res.materials);
+      }
+    } catch {
+      // Ignora erro
+    } finally {
+      setIsLoadingMaterials(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (activeTab === 'materiais') {
+      loadMaterials();
+    }
+  }, [activeTab, loadMaterials]);
+
+  async function handleCreateMaterialSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!newMatNome.trim() || newMatPreco < 0) {
+      triggerToast('Informe ao menos o nome do material e um preço válido.', 'error');
+      return;
+    }
+
+    setIsSavingMaterial(true);
+    try {
+      const res = await apiClient.createMaterial({
+        codigo: newMatCodigo.trim() || undefined,
+        nome: newMatNome.trim(),
+        categoria: newMatCategoria.trim() || 'GERAL',
+        unidadeMedida: newMatUnidade.trim() || 'UN',
+        precoUnitario: Number(newMatPreco || 0),
+        estoqueAtual: Number(newMatEstoque || 0),
+        estoqueMinimo: Number(newMatEstoqueMin || 0),
+      });
+
+      if (res.success) {
+        triggerToast('Material cadastrado no almoxarifado com sucesso!');
+        setIsNewMaterialModalOpen(false);
+        // Reset form
+        setNewMatCodigo('');
+        setNewMatNome('');
+        setNewMatPreco(0);
+        setNewMatEstoque(10);
+        setNewMatEstoqueMin(5);
+        loadMaterials();
+      } else {
+        triggerToast(res.message || 'Erro ao cadastrar material.', 'error');
+      }
+    } catch {
+      triggerToast('Falha na comunicação com o servidor.', 'error');
+    } finally {
+      setIsSavingMaterial(false);
+    }
   }
 
   // Handle Save
@@ -275,6 +356,13 @@ export default function ConfiguracoesPage() {
               icon={<Users size={16} />} 
               label="Equipe Técnica" 
               badge={String(formData.tecnicosList.length)}
+            />
+            <TabButton 
+              active={activeTab === 'materiais'} 
+              onClick={() => setActiveTab('materiais')} 
+              icon={<Package size={16} />} 
+              label="Almoxarifado & Peças" 
+              badge={materialsList.length > 0 ? String(materialsList.length) : undefined}
             />
             {isAdmin && (
               <TabButton 
@@ -670,6 +758,306 @@ export default function ConfiguracoesPage() {
                   ))}
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* TAB: ALMOXARIFADO & CATÁLOGO DE MATERIAIS */}
+          {activeTab === 'materiais' && (
+            <div className="space-y-6 animate-in fade-in duration-200">
+              {/* Resumo do Almoxarifado */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="p-4 ds-card space-y-1">
+                  <div className="flex items-center justify-between text-muted-foreground">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider">Itens no Catálogo</span>
+                    <Package size={16} className="text-primary" />
+                  </div>
+                  <p className="text-2xl font-bold font-mono text-foreground">
+                    {materialsList.length}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground">Peças e insumos registrados</p>
+                </div>
+
+                <div className="p-4 ds-card space-y-1">
+                  <div className="flex items-center justify-between text-muted-foreground">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider">Estoque Crítico / Baixo</span>
+                    <AlertTriangle size={16} className="text-amber-600" />
+                  </div>
+                  <p className="text-2xl font-bold font-mono text-amber-700">
+                    {materialsList.filter(m => m.estoqueAtual <= m.estoqueMinimo).length}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground">Itens abaixo do estoque de segurança</p>
+                </div>
+
+                <div className="p-4 ds-card space-y-1">
+                  <div className="flex items-center justify-between text-muted-foreground">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider">Patrimônio em Almoxarifado</span>
+                    <Coins size={16} className="text-emerald-600" />
+                  </div>
+                  <p className="text-2xl font-bold font-mono text-foreground">
+                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
+                      materialsList.reduce((acc, m) => acc + ((m.estoqueAtual || 0) * (m.precoUnitario || 0)), 0)
+                    )}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground">Saldo monetário imobilizado</p>
+                </div>
+              </div>
+
+              {/* Tabela do Catálogo */}
+              <div className="p-6 ds-card space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-border">
+                  <div>
+                    <h2 className="text-sm font-bold text-foreground">Catálogo de Peças e Insumos Prediais</h2>
+                    <p className="text-xs text-muted-foreground">
+                      Base oficial de preços unitários e saldos físicos debitados nas ordens de serviço
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <div className="relative">
+                      <Search size={13} className="absolute left-2.5 top-2.5 text-muted-foreground" />
+                      <input
+                        type="text"
+                        value={materialSearch}
+                        onChange={(e) => setMaterialSearch(e.target.value)}
+                        placeholder="Buscar peça, código..."
+                        className="text-xs bg-muted/40 border border-border rounded-xl pl-8 pr-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary w-48 sm:w-60"
+                      />
+                    </div>
+
+                    <Button
+                      size="sm"
+                      onClick={() => setIsNewMaterialModalOpen(true)}
+                      className="text-xs font-semibold bg-primary hover:bg-primary/90 text-primary-foreground gap-1.5 rounded-xl h-8 px-3 cursor-pointer shadow-xs"
+                    >
+                      <Plus size={14} />
+                      <span>Cadastrar Peça</span>
+                    </Button>
+                  </div>
+                </div>
+
+                {isLoadingMaterials ? (
+                  <div className="py-12 flex flex-col items-center justify-center text-muted-foreground gap-2">
+                    <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                    <p className="text-xs">Carregando itens do almoxarifado...</p>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto rounded-xl border border-border/70">
+                    <table className="w-full text-left text-xs text-muted-foreground">
+                      <thead className="bg-muted/50 border-b border-border text-foreground font-semibold uppercase text-[10px]">
+                        <tr>
+                          <th className="py-2.5 px-3">Código</th>
+                          <th className="py-2.5 px-3">Nome / Especificação</th>
+                          <th className="py-2.5 px-3">Categoria</th>
+                          <th className="py-2.5 px-3 text-center">Unidade</th>
+                          <th className="py-2.5 px-3 text-right">Preço Unit.</th>
+                          <th className="py-2.5 px-3 text-right">Saldo Atual</th>
+                          <th className="py-2.5 px-3 text-right">Estoque Mín.</th>
+                          <th className="py-2.5 px-3 text-center">Situação</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-border/60">
+                        {materialsList
+                          .filter(m => {
+                            const q = materialSearch.toLowerCase().trim();
+                            return !q || 
+                              m.nome.toLowerCase().includes(q) || 
+                              (m.codigo && m.codigo.toLowerCase().includes(q)) || 
+                              (m.categoria && m.categoria.toLowerCase().includes(q));
+                          })
+                          .map((m) => {
+                            const isLow = m.estoqueAtual <= m.estoqueMinimo;
+                            return (
+                              <tr key={m.id} className="hover:bg-muted/30 transition-colors">
+                                <td className="py-2.5 px-3 font-mono font-semibold text-primary text-[11px]">
+                                  {m.codigo || '—'}
+                                </td>
+                                <td className="py-2.5 px-3 font-medium text-foreground">
+                                  {m.nome}
+                                </td>
+                                <td className="py-2.5 px-3 text-muted-foreground text-[11px] capitalize">
+                                  {m.categoria ? m.categoria.toLowerCase() : 'Geral'}
+                                </td>
+                                <td className="py-2.5 px-3 text-center font-mono text-muted-foreground">
+                                  {m.unidadeMedida || 'UN'}
+                                </td>
+                                <td className="py-2.5 px-3 text-right font-mono text-foreground font-medium">
+                                  {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(m.precoUnitario || 0)}
+                                </td>
+                                <td className="py-2.5 px-3 text-right font-mono font-bold text-foreground">
+                                  {m.estoqueAtual}
+                                </td>
+                                <td className="py-2.5 px-3 text-right font-mono text-muted-foreground text-[11px]">
+                                  {m.estoqueMinimo}
+                                </td>
+                                <td className="py-2.5 px-3 text-center">
+                                  {isLow ? (
+                                    <span className="text-[10px] font-bold text-amber-800 bg-amber-100/70 border border-amber-300/50 px-2 py-0.5 rounded-full">
+                                      Estoque Baixo
+                                    </span>
+                                  ) : (
+                                    <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100/70 border border-emerald-300/50 px-2 py-0.5 rounded-full">
+                                      Regular
+                                    </span>
+                                  )}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+
+              {/* Modal de Cadastro de Novo Material */}
+              {isNewMaterialModalOpen && (
+                <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
+                  <div className="bg-card rounded-2xl border border-border shadow-xl max-w-md w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                    <div className="px-5 py-4 border-b border-border flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold">
+                          <Package size={15} />
+                        </div>
+                        <div>
+                          <h3 className="text-sm font-bold text-foreground">Cadastrar Material / Peça</h3>
+                          <p className="text-[11px] text-muted-foreground">Adicionar ao catálogo do almoxarifado</p>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setIsNewMaterialModalOpen(false)}
+                        className="w-7 h-7 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted flex items-center justify-center transition-colors cursor-pointer"
+                      >
+                        <X size={15} />
+                      </button>
+                    </div>
+
+                    <form onSubmit={handleCreateMaterialSubmit} className="p-5 space-y-4">
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="col-span-1 space-y-1.5">
+                          <label className="text-xs font-semibold text-foreground">Código:</label>
+                          <input
+                            type="text"
+                            value={newMatCodigo}
+                            onChange={(e) => setNewMatCodigo(e.target.value)}
+                            placeholder="DISJ-20A"
+                            className="w-full text-xs text-foreground bg-muted/40 border border-border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary uppercase font-mono"
+                          />
+                        </div>
+
+                        <div className="col-span-2 space-y-1.5">
+                          <label className="text-xs font-semibold text-foreground">Nome da Peça / Insumo:</label>
+                          <input
+                            type="text"
+                            value={newMatNome}
+                            onChange={(e) => setNewMatNome(e.target.value)}
+                            placeholder="Ex: Disjuntor Bipolar 20A DIN"
+                            className="w-full text-xs text-foreground bg-muted/40 border border-border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-semibold text-foreground">Categoria:</label>
+                          <select
+                            value={newMatCategoria}
+                            onChange={(e) => setNewMatCategoria(e.target.value)}
+                            className="w-full text-xs text-foreground bg-muted/40 border border-border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary cursor-pointer"
+                          >
+                            <option value="ELETRICA">Elétrica</option>
+                            <option value="HIDRAULICA">Hidráulica</option>
+                            <option value="ALVENARIA">Alvenaria</option>
+                            <option value="CLIMATIZACAO">Climatização</option>
+                            <option value="PINTURA">Pintura</option>
+                            <option value="GERAL">Geral</option>
+                          </select>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-semibold text-foreground">Unidade de Medida:</label>
+                          <input
+                            type="text"
+                            value={newMatUnidade}
+                            onChange={(e) => setNewMatUnidade(e.target.value)}
+                            placeholder="UN, M, KG, L, CX"
+                            className="w-full text-xs text-foreground bg-muted/40 border border-border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary uppercase"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-semibold text-foreground">Preço Unit. (R$):</label>
+                          <input
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            value={newMatPreco}
+                            onChange={(e) => setNewMatPreco(parseFloat(e.target.value) || 0)}
+                            className="w-full text-xs text-foreground bg-muted/40 border border-border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary font-mono"
+                            required
+                          />
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-semibold text-foreground">Estoque Inicial:</label>
+                          <input
+                            type="number"
+                            min="0"
+                            step="any"
+                            value={newMatEstoque}
+                            onChange={(e) => setNewMatEstoque(parseFloat(e.target.value) || 0)}
+                            className="w-full text-xs text-foreground bg-muted/40 border border-border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary font-mono"
+                            required
+                          />
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-semibold text-foreground">Estoque Mín.:</label>
+                          <input
+                            type="number"
+                            min="0"
+                            step="any"
+                            value={newMatEstoqueMin}
+                            onChange={(e) => setNewMatEstoqueMin(parseFloat(e.target.value) || 0)}
+                            className="w-full text-xs text-foreground bg-muted/40 border border-border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary font-mono"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-end gap-2 pt-2 border-t border-border">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => setIsNewMaterialModalOpen(false)}
+                          className="text-xs rounded-xl h-9 px-4 cursor-pointer"
+                        >
+                          Cancelar
+                        </Button>
+                        <Button
+                          type="submit"
+                          disabled={isSavingMaterial}
+                          className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-semibold rounded-xl h-9 px-4 flex items-center gap-1.5 cursor-pointer shadow-xs"
+                        >
+                          {isSavingMaterial ? (
+                            <div className="w-3.5 h-3.5 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                          ) : (
+                            <>
+                              <CheckCircle2 size={14} />
+                              <span>Salvar Material</span>
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+
             </div>
           )}
 

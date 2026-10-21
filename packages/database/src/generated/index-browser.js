@@ -190,6 +190,11 @@ exports.Prisma.OrdemServicoScalarFieldEnum = {
   historico_pausas: 'historico_pausas',
   sla_violado: 'sla_violado',
   motivo_violacao_sla: 'motivo_violacao_sla',
+  custo_materiais: 'custo_materiais',
+  custo_mao_de_obra: 'custo_mao_de_obra',
+  custo_total: 'custo_total',
+  empresa_terceirizada: 'empresa_terceirizada',
+  numero_empenho: 'numero_empenho',
   prefeitura_id: 'prefeitura_id',
   ordem_vinculada_id: 'ordem_vinculada_id',
   criado_em: 'criado_em',
@@ -273,6 +278,33 @@ exports.Prisma.ManifestacaoScalarFieldEnum = {
   prefeitura_id: 'prefeitura_id',
   criado_em: 'criado_em',
   atualizado: 'atualizado'
+};
+
+exports.Prisma.MaterialScalarFieldEnum = {
+  id: 'id',
+  codigo: 'codigo',
+  nome: 'nome',
+  categoria: 'categoria',
+  unidade_medida: 'unidade_medida',
+  preco_unitario: 'preco_unitario',
+  estoque_atual: 'estoque_atual',
+  estoque_minimo: 'estoque_minimo',
+  ativo: 'ativo',
+  prefeitura_id: 'prefeitura_id',
+  criado_em: 'criado_em',
+  atualizado: 'atualizado'
+};
+
+exports.Prisma.ItemConsumoOSScalarFieldEnum = {
+  id: 'id',
+  ordem_servico_id: 'ordem_servico_id',
+  material_id: 'material_id',
+  descricao: 'descricao',
+  quantidade: 'quantidade',
+  unidade_medida: 'unidade_medida',
+  preco_unitario: 'preco_unitario',
+  preco_total: 'preco_total',
+  criado_em: 'criado_em'
 };
 
 exports.Prisma.SortOrder = {
@@ -371,7 +403,9 @@ exports.Prisma.ModelName = {
   AuditoriaLog: 'AuditoriaLog',
   AgendaVistoria: 'AgendaVistoria',
   ConfiguracaoSistema: 'ConfiguracaoSistema',
-  Manifestacao: 'Manifestacao'
+  Manifestacao: 'Manifestacao',
+  Material: 'Material',
+  ItemConsumoOS: 'ItemConsumoOS'
 };
 
 /**

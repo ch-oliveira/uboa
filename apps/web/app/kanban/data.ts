@@ -8,6 +8,28 @@ export interface HistoricoItem {
   tipo?: 'SISTEMA' | 'COMENTARIO' | 'STATUS' | 'EXCECAO';
 }
 
+export interface ItemConsumoOS {
+  id: string;
+  materialId?: string;
+  descricao: string;
+  quantidade: number;
+  unidadeMedida: string;
+  precoUnitario: number;
+  precoTotal: number;
+  criadoEm?: string;
+}
+
+export interface MaterialItem {
+  id: string;
+  codigo?: string;
+  nome: string;
+  categoria?: string;
+  unidadeMedida: string;
+  precoUnitario: number;
+  estoqueAtual: number;
+  estoqueMinimo: number;
+}
+
 export interface OrdemServico {
   id: string;
   titulo: string;
@@ -42,6 +64,12 @@ export interface OrdemServico {
     data: string;
   };
   historico?: HistoricoItem[];
+  custoMateriais?: number;
+  custoMaoDeObra?: number;
+  custoTotal?: number;
+  empresaTerceirizada?: string;
+  numeroEmpenho?: string;
+  materiaisConsumidos?: ItemConsumoOS[];
 }
 
 export interface KanbanColumn {

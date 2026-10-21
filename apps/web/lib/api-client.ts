@@ -8,7 +8,7 @@
  */
 
 import type { UserAccount } from '@/types/auth';
-import type { OrdemServico, StatusOS, Prioridade } from '@/app/kanban/data';
+import type { OrdemServico, StatusOS, Prioridade, MaterialItem, ItemConsumoOS } from '@/app/kanban/data';
 import type { UnidadeItem, TipoUnidade } from '@/types/units';
 import type { AgendaEvent, SystemSettings } from '@/context/orders-context';
 
@@ -138,6 +138,21 @@ function mapWorkOrderFromApi(item: any): OrdemServico {
     liquidRepairTimeMinutes: item.liquidRepairTimeMinutes,
     impedimento: item.impediment || item.impedimento,
     historico: item.history || item.historico,
+    custoMateriais: item.custoMateriais !== undefined ? Number(item.custoMateriais) : Number(item.custo_materiais ?? 0),
+    custoMaoDeObra: item.custoMaoDeObra !== undefined ? Number(item.custoMaoDeObra) : Number(item.custo_mao_de_obra ?? 0),
+    custoTotal: item.custoTotal !== undefined ? Number(item.custoTotal) : Number(item.custo_total ?? 0),
+    empresaTerceirizada: item.empresaTerceirizada || item.empresa_terceirizada || undefined,
+    numeroEmpenho: item.numeroEmpenho || item.numero_empenho || undefined,
+    materiaisConsumidos: (item.materiaisConsumidos || item.materiais_consumidos || []).map((m: any) => ({
+      id: m.id,
+      materialId: m.materialId || m.material_id,
+      descricao: m.descricao,
+      quantidade: Number(m.quantidade || 0),
+      unidadeMedida: m.unidadeMedida || m.unidade_medida || 'UN',
+      precoUnitario: Number(m.precoUnitario ?? m.preco_unitario ?? 0),
+      precoTotal: Number(m.precoTotal ?? m.preco_total ?? 0),
+      criadoEm: m.criadoEm || m.criado_em,
+    })),
   };
 }
 
@@ -447,6 +462,90 @@ export const apiClient = {
       body: JSON.stringify({ motivoCancelamento: motivoCancelamento || 'Cancelamento solicitado via painel web' }),
     });
     return await res.json();
+  },
+
+  // -------------------------------------------------------------
+  // MATERIAIS & MEDIÇÃO FINANCEIRA DE ORDENS DE SERVIÇO
+  // -------------------------------------------------------------
+  async getMaterials(): Promise<{ success: boolean; materials: MaterialItem[]; message?: string }> {
+    const res = await fetch(`${getApiBase()}/materials`, {
+      cache: 'no-store',
+      headers: getAuthHeaders(),
+    });
+    const resData = await res.json();
+    const rawList = Array.isArray(resData.data) ? resData.data : (resData.materials || []);
+    const materials: MaterialItem[] = rawList.map((m: any) => ({
+      id: m.id,
+      codigo: m.codigo,
+      nome: m.nome,
+      categoria: m.categoria,
+      unidadeMedida: m.unidade_medida || m.unidadeMedida || 'UN',
+      precoUnitario: Number(m.preco_unitario ?? m.precoUnitario ?? 0),
+      estoqueAtual: Number(m.estoque_atual ?? m.estoqueAtual ?? 0),
+      estoqueMinimo: Number(m.estoque_minimo ?? m.estoqueMinimo ?? 0),
+    }));
+    return {
+      success: Boolean(resData.success ?? true),
+      materials,
+      message: resData.message,
+    };
+  },
+
+  async createMaterial(data: Partial<MaterialItem>): Promise<{ success: boolean; material?: MaterialItem; message?: string }> {
+    const res = await fetch(`${getApiBase()}/materials`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({
+        codigo: data.codigo,
+        nome: data.nome,
+        categoria: data.categoria,
+        unidadeMedida: data.unidadeMedida || 'UN',
+        precoUnitario: data.precoUnitario || 0,
+        estoqueAtual: data.estoqueAtual || 0,
+        estoqueMinimo: data.estoqueMinimo || 0,
+      }),
+    });
+    const resData = await res.json();
+    return resData;
+  },
+
+  async addWorkOrderMaterial(orderId: string, item: {
+    materialId?: string;
+    descricao: string;
+    quantidade: number;
+    unidadeMedida?: string;
+    precoUnitario: number;
+  }): Promise<{ success: boolean; data?: any; message?: string }> {
+    const res = await fetch(`${getApiBase()}/work-orders/${encodeURIComponent(orderId)}/materials`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(item),
+    });
+    const resData = await res.json();
+    return resData;
+  },
+
+  async removeWorkOrderMaterial(orderId: string, itemId: string): Promise<{ success: boolean; data?: any; message?: string }> {
+    const res = await fetch(`${getApiBase()}/work-orders/${encodeURIComponent(orderId)}/materials/${encodeURIComponent(itemId)}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    });
+    const resData = await res.json();
+    return resData;
+  },
+
+  async updateWorkOrderFinancials(orderId: string, data: {
+    custoMaoDeObra?: number;
+    empresaTerceirizada?: string;
+    numeroEmpenho?: string;
+  }): Promise<{ success: boolean; data?: any; message?: string }> {
+    const res = await fetch(`${getApiBase()}/work-orders/${encodeURIComponent(orderId)}/financials`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data),
+    });
+    const resData = await res.json();
+    return resData;
   },
 
   // -------------------------------------------------------------

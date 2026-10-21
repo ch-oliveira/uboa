@@ -10,7 +10,9 @@ async function main() {
 
   // Limpar tabelas dependentes para garantir integridade e consistência limpa
   await prisma.auditoriaLog.deleteMany();
+  await prisma.itemConsumoOS.deleteMany();
   await prisma.ordemServico.deleteMany();
+  await prisma.material.deleteMany();
   await prisma.agendaVistoria.deleteMany();
   await prisma.predio.deleteMany();
   await prisma.usuario.deleteMany();
@@ -24,6 +26,13 @@ async function main() {
     update: {
       nome: 'Prefeitura Municipal de Gestão Urbana',
       ativo: true,
+      modulos_ativos: [
+        'ZELADORIA_PREDIAL',
+        'OUVIDORIA_CIDADA',
+        'AGENDA_PREVENTIVA',
+        'GESTAO_MATERIAIS',
+        'COPILOT_IA',
+      ],
     },
     create: {
       id: 'prefeitura-default',
@@ -35,6 +44,7 @@ async function main() {
         'ZELADORIA_PREDIAL',
         'OUVIDORIA_CIDADA',
         'AGENDA_PREVENTIVA',
+        'GESTAO_MATERIAIS',
         'COPILOT_IA',
       ],
     },
@@ -512,6 +522,94 @@ async function main() {
   for (const o of ordens) {
     await prisma.ordemServico.create({
       data: o,
+    });
+  }
+
+  // 3.1. Catálogo Municipal de Materiais e Insumos (Tabela de Referência / SINAPI)
+  const materiaisData = [
+    { id: 'mat-1', codigo: 'MAT-ELE-001', nome: 'Disjuntor Bipolar 32A DIN Curva C', categoria: 'ELETRICA', unidade_medida: 'UN', preco_unitario: 38.50, estoque_atual: 45, estoque_minimo: 10 },
+    { id: 'mat-2', codigo: 'MAT-ELE-002', nome: 'Cabo Flexível 2.5mm² 750V (Cobre)', categoria: 'ELETRICA', unidade_medida: 'METRO', preco_unitario: 3.20, estoque_atual: 500, estoque_minimo: 100 },
+    { id: 'mat-3', codigo: 'MAT-ELE-003', nome: 'Lâmpada LED Tubular T8 18W 6500K', categoria: 'ELETRICA', unidade_medida: 'UN', preco_unitario: 18.90, estoque_atual: 120, estoque_minimo: 25 },
+    { id: 'mat-4', codigo: 'MAT-ELE-004', nome: 'Reator / Driver Eletrônico Bivolt', categoria: 'ELETRICA', unidade_medida: 'UN', preco_unitario: 45.00, estoque_atual: 22, estoque_minimo: 5 },
+    { id: 'mat-5', codigo: 'MAT-HID-001', nome: 'Torneira de Pressão Lavatório Antivandalismo', categoria: 'HIDRAULICA', unidade_medida: 'UN', preco_unitario: 145.00, estoque_atual: 18, estoque_minimo: 5 },
+    { id: 'mat-6', codigo: 'MAT-HID-002', nome: 'Tubo PVC Soldável 25mm Barra 3m', categoria: 'HIDRAULICA', unidade_medida: 'BARRA', preco_unitario: 22.00, estoque_atual: 60, estoque_minimo: 15 },
+    { id: 'mat-7', codigo: 'MAT-HID-003', nome: 'Registro de Gaveta 3/4" com Acabamento', categoria: 'HIDRAULICA', unidade_medida: 'UN', preco_unitario: 68.00, estoque_atual: 14, estoque_minimo: 4 },
+    { id: 'mat-8', codigo: 'MAT-HID-004', nome: 'Válvula de Descarga 1 1/2" Hydra Max', categoria: 'HIDRAULICA', unidade_medida: 'UN', preco_unitario: 185.00, estoque_atual: 12, estoque_minimo: 3 },
+    { id: 'mat-9', codigo: 'MAT-ALV-001', nome: 'Cimento Portland CP-II-E-32 Saco 50kg', categoria: 'ALVENARIA', unidade_medida: 'SACO', preco_unitario: 34.90, estoque_atual: 80, estoque_minimo: 20 },
+    { id: 'mat-10', codigo: 'MAT-ALV-002', nome: 'Argamassa Colante AC-II 20kg', categoria: 'ALVENARIA', unidade_medida: 'SACO', preco_unitario: 19.50, estoque_atual: 95, estoque_minimo: 25 },
+    { id: 'mat-11', codigo: 'MAT-PIN-001', nome: 'Tinta Acrílica Fosca Lavável Branca Lata 18L', categoria: 'PINTURA', unidade_medida: 'LATA', preco_unitario: 289.00, estoque_atual: 16, estoque_minimo: 4 },
+    { id: 'mat-12', codigo: 'MAT-CLI-001', nome: 'Gás Refrigerante R410A (Cilindro/Kg)', categoria: 'CLIMATIZACAO', unidade_medida: 'KG', preco_unitario: 95.00, estoque_atual: 30, estoque_minimo: 8 },
+  ];
+
+  for (const m of materiaisData) {
+    await prisma.material.create({
+      data: {
+        ...m,
+        prefeitura_id: prefeituraPadrao.id,
+      },
+    });
+  }
+
+  // 3.2. Medição Financeira e Itens Consumidos em Ordens de Serviço
+  const consumosExemplo = [
+    {
+      ordemId: 'os-concl-1', // EMEF Paulo Freire
+      empresa: 'EletroServ Manutenção Predial Ltda',
+      empenho: 'EMP-2026/04182',
+      maoDeObra: 350.00,
+      itens: [
+        { material_id: 'mat-1', descricao: 'Disjuntor Bipolar 32A DIN Curva C', quantidade: 2, unidade_medida: 'UN', preco_unitario: 38.50, preco_total: 77.00 },
+        { material_id: 'mat-2', descricao: 'Cabo Flexível 2.5mm² 750V (Cobre)', quantidade: 25, unidade_medida: 'METRO', preco_unitario: 3.20, preco_total: 80.00 },
+      ],
+    },
+    {
+      ordemId: 'os-concl-2', // UBS Vila Nova
+      empresa: 'HidroEngenharia Saneamento Eireli',
+      empenho: 'EMP-2026/04205',
+      maoDeObra: 420.00,
+      itens: [
+        { material_id: 'mat-5', descricao: 'Torneira de Pressão Lavatório Antivandalismo', quantidade: 2, unidade_medida: 'UN', preco_unitario: 145.00, preco_total: 290.00 },
+        { material_id: 'mat-7', descricao: 'Registro de Gaveta 3/4" com Acabamento', quantidade: 1, unidade_medida: 'UN', preco_unitario: 68.00, preco_total: 68.00 },
+      ],
+    },
+    {
+      ordemId: 'os-concl-12', // Secretaria de Obras
+      empresa: 'Construtora & Reformas Aliança Ltda',
+      empenho: 'EMP-2026/05110',
+      maoDeObra: 850.00,
+      itens: [
+        { material_id: 'mat-11', descricao: 'Tinta Acrílica Fosca Lavável Branca Lata 18L', quantidade: 3, unidade_medida: 'LATA', preco_unitario: 289.00, preco_total: 867.00 },
+      ],
+    },
+  ];
+
+  for (const c of consumosExemplo) {
+    let custoMateriais = 0;
+    for (const it of c.itens) {
+      custoMateriais += it.preco_total;
+      await prisma.itemConsumoOS.create({
+        data: {
+          ordem_servico_id: c.ordemId,
+          material_id: it.material_id,
+          descricao: it.descricao,
+          quantidade: it.quantidade,
+          unidade_medida: it.unidade_medida,
+          preco_unitario: it.preco_unitario,
+          preco_total: it.preco_total,
+        },
+      });
+    }
+
+    const custoTotal = custoMateriais + c.maoDeObra;
+    await prisma.ordemServico.update({
+      where: { id: c.ordemId },
+      data: {
+        empresa_terceirizada: c.empresa,
+        numero_empenho: c.empenho,
+        custo_materiais: custoMateriais,
+        custo_mao_de_obra: c.maoDeObra,
+        custo_total: custoTotal,
+      },
     });
   }
 

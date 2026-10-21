@@ -40,6 +40,7 @@ import { getPriorityBadgeInfo, getStatusBadge } from '@/lib/badges';
 import { UrbiTriageCard } from '@/components/triage/urbi-triage-card';
 import { ImageLightboxModal } from '@/components/ui/image-lightbox';
 import { compressImage } from '@/lib/image-utils';
+import { OrderMaterialsFinancialCard } from '@/components/financials/order-materials-financial-card';
 
 // Fluxo operacional sequencial de 5 fases (ABNT NBR 5674)
 const STAGES_FLOW: { id: StatusOS; label: string; step: number; description: string }[] = [
@@ -544,6 +545,13 @@ export default function ChamadoDetailPage() {
                 )}
               </div>
 
+              {/* Card 2.7: Medição Financeira & Materiais Consumidos */}
+              <OrderMaterialsFinancialCard
+                order={order}
+                isGestor={isGestor}
+                onOrderUpdated={updateOrder}
+              />
+
               {/* Card 3: Linha do Tempo e Apontamentos Técnicos */}
               <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-xs space-y-5">
                 <div className="flex items-center justify-between">
@@ -674,6 +682,40 @@ export default function ChamadoDetailPage() {
                     <Clock size={14} className="text-blue-900" />
                     <span>{order.prazoEstimado || defaultSla}</span>
                   </div>
+                </div>
+              </div>
+
+              {/* Card Lateral 1.5: Resumo Financeiro da OS */}
+              <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs space-y-3">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    Medição Acumulada
+                  </h3>
+                  <span className="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(order.custoTotal || ((order.custoMateriais || 0) + (order.custoMaoDeObra || 0)))}
+                  </span>
+                </div>
+                <div className="space-y-1.5 text-xs text-slate-600">
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-400">Peças & Insumos:</span>
+                    <span className="font-mono font-medium">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(order.custoMateriais || 0)}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-400">Mão de Obra:</span>
+                    <span className="font-mono font-medium">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(order.custoMaoDeObra || 0)}</span>
+                  </div>
+                  {order.numeroEmpenho && (
+                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
+                      <span className="text-slate-400">Empenho:</span>
+                      <span className="font-mono font-semibold text-slate-700">{order.numeroEmpenho}</span>
+                    </div>
+                  )}
+                  {order.empresaTerceirizada && (
+                    <div className="text-[11px] text-slate-500 truncate" title={order.empresaTerceirizada}>
+                      <span className="text-slate-400">Contratada: </span>
+                      <span className="font-medium text-slate-700">{order.empresaTerceirizada}</span>
+                    </div>
+                  )}
                 </div>
               </div>
 

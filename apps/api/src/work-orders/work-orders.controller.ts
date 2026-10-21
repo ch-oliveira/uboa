@@ -4,7 +4,7 @@ import { Public } from '../auth/public.decorator.js';
 import { CurrentUser } from '../auth/current-user.decorator.js';
 import { Roles } from '../auth/roles.decorator.js';
 import { Role } from '@repo/database';
-import { CreateWorkOrderDto, UpdateWorkOrderDto } from './dto/work-order.dto.js';
+import { CreateWorkOrderDto, UpdateWorkOrderDto, AddConsumedMaterialDto, UpdateFinancialsDto } from './dto/work-order.dto.js';
 
 @Controller('work-orders')
 export class WorkOrdersController {
@@ -69,6 +69,36 @@ export class WorkOrdersController {
     return this.workOrdersService.update(id, body, user);
   }
 
+  @Roles(Role.ADMIN, Role.GESTOR, Role.TECNICO)
+  @Post(':id/materials')
+  async addMaterial(
+    @Param('id') id: string,
+    @Body() dto: AddConsumedMaterialDto,
+    @CurrentUser() user?: any,
+  ) {
+    return this.workOrdersService.addMaterial(id, dto, user);
+  }
+
+  @Roles(Role.ADMIN, Role.GESTOR, Role.TECNICO)
+  @Delete(':id/materials/:itemId')
+  async removeMaterial(
+    @Param('id') id: string,
+    @Param('itemId') itemId: string,
+    @CurrentUser() user?: any,
+  ) {
+    return this.workOrdersService.removeMaterial(id, itemId, user);
+  }
+
+  @Roles(Role.ADMIN, Role.GESTOR)
+  @Put(':id/financials')
+  async updateFinancials(
+    @Param('id') id: string,
+    @Body() dto: UpdateFinancialsDto,
+    @CurrentUser() user?: any,
+  ) {
+    return this.workOrdersService.updateFinancials(id, dto, user);
+  }
+
   @Roles(Role.ADMIN, Role.GESTOR)
   @Delete(':id')
   async remove(
@@ -79,3 +109,4 @@ export class WorkOrdersController {
     return this.workOrdersService.remove(id, body?.motivoCancelamento || body?.motivo, user);
   }
 }
+

@@ -13,6 +13,7 @@ import { SettingsModule } from './settings/settings.module.js';
 import { AiModule } from './ai/ai.module.js';
 import { ReportsModule } from './reports/reports.module.js';
 import { ManifestacoesModule } from './manifestacoes/manifestacoes.module.js';
+import { MaterialsModule } from './materials/materials.module.js';
 import { JwtAuthGuard } from './auth/jwt-auth.guard.js';
 import { RolesGuard } from './auth/roles.guard.js';
 
@@ -34,6 +35,7 @@ import { RolesGuard } from './auth/roles.guard.js';
     AiModule,
     ReportsModule,
     ManifestacoesModule,
+    MaterialsModule,
   ],
   controllers: [AppController],
   providers: [

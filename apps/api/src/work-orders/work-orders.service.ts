@@ -2,9 +2,21 @@ import { Injectable, NotFoundException, ForbiddenException, BadRequestException 
 import { PrismaService } from '../prisma/prisma.service.js';
 import { StatusOS, Prioridade, AuditAction, TipoPredio, Role } from '@repo/database';
 import type { ApiResponse } from '../common/interfaces/api-response.interface.js';
+import type { AddConsumedMaterialDto, UpdateFinancialsDto } from './dto/work-order.dto.js';
 
 export type ApiPriority = 'URGENT' | 'HIGH' | 'MEDIUM' | 'LOW';
 export type ApiStatus = 'TRIAGE' | 'SCHEDULED' | 'IN_PROGRESS' | 'WAITING' | 'COMPLETED' | 'CANCELLED';
+
+export interface ConsumedMaterialItem {
+  id: string;
+  materialId?: string;
+  descricao: string;
+  quantidade: number;
+  unidadeMedida: string;
+  precoUnitario: number;
+  precoTotal: number;
+  criadoEm: string;
+}
 
 export interface WorkOrderResponse {
   id: string;
@@ -36,6 +48,12 @@ export interface WorkOrderResponse {
   isSlaBreached?: boolean;
   slaBreachReason?: string;
   liquidRepairTimeMinutes?: number;
+  custoMateriais?: number;
+  custoMaoDeObra?: number;
+  custoTotal?: number;
+  empresaTerceirizada?: string;
+  numeroEmpenho?: string;
+  materiaisConsumidos?: ConsumedMaterialItem[];
 }
 
 export interface WorkOrdersMeta {
@@ -186,6 +204,21 @@ export class WorkOrdersService {
       linkedOrderId: o.ordem_vinculada_id || undefined,
       category: o.categoria || 'GERAL',
       categoria: o.categoria || 'GERAL',
+      custoMateriais: o.custo_materiais ? Number(o.custo_materiais) : 0,
+      custoMaoDeObra: o.custo_mao_de_obra ? Number(o.custo_mao_de_obra) : 0,
+      custoTotal: o.custo_total ? Number(o.custo_total) : 0,
+      empresaTerceirizada: o.empresa_terceirizada || undefined,
+      numeroEmpenho: o.numero_empenho || undefined,
+      materiaisConsumidos: (o.materiais_consumidos || []).map((m: any) => ({
+        id: m.id,
+        materialId: m.material_id || undefined,
+        descricao: m.descricao,
+        quantidade: Number(m.quantidade || 0),
+        unidadeMedida: m.unidade_medida || 'UN',
+        precoUnitario: Number(m.preco_unitario || 0),
+        precoTotal: Number(m.preco_total || 0),
+        criadoEm: m.criado_em ? m.criado_em.toISOString() : new Date().toISOString(),
+      })),
     };
   }
 
@@ -253,6 +286,7 @@ export class WorkOrdersService {
         predio: true,
         solicitante: true,
         tecnico: true,
+        materiais_consumidos: true,
       },
       orderBy: { criado_em: 'desc' },
     });
@@ -321,7 +355,7 @@ export class WorkOrdersService {
       where: {
         OR: [{ id: idOrCode }, { codigo: idOrCode }],
       },
-      include: { predio: true, solicitante: true, tecnico: true },
+      include: { predio: true, solicitante: true, tecnico: true, materiais_consumidos: true },
     });
 
     if (!o) throw new NotFoundException('Ordem de serviço não encontrada.');
@@ -971,6 +1005,214 @@ export class WorkOrdersService {
       success: true,
       data: this.mapOrder(updated),
       message: `Ordem de serviço ${updated.codigo} atribuída com sucesso à sua rota.`,
+    };
+  }
+
+  async addMaterial(
+    orderId: string,
+    dto: AddConsumedMaterialDto,
+    currentUser?: any,
+  ): Promise<ApiResponse<WorkOrderResponse>> {
+    const order = await this.prisma.ordemServico.findUnique({
+      where: { id: orderId },
+      include: { predio: true },
+    });
+    if (!order) throw new NotFoundException('Ordem de serviço não encontrada.');
+
+    let precoUnitario = dto.precoUnitario ?? 0;
+    let descricao = dto.descricao?.trim();
+    let unidadeMedida = dto.unidadeMedida?.trim()?.toUpperCase() || 'UN';
+    const quantidade = dto.quantidade && dto.quantidade > 0 ? dto.quantidade : 1;
+
+    if (dto.materialId) {
+      const mat = await this.prisma.material.findUnique({
+        where: { id: dto.materialId },
+      });
+      if (mat) {
+        if (!dto.precoUnitario) precoUnitario = Number(mat.preco_unitario);
+        if (!descricao) descricao = mat.nome;
+        unidadeMedida = mat.unidade_medida;
+
+        // Abater estoque
+        await this.prisma.material.update({
+          where: { id: mat.id },
+          data: {
+            estoque_atual: Math.max(0, Number(mat.estoque_atual) - quantidade),
+          },
+        }).catch(() => null);
+      }
+    }
+
+    if (!descricao) {
+      throw new BadRequestException('Descrição do material é obrigatória.');
+    }
+
+    const precoTotal = precoUnitario * quantidade;
+
+    await this.prisma.itemConsumoOS.create({
+      data: {
+        ordem_servico_id: orderId,
+        material_id: dto.materialId || null,
+        descricao,
+        quantidade,
+        unidade_medida: unidadeMedida,
+        preco_unitario: precoUnitario,
+        preco_total: precoTotal,
+      },
+    });
+
+    // Recalcular custos totais da OS
+    const allItems = await this.prisma.itemConsumoOS.findMany({
+      where: { ordem_servico_id: orderId },
+    });
+
+    const custoMateriais = allItems.reduce((acc, it) => acc + Number(it.preco_total), 0);
+    const custoMaoDeObra = Number(order.custo_mao_de_obra || 0);
+    const custoTotal = custoMateriais + custoMaoDeObra;
+
+    const updated = await this.prisma.ordemServico.update({
+      where: { id: orderId },
+      data: {
+        custo_materiais: custoMateriais,
+        custo_total: custoTotal,
+      },
+      include: {
+        predio: true,
+        solicitante: true,
+        tecnico: true,
+        materiais_consumidos: true,
+      },
+    });
+
+    if (currentUser?.id) {
+      await this.prisma.auditoriaLog.create({
+        data: {
+          entidade_afetada: 'OrdemServico',
+          entidade_id: orderId,
+          acao: AuditAction.UPDATE,
+          usuario_id: currentUser.id,
+          prefeitura_id: order.prefeitura_id,
+          dados_novos: {
+            acao: 'Material consumido adicionado',
+            descricao,
+            quantidade,
+            precoTotal,
+            novoCustoTotal: custoTotal,
+          },
+        },
+      });
+    }
+
+    return {
+      success: true,
+      data: this.mapOrder(updated),
+      message: 'Material registrado com sucesso na ordem de serviço.',
+    };
+  }
+
+  async removeMaterial(
+    orderId: string,
+    itemId: string,
+    currentUser?: any,
+  ): Promise<ApiResponse<WorkOrderResponse>> {
+    const item = await this.prisma.itemConsumoOS.findUnique({
+      where: { id: itemId },
+    });
+    if (!item || item.ordem_servico_id !== orderId) {
+      throw new NotFoundException('Item de material não encontrado nesta ordem de serviço.');
+    }
+
+    // Estornar estoque se houver material vinculado
+    if (item.material_id) {
+      await this.prisma.material.update({
+        where: { id: item.material_id },
+        data: {
+          estoque_atual: { increment: item.quantidade },
+        },
+      }).catch(() => null);
+    }
+
+    await this.prisma.itemConsumoOS.delete({
+      where: { id: itemId },
+    });
+
+    // Recalcular custos totais
+    const allItems = await this.prisma.itemConsumoOS.findMany({
+      where: { ordem_servico_id: orderId },
+    });
+
+    const order = await this.prisma.ordemServico.findUnique({
+      where: { id: orderId },
+    });
+
+    const custoMateriais = allItems.reduce((acc, it) => acc + Number(it.preco_total), 0);
+    const custoMaoDeObra = Number(order?.custo_mao_de_obra || 0);
+    const custoTotal = custoMateriais + custoMaoDeObra;
+
+    const updated = await this.prisma.ordemServico.update({
+      where: { id: orderId },
+      data: {
+        custo_materiais: custoMateriais,
+        custo_total: custoTotal,
+      },
+      include: {
+        predio: true,
+        solicitante: true,
+        tecnico: true,
+        materiais_consumidos: true,
+      },
+    });
+
+    return {
+      success: true,
+      data: this.mapOrder(updated),
+      message: 'Item de material removido com sucesso.',
+    };
+  }
+
+  async updateFinancials(
+    orderId: string,
+    dto: UpdateFinancialsDto,
+    currentUser?: any,
+  ): Promise<ApiResponse<WorkOrderResponse>> {
+    const order = await this.prisma.ordemServico.findUnique({
+      where: { id: orderId },
+      include: { materiais_consumidos: true },
+    });
+    if (!order) throw new NotFoundException('Ordem de serviço não encontrada.');
+
+    const data: any = {};
+    if (dto.empresaTerceirizada !== undefined) {
+      data.empresa_terceirizada = dto.empresaTerceirizada.trim() || null;
+    }
+    if (dto.numeroEmpenho !== undefined) {
+      data.numero_empenho = dto.numeroEmpenho.trim() || null;
+    }
+
+    let custoMaoDeObra = Number(order.custo_mao_de_obra || 0);
+    if (dto.custoMaoDeObra !== undefined) {
+      custoMaoDeObra = Math.max(0, dto.custoMaoDeObra);
+      data.custo_mao_de_obra = custoMaoDeObra;
+    }
+
+    const custoMateriais = Number(order.custo_materiais || 0);
+    data.custo_total = custoMateriais + custoMaoDeObra;
+
+    const updated = await this.prisma.ordemServico.update({
+      where: { id: orderId },
+      data,
+      include: {
+        predio: true,
+        solicitante: true,
+        tecnico: true,
+        materiais_consumidos: true,
+      },
+    });
+
+    return {
+      success: true,
+      data: this.mapOrder(updated),
+      message: 'Dados de medição financeira atualizados com sucesso.',
     };
   }
 }
