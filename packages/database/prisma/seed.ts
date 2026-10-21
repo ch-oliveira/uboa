@@ -550,12 +550,65 @@ async function main() {
     });
   }
 
-  // 3.2. Medição Financeira e Itens Consumidos em Ordens de Serviço
+  // 3.2. Contratos Públicos Municipais e Notas de Empenho
+  const contratosData = [
+    {
+      id: 'contrato-1',
+      numero_contrato: 'Contrato 014/2026',
+      numero_empenho: '2026NE00412',
+      empresa_contratada: 'Alvorada Engenharia & Manutenção Urbana Ltda',
+      cnpj_contratada: '14.288.902/0001-44',
+      objeto: 'Manutenção Elétrica Preventiva e Corretiva com Fornecimento de Insumos e Materiais',
+      categoria_padrao: 'ELETRICA',
+      valor_total_empenhado: 180000.00,
+      vigencia_inicio: new Date('2026-01-01'),
+      vigencia_fim: new Date('2026-12-31'),
+      ativo: true,
+      prefeitura_id: prefeituraPadrao.id,
+    },
+    {
+      id: 'contrato-2',
+      numero_contrato: 'Contrato 018/2026',
+      numero_empenho: '2026NE00495',
+      empresa_contratada: 'HidroSane Engenharia e Instalações Prediais Ltda',
+      cnpj_contratada: '08.192.341/0001-12',
+      objeto: 'Manutenção Hidrossanitária, Limpeza de Reservatórios e Desobstrução de Redes',
+      categoria_padrao: 'HIDRAULICA',
+      valor_total_empenhado: 120000.00,
+      vigencia_inicio: new Date('2026-01-01'),
+      vigencia_fim: new Date('2026-12-31'),
+      ativo: true,
+      prefeitura_id: prefeituraPadrao.id,
+    },
+    {
+      id: 'contrato-3',
+      numero_contrato: 'Contrato 022/2026',
+      numero_empenho: '2026NE00511',
+      empresa_contratada: 'Construtora & Reformas Aliança Ltda',
+      cnpj_contratada: '22.841.770/0001-98',
+      objeto: 'Manutenção de Alvenaria, Pintura, Reparos de Coberturas e Serralheria Predial',
+      categoria_padrao: 'ALVENARIA',
+      valor_total_empenhado: 250000.00,
+      vigencia_inicio: new Date('2026-01-01'),
+      vigencia_fim: new Date('2026-12-31'),
+      ativo: true,
+      prefeitura_id: prefeituraPadrao.id,
+    },
+  ];
+
+  for (const c of contratosData) {
+    await prisma.contratoManutencao.create({
+      data: c,
+    });
+  }
+
+  // 3.3. Medição Financeira e Itens Consumidos em Ordens de Serviço
   const consumosExemplo = [
     {
       ordemId: 'os-concl-1', // EMEF Paulo Freire
-      empresa: 'EletroServ Manutenção Predial Ltda',
-      empenho: 'EMP-2026/04182',
+      contratoId: 'contrato-1',
+      empresa: 'Alvorada Engenharia & Manutenção Urbana Ltda',
+      empenho: '2026NE00412',
       maoDeObra: 350.00,
       itens: [
         { material_id: 'mat-1', descricao: 'Disjuntor Bipolar 32A DIN Curva C', quantidade: 2, unidade_medida: 'UN', preco_unitario: 38.50, preco_total: 77.00 },
@@ -564,8 +617,9 @@ async function main() {
     },
     {
       ordemId: 'os-concl-2', // UBS Vila Nova
-      empresa: 'HidroEngenharia Saneamento Eireli',
-      empenho: 'EMP-2026/04205',
+      contratoId: 'contrato-2',
+      empresa: 'HidroSane Engenharia e Instalações Prediais Ltda',
+      empenho: '2026NE00495',
       maoDeObra: 420.00,
       itens: [
         { material_id: 'mat-5', descricao: 'Torneira de Pressão Lavatório Antivandalismo', quantidade: 2, unidade_medida: 'UN', preco_unitario: 145.00, preco_total: 290.00 },
@@ -574,11 +628,33 @@ async function main() {
     },
     {
       ordemId: 'os-concl-12', // Secretaria de Obras
+      contratoId: 'contrato-3',
       empresa: 'Construtora & Reformas Aliança Ltda',
-      empenho: 'EMP-2026/05110',
+      empenho: '2026NE00511',
       maoDeObra: 850.00,
       itens: [
         { material_id: 'mat-11', descricao: 'Tinta Acrílica Fosca Lavável Branca Lata 18L', quantidade: 3, unidade_medida: 'LATA', preco_unitario: 289.00, preco_total: 867.00 },
+      ],
+    },
+    {
+      ordemId: 'os-concl-3', // EMEI Sementinha
+      contratoId: 'contrato-1',
+      empresa: 'Alvorada Engenharia & Manutenção Urbana Ltda',
+      empenho: '2026NE00412',
+      maoDeObra: 280.00,
+      itens: [
+        { material_id: 'mat-3', descricao: 'Lâmpada LED Tubular T8 18W Bivolt 6500K', quantidade: 10, unidade_medida: 'UN', preco_unitario: 18.90, preco_total: 189.00 },
+        { material_id: 'mat-4', descricao: 'Reator Eletrônico para Lâmpada Fluorescente', quantidade: 2, unidade_medida: 'UN', preco_unitario: 42.00, preco_total: 84.00 },
+      ],
+    },
+    {
+      ordemId: 'os-concl-4', // Praça da Matriz
+      contratoId: 'contrato-2',
+      empresa: 'HidroSane Engenharia e Instalações Prediais Ltda',
+      empenho: '2026NE00495',
+      maoDeObra: 520.00,
+      itens: [
+        { material_id: 'mat-6', descricao: 'Válvula de Descarga 1 1/2" Hydra Completa', quantidade: 2, unidade_medida: 'UN', preco_unitario: 189.00, preco_total: 378.00 },
       ],
     },
   ];
@@ -604,6 +680,7 @@ async function main() {
     await prisma.ordemServico.update({
       where: { id: c.ordemId },
       data: {
+        contrato_id: c.contratoId,
         empresa_terceirizada: c.empresa,
         numero_empenho: c.empenho,
         custo_materiais: custoMateriais,

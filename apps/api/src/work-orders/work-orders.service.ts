@@ -207,6 +207,7 @@ export class WorkOrdersService {
       custoMateriais: o.custo_materiais ? Number(o.custo_materiais) : 0,
       custoMaoDeObra: o.custo_mao_de_obra ? Number(o.custo_mao_de_obra) : 0,
       custoTotal: o.custo_total ? Number(o.custo_total) : 0,
+      contratoId: o.contrato_id || undefined,
       empresaTerceirizada: o.empresa_terceirizada || undefined,
       numeroEmpenho: o.numero_empenho || undefined,
       materiaisConsumidos: (o.materiais_consumidos || []).map((m: any) => ({
@@ -1182,6 +1183,20 @@ export class WorkOrdersService {
     if (!order) throw new NotFoundException('Ordem de serviço não encontrada.');
 
     const data: any = {};
+    if (dto.contratoId !== undefined) {
+      if (dto.contratoId) {
+        const contrato = await this.prisma.contratoManutencao.findUnique({
+          where: { id: dto.contratoId },
+        });
+        if (contrato) {
+          data.contrato_id = contrato.id;
+          if (!dto.empresaTerceirizada) data.empresa_terceirizada = contrato.empresa_contratada;
+          if (!dto.numeroEmpenho) data.numero_empenho = contrato.numero_empenho;
+        }
+      } else {
+        data.contrato_id = null;
+      }
+    }
     if (dto.empresaTerceirizada !== undefined) {
       data.empresa_terceirizada = dto.empresaTerceirizada.trim() || null;
     }

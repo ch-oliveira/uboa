@@ -8,7 +8,7 @@
  */
 
 import type { UserAccount } from '@/types/auth';
-import type { OrdemServico, StatusOS, Prioridade, MaterialItem, ItemConsumoOS } from '@/app/kanban/data';
+import type { OrdemServico, StatusOS, Prioridade, MaterialItem, ItemConsumoOS, ContratoItem } from '@/app/kanban/data';
 import type { UnidadeItem, TipoUnidade } from '@/types/units';
 import type { AgendaEvent, SystemSettings } from '@/context/orders-context';
 
@@ -141,6 +141,7 @@ function mapWorkOrderFromApi(item: any): OrdemServico {
     custoMateriais: item.custoMateriais !== undefined ? Number(item.custoMateriais) : Number(item.custo_materiais ?? 0),
     custoMaoDeObra: item.custoMaoDeObra !== undefined ? Number(item.custoMaoDeObra) : Number(item.custo_mao_de_obra ?? 0),
     custoTotal: item.custoTotal !== undefined ? Number(item.custoTotal) : Number(item.custo_total ?? 0),
+    contratoId: item.contratoId || item.contrato_id || undefined,
     empresaTerceirizada: item.empresaTerceirizada || item.empresa_terceirizada || undefined,
     numeroEmpenho: item.numeroEmpenho || item.numero_empenho || undefined,
     materiaisConsumidos: (item.materiaisConsumidos || item.materiais_consumidos || []).map((m: any) => ({
@@ -535,6 +536,7 @@ export const apiClient = {
   },
 
   async updateWorkOrderFinancials(orderId: string, data: {
+    contratoId?: string;
     custoMaoDeObra?: number;
     empresaTerceirizada?: string;
     numeroEmpenho?: string;
@@ -543,6 +545,61 @@ export const apiClient = {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify(data),
+    });
+    const resData = await res.json();
+    return resData;
+  },
+
+  // -------------------------------------------------------------
+  // CONTRATOS & EMPENHOS PÚBLICOS
+  // -------------------------------------------------------------
+  async getContracts(): Promise<{ success: boolean; contracts: ContratoItem[]; message?: string }> {
+    const res = await fetch(`${getApiBase()}/contracts`, {
+      cache: 'no-store',
+      headers: getAuthHeaders(),
+    });
+    const resData = await res.json();
+    const rawList = Array.isArray(resData.data) ? resData.data : (resData.contracts || []);
+    const contracts: ContratoItem[] = rawList.map((c: any) => ({
+      id: c.id,
+      numeroContrato: c.numeroContrato || c.numero_contrato,
+      numeroEmpenho: c.numeroEmpenho || c.numero_empenho,
+      empresaContratada: c.empresaContratada || c.empresa_contratada,
+      cnpjContratada: c.cnpjContratada || c.cnpj_contratada,
+      objeto: c.objeto,
+      categoriaPadrao: c.categoriaPadrao || c.categoria_padrao || 'GERAL',
+      valorTotalEmpenhado: Number(c.valorTotalEmpenhado ?? c.valor_total_empenhado ?? 0),
+      valorTotalMedido: Number(c.valorTotalMedido ?? c.valor_total_medido ?? 0),
+      saldoRestante: Number(c.saldoRestante ?? c.saldo_restante ?? 0),
+      percentualExecutado: Number(c.percentualExecutado ?? c.percentual_executado ?? 0),
+      vigenciaInicio: c.vigenciaInicio || c.vigencia_inicio,
+      vigenciaFim: c.vigenciaFim || c.vigencia_fim,
+      ativo: c.ativo !== false,
+      ordensCount: c.ordensCount ?? 0,
+      prefeituraId: c.prefeituraId || c.prefeitura_id,
+    }));
+    return {
+      success: Boolean(resData.success ?? true),
+      contracts,
+      message: resData.message,
+    };
+  },
+
+  async createContract(data: Partial<ContratoItem>): Promise<{ success: boolean; contract?: ContratoItem; message?: string }> {
+    const res = await fetch(`${getApiBase()}/contracts`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({
+        numeroContrato: data.numeroContrato,
+        numeroEmpenho: data.numeroEmpenho,
+        empresaContratada: data.empresaContratada,
+        cnpjContratada: data.cnpjContratada,
+        objeto: data.objeto,
+        categoriaPadrao: data.categoriaPadrao || 'GERAL',
+        valorTotalEmpenhado: data.valorTotalEmpenhado || 0,
+        vigenciaInicio: data.vigenciaInicio,
+        vigenciaFim: data.vigenciaFim,
+      }),
     });
     const resData = await res.json();
     return resData;

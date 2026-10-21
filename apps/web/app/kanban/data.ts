@@ -30,6 +30,25 @@ export interface MaterialItem {
   estoqueMinimo: number;
 }
 
+export interface ContratoItem {
+  id: string;
+  numeroContrato: string;
+  numeroEmpenho: string;
+  empresaContratada: string;
+  cnpjContratada?: string;
+  objeto?: string;
+  categoriaPadrao: string;
+  valorTotalEmpenhado: number;
+  valorTotalMedido: number;
+  saldoRestante: number;
+  percentualExecutado: number;
+  vigenciaInicio?: string;
+  vigenciaFim?: string;
+  ativo: boolean;
+  ordensCount?: number;
+  prefeituraId?: string;
+}
+
 export interface OrdemServico {
   id: string;
   titulo: string;
@@ -67,6 +86,7 @@ export interface OrdemServico {
   custoMateriais?: number;
   custoMaoDeObra?: number;
   custoTotal?: number;
+  contratoId?: string;
   empresaTerceirizada?: string;
   numeroEmpenho?: string;
   materiaisConsumidos?: ItemConsumoOS[];

@@ -221,6 +221,10 @@ export class AddConsumedMaterialDto {
 export class UpdateFinancialsDto {
   @IsString()
   @IsOptional()
+  contratoId?: string;
+
+  @IsString()
+  @IsOptional()
   empresaTerceirizada?: string;
 
   @IsString()

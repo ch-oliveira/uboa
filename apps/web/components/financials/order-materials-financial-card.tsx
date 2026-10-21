@@ -16,11 +16,12 @@ import {
   Layers,
   ArrowUpRight,
   ShieldCheck,
-  Coins
+  Coins,
+  Briefcase
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { apiClient } from '@/lib/api-client';
-import type { OrdemServico, MaterialItem, ItemConsumoOS } from '@/app/kanban/data';
+import type { OrdemServico, MaterialItem, ItemConsumoOS, ContratoItem } from '@/app/kanban/data';
 
 interface OrderMaterialsFinancialCardProps {
   order: OrdemServico;
@@ -35,6 +36,8 @@ export function OrderMaterialsFinancialCard({
 }: OrderMaterialsFinancialCardProps) {
   const [catalogMaterials, setCatalogMaterials] = useState<MaterialItem[]>([]);
   const [isLoadingMaterials, setIsLoadingMaterials] = useState(false);
+  const [contracts, setContracts] = useState<ContratoItem[]>([]);
+  const [isLoadingContracts, setIsLoadingContracts] = useState(false);
 
   // Modals / forms
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -54,31 +57,44 @@ export function OrderMaterialsFinancialCard({
   const [editMaoDeObra, setEditMaoDeObra] = useState<number>(order.custoMaoDeObra || 0);
   const [editTerceirizada, setEditTerceirizada] = useState(order.empresaTerceirizada || '');
   const [editEmpenho, setEditEmpenho] = useState(order.numeroEmpenho || '');
+  const [editContratoId, setEditContratoId] = useState(order.contratoId || '');
 
   // Sincroniza estado de edição quando a ordem muda
   useEffect(() => {
     setEditMaoDeObra(order.custoMaoDeObra || 0);
     setEditTerceirizada(order.empresaTerceirizada || '');
     setEditEmpenho(order.numeroEmpenho || '');
-  }, [order.custoMaoDeObra, order.empresaTerceirizada, order.numeroEmpenho]);
+    setEditContratoId(order.contratoId || '');
+  }, [order.custoMaoDeObra, order.empresaTerceirizada, order.numeroEmpenho, order.contratoId]);
 
-  // Carrega catálogo de materiais
+  // Carrega catálogo de materiais e contratos públicos
   useEffect(() => {
     let isMounted = true;
-    async function loadCatalog() {
+    async function loadData() {
       setIsLoadingMaterials(true);
+      setIsLoadingContracts(true);
       try {
-        const res = await apiClient.getMaterials();
-        if (isMounted && res.success && Array.isArray(res.materials)) {
-          setCatalogMaterials(res.materials);
+        const [matRes, contRes] = await Promise.allSettled([
+          apiClient.getMaterials(),
+          apiClient.getContracts(),
+        ]);
+
+        if (isMounted && matRes.status === 'fulfilled' && matRes.value.success && Array.isArray(matRes.value.materials)) {
+          setCatalogMaterials(matRes.value.materials);
+        }
+        if (isMounted && contRes.status === 'fulfilled' && contRes.value.success && Array.isArray(contRes.value.contracts)) {
+          setContracts(contRes.value.contracts);
         }
       } catch {
         // Ignora caso API indisponível
       } finally {
-        if (isMounted) setIsLoadingMaterials(false);
+        if (isMounted) {
+          setIsLoadingMaterials(false);
+          setIsLoadingContracts(false);
+        }
       }
     }
-    loadCatalog();
+    loadData();
     return () => {
       isMounted = false;
     };
@@ -189,6 +205,17 @@ export function OrderMaterialsFinancialCard({
     }
   }
 
+  function handleSelectContract(contratoId: string) {
+    setEditContratoId(contratoId);
+    if (contratoId) {
+      const found = contracts.find(c => c.id === contratoId);
+      if (found) {
+        setEditTerceirizada(found.empresaContratada);
+        setEditEmpenho(found.numeroEmpenho || found.numeroContrato);
+      }
+    }
+  }
+
   async function handleSaveFinancialsSubmit(e: React.FormEvent) {
     e.preventDefault();
     setIsSubmitting(true);
@@ -199,6 +226,7 @@ export function OrderMaterialsFinancialCard({
         custoMaoDeObra: Number(editMaoDeObra || 0),
         empresaTerceirizada: editTerceirizada.trim() || undefined,
         numeroEmpenho: editEmpenho.trim() || undefined,
+        contratoId: editContratoId || undefined,
       });
 
       if (res.success) {
@@ -212,11 +240,12 @@ export function OrderMaterialsFinancialCard({
           custoTotal,
           empresaTerceirizada: editTerceirizada.trim() || undefined,
           numeroEmpenho: editEmpenho.trim() || undefined,
+          contratoId: editContratoId || undefined,
         };
 
         onOrderUpdated(updated);
         setIsEditFinancialsOpen(false);
-        setFeedbackMsg({ type: 'success', text: 'Dados financeiros e empenho atualizados!' });
+        setFeedbackMsg({ type: 'success', text: 'Dados financeiros e contrato municipal atualizados!' });
         setTimeout(() => setFeedbackMsg(null), 3000);
       } else {
         setFeedbackMsg({ type: 'error', text: res.message || 'Erro ao atualizar dados financeiros.' });
@@ -340,18 +369,38 @@ export function OrderMaterialsFinancialCard({
         </div>
 
         {/* Card 4: Dados do Contrato / Empenho */}
-        <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/70 space-y-1">
-          <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[11px] font-semibold uppercase tracking-wider">Empenho / Contrato</span>
-            <FileText size={14} className="text-slate-400" />
-          </div>
-          <p className="text-sm font-bold text-slate-800 font-mono truncate">
-            {order.numeroEmpenho ? order.numeroEmpenho : 'Sem empenho vinculado'}
-          </p>
-          <span className="text-[10px] text-slate-400 block truncate">
-            {order.empresaTerceirizada ? `Contratada: ${order.empresaTerceirizada}` : 'Equipe direta da prefeitura'}
-          </span>
-        </div>
+        {(() => {
+          const matchedContract = contracts.find(c => c.id === order.contratoId);
+          return (
+            <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/70 space-y-1">
+              <div className="flex items-center justify-between text-slate-500">
+                <span className="text-[11px] font-semibold uppercase tracking-wider">Contrato & Empenho</span>
+                <Briefcase size={14} className="text-slate-400" />
+              </div>
+              <div className="flex items-center gap-1.5">
+                <p className="text-sm font-bold text-slate-800 font-mono truncate">
+                  {matchedContract ? `Contrato ${matchedContract.numeroContrato}` : (order.numeroEmpenho || 'Sem contrato')}
+                </p>
+                {matchedContract && (
+                  <span className="text-[9px] font-bold px-1.5 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded">
+                    Ativo
+                  </span>
+                )}
+              </div>
+              <span className="text-[10px] text-slate-500 block truncate" title={matchedContract?.empresaContratada || order.empresaTerceirizada}>
+                {matchedContract 
+                  ? `Contratada: ${matchedContract.empresaContratada}` 
+                  : (order.empresaTerceirizada ? `Contratada: ${order.empresaTerceirizada}` : 'Equipe direta da prefeitura')}
+              </span>
+              {matchedContract && (
+                <div className="pt-1 mt-1 border-t border-slate-200/60 flex items-center justify-between text-[10px]">
+                  <span className="text-slate-400">Saldo Empenho:</span>
+                  <span className="font-mono font-bold text-emerald-700">{formatBRL(matchedContract.saldoRestante)}</span>
+                </div>
+              )}
+            </div>
+          );
+        })()}
       </div>
 
       {/* 3. Tabela de Peças & Materiais Consumidos */}
@@ -639,15 +688,15 @@ export function OrderMaterialsFinancialCard({
       {/* ======================================================== */}
       {isEditFinancialsOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-md w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-lg w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
                   <FileText size={15} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">Contrato, Terceirizada & Mão de Obra</h3>
-                  <p className="text-[11px] text-slate-400">Prestação de contas do processo de manutenção</p>
+                  <h3 className="text-sm font-bold text-slate-900">Vincular Contrato Público & Medição</h3>
+                  <p className="text-[11px] text-slate-400">Prestação de contas do processo e liquidação da despesa</p>
                 </div>
               </div>
               <button
@@ -661,22 +710,92 @@ export function OrderMaterialsFinancialCard({
 
             <form onSubmit={handleSaveFinancialsSubmit} className="p-5 space-y-4">
               
+              {/* Dropdown de Contratos Ativos da Prefeitura */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-semibold text-slate-700">
+                    Contrato Municipal Vigente (Empenho Global):
+                  </label>
+                  {isLoadingContracts && (
+                    <span className="text-[10px] text-slate-400 flex items-center gap-1">
+                      <Loader2 size={10} className="animate-spin" /> Carregando...
+                    </span>
+                  )}
+                </div>
+
+                <select
+                  value={editContratoId}
+                  onChange={(e) => handleSelectContract(e.target.value)}
+                  className="w-full text-xs font-medium text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 focus:bg-white transition-all cursor-pointer"
+                >
+                  <option value="">Sem contrato vinculado (Administração Direta / Avulso)</option>
+                  {contracts.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      Contrato {c.numeroContrato} — {c.empresaContratada} (Saldo: {formatBRL(c.saldoRestante)})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Card de Resumo do Contrato Selecionado */}
+              {(() => {
+                const selectedContract = contracts.find((c) => c.id === editContratoId);
+                if (!selectedContract) return null;
+
+                return (
+                  <div className="p-3 rounded-xl bg-emerald-50/60 border border-emerald-200/80 space-y-2 text-xs">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-emerald-950 flex items-center gap-1.5">
+                        <ShieldCheck size={14} className="text-emerald-700" />
+                        {selectedContract.empresaContratada}
+                      </span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white text-emerald-800 border border-emerald-200 font-semibold">
+                        Empenho: {selectedContract.numeroEmpenho}
+                      </span>
+                    </div>
+
+                    {selectedContract.objeto && (
+                      <p className="text-[11px] text-emerald-800 line-clamp-2">
+                        {selectedContract.objeto}
+                      </p>
+                    )}
+
+                    <div className="grid grid-cols-3 gap-2 pt-1 border-t border-emerald-200/60 text-[11px]">
+                      <div>
+                        <span className="text-emerald-700 block text-[10px]">Total Empenhado:</span>
+                        <span className="font-mono font-bold text-slate-800">{formatBRL(selectedContract.valorTotalEmpenhado)}</span>
+                      </div>
+                      <div>
+                        <span className="text-emerald-700 block text-[10px]">Total Medido:</span>
+                        <span className="font-mono font-bold text-slate-800">{formatBRL(selectedContract.valorTotalMedido)}</span>
+                      </div>
+                      <div>
+                        <span className="text-emerald-700 block text-[10px]">Saldo Disponível:</span>
+                        <span className="font-mono font-bold text-emerald-700">{formatBRL(selectedContract.saldoRestante)}</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Empresa Contratada */}
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-slate-700">
-                  Empresa Contratada / Terceirizada:
+                  Razão Social da Contratada:
                 </label>
                 <input
                   type="text"
                   value={editTerceirizada}
                   onChange={(e) => setEditTerceirizada(e.target.value)}
-                  placeholder="Ex: Terceirizada Engenharia & Serviços Ltda"
+                  placeholder="Ex: Alvorada Engenharia Ltda"
                   className="w-full text-xs text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 focus:bg-white transition-all"
                 />
               </div>
 
+              {/* Número do Empenho */}
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-slate-700">
-                  Número da Nota de Empenho / Contrato:
+                  Número do Empenho / Contrato:
                 </label>
                 <input
                   type="text"
@@ -687,9 +806,10 @@ export function OrderMaterialsFinancialCard({
                 />
               </div>
 
+              {/* Mão de Obra */}
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-slate-700">
-                  Custo da Mão de Obra (R$):
+                  Custo da Mão de Obra Técnica (R$):
                 </label>
                 <input
                   type="number"
@@ -701,7 +821,7 @@ export function OrderMaterialsFinancialCard({
                   className="w-full text-xs text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 focus:bg-white transition-all font-mono"
                 />
                 <span className="text-[10px] text-slate-400 block">
-                  Valor correspondente ao serviço técnico faturado pela terceirizada.
+                  Valor liquidado nesta OS pelo serviço técnico prestado.
                 </span>
               </div>
 
@@ -716,7 +836,7 @@ export function OrderMaterialsFinancialCard({
                   <span className="font-mono">{formatBRL(editMaoDeObra)}</span>
                 </div>
                 <div className="flex items-center justify-between font-bold text-slate-900 border-t border-slate-200 pt-1">
-                  <span>Novo Total da OS:</span>
+                  <span>Total desta Ordem de Serviço:</span>
                   <span className="font-mono text-sm">{formatBRL(custoMateriais + Number(editMaoDeObra || 0))}</span>
                 </div>
               </div>

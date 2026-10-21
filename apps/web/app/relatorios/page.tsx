@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   Download, 
@@ -41,14 +41,16 @@ import {
   FileSpreadsheet,
   Search,
   Filter,
-  Package
+  Package,
+  Briefcase,
+  Edit3
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sidebar } from '@/components/sidebar';
 import { useOrders, type AgendaEvent } from '@/context/orders-context';
 import { useAuth } from '@/context/auth-context';
 import { apiClient } from '@/lib/api-client';
-import { TECNICOS, PREDIOS, type OrdemServico } from '../kanban/data';
+import { TECNICOS, PREDIOS, type OrdemServico, type ContratoItem } from '../kanban/data';
 import { TopHeader } from '@/components/top-header';
 import { OrderDetailModal } from '../kanban/order-detail-modal';
 import { Toast } from '@/components/ui/toast';
@@ -128,9 +130,33 @@ export default function RelatoriosPage() {
     }, 3500);
   }
 
-  // Estados e filtros da Seção Financeira
+  // Estados e filtros da Seção Financeira (Abordagem B: Contratos & Empenho)
   const [financialSearch, setFinancialSearch] = useState('');
   const [selectedContractor, setSelectedContractor] = useState('TODAS');
+  const [contracts, setContracts] = useState<ContratoItem[]>([]);
+  const [isLoadingContracts, setIsLoadingContracts] = useState(false);
+  const [measurementFilter, setMeasurementFilter] = useState<'COM_MEDICAO' | 'PENDENTE' | 'TODAS'>('COM_MEDICAO');
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadContracts() {
+      setIsLoadingContracts(true);
+      try {
+        const res = await apiClient.getContracts();
+        if (isMounted && res.success && Array.isArray(res.contracts)) {
+          setContracts(res.contracts);
+        }
+      } catch {
+        // Silencioso em caso de erro na API
+      } finally {
+        if (isMounted) setIsLoadingContracts(false);
+      }
+    }
+    loadContracts();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   function formatBRL(val?: number) {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val || 0);
@@ -227,8 +253,44 @@ export default function RelatoriosPage() {
     };
   }, [periodOrders]);
 
+  // Contagens para as Abas de Medição da Tabela (Abordagem B)
+  const measurementCounts = useMemo(() => {
+    let withMeasurement = 0;
+    let pendingMeasurement = 0;
+
+    periodOrders.forEach((o) => {
+      const mat = Number(o.custoMateriais || 0);
+      const mdo = Number(o.custoMaoDeObra || 0);
+      const tot = o.custoTotal !== undefined && o.custoTotal !== null && Number(o.custoTotal) > 0 
+        ? Number(o.custoTotal) 
+        : (mat + mdo);
+
+      if (tot > 0) {
+        withMeasurement++;
+      } else {
+        pendingMeasurement++;
+      }
+    });
+
+    return {
+      withMeasurement,
+      pendingMeasurement,
+      total: periodOrders.length,
+    };
+  }, [periodOrders]);
+
   const filteredFinancialOrders = useMemo(() => {
     return periodOrders.filter(o => {
+      const mat = Number(o.custoMateriais || 0);
+      const mdo = Number(o.custoMaoDeObra || 0);
+      const tot = o.custoTotal !== undefined && o.custoTotal !== null && Number(o.custoTotal) > 0 
+        ? Number(o.custoTotal) 
+        : (mat + mdo);
+
+      // Filtro de status da medição (Abordagem B: remove poluição visual de R$ 0,00)
+      if (measurementFilter === 'COM_MEDICAO' && tot <= 0) return false;
+      if (measurementFilter === 'PENDENTE' && tot > 0) return false;
+
       const q = financialSearch.toLowerCase().trim();
       const matchSearch = !q || 
         o.id.toLowerCase().includes(q) || 
@@ -242,7 +304,7 @@ export default function RelatoriosPage() {
 
       return matchSearch && matchContractor;
     });
-  }, [periodOrders, financialSearch, selectedContractor]);
+  }, [periodOrders, measurementFilter, financialSearch, selectedContractor]);
 
   function handleExportMeasurementCSV() {
     const headers = [
@@ -2171,22 +2233,163 @@ export default function RelatoriosPage() {
                   </div>
                 </div>
 
+                {/* Painel de Saldo de Empenhos por Contrato Municipal (Abordagem B) */}
+                <div className="bg-card border border-border/80 rounded-2xl p-4 sm:p-5 shadow-xs space-y-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold">
+                        <Briefcase size={15} />
+                      </div>
+                      <div>
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
+                          Contratos Públicos de Manutenção & Saldo de Empenho (Lei 14.133/21)
+                        </h3>
+                        <p className="text-[11px] text-muted-foreground">
+                          Acompanhamento contábil do limite orçamentário autorizado e execução financeira por terceirizada
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-[11px] font-medium text-muted-foreground">
+                      {contracts.length} {contracts.length === 1 ? 'contrato ativo' : 'contratos ativos na prefeitura'}
+                    </span>
+                  </div>
+
+                  {isLoadingContracts ? (
+                    <div className="py-6 text-center text-xs text-muted-foreground">
+                      Carregando dados contratuais da prefeitura...
+                    </div>
+                  ) : contracts.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+                      {contracts.map((c) => {
+                        const pct = Math.min(100, Math.max(0, c.percentualExecutado || 0));
+                        const isHighBurn = pct > 85;
+                        const isMidBurn = pct > 60;
+                        const barColor = isHighBurn ? 'bg-rose-500' : (isMidBurn ? 'bg-amber-500' : 'bg-emerald-500');
+
+                        return (
+                          <div 
+                            key={c.id} 
+                            className="p-3.5 rounded-xl bg-muted/20 border border-border/70 hover:border-primary/40 transition-all space-y-2.5"
+                          >
+                            <div className="flex items-start justify-between gap-2">
+                              <div>
+                                <div className="flex items-center gap-1.5">
+                                  <span className="text-xs font-bold font-mono text-foreground">
+                                    Contrato {c.numeroContrato}
+                                  </span>
+                                  <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-muted text-muted-foreground border border-border">
+                                    {c.categoriaPadrao}
+                                  </span>
+                                </div>
+                                <p className="text-xs font-semibold text-foreground mt-0.5 truncate max-w-[200px]" title={c.empresaContratada}>
+                                  {c.empresaContratada}
+                                </p>
+                              </div>
+                              <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-emerald-100/70 text-emerald-800 border border-emerald-300/40">
+                                {c.numeroEmpenho}
+                              </span>
+                            </div>
+
+                            {/* Barra de Progresso de Execução */}
+                            <div className="space-y-1">
+                              <div className="flex items-center justify-between text-[10px]">
+                                <span className="text-muted-foreground">Execução do Empenho</span>
+                                <span className="font-mono font-bold text-foreground">{pct.toFixed(1)}%</span>
+                              </div>
+                              <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                                <div 
+                                  className={`h-full ${barColor} rounded-full transition-all duration-300`}
+                                  style={{ width: `${Math.max(3, pct)}%` }}
+                                />
+                              </div>
+                            </div>
+
+                            {/* Valores Financeiros */}
+                            <div className="grid grid-cols-3 gap-1 pt-1.5 border-t border-border/60 text-[10px]">
+                              <div>
+                                <span className="text-muted-foreground block text-[9px] uppercase">Empenhado</span>
+                                <span className="font-mono font-semibold text-foreground truncate block">
+                                  {formatBRL(c.valorTotalEmpenhado)}
+                                </span>
+                              </div>
+                              <div>
+                                <span className="text-muted-foreground block text-[9px] uppercase">Medido</span>
+                                <span className="font-mono font-semibold text-foreground truncate block">
+                                  {formatBRL(c.valorTotalMedido)}
+                                </span>
+                              </div>
+                              <div>
+                                <span className="text-muted-foreground block text-[9px] uppercase">Saldo Livre</span>
+                                <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400 truncate block">
+                                  {formatBRL(c.saldoRestante)}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="py-4 text-center text-xs text-muted-foreground">
+                      Nenhum contrato de manutenção cadastrado para esta prefeitura.
+                    </div>
+                  )}
+                </div>
+
                 {/* Grid Principal: Planilha Contratual + Rankings de Custos */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                   {/* Coluna Esquerda (2 Spans): Planilha de Medição Mensal */}
                   <div className="lg:col-span-2 bg-card border border-border/80 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div>
-                        <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
-                          Planilha de Medição Mensal por Contrato & Empenho
-                        </h3>
-                        <p className="text-[11px] text-muted-foreground">
-                          Exibindo {filteredFinancialOrders.length} de {periodOrders.length} ordens de serviço
-                        </p>
+                    
+                    {/* Header da Planilha com Abas de Status da Medição */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="space-y-1.5">
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
+                            Planilha de Medição Mensal por Contrato & Empenho
+                          </h3>
+                        </div>
+                        
+                        {/* Abas de Filtro de Medição (Abordagem B: Elimina poluição de R$ 0,00) */}
+                        <div className="inline-flex items-center p-1 bg-muted/60 rounded-xl border border-border/70 text-xs gap-1">
+                          <button
+                            type="button"
+                            onClick={() => setMeasurementFilter('COM_MEDICAO')}
+                            className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                              measurementFilter === 'COM_MEDICAO'
+                                ? 'bg-card text-foreground shadow-xs'
+                                : 'text-muted-foreground hover:text-foreground'
+                            }`}
+                          >
+                            Com Medição Lançada ({measurementCounts.withMeasurement})
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setMeasurementFilter('PENDENTE')}
+                            className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                              measurementFilter === 'PENDENTE'
+                                ? 'bg-card text-foreground shadow-xs'
+                                : 'text-muted-foreground hover:text-foreground'
+                            }`}
+                          >
+                            Pendentes de Medição ({measurementCounts.pendingMeasurement})
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setMeasurementFilter('TODAS')}
+                            className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                              measurementFilter === 'TODAS'
+                                ? 'bg-card text-foreground shadow-xs'
+                                : 'text-muted-foreground hover:text-foreground'
+                            }`}
+                          >
+                            Todas as OSs ({measurementCounts.total})
+                          </button>
+                        </div>
                       </div>
 
-                      {/* Filtros da Tabela */}
+                      {/* Filtros de Busca e Contratada */}
                       <div className="flex items-center gap-2">
                         <div className="relative">
                           <Search size={13} className="absolute left-2.5 top-2.5 text-muted-foreground" />
@@ -2195,7 +2398,7 @@ export default function RelatoriosPage() {
                             value={financialSearch}
                             onChange={(e) => setFinancialSearch(e.target.value)}
                             placeholder="Buscar OS, prédio, empenho..."
-                            className="text-xs bg-muted/40 border border-border rounded-xl pl-8 pr-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary w-44 sm:w-56"
+                            className="text-xs bg-muted/40 border border-border rounded-xl pl-8 pr-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary w-40 sm:w-52"
                           />
                         </div>
 
@@ -2230,6 +2433,7 @@ export default function RelatoriosPage() {
                               <th className="py-2.5 px-3 text-right">M. Obra (R$)</th>
                               <th className="py-2.5 px-3 text-right">Total (R$)</th>
                               <th className="py-2.5 px-3 text-center">Status</th>
+                              <th className="py-2.5 px-3 text-center">Ações</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-border/60">
@@ -2242,34 +2446,45 @@ export default function RelatoriosPage() {
 
                               return (
                                 <tr key={o.id} className="hover:bg-muted/30 transition-colors">
-                                  <td className="py-2.5 px-3 font-mono font-bold text-primary">
+                                  <td className="py-2.5 px-3 font-mono font-bold text-primary whitespace-nowrap">
                                     <Link href={`/chamados/${o.id}`} className="hover:underline flex items-center gap-1">
                                       <span>{o.id}</span>
                                       <ArrowUpRight size={11} className="text-muted-foreground" />
                                     </Link>
                                   </td>
-                                  <td className="py-2.5 px-3 font-medium text-foreground truncate max-w-[150px]">
+                                  <td className="py-2.5 px-3 font-medium text-foreground truncate max-w-[160px]" title={o.predio}>
                                     {o.predio}
                                   </td>
-                                  <td className="py-2.5 px-3 text-muted-foreground truncate max-w-[130px]" title={o.empresaTerceirizada}>
+                                  <td className="py-2.5 px-3 text-muted-foreground truncate max-w-[140px]" title={o.empresaTerceirizada}>
                                     {o.empresaTerceirizada || 'Administração Direta'}
                                   </td>
-                                  <td className="py-2.5 px-3 font-mono text-muted-foreground text-[11px]">
+                                  <td className="py-2.5 px-3 font-mono text-muted-foreground text-[11px] whitespace-nowrap">
                                     {o.numeroEmpenho || '—'}
                                   </td>
-                                  <td className="py-2.5 px-3 text-right font-mono text-foreground">
+                                  <td className="py-2.5 px-3 text-right font-mono text-foreground whitespace-nowrap">
                                     {formatBRL(mat)}
                                   </td>
-                                  <td className="py-2.5 px-3 text-right font-mono text-foreground">
+                                  <td className="py-2.5 px-3 text-right font-mono text-foreground whitespace-nowrap">
                                     {formatBRL(mdo)}
                                   </td>
-                                  <td className="py-2.5 px-3 text-right font-mono font-bold text-foreground">
+                                  <td className="py-2.5 px-3 text-right font-mono font-bold text-foreground whitespace-nowrap">
                                     {formatBRL(tot)}
                                   </td>
-                                  <td className="py-2.5 px-3 text-center">
+                                  <td className="py-2.5 px-3 text-center whitespace-nowrap">
                                     <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted border border-border">
                                       {o.status}
                                     </span>
+                                  </td>
+                                  <td className="py-2.5 px-3 text-center whitespace-nowrap">
+                                    <button
+                                      type="button"
+                                      onClick={() => setSelectedOrder(o)}
+                                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-primary hover:text-primary/80 bg-primary/5 hover:bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-lg transition-colors cursor-pointer"
+                                      title="Abrir detalhe e lançar medição"
+                                    >
+                                      <Edit3 size={11} />
+                                      <span>{tot > 0 ? 'Ver' : 'Medir'}</span>
+                                    </button>
                                   </td>
                                 </tr>
                               );
@@ -2296,7 +2511,7 @@ export default function RelatoriosPage() {
                                   return acc + tot;
                                 }, 0))}
                               </td>
-                              <td></td>
+                              <td colSpan={2}></td>
                             </tr>
                           </tfoot>
                         </table>
@@ -2304,8 +2519,12 @@ export default function RelatoriosPage() {
                     ) : (
                       <div className="py-8 px-4 rounded-xl border border-dashed border-border text-center space-y-1">
                         <FileSpreadsheet size={24} className="text-muted-foreground/60 mx-auto" />
-                        <p className="text-xs font-semibold text-foreground">Nenhuma ordem encontrada com os filtros selecionados</p>
-                        <p className="text-[11px] text-muted-foreground">Tente limpar os termos de busca ou mudar o período de análise.</p>
+                        <p className="text-xs font-semibold text-foreground">Nenhuma ordem encontrada nesta visualização</p>
+                        <p className="text-[11px] text-muted-foreground">
+                          {measurementFilter === 'COM_MEDICAO' 
+                            ? 'Clique em "Pendentes de Medição" acima para visualizar ordens concluídas aguardando apuração de custos.'
+                            : 'Tente limpar os termos de busca ou mudar o período de análise.'}
+                        </p>
                       </div>
                     )}
                   </div>

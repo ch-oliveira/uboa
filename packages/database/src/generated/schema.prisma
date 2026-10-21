@@ -95,6 +95,7 @@ model Prefeitura {
   vistorias      AgendaVistoria[]
   auditorias     AuditoriaLog[]
   materiais      Material[]
+  contratos      ContratoManutencao[]
 
   criado_em  DateTime @default(now())
   atualizado DateTime @updatedAt
@@ -193,11 +194,13 @@ model OrdemServico {
   motivo_violacao_sla String? // Descrição ou justificativa da extrapolação do prazo
 
   // Gestão Financeira e Medição (Contratos Terceirizados / Tribunal de Contas)
-  custo_materiais      Decimal?        @default(0.00) @db.Decimal(10, 2)
-  custo_mao_de_obra    Decimal?        @default(0.00) @db.Decimal(10, 2)
-  custo_total          Decimal?        @default(0.00) @db.Decimal(10, 2)
+  custo_materiais      Decimal?            @default(0.00) @db.Decimal(10, 2)
+  custo_mao_de_obra    Decimal?            @default(0.00) @db.Decimal(10, 2)
+  custo_total          Decimal?            @default(0.00) @db.Decimal(10, 2)
   empresa_terceirizada String? // Nome da prestadora ou empreiteira terceirizada
   numero_empenho       String? // Nota de empenho público municipal para fiscalização TCE
+  contrato_id          String? // Vínculo com contrato formal e nota de empenho
+  contrato             ContratoManutencao? @relation(fields: [contrato_id], references: [id])
   materiais_consumidos ItemConsumoOS[]
 
   prefeitura_id String?
@@ -382,4 +385,30 @@ model ItemConsumoOS {
   @@index([ordem_servico_id])
   @@index([material_id])
   @@map("itens_consumo_os")
+}
+
+model ContratoManutencao {
+  id                    String    @id @default(uuid())
+  numero_contrato       String // ex: "Contrato 014/2026"
+  numero_empenho        String // ex: "2026NE00412"
+  empresa_contratada    String // ex: "Alvorada Engenharia & Manutenção Urbana Ltda"
+  cnpj_contratada       String? // ex: "12.345.678/0001-90"
+  objeto                String? // ex: "Manutenção Predial Preventiva e Corretiva com Fornecimento de Peças"
+  categoria_padrao      String?   @default("GERAL") // ELETRICA, HIDRAULICA, ALVENARIA, GERAL
+  valor_total_empenhado Decimal   @default(0.00) @db.Decimal(12, 2)
+  vigencia_inicio       DateTime?
+  vigencia_fim          DateTime?
+  ativo                 Boolean   @default(true)
+
+  prefeitura_id String?
+  prefeitura    Prefeitura? @relation(fields: [prefeitura_id], references: [id])
+
+  ordens_servico OrdemServico[]
+
+  criado_em  DateTime @default(now())
+  atualizado DateTime @updatedAt
+
+  @@unique([prefeitura_id, numero_contrato])
+  @@index([prefeitura_id, ativo])
+  @@map("contratos_manutencao")
 }

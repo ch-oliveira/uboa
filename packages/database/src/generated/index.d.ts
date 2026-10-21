@@ -63,6 +63,11 @@ export type Material = $Result.DefaultSelection<Prisma.$MaterialPayload>
  * 
  */
 export type ItemConsumoOS = $Result.DefaultSelection<Prisma.$ItemConsumoOSPayload>
+/**
+ * Model ContratoManutencao
+ * 
+ */
+export type ContratoManutencao = $Result.DefaultSelection<Prisma.$ContratoManutencaoPayload>
 
 /**
  * Enums
@@ -405,6 +410,16 @@ export class PrismaClient<
     * ```
     */
   get itemConsumoOS(): Prisma.ItemConsumoOSDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.contratoManutencao`: Exposes CRUD operations for the **ContratoManutencao** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ContratoManutencaos
+    * const contratoManutencaos = await prisma.contratoManutencao.findMany()
+    * ```
+    */
+  get contratoManutencao(): Prisma.ContratoManutencaoDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -855,7 +870,8 @@ export namespace Prisma {
     ConfiguracaoSistema: 'ConfiguracaoSistema',
     Manifestacao: 'Manifestacao',
     Material: 'Material',
-    ItemConsumoOS: 'ItemConsumoOS'
+    ItemConsumoOS: 'ItemConsumoOS',
+    ContratoManutencao: 'ContratoManutencao'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -874,7 +890,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "prefeitura" | "usuario" | "predio" | "ordemServico" | "auditoriaLog" | "agendaVistoria" | "configuracaoSistema" | "manifestacao" | "material" | "itemConsumoOS"
+      modelProps: "prefeitura" | "usuario" | "predio" | "ordemServico" | "auditoriaLog" | "agendaVistoria" | "configuracaoSistema" | "manifestacao" | "material" | "itemConsumoOS" | "contratoManutencao"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1618,6 +1634,80 @@ export namespace Prisma {
           }
         }
       }
+      ContratoManutencao: {
+        payload: Prisma.$ContratoManutencaoPayload<ExtArgs>
+        fields: Prisma.ContratoManutencaoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ContratoManutencaoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContratoManutencaoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ContratoManutencaoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContratoManutencaoPayload>
+          }
+          findFirst: {
+            args: Prisma.ContratoManutencaoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContratoManutencaoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ContratoManutencaoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContratoManutencaoPayload>
+          }
+          findMany: {
+            args: Prisma.ContratoManutencaoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContratoManutencaoPayload>[]
+          }
+          create: {
+            args: Prisma.ContratoManutencaoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContratoManutencaoPayload>
+          }
+          createMany: {
+            args: Prisma.ContratoManutencaoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ContratoManutencaoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContratoManutencaoPayload>[]
+          }
+          delete: {
+            args: Prisma.ContratoManutencaoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContratoManutencaoPayload>
+          }
+          update: {
+            args: Prisma.ContratoManutencaoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContratoManutencaoPayload>
+          }
+          deleteMany: {
+            args: Prisma.ContratoManutencaoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ContratoManutencaoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ContratoManutencaoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContratoManutencaoPayload>[]
+          }
+          upsert: {
+            args: Prisma.ContratoManutencaoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContratoManutencaoPayload>
+          }
+          aggregate: {
+            args: Prisma.ContratoManutencaoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateContratoManutencao>
+          }
+          groupBy: {
+            args: Prisma.ContratoManutencaoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ContratoManutencaoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ContratoManutencaoCountArgs<ExtArgs>
+            result: $Utils.Optional<ContratoManutencaoCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1724,6 +1814,7 @@ export namespace Prisma {
     manifestacao?: ManifestacaoOmit
     material?: MaterialOmit
     itemConsumoOS?: ItemConsumoOSOmit
+    contratoManutencao?: ContratoManutencaoOmit
   }
 
   /* Types for Logging */
@@ -1811,6 +1902,7 @@ export namespace Prisma {
     vistorias: number
     auditorias: number
     materiais: number
+    contratos: number
   }
 
   export type PrefeituraCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1821,6 +1913,7 @@ export namespace Prisma {
     vistorias?: boolean | PrefeituraCountOutputTypeCountVistoriasArgs
     auditorias?: boolean | PrefeituraCountOutputTypeCountAuditoriasArgs
     materiais?: boolean | PrefeituraCountOutputTypeCountMateriaisArgs
+    contratos?: boolean | PrefeituraCountOutputTypeCountContratosArgs
   }
 
   // Custom InputTypes
@@ -1881,6 +1974,13 @@ export namespace Prisma {
    */
   export type PrefeituraCountOutputTypeCountMateriaisArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MaterialWhereInput
+  }
+
+  /**
+   * PrefeituraCountOutputType without action
+   */
+  export type PrefeituraCountOutputTypeCountContratosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ContratoManutencaoWhereInput
   }
 
 
@@ -2086,6 +2186,37 @@ export namespace Prisma {
    */
   export type MaterialCountOutputTypeCountItens_consumoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ItemConsumoOSWhereInput
+  }
+
+
+  /**
+   * Count Type ContratoManutencaoCountOutputType
+   */
+
+  export type ContratoManutencaoCountOutputType = {
+    ordens_servico: number
+  }
+
+  export type ContratoManutencaoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ordens_servico?: boolean | ContratoManutencaoCountOutputTypeCountOrdens_servicoArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ContratoManutencaoCountOutputType without action
+   */
+  export type ContratoManutencaoCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContratoManutencaoCountOutputType
+     */
+    select?: ContratoManutencaoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ContratoManutencaoCountOutputType without action
+   */
+  export type ContratoManutencaoCountOutputTypeCountOrdens_servicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrdemServicoWhereInput
   }
 
 
@@ -2297,6 +2428,7 @@ export namespace Prisma {
     vistorias?: boolean | Prefeitura$vistoriasArgs<ExtArgs>
     auditorias?: boolean | Prefeitura$auditoriasArgs<ExtArgs>
     materiais?: boolean | Prefeitura$materiaisArgs<ExtArgs>
+    contratos?: boolean | Prefeitura$contratosArgs<ExtArgs>
     _count?: boolean | PrefeituraCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["prefeitura"]>
 
@@ -2349,6 +2481,7 @@ export namespace Prisma {
     vistorias?: boolean | Prefeitura$vistoriasArgs<ExtArgs>
     auditorias?: boolean | Prefeitura$auditoriasArgs<ExtArgs>
     materiais?: boolean | Prefeitura$materiaisArgs<ExtArgs>
+    contratos?: boolean | Prefeitura$contratosArgs<ExtArgs>
     _count?: boolean | PrefeituraCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PrefeituraIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2365,6 +2498,7 @@ export namespace Prisma {
       vistorias: Prisma.$AgendaVistoriaPayload<ExtArgs>[]
       auditorias: Prisma.$AuditoriaLogPayload<ExtArgs>[]
       materiais: Prisma.$MaterialPayload<ExtArgs>[]
+      contratos: Prisma.$ContratoManutencaoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2779,6 +2913,7 @@ export namespace Prisma {
     vistorias<T extends Prefeitura$vistoriasArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$vistoriasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgendaVistoriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     auditorias<T extends Prefeitura$auditoriasArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$auditoriasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditoriaLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     materiais<T extends Prefeitura$materiaisArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$materiaisArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    contratos<T extends Prefeitura$contratosArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$contratosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3390,6 +3525,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MaterialScalarFieldEnum | MaterialScalarFieldEnum[]
+  }
+
+  /**
+   * Prefeitura.contratos
+   */
+  export type Prefeitura$contratosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContratoManutencao
+     */
+    select?: ContratoManutencaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContratoManutencao
+     */
+    omit?: ContratoManutencaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContratoManutencaoInclude<ExtArgs> | null
+    where?: ContratoManutencaoWhereInput
+    orderBy?: ContratoManutencaoOrderByWithRelationInput | ContratoManutencaoOrderByWithRelationInput[]
+    cursor?: ContratoManutencaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ContratoManutencaoScalarFieldEnum | ContratoManutencaoScalarFieldEnum[]
   }
 
   /**
@@ -6168,6 +6327,7 @@ export namespace Prisma {
     custo_total: Decimal | null
     empresa_terceirizada: string | null
     numero_empenho: string | null
+    contrato_id: string | null
     prefeitura_id: string | null
     ordem_vinculada_id: string | null
     criado_em: Date | null
@@ -6199,6 +6359,7 @@ export namespace Prisma {
     custo_total: Decimal | null
     empresa_terceirizada: string | null
     numero_empenho: string | null
+    contrato_id: string | null
     prefeitura_id: string | null
     ordem_vinculada_id: string | null
     criado_em: Date | null
@@ -6233,6 +6394,7 @@ export namespace Prisma {
     custo_total: number
     empresa_terceirizada: number
     numero_empenho: number
+    contrato_id: number
     prefeitura_id: number
     ordem_vinculada_id: number
     criado_em: number
@@ -6280,6 +6442,7 @@ export namespace Prisma {
     custo_total?: true
     empresa_terceirizada?: true
     numero_empenho?: true
+    contrato_id?: true
     prefeitura_id?: true
     ordem_vinculada_id?: true
     criado_em?: true
@@ -6311,6 +6474,7 @@ export namespace Prisma {
     custo_total?: true
     empresa_terceirizada?: true
     numero_empenho?: true
+    contrato_id?: true
     prefeitura_id?: true
     ordem_vinculada_id?: true
     criado_em?: true
@@ -6345,6 +6509,7 @@ export namespace Prisma {
     custo_total?: true
     empresa_terceirizada?: true
     numero_empenho?: true
+    contrato_id?: true
     prefeitura_id?: true
     ordem_vinculada_id?: true
     criado_em?: true
@@ -6466,6 +6631,7 @@ export namespace Prisma {
     custo_total: Decimal | null
     empresa_terceirizada: string | null
     numero_empenho: string | null
+    contrato_id: string | null
     prefeitura_id: string | null
     ordem_vinculada_id: string | null
     criado_em: Date
@@ -6519,6 +6685,7 @@ export namespace Prisma {
     custo_total?: boolean
     empresa_terceirizada?: boolean
     numero_empenho?: boolean
+    contrato_id?: boolean
     prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
@@ -6526,6 +6693,7 @@ export namespace Prisma {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
     materiais_consumidos?: boolean | OrdemServico$materiais_consumidosArgs<ExtArgs>
     prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
@@ -6563,6 +6731,7 @@ export namespace Prisma {
     custo_total?: boolean
     empresa_terceirizada?: boolean
     numero_empenho?: boolean
+    contrato_id?: boolean
     prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
@@ -6570,6 +6739,7 @@ export namespace Prisma {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
     prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }, ExtArgs["result"]["ordemServico"]>
@@ -6602,6 +6772,7 @@ export namespace Prisma {
     custo_total?: boolean
     empresa_terceirizada?: boolean
     numero_empenho?: boolean
+    contrato_id?: boolean
     prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
@@ -6609,6 +6780,7 @@ export namespace Prisma {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
     prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }, ExtArgs["result"]["ordemServico"]>
@@ -6641,17 +6813,19 @@ export namespace Prisma {
     custo_total?: boolean
     empresa_terceirizada?: boolean
     numero_empenho?: boolean
+    contrato_id?: boolean
     prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
   }
 
-  export type OrdemServicoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo" | "titulo" | "descricao" | "categoria" | "prioridade" | "status" | "predio_id" | "solicitante_id" | "tecnico_atribuido_id" | "fotos" | "fotos_conclusao" | "motivo_pausa" | "motivo_cancelamento" | "data_limite_sla" | "iniciado_em" | "concluido_em" | "pausado_em" | "tempo_pausa_minutos" | "historico_pausas" | "sla_violado" | "motivo_violacao_sla" | "custo_materiais" | "custo_mao_de_obra" | "custo_total" | "empresa_terceirizada" | "numero_empenho" | "prefeitura_id" | "ordem_vinculada_id" | "criado_em" | "atualizado", ExtArgs["result"]["ordemServico"]>
+  export type OrdemServicoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo" | "titulo" | "descricao" | "categoria" | "prioridade" | "status" | "predio_id" | "solicitante_id" | "tecnico_atribuido_id" | "fotos" | "fotos_conclusao" | "motivo_pausa" | "motivo_cancelamento" | "data_limite_sla" | "iniciado_em" | "concluido_em" | "pausado_em" | "tempo_pausa_minutos" | "historico_pausas" | "sla_violado" | "motivo_violacao_sla" | "custo_materiais" | "custo_mao_de_obra" | "custo_total" | "empresa_terceirizada" | "numero_empenho" | "contrato_id" | "prefeitura_id" | "ordem_vinculada_id" | "criado_em" | "atualizado", ExtArgs["result"]["ordemServico"]>
   export type OrdemServicoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
     materiais_consumidos?: boolean | OrdemServico$materiais_consumidosArgs<ExtArgs>
     prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
@@ -6664,6 +6838,7 @@ export namespace Prisma {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
     prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }
@@ -6671,6 +6846,7 @@ export namespace Prisma {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
+    contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
     prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }
@@ -6681,6 +6857,7 @@ export namespace Prisma {
       predio: Prisma.$PredioPayload<ExtArgs>
       solicitante: Prisma.$UsuarioPayload<ExtArgs>
       tecnico: Prisma.$UsuarioPayload<ExtArgs> | null
+      contrato: Prisma.$ContratoManutencaoPayload<ExtArgs> | null
       materiais_consumidos: Prisma.$ItemConsumoOSPayload<ExtArgs>[]
       prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
       ordem_vinculada: Prisma.$OrdemServicoPayload<ExtArgs> | null
@@ -6716,6 +6893,7 @@ export namespace Prisma {
       custo_total: Prisma.Decimal | null
       empresa_terceirizada: string | null
       numero_empenho: string | null
+      contrato_id: string | null
       prefeitura_id: string | null
       ordem_vinculada_id: string | null
       criado_em: Date
@@ -7117,6 +7295,7 @@ export namespace Prisma {
     predio<T extends PredioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PredioDefaultArgs<ExtArgs>>): Prisma__PredioClient<$Result.GetResult<Prisma.$PredioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     solicitante<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tecnico<T extends OrdemServico$tecnicoArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$tecnicoArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    contrato<T extends OrdemServico$contratoArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$contratoArgs<ExtArgs>>): Prisma__ContratoManutencaoClient<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     materiais_consumidos<T extends OrdemServico$materiais_consumidosArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$materiais_consumidosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemConsumoOSPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     prefeitura<T extends OrdemServico$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordem_vinculada<T extends OrdemServico$ordem_vinculadaArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$ordem_vinculadaArgs<ExtArgs>>): Prisma__OrdemServicoClient<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -7179,6 +7358,7 @@ export namespace Prisma {
     readonly custo_total: FieldRef<"OrdemServico", 'Decimal'>
     readonly empresa_terceirizada: FieldRef<"OrdemServico", 'String'>
     readonly numero_empenho: FieldRef<"OrdemServico", 'String'>
+    readonly contrato_id: FieldRef<"OrdemServico", 'String'>
     readonly prefeitura_id: FieldRef<"OrdemServico", 'String'>
     readonly ordem_vinculada_id: FieldRef<"OrdemServico", 'String'>
     readonly criado_em: FieldRef<"OrdemServico", 'DateTime'>
@@ -7595,6 +7775,25 @@ export namespace Prisma {
      */
     include?: UsuarioInclude<ExtArgs> | null
     where?: UsuarioWhereInput
+  }
+
+  /**
+   * OrdemServico.contrato
+   */
+  export type OrdemServico$contratoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContratoManutencao
+     */
+    select?: ContratoManutencaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContratoManutencao
+     */
+    omit?: ContratoManutencaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContratoManutencaoInclude<ExtArgs> | null
+    where?: ContratoManutencaoWhereInput
   }
 
   /**
@@ -15274,6 +15473,1264 @@ export namespace Prisma {
 
 
   /**
+   * Model ContratoManutencao
+   */
+
+  export type AggregateContratoManutencao = {
+    _count: ContratoManutencaoCountAggregateOutputType | null
+    _avg: ContratoManutencaoAvgAggregateOutputType | null
+    _sum: ContratoManutencaoSumAggregateOutputType | null
+    _min: ContratoManutencaoMinAggregateOutputType | null
+    _max: ContratoManutencaoMaxAggregateOutputType | null
+  }
+
+  export type ContratoManutencaoAvgAggregateOutputType = {
+    valor_total_empenhado: Decimal | null
+  }
+
+  export type ContratoManutencaoSumAggregateOutputType = {
+    valor_total_empenhado: Decimal | null
+  }
+
+  export type ContratoManutencaoMinAggregateOutputType = {
+    id: string | null
+    numero_contrato: string | null
+    numero_empenho: string | null
+    empresa_contratada: string | null
+    cnpj_contratada: string | null
+    objeto: string | null
+    categoria_padrao: string | null
+    valor_total_empenhado: Decimal | null
+    vigencia_inicio: Date | null
+    vigencia_fim: Date | null
+    ativo: boolean | null
+    prefeitura_id: string | null
+    criado_em: Date | null
+    atualizado: Date | null
+  }
+
+  export type ContratoManutencaoMaxAggregateOutputType = {
+    id: string | null
+    numero_contrato: string | null
+    numero_empenho: string | null
+    empresa_contratada: string | null
+    cnpj_contratada: string | null
+    objeto: string | null
+    categoria_padrao: string | null
+    valor_total_empenhado: Decimal | null
+    vigencia_inicio: Date | null
+    vigencia_fim: Date | null
+    ativo: boolean | null
+    prefeitura_id: string | null
+    criado_em: Date | null
+    atualizado: Date | null
+  }
+
+  export type ContratoManutencaoCountAggregateOutputType = {
+    id: number
+    numero_contrato: number
+    numero_empenho: number
+    empresa_contratada: number
+    cnpj_contratada: number
+    objeto: number
+    categoria_padrao: number
+    valor_total_empenhado: number
+    vigencia_inicio: number
+    vigencia_fim: number
+    ativo: number
+    prefeitura_id: number
+    criado_em: number
+    atualizado: number
+    _all: number
+  }
+
+
+  export type ContratoManutencaoAvgAggregateInputType = {
+    valor_total_empenhado?: true
+  }
+
+  export type ContratoManutencaoSumAggregateInputType = {
+    valor_total_empenhado?: true
+  }
+
+  export type ContratoManutencaoMinAggregateInputType = {
+    id?: true
+    numero_contrato?: true
+    numero_empenho?: true
+    empresa_contratada?: true
+    cnpj_contratada?: true
+    objeto?: true
+    categoria_padrao?: true
+    valor_total_empenhado?: true
+    vigencia_inicio?: true
+    vigencia_fim?: true
+    ativo?: true
+    prefeitura_id?: true
+    criado_em?: true
+    atualizado?: true
+  }
+
+  export type ContratoManutencaoMaxAggregateInputType = {
+    id?: true
+    numero_contrato?: true
+    numero_empenho?: true
+    empresa_contratada?: true
+    cnpj_contratada?: true
+    objeto?: true
+    categoria_padrao?: true
+    valor_total_empenhado?: true
+    vigencia_inicio?: true
+    vigencia_fim?: true
+    ativo?: true
+    prefeitura_id?: true
+    criado_em?: true
+    atualizado?: true
+  }
+
+  export type ContratoManutencaoCountAggregateInputType = {
+    id?: true
+    numero_contrato?: true
+    numero_empenho?: true
+    empresa_contratada?: true
+    cnpj_contratada?: true
+    objeto?: true
+    categoria_padrao?: true
+    valor_total_empenhado?: true
+    vigencia_inicio?: true
+    vigencia_fim?: true
+    ativo?: true
+    prefeitura_id?: true
+    criado_em?: true
+    atualizado?: true
+    _all?: true
+  }
+
+  export type ContratoManutencaoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ContratoManutencao to aggregate.
+     */
+    where?: ContratoManutencaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ContratoManutencaos to fetch.
+     */
+    orderBy?: ContratoManutencaoOrderByWithRelationInput | ContratoManutencaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ContratoManutencaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ContratoManutencaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ContratoManutencaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ContratoManutencaos
+    **/
+    _count?: true | ContratoManutencaoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ContratoManutencaoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ContratoManutencaoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ContratoManutencaoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ContratoManutencaoMaxAggregateInputType
+  }
+
+  export type GetContratoManutencaoAggregateType<T extends ContratoManutencaoAggregateArgs> = {
+        [P in keyof T & keyof AggregateContratoManutencao]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateContratoManutencao[P]>
+      : GetScalarType<T[P], AggregateContratoManutencao[P]>
+  }
+
+
+
+
+  export type ContratoManutencaoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ContratoManutencaoWhereInput
+    orderBy?: ContratoManutencaoOrderByWithAggregationInput | ContratoManutencaoOrderByWithAggregationInput[]
+    by: ContratoManutencaoScalarFieldEnum[] | ContratoManutencaoScalarFieldEnum
+    having?: ContratoManutencaoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ContratoManutencaoCountAggregateInputType | true
+    _avg?: ContratoManutencaoAvgAggregateInputType
+    _sum?: ContratoManutencaoSumAggregateInputType
+    _min?: ContratoManutencaoMinAggregateInputType
+    _max?: ContratoManutencaoMaxAggregateInputType
+  }
+
+  export type ContratoManutencaoGroupByOutputType = {
+    id: string
+    numero_contrato: string
+    numero_empenho: string
+    empresa_contratada: string
+    cnpj_contratada: string | null
+    objeto: string | null
+    categoria_padrao: string | null
+    valor_total_empenhado: Decimal
+    vigencia_inicio: Date | null
+    vigencia_fim: Date | null
+    ativo: boolean
+    prefeitura_id: string | null
+    criado_em: Date
+    atualizado: Date
+    _count: ContratoManutencaoCountAggregateOutputType | null
+    _avg: ContratoManutencaoAvgAggregateOutputType | null
+    _sum: ContratoManutencaoSumAggregateOutputType | null
+    _min: ContratoManutencaoMinAggregateOutputType | null
+    _max: ContratoManutencaoMaxAggregateOutputType | null
+  }
+
+  type GetContratoManutencaoGroupByPayload<T extends ContratoManutencaoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ContratoManutencaoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ContratoManutencaoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ContratoManutencaoGroupByOutputType[P]>
+            : GetScalarType<T[P], ContratoManutencaoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ContratoManutencaoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numero_contrato?: boolean
+    numero_empenho?: boolean
+    empresa_contratada?: boolean
+    cnpj_contratada?: boolean
+    objeto?: boolean
+    categoria_padrao?: boolean
+    valor_total_empenhado?: boolean
+    vigencia_inicio?: boolean
+    vigencia_fim?: boolean
+    ativo?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    prefeitura?: boolean | ContratoManutencao$prefeituraArgs<ExtArgs>
+    ordens_servico?: boolean | ContratoManutencao$ordens_servicoArgs<ExtArgs>
+    _count?: boolean | ContratoManutencaoCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["contratoManutencao"]>
+
+  export type ContratoManutencaoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numero_contrato?: boolean
+    numero_empenho?: boolean
+    empresa_contratada?: boolean
+    cnpj_contratada?: boolean
+    objeto?: boolean
+    categoria_padrao?: boolean
+    valor_total_empenhado?: boolean
+    vigencia_inicio?: boolean
+    vigencia_fim?: boolean
+    ativo?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    prefeitura?: boolean | ContratoManutencao$prefeituraArgs<ExtArgs>
+  }, ExtArgs["result"]["contratoManutencao"]>
+
+  export type ContratoManutencaoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numero_contrato?: boolean
+    numero_empenho?: boolean
+    empresa_contratada?: boolean
+    cnpj_contratada?: boolean
+    objeto?: boolean
+    categoria_padrao?: boolean
+    valor_total_empenhado?: boolean
+    vigencia_inicio?: boolean
+    vigencia_fim?: boolean
+    ativo?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    prefeitura?: boolean | ContratoManutencao$prefeituraArgs<ExtArgs>
+  }, ExtArgs["result"]["contratoManutencao"]>
+
+  export type ContratoManutencaoSelectScalar = {
+    id?: boolean
+    numero_contrato?: boolean
+    numero_empenho?: boolean
+    empresa_contratada?: boolean
+    cnpj_contratada?: boolean
+    objeto?: boolean
+    categoria_padrao?: boolean
+    valor_total_empenhado?: boolean
+    vigencia_inicio?: boolean
+    vigencia_fim?: boolean
+    ativo?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+  }
+
+  export type ContratoManutencaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero_contrato" | "numero_empenho" | "empresa_contratada" | "cnpj_contratada" | "objeto" | "categoria_padrao" | "valor_total_empenhado" | "vigencia_inicio" | "vigencia_fim" | "ativo" | "prefeitura_id" | "criado_em" | "atualizado", ExtArgs["result"]["contratoManutencao"]>
+  export type ContratoManutencaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prefeitura?: boolean | ContratoManutencao$prefeituraArgs<ExtArgs>
+    ordens_servico?: boolean | ContratoManutencao$ordens_servicoArgs<ExtArgs>
+    _count?: boolean | ContratoManutencaoCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ContratoManutencaoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prefeitura?: boolean | ContratoManutencao$prefeituraArgs<ExtArgs>
+  }
+  export type ContratoManutencaoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prefeitura?: boolean | ContratoManutencao$prefeituraArgs<ExtArgs>
+  }
+
+  export type $ContratoManutencaoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ContratoManutencao"
+    objects: {
+      prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
+      ordens_servico: Prisma.$OrdemServicoPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      numero_contrato: string
+      numero_empenho: string
+      empresa_contratada: string
+      cnpj_contratada: string | null
+      objeto: string | null
+      categoria_padrao: string | null
+      valor_total_empenhado: Prisma.Decimal
+      vigencia_inicio: Date | null
+      vigencia_fim: Date | null
+      ativo: boolean
+      prefeitura_id: string | null
+      criado_em: Date
+      atualizado: Date
+    }, ExtArgs["result"]["contratoManutencao"]>
+    composites: {}
+  }
+
+  type ContratoManutencaoGetPayload<S extends boolean | null | undefined | ContratoManutencaoDefaultArgs> = $Result.GetResult<Prisma.$ContratoManutencaoPayload, S>
+
+  type ContratoManutencaoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ContratoManutencaoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ContratoManutencaoCountAggregateInputType | true
+    }
+
+  export interface ContratoManutencaoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ContratoManutencao'], meta: { name: 'ContratoManutencao' } }
+    /**
+     * Find zero or one ContratoManutencao that matches the filter.
+     * @param {ContratoManutencaoFindUniqueArgs} args - Arguments to find a ContratoManutencao
+     * @example
+     * // Get one ContratoManutencao
+     * const contratoManutencao = await prisma.contratoManutencao.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ContratoManutencaoFindUniqueArgs>(args: SelectSubset<T, ContratoManutencaoFindUniqueArgs<ExtArgs>>): Prisma__ContratoManutencaoClient<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ContratoManutencao that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ContratoManutencaoFindUniqueOrThrowArgs} args - Arguments to find a ContratoManutencao
+     * @example
+     * // Get one ContratoManutencao
+     * const contratoManutencao = await prisma.contratoManutencao.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ContratoManutencaoFindUniqueOrThrowArgs>(args: SelectSubset<T, ContratoManutencaoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ContratoManutencaoClient<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ContratoManutencao that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContratoManutencaoFindFirstArgs} args - Arguments to find a ContratoManutencao
+     * @example
+     * // Get one ContratoManutencao
+     * const contratoManutencao = await prisma.contratoManutencao.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ContratoManutencaoFindFirstArgs>(args?: SelectSubset<T, ContratoManutencaoFindFirstArgs<ExtArgs>>): Prisma__ContratoManutencaoClient<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ContratoManutencao that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContratoManutencaoFindFirstOrThrowArgs} args - Arguments to find a ContratoManutencao
+     * @example
+     * // Get one ContratoManutencao
+     * const contratoManutencao = await prisma.contratoManutencao.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ContratoManutencaoFindFirstOrThrowArgs>(args?: SelectSubset<T, ContratoManutencaoFindFirstOrThrowArgs<ExtArgs>>): Prisma__ContratoManutencaoClient<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ContratoManutencaos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContratoManutencaoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ContratoManutencaos
+     * const contratoManutencaos = await prisma.contratoManutencao.findMany()
+     * 
+     * // Get first 10 ContratoManutencaos
+     * const contratoManutencaos = await prisma.contratoManutencao.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const contratoManutencaoWithIdOnly = await prisma.contratoManutencao.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ContratoManutencaoFindManyArgs>(args?: SelectSubset<T, ContratoManutencaoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ContratoManutencao.
+     * @param {ContratoManutencaoCreateArgs} args - Arguments to create a ContratoManutencao.
+     * @example
+     * // Create one ContratoManutencao
+     * const ContratoManutencao = await prisma.contratoManutencao.create({
+     *   data: {
+     *     // ... data to create a ContratoManutencao
+     *   }
+     * })
+     * 
+     */
+    create<T extends ContratoManutencaoCreateArgs>(args: SelectSubset<T, ContratoManutencaoCreateArgs<ExtArgs>>): Prisma__ContratoManutencaoClient<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ContratoManutencaos.
+     * @param {ContratoManutencaoCreateManyArgs} args - Arguments to create many ContratoManutencaos.
+     * @example
+     * // Create many ContratoManutencaos
+     * const contratoManutencao = await prisma.contratoManutencao.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ContratoManutencaoCreateManyArgs>(args?: SelectSubset<T, ContratoManutencaoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ContratoManutencaos and returns the data saved in the database.
+     * @param {ContratoManutencaoCreateManyAndReturnArgs} args - Arguments to create many ContratoManutencaos.
+     * @example
+     * // Create many ContratoManutencaos
+     * const contratoManutencao = await prisma.contratoManutencao.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ContratoManutencaos and only return the `id`
+     * const contratoManutencaoWithIdOnly = await prisma.contratoManutencao.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ContratoManutencaoCreateManyAndReturnArgs>(args?: SelectSubset<T, ContratoManutencaoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ContratoManutencao.
+     * @param {ContratoManutencaoDeleteArgs} args - Arguments to delete one ContratoManutencao.
+     * @example
+     * // Delete one ContratoManutencao
+     * const ContratoManutencao = await prisma.contratoManutencao.delete({
+     *   where: {
+     *     // ... filter to delete one ContratoManutencao
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ContratoManutencaoDeleteArgs>(args: SelectSubset<T, ContratoManutencaoDeleteArgs<ExtArgs>>): Prisma__ContratoManutencaoClient<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ContratoManutencao.
+     * @param {ContratoManutencaoUpdateArgs} args - Arguments to update one ContratoManutencao.
+     * @example
+     * // Update one ContratoManutencao
+     * const contratoManutencao = await prisma.contratoManutencao.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ContratoManutencaoUpdateArgs>(args: SelectSubset<T, ContratoManutencaoUpdateArgs<ExtArgs>>): Prisma__ContratoManutencaoClient<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ContratoManutencaos.
+     * @param {ContratoManutencaoDeleteManyArgs} args - Arguments to filter ContratoManutencaos to delete.
+     * @example
+     * // Delete a few ContratoManutencaos
+     * const { count } = await prisma.contratoManutencao.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ContratoManutencaoDeleteManyArgs>(args?: SelectSubset<T, ContratoManutencaoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ContratoManutencaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContratoManutencaoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ContratoManutencaos
+     * const contratoManutencao = await prisma.contratoManutencao.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ContratoManutencaoUpdateManyArgs>(args: SelectSubset<T, ContratoManutencaoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ContratoManutencaos and returns the data updated in the database.
+     * @param {ContratoManutencaoUpdateManyAndReturnArgs} args - Arguments to update many ContratoManutencaos.
+     * @example
+     * // Update many ContratoManutencaos
+     * const contratoManutencao = await prisma.contratoManutencao.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ContratoManutencaos and only return the `id`
+     * const contratoManutencaoWithIdOnly = await prisma.contratoManutencao.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ContratoManutencaoUpdateManyAndReturnArgs>(args: SelectSubset<T, ContratoManutencaoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ContratoManutencao.
+     * @param {ContratoManutencaoUpsertArgs} args - Arguments to update or create a ContratoManutencao.
+     * @example
+     * // Update or create a ContratoManutencao
+     * const contratoManutencao = await prisma.contratoManutencao.upsert({
+     *   create: {
+     *     // ... data to create a ContratoManutencao
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ContratoManutencao we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ContratoManutencaoUpsertArgs>(args: SelectSubset<T, ContratoManutencaoUpsertArgs<ExtArgs>>): Prisma__ContratoManutencaoClient<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ContratoManutencaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContratoManutencaoCountArgs} args - Arguments to filter ContratoManutencaos to count.
+     * @example
+     * // Count the number of ContratoManutencaos
+     * const count = await prisma.contratoManutencao.count({
+     *   where: {
+     *     // ... the filter for the ContratoManutencaos we want to count
+     *   }
+     * })
+    **/
+    count<T extends ContratoManutencaoCountArgs>(
+      args?: Subset<T, ContratoManutencaoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ContratoManutencaoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ContratoManutencao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContratoManutencaoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ContratoManutencaoAggregateArgs>(args: Subset<T, ContratoManutencaoAggregateArgs>): Prisma.PrismaPromise<GetContratoManutencaoAggregateType<T>>
+
+    /**
+     * Group by ContratoManutencao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContratoManutencaoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ContratoManutencaoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ContratoManutencaoGroupByArgs['orderBy'] }
+        : { orderBy?: ContratoManutencaoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ContratoManutencaoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetContratoManutencaoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ContratoManutencao model
+   */
+  readonly fields: ContratoManutencaoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ContratoManutencao.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ContratoManutencaoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    prefeitura<T extends ContratoManutencao$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, ContratoManutencao$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    ordens_servico<T extends ContratoManutencao$ordens_servicoArgs<ExtArgs> = {}>(args?: Subset<T, ContratoManutencao$ordens_servicoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ContratoManutencao model
+   */
+  interface ContratoManutencaoFieldRefs {
+    readonly id: FieldRef<"ContratoManutencao", 'String'>
+    readonly numero_contrato: FieldRef<"ContratoManutencao", 'String'>
+    readonly numero_empenho: FieldRef<"ContratoManutencao", 'String'>
+    readonly empresa_contratada: FieldRef<"ContratoManutencao", 'String'>
+    readonly cnpj_contratada: FieldRef<"ContratoManutencao", 'String'>
+    readonly objeto: FieldRef<"ContratoManutencao", 'String'>
+    readonly categoria_padrao: FieldRef<"ContratoManutencao", 'String'>
+    readonly valor_total_empenhado: FieldRef<"ContratoManutencao", 'Decimal'>
+    readonly vigencia_inicio: FieldRef<"ContratoManutencao", 'DateTime'>
+    readonly vigencia_fim: FieldRef<"ContratoManutencao", 'DateTime'>
+    readonly ativo: FieldRef<"ContratoManutencao", 'Boolean'>
+    readonly prefeitura_id: FieldRef<"ContratoManutencao", 'String'>
+    readonly criado_em: FieldRef<"ContratoManutencao", 'DateTime'>
+    readonly atualizado: FieldRef<"ContratoManutencao", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ContratoManutencao findUnique
+   */
+  export type ContratoManutencaoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContratoManutencao
+     */
+    select?: ContratoManutencaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContratoManutencao
+     */
+    omit?: ContratoManutencaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContratoManutencaoInclude<ExtArgs> | null
+    /**
+     * Filter, which ContratoManutencao to fetch.
+     */
+    where: ContratoManutencaoWhereUniqueInput
+  }
+
+  /**
+   * ContratoManutencao findUniqueOrThrow
+   */
+  export type ContratoManutencaoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContratoManutencao
+     */
+    select?: ContratoManutencaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContratoManutencao
+     */
+    omit?: ContratoManutencaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContratoManutencaoInclude<ExtArgs> | null
+    /**
+     * Filter, which ContratoManutencao to fetch.
+     */
+    where: ContratoManutencaoWhereUniqueInput
+  }
+
+  /**
+   * ContratoManutencao findFirst
+   */
+  export type ContratoManutencaoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContratoManutencao
+     */
+    select?: ContratoManutencaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContratoManutencao
+     */
+    omit?: ContratoManutencaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContratoManutencaoInclude<ExtArgs> | null
+    /**
+     * Filter, which ContratoManutencao to fetch.
+     */
+    where?: ContratoManutencaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ContratoManutencaos to fetch.
+     */
+    orderBy?: ContratoManutencaoOrderByWithRelationInput | ContratoManutencaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ContratoManutencaos.
+     */
+    cursor?: ContratoManutencaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ContratoManutencaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ContratoManutencaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ContratoManutencaos.
+     */
+    distinct?: ContratoManutencaoScalarFieldEnum | ContratoManutencaoScalarFieldEnum[]
+  }
+
+  /**
+   * ContratoManutencao findFirstOrThrow
+   */
+  export type ContratoManutencaoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContratoManutencao
+     */
+    select?: ContratoManutencaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContratoManutencao
+     */
+    omit?: ContratoManutencaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContratoManutencaoInclude<ExtArgs> | null
+    /**
+     * Filter, which ContratoManutencao to fetch.
+     */
+    where?: ContratoManutencaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ContratoManutencaos to fetch.
+     */
+    orderBy?: ContratoManutencaoOrderByWithRelationInput | ContratoManutencaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ContratoManutencaos.
+     */
+    cursor?: ContratoManutencaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ContratoManutencaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ContratoManutencaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ContratoManutencaos.
+     */
+    distinct?: ContratoManutencaoScalarFieldEnum | ContratoManutencaoScalarFieldEnum[]
+  }
+
+  /**
+   * ContratoManutencao findMany
+   */
+  export type ContratoManutencaoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContratoManutencao
+     */
+    select?: ContratoManutencaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContratoManutencao
+     */
+    omit?: ContratoManutencaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContratoManutencaoInclude<ExtArgs> | null
+    /**
+     * Filter, which ContratoManutencaos to fetch.
+     */
+    where?: ContratoManutencaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ContratoManutencaos to fetch.
+     */
+    orderBy?: ContratoManutencaoOrderByWithRelationInput | ContratoManutencaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ContratoManutencaos.
+     */
+    cursor?: ContratoManutencaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ContratoManutencaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ContratoManutencaos.
+     */
+    skip?: number
+    distinct?: ContratoManutencaoScalarFieldEnum | ContratoManutencaoScalarFieldEnum[]
+  }
+
+  /**
+   * ContratoManutencao create
+   */
+  export type ContratoManutencaoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContratoManutencao
+     */
+    select?: ContratoManutencaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContratoManutencao
+     */
+    omit?: ContratoManutencaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContratoManutencaoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ContratoManutencao.
+     */
+    data: XOR<ContratoManutencaoCreateInput, ContratoManutencaoUncheckedCreateInput>
+  }
+
+  /**
+   * ContratoManutencao createMany
+   */
+  export type ContratoManutencaoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ContratoManutencaos.
+     */
+    data: ContratoManutencaoCreateManyInput | ContratoManutencaoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ContratoManutencao createManyAndReturn
+   */
+  export type ContratoManutencaoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContratoManutencao
+     */
+    select?: ContratoManutencaoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContratoManutencao
+     */
+    omit?: ContratoManutencaoOmit<ExtArgs> | null
+    /**
+     * The data used to create many ContratoManutencaos.
+     */
+    data: ContratoManutencaoCreateManyInput | ContratoManutencaoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContratoManutencaoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ContratoManutencao update
+   */
+  export type ContratoManutencaoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContratoManutencao
+     */
+    select?: ContratoManutencaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContratoManutencao
+     */
+    omit?: ContratoManutencaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContratoManutencaoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ContratoManutencao.
+     */
+    data: XOR<ContratoManutencaoUpdateInput, ContratoManutencaoUncheckedUpdateInput>
+    /**
+     * Choose, which ContratoManutencao to update.
+     */
+    where: ContratoManutencaoWhereUniqueInput
+  }
+
+  /**
+   * ContratoManutencao updateMany
+   */
+  export type ContratoManutencaoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ContratoManutencaos.
+     */
+    data: XOR<ContratoManutencaoUpdateManyMutationInput, ContratoManutencaoUncheckedUpdateManyInput>
+    /**
+     * Filter which ContratoManutencaos to update
+     */
+    where?: ContratoManutencaoWhereInput
+    /**
+     * Limit how many ContratoManutencaos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ContratoManutencao updateManyAndReturn
+   */
+  export type ContratoManutencaoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContratoManutencao
+     */
+    select?: ContratoManutencaoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContratoManutencao
+     */
+    omit?: ContratoManutencaoOmit<ExtArgs> | null
+    /**
+     * The data used to update ContratoManutencaos.
+     */
+    data: XOR<ContratoManutencaoUpdateManyMutationInput, ContratoManutencaoUncheckedUpdateManyInput>
+    /**
+     * Filter which ContratoManutencaos to update
+     */
+    where?: ContratoManutencaoWhereInput
+    /**
+     * Limit how many ContratoManutencaos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContratoManutencaoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ContratoManutencao upsert
+   */
+  export type ContratoManutencaoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContratoManutencao
+     */
+    select?: ContratoManutencaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContratoManutencao
+     */
+    omit?: ContratoManutencaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContratoManutencaoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ContratoManutencao to update in case it exists.
+     */
+    where: ContratoManutencaoWhereUniqueInput
+    /**
+     * In case the ContratoManutencao found by the `where` argument doesn't exist, create a new ContratoManutencao with this data.
+     */
+    create: XOR<ContratoManutencaoCreateInput, ContratoManutencaoUncheckedCreateInput>
+    /**
+     * In case the ContratoManutencao was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ContratoManutencaoUpdateInput, ContratoManutencaoUncheckedUpdateInput>
+  }
+
+  /**
+   * ContratoManutencao delete
+   */
+  export type ContratoManutencaoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContratoManutencao
+     */
+    select?: ContratoManutencaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContratoManutencao
+     */
+    omit?: ContratoManutencaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContratoManutencaoInclude<ExtArgs> | null
+    /**
+     * Filter which ContratoManutencao to delete.
+     */
+    where: ContratoManutencaoWhereUniqueInput
+  }
+
+  /**
+   * ContratoManutencao deleteMany
+   */
+  export type ContratoManutencaoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ContratoManutencaos to delete
+     */
+    where?: ContratoManutencaoWhereInput
+    /**
+     * Limit how many ContratoManutencaos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ContratoManutencao.prefeitura
+   */
+  export type ContratoManutencao$prefeituraArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    where?: PrefeituraWhereInput
+  }
+
+  /**
+   * ContratoManutencao.ordens_servico
+   */
+  export type ContratoManutencao$ordens_servicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrdemServico
+     */
+    select?: OrdemServicoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrdemServico
+     */
+    omit?: OrdemServicoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrdemServicoInclude<ExtArgs> | null
+    where?: OrdemServicoWhereInput
+    orderBy?: OrdemServicoOrderByWithRelationInput | OrdemServicoOrderByWithRelationInput[]
+    cursor?: OrdemServicoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrdemServicoScalarFieldEnum | OrdemServicoScalarFieldEnum[]
+  }
+
+  /**
+   * ContratoManutencao without action
+   */
+  export type ContratoManutencaoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContratoManutencao
+     */
+    select?: ContratoManutencaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContratoManutencao
+     */
+    omit?: ContratoManutencaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContratoManutencaoInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -15370,6 +16827,7 @@ export namespace Prisma {
     custo_total: 'custo_total',
     empresa_terceirizada: 'empresa_terceirizada',
     numero_empenho: 'numero_empenho',
+    contrato_id: 'contrato_id',
     prefeitura_id: 'prefeitura_id',
     ordem_vinculada_id: 'ordem_vinculada_id',
     criado_em: 'criado_em',
@@ -15501,6 +16959,26 @@ export namespace Prisma {
   };
 
   export type ItemConsumoOSScalarFieldEnum = (typeof ItemConsumoOSScalarFieldEnum)[keyof typeof ItemConsumoOSScalarFieldEnum]
+
+
+  export const ContratoManutencaoScalarFieldEnum: {
+    id: 'id',
+    numero_contrato: 'numero_contrato',
+    numero_empenho: 'numero_empenho',
+    empresa_contratada: 'empresa_contratada',
+    cnpj_contratada: 'cnpj_contratada',
+    objeto: 'objeto',
+    categoria_padrao: 'categoria_padrao',
+    valor_total_empenhado: 'valor_total_empenhado',
+    vigencia_inicio: 'vigencia_inicio',
+    vigencia_fim: 'vigencia_fim',
+    ativo: 'ativo',
+    prefeitura_id: 'prefeitura_id',
+    criado_em: 'criado_em',
+    atualizado: 'atualizado'
+  };
+
+  export type ContratoManutencaoScalarFieldEnum = (typeof ContratoManutencaoScalarFieldEnum)[keyof typeof ContratoManutencaoScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -15777,6 +17255,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaListRelationFilter
     auditorias?: AuditoriaLogListRelationFilter
     materiais?: MaterialListRelationFilter
+    contratos?: ContratoManutencaoListRelationFilter
   }
 
   export type PrefeituraOrderByWithRelationInput = {
@@ -15798,6 +17277,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaOrderByRelationAggregateInput
     auditorias?: AuditoriaLogOrderByRelationAggregateInput
     materiais?: MaterialOrderByRelationAggregateInput
+    contratos?: ContratoManutencaoOrderByRelationAggregateInput
   }
 
   export type PrefeituraWhereUniqueInput = Prisma.AtLeast<{
@@ -15822,6 +17302,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaListRelationFilter
     auditorias?: AuditoriaLogListRelationFilter
     materiais?: MaterialListRelationFilter
+    contratos?: ContratoManutencaoListRelationFilter
   }, "id" | "slug" | "cnpj">
 
   export type PrefeituraOrderByWithAggregationInput = {
@@ -16113,6 +17594,7 @@ export namespace Prisma {
     custo_total?: DecimalNullableFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: StringNullableFilter<"OrdemServico"> | string | null
     numero_empenho?: StringNullableFilter<"OrdemServico"> | string | null
+    contrato_id?: StringNullableFilter<"OrdemServico"> | string | null
     prefeitura_id?: StringNullableFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
@@ -16120,6 +17602,7 @@ export namespace Prisma {
     predio?: XOR<PredioScalarRelationFilter, PredioWhereInput>
     solicitante?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     tecnico?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    contrato?: XOR<ContratoManutencaoNullableScalarRelationFilter, ContratoManutencaoWhereInput> | null
     materiais_consumidos?: ItemConsumoOSListRelationFilter
     prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
     ordem_vinculada?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
@@ -16156,6 +17639,7 @@ export namespace Prisma {
     custo_total?: SortOrderInput | SortOrder
     empresa_terceirizada?: SortOrderInput | SortOrder
     numero_empenho?: SortOrderInput | SortOrder
+    contrato_id?: SortOrderInput | SortOrder
     prefeitura_id?: SortOrderInput | SortOrder
     ordem_vinculada_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
@@ -16163,6 +17647,7 @@ export namespace Prisma {
     predio?: PredioOrderByWithRelationInput
     solicitante?: UsuarioOrderByWithRelationInput
     tecnico?: UsuarioOrderByWithRelationInput
+    contrato?: ContratoManutencaoOrderByWithRelationInput
     materiais_consumidos?: ItemConsumoOSOrderByRelationAggregateInput
     prefeitura?: PrefeituraOrderByWithRelationInput
     ordem_vinculada?: OrdemServicoOrderByWithRelationInput
@@ -16202,6 +17687,7 @@ export namespace Prisma {
     custo_total?: DecimalNullableFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: StringNullableFilter<"OrdemServico"> | string | null
     numero_empenho?: StringNullableFilter<"OrdemServico"> | string | null
+    contrato_id?: StringNullableFilter<"OrdemServico"> | string | null
     prefeitura_id?: StringNullableFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
@@ -16209,6 +17695,7 @@ export namespace Prisma {
     predio?: XOR<PredioScalarRelationFilter, PredioWhereInput>
     solicitante?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     tecnico?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    contrato?: XOR<ContratoManutencaoNullableScalarRelationFilter, ContratoManutencaoWhereInput> | null
     materiais_consumidos?: ItemConsumoOSListRelationFilter
     prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
     ordem_vinculada?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
@@ -16245,6 +17732,7 @@ export namespace Prisma {
     custo_total?: SortOrderInput | SortOrder
     empresa_terceirizada?: SortOrderInput | SortOrder
     numero_empenho?: SortOrderInput | SortOrder
+    contrato_id?: SortOrderInput | SortOrder
     prefeitura_id?: SortOrderInput | SortOrder
     ordem_vinculada_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
@@ -16287,6 +17775,7 @@ export namespace Prisma {
     custo_total?: DecimalNullableWithAggregatesFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     numero_empenho?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
+    contrato_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     prefeitura_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeWithAggregatesFilter<"OrdemServico"> | Date | string
@@ -16944,6 +18433,112 @@ export namespace Prisma {
     criado_em?: DateTimeWithAggregatesFilter<"ItemConsumoOS"> | Date | string
   }
 
+  export type ContratoManutencaoWhereInput = {
+    AND?: ContratoManutencaoWhereInput | ContratoManutencaoWhereInput[]
+    OR?: ContratoManutencaoWhereInput[]
+    NOT?: ContratoManutencaoWhereInput | ContratoManutencaoWhereInput[]
+    id?: StringFilter<"ContratoManutencao"> | string
+    numero_contrato?: StringFilter<"ContratoManutencao"> | string
+    numero_empenho?: StringFilter<"ContratoManutencao"> | string
+    empresa_contratada?: StringFilter<"ContratoManutencao"> | string
+    cnpj_contratada?: StringNullableFilter<"ContratoManutencao"> | string | null
+    objeto?: StringNullableFilter<"ContratoManutencao"> | string | null
+    categoria_padrao?: StringNullableFilter<"ContratoManutencao"> | string | null
+    valor_total_empenhado?: DecimalFilter<"ContratoManutencao"> | Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: DateTimeNullableFilter<"ContratoManutencao"> | Date | string | null
+    vigencia_fim?: DateTimeNullableFilter<"ContratoManutencao"> | Date | string | null
+    ativo?: BoolFilter<"ContratoManutencao"> | boolean
+    prefeitura_id?: StringNullableFilter<"ContratoManutencao"> | string | null
+    criado_em?: DateTimeFilter<"ContratoManutencao"> | Date | string
+    atualizado?: DateTimeFilter<"ContratoManutencao"> | Date | string
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
+    ordens_servico?: OrdemServicoListRelationFilter
+  }
+
+  export type ContratoManutencaoOrderByWithRelationInput = {
+    id?: SortOrder
+    numero_contrato?: SortOrder
+    numero_empenho?: SortOrder
+    empresa_contratada?: SortOrder
+    cnpj_contratada?: SortOrderInput | SortOrder
+    objeto?: SortOrderInput | SortOrder
+    categoria_padrao?: SortOrderInput | SortOrder
+    valor_total_empenhado?: SortOrder
+    vigencia_inicio?: SortOrderInput | SortOrder
+    vigencia_fim?: SortOrderInput | SortOrder
+    ativo?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    prefeitura?: PrefeituraOrderByWithRelationInput
+    ordens_servico?: OrdemServicoOrderByRelationAggregateInput
+  }
+
+  export type ContratoManutencaoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    prefeitura_id_numero_contrato?: ContratoManutencaoPrefeitura_idNumero_contratoCompoundUniqueInput
+    AND?: ContratoManutencaoWhereInput | ContratoManutencaoWhereInput[]
+    OR?: ContratoManutencaoWhereInput[]
+    NOT?: ContratoManutencaoWhereInput | ContratoManutencaoWhereInput[]
+    numero_contrato?: StringFilter<"ContratoManutencao"> | string
+    numero_empenho?: StringFilter<"ContratoManutencao"> | string
+    empresa_contratada?: StringFilter<"ContratoManutencao"> | string
+    cnpj_contratada?: StringNullableFilter<"ContratoManutencao"> | string | null
+    objeto?: StringNullableFilter<"ContratoManutencao"> | string | null
+    categoria_padrao?: StringNullableFilter<"ContratoManutencao"> | string | null
+    valor_total_empenhado?: DecimalFilter<"ContratoManutencao"> | Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: DateTimeNullableFilter<"ContratoManutencao"> | Date | string | null
+    vigencia_fim?: DateTimeNullableFilter<"ContratoManutencao"> | Date | string | null
+    ativo?: BoolFilter<"ContratoManutencao"> | boolean
+    prefeitura_id?: StringNullableFilter<"ContratoManutencao"> | string | null
+    criado_em?: DateTimeFilter<"ContratoManutencao"> | Date | string
+    atualizado?: DateTimeFilter<"ContratoManutencao"> | Date | string
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
+    ordens_servico?: OrdemServicoListRelationFilter
+  }, "id" | "prefeitura_id_numero_contrato">
+
+  export type ContratoManutencaoOrderByWithAggregationInput = {
+    id?: SortOrder
+    numero_contrato?: SortOrder
+    numero_empenho?: SortOrder
+    empresa_contratada?: SortOrder
+    cnpj_contratada?: SortOrderInput | SortOrder
+    objeto?: SortOrderInput | SortOrder
+    categoria_padrao?: SortOrderInput | SortOrder
+    valor_total_empenhado?: SortOrder
+    vigencia_inicio?: SortOrderInput | SortOrder
+    vigencia_fim?: SortOrderInput | SortOrder
+    ativo?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    _count?: ContratoManutencaoCountOrderByAggregateInput
+    _avg?: ContratoManutencaoAvgOrderByAggregateInput
+    _max?: ContratoManutencaoMaxOrderByAggregateInput
+    _min?: ContratoManutencaoMinOrderByAggregateInput
+    _sum?: ContratoManutencaoSumOrderByAggregateInput
+  }
+
+  export type ContratoManutencaoScalarWhereWithAggregatesInput = {
+    AND?: ContratoManutencaoScalarWhereWithAggregatesInput | ContratoManutencaoScalarWhereWithAggregatesInput[]
+    OR?: ContratoManutencaoScalarWhereWithAggregatesInput[]
+    NOT?: ContratoManutencaoScalarWhereWithAggregatesInput | ContratoManutencaoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ContratoManutencao"> | string
+    numero_contrato?: StringWithAggregatesFilter<"ContratoManutencao"> | string
+    numero_empenho?: StringWithAggregatesFilter<"ContratoManutencao"> | string
+    empresa_contratada?: StringWithAggregatesFilter<"ContratoManutencao"> | string
+    cnpj_contratada?: StringNullableWithAggregatesFilter<"ContratoManutencao"> | string | null
+    objeto?: StringNullableWithAggregatesFilter<"ContratoManutencao"> | string | null
+    categoria_padrao?: StringNullableWithAggregatesFilter<"ContratoManutencao"> | string | null
+    valor_total_empenhado?: DecimalWithAggregatesFilter<"ContratoManutencao"> | Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: DateTimeNullableWithAggregatesFilter<"ContratoManutencao"> | Date | string | null
+    vigencia_fim?: DateTimeNullableWithAggregatesFilter<"ContratoManutencao"> | Date | string | null
+    ativo?: BoolWithAggregatesFilter<"ContratoManutencao"> | boolean
+    prefeitura_id?: StringNullableWithAggregatesFilter<"ContratoManutencao"> | string | null
+    criado_em?: DateTimeWithAggregatesFilter<"ContratoManutencao"> | Date | string
+    atualizado?: DateTimeWithAggregatesFilter<"ContratoManutencao"> | Date | string
+  }
+
   export type PrefeituraCreateInput = {
     id?: string
     slug: string
@@ -16963,6 +18558,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateInput = {
@@ -16984,6 +18580,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUpdateInput = {
@@ -17005,6 +18602,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateInput = {
@@ -17026,6 +18624,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraCreateManyInput = {
@@ -17357,6 +18956,7 @@ export namespace Prisma {
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
@@ -17393,6 +18993,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -17433,6 +19034,7 @@ export namespace Prisma {
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
@@ -17469,6 +19071,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17507,6 +19110,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -17570,6 +19174,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18309,6 +19914,128 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ContratoManutencaoCreateInput = {
+    id?: string
+    numero_contrato: string
+    numero_empenho: string
+    empresa_contratada: string
+    cnpj_contratada?: string | null
+    objeto?: string | null
+    categoria_padrao?: string | null
+    valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: Date | string | null
+    vigencia_fim?: Date | string | null
+    ativo?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutContratosInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutContratoInput
+  }
+
+  export type ContratoManutencaoUncheckedCreateInput = {
+    id?: string
+    numero_contrato: string
+    numero_empenho: string
+    empresa_contratada: string
+    cnpj_contratada?: string | null
+    objeto?: string | null
+    categoria_padrao?: string | null
+    valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: Date | string | null
+    vigencia_fim?: Date | string | null
+    ativo?: boolean
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutContratoInput
+  }
+
+  export type ContratoManutencaoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_contrato?: StringFieldUpdateOperationsInput | string
+    numero_empenho?: StringFieldUpdateOperationsInput | string
+    empresa_contratada?: StringFieldUpdateOperationsInput | string
+    cnpj_contratada?: NullableStringFieldUpdateOperationsInput | string | null
+    objeto?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
+    valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutContratosNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutContratoNestedInput
+  }
+
+  export type ContratoManutencaoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_contrato?: StringFieldUpdateOperationsInput | string
+    numero_empenho?: StringFieldUpdateOperationsInput | string
+    empresa_contratada?: StringFieldUpdateOperationsInput | string
+    cnpj_contratada?: NullableStringFieldUpdateOperationsInput | string | null
+    objeto?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
+    valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutContratoNestedInput
+  }
+
+  export type ContratoManutencaoCreateManyInput = {
+    id?: string
+    numero_contrato: string
+    numero_empenho: string
+    empresa_contratada: string
+    cnpj_contratada?: string | null
+    objeto?: string | null
+    categoria_padrao?: string | null
+    valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: Date | string | null
+    vigencia_fim?: Date | string | null
+    ativo?: boolean
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type ContratoManutencaoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_contrato?: StringFieldUpdateOperationsInput | string
+    numero_empenho?: StringFieldUpdateOperationsInput | string
+    empresa_contratada?: StringFieldUpdateOperationsInput | string
+    cnpj_contratada?: NullableStringFieldUpdateOperationsInput | string | null
+    objeto?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
+    valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContratoManutencaoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_contrato?: StringFieldUpdateOperationsInput | string
+    numero_empenho?: StringFieldUpdateOperationsInput | string
+    empresa_contratada?: StringFieldUpdateOperationsInput | string
+    cnpj_contratada?: NullableStringFieldUpdateOperationsInput | string | null
+    objeto?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
+    valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -18433,6 +20160,12 @@ export namespace Prisma {
     none?: MaterialWhereInput
   }
 
+  export type ContratoManutencaoListRelationFilter = {
+    every?: ContratoManutencaoWhereInput
+    some?: ContratoManutencaoWhereInput
+    none?: ContratoManutencaoWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -18463,6 +20196,10 @@ export namespace Prisma {
   }
 
   export type MaterialOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ContratoManutencaoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18883,6 +20620,11 @@ export namespace Prisma {
     isNot?: UsuarioWhereInput
   }
 
+  export type ContratoManutencaoNullableScalarRelationFilter = {
+    is?: ContratoManutencaoWhereInput | null
+    isNot?: ContratoManutencaoWhereInput | null
+  }
+
   export type ItemConsumoOSListRelationFilter = {
     every?: ItemConsumoOSWhereInput
     some?: ItemConsumoOSWhereInput
@@ -18926,6 +20668,7 @@ export namespace Prisma {
     custo_total?: SortOrder
     empresa_terceirizada?: SortOrder
     numero_empenho?: SortOrder
+    contrato_id?: SortOrder
     prefeitura_id?: SortOrder
     ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
@@ -18964,6 +20707,7 @@ export namespace Prisma {
     custo_total?: SortOrder
     empresa_terceirizada?: SortOrder
     numero_empenho?: SortOrder
+    contrato_id?: SortOrder
     prefeitura_id?: SortOrder
     ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
@@ -18995,6 +20739,7 @@ export namespace Prisma {
     custo_total?: SortOrder
     empresa_terceirizada?: SortOrder
     numero_empenho?: SortOrder
+    contrato_id?: SortOrder
     prefeitura_id?: SortOrder
     ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
@@ -19537,6 +21282,70 @@ export namespace Prisma {
     preco_total?: SortOrder
   }
 
+  export type ContratoManutencaoPrefeitura_idNumero_contratoCompoundUniqueInput = {
+    prefeitura_id: string
+    numero_contrato: string
+  }
+
+  export type ContratoManutencaoCountOrderByAggregateInput = {
+    id?: SortOrder
+    numero_contrato?: SortOrder
+    numero_empenho?: SortOrder
+    empresa_contratada?: SortOrder
+    cnpj_contratada?: SortOrder
+    objeto?: SortOrder
+    categoria_padrao?: SortOrder
+    valor_total_empenhado?: SortOrder
+    vigencia_inicio?: SortOrder
+    vigencia_fim?: SortOrder
+    ativo?: SortOrder
+    prefeitura_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type ContratoManutencaoAvgOrderByAggregateInput = {
+    valor_total_empenhado?: SortOrder
+  }
+
+  export type ContratoManutencaoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    numero_contrato?: SortOrder
+    numero_empenho?: SortOrder
+    empresa_contratada?: SortOrder
+    cnpj_contratada?: SortOrder
+    objeto?: SortOrder
+    categoria_padrao?: SortOrder
+    valor_total_empenhado?: SortOrder
+    vigencia_inicio?: SortOrder
+    vigencia_fim?: SortOrder
+    ativo?: SortOrder
+    prefeitura_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type ContratoManutencaoMinOrderByAggregateInput = {
+    id?: SortOrder
+    numero_contrato?: SortOrder
+    numero_empenho?: SortOrder
+    empresa_contratada?: SortOrder
+    cnpj_contratada?: SortOrder
+    objeto?: SortOrder
+    categoria_padrao?: SortOrder
+    valor_total_empenhado?: SortOrder
+    vigencia_inicio?: SortOrder
+    vigencia_fim?: SortOrder
+    ativo?: SortOrder
+    prefeitura_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type ContratoManutencaoSumOrderByAggregateInput = {
+    valor_total_empenhado?: SortOrder
+  }
+
   export type PrefeituraCreatemodulos_ativosInput = {
     set: $Enums.ModuloSistema[]
   }
@@ -19596,6 +21405,13 @@ export namespace Prisma {
     connect?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
   }
 
+  export type ContratoManutencaoCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<ContratoManutencaoCreateWithoutPrefeituraInput, ContratoManutencaoUncheckedCreateWithoutPrefeituraInput> | ContratoManutencaoCreateWithoutPrefeituraInput[] | ContratoManutencaoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: ContratoManutencaoCreateOrConnectWithoutPrefeituraInput | ContratoManutencaoCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: ContratoManutencaoCreateManyPrefeituraInputEnvelope
+    connect?: ContratoManutencaoWhereUniqueInput | ContratoManutencaoWhereUniqueInput[]
+  }
+
   export type ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput = {
     create?: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
     connectOrCreate?: ConfiguracaoSistemaCreateOrConnectWithoutPrefeituraInput
@@ -19649,6 +21465,13 @@ export namespace Prisma {
     connectOrCreate?: MaterialCreateOrConnectWithoutPrefeituraInput | MaterialCreateOrConnectWithoutPrefeituraInput[]
     createMany?: MaterialCreateManyPrefeituraInputEnvelope
     connect?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+  }
+
+  export type ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<ContratoManutencaoCreateWithoutPrefeituraInput, ContratoManutencaoUncheckedCreateWithoutPrefeituraInput> | ContratoManutencaoCreateWithoutPrefeituraInput[] | ContratoManutencaoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: ContratoManutencaoCreateOrConnectWithoutPrefeituraInput | ContratoManutencaoCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: ContratoManutencaoCreateManyPrefeituraInputEnvelope
+    connect?: ContratoManutencaoWhereUniqueInput | ContratoManutencaoWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -19780,6 +21603,20 @@ export namespace Prisma {
     deleteMany?: MaterialScalarWhereInput | MaterialScalarWhereInput[]
   }
 
+  export type ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<ContratoManutencaoCreateWithoutPrefeituraInput, ContratoManutencaoUncheckedCreateWithoutPrefeituraInput> | ContratoManutencaoCreateWithoutPrefeituraInput[] | ContratoManutencaoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: ContratoManutencaoCreateOrConnectWithoutPrefeituraInput | ContratoManutencaoCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: ContratoManutencaoUpsertWithWhereUniqueWithoutPrefeituraInput | ContratoManutencaoUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: ContratoManutencaoCreateManyPrefeituraInputEnvelope
+    set?: ContratoManutencaoWhereUniqueInput | ContratoManutencaoWhereUniqueInput[]
+    disconnect?: ContratoManutencaoWhereUniqueInput | ContratoManutencaoWhereUniqueInput[]
+    delete?: ContratoManutencaoWhereUniqueInput | ContratoManutencaoWhereUniqueInput[]
+    connect?: ContratoManutencaoWhereUniqueInput | ContratoManutencaoWhereUniqueInput[]
+    update?: ContratoManutencaoUpdateWithWhereUniqueWithoutPrefeituraInput | ContratoManutencaoUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: ContratoManutencaoUpdateManyWithWhereWithoutPrefeituraInput | ContratoManutencaoUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: ContratoManutencaoScalarWhereInput | ContratoManutencaoScalarWhereInput[]
+  }
+
   export type ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput = {
     create?: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
     connectOrCreate?: ConfiguracaoSistemaCreateOrConnectWithoutPrefeituraInput
@@ -19886,6 +21723,20 @@ export namespace Prisma {
     update?: MaterialUpdateWithWhereUniqueWithoutPrefeituraInput | MaterialUpdateWithWhereUniqueWithoutPrefeituraInput[]
     updateMany?: MaterialUpdateManyWithWhereWithoutPrefeituraInput | MaterialUpdateManyWithWhereWithoutPrefeituraInput[]
     deleteMany?: MaterialScalarWhereInput | MaterialScalarWhereInput[]
+  }
+
+  export type ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<ContratoManutencaoCreateWithoutPrefeituraInput, ContratoManutencaoUncheckedCreateWithoutPrefeituraInput> | ContratoManutencaoCreateWithoutPrefeituraInput[] | ContratoManutencaoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: ContratoManutencaoCreateOrConnectWithoutPrefeituraInput | ContratoManutencaoCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: ContratoManutencaoUpsertWithWhereUniqueWithoutPrefeituraInput | ContratoManutencaoUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: ContratoManutencaoCreateManyPrefeituraInputEnvelope
+    set?: ContratoManutencaoWhereUniqueInput | ContratoManutencaoWhereUniqueInput[]
+    disconnect?: ContratoManutencaoWhereUniqueInput | ContratoManutencaoWhereUniqueInput[]
+    delete?: ContratoManutencaoWhereUniqueInput | ContratoManutencaoWhereUniqueInput[]
+    connect?: ContratoManutencaoWhereUniqueInput | ContratoManutencaoWhereUniqueInput[]
+    update?: ContratoManutencaoUpdateWithWhereUniqueWithoutPrefeituraInput | ContratoManutencaoUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: ContratoManutencaoUpdateManyWithWhereWithoutPrefeituraInput | ContratoManutencaoUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: ContratoManutencaoScalarWhereInput | ContratoManutencaoScalarWhereInput[]
   }
 
   export type PrefeituraCreateNestedOneWithoutUsuariosInput = {
@@ -20330,6 +22181,12 @@ export namespace Prisma {
     connect?: UsuarioWhereUniqueInput
   }
 
+  export type ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput = {
+    create?: XOR<ContratoManutencaoCreateWithoutOrdens_servicoInput, ContratoManutencaoUncheckedCreateWithoutOrdens_servicoInput>
+    connectOrCreate?: ContratoManutencaoCreateOrConnectWithoutOrdens_servicoInput
+    connect?: ContratoManutencaoWhereUniqueInput
+  }
+
   export type ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput = {
     create?: XOR<ItemConsumoOSCreateWithoutOrdem_servicoInput, ItemConsumoOSUncheckedCreateWithoutOrdem_servicoInput> | ItemConsumoOSCreateWithoutOrdem_servicoInput[] | ItemConsumoOSUncheckedCreateWithoutOrdem_servicoInput[]
     connectOrCreate?: ItemConsumoOSCreateOrConnectWithoutOrdem_servicoInput | ItemConsumoOSCreateOrConnectWithoutOrdem_servicoInput[]
@@ -20452,6 +22309,16 @@ export namespace Prisma {
     delete?: UsuarioWhereInput | boolean
     connect?: UsuarioWhereUniqueInput
     update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutChamados_atribuidosInput, UsuarioUpdateWithoutChamados_atribuidosInput>, UsuarioUncheckedUpdateWithoutChamados_atribuidosInput>
+  }
+
+  export type ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput = {
+    create?: XOR<ContratoManutencaoCreateWithoutOrdens_servicoInput, ContratoManutencaoUncheckedCreateWithoutOrdens_servicoInput>
+    connectOrCreate?: ContratoManutencaoCreateOrConnectWithoutOrdens_servicoInput
+    upsert?: ContratoManutencaoUpsertWithoutOrdens_servicoInput
+    disconnect?: ContratoManutencaoWhereInput | boolean
+    delete?: ContratoManutencaoWhereInput | boolean
+    connect?: ContratoManutencaoWhereUniqueInput
+    update?: XOR<XOR<ContratoManutencaoUpdateToOneWithWhereWithoutOrdens_servicoInput, ContratoManutencaoUpdateWithoutOrdens_servicoInput>, ContratoManutencaoUncheckedUpdateWithoutOrdens_servicoInput>
   }
 
   export type ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput = {
@@ -20867,6 +22734,64 @@ export namespace Prisma {
     delete?: MaterialWhereInput | boolean
     connect?: MaterialWhereUniqueInput
     update?: XOR<XOR<MaterialUpdateToOneWithWhereWithoutItens_consumoInput, MaterialUpdateWithoutItens_consumoInput>, MaterialUncheckedUpdateWithoutItens_consumoInput>
+  }
+
+  export type PrefeituraCreateNestedOneWithoutContratosInput = {
+    create?: XOR<PrefeituraCreateWithoutContratosInput, PrefeituraUncheckedCreateWithoutContratosInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutContratosInput
+    connect?: PrefeituraWhereUniqueInput
+  }
+
+  export type OrdemServicoCreateNestedManyWithoutContratoInput = {
+    create?: XOR<OrdemServicoCreateWithoutContratoInput, OrdemServicoUncheckedCreateWithoutContratoInput> | OrdemServicoCreateWithoutContratoInput[] | OrdemServicoUncheckedCreateWithoutContratoInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutContratoInput | OrdemServicoCreateOrConnectWithoutContratoInput[]
+    createMany?: OrdemServicoCreateManyContratoInputEnvelope
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type OrdemServicoUncheckedCreateNestedManyWithoutContratoInput = {
+    create?: XOR<OrdemServicoCreateWithoutContratoInput, OrdemServicoUncheckedCreateWithoutContratoInput> | OrdemServicoCreateWithoutContratoInput[] | OrdemServicoUncheckedCreateWithoutContratoInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutContratoInput | OrdemServicoCreateOrConnectWithoutContratoInput[]
+    createMany?: OrdemServicoCreateManyContratoInputEnvelope
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type PrefeituraUpdateOneWithoutContratosNestedInput = {
+    create?: XOR<PrefeituraCreateWithoutContratosInput, PrefeituraUncheckedCreateWithoutContratosInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutContratosInput
+    upsert?: PrefeituraUpsertWithoutContratosInput
+    disconnect?: PrefeituraWhereInput | boolean
+    delete?: PrefeituraWhereInput | boolean
+    connect?: PrefeituraWhereUniqueInput
+    update?: XOR<XOR<PrefeituraUpdateToOneWithWhereWithoutContratosInput, PrefeituraUpdateWithoutContratosInput>, PrefeituraUncheckedUpdateWithoutContratosInput>
+  }
+
+  export type OrdemServicoUpdateManyWithoutContratoNestedInput = {
+    create?: XOR<OrdemServicoCreateWithoutContratoInput, OrdemServicoUncheckedCreateWithoutContratoInput> | OrdemServicoCreateWithoutContratoInput[] | OrdemServicoUncheckedCreateWithoutContratoInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutContratoInput | OrdemServicoCreateOrConnectWithoutContratoInput[]
+    upsert?: OrdemServicoUpsertWithWhereUniqueWithoutContratoInput | OrdemServicoUpsertWithWhereUniqueWithoutContratoInput[]
+    createMany?: OrdemServicoCreateManyContratoInputEnvelope
+    set?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    disconnect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    delete?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    update?: OrdemServicoUpdateWithWhereUniqueWithoutContratoInput | OrdemServicoUpdateWithWhereUniqueWithoutContratoInput[]
+    updateMany?: OrdemServicoUpdateManyWithWhereWithoutContratoInput | OrdemServicoUpdateManyWithWhereWithoutContratoInput[]
+    deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
+  }
+
+  export type OrdemServicoUncheckedUpdateManyWithoutContratoNestedInput = {
+    create?: XOR<OrdemServicoCreateWithoutContratoInput, OrdemServicoUncheckedCreateWithoutContratoInput> | OrdemServicoCreateWithoutContratoInput[] | OrdemServicoUncheckedCreateWithoutContratoInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutContratoInput | OrdemServicoCreateOrConnectWithoutContratoInput[]
+    upsert?: OrdemServicoUpsertWithWhereUniqueWithoutContratoInput | OrdemServicoUpsertWithWhereUniqueWithoutContratoInput[]
+    createMany?: OrdemServicoCreateManyContratoInputEnvelope
+    set?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    disconnect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    delete?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    update?: OrdemServicoUpdateWithWhereUniqueWithoutContratoInput | OrdemServicoUpdateWithWhereUniqueWithoutContratoInput[]
+    updateMany?: OrdemServicoUpdateManyWithWhereWithoutContratoInput | OrdemServicoUpdateManyWithWhereWithoutContratoInput[]
+    deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -21475,6 +23400,7 @@ export namespace Prisma {
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -21510,6 +23436,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -21705,6 +23632,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ContratoManutencaoCreateWithoutPrefeituraInput = {
+    id?: string
+    numero_contrato: string
+    numero_empenho: string
+    empresa_contratada: string
+    cnpj_contratada?: string | null
+    objeto?: string | null
+    categoria_padrao?: string | null
+    valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: Date | string | null
+    vigencia_fim?: Date | string | null
+    ativo?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutContratoInput
+  }
+
+  export type ContratoManutencaoUncheckedCreateWithoutPrefeituraInput = {
+    id?: string
+    numero_contrato: string
+    numero_empenho: string
+    empresa_contratada: string
+    cnpj_contratada?: string | null
+    objeto?: string | null
+    categoria_padrao?: string | null
+    valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: Date | string | null
+    vigencia_fim?: Date | string | null
+    ativo?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutContratoInput
+  }
+
+  export type ContratoManutencaoCreateOrConnectWithoutPrefeituraInput = {
+    where: ContratoManutencaoWhereUniqueInput
+    create: XOR<ContratoManutencaoCreateWithoutPrefeituraInput, ContratoManutencaoUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type ContratoManutencaoCreateManyPrefeituraInputEnvelope = {
+    data: ContratoManutencaoCreateManyPrefeituraInput | ContratoManutencaoCreateManyPrefeituraInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ConfiguracaoSistemaUpsertWithoutPrefeituraInput = {
     update: XOR<ConfiguracaoSistemaUpdateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedUpdateWithoutPrefeituraInput>
     create: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
@@ -21878,6 +23849,7 @@ export namespace Prisma {
     custo_total?: DecimalNullableFilter<"OrdemServico"> | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: StringNullableFilter<"OrdemServico"> | string | null
     numero_empenho?: StringNullableFilter<"OrdemServico"> | string | null
+    contrato_id?: StringNullableFilter<"OrdemServico"> | string | null
     prefeitura_id?: StringNullableFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
@@ -22031,6 +24003,42 @@ export namespace Prisma {
     atualizado?: DateTimeFilter<"Material"> | Date | string
   }
 
+  export type ContratoManutencaoUpsertWithWhereUniqueWithoutPrefeituraInput = {
+    where: ContratoManutencaoWhereUniqueInput
+    update: XOR<ContratoManutencaoUpdateWithoutPrefeituraInput, ContratoManutencaoUncheckedUpdateWithoutPrefeituraInput>
+    create: XOR<ContratoManutencaoCreateWithoutPrefeituraInput, ContratoManutencaoUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type ContratoManutencaoUpdateWithWhereUniqueWithoutPrefeituraInput = {
+    where: ContratoManutencaoWhereUniqueInput
+    data: XOR<ContratoManutencaoUpdateWithoutPrefeituraInput, ContratoManutencaoUncheckedUpdateWithoutPrefeituraInput>
+  }
+
+  export type ContratoManutencaoUpdateManyWithWhereWithoutPrefeituraInput = {
+    where: ContratoManutencaoScalarWhereInput
+    data: XOR<ContratoManutencaoUpdateManyMutationInput, ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraInput>
+  }
+
+  export type ContratoManutencaoScalarWhereInput = {
+    AND?: ContratoManutencaoScalarWhereInput | ContratoManutencaoScalarWhereInput[]
+    OR?: ContratoManutencaoScalarWhereInput[]
+    NOT?: ContratoManutencaoScalarWhereInput | ContratoManutencaoScalarWhereInput[]
+    id?: StringFilter<"ContratoManutencao"> | string
+    numero_contrato?: StringFilter<"ContratoManutencao"> | string
+    numero_empenho?: StringFilter<"ContratoManutencao"> | string
+    empresa_contratada?: StringFilter<"ContratoManutencao"> | string
+    cnpj_contratada?: StringNullableFilter<"ContratoManutencao"> | string | null
+    objeto?: StringNullableFilter<"ContratoManutencao"> | string | null
+    categoria_padrao?: StringNullableFilter<"ContratoManutencao"> | string | null
+    valor_total_empenhado?: DecimalFilter<"ContratoManutencao"> | Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: DateTimeNullableFilter<"ContratoManutencao"> | Date | string | null
+    vigencia_fim?: DateTimeNullableFilter<"ContratoManutencao"> | Date | string | null
+    ativo?: BoolFilter<"ContratoManutencao"> | boolean
+    prefeitura_id?: StringNullableFilter<"ContratoManutencao"> | string | null
+    criado_em?: DateTimeFilter<"ContratoManutencao"> | Date | string
+    atualizado?: DateTimeFilter<"ContratoManutencao"> | Date | string
+  }
+
   export type PrefeituraCreateWithoutUsuariosInput = {
     id?: string
     slug: string
@@ -22049,6 +24057,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutUsuariosInput = {
@@ -22069,6 +24078,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutUsuariosInput = {
@@ -22155,6 +24165,7 @@ export namespace Prisma {
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
@@ -22190,6 +24201,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -22239,6 +24251,7 @@ export namespace Prisma {
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
+    contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
@@ -22274,6 +24287,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -22411,6 +24425,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutUsuariosInput = {
@@ -22431,6 +24446,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioUpsertWithWhereUniqueWithoutGestorInput = {
@@ -22574,6 +24590,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutPrediosInput = {
@@ -22594,6 +24611,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutPrediosInput = {
@@ -22630,6 +24648,7 @@ export namespace Prisma {
     atualizado?: Date | string
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
@@ -22665,6 +24684,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -22867,6 +24887,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutPrediosInput = {
@@ -22887,6 +24908,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithWhereUniqueWithoutPredioInput = {
@@ -23068,6 +25090,45 @@ export namespace Prisma {
     create: XOR<UsuarioCreateWithoutChamados_atribuidosInput, UsuarioUncheckedCreateWithoutChamados_atribuidosInput>
   }
 
+  export type ContratoManutencaoCreateWithoutOrdens_servicoInput = {
+    id?: string
+    numero_contrato: string
+    numero_empenho: string
+    empresa_contratada: string
+    cnpj_contratada?: string | null
+    objeto?: string | null
+    categoria_padrao?: string | null
+    valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: Date | string | null
+    vigencia_fim?: Date | string | null
+    ativo?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutContratosInput
+  }
+
+  export type ContratoManutencaoUncheckedCreateWithoutOrdens_servicoInput = {
+    id?: string
+    numero_contrato: string
+    numero_empenho: string
+    empresa_contratada: string
+    cnpj_contratada?: string | null
+    objeto?: string | null
+    categoria_padrao?: string | null
+    valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: Date | string | null
+    vigencia_fim?: Date | string | null
+    ativo?: boolean
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type ContratoManutencaoCreateOrConnectWithoutOrdens_servicoInput = {
+    where: ContratoManutencaoWhereUniqueInput
+    create: XOR<ContratoManutencaoCreateWithoutOrdens_servicoInput, ContratoManutencaoUncheckedCreateWithoutOrdens_servicoInput>
+  }
+
   export type ItemConsumoOSCreateWithoutOrdem_servicoInput = {
     id?: string
     descricao: string
@@ -23118,6 +25179,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutOrdens_servicoInput = {
@@ -23138,6 +25200,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutOrdens_servicoInput = {
@@ -23175,6 +25238,7 @@ export namespace Prisma {
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
@@ -23210,6 +25274,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -23254,6 +25319,7 @@ export namespace Prisma {
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -23289,6 +25355,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -23561,6 +25628,51 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
+  export type ContratoManutencaoUpsertWithoutOrdens_servicoInput = {
+    update: XOR<ContratoManutencaoUpdateWithoutOrdens_servicoInput, ContratoManutencaoUncheckedUpdateWithoutOrdens_servicoInput>
+    create: XOR<ContratoManutencaoCreateWithoutOrdens_servicoInput, ContratoManutencaoUncheckedCreateWithoutOrdens_servicoInput>
+    where?: ContratoManutencaoWhereInput
+  }
+
+  export type ContratoManutencaoUpdateToOneWithWhereWithoutOrdens_servicoInput = {
+    where?: ContratoManutencaoWhereInput
+    data: XOR<ContratoManutencaoUpdateWithoutOrdens_servicoInput, ContratoManutencaoUncheckedUpdateWithoutOrdens_servicoInput>
+  }
+
+  export type ContratoManutencaoUpdateWithoutOrdens_servicoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_contrato?: StringFieldUpdateOperationsInput | string
+    numero_empenho?: StringFieldUpdateOperationsInput | string
+    empresa_contratada?: StringFieldUpdateOperationsInput | string
+    cnpj_contratada?: NullableStringFieldUpdateOperationsInput | string | null
+    objeto?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
+    valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutContratosNestedInput
+  }
+
+  export type ContratoManutencaoUncheckedUpdateWithoutOrdens_servicoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_contrato?: StringFieldUpdateOperationsInput | string
+    numero_empenho?: StringFieldUpdateOperationsInput | string
+    empresa_contratada?: StringFieldUpdateOperationsInput | string
+    cnpj_contratada?: NullableStringFieldUpdateOperationsInput | string | null
+    objeto?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
+    valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ItemConsumoOSUpsertWithWhereUniqueWithoutOrdem_servicoInput = {
     where: ItemConsumoOSWhereUniqueInput
     update: XOR<ItemConsumoOSUpdateWithoutOrdem_servicoInput, ItemConsumoOSUncheckedUpdateWithoutOrdem_servicoInput>
@@ -23621,6 +25733,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutOrdens_servicoInput = {
@@ -23641,6 +25754,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithoutOrdens_derivadasInput = {
@@ -23684,6 +25798,7 @@ export namespace Prisma {
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
@@ -23719,6 +25834,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23837,6 +25953,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutAuditoriasInput = {
@@ -23857,6 +25974,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutAuditoriasInput = {
@@ -23942,6 +26060,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutAuditoriasInput = {
@@ -23962,6 +26081,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioCreateWithoutVistoriasInput = {
@@ -24039,6 +26159,7 @@ export namespace Prisma {
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
@@ -24074,6 +26195,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -24106,6 +26228,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutVistoriasInput = {
@@ -24126,6 +26249,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutVistoriasInput = {
@@ -24225,6 +26349,7 @@ export namespace Prisma {
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
@@ -24260,6 +26385,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24298,6 +26424,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutVistoriasInput = {
@@ -24318,6 +26445,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraCreateWithoutConfiguracaoInput = {
@@ -24338,6 +26466,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutConfiguracaoInput = {
@@ -24358,6 +26487,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutConfiguracaoInput = {
@@ -24394,6 +26524,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutConfiguracaoInput = {
@@ -24414,6 +26545,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioCreateWithoutManifestacoesInput = {
@@ -24534,6 +26666,7 @@ export namespace Prisma {
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
@@ -24569,6 +26702,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -24601,6 +26735,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutManifestacoesInput = {
@@ -24621,6 +26756,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutManifestacoesInput = {
@@ -24769,6 +26905,7 @@ export namespace Prisma {
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
@@ -24804,6 +26941,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24842,6 +26980,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutManifestacoesInput = {
@@ -24862,6 +27001,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraCreateWithoutMateriaisInput = {
@@ -24882,6 +27022,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutMateriaisInput = {
@@ -24902,6 +27043,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutMateriaisInput = {
@@ -24970,6 +27112,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutMateriaisInput = {
@@ -24990,6 +27133,7 @@ export namespace Prisma {
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type ItemConsumoOSUpsertWithWhereUniqueWithoutMaterialInput = {
@@ -25038,6 +27182,7 @@ export namespace Prisma {
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -25073,6 +27218,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -25163,6 +27309,7 @@ export namespace Prisma {
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -25198,6 +27345,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25246,6 +27394,208 @@ export namespace Prisma {
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PrefeituraCreateWithoutContratosInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraUncheckedCreateWithoutContratosInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioUncheckedCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioUncheckedCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraCreateOrConnectWithoutContratosInput = {
+    where: PrefeituraWhereUniqueInput
+    create: XOR<PrefeituraCreateWithoutContratosInput, PrefeituraUncheckedCreateWithoutContratosInput>
+  }
+
+  export type OrdemServicoCreateWithoutContratoInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
+    tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
+    ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
+    ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
+    agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
+  }
+
+  export type OrdemServicoUncheckedCreateWithoutContratoInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    predio_id: string
+    solicitante_id: string
+    tecnico_atribuido_id?: string | null
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
+    prefeitura_id?: string | null
+    ordem_vinculada_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
+    agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
+  }
+
+  export type OrdemServicoCreateOrConnectWithoutContratoInput = {
+    where: OrdemServicoWhereUniqueInput
+    create: XOR<OrdemServicoCreateWithoutContratoInput, OrdemServicoUncheckedCreateWithoutContratoInput>
+  }
+
+  export type OrdemServicoCreateManyContratoInputEnvelope = {
+    data: OrdemServicoCreateManyContratoInput | OrdemServicoCreateManyContratoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PrefeituraUpsertWithoutContratosInput = {
+    update: XOR<PrefeituraUpdateWithoutContratosInput, PrefeituraUncheckedUpdateWithoutContratosInput>
+    create: XOR<PrefeituraCreateWithoutContratosInput, PrefeituraUncheckedCreateWithoutContratosInput>
+    where?: PrefeituraWhereInput
+  }
+
+  export type PrefeituraUpdateToOneWithWhereWithoutContratosInput = {
+    where?: PrefeituraWhereInput
+    data: XOR<PrefeituraUpdateWithoutContratosInput, PrefeituraUncheckedUpdateWithoutContratosInput>
+  }
+
+  export type PrefeituraUpdateWithoutContratosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraUncheckedUpdateWithoutContratosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type OrdemServicoUpsertWithWhereUniqueWithoutContratoInput = {
+    where: OrdemServicoWhereUniqueInput
+    update: XOR<OrdemServicoUpdateWithoutContratoInput, OrdemServicoUncheckedUpdateWithoutContratoInput>
+    create: XOR<OrdemServicoCreateWithoutContratoInput, OrdemServicoUncheckedCreateWithoutContratoInput>
+  }
+
+  export type OrdemServicoUpdateWithWhereUniqueWithoutContratoInput = {
+    where: OrdemServicoWhereUniqueInput
+    data: XOR<OrdemServicoUpdateWithoutContratoInput, OrdemServicoUncheckedUpdateWithoutContratoInput>
+  }
+
+  export type OrdemServicoUpdateManyWithWhereWithoutContratoInput = {
+    where: OrdemServicoScalarWhereInput
+    data: XOR<OrdemServicoUpdateManyMutationInput, OrdemServicoUncheckedUpdateManyWithoutContratoInput>
   }
 
   export type UsuarioCreateManyPrefeituraInput = {
@@ -25307,6 +27657,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -25374,6 +27725,22 @@ export namespace Prisma {
     preco_unitario?: Decimal | DecimalJsLike | number | string
     estoque_atual?: number
     estoque_minimo?: number
+    ativo?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type ContratoManutencaoCreateManyPrefeituraInput = {
+    id?: string
+    numero_contrato: string
+    numero_empenho: string
+    empresa_contratada: string
+    cnpj_contratada?: string | null
+    objeto?: string | null
+    categoria_padrao?: string | null
+    valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: Date | string | null
+    vigencia_fim?: Date | string | null
     ativo?: boolean
     criado_em?: Date | string
     atualizado?: Date | string
@@ -25518,6 +27885,7 @@ export namespace Prisma {
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -25553,6 +27921,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25590,6 +27959,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25798,6 +28168,56 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ContratoManutencaoUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_contrato?: StringFieldUpdateOperationsInput | string
+    numero_empenho?: StringFieldUpdateOperationsInput | string
+    empresa_contratada?: StringFieldUpdateOperationsInput | string
+    cnpj_contratada?: NullableStringFieldUpdateOperationsInput | string | null
+    objeto?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
+    valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_servico?: OrdemServicoUpdateManyWithoutContratoNestedInput
+  }
+
+  export type ContratoManutencaoUncheckedUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_contrato?: StringFieldUpdateOperationsInput | string
+    numero_empenho?: StringFieldUpdateOperationsInput | string
+    empresa_contratada?: StringFieldUpdateOperationsInput | string
+    cnpj_contratada?: NullableStringFieldUpdateOperationsInput | string | null
+    objeto?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
+    valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutContratoNestedInput
+  }
+
+  export type ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_contrato?: StringFieldUpdateOperationsInput | string
+    numero_empenho?: StringFieldUpdateOperationsInput | string
+    empresa_contratada?: StringFieldUpdateOperationsInput | string
+    cnpj_contratada?: NullableStringFieldUpdateOperationsInput | string | null
+    objeto?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
+    valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PredioCreateManyGestorInput = {
     id?: string
     nome: string
@@ -25842,6 +28262,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -25875,6 +28296,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -26001,6 +28423,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
@@ -26036,6 +28459,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26073,6 +28497,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26108,6 +28533,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
+    contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
@@ -26143,6 +28569,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26180,6 +28607,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26315,6 +28743,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -26392,6 +28821,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
@@ -26427,6 +28857,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26464,6 +28895,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26635,6 +29067,7 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    contrato_id?: string | null
     prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -26745,6 +29178,7 @@ export namespace Prisma {
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -26780,6 +29214,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26817,6 +29252,7 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26990,6 +29426,150 @@ export namespace Prisma {
     preco_unitario?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     preco_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrdemServicoCreateManyContratoInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    predio_id: string
+    solicitante_id: string
+    tecnico_atribuido_id?: string | null
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
+    prefeitura_id?: string | null
+    ordem_vinculada_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type OrdemServicoUpdateWithoutContratoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
+    tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
+    ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
+    ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
+    agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type OrdemServicoUncheckedUpdateWithoutContratoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    predio_id?: StringFieldUpdateOperationsInput | string
+    solicitante_id?: StringFieldUpdateOperationsInput | string
+    tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
+    agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type OrdemServicoUncheckedUpdateManyWithoutContratoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    predio_id?: StringFieldUpdateOperationsInput | string
+    solicitante_id?: StringFieldUpdateOperationsInput | string
+    tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -14,6 +14,7 @@ import { AiModule } from './ai/ai.module.js';
 import { ReportsModule } from './reports/reports.module.js';
 import { ManifestacoesModule } from './manifestacoes/manifestacoes.module.js';
 import { MaterialsModule } from './materials/materials.module.js';
+import { ContractsModule } from './contracts/contracts.module.js';
 import { JwtAuthGuard } from './auth/jwt-auth.guard.js';
 import { RolesGuard } from './auth/roles.guard.js';
 
@@ -36,6 +37,7 @@ import { RolesGuard } from './auth/roles.guard.js';
     ReportsModule,
     ManifestacoesModule,
     MaterialsModule,
+    ContractsModule,
   ],
   controllers: [AppController],
   providers: [
