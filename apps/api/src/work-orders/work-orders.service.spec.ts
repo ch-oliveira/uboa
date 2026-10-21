@@ -2,8 +2,8 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { WorkOrdersService } from './work-orders.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
-import { StatusOS, Prioridade, Role } from '@repo/database';
-import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
+import { StatusOS, Prioridade, Role, AuditAction } from '@repo/database';
+import { BadRequestException, ForbiddenException, NotFoundException, ConflictException } from '@nestjs/common';
 
 describe('WorkOrdersService - Ciclo de Vida da OS', () => {
   let service: WorkOrdersService;
@@ -435,6 +435,9 @@ describe('WorkOrdersService - Ciclo de Vida da OS', () => {
         numero_contrato: '014/2026',
         numero_empenho: '2026NE00014',
         empresa_contratada: 'Alvorada Engenharia Ltda',
+        ativo: true,
+        valor_total_empenhado: 50000,
+        ordens_servico: [],
       });
 
       mockPrismaService.ordemServico.update = vi.fn().mockResolvedValue({
@@ -469,6 +472,150 @@ describe('WorkOrdersService - Ciclo de Vida da OS', () => {
           where: { id: 'os-aguardando-2' },
         })
       );
+    });
+
+    it('deve rejeitar vinculação se o contrato administrativo estiver inativo', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue({
+        id: 'os-fin-1',
+        codigo: 'OS-100001',
+        custo_materiais: 100,
+        custo_mao_de_obra: 0,
+        custo_total: 100,
+      });
+
+      mockPrismaService.contratoManutencao.findUnique = vi.fn().mockResolvedValue({
+        id: 'contrato-inativo',
+        numero_contrato: '099/2025',
+        ativo: false,
+        valor_total_empenhado: 10000,
+        ordens_servico: [],
+      });
+
+      await expect(
+        service.updateFinancials('os-fin-1', {
+          contratoId: 'contrato-inativo',
+          custoMaoDeObra: 50,
+        })
+      ).rejects.toThrow(ConflictException);
+    });
+
+    it('deve rejeitar medição se a vigência do contrato estiver expirada', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue({
+        id: 'os-fin-2',
+        codigo: 'OS-100002',
+        custo_materiais: 100,
+        custo_mao_de_obra: 0,
+        custo_total: 100,
+      });
+
+      const dataExpirada = new Date(Date.now() - 24 * 3600 * 1000); // Ontem
+      mockPrismaService.contratoManutencao.findUnique = vi.fn().mockResolvedValue({
+        id: 'contrato-vencido',
+        numero_contrato: '001/2024',
+        ativo: true,
+        vigencia_fim: dataExpirada,
+        valor_total_empenhado: 10000,
+        ordens_servico: [],
+      });
+
+      await expect(
+        service.updateFinancials('os-fin-2', {
+          contratoId: 'contrato-vencido',
+          custoMaoDeObra: 50,
+        })
+      ).rejects.toThrow(ConflictException);
+    });
+
+    it('deve aplicar Hard Block com ConflictException quando o custo total exceder o saldo restante do empenho', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue({
+        id: 'os-fin-3',
+        codigo: 'OS-100003',
+        custo_materiais: 300,
+        custo_mao_de_obra: 0,
+        custo_total: 300,
+      });
+
+      // Contrato de 1000 com 800 já medido em outras OS -> Saldo disponível = 200
+      mockPrismaService.contratoManutencao.findUnique = vi.fn().mockResolvedValue({
+        id: 'contrato-quase-esgotado',
+        numero_contrato: '012/2026',
+        ativo: true,
+        valor_total_empenhado: 1000,
+        ordens_servico: [
+          { id: 'os-outra-1', custo_total: 500 },
+          { id: 'os-outra-2', custo_total: 300 },
+        ],
+      });
+
+      // Tentando adicionar custo total de 300 (materiais) + 100 (mão de obra) = 400 > 200
+      await expect(
+        service.updateFinancials('os-fin-3', {
+          contratoId: 'contrato-quase-esgotado',
+          custoMaoDeObra: 100,
+        })
+      ).rejects.toThrow(ConflictException);
+    });
+
+    it('deve registrar AuditoriaLog imutável com diff detalhado quando a medição for salva com sucesso', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue({
+        id: 'os-fin-audit',
+        codigo: 'OS-100004',
+        custo_materiais: 100,
+        custo_mao_de_obra: 50,
+        custo_total: 150,
+        contrato_id: null,
+        prefeitura_id: 'pref-01',
+      });
+
+      mockPrismaService.contratoManutencao.findUnique = vi.fn().mockResolvedValue({
+        id: 'contrato-valido',
+        numero_contrato: '015/2026',
+        numero_empenho: '2026NE00015',
+        empresa_contratada: 'Delta Engenharia',
+        ativo: true,
+        valor_total_empenhado: 50000,
+        ordens_servico: [],
+      });
+
+      mockPrismaService.ordemServico.update = vi.fn().mockResolvedValue({
+        id: 'os-fin-audit',
+        codigo: 'OS-100004',
+        prioridade: Prioridade.MEDIA,
+        status: StatusOS.AGUARDANDO,
+        criado_em: new Date(),
+        custo_materiais: 100,
+        custo_mao_de_obra: 200,
+        custo_total: 300,
+        empresa_terceirizada: 'Delta Engenharia',
+        numero_empenho: '2026NE00015',
+        contrato_id: 'contrato-valido',
+        materiais_consumidos: [],
+      });
+
+      const user = { id: 'gestor-uuid-1', prefeituraId: 'pref-01', role: Role.GESTOR };
+
+      const res = await service.updateFinancials('os-fin-audit', {
+        contratoId: 'contrato-valido',
+        custoMaoDeObra: 200,
+      }, user);
+
+      expect(res.success).toBe(true);
+      expect(mockPrismaService.auditoriaLog.create).toHaveBeenCalledWith({
+        data: expect.objectContaining({
+          entidade_afetada: 'ordens_servico',
+          entidade_id: 'os-fin-audit',
+          acao: AuditAction.UPDATE,
+          usuario_id: 'gestor-uuid-1',
+          prefeitura_id: 'pref-01',
+          dados_antigos: expect.objectContaining({
+            custo_total: 150,
+          }),
+          dados_novos: expect.objectContaining({
+            contrato_id: 'contrato-valido',
+            custo_total: 300,
+          }),
+        }),
+      });
     });
   });
 });

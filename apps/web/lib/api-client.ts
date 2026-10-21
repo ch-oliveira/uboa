@@ -522,7 +522,13 @@ export const apiClient = {
       headers: getAuthHeaders(),
       body: JSON.stringify(item),
     });
-    const resData = await res.json();
+    const resData = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      return {
+        success: false,
+        message: Array.isArray(resData.message) ? resData.message.join(', ') : (resData.message || 'Erro ao registrar peça.'),
+      };
+    }
     return resData;
   },
 
@@ -531,7 +537,13 @@ export const apiClient = {
       method: 'DELETE',
       headers: getAuthHeaders(),
     });
-    const resData = await res.json();
+    const resData = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      return {
+        success: false,
+        message: Array.isArray(resData.message) ? resData.message.join(', ') : (resData.message || 'Erro ao remover peça.'),
+      };
+    }
     return resData;
   },
 
@@ -546,7 +558,13 @@ export const apiClient = {
       headers: getAuthHeaders(),
       body: JSON.stringify(data),
     });
-    const resData = await res.json();
+    const resData = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      return {
+        success: false,
+        message: Array.isArray(resData.message) ? resData.message.join(', ') : (resData.message || 'Erro ao processar medição financeira.'),
+      };
+    }
     return resData;
   },
 

@@ -657,38 +657,79 @@ export function OrderMaterialsFinancialCard({
                 </div>
               </div>
 
-              {/* Subtotal estimado */}
-              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60 flex items-center justify-between text-xs font-semibold">
-                <span className="text-slate-500">Subtotal Desta Peça:</span>
-                <span className="text-sm font-bold text-slate-900 font-mono">
-                  {formatBRL(quantidade * precoUnitario)}
-                </span>
-              </div>
+              {/* Subtotal estimado e validações de contrato vinculado */}
+              {(() => {
+                const linkedContract = contracts.find((c) => c.id === order.contratoId);
+                const itemTotal = Number(quantidade * precoUnitario);
+                const custoPrevisto = Number(order.custoTotal || 0) + itemTotal;
+                const isAddOverBudget = Boolean(linkedContract && custoPrevisto > linkedContract.saldoRestante);
+                const isAddExpired = Boolean(linkedContract?.vigenciaFim && new Date(linkedContract.vigenciaFim).getTime() < new Date().getTime());
+                const isBlocked = isAddOverBudget || isAddExpired;
 
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsAddModalOpen(false)}
-                  className="text-xs rounded-xl h-9 px-4 cursor-pointer"
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="bg-[#0A2540] hover:bg-[#07192C] text-white text-xs font-semibold rounded-xl h-9 px-4 flex items-center gap-1.5 cursor-pointer shadow-xs"
-                >
-                  {isSubmitting ? (
-                    <Loader2 size={13} className="animate-spin" />
-                  ) : (
-                    <>
-                      <CheckCircle2 size={14} />
-                      <span>Salvar e Debitar</span>
-                    </>
-                  )}
-                </Button>
-              </div>
+                return (
+                  <div className="space-y-3">
+                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60 flex items-center justify-between text-xs font-semibold">
+                      <span className="text-slate-500">Subtotal Desta Peça:</span>
+                      <span className="text-sm font-bold text-slate-900 font-mono">
+                        {formatBRL(itemTotal)}
+                      </span>
+                    </div>
+
+                    {isAddExpired && (
+                      <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-start gap-2">
+                        <AlertCircle size={15} className="text-amber-600 shrink-0 mt-0.5" />
+                        <div>
+                          <span className="font-bold block">Contrato Vinculado Expirado</span>
+                          <span className="text-[11px]">
+                            O contrato vinculado ({linkedContract?.numeroContrato}) está com a vigência vencida. Requer termo aditivo para novas medições.
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {isAddOverBudget && (
+                      <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-xs flex items-start gap-2">
+                        <AlertCircle size={15} className="text-rose-600 shrink-0 mt-0.5" />
+                        <div>
+                          <span className="font-bold block">Estouro de Saldo Contratual</span>
+                          <span className="text-[11px]">
+                            O valor desta peça elevará o custo da OS para {formatBRL(custoPrevisto)}, excedendo o saldo restante do contrato {linkedContract?.numeroContrato} ({formatBRL(linkedContract?.saldoRestante || 0)}).
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setIsAddModalOpen(false)}
+                        className="text-xs rounded-xl h-9 px-4 cursor-pointer"
+                      >
+                        Cancelar
+                      </Button>
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting || isBlocked}
+                        className={`text-xs font-semibold rounded-xl h-9 px-4 flex items-center gap-1.5 shadow-xs transition-colors ${
+                          isBlocked
+                            ? 'bg-slate-200 text-slate-400 border border-slate-300 cursor-not-allowed hover:bg-slate-200'
+                            : 'bg-[#0A2540] hover:bg-[#07192C] text-white cursor-pointer'
+                        }`}
+                      >
+                        {isSubmitting ? (
+                          <Loader2 size={13} className="animate-spin" />
+                        ) : (
+                          <>
+                            <CheckCircle2 size={14} />
+                            <span>{isBlocked ? 'Bloqueado por Regra Fiscal' : 'Salvar e Debitar'}</span>
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })()}
 
             </form>
           </div>
@@ -751,51 +792,115 @@ export function OrderMaterialsFinancialCard({
                   className="w-full text-xs font-medium text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 focus:bg-white transition-all cursor-pointer"
                 >
                   <option value="">Sem contrato vinculado (Administração Direta / Avulso)</option>
-                  {contracts.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      Contrato {c.numeroContrato} — {c.empresaContratada} (Saldo: {formatBRL(c.saldoRestante)})
-                    </option>
-                  ))}
+                  {contracts.map((c) => {
+                    const isExpired = Boolean(c.vigenciaFim && new Date(c.vigenciaFim).getTime() < new Date().getTime());
+                    const isInactive = !c.ativo;
+                    const tag = isInactive ? '[INATIVO] ' : isExpired ? '[VENCIDO] ' : '';
+                    return (
+                      <option key={c.id} value={c.id} disabled={isInactive || isExpired}>
+                        {tag}Contrato {c.numeroContrato} — {c.empresaContratada} (Saldo: {formatBRL(c.saldoRestante)})
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
 
-              {/* Card de Resumo do Contrato Selecionado */}
+              {/* Card de Resumo do Contrato Selecionado & Alertas Fiscais */}
               {(() => {
                 const selectedContract = contracts.find((c) => c.id === editContratoId);
                 if (!selectedContract) return null;
 
+                const custoPrevisto = custoMateriais + Number(editMaoDeObra || 0);
+                const isCurrentContract = order.contratoId === selectedContract.id;
+                const saldoDisponivel = selectedContract.saldoRestante + (isCurrentContract ? Number(order.custoTotal || 0) : 0);
+                const isOverBudget = custoPrevisto > saldoDisponivel;
+                const isExpired = Boolean(selectedContract.vigenciaFim && new Date(selectedContract.vigenciaFim).getTime() < new Date().getTime());
+                const isInactive = !selectedContract.ativo;
+
                 return (
-                  <div className="p-3 rounded-xl bg-emerald-50/60 border border-emerald-200/80 space-y-2 text-xs">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-emerald-950 flex items-center gap-1.5">
-                        <ShieldCheck size={14} className="text-emerald-700" />
-                        {selectedContract.empresaContratada}
-                      </span>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white text-emerald-800 border border-emerald-200 font-semibold">
-                        Empenho: {selectedContract.numeroEmpenho}
-                      </span>
+                  <div className="space-y-2">
+                    <div className="p-3 rounded-xl bg-emerald-50/60 border border-emerald-200/80 space-y-2 text-xs">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-emerald-950 flex items-center gap-1.5">
+                          <ShieldCheck size={14} className="text-emerald-700" />
+                          {selectedContract.empresaContratada}
+                        </span>
+                        <div className="flex items-center gap-1">
+                          {isExpired ? (
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-300 font-bold">
+                              EXPIRADO
+                            </span>
+                          ) : (
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold">
+                              VIGENTE
+                            </span>
+                          )}
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white text-emerald-800 border border-emerald-200 font-semibold">
+                            NE: {selectedContract.numeroEmpenho}
+                          </span>
+                        </div>
+                      </div>
+
+                      {selectedContract.objeto && (
+                        <p className="text-[11px] text-emerald-800 line-clamp-2">
+                          {selectedContract.objeto}
+                        </p>
+                      )}
+
+                      <div className="grid grid-cols-3 gap-2 pt-1 border-t border-emerald-200/60 text-[11px]">
+                        <div>
+                          <span className="text-emerald-700 block text-[10px]">Total Empenhado:</span>
+                          <span className="font-mono font-bold text-slate-800">{formatBRL(selectedContract.valorTotalEmpenhado)}</span>
+                        </div>
+                        <div>
+                          <span className="text-emerald-700 block text-[10px]">Total Medido:</span>
+                          <span className="font-mono font-bold text-slate-800">{formatBRL(selectedContract.valorTotalMedido)}</span>
+                        </div>
+                        <div>
+                          <span className="text-emerald-700 block text-[10px]">Saldo Disponível:</span>
+                          <span className={`font-mono font-bold ${isOverBudget ? 'text-rose-600' : 'text-emerald-700'}`}>
+                            {formatBRL(saldoDisponivel)}
+                          </span>
+                        </div>
+                      </div>
                     </div>
 
-                    {selectedContract.objeto && (
-                      <p className="text-[11px] text-emerald-800 line-clamp-2">
-                        {selectedContract.objeto}
-                      </p>
+                    {/* Alerta de Vigência Vencida */}
+                    {isExpired && (
+                      <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-start gap-2">
+                        <AlertCircle size={15} className="text-amber-600 shrink-0 mt-0.5" />
+                        <div>
+                          <span className="font-bold block">Vigência Contratual Expirada</span>
+                          <span className="text-[11px]">
+                            O contrato encerrou sua vigência em {new Date(selectedContract.vigenciaFim!).toLocaleDateString('pt-BR')}. Pela Lei 14.133/21, novas medições exigem formalização prévia de termo aditivo de prazo.
+                          </span>
+                        </div>
+                      </div>
                     )}
 
-                    <div className="grid grid-cols-3 gap-2 pt-1 border-t border-emerald-200/60 text-[11px]">
-                      <div>
-                        <span className="text-emerald-700 block text-[10px]">Total Empenhado:</span>
-                        <span className="font-mono font-bold text-slate-800">{formatBRL(selectedContract.valorTotalEmpenhado)}</span>
+                    {/* Alerta de Inativo */}
+                    {isInactive && (
+                      <div className="p-3 rounded-xl bg-slate-100 border border-slate-300 text-slate-800 text-xs flex items-start gap-2">
+                        <AlertCircle size={15} className="text-slate-600 shrink-0 mt-0.5" />
+                        <div>
+                          <span className="font-bold block">Contrato Inativo</span>
+                          <span className="text-[11px]">Este contrato administrativo foi desativado no sistema.</span>
+                        </div>
                       </div>
-                      <div>
-                        <span className="text-emerald-700 block text-[10px]">Total Medido:</span>
-                        <span className="font-mono font-bold text-slate-800">{formatBRL(selectedContract.valorTotalMedido)}</span>
+                    )}
+
+                    {/* Alerta de Estouro Orçamentário */}
+                    {isOverBudget && (
+                      <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-xs flex items-start gap-2">
+                        <AlertCircle size={15} className="text-rose-600 shrink-0 mt-0.5" />
+                        <div>
+                          <span className="font-bold block">Estouro de Saldo Orçamentário</span>
+                          <span className="text-[11px]">
+                            O custo total previsto para esta OS ({formatBRL(custoPrevisto)}) excede o saldo disponível no empenho ({formatBRL(saldoDisponivel)}). Não é permitido gerar saldo negativo sem termo aditivo de valor.
+                          </span>
+                        </div>
                       </div>
-                      <div>
-                        <span className="text-emerald-700 block text-[10px]">Saldo Disponível:</span>
-                        <span className="font-mono font-bold text-emerald-700">{formatBRL(selectedContract.saldoRestante)}</span>
-                      </div>
-                    </div>
+                    )}
                   </div>
                 );
               })()}
@@ -863,30 +968,50 @@ export function OrderMaterialsFinancialCard({
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsEditFinancialsOpen(false)}
-                  className="text-xs rounded-xl h-9 px-4 cursor-pointer"
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="bg-[#0A2540] hover:bg-[#07192C] text-white text-xs font-semibold rounded-xl h-9 px-4 flex items-center gap-1.5 cursor-pointer shadow-xs"
-                >
-                  {isSubmitting ? (
-                    <Loader2 size={13} className="animate-spin" />
-                  ) : (
-                    <>
-                      <CheckCircle2 size={14} />
-                      <span>Salvar Medição</span>
-                    </>
-                  )}
-                </Button>
-              </div>
+              {/* Ações com Hard Block caso haja violação de regra */}
+              {(() => {
+                const selectedContract = contracts.find((c) => c.id === editContratoId);
+                const custoPrevisto = custoMateriais + Number(editMaoDeObra || 0);
+                const isCurrentContract = order.contratoId === selectedContract?.id;
+                const saldoDisponivel = selectedContract 
+                  ? selectedContract.saldoRestante + (isCurrentContract ? Number(order.custoTotal || 0) : 0)
+                  : 0;
+                const isOverBudget = selectedContract ? custoPrevisto > saldoDisponivel : false;
+                const isExpired = Boolean(selectedContract?.vigenciaFim && new Date(selectedContract.vigenciaFim).getTime() < new Date().getTime());
+                const isInactive = Boolean(selectedContract && !selectedContract.ativo);
+                const isBlocked = isOverBudget || isExpired || isInactive;
+
+                return (
+                  <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setIsEditFinancialsOpen(false)}
+                      className="text-xs rounded-xl h-9 px-4 cursor-pointer"
+                    >
+                      Cancelar
+                    </Button>
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting || isBlocked}
+                      className={`text-xs font-semibold rounded-xl h-9 px-4 flex items-center gap-1.5 shadow-xs transition-colors ${
+                        isBlocked
+                          ? 'bg-slate-200 text-slate-400 border border-slate-300 cursor-not-allowed hover:bg-slate-200'
+                          : 'bg-[#0A2540] hover:bg-[#07192C] text-white cursor-pointer'
+                      }`}
+                    >
+                      {isSubmitting ? (
+                        <Loader2 size={13} className="animate-spin" />
+                      ) : (
+                        <>
+                          <CheckCircle2 size={14} />
+                          <span>{isBlocked ? 'Bloqueado por Regra Fiscal' : 'Salvar Medição'}</span>
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                );
+              })()}
 
             </form>
           </div>

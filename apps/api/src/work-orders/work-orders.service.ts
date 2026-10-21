@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException, BadRequestException, ConflictException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { StatusOS, Prioridade, AuditAction, TipoPredio, Role } from '@repo/database';
 import type { ApiResponse } from '../common/interfaces/api-response.interface.js';
@@ -1036,14 +1036,6 @@ export class WorkOrdersService {
         if (!dto.precoUnitario) precoUnitario = Number(mat.preco_unitario);
         if (!descricao) descricao = mat.nome;
         unidadeMedida = mat.unidade_medida;
-
-        // Abater estoque
-        await this.prisma.material.update({
-          where: { id: mat.id },
-          data: {
-            estoque_atual: Math.max(0, Number(mat.estoque_atual) - quantidade),
-          },
-        }).catch(() => null);
       }
     }
 
@@ -1052,6 +1044,60 @@ export class WorkOrdersService {
     }
 
     const precoTotal = precoUnitario * quantidade;
+
+    // Se a OS estiver vinculada a contrato administrativo, valida integridade fiscal
+    if (order.contrato_id) {
+      const contrato = await this.prisma.contratoManutencao.findUnique({
+        where: { id: order.contrato_id },
+        include: {
+          ordens_servico: {
+            select: { id: true, custo_total: true },
+          },
+        },
+      });
+
+      if (contrato) {
+        if (!contrato.ativo) {
+          throw new ConflictException(
+            `O contrato administrativo "${contrato.numero_contrato}" vinculado a esta OS está inativo.`,
+          );
+        }
+        if (contrato.vigencia_fim && new Date(contrato.vigencia_fim).getTime() < new Date().getTime()) {
+          const fimFmt = new Date(contrato.vigencia_fim).toLocaleDateString('pt-BR');
+          throw new ConflictException(
+            `Vigência do contrato "${contrato.numero_contrato}" expirou em ${fimFmt}. Requer termo aditivo de prorrogação.`,
+          );
+        }
+
+        const empenhado = Number(contrato.valor_total_empenhado || 0);
+        const jaMedidoOutras = (contrato.ordens_servico || [])
+          .filter((o: any) => o.id !== order.id)
+          .reduce((acc: number, curr: any) => acc + Number(curr.custo_total || 0), 0);
+        const saldoDisponivel = Math.max(0, empenhado - jaMedidoOutras);
+
+        const custoPrevisto = Number(order.custo_total || 0) + precoTotal;
+        if (custoPrevisto > saldoDisponivel) {
+          const fmtBrl = (v: number) =>
+            new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v);
+          throw new ConflictException(
+            `Estouro orçamentário: A inclusão desta peça elevaria o custo da OS para ${fmtBrl(custoPrevisto)}, excedendo o saldo restante do contrato (${fmtBrl(saldoDisponivel)}).`,
+          );
+        }
+      }
+    }
+
+    // Abater estoque com segurança após validações aprovadas
+    if (dto.materialId) {
+      const mat = await this.prisma.material.findUnique({ where: { id: dto.materialId } });
+      if (mat) {
+        await this.prisma.material.update({
+          where: { id: mat.id },
+          data: {
+            estoque_atual: Math.max(0, Number(mat.estoque_atual) - quantidade),
+          },
+        }).catch(() => null);
+      }
+    }
 
     await this.prisma.itemConsumoOS.create({
       data: {
@@ -1191,26 +1237,7 @@ export class WorkOrdersService {
     if (!order) throw new NotFoundException('Ordem de serviço não encontrada.');
 
     const data: any = {};
-    if (dto.contratoId !== undefined) {
-      if (dto.contratoId) {
-        const contrato = await this.prisma.contratoManutencao.findUnique({
-          where: { id: dto.contratoId },
-        });
-        if (contrato) {
-          data.contrato_id = contrato.id;
-          if (!dto.empresaTerceirizada) data.empresa_terceirizada = contrato.empresa_contratada;
-          if (!dto.numeroEmpenho) data.numero_empenho = contrato.numero_empenho;
-        }
-      } else {
-        data.contrato_id = null;
-      }
-    }
-    if (dto.empresaTerceirizada !== undefined) {
-      data.empresa_terceirizada = dto.empresaTerceirizada.trim() || null;
-    }
-    if (dto.numeroEmpenho !== undefined) {
-      data.numero_empenho = dto.numeroEmpenho.trim() || null;
-    }
+    const targetContratoId = dto.contratoId !== undefined ? (dto.contratoId || null) : order.contrato_id;
 
     let custoMaoDeObra = Number(order.custo_mao_de_obra || 0);
     if (dto.custoMaoDeObra !== undefined) {
@@ -1219,7 +1246,66 @@ export class WorkOrdersService {
     }
 
     const custoMateriais = Number(order.custo_materiais || 0);
-    data.custo_total = custoMateriais + custoMaoDeObra;
+    const novoCustoTotal = custoMateriais + custoMaoDeObra;
+    data.custo_total = novoCustoTotal;
+
+    // Se houver contrato administrativo vinculado, valida regras de conformidade fiscal e orçamentária
+    if (targetContratoId) {
+      const contrato = await this.prisma.contratoManutencao.findUnique({
+        where: { id: targetContratoId },
+        include: {
+          ordens_servico: {
+            select: { id: true, custo_total: true },
+          },
+        },
+      });
+
+      if (!contrato) {
+        throw new NotFoundException(`Contrato de manutenção "${targetContratoId}" não encontrado.`);
+      }
+
+      if (!contrato.ativo) {
+        throw new ConflictException(
+          `O contrato administrativo "${contrato.numero_contrato}" está inativo e não pode receber novas medições.`,
+        );
+      }
+
+      if (contrato.vigencia_fim && new Date(contrato.vigencia_fim).getTime() < new Date().getTime()) {
+        const fimFmt = new Date(contrato.vigencia_fim).toLocaleDateString('pt-BR');
+        throw new ConflictException(
+          `Vigência do contrato "${contrato.numero_contrato}" expirou em ${fimFmt}. Requer termo aditivo de prorrogação.`,
+        );
+      }
+
+      const empenhado = Number(contrato.valor_total_empenhado || 0);
+      const jaMedidoOutras = (contrato.ordens_servico || [])
+        .filter((o: any) => o.id !== order.id)
+        .reduce((acc: number, curr: any) => acc + Number(curr.custo_total || 0), 0);
+      const saldoDisponivel = Math.max(0, empenhado - jaMedidoOutras);
+
+      if (novoCustoTotal > saldoDisponivel) {
+        const fmtBrl = (v: number) =>
+          new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v);
+        throw new ConflictException(
+          `Estouro orçamentário: Custo da OS (${fmtBrl(novoCustoTotal)}) excede o saldo restante do contrato (${fmtBrl(saldoDisponivel)}). Exige termo aditivo de valor ou novo empenho.`,
+        );
+      }
+
+      if (dto.contratoId !== undefined) {
+        data.contrato_id = contrato.id;
+        if (!dto.empresaTerceirizada) data.empresa_terceirizada = contrato.empresa_contratada;
+        if (!dto.numeroEmpenho) data.numero_empenho = contrato.numero_empenho;
+      }
+    } else if (dto.contratoId !== undefined && !dto.contratoId) {
+      data.contrato_id = null;
+    }
+
+    if (dto.empresaTerceirizada !== undefined) {
+      data.empresa_terceirizada = dto.empresaTerceirizada.trim() || null;
+    }
+    if (dto.numeroEmpenho !== undefined) {
+      data.numero_empenho = dto.numeroEmpenho.trim() || null;
+    }
 
     const updated = await this.prisma.ordemServico.update({
       where: { id: order.id },
@@ -1231,6 +1317,35 @@ export class WorkOrdersService {
         materiais_consumidos: true,
       },
     });
+
+    // Gravação imutável para Tribunal de Contas e compliance municipal
+    if (currentUser?.id) {
+      await this.prisma.auditoriaLog.create({
+        data: {
+          entidade_afetada: 'ordens_servico',
+          entidade_id: order.id,
+          acao: AuditAction.UPDATE,
+          usuario_id: currentUser.id,
+          prefeitura_id: currentUser.prefeituraId || order.prefeitura_id || null,
+          dados_antigos: {
+            contrato_id: order.contrato_id,
+            custo_mao_de_obra: Number(order.custo_mao_de_obra || 0),
+            custo_materiais: Number(order.custo_materiais || 0),
+            custo_total: Number(order.custo_total || 0),
+            empresa_terceirizada: order.empresa_terceirizada,
+            numero_empenho: order.numero_empenho,
+          },
+          dados_novos: {
+            contrato_id: data.contrato_id !== undefined ? data.contrato_id : order.contrato_id,
+            custo_mao_de_obra: custoMaoDeObra,
+            custo_materiais: custoMateriais,
+            custo_total: novoCustoTotal,
+            empresa_terceirizada: data.empresa_terceirizada !== undefined ? data.empresa_terceirizada : order.empresa_terceirizada,
+            numero_empenho: data.numero_empenho !== undefined ? data.numero_empenho : order.numero_empenho,
+          },
+        },
+      });
+    }
 
     return {
       success: true,
