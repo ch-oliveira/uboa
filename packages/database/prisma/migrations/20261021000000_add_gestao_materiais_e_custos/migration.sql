@@ -1,16 +1,16 @@
--- AlterTable
+-- AlterTable manifestacoes
 ALTER TABLE "manifestacoes" ALTER COLUMN "protocolo" SET DEFAULT concat('OUV-', floor(random() * 900000 + 100000)::text);
 
--- AlterTable
-ALTER TABLE "ordens_servico" ADD COLUMN     "custo_mao_de_obra" DECIMAL(10,2) DEFAULT 0.00,
-ADD COLUMN     "custo_materiais" DECIMAL(10,2) DEFAULT 0.00,
-ADD COLUMN     "custo_total" DECIMAL(10,2) DEFAULT 0.00,
-ADD COLUMN     "empresa_terceirizada" TEXT,
-ADD COLUMN     "numero_empenho" TEXT,
-ALTER COLUMN "codigo" SET DEFAULT concat('OS-', floor(random() * 900000 + 100000)::text);
+-- AlterTable ordens_servico
+ALTER TABLE "ordens_servico" ADD COLUMN IF NOT EXISTS "custo_mao_de_obra" DECIMAL(10,2) DEFAULT 0.00;
+ALTER TABLE "ordens_servico" ADD COLUMN IF NOT EXISTS "custo_materiais" DECIMAL(10,2) DEFAULT 0.00;
+ALTER TABLE "ordens_servico" ADD COLUMN IF NOT EXISTS "custo_total" DECIMAL(10,2) DEFAULT 0.00;
+ALTER TABLE "ordens_servico" ADD COLUMN IF NOT EXISTS "empresa_terceirizada" TEXT;
+ALTER TABLE "ordens_servico" ADD COLUMN IF NOT EXISTS "numero_empenho" TEXT;
+ALTER TABLE "ordens_servico" ALTER COLUMN "codigo" SET DEFAULT concat('OS-', floor(random() * 900000 + 100000)::text);
 
--- CreateTable
-CREATE TABLE "materiais" (
+-- CreateTable materiais
+CREATE TABLE IF NOT EXISTS "materiais" (
     "id" TEXT NOT NULL,
     "codigo" TEXT NOT NULL,
     "nome" TEXT NOT NULL,
@@ -22,13 +22,13 @@ CREATE TABLE "materiais" (
     "ativo" BOOLEAN NOT NULL DEFAULT true,
     "prefeitura_id" TEXT,
     "criado_em" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "atualizado" TIMESTAMP(3) NOT NULL,
+    "atualizado" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "materiais_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
-CREATE TABLE "itens_consumo_os" (
+-- CreateTable itens_consumo_os
+CREATE TABLE IF NOT EXISTS "itens_consumo_os" (
     "id" TEXT NOT NULL,
     "ordem_servico_id" TEXT NOT NULL,
     "material_id" TEXT,
@@ -43,22 +43,23 @@ CREATE TABLE "itens_consumo_os" (
 );
 
 -- CreateIndex
-CREATE INDEX "materiais_prefeitura_id_categoria_idx" ON "materiais"("prefeitura_id", "categoria");
+CREATE INDEX IF NOT EXISTS "materiais_prefeitura_id_categoria_idx" ON "materiais"("prefeitura_id", "categoria");
+CREATE UNIQUE INDEX IF NOT EXISTS "materiais_prefeitura_id_codigo_key" ON "materiais"("prefeitura_id", "codigo");
+CREATE INDEX IF NOT EXISTS "itens_consumo_os_ordem_servico_id_idx" ON "itens_consumo_os"("ordem_servico_id");
+CREATE INDEX IF NOT EXISTS "itens_consumo_os_material_id_idx" ON "itens_consumo_os"("material_id");
 
--- CreateIndex
-CREATE UNIQUE INDEX "materiais_prefeitura_id_codigo_key" ON "materiais"("prefeitura_id", "codigo");
+-- AddForeignKeys safely
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'materiais_prefeitura_id_fkey') THEN
+        ALTER TABLE "materiais" ADD CONSTRAINT "materiais_prefeitura_id_fkey" FOREIGN KEY ("prefeitura_id") REFERENCES "prefeituras"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+    END IF;
 
--- CreateIndex
-CREATE INDEX "itens_consumo_os_ordem_servico_id_idx" ON "itens_consumo_os"("ordem_servico_id");
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'itens_consumo_os_ordem_servico_id_fkey') THEN
+        ALTER TABLE "itens_consumo_os" ADD CONSTRAINT "itens_consumo_os_ordem_servico_id_fkey" FOREIGN KEY ("ordem_servico_id") REFERENCES "ordens_servico"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+    END IF;
 
--- CreateIndex
-CREATE INDEX "itens_consumo_os_material_id_idx" ON "itens_consumo_os"("material_id");
-
--- AddForeignKey
-ALTER TABLE "materiais" ADD CONSTRAINT "materiais_prefeitura_id_fkey" FOREIGN KEY ("prefeitura_id") REFERENCES "prefeituras"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "itens_consumo_os" ADD CONSTRAINT "itens_consumo_os_ordem_servico_id_fkey" FOREIGN KEY ("ordem_servico_id") REFERENCES "ordens_servico"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "itens_consumo_os" ADD CONSTRAINT "itens_consumo_os_material_id_fkey" FOREIGN KEY ("material_id") REFERENCES "materiais"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'itens_consumo_os_material_id_fkey') THEN
+        ALTER TABLE "itens_consumo_os" ADD CONSTRAINT "itens_consumo_os_material_id_fkey" FOREIGN KEY ("material_id") REFERENCES "materiais"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+    END IF;
+END $$;

@@ -1,159 +1,112 @@
-# Turborepo starter
+# Urboa / Predial — Sistema Integrado de Gestão e Zeladoria Predial Municipal
 
-This Turborepo starter is maintained by the Turborepo core team.
+Plataforma SaaS moderna para gestão integrada de prédios públicos (escolas, hospitais, UBSs, praças e prédios administrativos), ordens de serviço, manutenção predial com controle fiscal para o Tribunal de Contas (TCE), ouvidoria 156 e medição financeira com fornecimento de materiais.
 
-## Using this example
+---
 
-Run the following command:
+## 🏛️ Visão da Arquitetura do Monorepo
 
-```sh
-npx create-turbo@latest
+O repositório é gerenciado com **Turborepo** e **pnpm Workspaces**:
+
+```
+predial-monorepo/
+├── apps/
+│   ├── api/             # Backend NestJS 12 (REST, Prisma 6, JWT RBAC, Gemini IA)
+│   ├── web/             # Frontend Next.js 16 (App Router, Tailwind CSS v4, Base UI)
+│   └── mobile/          # App Mobile React Native / Expo (Técnicos de Campo)
+├── packages/
+│   ├── database/        # Prisma Schema, Migrações PostGIS e Seeds Idempotentes
+│   ├── ui/              # Componentes de Design System compartilhados
+│   ├── eslint-config/   # Regras compartilhadas de linting (Oxlint / ESLint)
+│   └── typescript-config/ # Configurações de tsconfig compartilhadas
+├── docs/                # Documentação Oficial de Engenharia, Deploys e Regras de Negócio
+└── .github/workflows/   # Pipelines de CI/CD automatizadas (Quality Gates)
 ```
 
-## What's inside?
+---
 
-This Turborepo includes the following packages/apps:
+## 🚀 Guia de Inicialização Rápida (Localhost)
 
-### Apps and Packages
+### 1. Pré-Requisitos
+- **Node.js**: v20 ou superior
+- **pnpm**: v11.25.0+ (`corepack enable && corepack prepare pnpm@11.25.0 --activate`)
+- **Docker**: Para execução do PostgreSQL com extensão PostGIS
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `@next/eslint-plugin-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+### 2. Configurar o Banco de Dados Local
+Suba a instância Docker do PostGIS:
+```bash
+docker compose up -d
 ```
 
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo build
-pnpm exec turbo build
-pnpm exec turbo build
+Copie as variáveis de ambiente:
+```bash
+cp .env.example .env
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+### 3. Instalar Dependências e Inicializar Dados
+```bash
+# Instalar todos os pacotes do monorepo
+pnpm install
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+# Gerar o cliente Prisma e aplicar migrações locais
+pnpm db:generate
+pnpm db:migrate:dev
 
-```sh
-turbo build --filter=docs
+# Povoar banco local com tenant e dados realistas de teste
+pnpm db:seed
 ```
 
-Without global `turbo`:
-
-```sh
-npx turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+### 4. Rodar o Ambiente de Desenvolvimento
+```bash
+pnpm dev
 ```
+- **Web App**: [http://localhost:3002](http://localhost:3002) (ou :3000)
+- **API NestJS**: [http://localhost:3001/api](http://localhost:3001/api)
 
-### Develop
+---
 
-To develop all apps and packages, run the following command:
+## 📚 Documentação Oficial de Engenharia
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+Consulte a suíte de documentação oficial dentro da pasta [`docs/`](file:///Users/ch4rle2/.gemini/antigravity-ide/scratch/predial-monorepo/docs):
 
-```sh
-cd my-turborepo
-turbo dev
-```
+1. 🚀 **[Fluxo de Deploy & Git Strategy](file:///Users/ch4rle2/.gemini/antigravity-ide/scratch/predial-monorepo/docs/DEPLOYMENT_PIPELINE.md)**
+   - Esteira completa: Localhost ➔ Staging ➔ Produção.
+   - Nomenclatura de branches, regras de Pull Request e critérios de aprovação.
+   - Proteção de branch no GitHub e rollback de emergência em 5 segundos.
 
-Without global `turbo`, use your package manager:
+2. 🗄️ **[Separação Definitiva de Bancos de Dados](file:///Users/ch4rle2/.gemini/antigravity-ide/scratch/predial-monorepo/docs/DATABASE_ENVIRONMENTS.md)**
+   - Isolamento total entre Localhost (Docker), Staging (Cloud QA) e Produção (Supabase/RDS).
+   - Política rigorosa de migrações (`migrate dev` vs `migrate deploy`).
+   - Bloqueio via software contra scripts destrutivos em produção.
 
-```sh
-cd my-turborepo
-npx turbo dev
-pnpm exec turbo dev
-pnpm exec turbo dev
-```
+3. 👥 **[Matriz de Perfis e Usuários por Cenário](file:///Users/ch4rle2/.gemini/antigravity-ide/scratch/predial-monorepo/docs/USER_PROFILES_MATRIX.md)**
+   - RBAC completo: `ADMIN`, `GESTOR`, `TECNICO`, `SOLICITANTE`.
+   - Credenciais padronizadas para Dev e Staging.
+   - Procedimento de bootstrap seguro (`seed:prod`) para produção.
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+4. ⚖️ **[Regras de Negócio e Fiscalização TCE](file:///Users/ch4rle2/.gemini/antigravity-ide/scratch/predial-monorepo/docs/BUSINESS_RULES_AND_FLOWS.md)**
+   - Máquina de estados das Ordens de Serviço (OS) com fotos obrigatórias de conclusão.
+   - Prazos fatais de SLA (Urgente: 4h, Alta: 24h, Média: 72h, Baixa: 168h) e suspensão por pausa justificada.
+   - Travas duras (hard block) de saldo orçamentário de contratos e controle de vigência.
+   - Ouvidoria 156 e trilha de auditoria imutável.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+5. 📝 **[Padrão de Documentação TSDoc](file:///Users/ch4rle2/.gemini/antigravity-ide/scratch/predial-monorepo/docs/TSDOC_STANDARDS.md)**
+   - Diretrizes de anotação de classes, métodos, DTOs e funções (`@param`, `@returns`, `@throws`, `@remarks`).
+   - Integração com IntelliSense e geração Swagger em `/api/docs`.
 
-```sh
-turbo dev --filter=web
-```
+---
 
-Without global `turbo`:
+## 🛠️ Comandos Essenciais
 
-```sh
-npx turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-pnpm exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-pnpm exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+| Comando | Finalidade |
+|---|---|
+| `pnpm dev` | Inicia todos os serviços em modo watch com hot-reload |
+| `pnpm validate` | Executa todos os testes de qualidade (lint + typecheck + test) |
+| `pnpm check-types` | Valida tipagem TypeScript estática em todo o monorepo |
+| `pnpm lint` | Analisa qualidade de código com Oxlint e ESLint |
+| `pnpm test` | Executa a suíte de testes unitários e de integração com Vitest |
+| `pnpm db:migrate:dev` | Cria e aplica nova migração em desenvolvimento local |
+| `pnpm db:migrate:deploy` | Aplica migrações pendentes em Staging ou Produção |
+| `pnpm db:seed` | Popula o banco local com prefeitura piloto e dados de teste |
+| `pnpm db:seed:prod` | Inicializa o administrador de produção de forma não destrutiva |
+| `pnpm db:studio` | Abre o Prisma Studio web para inspeção visual das tabelas |

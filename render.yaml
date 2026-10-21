@@ -1,9 +1,13 @@
 services:
+  # ============================================================================
+  # 1. API DE PRODUÇÃO (Branch: main)
+  # ============================================================================
   - type: web
     name: urboa-api
     runtime: node
     plan: free
     region: ohio
+    branch: main
     buildCommand: pnpm install && pnpm --filter @repo/database build && pnpm db:migrate:deploy && pnpm --filter api build
     startCommand: pnpm --filter api start:prod
     envVars:
@@ -21,3 +25,30 @@ services:
         sync: false
       - key: FRONTEND_URL
         value: https://uboa.vercel.app
+
+  # ============================================================================
+  # 2. API DE STAGING / HOMOLOGAÇÃO (Branch: develop)
+  # ============================================================================
+  - type: web
+    name: urboa-api-staging
+    runtime: node
+    plan: free
+    region: ohio
+    branch: develop
+    buildCommand: pnpm install && pnpm --filter @repo/database build && pnpm db:migrate:deploy && pnpm --filter api build
+    startCommand: pnpm --filter api start:prod
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: NODE_ENV
+        value: staging
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        value: https://uboa-git-develop-ch-oliveira.vercel.app
