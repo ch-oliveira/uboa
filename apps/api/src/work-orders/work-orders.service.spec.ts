@@ -39,6 +39,10 @@ describe('WorkOrdersService - Ciclo de Vida da OS', () => {
     auditoriaLog: {
       create: vi.fn(),
     },
+    contratoManutencao: {
+      findUnique: vi.fn(),
+      findFirst: vi.fn(),
+    },
     $transaction: vi.fn().mockImplementation(async (callback) => {
       return callback({
         ordemServico: mockPrismaService.ordemServico,
@@ -414,4 +418,58 @@ describe('WorkOrdersService - Ciclo de Vida da OS', () => {
       await expect(service.trackPublic('OS-INEXISTENTE')).rejects.toThrow(NotFoundException);
     });
   });
+
+  describe('Medição Financeira e Peças Consumidas (Código vs ID)', () => {
+    it('deve atualizar dados financeiros buscando tanto pelo ID quanto pelo código da OS', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue({
+        id: 'os-aguardando-2',
+        codigo: 'OS-104940',
+        custo_materiais: 150,
+        custo_mao_de_obra: 0,
+        custo_total: 150,
+        materiais_consumidos: [],
+      });
+
+      mockPrismaService.contratoManutencao.findUnique = vi.fn().mockResolvedValue({
+        id: 'contrato-1',
+        numero_contrato: '014/2026',
+        numero_empenho: '2026NE00014',
+        empresa_contratada: 'Alvorada Engenharia Ltda',
+      });
+
+      mockPrismaService.ordemServico.update = vi.fn().mockResolvedValue({
+        id: 'os-aguardando-2',
+        codigo: 'OS-104940',
+        prioridade: Prioridade.MEDIA,
+        status: StatusOS.AGUARDANDO,
+        criado_em: new Date(),
+        custo_materiais: 150,
+        custo_mao_de_obra: 300,
+        custo_total: 450,
+        empresa_terceirizada: 'Alvorada Engenharia Ltda',
+        numero_empenho: '2026NE00014',
+        contrato_id: 'contrato-1',
+        materiais_consumidos: [],
+      });
+
+      // Passando o CÓDIGO da OS em vez do UUID/ID
+      const res = await service.updateFinancials('OS-104940', {
+        contratoId: 'contrato-1',
+        custoMaoDeObra: 300,
+      });
+
+      expect(res.success).toBe(true);
+      expect(mockPrismaService.ordemServico.findFirst).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { OR: [{ id: 'OS-104940' }, { codigo: 'OS-104940' }] },
+        })
+      );
+      expect(mockPrismaService.ordemServico.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { id: 'os-aguardando-2' },
+        })
+      );
+    });
+  });
 });
+

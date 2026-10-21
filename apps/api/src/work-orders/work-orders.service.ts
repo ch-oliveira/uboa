@@ -51,6 +51,7 @@ export interface WorkOrderResponse {
   custoMateriais?: number;
   custoMaoDeObra?: number;
   custoTotal?: number;
+  contratoId?: string;
   empresaTerceirizada?: string;
   numeroEmpenho?: string;
   materiaisConsumidos?: ConsumedMaterialItem[];
@@ -1014,8 +1015,10 @@ export class WorkOrdersService {
     dto: AddConsumedMaterialDto,
     currentUser?: any,
   ): Promise<ApiResponse<WorkOrderResponse>> {
-    const order = await this.prisma.ordemServico.findUnique({
-      where: { id: orderId },
+    const order = await this.prisma.ordemServico.findFirst({
+      where: {
+        OR: [{ id: orderId }, { codigo: orderId }],
+      },
       include: { predio: true },
     });
     if (!order) throw new NotFoundException('Ordem de serviço não encontrada.');
@@ -1052,7 +1055,7 @@ export class WorkOrdersService {
 
     await this.prisma.itemConsumoOS.create({
       data: {
-        ordem_servico_id: orderId,
+        ordem_servico_id: order.id,
         material_id: dto.materialId || null,
         descricao,
         quantidade,
@@ -1064,7 +1067,7 @@ export class WorkOrdersService {
 
     // Recalcular custos totais da OS
     const allItems = await this.prisma.itemConsumoOS.findMany({
-      where: { ordem_servico_id: orderId },
+      where: { ordem_servico_id: order.id },
     });
 
     const custoMateriais = allItems.reduce((acc, it) => acc + Number(it.preco_total), 0);
@@ -1072,7 +1075,7 @@ export class WorkOrdersService {
     const custoTotal = custoMateriais + custoMaoDeObra;
 
     const updated = await this.prisma.ordemServico.update({
-      where: { id: orderId },
+      where: { id: order.id },
       data: {
         custo_materiais: custoMateriais,
         custo_total: custoTotal,
@@ -1089,7 +1092,7 @@ export class WorkOrdersService {
       await this.prisma.auditoriaLog.create({
         data: {
           entidade_afetada: 'OrdemServico',
-          entidade_id: orderId,
+          entidade_id: order.id,
           acao: AuditAction.UPDATE,
           usuario_id: currentUser.id,
           prefeitura_id: order.prefeitura_id,
@@ -1116,10 +1119,17 @@ export class WorkOrdersService {
     itemId: string,
     currentUser?: any,
   ): Promise<ApiResponse<WorkOrderResponse>> {
+    const order = await this.prisma.ordemServico.findFirst({
+      where: {
+        OR: [{ id: orderId }, { codigo: orderId }],
+      },
+    });
+    if (!order) throw new NotFoundException('Ordem de serviço não encontrada.');
+
     const item = await this.prisma.itemConsumoOS.findUnique({
       where: { id: itemId },
     });
-    if (!item || item.ordem_servico_id !== orderId) {
+    if (!item || item.ordem_servico_id !== order.id) {
       throw new NotFoundException('Item de material não encontrado nesta ordem de serviço.');
     }
 
@@ -1139,19 +1149,15 @@ export class WorkOrdersService {
 
     // Recalcular custos totais
     const allItems = await this.prisma.itemConsumoOS.findMany({
-      where: { ordem_servico_id: orderId },
-    });
-
-    const order = await this.prisma.ordemServico.findUnique({
-      where: { id: orderId },
+      where: { ordem_servico_id: order.id },
     });
 
     const custoMateriais = allItems.reduce((acc, it) => acc + Number(it.preco_total), 0);
-    const custoMaoDeObra = Number(order?.custo_mao_de_obra || 0);
+    const custoMaoDeObra = Number(order.custo_mao_de_obra || 0);
     const custoTotal = custoMateriais + custoMaoDeObra;
 
     const updated = await this.prisma.ordemServico.update({
-      where: { id: orderId },
+      where: { id: order.id },
       data: {
         custo_materiais: custoMateriais,
         custo_total: custoTotal,
@@ -1176,8 +1182,10 @@ export class WorkOrdersService {
     dto: UpdateFinancialsDto,
     currentUser?: any,
   ): Promise<ApiResponse<WorkOrderResponse>> {
-    const order = await this.prisma.ordemServico.findUnique({
-      where: { id: orderId },
+    const order = await this.prisma.ordemServico.findFirst({
+      where: {
+        OR: [{ id: orderId }, { codigo: orderId }],
+      },
       include: { materiais_consumidos: true },
     });
     if (!order) throw new NotFoundException('Ordem de serviço não encontrada.');
@@ -1214,7 +1222,7 @@ export class WorkOrdersService {
     data.custo_total = custoMateriais + custoMaoDeObra;
 
     const updated = await this.prisma.ordemServico.update({
-      where: { id: orderId },
+      where: { id: order.id },
       data,
       include: {
         predio: true,
