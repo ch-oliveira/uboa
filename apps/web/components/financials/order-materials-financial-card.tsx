@@ -22,6 +22,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { apiClient } from '@/lib/api-client';
 import type { OrdemServico, MaterialItem, ItemConsumoOS, ContratoItem } from '@/app/kanban/data';
+import { NewContractModal } from '@/components/financials/new-contract-modal';
 
 interface OrderMaterialsFinancialCardProps {
   order: OrdemServico;
@@ -42,6 +43,7 @@ export function OrderMaterialsFinancialCard({
   // Modals / forms
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditFinancialsOpen, setIsEditFinancialsOpen] = useState(false);
+  const [isNewContractModalOpen, setIsNewContractModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackMsg, setFeedbackMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
@@ -214,6 +216,16 @@ export function OrderMaterialsFinancialCard({
         setEditEmpenho(found.numeroEmpenho || found.numeroContrato);
       }
     }
+  }
+
+  function handleContractCreated(newContract: ContratoItem) {
+    setContracts((prev) => [newContract, ...prev]);
+    setEditContratoId(newContract.id);
+    setEditTerceirizada(newContract.empresaContratada);
+    setEditEmpenho(newContract.numeroEmpenho || newContract.numeroContrato);
+    setIsNewContractModalOpen(false);
+    setFeedbackMsg({ type: 'success', text: `Contrato ${newContract.numeroContrato} cadastrado e vinculado!` });
+    setTimeout(() => setFeedbackMsg(null), 3500);
   }
 
   async function handleSaveFinancialsSubmit(e: React.FormEvent) {
@@ -716,11 +728,21 @@ export function OrderMaterialsFinancialCard({
                   <label className="text-xs font-semibold text-slate-700">
                     Contrato Municipal Vigente (Empenho Global):
                   </label>
-                  {isLoadingContracts && (
-                    <span className="text-[10px] text-slate-400 flex items-center gap-1">
-                      <Loader2 size={10} className="animate-spin" /> Carregando...
-                    </span>
-                  )}
+                  <div className="flex items-center gap-2">
+                    {isLoadingContracts && (
+                      <span className="text-[10px] text-slate-400 flex items-center gap-1">
+                        <Loader2 size={10} className="animate-spin" /> Carregando...
+                      </span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setIsNewContractModalOpen(true)}
+                      className="text-[11px] font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1 cursor-pointer transition-colors"
+                    >
+                      <Plus size={12} />
+                      <span>+ Novo Contrato</span>
+                    </button>
+                  </div>
                 </div>
 
                 <select
@@ -870,6 +892,13 @@ export function OrderMaterialsFinancialCard({
           </div>
         </div>
       )}
+
+      {/* MODAL 3: Cadastrar Novo Contrato / Empenho Municipal */}
+      <NewContractModal
+        isOpen={isNewContractModalOpen}
+        onClose={() => setIsNewContractModalOpen(false)}
+        onContractCreated={handleContractCreated}
+      />
 
     </div>
   );

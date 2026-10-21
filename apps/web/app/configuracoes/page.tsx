@@ -26,7 +26,11 @@ import {
   Menu,
   Package,
   Search,
-  Coins
+  Coins,
+  Briefcase,
+  FileText,
+  Calendar,
+  DollarSign
 } from 'lucide-react';
 import { Sidebar } from '@/components/sidebar';
 import { Button } from '@/components/ui/button';
@@ -35,9 +39,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useOrders, type TecnicoSettings, type SystemSettings } from '@/context/orders-context';
 import { useAuth } from '@/context/auth-context';
 import { apiClient } from '@/lib/api-client';
-import { type MaterialItem } from '@/app/kanban/data';
+import { type MaterialItem, type ContratoItem } from '@/app/kanban/data';
+import { NewContractModal } from '@/components/financials/new-contract-modal';
 
-type SettingsTab = 'geral' | 'slas' | 'notificacoes' | 'equipe' | 'materiais' | 'dados';
+type SettingsTab = 'geral' | 'slas' | 'notificacoes' | 'equipe' | 'materiais' | 'contratos' | 'dados';
 
 export default function ConfiguracoesPage() {
   const { role } = useAuth();
@@ -95,6 +100,12 @@ export default function ConfiguracoesPage() {
   const [isNewMaterialModalOpen, setIsNewMaterialModalOpen] = useState(false);
   const [materialSearch, setMaterialSearch] = useState('');
 
+  // Estados de Contratos & Empenhos Municipais
+  const [contractsList, setContractsList] = useState<ContratoItem[]>([]);
+  const [isLoadingContracts, setIsLoadingContracts] = useState(false);
+  const [isNewContractModalOpen, setIsNewContractModalOpen] = useState(false);
+  const [contractSearch, setContractSearch] = useState('');
+
   // Form Novo Material
   const [newMatCodigo, setNewMatCodigo] = useState('');
   const [newMatNome, setNewMatNome] = useState('');
@@ -120,11 +131,38 @@ export default function ConfiguracoesPage() {
     }
   }, []);
 
+  // Carrega contratos públicos
+  const loadContracts = React.useCallback(async () => {
+    setIsLoadingContracts(true);
+    try {
+      const res = await apiClient.getContracts();
+      if (res.success && Array.isArray(res.contracts)) {
+        setContractsList(res.contracts);
+      }
+    } catch {
+      // Ignora erro
+    } finally {
+      setIsLoadingContracts(false);
+    }
+  }, []);
+
   useEffect(() => {
     if (activeTab === 'materiais') {
       loadMaterials();
     }
   }, [activeTab, loadMaterials]);
+
+  useEffect(() => {
+    if (activeTab === 'contratos') {
+      loadContracts();
+    }
+  }, [activeTab, loadContracts]);
+
+  function handleContractCreated(newContract: ContratoItem) {
+    setContractsList((prev) => [newContract, ...prev]);
+    setIsNewContractModalOpen(false);
+    triggerToast(`Contrato ${newContract.numeroContrato} registrado com sucesso!`);
+  }
 
   async function handleCreateMaterialSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -363,6 +401,13 @@ export default function ConfiguracoesPage() {
               icon={<Package size={16} />} 
               label="Almoxarifado & Peças" 
               badge={materialsList.length > 0 ? String(materialsList.length) : undefined}
+            />
+            <TabButton 
+              active={activeTab === 'contratos'} 
+              onClick={() => setActiveTab('contratos')} 
+              icon={<Briefcase size={16} />} 
+              label="Contratos & Empenhos" 
+              badge={contractsList.length > 0 ? String(contractsList.length) : undefined}
             />
             {isAdmin && (
               <TabButton 
@@ -1061,6 +1106,234 @@ export default function ConfiguracoesPage() {
             </div>
           )}
 
+          {/* TAB: CONTRATOS & EMPENHOS MUNICIPAIS */}
+          {activeTab === 'contratos' && (
+            <div className="space-y-6 animate-in fade-in duration-200">
+              {/* Resumo Financeiro Global dos Contratos */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="p-4 ds-card space-y-1">
+                  <div className="flex items-center justify-between text-muted-foreground">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider">Contratos Ativos</span>
+                    <Briefcase size={16} className="text-primary" />
+                  </div>
+                  <p className="text-2xl font-bold font-mono text-foreground">
+                    {contractsList.length}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground">Atas de registro e manutenções prediais</p>
+                </div>
+
+                <div className="p-4 ds-card space-y-1">
+                  <div className="flex items-center justify-between text-muted-foreground">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider">Empenhado Global</span>
+                    <Coins size={16} className="text-blue-600" />
+                  </div>
+                  <p className="text-2xl font-bold font-mono text-foreground">
+                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
+                      contractsList.reduce((acc, c) => acc + (c.valorTotalEmpenhado || 0), 0)
+                    )}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground">Teto contratual autorizado</p>
+                </div>
+
+                <div className="p-4 ds-card space-y-1">
+                  <div className="flex items-center justify-between text-muted-foreground">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider">Total Medido / Liquidado</span>
+                    <DollarSign size={16} className="text-amber-600" />
+                  </div>
+                  <p className="text-2xl font-bold font-mono text-amber-700">
+                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
+                      contractsList.reduce((acc, c) => acc + (c.valorTotalMedido || 0), 0)
+                    )}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground">Queima cumulativa em ordens de serviço</p>
+                </div>
+
+                <div className="p-4 ds-card space-y-1">
+                  <div className="flex items-center justify-between text-muted-foreground">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider">Saldo Disponível</span>
+                    <ShieldCheck size={16} className="text-emerald-600" />
+                  </div>
+                  <p className="text-2xl font-bold font-mono text-emerald-700">
+                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
+                      contractsList.reduce((acc, c) => acc + (c.saldoRestante || 0), 0)
+                    )}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground">Margem para novos atendimentos</p>
+                </div>
+              </div>
+
+              {/* Tabela de Contratos & Empenhos */}
+              <div className="p-6 ds-card space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-border">
+                  <div>
+                    <h2 className="text-sm font-bold text-foreground">Contratos de Manutenção & Empenhos Vigentes</h2>
+                    <p className="text-xs text-muted-foreground">
+                      Controle orçamentário por ata de registro de preços, terceirizadas e saldo remanescente
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <div className="relative">
+                      <Search size={13} className="absolute left-2.5 top-2.5 text-muted-foreground" />
+                      <input
+                        type="text"
+                        value={contractSearch}
+                        onChange={(e) => setContractSearch(e.target.value)}
+                        placeholder="Buscar contrato, empresa, empenho..."
+                        className="text-xs bg-muted/40 border border-border rounded-xl pl-8 pr-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary w-48 sm:w-64"
+                      />
+                    </div>
+
+                    <Button
+                      size="sm"
+                      onClick={() => setIsNewContractModalOpen(true)}
+                      className="text-xs font-semibold bg-primary hover:bg-primary/90 text-primary-foreground gap-1.5 rounded-xl h-8 px-3 cursor-pointer shadow-xs"
+                    >
+                      <Plus size={14} />
+                      <span>+ Novo Contrato</span>
+                    </Button>
+                  </div>
+                </div>
+
+                {isLoadingContracts ? (
+                  <div className="py-12 flex flex-col items-center justify-center text-muted-foreground gap-2">
+                    <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                    <p className="text-xs">Carregando contratos municipais...</p>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto rounded-xl border border-border/70">
+                    <table className="w-full text-left text-xs text-muted-foreground">
+                      <thead className="bg-muted/50 border-b border-border text-foreground font-semibold uppercase text-[10px]">
+                        <tr>
+                          <th className="py-2.5 px-3">Contrato / Empenho</th>
+                          <th className="py-2.5 px-3">Empresa Contratada</th>
+                          <th className="py-2.5 px-3">Categoria / Objeto</th>
+                          <th className="py-2.5 px-3">Vigência</th>
+                          <th className="py-2.5 px-3 text-right">Empenhado</th>
+                          <th className="py-2.5 px-3 text-right">Medido</th>
+                          <th className="py-2.5 px-3 text-right">Saldo Restante</th>
+                          <th className="py-2.5 px-3 text-center w-28">Consumo</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-border/60">
+                        {contractsList
+                          .filter(c => {
+                            if (!contractSearch) return true;
+                            const q = contractSearch.toLowerCase();
+                            return (
+                              c.numeroContrato.toLowerCase().includes(q) ||
+                              c.numeroEmpenho.toLowerCase().includes(q) ||
+                              c.empresaContratada.toLowerCase().includes(q) ||
+                              (c.objeto && c.objeto.toLowerCase().includes(q))
+                            );
+                          })
+                          .map((c) => {
+                            const percent = c.valorTotalEmpenhado > 0 
+                              ? Math.min(100, Math.round((c.valorTotalMedido / c.valorTotalEmpenhado) * 100)) 
+                              : 0;
+
+                            const isExpired = c.vigenciaFim && new Date(c.vigenciaFim) < new Date();
+
+                            return (
+                              <tr key={c.id} className="hover:bg-muted/30 transition-colors">
+                                <td className="py-2.5 px-3 font-mono">
+                                  <div className="font-bold text-foreground">
+                                    {c.numeroContrato}
+                                  </div>
+                                  <span className="text-[10px] text-muted-foreground block">
+                                    NE: {c.numeroEmpenho}
+                                  </span>
+                                </td>
+                                <td className="py-2.5 px-3">
+                                  <div className="font-semibold text-foreground">{c.empresaContratada}</div>
+                                  {c.cnpjContratada && (
+                                    <span className="text-[10px] text-muted-foreground font-mono">
+                                      CNPJ: {c.cnpjContratada}
+                                    </span>
+                                  )}
+                                </td>
+                                <td className="py-2.5 px-3 max-w-[200px]">
+                                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-muted text-foreground border border-border inline-block mb-0.5">
+                                    {c.categoriaPadrao || 'GERAL'}
+                                  </span>
+                                  {c.objeto && (
+                                    <p className="text-[11px] text-muted-foreground truncate" title={c.objeto}>
+                                      {c.objeto}
+                                    </p>
+                                  )}
+                                </td>
+                                <td className="py-2.5 px-3 whitespace-nowrap">
+                                  <div className="flex items-center gap-1.5">
+                                    <span className={`inline-block w-1.5 h-1.5 rounded-full ${isExpired ? 'bg-rose-500' : 'bg-emerald-500'}`} />
+                                    <span className={`text-[11px] font-medium ${isExpired ? 'text-rose-600' : 'text-foreground'}`}>
+                                      {isExpired ? 'Expirado' : 'Vigente'}
+                                    </span>
+                                  </div>
+                                  {c.vigenciaFim && (
+                                    <span className="text-[10px] text-muted-foreground block font-mono">
+                                      Até {new Date(c.vigenciaFim).toLocaleDateString('pt-BR')}
+                                    </span>
+                                  )}
+                                </td>
+                                <td className="py-2.5 px-3 text-right font-mono font-medium text-foreground">
+                                  {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(c.valorTotalEmpenhado)}
+                                </td>
+                                <td className="py-2.5 px-3 text-right font-mono font-bold text-amber-700">
+                                  {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(c.valorTotalMedido)}
+                                </td>
+                                <td className="py-2.5 px-3 text-right font-mono font-bold text-emerald-700">
+                                  {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(c.saldoRestante)}
+                                </td>
+                                <td className="py-2.5 px-3">
+                                  <div className="w-full space-y-1">
+                                    <div className="flex items-center justify-between text-[10px] font-mono font-bold">
+                                      <span className={percent > 90 ? 'text-rose-600' : percent > 70 ? 'text-amber-600' : 'text-emerald-600'}>
+                                        {percent}%
+                                      </span>
+                                    </div>
+                                    <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                                      <div
+                                        className={`h-full transition-all rounded-full ${
+                                          percent > 90 
+                                            ? 'bg-rose-500' 
+                                            : percent > 70 
+                                              ? 'bg-amber-500' 
+                                              : 'bg-emerald-500'
+                                        }`}
+                                        style={{ width: `${percent}%` }}
+                                      />
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+
+                    {contractsList.length === 0 && (
+                      <div className="py-12 flex flex-col items-center justify-center text-center p-6 space-y-2">
+                        <Briefcase size={32} className="text-muted-foreground/40 mb-1" />
+                        <p className="text-xs font-bold text-foreground">Nenhum contrato público cadastrado</p>
+                        <p className="text-[11px] text-muted-foreground max-w-sm">
+                          Cadastre os contratos de prestação de serviços e atas de registro de preços vigentes da prefeitura para controlar o saldo de empenho por OS.
+                        </p>
+                        <Button
+                          size="sm"
+                          onClick={() => setIsNewContractModalOpen(true)}
+                          className="mt-2 text-xs font-semibold bg-primary hover:bg-primary/90 text-primary-foreground gap-1.5 rounded-xl h-8 px-3 cursor-pointer shadow-xs"
+                        >
+                          <Plus size={14} />
+                          <span>Cadastrar Primeiro Contrato</span>
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* TAB 5: DADOS, BACKUP & API (Exclusivo Admin / Engenharia) */}
           {activeTab === 'dados' && isAdmin && (
             <div className="space-y-6 animate-in fade-in duration-200">
@@ -1338,6 +1611,13 @@ export default function ConfiguracoesPage() {
           </div>
         </div>
       )}
+
+      {/* MODAL NOVO CONTRATO MUNICIPAL */}
+      <NewContractModal
+        isOpen={isNewContractModalOpen}
+        onClose={() => setIsNewContractModalOpen(false)}
+        onContractCreated={handleContractCreated}
+      />
 
       {/* FLOATING TOAST NOTIFICATION */}
       {showToast && <Toast message={toastMessage} type={toastType} />}

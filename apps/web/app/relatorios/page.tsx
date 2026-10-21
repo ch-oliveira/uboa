@@ -43,7 +43,8 @@ import {
   Filter,
   Package,
   Briefcase,
-  Edit3
+  Edit3,
+  Plus
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sidebar } from '@/components/sidebar';
@@ -53,6 +54,7 @@ import { apiClient } from '@/lib/api-client';
 import { TECNICOS, PREDIOS, type OrdemServico, type ContratoItem } from '../kanban/data';
 import { TopHeader } from '@/components/top-header';
 import { OrderDetailModal } from '../kanban/order-detail-modal';
+import { NewContractModal } from '@/components/financials/new-contract-modal';
 import { Toast } from '@/components/ui/toast';
 
 type PeriodOption = 'MES_ATUAL' | 'ULTIMOS_30' | 'TRIMESTRE' | 'ANO_2026';
@@ -136,6 +138,7 @@ export default function RelatoriosPage() {
   const [contracts, setContracts] = useState<ContratoItem[]>([]);
   const [isLoadingContracts, setIsLoadingContracts] = useState(false);
   const [measurementFilter, setMeasurementFilter] = useState<'COM_MEDICAO' | 'PENDENTE' | 'TODAS'>('COM_MEDICAO');
+  const [isNewContractModalOpen, setIsNewContractModalOpen] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -2249,9 +2252,20 @@ export default function RelatoriosPage() {
                         </p>
                       </div>
                     </div>
-                    <span className="text-[11px] font-medium text-muted-foreground">
-                      {contracts.length} {contracts.length === 1 ? 'contrato ativo' : 'contratos ativos na prefeitura'}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] font-medium text-muted-foreground">
+                        {contracts.length} {contracts.length === 1 ? 'contrato ativo' : 'contratos ativos na prefeitura'}
+                      </span>
+                      <Button
+                        type="button"
+                        size="sm"
+                        onClick={() => setIsNewContractModalOpen(true)}
+                        className="bg-[#0A2540] hover:bg-[#07192C] text-white text-xs font-semibold rounded-xl h-8 px-3 flex items-center gap-1.5 cursor-pointer shadow-xs"
+                      >
+                        <Plus size={13} />
+                        <span>Novo Contrato</span>
+                      </Button>
+                    </div>
                   </div>
 
                   {isLoadingContracts ? (
@@ -2701,6 +2715,16 @@ export default function RelatoriosPage() {
           showToast(`Chamado #${cleanId} atualizado para "${updated.status}" com sucesso.`);
         }}
         onDelete={() => {}}
+      />
+
+      {/* New Contract Modal */}
+      <NewContractModal
+        isOpen={isNewContractModalOpen}
+        onClose={() => setIsNewContractModalOpen(false)}
+        onContractCreated={(newContract) => {
+          setContracts((prev) => [newContract, ...prev]);
+          showToast(`Contrato ${newContract.numeroContrato} (${newContract.empresaContratada}) cadastrado com sucesso!`);
+        }}
       />
     </>
   );
