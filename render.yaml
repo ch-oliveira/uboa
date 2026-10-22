@@ -3,7 +3,7 @@ services:
   # 1. API DE PRODUÇÃO (Branch: main)
   # ============================================================================
   - type: web
-    name: urboa-api
+    name: uboa-api
     runtime: node
     plan: free
     region: ohio
