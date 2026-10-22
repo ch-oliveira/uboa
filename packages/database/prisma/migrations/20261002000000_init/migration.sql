@@ -4,6 +4,12 @@ CREATE SCHEMA IF NOT EXISTS "public";
 -- CreateExtension
 CREATE EXTENSION IF NOT EXISTS "postgis";
 
+-- Garantir que os schemas extensions e public estejam no search_path para tipos PostGIS (geometry)
+DO $$
+BEGIN
+    PERFORM set_config('search_path', current_setting('search_path') || ',extensions,public', false);
+END $$;
+
 -- CreateEnum
 CREATE TYPE "Role" AS ENUM ('ADMIN', 'GESTOR', 'TECNICO', 'SOLICITANTE');
 
