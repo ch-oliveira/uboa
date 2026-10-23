@@ -371,6 +371,18 @@ async function main() {
       tecnico_atribuido_id: tecLucas.id,
       fotos: [],
     },
+    {
+      id: 'os-aguardando-3',
+      codigo: 'OS-104941',
+      titulo: 'Substituição de válvula de descarga e reparo de torneira',
+      descricao: 'Local: Sanitário Acessível • Categoria: Hidráulica\n\nReparo hidráulico finalizado no sanitário acessível. Troca do diafragma da válvula e vedação do sifão concluídos. Aguardando conferência e validação da unidade.',
+      prioridade: Prioridade.MEDIA,
+      status: StatusOS.AGUARDANDO,
+      predio_id: 'u-3', // UBS Vila Nova
+      solicitante_id: solUbs.id,
+      tecnico_atribuido_id: tecRoberto.id,
+      fotos: [],
+    },
 
     // ─── CONCLUÍDAS (12 ordens históricas para alimentar métricas reais) ───
     {
