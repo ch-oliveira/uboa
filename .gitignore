@@ -43,3 +43,4 @@ yarn-error.log*
 skills-lock.json
 *.node
 scratch/
+docs/apresentacao/tools/out/

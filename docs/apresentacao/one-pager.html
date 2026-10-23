@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Urboa · Folheto Institucional (One-Pager)</title>
+  <meta name="description" content="Urboa: plataforma integrada de gestão e zeladoria predial municipal. Controle de chamados, equipes, vistorias e contratos públicos com conformidade ABNT NBR 5674 e Tribunal de Contas (TCE).">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap">
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/one-pager.css">
+</head>
+<body>
+
+<!-- Ícones SVG reutilizáveis -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8M10 9H8"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8z"/><path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></symbol>
+  <symbol id="i-mega" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+</svg>
+
+<!-- ========================================================================
+     PÁGINA 1 · VISÃO GERAL, DORES, PERFIS E IMPACTO
+     ======================================================================== -->
+<article class="page" id="page-1">
+  <!-- Topo Hero -->
+  <header class="op-hero">
+    <div class="op-hero__top">
+      <div class="op-logo">
+        <span class="op-logo__mark">u.</span>
+        <span>Urboa</span>
+      </div>
+      <span class="op-hero__tag">Gestão & Zeladoria Municipal</span>
+    </div>
+
+    <div class="op-hero__body">
+      <h1>Chamados resolvidos.<br><em>Contas em dia.</em></h1>
+      <p class="op-hero__lead">
+        A plataforma SaaS completa que unifica a zeladoria das <strong>escolas, postos de saúde (UBSs) e prédios municipais</strong>. Elimine o improviso com controle rigoroso de ordens de serviço, fiscais de contratos e auditoria do TCE.
+      </p>
+      <div class="op-hero__chips">
+        <span class="op-chip"><svg class="ic"><use href="#i-shield"/></svg>ABNT NBR 5674</span>
+        <span class="op-chip"><svg class="ic"><use href="#i-file"/></svg>Prestação TCE/TCU</span>
+        <span class="op-chip"><svg class="ic"><use href="#i-lock"/></svg>Hard Block Orçamentário</span>
+        <span class="op-chip"><svg class="ic"><use href="#i-sparkles"/></svg>Copilot IA</span>
+      </div>
+    </div>
+
+    <div class="op-hero__shot">
+      <img src="assets/shots/painel-hoje.jpg" alt="Painel Gerencial do Urboa com métricas de zeladoria e agenda operacional">
+    </div>
+  </header>
+
+  <!-- Corpo da Página 1 -->
+  <div class="op-stack" style="margin-top: 24px;">
+
+    <!-- Do Caos ao Controle -->
+    <section class="op-section">
+      <div class="op-section__head">
+        <span class="op-eyebrow">Diagnóstico Operacional</span>
+        <h2 class="op-h2">Do caos operacional à <em>gestão transparente</em></h2>
+      </div>
+      <ul class="op-fix">
+        <li>
+          <span class="op-ic op-ic--rose"><svg class="ic"><use href="#i-camera"/></svg></span>
+          <div>
+            <span class="op-fix__from">WhatsApp, planilhas e ofícios sem registro</span>
+            <h3>Abertura Padronizada em 45s</h3>
+            <p>Diretores e servidores abrem ocorrências com fotos pelo celular, eliminando intermediários e perda de contexto.</p>
+          </div>
+        </li>
+        <li>
+          <span class="op-ic op-ic--amber"><svg class="ic"><use href="#i-clock"/></svg></span>
+          <div>
+            <span class="op-fix__from">Prazos vencidos sem acompanhamento</span>
+            <h3>SLAs Fatais com Congelamento Justificado</h3>
+            <p>Cronômetro legal de 4h a 168h. Se faltar material, o SLA congela mediante justificativa sem penalizar a equipe.</p>
+          </div>
+        </li>
+        <li>
+          <span class="op-ic op-ic--green"><svg class="ic"><use href="#i-shield"/></svg></span>
+          <div>
+            <span class="op-fix__from">Serviço sem comprovação e glosas no TCE</span>
+            <h3>Foto Obrigatória e Aceite da Unidade</h3>
+            <p>Nenhuma OS é encerrada sem foto de conclusão e validação formal da direção da escola ou posto de saúde.</p>
+          </div>
+        </li>
+        <li>
+          <span class="op-ic op-ic--violet"><svg class="ic"><use href="#i-wallet"/></svg></span>
+          <div>
+            <span class="op-fix__from">Estouro de empenho e contratos vencidos</span>
+            <h3>Trava Dura de Saldo e Vigência</h3>
+            <p>A API bloqueia medições que ultrapassem o saldo empenhado ou contratos fora do prazo legal.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Quatro Perfis Integrados -->
+    <section class="op-section">
+      <div class="op-section__head">
+        <span class="op-eyebrow">Governança Colaborativa</span>
+        <h2 class="op-h2">Quatro perfis em um <em>único fluxo</em></h2>
+      </div>
+      <div class="op-roles">
+        <article class="op-role" style="--accent: var(--sky-400);">
+          <small>Unidades Escolares & UBSs</small>
+          <h4>Solicitante</h4>
+          <p>Abre chamados rápidos, acompanha em tempo real e dá o aceite final na conclusão do serviço.</p>
+        </article>
+        <article class="op-role" style="--accent: var(--blue-500);">
+          <small>Secretarias Municipais</small>
+          <h4>Gestor</h4>
+          <p>Triagem com IA, distribuição balanceada para equipes e fiscalização dos contratos de manutenção.</p>
+        </article>
+        <article class="op-role" style="--accent: var(--amber-400);">
+          <small>Equipes em Campo</small>
+          <h4>Técnico</h4>
+          <p>Pauta diária no celular, reporte de anomalias, consumo de peças e evidências fotográficas.</p>
+        </article>
+        <article class="op-role" style="--accent: var(--violet-400);">
+          <small>Prefeito & Controladoria</small>
+          <h4>Administrador</h4>
+          <p>Parametrização institucional, controle de alçadas, trilha de auditoria e relatórios fiscais.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Indicadores de Impacto -->
+    <section class="op-section">
+      <div class="op-stats">
+        <div>
+          <strong>45s</strong>
+          <span>Tempo médio para registrar uma ocorrência com fotos</span>
+        </div>
+        <div>
+          <strong>4h</strong>
+          <span>SLA de pronta-resposta para ocorrências críticas e urgentes</span>
+        </div>
+        <div>
+          <strong>100%</strong>
+          <span>Ordens com fotos comprobatórias e aceite formal</span>
+        </div>
+        <div>
+          <strong>0</strong>
+          <span>Apontamentos por falta de comprovação perante o TCE</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Rodapé Página 1 -->
+  <footer class="op-foot">
+    <span>Urboa — Sistema Integrado de Gestão e Zeladoria Predial Municipal</span>
+    <span>Página 1 de 2</span>
+  </footer>
+</article>
+
+<!-- ========================================================================
+     PÁGINA 2 · FLUXO COM TRAVAS, RECURSOS, SLAS E CONTATO
+     ======================================================================== -->
+<article class="page" id="page-2">
+  <!-- Topo institucional -->
+  <header class="op-top">
+    <div class="op-logo">
+      <span class="op-logo__mark">u.</span>
+      <span>Urboa</span>
+    </div>
+    <span class="op-top__title">Ciclo de Vida · Conformidade Legal · Implantação</span>
+  </header>
+
+  <div class="op-stack">
+
+    <!-- Ciclo de Vida da OS com Travas -->
+    <section class="op-section">
+      <div class="op-section__head">
+        <span class="op-eyebrow">Máquina de Estados Rigorosa</span>
+        <h2 class="op-h2">O ciclo da OS: <em>cada etapa com validação</em></h2>
+      </div>
+      <ol class="op-flow">
+        <li>
+          <b>1</b>
+          <h4>Triagem</h4>
+          <p>Gestão avalia urgência e calcula data limite fatal do SLA.</p>
+        </li>
+        <li>
+          <b>2</b>
+          <h4>Agendado</h4>
+          <p><svg class="ic"><use href="#i-lock"/></svg> Trava: atribuição obrigatória de técnico responsável.</p>
+        </li>
+        <li>
+          <b>3</b>
+          <h4>Execução</h4>
+          <p><svg class="ic"><use href="#i-lock"/></svg> Trava: pausa exige motivo (falta de peça congela SLA).</p>
+        </li>
+        <li>
+          <b>4</b>
+          <h4>Validação</h4>
+          <p>Responsável pelo prédio vistoria e dá o aceite formal.</p>
+        </li>
+        <li>
+          <b>5</b>
+          <h4>Concluído</h4>
+          <p><svg class="ic"><use href="#i-lock"/></svg> Trava: foto obrigatória para liberação de medição.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Módulos Diferenciais -->
+    <section class="op-section">
+      <div class="op-section__head">
+        <span class="op-eyebrow">Recursos Especializados</span>
+        <h2 class="op-h2">Ferramentas feitas para a <em>gestão pública</em></h2>
+      </div>
+      <div class="op-features">
+        <article class="op-feature">
+          <span class="op-ic op-ic--green"><svg class="ic"><use href="#i-mega"/></svg></span>
+          <h4>Ouvidoria Cidadã 156</h4>
+          <p>Cidadão registra manifestações (anônimas ou não). Com 1 clique o gestor converte em OS, gerando resposta com fotos de antes e depois.</p>
+        </article>
+        <article class="op-feature">
+          <span class="op-ic op-ic--amber"><svg class="ic"><use href="#i-db"/></svg></span>
+          <h4>Materiais & Almoxarifado</h4>
+          <p>Controle do catálogo municipal (tabela SINAPI). Cada item usado em campo abate do estoque e compõe o custo real do prédio público.</p>
+        </article>
+        <article class="op-feature">
+          <span class="op-ic op-ic--violet"><svg class="ic"><use href="#i-sparkles"/></svg></span>
+          <h4>Copilot IA "Urbi"</h4>
+          <p>Assistente treinado na base oficial. Identifica reincidência de problemas, prevê sobrecarga de equipes e audita riscos de atraso.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Prazos de SLA -->
+    <section class="op-section">
+      <div class="op-section__head">
+        <span class="op-eyebrow">Padrões de Atendimento</span>
+        <h2 class="op-h2">Matriz de SLAs & <em>Prazos Regulamentares</em></h2>
+      </div>
+      <div class="op-sla">
+        <div style="--accent: var(--rose-400);">
+          <small>Urgente</small>
+          <strong>4<span>horas</span></strong>
+          <p>Risco de vida, fiação solta, falta d'água em UBS ou vazamento de gás.</p>
+        </div>
+        <div style="--accent: var(--amber-400);">
+          <small>Alta</small>
+          <strong>24<span>horas</span></strong>
+          <p>Salas sem luz, bomba inoperante, fechadura externa arrombada.</p>
+        </div>
+        <div style="--accent: var(--blue-500);">
+          <small>Média</small>
+          <strong>72<span>horas</span></strong>
+          <p>Goteiras leves, trinco quebrado, ventilador queimado, infiltração.</p>
+        </div>
+        <div style="--accent: var(--green-400);">
+          <small>Baixa</small>
+          <strong>7<span>dias</span></strong>
+          <p>Pintura, manutenção de calçadas, reparos preventivos programados.</p>
+        </div>
+      </div>
+      <p class="op-note">* Prazos padrão configuráveis pelo município de acordo com decretos locais. Suspensões por falta de insumos congelam legalmente o MTTR.</p>
+    </section>
+
+    <!-- Segurança e Conformidade -->
+    <section class="op-section">
+      <div class="op-section__head">
+        <span class="op-eyebrow">Auditoria & Segurança</span>
+        <h2 class="op-h2">Segurança jurídica e <em>trilha imutável</em></h2>
+      </div>
+      <ul class="op-trust">
+        <li><svg class="ic"><use href="#i-check"/></svg> Isolamento multi-tenant por município</li>
+        <li><svg class="ic"><use href="#i-check"/></svg> Logs imutáveis (sem exclusão física)</li>
+        <li><svg class="ic"><use href="#i-check"/></svg> Conformidade ABNT NBR 5674</li>
+        <li><svg class="ic"><use href="#i-check"/></svg> Exportação imediata em CSV e Laudos</li>
+        <li><svg class="ic"><use href="#i-check"/></svg> Geolocalização PostGIS de prédios</li>
+        <li><svg class="ic"><use href="#i-check"/></svg> Cancelamento obrigatório de justificativa</li>
+      </ul>
+    </section>
+
+    <!-- Chamada para Ação (CTA) -->
+    <div class="op-cta">
+      <div>
+        <h3>Veja o Urboa com os dados do <em>seu município</em></h3>
+        <p>Apresentação executiva e simulação de 20 minutos com as secretarias de Obras, Educação e Saúde.</p>
+      </div>
+      <span class="op-cta__btn">
+        <span>Agendar Demonstração</span>
+        <svg class="ic"><use href="#i-arrow"/></svg>
+      </span>
+    </div>
+
+  </div>
+
+  <!-- Rodapé Página 2 -->
+  <footer class="op-foot">
+    <span>contato@urboa.gov.br · www.urboa.gov.br · Desenvolvido para modernizar a gestão pública</span>
+    <span>Página 2 de 2</span>
+  </footer>
+</article>
+
+</body>
+</html>

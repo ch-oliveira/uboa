@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Urboa · Apresentação institucional</title>
+  <meta name="description" content="Urboa: plataforma de zeladoria e manutenção predial para prefeituras. Chamados, equipes, vistorias, contratos e prestação de contas ao TCE em um só lugar.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap">
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/deck.css">
+</head>
+<body>
+
+<!-- Ícones (estilo Lucide) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8z"/><path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M22 7l-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-snow" viewBox="0 0 24 24"><path d="M2 12h20M12 2v20M20 16l-4-4 4-4M4 8l4 4-4 4M16 4l-4 4-4-4M8 20l4-4 4 4"/></symbol>
+  <symbol id="i-mega" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8M10 9H8"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 3l14 9-14 9z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol>
+  <symbol id="i-hash" viewBox="0 0 24 24"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></symbol>
+  <symbol id="i-kanban" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></symbol>
+  <symbol id="i-toggle" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="6"/><circle cx="16" cy="12" r="2"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></symbol>
+  <symbol id="i-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+</svg>
+
+<div class="progress" aria-hidden="true"><div class="progress__bar"></div></div>
+
+<div class="viewport">
+  <main class="stage deck" id="deck" aria-roledescription="apresentação" aria-label="Apresentação Urboa">
+
+    <!-- ============================== 01 · CAPA ============================== -->
+    <section class="slide" id="s-cover" data-title="Capa" aria-label="Capa">
+      <div class="cover">
+        <div class="cover__text">
+          <div class="logo" data-a style="--d:0"><span class="logo__mark">u.</span>Urboa</div>
+          <span class="eyebrow" data-a style="--d:1">Zeladoria inteligente para prédios públicos</span>
+          <h1 class="display" data-a style="--d:2">Chamados resolvidos.<br><em>Contas em dia.</em></h1>
+          <p class="lead" data-a style="--d:3">Chamados, equipes de campo, vistorias, contratos e prestação de contas das escolas, UBSs e prédios do município, <strong>tudo registrado em um só lugar</strong>.</p>
+          <div class="row" data-a style="--d:4">
+            <span class="chip"><svg class="ic"><use href="#i-shield"/></svg>ABNT NBR 5674</span>
+            <span class="chip"><svg class="ic"><use href="#i-file"/></svg>Rastreável para o TCE</span>
+            <span class="chip"><svg class="ic"><use href="#i-sparkles"/></svg>IA integrada</span>
+          </div>
+        </div>
+
+        <div class="cover__visual" aria-hidden="true">
+          <div class="cover__glow"></div>
+          <div class="cover__tilt" data-a="right" style="--d:3">
+            <div class="frame">
+              <div class="frame__bar"><i></i><i></i><i></i><span class="frame__url">app.urboa · Hoje</span></div>
+              <img src="assets/shots/painel-hoje.jpg" alt="">
+            </div>
+          </div>
+          <div class="cover__float cover__float--a" data-a style="--d:6">
+            <span class="badge badge--rose"><svg class="ic"><use href="#i-alert"/></svg></span>
+            <div><strong>2 urgências ativas</strong><small>Prazo de 4 horas</small></div>
+          </div>
+          <div class="cover__float cover__float--b" data-a style="--d:7">
+            <span class="badge badge--green"><svg class="ic"><use href="#i-camera"/></svg></span>
+            <div><strong>Serviço concluído</strong><small>Foto anexada · aceite da unidade</small></div>
+          </div>
+        </div>
+      </div>
+      <footer class="slide__foot"><span>Apresentação institucional · 2026</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+    <!-- ============================== 02 · PROBLEMA ============================== -->
+    <section class="slide" id="s-problem" data-title="O problema" aria-label="O problema">
+      <header class="head">
+        <span class="eyebrow" data-a style="--d:0">O cenário atual</span>
+        <h2 class="title" data-a style="--d:1">A manutenção dos prédios públicos<br>ainda acontece <em>no escuro</em>.</h2>
+      </header>
+
+      <div class="grid-4">
+        <article class="card pain" data-a style="--d:2">
+          <div class="row"><span class="badge badge--amber"><svg class="ic"><use href="#i-msg"/></svg></span><span class="pain__num">01</span></div>
+          <h3>Pedidos espalhados</h3>
+          <p>WhatsApp, telefone, ofício e planilha. Nada fica num lugar só e muita coisa se perde no caminho.</p>
+        </article>
+        <article class="card pain" data-a style="--d:3">
+          <div class="row"><span class="badge badge--amber"><svg class="ic"><use href="#i-clock"/></svg></span><span class="pain__num">02</span></div>
+          <h3>Prazos sem dono</h3>
+          <p>Ninguém sabe o que está atrasado até a diretora da escola ligar reclamando.</p>
+        </article>
+        <article class="card pain" data-a style="--d:4">
+          <div class="row"><span class="badge badge--amber"><svg class="ic"><use href="#i-camera"/></svg></span><span class="pain__num">03</span></div>
+          <h3>Serviço sem comprovação</h3>
+          <p>Sem foto, sem histórico, sem aceite. Fica difícil provar o que foi feito quando chega a auditoria.</p>
+        </article>
+        <article class="card pain" data-a style="--d:5">
+          <div class="row"><span class="badge badge--amber"><svg class="ic"><use href="#i-wallet"/></svg></span><span class="pain__num">04</span></div>
+          <h3>Contratos no limite</h3>
+          <p>O saldo do empenho estoura e a vigência vence sem que ninguém perceba a tempo.</p>
+        </article>
+      </div>
+
+      <div class="verdict" data-a style="--d:7">
+        <svg class="ic"><use href="#i-alert"/></svg>
+        <p>Resultado: <strong>retrabalho, desgaste com a população e apontamentos do Tribunal de Contas.</strong></p>
+      </div>
+      <footer class="slide__foot"><span class="brand-mini"><span class="logo logo--sm"><span class="logo__mark">u.</span></span>Urboa</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+    <!-- ============================== 03 · SOLUÇÃO ============================== -->
+    <section class="slide" id="s-solution" data-title="A solução" aria-label="A solução">
+      <header class="head">
+        <span class="eyebrow" data-a style="--d:0">A solução</span>
+        <h2 class="title" data-a style="--d:1">Uma plataforma. Quatro perfis.<br><em>Um registro único.</em></h2>
+      </header>
+
+      <div class="grid-4">
+        <article class="card role" style="--accent: var(--sky-400); --d:2" data-a>
+          <span class="badge"><svg class="ic"><use href="#i-building"/></svg></span>
+          <div><span class="role__who">Escolas, UBSs, prédios</span><h3>Solicitante</h3></div>
+          <hr>
+          <ul class="check-list">
+            <li><svg class="ic"><use href="#i-check"/></svg>Abre chamado com foto pelo celular</li>
+            <li><svg class="ic"><use href="#i-check"/></svg>Acompanha cada etapa</li>
+            <li><svg class="ic"><use href="#i-check"/></svg>Confere e dá o aceite final</li>
+          </ul>
+        </article>
+        <article class="card role" style="--accent: var(--blue-500); --d:3" data-a>
+          <span class="badge badge--blue"><svg class="ic"><use href="#i-layers"/></svg></span>
+          <div><span class="role__who">Secretarias</span><h3>Gestor</h3></div>
+          <hr>
+          <ul class="check-list">
+            <li><svg class="ic"><use href="#i-check"/></svg>Faz a triagem e define prioridade</li>
+            <li><svg class="ic"><use href="#i-check"/></svg>Distribui para as equipes</li>
+            <li><svg class="ic"><use href="#i-check"/></svg>Controla contratos e materiais</li>
+          </ul>
+        </article>
+        <article class="card role" style="--accent: var(--amber-400); --d:4" data-a>
+          <span class="badge badge--amber"><svg class="ic"><use href="#i-wrench"/></svg></span>
+          <div><span class="role__who">Equipes de campo</span><h3>Técnico</h3></div>
+          <hr>
+          <ul class="check-list">
+            <li><svg class="ic"><use href="#i-check"/></svg>Recebe a pauta do dia</li>
+            <li><svg class="ic"><use href="#i-check"/></svg>Executa e comprova com foto</li>
+            <li><svg class="ic"><use href="#i-check"/></svg>Lança os materiais usados</li>
+          </ul>
+        </article>
+        <article class="card role" style="--accent: var(--violet-400); --d:5" data-a>
+          <span class="badge badge--violet"><svg class="ic"><use href="#i-shield"/></svg></span>
+          <div><span class="role__who">Governança</span><h3>Administração</h3></div>
+          <hr>
+          <ul class="check-list">
+            <li><svg class="ic"><use href="#i-check"/></svg>Define prazos e regras</li>
+            <li><svg class="ic"><use href="#i-check"/></svg>Gerencia usuários e acessos</li>
+            <li><svg class="ic"><use href="#i-check"/></svg>Acompanha a auditoria</li>
+          </ul>
+        </article>
+      </div>
+
+      <p class="unified" data-a="fade" style="--d:7"><span>Tudo no <strong>mesmo histórico</strong>, auditável do início ao fim.</span></p>
+      <footer class="slide__foot"><span class="brand-mini"><span class="logo logo--sm"><span class="logo__mark">u.</span></span>Urboa</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+    <!-- ============================== 04 · CICLO DA OS ============================== -->
+    <section class="slide" id="s-flow" data-title="Ciclo do chamado" aria-label="Ciclo do chamado">
+      <header class="head" style="margin-bottom:40px">
+        <span class="eyebrow" data-a style="--d:0">Como funciona</span>
+        <h2 class="title title--sm" data-a style="--d:1">Cada chamado segue um <em>caminho com travas</em>.</h2>
+      </header>
+
+      <ol class="steps">
+        <li class="step step--done" data-a style="--d:2">
+          <span class="step__n">1</span><h4>Triagem</h4><span class="step__who">Gestão</span>
+          <span class="step__lock"><svg class="ic"><use href="#i-lock"/></svg>Prioridade e prazo definidos</span>
+        </li>
+        <li class="step step--done" data-a style="--d:3">
+          <span class="step__n">2</span><h4>Agendado</h4><span class="step__who">Gestão</span>
+          <span class="step__lock"><svg class="ic"><use href="#i-lock"/></svg>Técnico responsável obrigatório</span>
+        </li>
+        <li class="step step--done" data-a style="--d:4">
+          <span class="step__n">3</span><h4>Execução</h4><span class="step__who">Equipe em campo</span>
+          <span class="step__lock"><svg class="ic"><use href="#i-lock"/></svg>Pausa só com justificativa</span>
+        </li>
+        <li class="step" data-a style="--d:5">
+          <span class="step__n">4</span><h4>Validação</h4><span class="step__who">Unidade</span>
+          <span class="step__lock"><svg class="ic"><use href="#i-lock"/></svg>Aceite formal de quem pediu</span>
+        </li>
+        <li class="step" data-a style="--d:6">
+          <span class="step__n">5</span><h4>Concluído</h4><span class="step__who">Formalizado</span>
+          <span class="step__lock"><svg class="ic"><use href="#i-lock"/></svg>Pelo menos 1 foto de conclusão</span>
+        </li>
+      </ol>
+
+      <div class="flow-bottom">
+        <div class="frame" data-a="scale" style="--d:7">
+          <div class="frame__bar"><i></i><i></i><i></i><span class="frame__url">Chamado CH-104940</span></div>
+          <img src="assets/shots/chamado-fluxo.jpg" alt="Tela de detalhe de um chamado mostrando as cinco etapas e a etapa atual de validação pela unidade">
+        </div>
+        <div class="side-facts">
+          <div class="card" data-a="right" style="--d:8">
+            <span class="badge badge--rose"><svg class="ic"><use href="#i-x"/></svg></span>
+            <div><h3>Cancelar? Só com motivo.</h3><p>Exigência do Tribunal de Contas, registrada no histórico.</p></div>
+          </div>
+          <div class="card" data-a="right" style="--d:9">
+            <span class="badge badge--green"><svg class="ic"><use href="#i-file"/></svg></span>
+            <div><h3>"A bola da vez"</h3><p>Cada etapa mostra quem precisa agir agora. Ninguém fica esperando sem saber.</p></div>
+          </div>
+          <div class="card" data-a="right" style="--d:10">
+            <span class="badge"><svg class="ic"><use href="#i-shield"/></svg></span>
+            <div><h3>Auditoria em cada chamado</h3><p>Quem fez, o quê e quando, sem possibilidade de apagar.</p></div>
+          </div>
+        </div>
+      </div>
+      <footer class="slide__foot"><span class="brand-mini"><span class="logo logo--sm"><span class="logo__mark">u.</span></span>Urboa</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+    <!-- ============================== 05 · SOLICITANTE ============================== -->
+    <section class="slide" id="s-requester" data-title="Solicitante" aria-label="Para quem pede: solicitante">
+      <div class="persona">
+        <div class="persona__visual" data-a="scale" style="--d:1">
+          <div class="phone"><div class="phone__screen"><img src="assets/shots/abrir-chamado-mobile.jpg" alt="Tela de abertura de chamado no celular"></div></div>
+        </div>
+        <div class="persona__text">
+          <header class="head" style="margin:0">
+            <span class="eyebrow" data-a style="--d:0">Para quem pede · Solicitante</span>
+            <h2 class="title" data-a style="--d:1">Do problema ao chamado<br>em <em>45 segundos</em>.</h2>
+          </header>
+          <div class="features">
+            <div class="feature" data-a style="--d:3">
+              <span class="badge"><svg class="ic"><use href="#i-camera"/></svg></span>
+              <div><h4>Foto direto do celular</h4><p>O técnico já sabe o que vai encontrar e leva a peça certa.</p></div>
+            </div>
+            <div class="feature" data-a style="--d:4">
+              <span class="badge badge--rose"><svg class="ic"><use href="#i-alert"/></svg></span>
+              <div><h4>Urgência informada por quem está no local</h4><p>Falta de energia na UBS não espera na mesma fila que uma pintura.</p></div>
+            </div>
+            <div class="feature" data-a style="--d:5">
+              <span class="badge badge--amber"><svg class="ic"><use href="#i-bell"/></svg></span>
+              <div><h4>Aviso a cada etapa</h4><p>Técnico atribuído, a caminho, concluído. Sem precisar ligar para perguntar.</p></div>
+            </div>
+            <div class="feature" data-a style="--d:6">
+              <span class="badge badge--green"><svg class="ic"><use href="#i-check"/></svg></span>
+              <div><h4>Aceite antes de encerrar</h4><p>A unidade confere o serviço e só então o chamado é concluído.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="slide__foot"><span class="brand-mini"><span class="logo logo--sm"><span class="logo__mark">u.</span></span>Urboa</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+    <!-- ============================== 06 · GESTOR ============================== -->
+    <section class="slide" id="s-manager" data-title="Gestor" aria-label="Para quem decide: gestor">
+      <header class="head" style="margin-bottom:40px">
+        <span class="eyebrow" data-a style="--d:0">Para quem decide · Gestor</span>
+        <h2 class="title title--sm" data-a style="--d:1">Tudo o que precisa de decisão, <em>numa tela só</em>.</h2>
+      </header>
+      <div class="split-shot">
+        <div class="frame" data-a="scale" style="--d:2">
+          <div class="frame__bar"><i></i><i></i><i></i><span class="frame__url">app.urboa · Hoje</span></div>
+          <img src="assets/shots/painel-hoje.jpg" alt="Painel Hoje do gestor com indicadores, fila de decisões e agenda do dia">
+        </div>
+        <div class="callouts">
+          <div class="callout" data-a="right" style="--d:3">
+            <span class="callout__n">1</span>
+            <div><h4>Urgências em destaque</h4><p>Chamados com prazo de 4 horas aparecem primeiro, antes de virarem problema.</p></div>
+          </div>
+          <div class="callout" data-a="right" style="--d:4">
+            <span class="callout__n">2</span>
+            <div><h4>Fila de decisões</h4><p>Triar, validar ou acompanhar: a ação certa ao lado de cada chamado.</p></div>
+          </div>
+          <div class="callout" data-a="right" style="--d:5">
+            <span class="callout__n">3</span>
+            <div><h4>Agenda do dia</h4><p>Vistorias preventivas e quem está em cada prédio.</p></div>
+          </div>
+          <div class="callout" data-a="right" style="--d:6">
+            <span class="callout__n">4</span>
+            <div><h4>"Triar próximo" com IA</h4><p>Sugestão de prioridade e equipe para agilizar a triagem.</p></div>
+          </div>
+        </div>
+      </div>
+      <footer class="slide__foot"><span class="brand-mini"><span class="logo logo--sm"><span class="logo__mark">u.</span></span>Urboa</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+    <!-- ============================== 07 · REDE ============================== -->
+    <section class="slide" id="s-network" data-title="Visão da rede" aria-label="Visão da rede municipal">
+      <header class="head" style="margin-bottom:40px">
+        <span class="eyebrow" data-a style="--d:0">Visão da rede</span>
+        <h2 class="title title--sm" data-a style="--d:1">Toda a rede municipal, <em>em tempo real</em>.</h2>
+      </header>
+      <div class="mosaic">
+        <div class="frame mosaic__a" data-a="left" style="--d:2">
+          <div class="frame__bar"><i></i><i></i><i></i><span class="frame__url">Chamados · Quadro</span></div>
+          <img src="assets/shots/chamados-quadro.jpg" alt="Quadro de chamados em colunas: triagem, agendado, em execução e aguardando validação">
+        </div>
+        <span class="mosaic__label" style="left:32px; top:-20px; --d:5" data-a><svg class="ic"><use href="#i-kanban"/></svg>Quadro de chamados</span>
+
+        <div class="frame mosaic__b" data-a="right" style="--d:3">
+          <div class="frame__bar"><i></i><i></i><i></i><span class="frame__url">Unidades</span></div>
+          <img src="assets/shots/unidades.jpg" alt="Inventário de prédios públicos com situação de cada unidade">
+        </div>
+        <span class="mosaic__label" style="right:32px; top:-20px; --d:6" data-a><svg class="ic"><use href="#i-building"/></svg>Prédios e histórico</span>
+
+        <div class="frame mosaic__c" data-a style="--d:4">
+          <div class="frame__bar"><i></i><i></i><i></i><span class="frame__url">Agenda</span></div>
+          <img src="assets/shots/agenda.jpg" alt="Agenda semanal de vistorias por técnico">
+        </div>
+        <span class="mosaic__label" style="right:600px; bottom:300px; --d:7" data-a><svg class="ic"><use href="#i-cal"/></svg>Vistorias preventivas</span>
+      </div>
+      <footer class="slide__foot" style="z-index:5"><span class="brand-mini"><span class="logo logo--sm"><span class="logo__mark">u.</span></span>Urboa</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+    <!-- ============================== 08 · TÉCNICO ============================== -->
+    <section class="slide" id="s-tech" data-title="Técnico" aria-label="Em campo: técnico">
+      <div class="persona persona--rev">
+        <div class="persona__text">
+          <header class="head" style="margin:0">
+            <span class="eyebrow" data-a style="--d:0">Em campo · Técnico</span>
+            <h2 class="title" data-a style="--d:1">O técnico registra<br><em>tudo na hora</em>.</h2>
+          </header>
+          <div class="features">
+            <div class="feature" data-a style="--d:3">
+              <span class="badge badge--amber"><svg class="ic"><use href="#i-cal"/></svg></span>
+              <div><h4>Pauta do dia por prioridade</h4><p>No celular, no tablet ou no notebook.</p></div>
+            </div>
+            <div class="feature" data-a style="--d:4">
+              <span class="badge"><svg class="ic"><use href="#i-snow"/></svg></span>
+              <div><h4>Faltou peça? O prazo congela.</h4><p>A pausa justificada não conta contra a equipe nem contra o município.</p></div>
+            </div>
+            <div class="feature" data-a style="--d:5">
+              <span class="badge badge--rose"><svg class="ic"><use href="#i-alert"/></svg></span>
+              <div><h4>Reporta riscos encontrados no local</h4><p>Com foto e localização, direto para a fila prioritária da gestão.</p></div>
+            </div>
+            <div class="feature" data-a style="--d:6">
+              <span class="badge badge--green"><svg class="ic"><use href="#i-db"/></svg></span>
+              <div><h4>Material lançado, estoque atualizado</h4><p>O custo de cada serviço fica registrado na própria ordem.</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="persona__visual" data-a="scale" style="--d:3">
+          <article class="os-mock" aria-label="Exemplo de ordem de serviço pausada por falta de peça">
+            <div class="os-mock__top"><span>OS-104938 · Hidráulica</span><span class="chip chip--amber"><svg class="ic"><use href="#i-pause"/></svg>Aguardando peça</span></div>
+            <div>
+              <h3>Vazamento em registros de torneiras infantis</h3>
+              <p class="os-mock__place" style="margin-top:10px"><svg class="ic"><use href="#i-pin"/></svg>EMEI Sementinha · Sanitário Infantil Ala B</p>
+            </div>
+            <div class="sla-freeze">
+              <div class="ring"><svg class="ic"><use href="#i-snow"/></svg></div>
+              <div><strong>Prazo congelado</strong><span>Motivo: aguardando registro 3/4" do fornecedor. O relógio volta a contar quando o técnico retomar.</span></div>
+            </div>
+            <ul class="mat-list">
+              <li class="mat-list__head"><span>Material lançado</span><span>Qtd.</span></li>
+              <li><span>Registro de pressão 3/4"</span><span>2 un</span></li>
+              <li><span>Fita veda-rosca 18 mm</span><span>1 un</span></li>
+            </ul>
+            <div class="os-mock__actions">
+              <span class="btn btn--ghost"><svg class="ic"><use href="#i-camera"/></svg>Anexar foto</span>
+              <span class="btn btn--primary"><svg class="ic"><use href="#i-play"/></svg>Retomar execução</span>
+            </div>
+          </article>
+        </div>
+      </div>
+      <footer class="slide__foot"><span class="brand-mini"><span class="logo logo--sm"><span class="logo__mark">u.</span></span>Urboa</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+    <!-- ============================== 09 · PRAZOS ============================== -->
+    <section class="slide" id="s-sla" data-title="Prazos" aria-label="Prazos de atendimento">
+      <header class="head">
+        <span class="eyebrow" data-a style="--d:0">Prazos de atendimento</span>
+        <h2 class="title" data-a style="--d:1">Prazos claros. <em>Pausas justas.</em></h2>
+      </header>
+
+      <div class="grid-4">
+        <article class="card sla-card" style="--accent: var(--rose-400); --accent-soft: var(--rose-300); --d:2" data-a>
+          <span class="sla-card__label">Urgente</span>
+          <span class="sla-card__time">4<small>horas</small></span>
+          <p>Risco à vida, fiação exposta, falta de água em UBS, vazamento de gás.</p>
+        </article>
+        <article class="card sla-card" style="--accent: var(--amber-400); --accent-soft: var(--amber-300); --d:3" data-a>
+          <span class="sla-card__label">Alta</span>
+          <span class="sla-card__time">24<small>horas</small></span>
+          <p>Sala de aula sem luz, bomba d'água parada, fechadura externa arrombada.</p>
+        </article>
+        <article class="card sla-card" style="--accent: var(--blue-500); --accent-soft: hsl(214, 95%, 80%); --d:4" data-a>
+          <span class="sla-card__label">Média</span>
+          <span class="sla-card__time">72<small>horas</small></span>
+          <p>Torneira pingando, trinco quebrado, infiltração leve, ventilador queimado.</p>
+        </article>
+        <article class="card sla-card" style="--accent: var(--green-400); --accent-soft: var(--green-300); --d:5" data-a>
+          <span class="sla-card__label">Baixa</span>
+          <span class="sla-card__time">7<small>dias</small></span>
+          <p>Retoque de pintura, reparo de calçada externa, instalação de quadro de avisos.</p>
+        </article>
+      </div>
+
+      <div class="formula" data-a style="--d:7">
+        <div class="formula__term"><small>Abertura</small><strong>Data e hora do pedido</strong></div>
+        <span class="formula__op">+</span>
+        <div class="formula__term"><small>Prioridade</small><strong>Prazo da tabela</strong></div>
+        <span class="formula__op">+</span>
+        <div class="formula__term formula__term--pause"><small>Pausas justificadas</small><strong>Tempo congelado</strong></div>
+        <span class="formula__op">=</span>
+        <div class="formula__term formula__term--result"><small>Resultado</small><strong>Prazo final</strong></div>
+      </div>
+
+      <p class="footnote" data-a style="--d:8"><svg class="ic"><use href="#i-alert"/></svg>Estourou o prazo? O encerramento exige justificativa, que entra no relatório de transparência. Os prazos são configuráveis por prefeitura.</p>
+      <footer class="slide__foot"><span class="brand-mini"><span class="logo logo--sm"><span class="logo__mark">u.</span></span>Urboa</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+    <!-- ============================== 10 · GOVERNANÇA ============================== -->
+    <section class="slide" id="s-gov" data-title="Governança" aria-label="Governança e contratos">
+      <header class="head" style="margin-bottom:44px">
+        <span class="eyebrow" data-a style="--d:0">Governança e contratos</span>
+        <h2 class="title title--sm" data-a style="--d:1">Travas que <em>protegem o gestor</em> na auditoria.</h2>
+      </header>
+
+      <div class="gov">
+        <article class="card" data-a="left" style="--d:2">
+          <div class="gov__title"><span class="badge badge--amber"><svg class="ic"><use href="#i-wallet"/></svg></span><div><h3>Saldo e vigência do contrato</h3><p style="font-size:19px">Nenhuma ordem passa do valor empenhado nem usa contrato vencido.</p></div></div>
+          <div class="contract__meta"><span>Contrato 014/2026 · <strong>Manutenção elétrica</strong></span><span>Vigente até 31/12/2026</span></div>
+          <div class="meter" role="img" aria-label="94% do saldo utilizado"><span></span></div>
+          <div class="contract__nums">
+            <div><small>Empenhado</small><strong>R$ 480.000</strong></div>
+            <div><small>Utilizado</small><strong>R$ 452.300</strong></div>
+            <div><small>Saldo</small><strong>R$ 27.700</strong></div>
+          </div>
+          <div class="blocked">
+            <svg class="ic"><use href="#i-lock"/></svg>
+            <div><strong>Medição de R$ 31.200 bloqueada</strong><span>SALDO_CONTRATUAL_INSUFICIENTE</span></div>
+          </div>
+          <span class="illus">Valores ilustrativos.</span>
+        </article>
+
+        <article class="card" data-a="right" style="--d:3">
+          <div class="gov__title"><span class="badge badge--green"><svg class="ic"><use href="#i-shield"/></svg></span><div><h3>Trilha de auditoria</h3><p style="font-size:19px">Toda ação sensível fica registrada com autor, data e o antes e depois.</p></div></div>
+          <ol class="log">
+            <li><time>14:02</time><b class="c">UPDATE</b><span>Mariana Alves · Contrato 014/2026 · saldo</span></li>
+            <li><time>13:47</time><b class="u">UPDATE</b><span>Admin · Perfil de usuário → GESTOR</span></li>
+            <li><time>11:20</time><b class="x">CANCEL</b><span>Mariana Alves · OS-104911 · motivo: duplicada</span></li>
+            <li><time>10:05</time><b class="n">CREATE</b><span>Admin · Técnico Lucas Pereira</span></li>
+            <li><time>09:31</time><b class="c">UPDATE</b><span>Admin · Prazo URGENTE → 4h</span></li>
+          </ol>
+          <p class="log__lock"><svg class="ic"><use href="#i-lock"/></svg>Registros não podem ser editados nem apagados.</p>
+        </article>
+      </div>
+
+      <div class="gov-strip">
+        <div data-a style="--d:5"><svg class="ic"><use href="#i-x"/></svg>Cancelamento só com motivo</div>
+        <div data-a style="--d:6"><svg class="ic"><use href="#i-camera"/></svg>Foto obrigatória na conclusão</div>
+        <div data-a style="--d:7"><svg class="ic"><use href="#i-toggle"/></svg>Módulos ativados por contrato</div>
+      </div>
+      <footer class="slide__foot"><span class="brand-mini"><span class="logo logo--sm"><span class="logo__mark">u.</span></span>Urboa</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+    <!-- ============================== 11 · OUVIDORIA ============================== -->
+    <section class="slide" id="s-ombuds" data-title="Ouvidoria 156" aria-label="Ouvidoria 156">
+      <header class="head head--center" style="margin-bottom:72px">
+        <span class="eyebrow" data-a style="--d:0">Ouvidoria 156</span>
+        <h2 class="title" data-a style="--d:1">A voz do cidadão vira <em>ordem de serviço</em>.</h2>
+      </header>
+
+      <div class="journey">
+        <div class="journey__node" data-a style="--d:2">
+          <span class="journey__dot"><svg class="ic"><use href="#i-mega"/></svg></span>
+          <h4>Cidadão registra</h4>
+          <p>De forma anônima ou identificada, como garante a lei.</p>
+        </div>
+        <div class="journey__node" data-a style="--d:3">
+          <span class="journey__dot"><svg class="ic"><use href="#i-hash"/></svg></span>
+          <h4>Recebe um protocolo</h4>
+          <p>Número único e rastreável para acompanhar a resposta.</p>
+        </div>
+        <div class="journey__node" data-a style="--d:4">
+          <span class="journey__dot"><svg class="ic"><use href="#i-wrench"/></svg></span>
+          <h4>Vira OS em um clique</h4>
+          <p>A triagem converte a manifestação e mantém o vínculo com a origem.</p>
+        </div>
+        <div class="journey__node" data-a style="--d:5">
+          <span class="journey__dot"><svg class="ic"><use href="#i-camera"/></svg></span>
+          <h4>Resposta com antes e depois</h4>
+          <p>Ao concluir, a resposta oficial já vem preenchida com as fotos.</p>
+        </div>
+      </div>
+
+      <article class="card ticket" data-a="scale" style="--d:7">
+        <span class="ticket__proto">OUV-482913</span>
+        <div><h3>Brinquedo quebrado no parquinho da Praça da Matriz</h3><p>Manifestação identificada · recebida às 08:14 · cidadão notificado por e-mail</p></div>
+        <span class="chip chip--green"><svg class="ic"><use href="#i-check"/></svg>Convertida em OS</span>
+      </article>
+      <footer class="slide__foot"><span class="brand-mini"><span class="logo logo--sm"><span class="logo__mark">u.</span></span>Urboa</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+    <!-- ============================== 12 · IA ============================== -->
+    <section class="slide" id="s-ai" data-title="Urbi IA" aria-label="Urbi, assistente de IA">
+      <div class="ai">
+        <div class="persona__text">
+          <header class="head" style="margin:0">
+            <span class="eyebrow" data-a style="--d:0">Urbi · Assistente de IA</span>
+            <h2 class="title" data-a style="--d:1">Pergunte em português.<br><em>Receba a resposta com fonte.</em></h2>
+            <p class="lead" data-a style="--d:2">O Urbi consulta os dados oficiais da prefeitura e responde em segundos, sem precisar montar relatório.</p>
+          </header>
+          <div class="ask-list">
+            <span class="ask" data-a style="--d:4"><svg class="ic"><use href="#i-sparkles"/></svg>Quais chamados correm risco de estourar o prazo?</span>
+            <span class="ask" data-a style="--d:5"><svg class="ic"><use href="#i-sparkles"/></svg>Quantos profissionais precisamos para dar conta da fila?</span>
+            <span class="ask" data-a style="--d:6"><svg class="ic"><use href="#i-sparkles"/></svg>Quais prédios têm problemas que se repetem?</span>
+          </div>
+        </div>
+        <div class="frame" data-a="scale" style="--d:3">
+          <div class="frame__bar"><i></i><i></i><i></i><span class="frame__url">Urbi · Operação Municipal</span></div>
+          <img src="assets/shots/urbia-painel.jpg" alt="Painel do assistente Urbi respondendo um resumo geral dos chamados com fonte na base oficial">
+        </div>
+      </div>
+      <footer class="slide__foot"><span class="brand-mini"><span class="logo logo--sm"><span class="logo__mark">u.</span></span>Urboa</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+    <!-- ============================== 13 · RELATÓRIOS ============================== -->
+    <section class="slide" id="s-reports" data-title="Relatórios" aria-label="Relatórios e prestação de contas">
+      <header class="head" style="margin-bottom:40px">
+        <span class="eyebrow" data-a style="--d:0">Relatórios e prestação de contas</span>
+        <h2 class="title title--sm" data-a style="--d:1">Prestação de contas <em>sem planilha</em>.</h2>
+      </header>
+      <div class="split-shot">
+        <div class="frame" data-a="scale" style="--d:2">
+          <div class="frame__bar"><i></i><i></i><i></i><span class="frame__url">Relatórios e Indicadores</span></div>
+          <img src="assets/shots/relatorios.jpg" alt="Tela de relatórios com backlog, equipe em campo, saúde predial e taxa de resolução">
+        </div>
+        <ul class="metric-list">
+          <li data-a="right" style="--d:3"><svg class="ic"><use href="#i-gauge"/></svg><div>Tempo médio de atendimento<small>Por secretaria, unidade e especialidade</small></div></li>
+          <li data-a="right" style="--d:4"><svg class="ic"><use href="#i-clock"/></svg><div>Cumprimento de prazos<small>Com justificativa de cada atraso</small></div></li>
+          <li data-a="right" style="--d:5"><svg class="ic"><use href="#i-heart"/></svg><div>Saúde predial<small>Prédios críticos e problemas recorrentes</small></div></li>
+          <li data-a="right" style="--d:6"><svg class="ic"><use href="#i-wallet"/></svg><div>Custos por secretaria<small>Material e mão de obra por ordem</small></div></li>
+          <li data-a="right" style="--d:7"><svg class="ic"><use href="#i-download"/></svg><div>Exportação para TCE / TCU<small>CSV, impressão e prévia do documento</small></div></li>
+        </ul>
+      </div>
+      <footer class="slide__foot"><span class="brand-mini"><span class="logo logo--sm"><span class="logo__mark">u.</span></span>Urboa</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+    <!-- ============================== 14 · SEGURANÇA ============================== -->
+    <section class="slide" id="s-sec" data-title="Segurança" aria-label="Segurança e tecnologia">
+      <header class="head">
+        <span class="eyebrow" data-a style="--d:0">Segurança e tecnologia</span>
+        <h2 class="title" data-a style="--d:1">Feito para o <em>setor público</em>.</h2>
+      </header>
+      <div class="grid-3 sec">
+        <article class="card" data-a style="--d:2">
+          <span class="badge"><svg class="ic"><use href="#i-building"/></svg></span>
+          <h3>Dados isolados por prefeitura</h3>
+          <p>Cada município enxerga apenas as próprias informações, em todas as telas e consultas.</p>
+        </article>
+        <article class="card" data-a style="--d:3">
+          <span class="badge badge--blue"><svg class="ic"><use href="#i-users"/></svg></span>
+          <h3>Acesso por perfil</h3>
+          <p>Solicitante, técnico, gestor e administrador veem e fazem só o que lhes cabe.</p>
+        </article>
+        <article class="card" data-a style="--d:4">
+          <span class="badge badge--green"><svg class="ic"><use href="#i-shield"/></svg></span>
+          <h3>Histórico imutável</h3>
+          <p>Alterações de perfis, contratos e cancelamentos ficam gravadas para sempre.</p>
+        </article>
+        <article class="card" data-a style="--d:5">
+          <span class="badge badge--violet"><svg class="ic"><use href="#i-toggle"/></svg></span>
+          <h3>Módulos sob medida</h3>
+          <p>Ouvidoria, IA e transparência são ativados conforme o contrato do município.</p>
+        </article>
+        <article class="card" data-a style="--d:6">
+          <span class="badge badge--amber"><svg class="ic"><use href="#i-phone"/></svg></span>
+          <h3>App para as equipes</h3>
+          <p>Técnicos trabalham pelo celular, com foto e localização no próprio atendimento.</p>
+        </article>
+        <article class="card" data-a style="--d:7">
+          <span class="badge"><svg class="ic"><use href="#i-cloud"/></svg></span>
+          <h3>Nuvem com ambientes separados</h3>
+          <p>Homologação e produção isolados, com exportação de backups dos dados.</p>
+        </article>
+      </div>
+      <footer class="slide__foot"><span class="brand-mini"><span class="logo logo--sm"><span class="logo__mark">u.</span></span>Urboa</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+    <!-- ============================== 15 · IMPLANTAÇÃO ============================== -->
+    <section class="slide" id="s-rollout" data-title="Implantação" aria-label="Como começamos">
+      <header class="head" style="margin-bottom:64px">
+        <span class="eyebrow" data-a style="--d:0">Implantação</span>
+        <h2 class="title" data-a style="--d:1">Como <em>começamos</em>.</h2>
+      </header>
+      <div class="timeline">
+        <div class="phase" data-a style="--d:2">
+          <span class="phase__n">01</span>
+          <h3>Diagnóstico</h3>
+          <p>Levantamos prédios, secretarias, contratos e equipes do município.</p>
+        </div>
+        <div class="phase" data-a style="--d:3">
+          <span class="phase__n">02</span>
+          <h3>Configuração</h3>
+          <p>Cadastro das unidades, prazos, usuários e contratos vigentes.</p>
+        </div>
+        <div class="phase" data-a style="--d:4">
+          <span class="phase__n">03</span>
+          <h3>Piloto</h3>
+          <p>Uma secretaria usando no dia a dia, com acompanhamento próximo.</p>
+        </div>
+        <div class="phase" data-a style="--d:5">
+          <span class="phase__n">04</span>
+          <h3>Expansão</h3>
+          <p>Toda a rede municipal conectada, com relatórios para o TCE.</p>
+        </div>
+      </div>
+      <div class="demo-banner" data-a style="--d:7">
+        <div><strong>Primeiro passo: uma demonstração de 20 minutos.</strong><p>Com chamados, unidades e fluxos da sua secretaria.</p></div>
+        <span class="btn btn--primary" style="padding:0 32px">Agendar demonstração<svg class="ic"><use href="#i-arrow"/></svg></span>
+      </div>
+      <footer class="slide__foot"><span class="brand-mini"><span class="logo logo--sm"><span class="logo__mark">u.</span></span>Urboa</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+    <!-- ============================== 16 · ENCERRAMENTO ============================== -->
+    <section class="slide" id="s-end" data-title="Obrigado" aria-label="Encerramento">
+      <div class="end">
+        <div class="logo" data-a style="--d:0"><span class="logo__mark">u.</span>Urboa</div>
+        <h2 class="display" data-a style="--d:1">Veja o Urboa com a rede<br><em>do seu município</em>.</h2>
+        <p class="lead" data-a style="--d:2">Chamados resolvidos, equipes organizadas e contas em dia, com cada passo registrado.</p>
+        <div class="end__tags" data-a style="--d:3">
+          <span class="chip"><svg class="ic"><use href="#i-building"/></svg>Escolas · UBSs · Prédios públicos</span>
+          <span class="chip"><svg class="ic"><use href="#i-shield"/></svg>Pronto para auditoria</span>
+          <span class="chip"><svg class="ic"><use href="#i-sparkles"/></svg>IA integrada</span>
+        </div>
+      </div>
+      <footer class="slide__foot"><span>Obrigado.</span><span class="slide__num" data-total="16"></span></footer>
+    </section>
+
+  </main>
+</div>
+
+<nav class="hud" aria-label="Navegação da apresentação">
+  <button type="button" id="hud-prev" aria-label="Slide anterior"><svg class="ic"><use href="#i-arrow-l"/></svg></button>
+  <span class="hud__count" data-counter aria-live="polite">01 / 16</span>
+  <button type="button" id="hud-next" aria-label="Próximo slide"><svg class="ic"><use href="#i-arrow"/></svg></button>
+  <button type="button" id="hud-full" aria-label="Tela cheia (F)"><svg class="ic"><use href="#i-expand"/></svg></button>
+</nav>
+
+<script src="deck.js"></script>
+</body>
+</html>

@@ -8,6 +8,10 @@ const nextConfig = {
     const apiUrl = rawApiUrl.replace(/\/+$/, '');
     return [
       {
+        source: '/apresentacao',
+        destination: '/apresentacao/index.html',
+      },
+      {
         source: '/api/:path*',
         destination: `${apiUrl}/:path*`,
       },

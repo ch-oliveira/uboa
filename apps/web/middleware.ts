@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const COOKIE_NAME = 'zelo_auth_token_v1';
-const PUBLIC_PATHS = ['/login', '/landing', '/abrir-chamado'];
+const PUBLIC_PATHS = ['/login', '/landing', '/abrir-chamado', '/apresentacao'];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

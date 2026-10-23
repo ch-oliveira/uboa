@@ -1,0 +1,526 @@
+/* ==========================================================================
+   Urboa — One-pager comercial (A4, 2 páginas)
+   ========================================================================== */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { background: hsl(214, 20%, 82%); }
+
+body {
+  margin: 0;
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  font-family: var(--font-sans);
+  color: var(--grey-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+p, h1, h2, h3, h4, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+@page { size: A4; margin: 0; }
+
+.page {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  overflow: hidden;
+  background: hsl(0, 0%, 100%);
+  box-shadow: var(--shadow-4);
+  display: flex;
+  flex-direction: column;
+}
+
+/* --------------------------------------------------------------------------
+   Elementos comuns
+   -------------------------------------------------------------------------- */
+.op-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -.02em;
+}
+
+.op-logo__mark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--navy-800);
+  color: hsl(0, 0%, 100%);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -.04em;
+  box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, .14);
+}
+
+.op-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--blue-600);
+}
+
+.op-h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -.015em;
+  color: var(--navy-900);
+}
+
+.op-h2 em { font-style: italic; color: var(--blue-600); }
+
+.op-section { padding: 0 44px; }
+
+.op-section__head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.op-ic {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 9px;
+  color: var(--blue-600);
+  background: hsl(214, 95%, 95%);
+}
+
+.op-ic .ic { width: 17px; height: 17px; stroke-width: 2; }
+.op-ic--rose  { color: var(--rose-600);   background: hsl(350, 90%, 96%); }
+.op-ic--amber { color: var(--amber-600);  background: hsl(43, 96%, 93%); }
+.op-ic--green { color: var(--green-600);  background: hsl(152, 60%, 93%); }
+.op-ic--violet{ color: var(--violet-600); background: hsl(270, 90%, 96%); }
+
+.op-foot {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 44px;
+  border-top: 1px solid var(--grey-100);
+  font-size: 9.5px;
+  color: var(--grey-500);
+  letter-spacing: .02em;
+}
+
+/* --------------------------------------------------------------------------
+   Página 1 · Hero
+   -------------------------------------------------------------------------- */
+.op-hero {
+  position: relative;
+  padding: 36px 44px 0;
+  height: 128mm;
+  color: hsl(0, 0%, 100%);
+  background:
+    radial-gradient(420px 300px at 92% 0%, hsla(199, 89%, 48%, .35), transparent 65%),
+    radial-gradient(360px 260px at 0% 100%, hsla(221, 83%, 53%, .3), transparent 60%),
+    linear-gradient(160deg, var(--navy-800), var(--navy-950));
+  overflow: hidden;
+}
+
+.op-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(hsla(199, 80%, 80%, .06) 1px, transparent 1px),
+    linear-gradient(90deg, hsla(199, 80%, 80%, .06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(180deg, #000 0%, transparent 85%);
+}
+
+.op-hero__top {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.op-hero__top .op-logo { color: hsl(0, 0%, 100%); }
+.op-hero__top .op-logo__mark { background: hsla(0, 0%, 100%, .1); border: 1px solid hsla(199, 80%, 85%, .25); }
+
+.op-hero__tag {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--sky-300);
+  padding: 6px 12px;
+  border-radius: var(--r-full);
+  border: 1px solid hsla(199, 89%, 70%, .35);
+  background: hsla(199, 89%, 60%, .08);
+}
+
+.op-hero__body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 30px;
+  max-width: 120mm;
+}
+
+.op-hero h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 46px;
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+
+.op-hero h1 em {
+  font-style: italic;
+  color: var(--sky-300);
+}
+
+.op-hero__lead {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--grey-300);
+  max-width: 34em;
+}
+
+.op-hero__lead strong { color: hsl(0, 0%, 100%); font-weight: 600; }
+
+.op-hero__chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+
+.op-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: var(--r-full);
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--grey-100);
+  background: hsla(0, 0%, 100%, .07);
+  border: 1px solid hsla(199, 80%, 85%, .2);
+}
+
+.op-chip .ic { width: 12px; height: 12px; color: var(--sky-300); stroke-width: 2; }
+
+.op-hero__shot {
+  position: absolute;
+  right: -40px;
+  bottom: -22px;
+  width: 128mm;
+  transform: rotate(-3deg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid hsla(199, 80%, 85%, .3);
+  box-shadow: 0 0 0 5px hsla(212, 60%, 40%, .25), 0 24px 50px hsla(222, 47%, 4%, .55);
+}
+
+/* --------------------------------------------------------------------------
+   Página 1 · Problema → solução
+   -------------------------------------------------------------------------- */
+.op-fix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.op-fix li {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--grey-50);
+  border: 1px solid var(--grey-100);
+}
+
+.op-fix__from {
+  font-size: 10px;
+  color: var(--grey-500);
+  text-decoration: line-through;
+  text-decoration-color: hsla(350, 75%, 50%, .5);
+}
+
+.op-fix h3 {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--navy-900);
+  margin: 2px 0 3px;
+}
+
+.op-fix p { font-size: 10.5px; line-height: 1.45; color: var(--grey-600); }
+
+/* Perfis */
+.op-roles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.op-role {
+  position: relative;
+  padding: 14px 14px 13px;
+  border-radius: 12px;
+  border: 1px solid var(--grey-100);
+  overflow: hidden;
+}
+
+.op-role::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: var(--accent);
+}
+
+.op-role small {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--grey-500);
+  margin-bottom: 3px;
+}
+
+.op-role h4 { font-size: 13.5px; font-weight: 600; color: var(--navy-900); margin-bottom: 6px; }
+.op-role p { font-size: 10.5px; line-height: 1.45; color: var(--grey-600); }
+
+/* Bloco de números */
+.op-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-radius: 14px;
+  background: var(--navy-900);
+  color: hsl(0, 0%, 100%);
+  overflow: hidden;
+}
+
+.op-stats div {
+  padding: 14px 16px;
+}
+
+.op-stats div + div { border-left: 1px solid hsla(199, 80%, 80%, .12); }
+
+.op-stats strong {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1;
+  letter-spacing: -.02em;
+  color: var(--sky-300);
+}
+
+.op-stats span { display: block; margin-top: 5px; font-size: 10px; line-height: 1.35; color: var(--grey-300); }
+
+/* --------------------------------------------------------------------------
+   Página 2
+   -------------------------------------------------------------------------- */
+.op-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 44px 22px;
+  border-bottom: 1px solid var(--grey-100);
+  margin-bottom: 22px;
+}
+
+.op-top__title { font-size: 10px; font-family: var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--grey-500); }
+
+/* Fluxo */
+.op-flow {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.op-flow li {
+  position: relative;
+  padding: 11px 11px 12px;
+  border-radius: 10px;
+  background: var(--grey-50);
+  border: 1px solid var(--grey-100);
+}
+
+.op-flow li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -8px;
+  width: 8px;
+  height: 1.5px;
+  background: var(--sky-500);
+}
+
+.op-flow b {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--navy-800);
+  color: hsl(0, 0%, 100%);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  margin-bottom: 7px;
+}
+
+.op-flow h4 { font-size: 12px; font-weight: 600; color: var(--navy-900); }
+.op-flow p { margin-top: 4px; font-size: 9.5px; line-height: 1.4; color: var(--grey-600); }
+
+.op-flow p .ic { width: 10px; height: 10px; color: var(--amber-600); vertical-align: -1px; stroke-width: 2.2; }
+
+/* Recursos */
+.op-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.op-feature {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid var(--grey-100);
+}
+
+.op-feature h4 { font-size: 12.5px; font-weight: 600; color: var(--navy-900); }
+.op-feature p { font-size: 10.5px; line-height: 1.45; color: var(--grey-600); }
+
+/* Tabela de prazos */
+.op-sla {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.op-sla div {
+  padding: 11px 13px;
+  border-radius: 10px;
+  border: 1px solid var(--grey-100);
+  border-top: 3px solid var(--accent);
+}
+
+.op-sla small {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--grey-500);
+}
+
+.op-sla strong {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1.05;
+  color: var(--navy-900);
+}
+
+.op-sla strong span { font-family: var(--font-sans); font-size: 11px; color: var(--grey-500); margin-left: 3px; }
+.op-sla p { font-size: 9.5px; line-height: 1.4; color: var(--grey-600); margin-top: 3px; }
+
+.op-note { margin-top: 8px; font-size: 9.5px; color: var(--grey-500); }
+
+/* Confiança */
+.op-trust {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px 18px;
+}
+
+.op-trust li {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: var(--grey-700);
+}
+
+.op-trust .ic { width: 13px; height: 13px; margin-top: 1px; color: var(--green-600); stroke-width: 2.4; }
+
+/* CTA */
+.op-cta {
+  margin: 0 44px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+  padding: 22px 26px;
+  border-radius: 16px;
+  color: hsl(0, 0%, 100%);
+  background:
+    radial-gradient(300px 160px at 100% 0%, hsla(199, 89%, 48%, .4), transparent 70%),
+    linear-gradient(135deg, var(--navy-800), var(--navy-950));
+}
+
+.op-cta h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 23px;
+  line-height: 1.1;
+  letter-spacing: -.015em;
+}
+
+.op-cta h3 em { font-style: italic; color: var(--sky-300); }
+.op-cta p { margin-top: 6px; font-size: 11px; color: var(--grey-300); }
+
+.op-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border-radius: var(--r-full);
+  background: var(--sky-400);
+  color: var(--navy-900);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.op-cta__btn .ic { width: 14px; height: 14px; stroke-width: 2.2; }
+
+.op-stack { display: flex; flex-direction: column; gap: 22px; }
+
+/* --------------------------------------------------------------------------
+   Impressão
+   -------------------------------------------------------------------------- */
+@media print {
+  html { background: none; }
+
+  body {
+    padding: 0;
+    gap: 0;
+    display: block;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    box-shadow: none;
+    break-after: page;
+  }
+
+  .page:last-child { break-after: auto; }
+}
