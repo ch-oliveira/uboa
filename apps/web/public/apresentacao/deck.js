@@ -20,8 +20,14 @@
   let idleTimer;
 
   function fit() {
-    const scale = Math.min(window.innerWidth / STAGE_W, window.innerHeight / STAGE_H);
+    const isFs = Boolean(document.fullscreenElement);
+    const padX = isFs ? 0 : (window.innerWidth > 768 ? 48 : 16);
+    const padY = isFs ? 0 : (window.innerHeight > 768 ? 48 : 16);
+    const availW = Math.max(320, window.innerWidth - padX);
+    const availH = Math.max(240, window.innerHeight - padY);
+    const scale = Math.min(availW / STAGE_W, availH / STAGE_H);
     root.style.setProperty('--scale', String(scale));
+    stage.style.setProperty('--scale', String(scale));
   }
 
   function indexFromHash() {
@@ -122,6 +128,7 @@
   document.getElementById('hud-full').addEventListener('click', toggleFullscreen);
 
   window.addEventListener('resize', fit);
+  document.addEventListener('fullscreenchange', fit);
   window.addEventListener('hashchange', () => go(indexFromHash()));
   document.addEventListener('mousemove', wakeHud);
 

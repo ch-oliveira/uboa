@@ -27,21 +27,21 @@ ul { padding: 0; list-style: none; }
 .viewport {
   position: fixed;
   inset: 0;
-  display: grid;
-  place-items: center;
   overflow: hidden;
+  background: var(--navy-950);
 }
 
 .stage {
-  position: relative;
-  flex: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
   width: 1920px;
   height: 1080px;
-  transform: scale(var(--scale, 1));
-  transform-origin: center;
+  transform: translate(-50%, -50%) scale(var(--scale, 1));
+  transform-origin: center center;
   overflow: hidden;
-  border-radius: 2px;
-  box-shadow: var(--shadow-5);
+  border-radius: 4px;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.6);
 }
 
 /* --------------------------------------------------------------------------
@@ -434,33 +434,34 @@ ul { padding: 0; list-style: none; }
 
 .cover {
   display: grid;
-  grid-template-columns: 860px 1fr;
-  gap: 48px;
+  grid-template-columns: 820px 1fr;
+  gap: 40px;
   align-items: center;
   height: 100%;
 }
 
-.cover__text { display: flex; flex-direction: column; gap: 40px; }
+.cover__text { display: flex; flex-direction: column; gap: 32px; }
 
 .cover__visual {
   position: relative;
-  perspective: 2200px;
+  perspective: 2000px;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cover__tilt {
-  position: absolute;
-  top: 50%;
-  left: 40px;
-  width: 1180px;
-  transform: translateY(-50%) rotateY(-18deg) rotateX(8deg) rotateZ(1deg);
+  position: relative;
+  width: 760px;
+  transform: rotateY(-13deg) rotateX(5deg) rotateZ(1deg);
   transform-style: preserve-3d;
 }
 
 .cover__glow {
   position: absolute;
-  inset: 10% -10% 10% 10%;
-  background: radial-gradient(closest-side, hsla(199, 89%, 60%, .45), transparent);
+  inset: -10%;
+  background: radial-gradient(closest-side, hsla(199, 89%, 60%, .4), transparent);
   filter: blur(60px);
   z-index: -1;
 }
@@ -470,21 +471,21 @@ ul { padding: 0; list-style: none; }
   z-index: 3;
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 18px 24px;
+  gap: 14px;
+  padding: 14px 20px;
   border-radius: var(--r-md);
-  background: hsla(212, 60%, 14%, .82);
+  background: hsla(212, 60%, 14%, .92);
   border: 1px solid hsla(199, 80%, 80%, .2);
   backdrop-filter: blur(16px);
   box-shadow: var(--shadow-4);
-  font-size: 20px;
+  font-size: 18px;
   color: var(--grey-100);
 }
 
-.cover__float strong { display: block; font-size: 22px; color: hsl(0, 0%, 100%); }
-.cover__float small { font-size: 17px; color: var(--grey-300); }
-.cover__float--a { top: 150px; right: 40px; }
-.cover__float--b { bottom: 170px; left: 0; }
+.cover__float strong { display: block; font-size: 20px; color: hsl(0, 0%, 100%); }
+.cover__float small { font-size: 15px; color: var(--grey-300); }
+.cover__float--a { top: 110px; right: 20px; }
+.cover__float--b { bottom: 130px; left: -10px; }
 
 /* --------------------------------------------------------------------------
    02 · Problema
@@ -727,12 +728,13 @@ ul { padding: 0; list-style: none; }
   position: relative;
   flex: 1;
   min-height: 0;
+  width: 100%;
 }
 
 .mosaic .frame { position: absolute; }
-.mosaic__a { left: 0; top: 0; width: 1040px; z-index: 2; }
-.mosaic__b { right: 0; top: 0; width: 700px; z-index: 1; }
-.mosaic__c { right: 60px; bottom: -120px; width: 640px; z-index: 3; }
+.mosaic__a { left: 0; top: 0; width: 940px; z-index: 2; }
+.mosaic__b { right: 0; top: 0; width: 680px; z-index: 1; }
+.mosaic__c { right: 40px; bottom: 10px; width: 620px; z-index: 3; }
 
 .mosaic__label {
   position: absolute;
@@ -1398,6 +1400,9 @@ ul { padding: 0; list-style: none; }
   .viewport { position: static; display: block; overflow: visible; }
 
   .stage {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
     transform: none !important;
     width: 1920px;
     height: auto;
