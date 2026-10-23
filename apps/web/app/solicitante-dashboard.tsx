@@ -27,12 +27,19 @@ import { useAuth } from '@/context/auth-context';
 import { type OrdemServico, type StatusOS } from './kanban/data';
 import { SolicitanteDashboardSkeleton } from '@/components/skeletons';
 import { getPriorityBadge } from '@/lib/badges';
+import { ValidacaoReparoModal } from '@/components/work-orders/validacao-reparo-modal';
 
 type SolicitanteTab = 'TODOS' | 'EM_ANDAMENTO' | 'AGUARDANDO_ACEITE' | 'CONCLUIDOS';
 
-interface SolicitanteDashboardProps {
+/**
+ * Propriedades para renderização do painel do solicitante (responsável da unidade pública).
+ */
+export interface SolicitanteDashboardProps {
+  /** Abre o modal de abertura de nova solicitação de chamado */
   onOpenNewOrder: () => void;
+  /** Seleciona um chamado para visualização completa em modal */
   onSelectOrder: (order: OrdemServico) => void;
+  /** Emite notificação toast na interface */
   showToast: (msg: string) => void;
 }
 
@@ -55,6 +62,15 @@ function getStageIndex(status: StatusOS): number {
   }
 }
 
+/**
+ * Painel principal do Solicitante (diretores de escola, gerentes de UBS e responsáveis de prédios).
+ * 
+ * Focado no ciclo de vida e transparência das ordens da própria unidade:
+ * - Indicadores sintetizados (Chamados Abertos, Em Atendimento, Aguardam Validação, Resolvidos).
+ * - Acompanhamento visual de esteira (Triagem -> Agendado -> Em Campo -> Aceite -> Concluído).
+ * - Validação e formalização de aceite técnico com suporte a contestação de defeitos.
+ * - Próximas visitas técnicas agendadas exclusivamente para a unidade.
+ */
 export function SolicitanteDashboard({
   onOpenNewOrder,
   onSelectOrder,
@@ -69,6 +85,8 @@ export function SolicitanteDashboard({
 
   const [activeTab, setActiveTab] = useState<SolicitanteTab>('TODOS');
   const [searchQuery, setSearchQuery] = useState('');
+  const [orderToValidate, setOrderToValidate] = useState<OrdemServico | null>(null);
+  const [isValidationModalOpen, setIsValidationModalOpen] = useState(false);
 
   // Unidade do solicitante
   const unitName = user?.predio || 'EMEF Paulo Freire';
@@ -137,24 +155,11 @@ export function SolicitanteDashboard({
     });
   }, [agenda, unitName]);
 
-  // Ação de validação / aceite do serviço pelo Solicitante
+  // Ação de validação / aceite do serviço pelo Solicitante - abre modal de validação
   function handleConfirmAcceptance(order: OrdemServico, e: React.MouseEvent) {
     e.stopPropagation();
-    const updated: OrdemServico = {
-      ...order,
-      status: 'CONCLUIDO',
-      historico: [
-        ...(order.historico || []),
-        {
-          data: `Hoje, ${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`,
-          descricao: `Serviço validado e aceito com sucesso pela unidade por ${user?.nome || 'Diretora'}.`,
-          autor: user?.nome || 'Solicitante',
-        },
-      ],
-    };
-
-    updateOrder(updated);
-    showToast(`Chamado ${order.id} validado com sucesso! Reparo dado como concluído.`);
+    setOrderToValidate(order);
+    setIsValidationModalOpen(true);
   }
 
   return (
@@ -628,6 +633,24 @@ export function SolicitanteDashboard({
         </div>
 
       </div>
+
+      {/* Modal de Validação / Aceite ou Contestação pelo Solicitante */}
+      <ValidacaoReparoModal
+        isOpen={isValidationModalOpen}
+        onClose={() => {
+          setIsValidationModalOpen(false);
+          setOrderToValidate(null);
+        }}
+        order={orderToValidate}
+        onConfirmApproval={(updatedOrder, _feedback, rating) => {
+          updateOrder(updatedOrder);
+          showToast(`Chamado #${updatedOrder.id.replace(/^(os-|OS-)/i, '')} validado e aceito com sucesso (Nota ${rating || 5}/5)!`);
+        }}
+        onConfirmDispute={(updatedOrder, reason) => {
+          updateOrder(updatedOrder);
+          showToast(`Contestação registrada no chamado #${updatedOrder.id.replace(/^(os-|OS-)/i, '')}. Equipe técnica notificada para saneamento.`);
+        }}
+      />
 
     </div>
   );

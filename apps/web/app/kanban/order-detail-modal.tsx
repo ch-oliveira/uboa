@@ -50,14 +50,25 @@ import { UrbiTriageCard } from '@/components/triage/urbi-triage-card';
 import { analyzeTriageUrbi } from '@/lib/triage-engine';
 import { ImageLightboxModal } from '@/components/ui/image-lightbox';
 import { compressImage } from '@/lib/image-utils';
+import { ValidacaoReparoModal } from '@/components/work-orders/validacao-reparo-modal';
 
-interface Props {
+/**
+ * Propriedades para renderização do modal de detalhes da ordem de serviço.
+ */
+export interface OrderDetailModalProps {
+  /** Ordem de serviço selecionada para exibição */
   order: OrdemServico | null;
+  /** Callback para fechamento do modal */
   onClose: () => void;
+  /** Callback para atualização e persistência de alterações na ordem */
   onUpdate: (updatedOrder: OrdemServico) => void | Promise<any>;
+  /** Callback para exclusão segura do registro */
   onDelete: (orderId: string) => void | Promise<any>;
+  /** Callback opcional para navegar diretamente ao próximo chamado */
   onNextOrder?: () => void;
+  /** Indica se há um próximo chamado disponível na fila */
   hasNextOrder?: boolean;
+  /** Indica se o modal está sendo renderizado como página inteira */
   isPageMode?: boolean;
 }
 
@@ -70,6 +81,16 @@ const STAGES_FLOW: { id: StatusOS; label: string; roleAction: string }[] = [
   { id: 'CONCLUIDO',   label: '5. Concluído',   roleAction: 'Formalizado' },
 ];
 
+/**
+ * Modal e gaveta completa de auditoria, histórico e transição de estado de Ordens de Serviço.
+ * 
+ * Regras de Perfil e RBAC:
+ * - `SOLICITANTE`: Modo somente-leitura nas diretrizes de triagem técnica e despacho;
+ *   pode cancelar o chamado enquanto estiver em `TRIAGEM`;
+ *   aciona validação formal ou contestação de qualidade quando em `AGUARDANDO`.
+ * - `GESTOR`: Controle integral de SLA, reclassificação de prioridade com IA e despacho.
+ * - `TECNICO`: Início de execução, apontamento de falta de peças e envio para validação.
+ */
 export function OrderDetailModal({ 
   order, 
   onClose, 
@@ -78,10 +99,11 @@ export function OrderDetailModal({
   onNextOrder,
   hasNextOrder = false,
   isPageMode = false,
-}: Props) {
+}: OrderDetailModalProps) {
   const { user, role } = useAuth();
   const isSolicitante = role === 'SOLICITANTE';
-  const isGestor = !isSolicitante;
+  const isTecnico = role === 'TECNICO';
+  const isGestor = role === 'GESTOR' || role === 'ADMIN';
 
   // Form Fields
   const [titulo, setTitulo] = useState('');
@@ -112,6 +134,9 @@ export function OrderDetailModal({
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showPrintModal, setShowPrintModal] = useState(false);
   const [activeTab, setActiveTab] = useState<'geral' | 'historico'>('geral');
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [cancelReason, setCancelReason] = useState('Problema resolvido internamente pelo zelador da escola');
+  const [showValidationModal, setShowValidationModal] = useState(false);
 
   // Inicialização e sincronização com o chamado recebido
   useEffect(() => {
@@ -145,8 +170,34 @@ export function OrderDetailModal({
       setShowImpedimentModal(false);
       setShowDeleteConfirm(false);
       setShowPrintModal(false);
+      setShowCancelModal(false);
+      setShowValidationModal(false);
     }
   }, [order]);
+
+  async function handleConfirmCancel() {
+    if (!order) return;
+    const now = new Date();
+    const timeStr = `Hoje, ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    const author = user?.nome || 'Profª Maria Clara';
+    const auditItem: HistoricoItem = {
+      data: timeStr,
+      descricao: `Chamado cancelado pela direção da unidade (${author}). Motivo: "${cancelReason}".`,
+      autor: `${author} (Unidade)`,
+      tipo: 'STATUS',
+    };
+    const updatedHistory = [auditItem, ...(order.historico || [])];
+    const updatedOrder: OrdemServico = {
+      ...order,
+      status: 'CANCELADO',
+      motivoCancelamento: cancelReason,
+      historico: updatedHistory,
+    };
+    setStatus('CANCELADO');
+    setHistorico(updatedHistory);
+    setShowCancelModal(false);
+    await onUpdate(updatedOrder);
+  }
 
   async function handleAddPhoto(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
@@ -677,112 +728,189 @@ export function OrderDetailModal({
               {/* Direita do Banner: Ação Primária Acionável */}
               <div className="shrink-0 flex flex-wrap items-center gap-2">
                 {status === 'TRIAGEM' && (
-                  <Button
-                    type="button"
-                    disabled={isAdvancing}
-                    onClick={() => handleAdvanceWorkflow(
-                      'AGENDADO', 
-                      `Triagem concluída por ${user?.nome || 'Mariana Alves'}. Ordem encaminhada para execução com ${tecnico || 'Carlos T.'}.`
-                    )}
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-xs rounded-md h-10 px-5 shadow-sm flex items-center gap-2 cursor-pointer"
-                  >
-                    {isAdvancing ? (
-                      <Loader2 size={15} className="animate-spin" />
-                    ) : (
-                      <>
-                        <span>Concluir Triagem & Encaminhar</span>
-                        <ArrowRight size={15} />
-                      </>
-                    )}
-                  </Button>
+                  isSolicitante ? (
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] font-semibold text-muted-foreground bg-muted/60 px-3 py-1.5 rounded-md flex items-center gap-1.5">
+                        <Clock size={13} className="text-primary" />
+                        <span>Aguardando triagem da prefeitura</span>
+                      </span>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setShowCancelModal(true)}
+                        className="border-red-300 text-red-700 hover:bg-red-50 text-[11px] font-bold h-9 px-3 rounded-md cursor-pointer"
+                      >
+                        <span>Cancelar Chamado</span>
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button
+                      type="button"
+                      disabled={isAdvancing}
+                      onClick={() => handleAdvanceWorkflow(
+                        'AGENDADO', 
+                        `Triagem concluída por ${user?.nome || 'Mariana Alves'}. Ordem encaminhada para execução com ${tecnico || 'Carlos T.'}.`
+                      )}
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-xs rounded-md h-10 px-5 shadow-sm flex items-center gap-2 cursor-pointer"
+                    >
+                      {isAdvancing ? (
+                        <Loader2 size={15} className="animate-spin" />
+                      ) : (
+                        <>
+                          <span>Concluir Triagem & Encaminhar</span>
+                          <ArrowRight size={15} />
+                        </>
+                      )}
+                    </Button>
+                  )
                 )}
 
                 {status === 'AGENDADO' && (
-                  <Button
-                    type="button"
-                    disabled={isAdvancing}
-                    onClick={() => handleAdvanceWorkflow(
-                      'EM_EXECUCAO', 
-                      `Equipe técnica iniciou atendimento e serviços no local da unidade.`
-                    )}
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-xs rounded-md h-10 px-5 shadow-sm flex items-center gap-2 cursor-pointer"
-                  >
-                    {isAdvancing ? (
-                      <Loader2 size={15} className="animate-spin" />
-                    ) : (
-                      <>
-                        <Wrench size={15} />
-                        <span>Iniciar Atendimento em Campo</span>
-                      </>
-                    )}
-                  </Button>
+                  isSolicitante ? (
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] font-semibold text-muted-foreground bg-muted/60 px-3 py-1.5 rounded-md flex items-center gap-1.5">
+                        <Calendar size={13} className="text-primary" />
+                        <span>Visita técnica agendada para {tecnico || 'equipe'}</span>
+                      </span>
+                    </div>
+                  ) : (
+                    <Button
+                      type="button"
+                      disabled={isAdvancing}
+                      onClick={() => handleAdvanceWorkflow(
+                        'EM_EXECUCAO', 
+                        `Equipe técnica iniciou atendimento e serviços no local da unidade.`
+                      )}
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-xs rounded-md h-10 px-5 shadow-sm flex items-center gap-2 cursor-pointer"
+                    >
+                      {isAdvancing ? (
+                        <Loader2 size={15} className="animate-spin" />
+                      ) : (
+                        <>
+                          <Wrench size={15} />
+                          <span>Iniciar Atendimento em Campo</span>
+                        </>
+                      )}
+                    </Button>
+                  )
                 )}
 
                 {status === 'EM_EXECUCAO' && (
-                  <div className="flex items-center gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => setShowImpedimentModal(true)}
-                      className="border-amber-300 text-amber-800 hover:bg-amber-50 font-bold text-[11px] rounded-md h-9 px-3 cursor-pointer"
-                    >
-                      <PauseCircle size={15} className="mr-1 text-amber-600" />
-                      <span>Falta de Peça</span>
-                    </Button>
-                    <Button
-                      type="button"
-                      disabled={isAdvancing}
-                      onClick={() => handleAdvanceWorkflow(
-                        'AGUARDANDO', 
-                        `Reparo finalizado pelo técnico. Aguardando conferência e aceite formal da unidade.`
-                      )}
-                      className="bg-purple-700 hover:bg-purple-800 text-white font-bold text-[11px] rounded-md h-9 px-4 shadow-sm flex items-center gap-1.5 cursor-pointer"
-                    >
-                      {isAdvancing ? (
-                        <Loader2 size={15} className="animate-spin" />
-                      ) : (
-                        <>
-                          <CheckCircle2 size={15} />
-                          <span>Finalizar & Enviar p/ Validação</span>
-                        </>
-                      )}
-                    </Button>
-                  </div>
+                  isSolicitante ? (
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] font-bold text-blue-800 bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 px-3 py-1.5 rounded-md flex items-center gap-1.5">
+                        <Wrench size={13} className="text-blue-600 animate-pulse" />
+                        <span>Técnico executando reparos no local</span>
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setShowImpedimentModal(true)}
+                        className="border-amber-300 text-amber-800 hover:bg-amber-50 font-bold text-[11px] rounded-md h-9 px-3 cursor-pointer"
+                      >
+                        <PauseCircle size={15} className="mr-1 text-amber-600" />
+                        <span>Falta de Peça</span>
+                      </Button>
+                      <Button
+                        type="button"
+                        disabled={isAdvancing}
+                        onClick={() => handleAdvanceWorkflow(
+                          'AGUARDANDO', 
+                          `Reparo finalizado pelo técnico. Aguardando conferência e aceite formal da unidade.`
+                        )}
+                        className="bg-purple-700 hover:bg-purple-800 text-white font-bold text-[11px] rounded-md h-9 px-4 shadow-sm flex items-center gap-1.5 cursor-pointer"
+                      >
+                        {isAdvancing ? (
+                          <Loader2 size={15} className="animate-spin" />
+                        ) : (
+                          <>
+                            <CheckCircle2 size={15} />
+                            <span>Finalizar & Enviar p/ Validação</span>
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  )
                 )}
 
                 {status === 'AGUARDANDO' && (
-                  <div className="flex items-center gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => handleAdvanceWorkflow(
-                        'EM_EXECUCAO', 
-                        `Reparo reprovado na validação da unidade. Reaberto para novos ajustes pelo técnico.`
-                      )}
-                      className="border-border text-foreground hover:bg-muted font-bold text-[11px] rounded-md h-9 px-3 cursor-pointer"
-                    >
-                      <RotateCcw size={14} className="mr-1 text-muted-foreground" />
-                      <span>Apontar Pendência</span>
-                    </Button>
-                    <Button
-                      type="button"
-                      disabled={isAdvancing}
-                      onClick={() => handleAdvanceWorkflow(
-                        'CONCLUIDO', 
-                        `Serviço validado e aceito com sucesso pela diretoria da unidade.`
-                      )}
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] rounded-md h-9 px-4 shadow-sm flex items-center gap-1.5 cursor-pointer"
-                    >
-                      {isAdvancing ? (
-                        <Loader2 size={15} className="animate-spin" />
-                      ) : (
-                        <>
-                          <ThumbsUp size={15} />
-                          <span>Confirmar e Dar Aceite Formal</span>
-                        </>
-                      )}
-                    </Button>
-                  </div>
+                  isTecnico ? (
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] font-bold text-purple-700 bg-purple-50 dark:bg-purple-950/40 border border-purple-200/80 px-3 py-1.5 rounded-md flex items-center gap-1.5">
+                        <Hourglass size={13} className="text-purple-600 shrink-0" />
+                        <span>Aguardando conferência e aceite formal de {predio || 'unidade'}</span>
+                      </span>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => handleAdvanceWorkflow(
+                          'EM_EXECUCAO', 
+                          `Técnico ${user?.nome || 'Carlos Silva'} reabriu o chamado para ajustes complementares.`
+                        )}
+                        className="border-border text-foreground hover:bg-muted font-bold text-[11px] rounded-md h-9 px-3 cursor-pointer"
+                        title="Reabrir chamado para adicionar evidências ou efetuar ajustes"
+                      >
+                        <RotateCcw size={14} className="mr-1 text-muted-foreground" />
+                        <span>Reabrir p/ Ajustes</span>
+                      </Button>
+                    </div>
+                  ) : isSolicitante ? (
+                    <div className="flex items-center gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setShowValidationModal(true)}
+                        className="border-amber-300 text-amber-800 hover:bg-amber-50 font-bold text-[11px] rounded-md h-9 px-3 cursor-pointer"
+                      >
+                        <RotateCcw size={14} className="mr-1 text-amber-700" />
+                        <span>Apontar Pendência</span>
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={() => setShowValidationModal(true)}
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] rounded-md h-9 px-4 shadow-sm flex items-center gap-1.5 cursor-pointer"
+                      >
+                        <ThumbsUp size={15} />
+                        <span>Validar Reparo</span>
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => handleAdvanceWorkflow(
+                          'EM_EXECUCAO', 
+                          `Reparo reprovado na validação da unidade. Reaberto para novos ajustes pelo técnico.`
+                        )}
+                        className="border-border text-foreground hover:bg-muted font-bold text-[11px] rounded-md h-9 px-3 cursor-pointer"
+                      >
+                        <RotateCcw size={14} className="mr-1 text-muted-foreground" />
+                        <span>Apontar Pendência</span>
+                      </Button>
+                      <Button
+                        type="button"
+                        disabled={isAdvancing}
+                        onClick={() => handleAdvanceWorkflow(
+                          'CONCLUIDO', 
+                          `Serviço validado e aceito com sucesso pela diretoria da unidade.`
+                        )}
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] rounded-md h-9 px-4 shadow-sm flex items-center gap-1.5 cursor-pointer"
+                      >
+                        {isAdvancing ? (
+                          <Loader2 size={15} className="animate-spin" />
+                        ) : (
+                          <>
+                            <ThumbsUp size={15} />
+                            <span>Confirmar e Dar Aceite Formal</span>
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  )
                 )}
 
                 {status === 'CONCLUIDO' && (
@@ -1399,6 +1527,74 @@ export function OrderDetailModal({
         initialIndex={lightboxIndex}
         title="Evidência Fotográfica do Chamado"
         subtitle={`Chamado ${order?.id || ''} • ${order?.predio || ''}`}
+      />
+
+      {/* Modal de Cancelamento de Chamado pela Unidade (apenas em TRIAGEM) */}
+      {showCancelModal && (
+        <div className="fixed inset-0 z-70 flex items-center justify-center p-4 bg-foreground/50 backdrop-blur-2xs">
+          <div className="bg-background rounded-2xl p-6 max-w-md w-full border border-border shadow-2xl space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-red-100 text-red-700 flex items-center justify-center">
+                <AlertTriangle size={20} />
+              </div>
+              <div>
+                <h3 className="font-bold text-foreground text-sm">Cancelar Solicitação de Chamado</h3>
+                <p className="text-xs text-muted-foreground">Esta ação cancela o chamado antes do envio da equipe</p>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-xs font-bold text-muted-foreground">Motivo do Cancelamento:</label>
+              <select
+                value={cancelReason}
+                onChange={(e) => setCancelReason(e.target.value)}
+                className="w-full bg-muted/30 border border-border rounded-xl px-3 py-2 text-xs font-semibold text-foreground"
+              >
+                <option value="Problema resolvido internamente pelo zelador da escola">Problema resolvido internamente pelo zelador da escola</option>
+                <option value="Chamado aberto por engano / duplicidade">Chamado aberto por engano / em duplicidade</option>
+                <option value="Serviço não é mais necessário no momento">Serviço não é mais necessário no momento</option>
+                <option value="Outro motivo operacional">Outro motivo operacional</option>
+              </select>
+            </div>
+
+            <div className="flex items-center justify-end gap-2 pt-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setShowCancelModal(false)} 
+                className="rounded-xl text-xs"
+              >
+                Voltar
+              </Button>
+              <Button 
+                size="sm" 
+                onClick={handleConfirmCancel} 
+                className="bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl"
+              >
+                Confirmar Cancelamento
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Validação / Aceite ou Contestação pelo Solicitante */}
+      <ValidacaoReparoModal
+        isOpen={showValidationModal}
+        onClose={() => setShowValidationModal(false)}
+        order={order}
+        onConfirmApproval={async (updatedOrder) => {
+          setStatus('CONCLUIDO');
+          setHistorico(updatedOrder.historico || []);
+          setShowValidationModal(false);
+          await onUpdate(updatedOrder);
+        }}
+        onConfirmDispute={async (updatedOrder) => {
+          setStatus('EM_EXECUCAO');
+          setHistorico(updatedOrder.historico || []);
+          setShowValidationModal(false);
+          await onUpdate(updatedOrder);
+        }}
       />
 
     </div>

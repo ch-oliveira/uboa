@@ -42,3 +42,4 @@ yarn-error.log*
 .agents/
 skills-lock.json
 *.node
+scratch/

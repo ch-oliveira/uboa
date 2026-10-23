@@ -253,11 +253,11 @@ export const apiClient = {
     });
     const resData = await res.json();
     const user = mapUserFromApi(resData.data?.user || resData.user);
+    const token = resData.data?.token || resData.token;
 
-    // Remove qualquer resquício legado do token no localStorage
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && token) {
       try {
-        localStorage.removeItem(STORAGE_KEY_TOKEN);
+        localStorage.setItem(STORAGE_KEY_TOKEN, token);
       } catch {
         // Ignora erro de storage
       }
@@ -266,6 +266,7 @@ export const apiClient = {
     return {
       success: Boolean(resData.success),
       user,
+      token,
       message: resData.message,
     };
   },
@@ -293,10 +294,7 @@ export const apiClient = {
 
   async getMe(tokenOverride?: string): Promise<{ success: boolean; user?: UserAccount }> {
     try {
-      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-      if (tokenOverride) {
-        headers['Authorization'] = `Bearer ${tokenOverride}`;
-      }
+      const headers = getAuthHeaders(tokenOverride ? { Authorization: `Bearer ${tokenOverride}` } : {});
       const res = await fetch(`${getApiBase()}/auth/me`, {
         cache: 'no-store',
         headers,

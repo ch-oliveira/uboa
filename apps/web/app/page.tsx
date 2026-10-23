@@ -38,6 +38,7 @@ import { AllUnitsModal } from './all-units-modal';
 import { AgendaModal } from './agenda-modal';
 import { ActivitiesModal } from './activities-modal';
 import { SolicitanteDashboard } from './solicitante-dashboard';
+import { TecnicoDashboard } from './tecnico-dashboard';
 import { TopHeader } from '@/components/top-header';
 import { GestorDashboardSkeleton, SolicitanteDashboardSkeleton } from '@/components/skeletons';
 type FilterTab = 'URGENTES' | 'TRIAGEM' | 'EM_EXECUCAO' | 'VALIDACAO' | 'TODOS';
@@ -45,6 +46,7 @@ type FilterTab = 'URGENTES' | 'TRIAGEM' | 'EM_EXECUCAO' | 'VALIDACAO' | 'TODOS';
 export default function DashboardPage() {
   const { user, role } = useAuth();
   const isSolicitante = role === 'SOLICITANTE';
+  const isTecnico = role === 'TECNICO';
 
   const { 
     orders, 
@@ -94,6 +96,15 @@ export default function DashboardPage() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isNotificationsOpen]);
+
+  // Listen for open-reportar-anomalia triggered by onboarding widget or shortcuts
+  useEffect(() => {
+    function handleReportarAnomalia() {
+      setIsNewOrderModalOpen(true);
+    }
+    window.addEventListener('open-reportar-anomalia', handleReportarAnomalia);
+    return () => window.removeEventListener('open-reportar-anomalia', handleReportarAnomalia);
+  }, []);
 
   function showToast(msg: string) {
     setToastMessage(msg);
@@ -235,11 +246,23 @@ export default function DashboardPage() {
         
         {/* Top Header */}
         <TopHeader 
-          titleOverride="Hoje"
-          breadcrumbs={[
-            { label: 'Gestão municipal', href: '/' },
-            { label: 'Hoje' },
-          ]}
+          titleOverride={isTecnico ? 'Meu Dia' : 'Hoje'}
+          breadcrumbs={
+            isTecnico
+              ? [
+                  { label: 'Operação de campo', href: '/' },
+                  { label: 'Meu Dia' },
+                ]
+              : isSolicitante
+                ? [
+                    { label: 'Minha unidade', href: '/' },
+                    { label: 'Visão Geral' },
+                  ]
+                : [
+                    { label: 'Gestão municipal', href: '/' },
+                    { label: 'Hoje' },
+                  ]
+          }
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           onSelectOrder={setSelectedOrder}
@@ -256,6 +279,14 @@ export default function DashboardPage() {
           <SolicitanteDashboard 
             onOpenNewOrder={() => setIsNewOrderModalOpen(true)}
             onSelectOrder={(ord) => setSelectedOrder(ord)}
+            showToast={showToast}
+          />
+        ) : isTecnico ? (
+          <TecnicoDashboard
+            onOpenReportAnomalia={() => setIsNewOrderModalOpen(true)}
+            onSelectOrder={(ord) => setSelectedOrder(ord)}
+            onSelectUnit={(unitName) => setSelectedUnitName(unitName)}
+            onSelectAgendaEvent={(evt) => setSelectedAgendaEvent(evt)}
             showToast={showToast}
           />
         ) : (

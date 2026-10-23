@@ -41,6 +41,7 @@ import { UrbiTriageCard } from '@/components/triage/urbi-triage-card';
 import { ImageLightboxModal } from '@/components/ui/image-lightbox';
 import { compressImage } from '@/lib/image-utils';
 import { OrderMaterialsFinancialCard } from '@/components/financials/order-materials-financial-card';
+import { ValidacaoReparoModal } from '@/components/work-orders/validacao-reparo-modal';
 
 // Fluxo operacional sequencial de 5 fases (ABNT NBR 5674)
 const STAGES_FLOW: { id: StatusOS; label: string; step: number; description: string }[] = [
@@ -58,7 +59,8 @@ export default function ChamadoDetailPage() {
   const { user, role } = useAuth();
 
   const isSolicitante = role === 'SOLICITANTE';
-  const isGestor = !isSolicitante;
+  const isTecnico = role === 'TECNICO';
+  const isGestor = role === 'GESTOR' || role === 'ADMIN';
 
   const [newComment, setNewComment] = useState('');
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
@@ -67,6 +69,7 @@ export default function ChamadoDetailPage() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const [showValidationModal, setShowValidationModal] = useState(false);
   const photoInputRef = React.useRef<HTMLInputElement>(null);
 
   const orderId = String(params?.id || '');
@@ -323,7 +326,18 @@ export default function ChamadoDetailPage() {
               <span>Imprimir OS</span>
             </Button>
 
-            {nextStage && isGestor && (
+            {isSolicitante && order.status === 'AGUARDANDO' ? (
+              <Button
+                onClick={() => setShowValidationModal(true)}
+                className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg h-8 px-3.5 flex items-center gap-1.5 cursor-pointer shadow-xs transition-all active:scale-[0.98]"
+              >
+                <CheckCircle2 size={13} />
+                <span>Validar Conclusão</span>
+              </Button>
+            ) : nextStage && (
+              (isGestor) ||
+              (isTecnico && (order.status === 'AGENDADO' || order.status === 'EM_EXECUCAO'))
+            ) && (
               <Button
                 onClick={handleAdvanceStatus}
                 disabled={isAdvancing}
@@ -333,7 +347,11 @@ export default function ChamadoDetailPage() {
                   <Loader2 size={13} className="animate-spin" />
                 ) : (
                   <>
-                    <span>Avançar para {nextStage.label}</span>
+                    <span>
+                      {order.status === 'AGENDADO' && isTecnico ? 'Iniciar Atendimento' :
+                       order.status === 'EM_EXECUCAO' && isTecnico ? 'Enviar p/ Validação' :
+                       `Avançar para ${nextStage.label}`}
+                    </span>
                     <ArrowRight size={13} />
                   </>
                 )}
@@ -791,6 +809,20 @@ export default function ChamadoDetailPage() {
         initialIndex={lightboxIndex}
         title="Evidência Fotográfica do Chamado"
         subtitle={`Chamado ${order.id} • ${order.predio}`}
+      />
+
+      <ValidacaoReparoModal
+        isOpen={showValidationModal}
+        onClose={() => setShowValidationModal(false)}
+        order={order}
+        onConfirmApproval={async (updatedOrder) => {
+          setShowValidationModal(false);
+          await updateOrder(updatedOrder);
+        }}
+        onConfirmDispute={async (updatedOrder) => {
+          setShowValidationModal(false);
+          await updateOrder(updatedOrder);
+        }}
       />
     </div>
   );

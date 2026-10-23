@@ -113,6 +113,151 @@ export const DEFAULT_SETTINGS: SystemSettings = {
   useMockData: false,
 };
 
+export const TECNICO_SEED_ORDERS: OrdemServico[] = [
+  {
+    id: 'OS-104922',
+    titulo: 'Superaquecimento no quadro elétrico do 2º piso',
+    predio: 'EMEF Paulo Freire',
+    prioridade: 'ALTA',
+    status: 'EM_EXECUCAO',
+    dataAbertura: 'Hoje, 08:30',
+    solicitante: 'Profª Maria Clara',
+    tecnico: 'Carlos Silva',
+    descricao: 'Disjuntores aquecidos desarmando salas 201 e 202. Equipe em intervenção preventiva com troca de barramento e aperto de bornes.',
+    prazoEstimado: 'Hoje, 17:00',
+    localizacao: 'Bloco Pedagógico - 2º Pavimento',
+    categoria: 'Elétrica',
+    fotos: [],
+  },
+  {
+    id: 'OS-104930',
+    titulo: 'Pane geral na alimentação do consultório odontológico',
+    predio: 'UBS Central',
+    prioridade: 'URGENTE',
+    status: 'EM_EXECUCAO',
+    dataAbertura: 'Hoje, 09:15',
+    solicitante: 'Dr. Marcelo Ramos',
+    tecnico: 'Carlos Silva',
+    descricao: 'Curto-circuito no circuito de força das cadeiras odontológicas e autoclave. Atendimento prioritário para restabelecimento de consultas.',
+    prazoEstimado: 'Hoje, 13:15 (SLA 4h)',
+    localizacao: 'Consultório Odontológico 3',
+    categoria: 'Elétrica',
+    fotos: [],
+  },
+  {
+    id: 'OS-104938',
+    titulo: 'Troca do contator e chave de partida da bomba de recalque',
+    predio: 'EMEI Sementinha',
+    prioridade: 'MEDIA',
+    status: 'EM_EXECUCAO',
+    dataAbertura: 'Hoje, 10:00',
+    solicitante: 'Coordenação Pedagógica',
+    tecnico: 'Carlos Silva',
+    descricao: 'Impedimento de material: Aguardando entrega de contator 32A 220V e relé térmico pelo almoxarifado central.',
+    prazoEstimado: 'Amanhã, 12:00',
+    localizacao: 'Casa de Bombas Inferior',
+    categoria: 'Elétrica',
+    motivoPausa: 'Falta de material / Aguardando entrega de contator 32A 220V',
+    pausadoEm: 'Hoje, 11:20',
+    tempoPausaMinutos: 180,
+    impedimento: {
+      ativo: true,
+      motivo: 'Aguardando entrega de contator 32A 220V pelo almoxarifado central (Previsão: amanhã, 10h)',
+      data: 'Hoje, 11:20',
+    },
+    fotos: [],
+  },
+  {
+    id: 'OS-104939',
+    titulo: 'Troca de luminárias e reatores no pátio coberto',
+    predio: 'EMEF Paulo Freire',
+    prioridade: 'MEDIA',
+    status: 'AGUARDANDO',
+    dataAbertura: 'Hoje, 07:45',
+    solicitante: 'Profª Maria Clara',
+    tecnico: 'Carlos Silva',
+    descricao: 'Instalação de 8 refletores de LED 150W e fixação concluída. Aguardando conferência e aceite formal da direção da escola.',
+    prazoEstimado: 'Hoje, 18:00',
+    localizacao: 'Pátio Coberto e Quadra',
+    categoria: 'Elétrica',
+    fotos: [],
+  },
+  {
+    id: 'OS-104934',
+    titulo: 'Revisão preventiva no quadro de força da sala de vacinas',
+    predio: 'UBS Vila Nova',
+    prioridade: 'MEDIA',
+    status: 'AGENDADO',
+    dataAbertura: 'Hoje, 08:00',
+    solicitante: 'Dr. Marcelo Ramos',
+    tecnico: 'Carlos Silva',
+    descricao: 'Inspeção semestral obrigatória para garantir estabilidade térmica das câmaras de conservação imunobiológica.',
+    prazoEstimado: 'Amanhã, 10:00',
+    localizacao: 'Sala de Imunização e Farmácia',
+    categoria: 'Elétrica',
+    fotos: [],
+  },
+  {
+    id: 'OS-104925',
+    titulo: 'Troca de lâmpadas de LED no pátio externo',
+    predio: 'EMEI Sementinha',
+    prioridade: 'BAIXA',
+    status: 'CONCLUIDO',
+    dataAbertura: 'Ontem',
+    solicitante: 'Coordenação Pedagógica',
+    tecnico: 'Carlos Silva',
+    descricao: 'Instalação de refletores solares automáticos.',
+    categoria: 'Elétrica',
+    fotos: [],
+  },
+  {
+    id: 'OS-104927',
+    titulo: 'Reparo em fiação elétrica aparente no forro',
+    predio: 'UBS Central',
+    prioridade: 'MEDIA',
+    status: 'CONCLUIDO',
+    dataAbertura: 'Há 2 dias',
+    solicitante: 'Dr. Marcelo Ramos',
+    tecnico: 'Carlos Silva',
+    descricao: 'Passagem de conduíte antichamas e novo cabeamento estruturado.',
+    categoria: 'Elétrica',
+    fotos: [],
+  },
+];
+
+export const TECNICO_SEED_AGENDA: AgendaEvent[] = [
+  {
+    id: 'ag-1',
+    time: 'Hoje, 14:30',
+    title: 'Vistoria elétrica semestral nos quadros de distribuição',
+    subtitle: 'EMEF Paulo Freire',
+    completed: false,
+    type: 'eletrica',
+    tecnico: 'Carlos Silva',
+    recorrencia: 'UNICA',
+  },
+  {
+    id: 'ag-7',
+    time: 'Amanhã, 10:00',
+    title: 'Inspeção termográfica e balanceamento de cargas',
+    subtitle: 'UBS Vila Nova',
+    completed: false,
+    type: 'eletrica',
+    tecnico: 'Carlos Silva',
+    recorrencia: 'UNICA',
+  },
+  {
+    id: 'ag-5',
+    time: 'Sexta, 11:00',
+    title: 'Teste de carga do grupo gerador e no-break municipal',
+    subtitle: 'Prefeitura – Ala Sul',
+    completed: false,
+    type: 'eletrica',
+    tecnico: 'Carlos Silva',
+    recorrencia: 'UNICA',
+  },
+];
+
 export const DEFAULT_ACTIVITIES: ActivityEvent[] = [
   { id: 'act-1', title: 'Chamado #OS-104923 em execução por Roberto Santos', time: 'Há 18 min', iconType: 'wrench' },
   { id: 'act-2', title: 'Vistoria elétrica concluída na EMEI Sementinha', time: 'Há 45 min', iconType: 'check' },
@@ -270,37 +415,42 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
         apiClient.getSettings().catch(() => null),
       ]);
 
-      if (ordersRes?.success && Array.isArray(ordersRes.orders)) {
-        setOrders(ordersRes.orders);
-        if (Array.isArray((ordersRes as any).activities) && (ordersRes as any).activities.length > 0) {
-          setActivities((ordersRes as any).activities);
-        } else if (ordersRes.orders.length > 0) {
-          const liveActivities: ActivityEvent[] = ordersRes.orders.slice(0, 6).map((ord, idx) => {
-            const isUrg = ord.prioridade === 'URGENTE';
-            const isExec = ord.status === 'EM_EXECUCAO';
-            const isDone = ord.status === 'CONCLUIDO';
-            return {
-              id: `act-${ord.id}-${idx}`,
-              title: isDone 
-                ? `Chamado #${ord.id} concluído na ${ord.predio}`
-                : isExec 
-                  ? `Chamado #${ord.id} em execução por ${ord.tecnico || 'equipe técnica'}`
-                  : `Chamado #${ord.id} registrado na ${ord.predio}`,
-              time: ord.dataAbertura || 'Hoje',
-              iconType: isDone ? 'check' : isUrg ? 'alert' : isExec ? 'wrench' : 'file',
-            };
-          });
-          setActivities(liveActivities);
-        }
+      let loadedOrders = ordersRes?.success && Array.isArray(ordersRes.orders) ? ordersRes.orders : [];
+      if (loadedOrders.length === 0 && role === 'TECNICO') {
+        loadedOrders = TECNICO_SEED_ORDERS;
+      }
+      setOrders(loadedOrders);
+
+      if (Array.isArray((ordersRes as any)?.activities) && (ordersRes as any).activities.length > 0) {
+        setActivities((ordersRes as any).activities);
+      } else if (loadedOrders.length > 0) {
+        const liveActivities: ActivityEvent[] = loadedOrders.slice(0, 6).map((ord, idx) => {
+          const isUrg = ord.prioridade === 'URGENTE';
+          const isExec = ord.status === 'EM_EXECUCAO';
+          const isDone = ord.status === 'CONCLUIDO';
+          return {
+            id: `act-${ord.id}-${idx}`,
+            title: isDone 
+              ? `Chamado #${ord.id} concluído na ${ord.predio}`
+              : isExec 
+                ? `Chamado #${ord.id} em execução por ${ord.tecnico || 'equipe técnica'}`
+                : `Chamado #${ord.id} registrado na ${ord.predio}`,
+            time: ord.dataAbertura || 'Hoje',
+            iconType: isDone ? 'check' : isUrg ? 'alert' : isExec ? 'wrench' : 'file',
+          };
+        });
+        setActivities(liveActivities);
       }
 
       if (unitsRes?.success && Array.isArray(unitsRes.units)) {
         setUnits(unitsRes.units);
       }
 
-      if (agendaRes?.success && Array.isArray(agendaRes.agenda)) {
-        setAgenda(agendaRes.agenda);
+      let loadedAgenda = agendaRes?.success && Array.isArray(agendaRes.agenda) ? agendaRes.agenda : [];
+      if (loadedAgenda.length === 0 && role === 'TECNICO') {
+        loadedAgenda = TECNICO_SEED_AGENDA;
       }
+      setAgenda(loadedAgenda);
 
       if (settingsRes?.success && settingsRes.settings) {
         setSettings((prev) => ({ ...prev, ...settingsRes.settings }));
@@ -564,14 +714,30 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
     await refreshData();
   }
 
-  // Computed Stats
+  /**
+   * Estatísticas operacionais sintetizadas para cabeçalhos e badges da interface.
+   * 
+   * Regra de Multi-Tenancy:
+   * Quando o perfil ativo é `SOLICITANTE`, as estatísticas são computadas exclusivamente
+   * para o conjunto de chamados da unidade vinculada (`user.predio`), prevenindo que
+   * contadores municipais globais vazem para a barra lateral do diretor escolar.
+   */
   const stats = useMemo(() => {
-    const nonConcluded = orders.filter((o) => o.status !== 'CONCLUIDO');
-    const triagem = orders.filter((o) => o.status === 'TRIAGEM').length;
-    const emExecucao = orders.filter((o) => o.status === 'EM_EXECUCAO').length;
-    const aguardando = orders.filter((o) => o.status === 'AGUARDANDO').length;
-    const concluidos = orders.filter((o) => o.status === 'CONCLUIDO').length;
-    const urgentes = orders.filter((o) => o.status !== 'CONCLUIDO' && o.prioridade === 'URGENTE').length;
+    const effectiveOrders = (role === 'SOLICITANTE' && user?.predio)
+      ? orders.filter((o) => {
+          if (!o.predio) return true;
+          const oP = o.predio.toLowerCase().trim();
+          const uP = user.predio!.toLowerCase().trim();
+          return oP === uP || oP.includes(uP) || uP.includes(oP);
+        })
+      : orders;
+
+    const nonConcluded = effectiveOrders.filter((o) => o.status !== 'CONCLUIDO');
+    const triagem = effectiveOrders.filter((o) => o.status === 'TRIAGEM').length;
+    const emExecucao = effectiveOrders.filter((o) => o.status === 'EM_EXECUCAO').length;
+    const aguardando = effectiveOrders.filter((o) => o.status === 'AGUARDANDO').length;
+    const concluidos = effectiveOrders.filter((o) => o.status === 'CONCLUIDO').length;
+    const urgentes = effectiveOrders.filter((o) => o.status !== 'CONCLUIDO' && o.prioridade === 'URGENTE').length;
 
     return {
       totalOpen: nonConcluded.length,
@@ -581,7 +747,7 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
       concluidos,
       urgentes,
     };
-  }, [orders]);
+  }, [orders, role, user?.predio]);
 
   // Computed Notifications (urgent / pending triage)
   const notifications = useMemo(() => {

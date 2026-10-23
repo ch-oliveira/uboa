@@ -22,7 +22,7 @@ async function bootstrap() {
       );
     }
   } else if (!secret || secret.length < 32) {
-    process.env.JWT_SECRET = process.env.JWT_SECRET || 'urboa_staging_jwt_secret_2026_super_secure_key_32c';
+    process.env.JWT_SECRET = process.env.JWT_SECRET || 'urboa_dev_fallback_insecure_key_change_in_prod_32c';
     Logger.warn(
       'JWT_SECRET não configurado ou menor que 32 caracteres. Usando chave segura padrão para ambiente de homologação/desenvolvimento.',
       'Bootstrap',

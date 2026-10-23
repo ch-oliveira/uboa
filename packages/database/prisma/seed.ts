@@ -520,8 +520,10 @@ async function main() {
   ];
 
   for (const o of ordens) {
-    await prisma.ordemServico.create({
-      data: o,
+    await prisma.ordemServico.upsert({
+      where: { id: o.id },
+      update: o,
+      create: o,
     });
   }
 
@@ -542,8 +544,13 @@ async function main() {
   ];
 
   for (const m of materiaisData) {
-    await prisma.material.create({
-      data: {
+    await prisma.material.upsert({
+      where: { id: m.id },
+      update: {
+        ...m,
+        prefeitura_id: prefeituraPadrao.id,
+      },
+      create: {
         ...m,
         prefeitura_id: prefeituraPadrao.id,
       },
@@ -597,8 +604,10 @@ async function main() {
   ];
 
   for (const c of contratosData) {
-    await prisma.contratoManutencao.create({
-      data: c,
+    await prisma.contratoManutencao.upsert({
+      where: { id: c.id },
+      update: c,
+      create: c,
     });
   }
 
@@ -690,19 +699,22 @@ async function main() {
     });
   }
 
-  // 4. Agenda de Vistorias e Preventivas (6 Atividades Reais)
+  // 4. Agenda de Vistorias e Preventivas (Atividades Reais)
   const vistorias = [
-    { id: 'ag-1', horario: 'Hoje, 14:30', titulo: 'Vistoria elétrica semestral nos quadros de distribuição', subtitulo: 'EMEF Paulo Freire', concluido: false, tipo: 'eletrica', tecnico: 'Carlos Silva' },
-    { id: 'ag-2', horario: 'Amanhã, 09:00', titulo: 'Manutenção preventiva e teste de estanqueidade de bombas', subtitulo: 'UBS Vila Nova', concluido: false, tipo: 'hidraulica', tecnico: 'Roberto Santos' },
-    { id: 'ag-3', horario: 'Quinta, 10:00', titulo: 'Inspeção de rampas e rotas táteis acessíveis', subtitulo: 'UBS Central', concluido: false, tipo: 'acessibilidade', tecnico: 'Lucas Pereira' },
-    { id: 'ag-4', horario: 'Quinta, 14:00', titulo: 'Avaliação preventiva de calhas e coberturas pré-chuvas', subtitulo: 'EMEI Sementinha', concluido: false, tipo: 'geral', tecnico: 'Marcos Oliveira' },
-    { id: 'ag-5', horario: 'Sexta, 11:00', titulo: 'Teste de carga do grupo gerador e no-break municipal', subtitulo: 'Prefeitura – Ala Sul', concluido: false, tipo: 'eletrica', tecnico: 'Carlos Silva' },
-    { id: 'ag-6', horario: 'Sexta, 15:30', titulo: 'Vistoria hidráulica e aferição de pressão de rede', subtitulo: 'Secretaria de Obras', concluido: false, tipo: 'hidraulica', tecnico: 'Roberto Santos' },
+    { id: 'ag-1', horario: 'Hoje, 14:30', titulo: 'Vistoria elétrica semestral nos quadros de distribuição', subtitulo: 'EMEF Paulo Freire', concluido: false, tipo: 'eletrica', tecnico: 'Carlos Silva', tecnico_id: tecCarlos.id, predio_id: 'u-1', prefeitura_id: prefeituraPadrao.id },
+    { id: 'ag-2', horario: 'Amanhã, 09:00', titulo: 'Manutenção preventiva e teste de estanqueidade de bombas', subtitulo: 'UBS Vila Nova', concluido: false, tipo: 'hidraulica', tecnico: 'Roberto Santos', tecnico_id: tecRoberto.id, predio_id: 'u-3', prefeitura_id: prefeituraPadrao.id },
+    { id: 'ag-3', horario: 'Quinta, 10:00', titulo: 'Inspeção de rampas e rotas táteis acessíveis', subtitulo: 'UBS Central', concluido: false, tipo: 'acessibilidade', tecnico: 'Lucas Pereira', tecnico_id: tecLucas.id, predio_id: 'u-4', prefeitura_id: prefeituraPadrao.id },
+    { id: 'ag-4', horario: 'Quinta, 14:00', titulo: 'Avaliação preventiva de calhas e coberturas pré-chuvas', subtitulo: 'EMEI Sementinha', concluido: false, tipo: 'geral', tecnico: 'Marcos Oliveira', tecnico_id: tecMarcos.id, predio_id: 'u-2', prefeitura_id: prefeituraPadrao.id },
+    { id: 'ag-5', horario: 'Sexta, 11:00', titulo: 'Teste de carga do grupo gerador e no-break municipal', subtitulo: 'Prefeitura – Ala Sul', concluido: false, tipo: 'eletrica', tecnico: 'Carlos Silva', tecnico_id: tecCarlos.id, predio_id: 'u-6', prefeitura_id: prefeituraPadrao.id },
+    { id: 'ag-6', horario: 'Sexta, 15:30', titulo: 'Vistoria hidráulica e aferição de pressão de rede', subtitulo: 'Secretaria de Obras', concluido: false, tipo: 'hidraulica', tecnico: 'Roberto Santos', tecnico_id: tecRoberto.id, predio_id: 'u-9', prefeitura_id: prefeituraPadrao.id },
+    { id: 'ag-7', horario: 'Amanhã, 10:00', titulo: 'Inspeção termográfica e balanceamento de cargas', subtitulo: 'UBS Vila Nova', concluido: false, tipo: 'eletrica', tecnico: 'Carlos Silva', tecnico_id: tecCarlos.id, predio_id: 'u-3', prefeitura_id: prefeituraPadrao.id },
   ];
 
   for (const v of vistorias) {
-    await prisma.agendaVistoria.create({
-      data: v,
+    await prisma.agendaVistoria.upsert({
+      where: { id: v.id },
+      update: v,
+      create: v,
     });
   }
 

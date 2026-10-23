@@ -49,7 +49,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     async function validateCurrentSession() {
       try {
-        const meResult = await apiClient.getMe();
+        const storedToken = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY_TOKEN) : null;
+        const meResult = await apiClient.getMe(storedToken || undefined);
         if (isMounted) {
           if (meResult.success && meResult.user) {
             const verifiedUser = meResult.user;
@@ -57,9 +58,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               delete verifiedUser.predio;
             }
             setUser(verifiedUser);
-            setToken('active_cookie_session');
+            setToken(storedToken || 'active_session');
             localStorage.setItem(STORAGE_KEY_AUTH, JSON.stringify(verifiedUser));
-            localStorage.removeItem(STORAGE_KEY_TOKEN);
           } else {
             // Sessão inexistente ou expirada
             setUser(null);
@@ -136,9 +136,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           delete userObj.predio;
         }
         setUser(userObj);
-        setToken('active_cookie_session');
+        setToken(data.token || 'active_session');
         localStorage.setItem(STORAGE_KEY_AUTH, JSON.stringify(userObj));
-        localStorage.removeItem(STORAGE_KEY_TOKEN);
+        if (data.token) {
+          localStorage.setItem(STORAGE_KEY_TOKEN, data.token);
+        }
         return { success: true };
       }
       return { 
@@ -162,9 +164,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           delete userObj.predio;
         }
         setUser(userObj);
-        setToken('active_cookie_session');
+        setToken(data.token || 'active_session');
         localStorage.setItem(STORAGE_KEY_AUTH, JSON.stringify(userObj));
-        localStorage.removeItem(STORAGE_KEY_TOKEN);
+        if (data.token) {
+          localStorage.setItem(STORAGE_KEY_TOKEN, data.token);
+        }
         router.push('/');
       }
     } catch (e) {

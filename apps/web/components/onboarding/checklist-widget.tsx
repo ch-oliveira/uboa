@@ -43,13 +43,20 @@ export function ChecklistWidget() {
     // Marca a missão imediatamente como concluída
     markMissionCompleted(mission.id);
 
-    if (mission.id === 'mission-tour') {
+    if (mission.id === 'mission-tour' || mission.id === 'mission-tecnico-tour') {
       resetTour();
       return;
     }
 
     if (mission.id === 'mission-copilot') {
       openCopilot();
+      return;
+    }
+
+    if (mission.id === 'mission-tecnico-anomalia') {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('open-reportar-anomalia'));
+      }
       return;
     }
 

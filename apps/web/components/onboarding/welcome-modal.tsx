@@ -50,12 +50,12 @@ const ROLE_HIGHLIGHTS: Record<UserRole, RoleHighlightInfo> = {
       icon: FileText,
     },
     TECNICO: {
-      title: 'Painel Operacional do Técnico Urboa',
-      subtitle: 'Suas ordens de serviço do dia, itinerários de vistorias e registro de execução.',
+      title: 'Painel Operacional — Carlos Silva',
+      subtitle: 'Sua central de campo: consulte ordens em andamento, itinerário de vistorias e reporte anomalias no local.',
       highlights: [
-        'Lista de OSs atribuídas com prioridades claras',
-        'Endereço, contatos e histórico do edifício',
-        'Anexo de fotos do reparo para comprovação',
+        'Pauta diária com início imediato de execução e registro de laudo',
+        'Pausa com SLA congelado por falta de peças no almoxarifado',
+        'Itinerário de vistorias preventivas e abertura ágil de anomalias com foto',
       ],
       icon: Wrench,
     },

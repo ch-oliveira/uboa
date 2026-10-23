@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/button';
 import { Toast } from '@/components/ui/toast';
 import { Sidebar } from '@/components/sidebar';
 import { useOrders, type AgendaEvent } from '@/context/orders-context';
+import { useAuth } from '@/context/auth-context';
 import { type OrdemServico } from '../kanban/data';
 import { OrderDetailModal } from '../kanban/order-detail-modal';
 import { NewAgendaModal } from './new-agenda-modal';
@@ -28,6 +29,9 @@ import { AgendaModal } from '../agenda-modal';
 import { TopHeader } from '@/components/top-header';
 
 export default function AgendaPage() {
+  const { user, role } = useAuth();
+  const isTecnico = role === 'TECNICO';
+
   const { 
     agenda, 
     orders,
@@ -36,8 +40,8 @@ export default function AgendaPage() {
     addAgendaEvent 
   } = useOrders();
 
-  // State
-  const [teamFilter, setTeamFilter] = useState('ALL');
+  // State: default to technician's schedule if logged in as TECNICO
+  const [teamFilter, setTeamFilter] = useState(isTecnico ? (user?.nome || 'Carlos Silva') : 'ALL');
   const [viewMode, setViewMode] = useState<'semana' | 'lista'>('semana');
   const [searchQuery, setSearchQuery] = useState('');
   const [weekOffset, setWeekOffset] = useState(0); // 0 = Semana Atual (Hoje)
@@ -170,10 +174,10 @@ export default function AgendaPage() {
         
         {/* Top Header Global */}
         <TopHeader 
-          titleOverride="Agenda e Planejamento"
+          titleOverride={isTecnico ? 'Minha Agenda Técnica' : 'Agenda e Planejamento'}
           breadcrumbs={[
-            { label: 'Gestão municipal', href: '/' },
-            { label: 'Agenda e Planejamento' },
+            { label: isTecnico ? 'Operação de campo' : 'Gestão municipal', href: '/' },
+            { label: isTecnico ? 'Minha Agenda Técnica' : 'Agenda e Planejamento' },
           ]}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -187,10 +191,12 @@ export default function AgendaPage() {
           <div className="bg-muted/50 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-                Agenda e Planejamento
+                {isTecnico ? 'Minha Agenda & Rota Técnica' : 'Agenda e Planejamento'}
               </h1>
               <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-                Programe as visitas técnicas e otimize o trabalho em campo.
+                {isTecnico 
+                  ? 'Consulte seus horários de vistoria, locais de atendimento e rota diária.'
+                  : 'Programe as visitas técnicas e otimize o trabalho em campo.'}
               </p>
             </div>
             <div className="flex items-center shrink-0">
@@ -199,7 +205,7 @@ export default function AgendaPage() {
                 className="w-full sm:w-auto justify-center bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-4 py-2 font-semibold text-sm shadow-xs transition-colors cursor-pointer flex items-center gap-2"
               >
                 <Plus className="h-4 w-4" />
-                Agendar visita
+                {isTecnico ? 'Apontar vistoria avulsa' : 'Agendar visita'}
               </Button>
             </div>
           </div>
@@ -297,8 +303,13 @@ export default function AgendaPage() {
               onChange={(e) => setTeamFilter(e.target.value)}
               className="w-full bg-background border border-border rounded-md px-3 py-2 text-xs font-medium text-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all cursor-pointer shadow-sm"
             >
-              <option value="ALL">Todas as equipes</option>
-              <option value="Carlos Silva">Manutenção elétrica (Carlos)</option>
+              {isTecnico && (
+                <option value={user?.nome || 'Carlos Silva'}>
+                  Minha agenda ({user?.nome || 'Carlos Silva'})
+                </option>
+              )}
+              <option value="ALL">Todas as equipes da base</option>
+              {!isTecnico && <option value="Carlos Silva">Manutenção elétrica (Carlos)</option>}
               <option value="Roberto Santos">Manutenção hidráulica (Roberto)</option>
               <option value="Lucas Pereira">Engenharia predial (Lucas)</option>
               <option value="Marcos Oliveira">Zeladoria geral (Marcos)</option>

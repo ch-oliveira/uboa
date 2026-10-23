@@ -52,9 +52,9 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
   }, [role]);
 
   const storageKeyPrefix = useMemo(() => `urboa_onboarding_${role}`, [role]);
-  const storagePromptKey = `${storageKeyPrefix}_prompt_seen_v1`;
-  const storageTourKey = `${storageKeyPrefix}_tour_done_v1`;
-  const storageMissionsKey = `${storageKeyPrefix}_missions_v1`;
+  const storagePromptKey = `${storageKeyPrefix}_prompt_seen_v2`;
+  const storageTourKey = `${storageKeyPrefix}_tour_done_v2`;
+  const storageMissionsKey = `${storageKeyPrefix}_missions_v2`;
 
   // Carrega estado do localStorage na montagem ou quando trocar de perfil/usuário
   useEffect(() => {
@@ -136,6 +136,7 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
       markMissionCompleted('mission-unidades');
     } else if (pathname === '/agenda') {
       markMissionCompleted('mission-agenda');
+      markMissionCompleted('mission-tecnico-agenda');
     } else if (pathname === '/configuracoes') {
       markMissionCompleted('mission-auditoria');
     } else if (pathname === '/abrir-chamado') {
@@ -178,6 +179,7 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
     setIsActive(false);
     setCurrentStepIndex(0);
     markMissionCompleted('mission-tour');
+    markMissionCompleted('mission-tecnico-tour');
     try {
       localStorage.setItem(storageTourKey, 'true');
       localStorage.setItem(storagePromptKey, 'true');

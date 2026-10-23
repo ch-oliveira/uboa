@@ -49,11 +49,13 @@ import { Button } from '@/components/ui/button';
 import { Toast } from '@/components/ui/toast';
 import { Sidebar } from '@/components/sidebar';
 import { useOrders } from '@/context/orders-context';
+import { useAuth } from '@/context/auth-context';
 import { PREDIOS, TECNICOS, type OrdemServico, type Prioridade, type StatusOS } from '../kanban/data';
 import { NewOrderModal } from '../kanban/new-order-modal';
 import { OrderDetailModal } from '../kanban/order-detail-modal';
 import { TopHeader } from '@/components/top-header';
 import { ChamadosTableSkeleton, ChamadosGridSkeleton } from '@/components/skeletons';
+import { ValidacaoReparoModal } from '@/components/work-orders/validacao-reparo-modal';
 
 type SortField = 'dataAbertura' | 'prioridade' | 'status' | 'predio' | 'titulo';
 type SortOrder = 'asc' | 'desc';
@@ -144,17 +146,30 @@ function KanbanColumnDroppable({
   );
 }
 
-// Sortable Kanban Card Component
+/**
+ * Componente de cartão do Kanban com suporte a Drag & Drop acessível e RBAC por perfil.
+ * 
+ * Regras de Perfil:
+ * - Para `isSolicitante`: O arrasto é bloqueado e as ações de transição direta são substituídas
+ *   por rotas informativas ou abertura do modal de validação de reparo.
+ * - Para `isTecnico`: Focado em iniciar atendimento e submeter para validação da unidade.
+ */
 function SortableKanbanCard({
   order,
   colId,
   onSelect,
   onMove,
+  isTecnico = false,
+  isSolicitante = false,
+  onValidate,
 }: {
   order: OrdemServico;
   colId: StatusOS;
   onSelect: (order: OrdemServico) => void;
   onMove?: (orderId: string, targetStatus: StatusOS) => void;
+  isTecnico?: boolean;
+  isSolicitante?: boolean;
+  onValidate?: (order: OrdemServico) => void;
 }) {
   const {
     attributes,
@@ -163,7 +178,7 @@ function SortableKanbanCard({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: order.id });
+  } = useSortable({ id: order.id, disabled: isSolicitante });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -196,10 +211,12 @@ function SortableKanbanCard({
     <div
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
+      {...(isSolicitante ? {} : attributes)}
+      {...(isSolicitante ? {} : listeners)}
       onClick={() => onSelect(order)}
-      className="bg-card border border-border rounded-lg shadow-sm p-4 hover:border-primary/40 hover:shadow-md cursor-grab active:cursor-grabbing transition-all flex flex-col justify-between group select-none touch-none"
+      className={`bg-card border border-border rounded-lg shadow-sm p-4 hover:border-primary/40 hover:shadow-md transition-all flex flex-col justify-between group select-none touch-none ${
+        isSolicitante ? 'cursor-pointer' : 'cursor-grab active:cursor-grabbing'
+      }`}
     >
       <div>
         {/* Header row: Tag and Code */}
@@ -289,8 +306,20 @@ function SortableKanbanCard({
       {/* Próximo Passo Row across all Kanban stages */}
       <div 
         onClick={(e) => {
+          e.stopPropagation();
+          if (isSolicitante) {
+            if (colId === 'AGUARDANDO' && onValidate) {
+              onValidate(order);
+            } else {
+              onSelect(order);
+            }
+            return;
+          }
+          if (isTecnico && colId === 'AGUARDANDO') {
+            onSelect(order);
+            return;
+          }
           if (nextStage && onMove) {
-            e.stopPropagation();
             if (nextStage === 'EM_EXECUCAO' && !order.tecnico) {
               onSelect(order);
               return;
@@ -298,21 +327,43 @@ function SortableKanbanCard({
             onMove(order.id, nextStage);
           }
         }}
-        className="mt-3 pt-2.5 border-t border-border flex items-center justify-between cursor-pointer hover:bg-muted/50 -mx-1 px-1 py-1 rounded-lg transition-colors group/step"
+        className={`mt-3 pt-2.5 border-t border-border flex items-center justify-between cursor-pointer hover:bg-muted/50 -mx-1 px-1 py-1 rounded-lg transition-colors group/step ${
+          isSolicitante && colId === 'AGUARDANDO' ? 'bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 text-emerald-800 dark:text-emerald-200' : ''
+        }`}
       >
-        <span className="text-xs font-semibold text-foreground group-hover/step:underline">
-          {colId === 'TRIAGEM' && 'Triar chamado'}
-          {colId === 'AGENDADO' && (order.tecnico ? 'Iniciar execução' : 'Definir equipe')}
-          {colId === 'EM_EXECUCAO' && 'Registrar execução'}
-          {colId === 'AGUARDANDO' && 'Validar conclusão'}
-          {colId === 'CONCLUIDO' && 'Ver histórico'}
+        <span className={`text-xs font-semibold group-hover/step:underline ${
+          isSolicitante && colId === 'AGUARDANDO' ? 'text-emerald-700 dark:text-emerald-300 font-bold' : 'text-foreground'
+        }`}>
+          {isSolicitante ? (
+            colId === 'TRIAGEM' ? 'Acompanhar triagem' :
+            colId === 'AGENDADO' ? 'Ver agendamento' :
+            colId === 'EM_EXECUCAO' ? 'Técnico em campo' :
+            colId === 'AGUARDANDO' ? 'Validar reparo' :
+            'Ver histórico'
+          ) : (
+            <>
+              {colId === 'TRIAGEM' && 'Triar chamado'}
+              {colId === 'AGENDADO' && (order.tecnico ? 'Iniciar atendimento' : 'Definir equipe')}
+              {colId === 'EM_EXECUCAO' && 'Registrar execução'}
+              {colId === 'AGUARDANDO' && (isTecnico ? 'Aguardando aceite da unidade' : 'Validar conclusão')}
+              {colId === 'CONCLUIDO' && 'Ver histórico'}
+            </>
+          )}
         </span>
-        <ArrowRight size={13} className="text-foreground transition-transform group-hover/step:translate-x-0.5" />
+        <ArrowRight size={13} className={`transition-transform group-hover/step:translate-x-0.5 ${
+          isSolicitante && colId === 'AGUARDANDO' ? 'text-emerald-700 dark:text-emerald-300' : 'text-foreground'
+        }`} />
       </div>
     </div>
   );
 }
 
+/**
+ * Página central de acompanhamento, filtragem e gestão de chamados do Urboa.
+ * 
+ * Suporta visualização em Lista e Quadro (Kanban), com isolamento estrito de tenant
+ * quando acessada por diretores/solicitantes de unidades públicas.
+ */
 export default function ChamadosPage() {
   return (
     <Suspense fallback={<div className="flex h-screen bg-background items-center justify-center text-sm font-semibold text-muted-foreground">Carregando chamados...</div>}>
@@ -323,6 +374,11 @@ export default function ChamadosPage() {
 
 function ChamadosContent() {
   const searchParams = useSearchParams();
+  const { user, role } = useAuth();
+  const isTecnico = role === 'TECNICO';
+  const isSolicitante = role === 'SOLICITANTE';
+  const userUnit = user?.predio || (isSolicitante ? 'EMEF Paulo Freire' : '');
+
   const { 
     orders, 
     setOrders,
@@ -337,8 +393,8 @@ function ChamadosContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const [stageFilter, setStageFilter] = useState<string>('ATIVOS');
   const [priorityFilter, setPriorityFilter] = useState<string>('TODAS');
-  const [unitFilter, setUnitFilter] = useState<string>('TODAS');
-  const [techFilter, setTechFilter] = useState<string>('TODOS');
+  const [unitFilter, setUnitFilter] = useState<string>(isSolicitante ? userUnit : 'TODAS');
+  const [techFilter, setTechFilter] = useState<string>(isTecnico ? (user?.nome || 'Carlos Silva') : 'TODOS');
 
   // Read URL params when mounted or changed
   useEffect(() => {
@@ -349,15 +405,24 @@ function ChamadosContent() {
 
     if (qEtapa) setStageFilter(qEtapa);
     if (qPrioridade) setPriorityFilter(qPrioridade);
-    if (qUnidade) setUnitFilter(qUnidade);
+    if (isSolicitante) {
+      setUnitFilter(userUnit);
+    } else if (qUnidade) {
+      setUnitFilter(qUnidade);
+    }
     if (qView === 'lista' || qView === 'quadro') setViewMode(qView);
-  }, [searchParams]);
+  }, [searchParams, isSolicitante, userUnit]);
 
   // Contextual origin detection (e.g. ?from=relatorios)
   const fromParam = searchParams.get('from');
 
   const breadcrumbs = useMemo(() => {
-    const items: { label: string; href?: string }[] = [{ label: 'Gestão municipal', href: '/' }];
+    const rootLabel = isTecnico 
+      ? 'Operação de campo' 
+      : isSolicitante 
+      ? (user?.predio || 'Minha unidade') 
+      : 'Gestão municipal';
+    const items: { label: string; href?: string }[] = [{ label: rootLabel, href: '/' }];
     if (fromParam === 'relatorios' || fromParam === '/relatorios') {
       items.push({ label: 'Relatórios e Indicadores', href: '/relatorios' });
     } else if (fromParam === 'agenda' || fromParam === '/agenda') {
@@ -365,11 +430,11 @@ function ChamadosContent() {
     } else if (fromParam === 'unidades' || fromParam === '/unidades') {
       items.push({ label: 'Unidades', href: '/unidades' });
     } else if (fromParam === 'hoje' || fromParam === '/') {
-      items.push({ label: 'Hoje', href: '/' });
+      items.push({ label: isTecnico ? 'Meu Dia' : isSolicitante ? 'Visão Geral' : 'Hoje', href: '/' });
     }
-    items.push({ label: 'Chamados' });
+    items.push({ label: isSolicitante ? 'Chamados da Unidade' : 'Chamados' });
     return items;
-  }, [fromParam]);
+  }, [fromParam, isTecnico, isSolicitante, user?.predio]);
 
   const backHref = useMemo(() => {
     if (!fromParam) return undefined;
@@ -391,6 +456,8 @@ function ChamadosContent() {
   // Modals & Feedback
   const [isNewModalOpen, setIsNewModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<OrdemServico | null>(null);
+  const [orderToValidate, setOrderToValidate] = useState<OrdemServico | null>(null);
+  const [isValidationModalOpen, setIsValidationModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const sensors = useSensors(
@@ -469,8 +536,13 @@ function ChamadosContent() {
           return false;
         }
 
-        // Unit
-        if (unitFilter !== 'TODAS' && order.predio !== unitFilter) {
+        // Unit (com isolamento estrito de tenant para Solicitante)
+        if (isSolicitante) {
+          if (!order.predio) return false;
+          const oP = order.predio.toLowerCase().trim();
+          const uP = userUnit.toLowerCase().trim();
+          if (oP !== uP && !oP.includes(uP) && !uP.includes(oP)) return false;
+        } else if (unitFilter !== 'TODAS' && order.predio !== unitFilter) {
           return false;
         }
 
@@ -478,7 +550,10 @@ function ChamadosContent() {
         if (techFilter === 'SEM_TECNICO' && order.tecnico) return false;
         if (techFilter === 'COM_TECNICO' && !order.tecnico) return false;
         if (techFilter !== 'TODOS' && techFilter !== 'SEM_TECNICO' && techFilter !== 'COM_TECNICO') {
-          if (order.tecnico !== techFilter) return false;
+          if (!order.tecnico) return false;
+          const oTech = order.tecnico.toLowerCase().trim();
+          const fTech = techFilter.toLowerCase().trim();
+          if (oTech !== fTech && !oTech.includes(fTech) && !fTech.includes(oTech)) return false;
         }
 
         return true;
@@ -533,7 +608,7 @@ function ChamadosContent() {
       {
         id: 'AGUARDANDO' as StatusOS,
         title: 'Aguardando validação',
-        subtitle: 'Validar com a unidade',
+        subtitle: isTecnico ? 'Aguardando aceite da unidade' : 'Validar com a unidade',
         orders: filteredOrders.filter((o) => o.status === 'AGUARDANDO'),
       },
     ];
@@ -683,10 +758,12 @@ function ChamadosContent() {
           <div className="bg-muted/50 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-                Chamados
+                {isTecnico ? 'Meus Chamados & Execuções' : 'Chamados'}
               </h1>
               <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-                Da triagem à solução, acompanhe cada etapa do atendimento.
+                {isTecnico 
+                  ? 'Acompanhe suas ordens de serviço atribuídas, registre laudos e aponte materiais.'
+                  : 'Da triagem à solução, acompanhe cada etapa do atendimento.'}
               </p>
             </div>
             <div className="flex items-center shrink-0">
@@ -695,7 +772,7 @@ function ChamadosContent() {
                 className="w-full sm:w-auto justify-center bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-4 py-2 font-semibold text-sm shadow-xs transition-colors cursor-pointer flex items-center gap-2"
               >
                 <Plus className="h-4 w-4" />
-                Novo chamado
+                {isTecnico ? 'Reportar anomalia' : 'Novo chamado'}
               </Button>
             </div>
           </div>
@@ -778,6 +855,26 @@ function ChamadosContent() {
 
           {/* Filters Row (Image 2) */}
           <div className="bg-card border border-border rounded-xl p-4 shadow-sm mb-4">
+            {/* Toggle rápido de atribuição para técnico */}
+            {isTecnico && (
+              <div className="mb-4 p-2.5 rounded-xl bg-primary/5 border border-primary/20 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div className="flex items-center gap-2">
+                  <Wrench size={14} className="text-primary shrink-0" />
+                  <span className="text-muted-foreground">Filtro de atribuição:</span>
+                  <strong className="text-foreground">
+                    {techFilter === 'TODOS' ? 'Toda a base operacional' : `Atribuídos a mim (${user?.nome || 'Carlos Silva'})`}
+                  </strong>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setTechFilter(techFilter === 'TODOS' ? (user?.nome || 'Carlos Silva') : 'TODOS')}
+                  className="font-bold text-primary hover:underline cursor-pointer"
+                >
+                  {techFilter === 'TODOS' ? 'Filtrar apenas os meus' : 'Exibir de toda a base'}
+                </button>
+              </div>
+            )}
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* 1. Buscar chamado */}
               <div>
@@ -828,16 +925,28 @@ function ChamadosContent() {
                 <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
                   Unidade
                 </label>
-                <select
-                  value={unitFilter}
-                  onChange={(e) => setUnitFilter(e.target.value)}
-                  className="w-full bg-background border border-border rounded-md px-3 py-2 text-xs font-medium text-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all cursor-pointer shadow-sm"
-                >
-                  <option value="TODAS">Todas as unidades</option>
-                  {PREDIOS.map((p) => (
-                    <option key={p} value={p}>{p}</option>
-                  ))}
-                </select>
+                {isSolicitante ? (
+                  <div className="flex items-center justify-between bg-muted/40 border border-border rounded-md px-3 py-2 text-xs font-bold text-foreground">
+                    <div className="flex items-center gap-1.5 truncate">
+                      <Building2 size={13} className="text-primary shrink-0" />
+                      <span className="truncate">{userUnit}</span>
+                    </div>
+                    <span className="text-[10px] font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded ml-2 shrink-0 border border-primary/20">
+                      Sua Unidade
+                    </span>
+                  </div>
+                ) : (
+                  <select
+                    value={unitFilter}
+                    onChange={(e) => setUnitFilter(e.target.value)}
+                    className="w-full bg-background border border-border rounded-md px-3 py-2 text-xs font-medium text-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all cursor-pointer shadow-sm"
+                  >
+                    <option value="TODAS">Todas as unidades</option>
+                    {PREDIOS.map((p) => (
+                      <option key={p} value={p}>{p}</option>
+                    ))}
+                  </select>
+                )}
               </div>
 
               {/* 4. Prioridade */}
@@ -941,7 +1050,13 @@ function ChamadosContent() {
                             key={order.id}
                             order={order}
                             colId={col.id}
+                            isTecnico={isTecnico}
+                            isSolicitante={isSolicitante}
                             onSelect={(ord) => setSelectedOrder(ord)}
+                            onValidate={(ord) => {
+                              setOrderToValidate(ord);
+                              setIsValidationModalOpen(true);
+                            }}
                             onMove={handleQuickMove}
                           />
                         ))
@@ -1109,30 +1224,68 @@ function ChamadosContent() {
                               <span className="text-muted-foreground">Aberto:</span> <span className="font-semibold text-foreground">{order.dataAbertura}</span> <span className="px-1 text-muted-foreground/30">|</span> <span className="text-muted-foreground">SLA:</span> <span className="font-semibold text-foreground">18:00</span>
                             </td>
                             <td className="py-4 px-4 text-right">
-                              {order.status === 'TRIAGEM' ? (
-                                <span className="inline-flex items-center gap-1.5 text-primary hover:bg-primary/10 px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors cursor-pointer">
-                                  <span>Triar chamado</span>
-                                  <ArrowRight size={11} />
-                                </span>
-                              ) : order.status === 'AGENDADO' ? (
-                                <span className="inline-flex items-center gap-1.5 hover:bg-muted text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors cursor-pointer">
-                                  <span>{order.tecnico ? 'Agendar' : 'Definir equipe'}</span>
-                                  <ArrowRight size={11} />
-                                </span>
-                              ) : order.status === 'EM_EXECUCAO' ? (
-                                <span className="inline-flex items-center gap-1.5 hover:bg-muted text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors cursor-pointer">
-                                  <span>Registrar execução</span>
-                                  <ArrowRight size={11} />
-                                </span>
-                              ) : order.status === 'AGUARDANDO' ? (
-                                <span className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors shadow-sm">
-                                  <CheckCircle2 size={11} />
-                                  <span>Validar serviço</span>
-                                </span>
+                              {isSolicitante ? (
+                                order.status === 'AGUARDANDO' ? (
+                                  <Button
+                                    size="sm"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setOrderToValidate(order);
+                                      setIsValidationModalOpen(true);
+                                    }}
+                                    className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold px-3 py-1.5 h-8 shadow-xs flex items-center gap-1.5 ml-auto cursor-pointer"
+                                  >
+                                    <CheckCircle2 size={13} />
+                                    <span>Validar reparo</span>
+                                  </Button>
+                                ) : order.status === 'TRIAGEM' ? (
+                                  <span className="inline-flex items-center gap-1 text-muted-foreground text-xs font-medium">
+                                    <span>Em triagem</span>
+                                    <ArrowRight size={11} className="text-muted-foreground/60" />
+                                  </span>
+                                ) : order.status === 'AGENDADO' ? (
+                                  <span className="inline-flex items-center gap-1 text-muted-foreground text-xs font-medium">
+                                    <span>Agendado</span>
+                                    <ArrowRight size={11} className="text-muted-foreground/60" />
+                                  </span>
+                                ) : order.status === 'EM_EXECUCAO' ? (
+                                  <span className="text-blue-700 bg-blue-50 dark:bg-blue-950/40 text-[11px] font-bold px-2.5 py-1 rounded-md border border-blue-200/60 inline-flex items-center gap-1">
+                                    <Wrench size={12} className="text-blue-600" />
+                                    <span>Técnico em campo</span>
+                                  </span>
+                                ) : (
+                                  <span className="text-muted-foreground text-xs font-medium">
+                                    Concluído
+                                  </span>
+                                )
                               ) : (
-                                <span className="inline-flex items-center gap-1 hover:bg-muted text-muted-foreground px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors cursor-pointer">
-                                  <span>Ver histórico</span>
-                                </span>
+                                <>
+                                  {order.status === 'TRIAGEM' ? (
+                                    <span className="inline-flex items-center gap-1.5 text-primary hover:bg-primary/10 px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors cursor-pointer">
+                                      <span>Triar chamado</span>
+                                      <ArrowRight size={11} />
+                                    </span>
+                                  ) : order.status === 'AGENDADO' ? (
+                                    <span className="inline-flex items-center gap-1.5 hover:bg-muted text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors cursor-pointer">
+                                      <span>{order.tecnico ? 'Agendar' : 'Definir equipe'}</span>
+                                      <ArrowRight size={11} />
+                                    </span>
+                                  ) : order.status === 'EM_EXECUCAO' ? (
+                                    <span className="inline-flex items-center gap-1.5 hover:bg-muted text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors cursor-pointer">
+                                      <span>Registrar execução</span>
+                                      <ArrowRight size={11} />
+                                    </span>
+                                  ) : order.status === 'AGUARDANDO' ? (
+                                    <span className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors shadow-sm">
+                                      <CheckCircle2 size={11} />
+                                      <span>{isTecnico ? 'Aguardando unidade' : 'Validar serviço'}</span>
+                                    </span>
+                                  ) : (
+                                    <span className="inline-flex items-center gap-1 hover:bg-muted text-muted-foreground px-3 py-1.5 rounded-md text-[11px] font-medium transition-colors cursor-pointer">
+                                      <span>Ver histórico</span>
+                                    </span>
+                                  )}
+                                </>
                               )}
                             </td>
                           </tr>
@@ -1174,6 +1327,24 @@ function ChamadosContent() {
         onDelete={(orderId) => {
           deleteOrder(orderId);
           showToast(`Chamado ${orderId} removido.`);
+        }}
+      />
+
+      {/* Modal de Validação / Aceite ou Contestação pelo Solicitante */}
+      <ValidacaoReparoModal
+        isOpen={isValidationModalOpen}
+        onClose={() => {
+          setIsValidationModalOpen(false);
+          setOrderToValidate(null);
+        }}
+        order={orderToValidate}
+        onConfirmApproval={(updatedOrder, _feedback, rating) => {
+          updateOrder(updatedOrder);
+          showToast(`Chamado #${updatedOrder.id.replace(/^(os-|OS-)/i, '')} validado e aceito com sucesso (Nota ${rating || 5}/5)!`);
+        }}
+        onConfirmDispute={(updatedOrder, reason) => {
+          updateOrder(updatedOrder);
+          showToast(`Contestação registrada no chamado #${updatedOrder.id.replace(/^(os-|OS-)/i, '')}. Equipe técnica notificada para saneamento.`);
         }}
       />
 

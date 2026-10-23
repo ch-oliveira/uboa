@@ -12,22 +12,42 @@ import {
   ArrowRight, 
   FileText,
   Camera,
-  HelpCircle
+  HelpCircle,
+  Building2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PREDIOS, type OrdemServico, type StatusOS } from './data';
 import { useAuth } from '@/context/auth-context';
 
-interface Props {
+/**
+ * Propriedades para abertura e controle do modal de criação de novo chamado.
+ */
+export interface NewOrderModalProps {
+  /** Controla a visibilidade do modal */
   isOpen: boolean;
+  /** Callback para fechamento do modal */
   onClose: () => void;
+  /** Callback de persistência do chamado recém-criado */
   onCreate: (order: OrdemServico) => void | Promise<any>;
+  /** Prédio pré-selecionado (se aplicável) */
   defaultPredio?: string;
+  /** Nome do solicitante pré-definido */
   defaultSolicitante?: string;
+  /** Callback opcional para abrir os detalhes após a criação */
   onOpenOrder?: (order: OrdemServico) => void;
+  /** Callback opcional para iniciar triagem imediata */
   onStartTriage?: (order: OrdemServico) => void;
 }
 
+/**
+ * Modal guiado para abertura de ocorrências e ordens de serviço municipais.
+ * 
+ * Regras de Domínio e RBAC:
+ * - Para o perfil `SOLICITANTE`: o prédio é travado exclusivamente na unidade vinculada (`user.predio`),
+ *   impedindo que uma diretoria abra chamados para prédios alheios.
+ * - Todos os chamados iniciam com status `TRIAGEM` e prioridade base `MEDIA`, sendo o SLA
+ *   oficial estabelecido na triagem técnica assistida pela IA Urbi.
+ */
 export function NewOrderModal({ 
   isOpen, 
   onClose, 
@@ -36,12 +56,14 @@ export function NewOrderModal({
   defaultSolicitante,
   onOpenOrder,
   onStartTriage
-}: Props) {
+}: NewOrderModalProps) {
   const { user, role } = useAuth();
+  const isSolicitante = role === 'SOLICITANTE';
+  const userUnit = user?.predio || (isSolicitante ? 'EMEF Paulo Freire' : '');
   const loggedUserName = user?.nome || 'Mariana Alves';
 
   // Form State
-  const [predio, setPredio] = useState<string>(defaultPredio || '');
+  const [predio, setPredio] = useState<string>(defaultPredio || userUnit || '');
   const [localEspecifico, setLocalEspecifico] = useState('');
   const [tipoOcorrencia, setTipoOcorrencia] = useState('Geral');
   const [titulo, setTitulo] = useState('');
@@ -59,7 +81,7 @@ export function NewOrderModal({
 
   useEffect(() => {
     if (isOpen) {
-      setPredio(defaultPredio || '');
+      setPredio(defaultPredio || userUnit || '');
       setLocalEspecifico('');
       setTipoOcorrencia('Geral');
       setTitulo('');
@@ -71,7 +93,7 @@ export function NewOrderModal({
       setCreatedOrder(null);
       setShowDiscardConfirm(false);
     }
-  }, [isOpen, defaultPredio, defaultSolicitante, loggedUserName]);
+  }, [isOpen, defaultPredio, defaultSolicitante, loggedUserName, userUnit]);
 
   if (!isOpen) return null;
 
@@ -300,19 +322,31 @@ export function NewOrderModal({
                 <label className="block text-xs font-semibold text-muted-foreground mb-1">
                   Unidade / Prédio Municipal *
                 </label>
-                <select
-                  value={predio}
-                  onChange={(e) => {
-                    setPredio(e.target.value);
-                    if (error) setError('');
-                  }}
-                  className="w-full px-3 py-2 bg-muted/30 border border-border rounded-md text-[13px] text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-background transition-all font-medium cursor-pointer"
-                >
-                  <option value="" disabled>Selecione o local...</option>
-                  {PREDIOS.map((p) => (
-                    <option key={p} value={p}>{p}</option>
-                  ))}
-                </select>
+                {isSolicitante ? (
+                  <div className="flex items-center justify-between p-3 bg-muted/40 border border-border rounded-xl">
+                    <div className="flex items-center gap-2">
+                      <Building2 size={16} className="text-primary shrink-0" />
+                      <span className="text-xs font-bold text-foreground">{predio || userUnit}</span>
+                    </div>
+                    <span className="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">
+                      Sua Unidade Vinculada
+                    </span>
+                  </div>
+                ) : (
+                  <select
+                    value={predio}
+                    onChange={(e) => {
+                      setPredio(e.target.value);
+                      if (error) setError('');
+                    }}
+                    className="w-full px-3 py-2 bg-muted/30 border border-border rounded-md text-[13px] text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-background transition-all font-medium cursor-pointer"
+                  >
+                    <option value="" disabled>Selecione o local...</option>
+                    {PREDIOS.map((p) => (
+                      <option key={p} value={p}>{p}</option>
+                    ))}
+                  </select>
+                )}
               </div>
 
               {/* Local específico dentro da unidade */}

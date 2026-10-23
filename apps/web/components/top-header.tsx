@@ -35,6 +35,7 @@ export function TopHeader({
   const router = useRouter();
   const { user, role } = useAuth();
   const isSolicitante = role === 'SOLICITANTE';
+  const isTecnico = role === 'TECNICO';
   const { orders, notifications, markNotificationAsRead, markAllNotificationsAsRead, toggleMobileNav } = useOrders();
   const { startTour } = useOnboarding();
 
@@ -48,11 +49,17 @@ export function TopHeader({
         { label: titleOverride || 'Acompanhamento' }
       ];
     }
+    if (isTecnico) {
+      return [
+        { label: 'Operação de campo', href: '/' },
+        { label: titleOverride || 'Meu Dia' }
+      ];
+    }
     return [
       { label: 'Gestão municipal', href: '/' },
       { label: titleOverride || 'Visão geral' }
     ];
-  }, [breadcrumbs, isSolicitante, user?.predio, titleOverride]);
+  }, [breadcrumbs, isSolicitante, isTecnico, user?.predio, titleOverride]);
 
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const notifRef = useRef<HTMLDivElement>(null);
