@@ -12,6 +12,14 @@ const nextConfig = {
         destination: '/apresentacao/index.html',
       },
       {
+        source: '/apresentacao/',
+        destination: '/apresentacao/index.html',
+      },
+      {
+        source: '/apresentacao/one-pager',
+        destination: '/apresentacao/one-pager.html',
+      },
+      {
         source: '/api/:path*',
         destination: `${apiUrl}/:path*`,
       },
