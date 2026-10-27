@@ -8,6 +8,7 @@ Este diretório contém o material oficial de apresentação comercial e técnic
 
 | Arquivo | Formato | Finalidade | Como Visualizar / Usar |
 |---|---|---|---|
+| **[`ROTEIRO.md`](file:///Users/ch4rle2/.gemini/antigravity-ide/scratch/predial-monorepo/docs/apresentacao/ROTEIRO.md)** | Guia do Apresentador / Pitch Script | Roteiro de fala slide a slide (15-20 min), ganchos, perguntas e quebra de objeções | Leitor Markdown ou texto |
 | **[`index.html`](file:///Users/ch4rle2/.gemini/antigravity-ide/scratch/predial-monorepo/docs/apresentacao/index.html)** | Web Deck Interativo (16:9) | Apresentação em telão / projetor / reuniões virtuais | Abra no Chrome ou qualquer navegador |
 | **[`apresentacao-urboa-deck.pdf`](file:///Users/ch4rle2/.gemini/antigravity-ide/scratch/predial-monorepo/docs/apresentacao/apresentacao-urboa-deck.pdf)** | Slides em PDF | Envio antecipado para a prefeitura ou impressão em lâminas | Leitor de PDF padrão |
 | **[`one-pager.html`](file:///Users/ch4rle2/.gemini/antigravity-ide/scratch/predial-monorepo/docs/apresentacao/one-pager.html)** | One-Pager / Folder (A4) | Material executivo de 2 páginas pronto para impressão | Abra no navegador ou imprima (`Ctrl+P` / `Cmd+P`) |
