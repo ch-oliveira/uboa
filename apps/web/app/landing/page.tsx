@@ -384,6 +384,12 @@ export default function LandingPage() {
               <a href="#como-funciona" className="transition-colors hover:text-[#0A0F1A]">Como funciona</a>
               <a href="#modulos" className="transition-colors hover:text-[#0A0F1A]">Módulos</a>
               <a href="#relatorios" className="transition-colors hover:text-[#0A0F1A]">Relatórios</a>
+              <Link href="/transparencia" className="inline-flex items-center gap-1.5 font-semibold text-amber-700 hover:text-amber-800 transition-colors">
+                <span>Transparência</span>
+                <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-[10px] font-bold text-amber-800 border border-amber-200">
+                  Público
+                </span>
+              </Link>
               <a href="#faq" className="transition-colors hover:text-[#0A0F1A]">Perguntas</a>
             </nav>
 

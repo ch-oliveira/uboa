@@ -25,7 +25,7 @@ const STORAGE_KEY_AUTH = 'zelo_auth_user_v1';
 const STORAGE_KEY_TOKEN = 'zelo_auth_token_v1';
 
 // Rotas públicas que não exigem login
-const PUBLIC_PATHS = ['/login', '/landing', '/abrir-chamado'];
+const PUBLIC_PATHS = ['/login', '/landing', '/abrir-chamado', '/transparencia', '/prestacao-de-contas'];
 
 // Rotas proibidas para cada perfil (RBAC)
 const FORBIDDEN_ROUTES_BY_ROLE: Record<UserRole, string[]> = {

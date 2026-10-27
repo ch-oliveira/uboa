@@ -1,0 +1,97 @@
+/* Prestação de contas: warm, playful, page-scoped tokens */
+.tp-root {
+  --tp-bg: hsl(38, 60%, 97%);
+  --tp-surface: #ffffff;
+  --tp-ink: hsl(30, 12%, 10%);
+  --tp-text-2: hsl(32, 7%, 34%);
+  --tp-text-3: hsl(32, 6%, 42%);
+  --tp-line: hsla(30, 20%, 20%, 0.08);
+
+  --tp-butter: hsl(45, 100%, 87%);
+  --tp-sky: hsl(214, 100%, 92%);
+  --tp-mint: hsl(150, 55%, 89%);
+  --tp-lilac: hsl(260, 100%, 94%);
+  --tp-peach: hsl(20, 100%, 91%);
+  --tp-pink: hsl(330, 100%, 93%);
+  --tp-marker: hsl(48, 100%, 64%);
+
+  --tp-shadow-1: 0 1px 2px hsla(30, 30%, 20%, 0.06), 0 0 0 1px hsla(30, 30%, 20%, 0.05);
+  --tp-shadow-3: 0 10px 24px -8px hsla(30, 30%, 20%, 0.16), 0 0 0 1px hsla(30, 30%, 20%, 0.05);
+
+  background: var(--tp-bg);
+  color: var(--tp-ink);
+  min-height: 100vh;
+}
+
+.tp-display {
+  font-family: var(--font-display), var(--font-sans), system-ui, sans-serif;
+  letter-spacing: -0.025em;
+  font-optical-sizing: auto;
+}
+
+/* hand-drawn style highlighter behind a word */
+.tp-marker {
+  position: relative;
+  white-space: nowrap;
+  z-index: 0;
+}
+.tp-marker::after {
+  content: '';
+  position: absolute;
+  left: -0.08em;
+  right: -0.08em;
+  bottom: 0.08em;
+  height: 0.38em;
+  background: var(--tp-marker);
+  border-radius: 0.2em 0.5em 0.3em 0.6em;
+  transform: rotate(-1.2deg);
+  z-index: -1;
+}
+
+/* before/after slider: the photo is a diptych, each layer shows one half */
+.tp-ba img {
+  position: absolute;
+  top: 50%;
+  width: 210%;
+  max-width: none;
+  height: auto;
+  transform: translateY(-50%);
+  user-select: none;
+  pointer-events: none;
+}
+.tp-ba .tp-ba-before { left: -2.5%; }
+.tp-ba .tp-ba-after { left: -107.5%; }
+
+.tp-ba input[type='range'] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: ew-resize;
+  margin: 0;
+}
+.tp-ba:has(input:focus-visible) .tp-ba-knob {
+  outline: 3px solid var(--tp-marker);
+  outline-offset: 2px;
+}
+
+.tp-scroll-x {
+  scrollbar-width: none;
+}
+.tp-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+/* dashed track behind the "como funciona" stickers */
+.tp-track {
+  background-image: linear-gradient(90deg, hsla(30, 12%, 10%, 0.18) 50%, transparent 50%);
+  background-size: 14px 2px;
+  background-repeat: repeat-x;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tp-root * {
+    transition-duration: 0.01ms !important;
+  }
+}
