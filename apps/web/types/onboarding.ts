@@ -11,6 +11,9 @@ export interface TourStep {
   position?: TourPosition;
   badge?: string;
   actionTip?: string;
+  actionLabel?: string;
+  actionRoute?: string;
+  actionEvent?: string;
 }
 
 export interface ChecklistMission {

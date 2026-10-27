@@ -316,7 +316,7 @@ export default function ConfiguracoesPage() {
       <main className="flex-1 flex flex-col h-full overflow-y-auto">
         {/* Header Bar */}
         <header className="px-4 sm:px-6 md:px-8 py-4 sm:py-6 bg-background border-b border-border shrink-0 sticky top-0 z-20 shadow-xs">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div data-tour="config-header" className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2.5">
                 <button
@@ -358,6 +358,7 @@ export default function ConfiguracoesPage() {
               </Button>
 
               <Button
+                data-tour="config-save-btn"
                 size="sm"
                 onClick={handleSave}
                 className="text-xs font-bold bg-primary hover:bg-primary/90 text-primary-foreground gap-2 rounded-xl shadow-xs"
@@ -369,7 +370,7 @@ export default function ConfiguracoesPage() {
           </div>
 
           {/* Navigation Tabs */}
-          <div className="flex items-center gap-2 mt-4 sm:mt-6 border-b border-border overflow-x-auto pb-1.5 no-scrollbar">
+          <div data-tour="config-tabs" className="flex items-center gap-2 mt-4 sm:mt-6 border-b border-border overflow-x-auto pb-1.5 no-scrollbar">
             <TabButton 
               active={activeTab === 'geral'} 
               onClick={() => setActiveTab('geral')} 
@@ -381,6 +382,7 @@ export default function ConfiguracoesPage() {
               onClick={() => setActiveTab('slas')} 
               icon={<Clock size={16} />} 
               label="SLAs & Prazos" 
+              dataTour="config-tab-slas"
             />
             <TabButton 
               active={activeTab === 'notificacoes'} 
@@ -1630,17 +1632,20 @@ function TabButton({
   onClick, 
   icon, 
   label, 
-  badge 
+  badge,
+  dataTour,
 }: { 
   active: boolean; 
   onClick: () => void; 
   icon: React.ReactNode; 
   label: string; 
   badge?: string; 
+  dataTour?: string;
 }) {
   return (
     <button
       type="button"
+      data-tour={dataTour}
       onClick={onClick}
       className={`flex items-center gap-2 px-4 py-3 font-bold text-xs border-b-2 transition-all whitespace-nowrap ${
         active 

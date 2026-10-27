@@ -558,7 +558,7 @@ export default function DashboardPage() {
             <div className="space-y-6">
               
               {/* Agenda de hoje */}
-              <div className="border border-border bg-card rounded-xl p-5 space-y-5 shadow-sm">
+              <div data-tour="agenda-hoje" className="border border-border bg-card rounded-xl p-5 space-y-5 shadow-sm">
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="text-sm font-semibold text-foreground">Agenda de hoje</h2>

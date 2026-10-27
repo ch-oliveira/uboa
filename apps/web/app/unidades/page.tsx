@@ -152,7 +152,7 @@ export default function UnidadesPage() {
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6">
 
           {/* CABEÇALHO DA PÁGINA (Padrão Ouro UI/UX) */}
-          <div className="bg-muted/50 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div data-tour="unidades-header" className="bg-muted/50 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
                 Unidades e Instalações
@@ -182,7 +182,7 @@ export default function UnidadesPage() {
           </div>
 
           {/* Filters Row (Image 4) */}
-          <div className="bg-card border border-border rounded-xl p-4 mb-4 max-w-4xl shadow-sm">
+          <div data-tour="unidades-filters" className="bg-card border border-border rounded-xl p-4 mb-4 max-w-4xl shadow-sm">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {/* 1. Buscar unidade */}
             <div>
@@ -251,7 +251,7 @@ export default function UnidadesPage() {
               <UnitCardSkeleton />
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+            <div data-tour="unidades-grid" className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
               {filteredUnits.length === 0 ? (
                 <div className="col-span-full py-16 text-center text-muted-foreground ds-card border-border">
                   <p className="text-sm font-semibold text-foreground">Nenhuma unidade encontrada</p>

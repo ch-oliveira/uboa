@@ -188,7 +188,7 @@ export default function AgendaPage() {
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6">
 
           {/* CABEÇALHO DA PÁGINA (Padrão Ouro UI/UX) */}
-          <div className="bg-muted/50 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div data-tour="agenda-header" className="bg-muted/50 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
                 {isTecnico ? 'Minha Agenda & Rota Técnica' : 'Agenda e Planejamento'}
@@ -294,7 +294,7 @@ export default function AgendaPage() {
           </div>
 
           {/* Filter Bar: Equipe */}
-          <div className="bg-card border border-border rounded-xl p-4 mb-4 max-w-sm shadow-sm">
+          <div data-tour="agenda-filters" className="bg-card border border-border rounded-xl p-4 mb-4 max-w-sm shadow-sm">
             <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
               Filtrar por equipe
             </label>
@@ -318,7 +318,7 @@ export default function AgendaPage() {
 
           {/* WEEK GRID VIEW (5 DIAS: SEG A SEX) */}
           {viewMode === 'semana' ? (
-            <div className="flex overflow-x-auto pb-4 snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:overflow-x-visible lg:pb-0 gap-4 items-start pt-2">
+            <div data-tour="agenda-calendar" className="flex overflow-x-auto pb-4 snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:overflow-x-visible lg:pb-0 gap-4 items-start pt-2">
               {weekDays.map((day) => (
                 <div 
                   key={day.key}

@@ -197,6 +197,7 @@ export function Sidebar({
                     href="/configuracoes"
                     active={currentRoute === '/configuracoes'}
                     onClick={() => { closeMobileNav(); onOpenSettings?.(); }}
+                    dataTour="nav-configuracoes"
                   />
                 </div>
               )}
@@ -360,6 +361,7 @@ export function Sidebar({
               active={currentRoute === '/configuracoes'}
               onClick={onOpenSettings}
               isCollapsed={isSidebarCollapsed}
+              dataTour="nav-configuracoes"
             />
           </div>
         )}

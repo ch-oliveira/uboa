@@ -61,11 +61,11 @@ const ROLE_HIGHLIGHTS: Record<UserRole, RoleHighlightInfo> = {
     },
     ADMIN: {
       title: 'Console de Administração Urboa',
-      subtitle: 'Governança, gestão de equipes, permissões e parâmetros regulamentares.',
+      subtitle: 'Governança executiva, conformidade regulatória, parametrização de SLAs e auditoria institucional.',
       highlights: [
-        'Trilhas imutáveis de auditoria para órgãos de controle',
-        'Parametrização de SLAs e metas da prefeitura',
-        'Diagnósticos de infraestrutura e saúde da API',
+        'Parametrização de SLAs municipais (4h/24h/72h) e regras de congelamento',
+        'Trilhas imutáveis de auditoria para órgãos de controle (TCE/TCU)',
+        'Auditoria inteligente com Copilot Urbi e métricas em tempo real',
       ],
       icon: ShieldCheck,
     },

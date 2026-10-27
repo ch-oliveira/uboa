@@ -14,7 +14,8 @@ import {
   Compass, 
   ArrowUpRight,
   Target,
-  Trophy
+  Trophy,
+  Check
 } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import { useOrders } from '@/context/orders-context';
@@ -31,6 +32,8 @@ export function ChecklistWidget() {
     setIsChecklistVisible, 
     isChecklistMinimized, 
     setIsChecklistMinimized, 
+    isFamiliarized,
+    dismissChecklist,
     missions, 
     progressPercentage, 
     toggleMission, 
@@ -61,7 +64,10 @@ export function ChecklistWidget() {
     }
 
     if (mission.id === 'mission-dev') {
-      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', ctrlKey: true, shiftKey: true }));
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('zelo:toggle-dev-drawer'));
+        window.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', ctrlKey: true, shiftKey: true }));
+      }
       return;
     }
 
@@ -70,8 +76,8 @@ export function ChecklistWidget() {
     }
   }
 
-  // Não exibe se o spotlight tour estiver ativo na tela ou se o usuário fechou explicitamente
-  if (!isChecklistVisible || isActive) return null;
+  // Não exibe se o spotlight tour estiver ativo, se já se familiarizou no primeiro uso ou se foi dispensado
+  if (!isChecklistVisible || isActive || isFamiliarized) return null;
 
   const completedCount = missions.filter((m) => m.isCompleted).length;
   const isAllDone = completedCount === missions.length && missions.length > 0;
@@ -81,32 +87,52 @@ export function ChecklistWidget() {
       <AnimatePresence mode="wait">
         {isChecklistMinimized ? (
           // ─── PILL MINIMIZADO (Refactoring UI: Floating Compact Capsule) ───
-          <motion.button
+          <motion.div
             key="minimized-pill"
             initial={{ opacity: 0, scale: 0.9, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
             transition={{ duration: 0.25, ease: cubicSpring }}
-            onClick={() => setIsChecklistMinimized(false)}
-            className="flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-[#0A2540] hover:bg-[#07192C] text-white shadow-[0_8px_20px_rgba(10,37,64,0.25),inset_0_1px_0_rgba(255,255,255,0.2)] border border-slate-700/50 cursor-pointer transition-all active:scale-95 group"
-            aria-label="Abrir checklist de primeiros passos"
+            className="flex items-center gap-1.5 pl-3.5 pr-2 py-1.5 rounded-full bg-[#0A2540] text-white shadow-[0_8px_20px_rgba(10,37,64,0.25),inset_0_1px_0_rgba(255,255,255,0.2)] border border-slate-700/50 group"
           >
-            {isAllDone ? (
-              <Trophy size={15} strokeWidth={2} className="text-amber-400 shrink-0" />
-            ) : (
-              <Target size={15} strokeWidth={2} className="text-blue-400 shrink-0 group-hover:rotate-12 transition-transform" />
-            )}
+            <button
+              type="button"
+              onClick={() => setIsChecklistMinimized(false)}
+              className="flex items-center gap-2 cursor-pointer transition-all active:scale-95 text-left"
+              aria-label="Abrir checklist de primeiros passos"
+              title="Expandir primeiros passos"
+            >
+              {isAllDone ? (
+                <Trophy size={14} strokeWidth={2} className="text-amber-400 shrink-0" />
+              ) : (
+                <Target size={14} strokeWidth={2} className="text-blue-400 shrink-0 group-hover:rotate-12 transition-transform" />
+              )}
 
-            <span className="text-xs font-bold tracking-tight">
-              {isAllDone ? 'Missões Concluídas!' : 'Primeiros Passos'}
-            </span>
+              <span className="text-xs font-bold tracking-tight">
+                {isAllDone ? 'Missões Concluídas!' : 'Primeiros Passos'}
+              </span>
 
-            <span className="px-1.5 py-0.5 rounded-full text-[10px] font-extrabold bg-blue-500/20 text-blue-300 border border-blue-400/30">
-              {completedCount}/{missions.length}
-            </span>
+              <span className="px-1.5 py-0.5 rounded-full text-[10px] font-extrabold bg-blue-500/20 text-blue-300 border border-blue-400/30">
+                {completedCount}/{missions.length}
+              </span>
 
-            <ChevronUp size={14} strokeWidth={2} className="text-slate-400 group-hover:text-white transition-colors" />
-          </motion.button>
+              <ChevronUp size={13} strokeWidth={2} className="text-slate-400 group-hover:text-white transition-colors" />
+            </button>
+
+            {/* Botão de dispensa permanente direto no pill */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                dismissChecklist();
+              }}
+              className="p-1 rounded-full text-slate-400 hover:text-white hover:bg-white/15 transition-colors cursor-pointer ml-0.5"
+              title="Dispensar guia (já me familiarizei)"
+              aria-label="Dispensar guia permanentemente"
+            >
+              <X size={12} strokeWidth={2.5} />
+            </button>
+          </motion.div>
         ) : (
           // ─── CARD EXPANDIDO (Refactoring UI: Elevation, Structured Hierarchy) ───
           <motion.div
@@ -127,6 +153,7 @@ export function ChecklistWidget() {
 
                 <div className="flex items-center gap-1">
                   <button
+                    type="button"
                     onClick={() => setIsChecklistMinimized(true)}
                     className="p-1 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                     aria-label="Minimizar checklist"
@@ -135,10 +162,11 @@ export function ChecklistWidget() {
                     <ChevronDown size={15} strokeWidth={2} />
                   </button>
                   <button
-                    onClick={() => setIsChecklistVisible(false)}
+                    type="button"
+                    onClick={dismissChecklist}
                     className="p-1 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-                    aria-label="Ocultar checklist"
-                    title="Fechar guia"
+                    aria-label="Dispensar guia permanentemente"
+                    title="Dispensar guia (já me familiarizei)"
                   >
                     <X size={15} strokeWidth={2} />
                   </button>
@@ -164,8 +192,31 @@ export function ChecklistWidget() {
               </div>
             </div>
 
+            {/* Estado de Celebração quando todas as missões foram concluídas */}
+            {isAllDone && (
+              <div className="p-3.5 bg-emerald-50/90 border-b border-emerald-100 flex flex-col items-center text-center">
+                <div className="w-8 h-8 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-600 mb-1.5">
+                  <Trophy size={16} strokeWidth={2.5} />
+                </div>
+                <p className="text-xs font-black text-emerald-950">
+                  Parabéns! Primeiros passos concluídos.
+                </p>
+                <p className="text-[11px] text-emerald-700 leading-snug mt-0.5">
+                  Você já explorou os recursos essenciais para gestão da sua rede.
+                </p>
+                <button
+                  type="button"
+                  onClick={dismissChecklist}
+                  className="mt-2.5 w-full py-1.5 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                >
+                  <Check size={13} strokeWidth={2.5} />
+                  <span>Concluir e ocultar guia</span>
+                </button>
+              </div>
+            )}
+
             {/* Lista de Missões Interativas */}
-            <div className="p-3.5 space-y-2 max-h-72 overflow-y-auto">
+            <div className="p-3.5 space-y-2 max-h-64 overflow-y-auto">
               {missions.map((mission) => (
                 <div
                   key={mission.id}
@@ -223,21 +274,35 @@ export function ChecklistWidget() {
             </div>
 
             {/* Rodapé de Ações */}
-            <div className="p-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+            <div className="p-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
               <button
+                type="button"
                 onClick={resetTour}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#2563EB] hover:text-[#1d4ed8] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1 text-[11px] font-bold text-[#2563EB] hover:text-[#1d4ed8] transition-colors cursor-pointer"
+                title="Reiniciar o tour guiado da tela atual"
               >
-                <RotateCcw size={13} strokeWidth={2} />
-                <span>Reiniciar Tour Guiado</span>
+                <RotateCcw size={12} strokeWidth={2} />
+                <span>Reiniciar Tour</span>
               </button>
 
-              <button
-                onClick={() => setIsChecklistMinimized(true)}
-                className="text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
-              >
-                Minimizar
-              </button>
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setIsChecklistMinimized(true)}
+                  className="text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer px-1.5 py-1"
+                >
+                  Minimizar
+                </button>
+                <button
+                  type="button"
+                  onClick={dismissChecklist}
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-600 hover:text-emerald-700 bg-white hover:bg-emerald-50 px-2 py-1 rounded-lg border border-slate-200 hover:border-emerald-200 transition-colors cursor-pointer shadow-2xs"
+                  title="Dispensar guia de primeiros passos permanentemente"
+                >
+                  <Check size={12} strokeWidth={2.5} className="text-emerald-600" />
+                  <span>Já me familiarizei</span>
+                </button>
+              </div>
             </div>
           </motion.div>
         )}

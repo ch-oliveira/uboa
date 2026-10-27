@@ -37,7 +37,7 @@ export function TopHeader({
   const isSolicitante = role === 'SOLICITANTE';
   const isTecnico = role === 'TECNICO';
   const { orders, notifications, markNotificationAsRead, markAllNotificationsAsRead, toggleMobileNav } = useOrders();
-  const { startTour } = useOnboarding();
+  const { resetTour } = useOnboarding();
 
   const effectiveBreadcrumbs: BreadcrumbItem[] = useMemo(() => {
     if (breadcrumbs && breadcrumbs.length > 0) {
@@ -213,10 +213,10 @@ export function TopHeader({
 
         {/* Botão de Tour e Guia Interativo */}
         <button
-          onClick={startTour}
+          onClick={resetTour}
           className="relative text-muted-foreground hover:text-[#2563EB] p-1.5 sm:p-2 rounded-xl hover:bg-blue-50/70 transition-colors cursor-pointer"
-          title="Iniciar Tour Guiado da Plataforma"
-          aria-label="Iniciar Tour Guiado da Plataforma"
+          title="Iniciar Tour Guiado (Módulo ou Geral)"
+          aria-label="Iniciar Tour Guiado"
         >
           <Compass size={18} />
         </button>

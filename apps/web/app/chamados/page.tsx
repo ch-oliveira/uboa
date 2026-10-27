@@ -755,7 +755,7 @@ function ChamadosContent() {
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6">
 
           {/* CABEÇALHO DA PÁGINA (Padrão Ouro UI/UX) */}
-          <div className="bg-muted/50 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div data-tour="chamados-header" className="bg-muted/50 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
                 {isTecnico ? 'Meus Chamados & Execuções' : 'Chamados'}
@@ -768,6 +768,7 @@ function ChamadosContent() {
             </div>
             <div className="flex items-center shrink-0">
               <Button 
+                data-tour="chamados-new-btn"
                 onClick={() => setIsNewModalOpen(true)}
                 className="w-full sm:w-auto justify-center bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-4 py-2 font-semibold text-sm shadow-xs transition-colors cursor-pointer flex items-center gap-2"
               >
@@ -825,7 +826,7 @@ function ChamadosContent() {
             </div>
 
             {/* Segmented View Switcher: Lista / Quadro */}
-            <div className="bg-muted p-1 rounded-xl flex items-center gap-1 self-start sm:self-auto">
+            <div data-tour="chamados-view-switcher" className="bg-muted p-1 rounded-xl flex items-center gap-1 self-start sm:self-auto">
               <button
                 type="button"
                 onClick={() => setViewMode('lista')}
@@ -854,7 +855,7 @@ function ChamadosContent() {
           </div>
 
           {/* Filters Row (Image 2) */}
-          <div className="bg-card border border-border rounded-xl p-4 shadow-sm mb-4">
+          <div data-tour="chamados-filters" className="bg-card border border-border rounded-xl p-4 shadow-sm mb-4">
             {/* Toggle rápido de atribuição para técnico */}
             {isTecnico && (
               <div className="mb-4 p-2.5 rounded-xl bg-primary/5 border border-primary/20 flex flex-wrap items-center justify-between gap-2 text-xs">
@@ -1019,7 +1020,7 @@ function ChamadosContent() {
               onDragOver={handleDragOver}
               onDragEnd={handleDragEnd}
             >
-              <div className={`flex overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:overflow-x-visible md:pb-0 gap-4 sm:gap-5 items-start ${
+              <div data-tour="chamados-kanban-board" className={`flex overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:overflow-x-visible md:pb-0 gap-4 sm:gap-5 items-start ${
                 kanbanColumns.length === 4
                   ? 'md:grid-cols-2 xl:grid-cols-4'
                   : kanbanColumns.length === 5
