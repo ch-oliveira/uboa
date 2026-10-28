@@ -55,6 +55,7 @@ import { TECNICOS, PREDIOS, type OrdemServico, type ContratoItem } from '../kanb
 import { TopHeader } from '@/components/top-header';
 import { OrderDetailModal } from '../kanban/order-detail-modal';
 import { NewContractModal } from '@/components/financials/new-contract-modal';
+import { BoletimMedicaoModal } from '@/components/financials/boletim-medicao-modal';
 import { Toast } from '@/components/ui/toast';
 
 type PeriodOption = 'MES_ATUAL' | 'ULTIMOS_30' | 'TRIMESTRE' | 'ANO_2026';
@@ -139,6 +140,7 @@ export default function RelatoriosPage() {
   const [isLoadingContracts, setIsLoadingContracts] = useState(false);
   const [measurementFilter, setMeasurementFilter] = useState<'COM_MEDICAO' | 'PENDENTE' | 'TODAS'>('COM_MEDICAO');
   const [isNewContractModalOpen, setIsNewContractModalOpen] = useState(false);
+  const [selectedContractForBoletim, setSelectedContractForBoletim] = useState<ContratoItem | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -2340,6 +2342,17 @@ export default function RelatoriosPage() {
                                 </span>
                               </div>
                             </div>
+
+                            {/* Ação de Emissão do Boletim de Medição Mensal */}
+                            <Button
+                              type="button"
+                              size="sm"
+                              onClick={() => setSelectedContractForBoletim(c)}
+                              className="w-full mt-2 h-7 bg-emerald-700/10 hover:bg-emerald-700/20 text-emerald-800 dark:text-emerald-300 font-bold text-[10px] rounded-lg flex items-center justify-center gap-1.5 cursor-pointer border border-emerald-300/40"
+                            >
+                              <FileSpreadsheet size={12} />
+                              <span>Boletim de Medição (SINAPI + BDI)</span>
+                            </Button>
                           </div>
                         );
                       })}
@@ -2725,6 +2738,24 @@ export default function RelatoriosPage() {
         onContractCreated={(newContract) => {
           setContracts((prev) => [newContract, ...prev]);
           showToast(`Contrato ${newContract.numeroContrato} (${newContract.empresaContratada}) cadastrado com sucesso!`);
+        }}
+      />
+
+      {/* Boletim de Medição Mensal Consolidado (SINAPI + BDI) */}
+      <BoletimMedicaoModal
+        isOpen={Boolean(selectedContractForBoletim)}
+        onClose={() => setSelectedContractForBoletim(null)}
+        contract={selectedContractForBoletim}
+        onBoletimCreated={async () => {
+          try {
+            const res = await apiClient.getContracts();
+            if (res.success && Array.isArray(res.contracts)) {
+              setContracts(res.contracts);
+            }
+          } catch {
+            // Ignora
+          }
+          showToast('Boletim de medição mensal consolidado e registrado com sucesso.');
         }}
       />
     </>

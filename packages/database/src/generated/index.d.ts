@@ -69,6 +69,11 @@ export type ItemConsumoOS = $Result.DefaultSelection<Prisma.$ItemConsumoOSPayloa
  */
 export type ContratoManutencao = $Result.DefaultSelection<Prisma.$ContratoManutencaoPayload>
 /**
+ * Model BoletimMedicao
+ * 
+ */
+export type BoletimMedicao = $Result.DefaultSelection<Prisma.$BoletimMedicaoPayload>
+/**
  * Model AtivoPredial
  * 
  */
@@ -425,6 +430,16 @@ export class PrismaClient<
     * ```
     */
   get contratoManutencao(): Prisma.ContratoManutencaoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.boletimMedicao`: Exposes CRUD operations for the **BoletimMedicao** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BoletimMedicaos
+    * const boletimMedicaos = await prisma.boletimMedicao.findMany()
+    * ```
+    */
+  get boletimMedicao(): Prisma.BoletimMedicaoDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.ativoPredial`: Exposes CRUD operations for the **AtivoPredial** model.
@@ -887,6 +902,7 @@ export namespace Prisma {
     Material: 'Material',
     ItemConsumoOS: 'ItemConsumoOS',
     ContratoManutencao: 'ContratoManutencao',
+    BoletimMedicao: 'BoletimMedicao',
     AtivoPredial: 'AtivoPredial'
   };
 
@@ -906,7 +922,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "prefeitura" | "usuario" | "predio" | "ordemServico" | "auditoriaLog" | "agendaVistoria" | "configuracaoSistema" | "manifestacao" | "material" | "itemConsumoOS" | "contratoManutencao" | "ativoPredial"
+      modelProps: "prefeitura" | "usuario" | "predio" | "ordemServico" | "auditoriaLog" | "agendaVistoria" | "configuracaoSistema" | "manifestacao" | "material" | "itemConsumoOS" | "contratoManutencao" | "boletimMedicao" | "ativoPredial"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1724,6 +1740,80 @@ export namespace Prisma {
           }
         }
       }
+      BoletimMedicao: {
+        payload: Prisma.$BoletimMedicaoPayload<ExtArgs>
+        fields: Prisma.BoletimMedicaoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BoletimMedicaoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletimMedicaoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BoletimMedicaoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletimMedicaoPayload>
+          }
+          findFirst: {
+            args: Prisma.BoletimMedicaoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletimMedicaoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BoletimMedicaoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletimMedicaoPayload>
+          }
+          findMany: {
+            args: Prisma.BoletimMedicaoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletimMedicaoPayload>[]
+          }
+          create: {
+            args: Prisma.BoletimMedicaoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletimMedicaoPayload>
+          }
+          createMany: {
+            args: Prisma.BoletimMedicaoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BoletimMedicaoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletimMedicaoPayload>[]
+          }
+          delete: {
+            args: Prisma.BoletimMedicaoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletimMedicaoPayload>
+          }
+          update: {
+            args: Prisma.BoletimMedicaoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletimMedicaoPayload>
+          }
+          deleteMany: {
+            args: Prisma.BoletimMedicaoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BoletimMedicaoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BoletimMedicaoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletimMedicaoPayload>[]
+          }
+          upsert: {
+            args: Prisma.BoletimMedicaoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletimMedicaoPayload>
+          }
+          aggregate: {
+            args: Prisma.BoletimMedicaoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBoletimMedicao>
+          }
+          groupBy: {
+            args: Prisma.BoletimMedicaoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BoletimMedicaoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BoletimMedicaoCountArgs<ExtArgs>
+            result: $Utils.Optional<BoletimMedicaoCountAggregateOutputType> | number
+          }
+        }
+      }
       AtivoPredial: {
         payload: Prisma.$AtivoPredialPayload<ExtArgs>
         fields: Prisma.AtivoPredialFieldRefs
@@ -1905,6 +1995,7 @@ export namespace Prisma {
     material?: MaterialOmit
     itemConsumoOS?: ItemConsumoOSOmit
     contratoManutencao?: ContratoManutencaoOmit
+    boletimMedicao?: BoletimMedicaoOmit
     ativoPredial?: AtivoPredialOmit
   }
 
@@ -1995,6 +2086,7 @@ export namespace Prisma {
     materiais: number
     contratos: number
     ativos: number
+    boletins_medicao: number
   }
 
   export type PrefeituraCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2007,6 +2099,7 @@ export namespace Prisma {
     materiais?: boolean | PrefeituraCountOutputTypeCountMateriaisArgs
     contratos?: boolean | PrefeituraCountOutputTypeCountContratosArgs
     ativos?: boolean | PrefeituraCountOutputTypeCountAtivosArgs
+    boletins_medicao?: boolean | PrefeituraCountOutputTypeCountBoletins_medicaoArgs
   }
 
   // Custom InputTypes
@@ -2083,6 +2176,13 @@ export namespace Prisma {
     where?: AtivoPredialWhereInput
   }
 
+  /**
+   * PrefeituraCountOutputType without action
+   */
+  export type PrefeituraCountOutputTypeCountBoletins_medicaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BoletimMedicaoWhereInput
+  }
+
 
   /**
    * Count Type UsuarioCountOutputType
@@ -2092,6 +2192,8 @@ export namespace Prisma {
     predios_geridos: number
     chamados_solicitados: number
     chamados_atribuidos: number
+    chamados_atestados: number
+    boletins_fiscalizados: number
     manifestacoes_respondidas: number
     auditorias: number
   }
@@ -2100,6 +2202,8 @@ export namespace Prisma {
     predios_geridos?: boolean | UsuarioCountOutputTypeCountPredios_geridosArgs
     chamados_solicitados?: boolean | UsuarioCountOutputTypeCountChamados_solicitadosArgs
     chamados_atribuidos?: boolean | UsuarioCountOutputTypeCountChamados_atribuidosArgs
+    chamados_atestados?: boolean | UsuarioCountOutputTypeCountChamados_atestadosArgs
+    boletins_fiscalizados?: boolean | UsuarioCountOutputTypeCountBoletins_fiscalizadosArgs
     manifestacoes_respondidas?: boolean | UsuarioCountOutputTypeCountManifestacoes_respondidasArgs
     auditorias?: boolean | UsuarioCountOutputTypeCountAuditoriasArgs
   }
@@ -2134,6 +2238,20 @@ export namespace Prisma {
    */
   export type UsuarioCountOutputTypeCountChamados_atribuidosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrdemServicoWhereInput
+  }
+
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeCountChamados_atestadosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrdemServicoWhereInput
+  }
+
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeCountBoletins_fiscalizadosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BoletimMedicaoWhereInput
   }
 
   /**
@@ -2304,10 +2422,12 @@ export namespace Prisma {
 
   export type ContratoManutencaoCountOutputType = {
     ordens_servico: number
+    boletins_medicao: number
   }
 
   export type ContratoManutencaoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ordens_servico?: boolean | ContratoManutencaoCountOutputTypeCountOrdens_servicoArgs
+    boletins_medicao?: boolean | ContratoManutencaoCountOutputTypeCountBoletins_medicaoArgs
   }
 
   // Custom InputTypes
@@ -2325,6 +2445,44 @@ export namespace Prisma {
    * ContratoManutencaoCountOutputType without action
    */
   export type ContratoManutencaoCountOutputTypeCountOrdens_servicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrdemServicoWhereInput
+  }
+
+  /**
+   * ContratoManutencaoCountOutputType without action
+   */
+  export type ContratoManutencaoCountOutputTypeCountBoletins_medicaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BoletimMedicaoWhereInput
+  }
+
+
+  /**
+   * Count Type BoletimMedicaoCountOutputType
+   */
+
+  export type BoletimMedicaoCountOutputType = {
+    ordens_servico: number
+  }
+
+  export type BoletimMedicaoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ordens_servico?: boolean | BoletimMedicaoCountOutputTypeCountOrdens_servicoArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BoletimMedicaoCountOutputType without action
+   */
+  export type BoletimMedicaoCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicaoCountOutputType
+     */
+    select?: BoletimMedicaoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BoletimMedicaoCountOutputType without action
+   */
+  export type BoletimMedicaoCountOutputTypeCountOrdens_servicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrdemServicoWhereInput
   }
 
@@ -2570,6 +2728,7 @@ export namespace Prisma {
     materiais?: boolean | Prefeitura$materiaisArgs<ExtArgs>
     contratos?: boolean | Prefeitura$contratosArgs<ExtArgs>
     ativos?: boolean | Prefeitura$ativosArgs<ExtArgs>
+    boletins_medicao?: boolean | Prefeitura$boletins_medicaoArgs<ExtArgs>
     _count?: boolean | PrefeituraCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["prefeitura"]>
 
@@ -2624,6 +2783,7 @@ export namespace Prisma {
     materiais?: boolean | Prefeitura$materiaisArgs<ExtArgs>
     contratos?: boolean | Prefeitura$contratosArgs<ExtArgs>
     ativos?: boolean | Prefeitura$ativosArgs<ExtArgs>
+    boletins_medicao?: boolean | Prefeitura$boletins_medicaoArgs<ExtArgs>
     _count?: boolean | PrefeituraCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PrefeituraIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2642,6 +2802,7 @@ export namespace Prisma {
       materiais: Prisma.$MaterialPayload<ExtArgs>[]
       contratos: Prisma.$ContratoManutencaoPayload<ExtArgs>[]
       ativos: Prisma.$AtivoPredialPayload<ExtArgs>[]
+      boletins_medicao: Prisma.$BoletimMedicaoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3058,6 +3219,7 @@ export namespace Prisma {
     materiais<T extends Prefeitura$materiaisArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$materiaisArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     contratos<T extends Prefeitura$contratosArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$contratosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ativos<T extends Prefeitura$ativosArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$ativosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    boletins_medicao<T extends Prefeitura$boletins_medicaoArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$boletins_medicaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3720,6 +3882,30 @@ export namespace Prisma {
   }
 
   /**
+   * Prefeitura.boletins_medicao
+   */
+  export type Prefeitura$boletins_medicaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoInclude<ExtArgs> | null
+    where?: BoletimMedicaoWhereInput
+    orderBy?: BoletimMedicaoOrderByWithRelationInput | BoletimMedicaoOrderByWithRelationInput[]
+    cursor?: BoletimMedicaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BoletimMedicaoScalarFieldEnum | BoletimMedicaoScalarFieldEnum[]
+  }
+
+  /**
    * Prefeitura without action
    */
   export type PrefeituraDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3996,6 +4182,8 @@ export namespace Prisma {
     predios_geridos?: boolean | Usuario$predios_geridosArgs<ExtArgs>
     chamados_solicitados?: boolean | Usuario$chamados_solicitadosArgs<ExtArgs>
     chamados_atribuidos?: boolean | Usuario$chamados_atribuidosArgs<ExtArgs>
+    chamados_atestados?: boolean | Usuario$chamados_atestadosArgs<ExtArgs>
+    boletins_fiscalizados?: boolean | Usuario$boletins_fiscalizadosArgs<ExtArgs>
     manifestacoes_respondidas?: boolean | Usuario$manifestacoes_respondidasArgs<ExtArgs>
     auditorias?: boolean | Usuario$auditoriasArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
@@ -4054,6 +4242,8 @@ export namespace Prisma {
     predios_geridos?: boolean | Usuario$predios_geridosArgs<ExtArgs>
     chamados_solicitados?: boolean | Usuario$chamados_solicitadosArgs<ExtArgs>
     chamados_atribuidos?: boolean | Usuario$chamados_atribuidosArgs<ExtArgs>
+    chamados_atestados?: boolean | Usuario$chamados_atestadosArgs<ExtArgs>
+    boletins_fiscalizados?: boolean | Usuario$boletins_fiscalizadosArgs<ExtArgs>
     manifestacoes_respondidas?: boolean | Usuario$manifestacoes_respondidasArgs<ExtArgs>
     auditorias?: boolean | Usuario$auditoriasArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
@@ -4072,6 +4262,8 @@ export namespace Prisma {
       predios_geridos: Prisma.$PredioPayload<ExtArgs>[]
       chamados_solicitados: Prisma.$OrdemServicoPayload<ExtArgs>[]
       chamados_atribuidos: Prisma.$OrdemServicoPayload<ExtArgs>[]
+      chamados_atestados: Prisma.$OrdemServicoPayload<ExtArgs>[]
+      boletins_fiscalizados: Prisma.$BoletimMedicaoPayload<ExtArgs>[]
       manifestacoes_respondidas: Prisma.$ManifestacaoPayload<ExtArgs>[]
       auditorias: Prisma.$AuditoriaLogPayload<ExtArgs>[]
     }
@@ -4486,6 +4678,8 @@ export namespace Prisma {
     predios_geridos<T extends Usuario$predios_geridosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$predios_geridosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PredioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chamados_solicitados<T extends Usuario$chamados_solicitadosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$chamados_solicitadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chamados_atribuidos<T extends Usuario$chamados_atribuidosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$chamados_atribuidosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    chamados_atestados<T extends Usuario$chamados_atestadosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$chamados_atestadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    boletins_fiscalizados<T extends Usuario$boletins_fiscalizadosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$boletins_fiscalizadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     manifestacoes_respondidas<T extends Usuario$manifestacoes_respondidasArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$manifestacoes_respondidasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     auditorias<T extends Usuario$auditoriasArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$auditoriasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditoriaLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -5013,6 +5207,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OrdemServicoScalarFieldEnum | OrdemServicoScalarFieldEnum[]
+  }
+
+  /**
+   * Usuario.chamados_atestados
+   */
+  export type Usuario$chamados_atestadosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrdemServico
+     */
+    select?: OrdemServicoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrdemServico
+     */
+    omit?: OrdemServicoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrdemServicoInclude<ExtArgs> | null
+    where?: OrdemServicoWhereInput
+    orderBy?: OrdemServicoOrderByWithRelationInput | OrdemServicoOrderByWithRelationInput[]
+    cursor?: OrdemServicoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrdemServicoScalarFieldEnum | OrdemServicoScalarFieldEnum[]
+  }
+
+  /**
+   * Usuario.boletins_fiscalizados
+   */
+  export type Usuario$boletins_fiscalizadosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoInclude<ExtArgs> | null
+    where?: BoletimMedicaoWhereInput
+    orderBy?: BoletimMedicaoOrderByWithRelationInput | BoletimMedicaoOrderByWithRelationInput[]
+    cursor?: BoletimMedicaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BoletimMedicaoScalarFieldEnum | BoletimMedicaoScalarFieldEnum[]
   }
 
   /**
@@ -6489,6 +6731,7 @@ export namespace Prisma {
     custo_materiais: Decimal | null
     custo_mao_de_obra: Decimal | null
     custo_total: Decimal | null
+    avaliacao_atesto: number | null
   }
 
   export type OrdemServicoSumAggregateOutputType = {
@@ -6496,6 +6739,7 @@ export namespace Prisma {
     custo_materiais: Decimal | null
     custo_mao_de_obra: Decimal | null
     custo_total: Decimal | null
+    avaliacao_atesto: number | null
   }
 
   export type OrdemServicoMinAggregateOutputType = {
@@ -6525,6 +6769,13 @@ export namespace Prisma {
     empresa_terceirizada: string | null
     numero_empenho: string | null
     contrato_id: string | null
+    status_atesto: string | null
+    atestado_em: Date | null
+    atestado_por_id: string | null
+    parecer_atesto: string | null
+    assinatura_digital_hash: string | null
+    avaliacao_atesto: number | null
+    boletim_medicao_id: string | null
     prefeitura_id: string | null
     ordem_vinculada_id: string | null
     criado_em: Date | null
@@ -6558,6 +6809,13 @@ export namespace Prisma {
     empresa_terceirizada: string | null
     numero_empenho: string | null
     contrato_id: string | null
+    status_atesto: string | null
+    atestado_em: Date | null
+    atestado_por_id: string | null
+    parecer_atesto: string | null
+    assinatura_digital_hash: string | null
+    avaliacao_atesto: number | null
+    boletim_medicao_id: string | null
     prefeitura_id: string | null
     ordem_vinculada_id: string | null
     criado_em: Date | null
@@ -6594,6 +6852,13 @@ export namespace Prisma {
     empresa_terceirizada: number
     numero_empenho: number
     contrato_id: number
+    status_atesto: number
+    atestado_em: number
+    atestado_por_id: number
+    parecer_atesto: number
+    assinatura_digital_hash: number
+    avaliacao_atesto: number
+    boletim_medicao_id: number
     prefeitura_id: number
     ordem_vinculada_id: number
     criado_em: number
@@ -6607,6 +6872,7 @@ export namespace Prisma {
     custo_materiais?: true
     custo_mao_de_obra?: true
     custo_total?: true
+    avaliacao_atesto?: true
   }
 
   export type OrdemServicoSumAggregateInputType = {
@@ -6614,6 +6880,7 @@ export namespace Prisma {
     custo_materiais?: true
     custo_mao_de_obra?: true
     custo_total?: true
+    avaliacao_atesto?: true
   }
 
   export type OrdemServicoMinAggregateInputType = {
@@ -6643,6 +6910,13 @@ export namespace Prisma {
     empresa_terceirizada?: true
     numero_empenho?: true
     contrato_id?: true
+    status_atesto?: true
+    atestado_em?: true
+    atestado_por_id?: true
+    parecer_atesto?: true
+    assinatura_digital_hash?: true
+    avaliacao_atesto?: true
+    boletim_medicao_id?: true
     prefeitura_id?: true
     ordem_vinculada_id?: true
     criado_em?: true
@@ -6676,6 +6950,13 @@ export namespace Prisma {
     empresa_terceirizada?: true
     numero_empenho?: true
     contrato_id?: true
+    status_atesto?: true
+    atestado_em?: true
+    atestado_por_id?: true
+    parecer_atesto?: true
+    assinatura_digital_hash?: true
+    avaliacao_atesto?: true
+    boletim_medicao_id?: true
     prefeitura_id?: true
     ordem_vinculada_id?: true
     criado_em?: true
@@ -6712,6 +6993,13 @@ export namespace Prisma {
     empresa_terceirizada?: true
     numero_empenho?: true
     contrato_id?: true
+    status_atesto?: true
+    atestado_em?: true
+    atestado_por_id?: true
+    parecer_atesto?: true
+    assinatura_digital_hash?: true
+    avaliacao_atesto?: true
+    boletim_medicao_id?: true
     prefeitura_id?: true
     ordem_vinculada_id?: true
     criado_em?: true
@@ -6835,6 +7123,13 @@ export namespace Prisma {
     empresa_terceirizada: string | null
     numero_empenho: string | null
     contrato_id: string | null
+    status_atesto: string | null
+    atestado_em: Date | null
+    atestado_por_id: string | null
+    parecer_atesto: string | null
+    assinatura_digital_hash: string | null
+    avaliacao_atesto: number | null
+    boletim_medicao_id: string | null
     prefeitura_id: string | null
     ordem_vinculada_id: string | null
     criado_em: Date
@@ -6890,6 +7185,13 @@ export namespace Prisma {
     empresa_terceirizada?: boolean
     numero_empenho?: boolean
     contrato_id?: boolean
+    status_atesto?: boolean
+    atestado_em?: boolean
+    atestado_por_id?: boolean
+    parecer_atesto?: boolean
+    assinatura_digital_hash?: boolean
+    avaliacao_atesto?: boolean
+    boletim_medicao_id?: boolean
     prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
@@ -6900,6 +7202,8 @@ export namespace Prisma {
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
     contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
     materiais_consumidos?: boolean | OrdemServico$materiais_consumidosArgs<ExtArgs>
+    atestado_por?: boolean | OrdemServico$atestado_porArgs<ExtArgs>
+    boletim_medicao?: boolean | OrdemServico$boletim_medicaoArgs<ExtArgs>
     prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
     ordens_derivadas?: boolean | OrdemServico$ordens_derivadasArgs<ExtArgs>
@@ -6938,6 +7242,13 @@ export namespace Prisma {
     empresa_terceirizada?: boolean
     numero_empenho?: boolean
     contrato_id?: boolean
+    status_atesto?: boolean
+    atestado_em?: boolean
+    atestado_por_id?: boolean
+    parecer_atesto?: boolean
+    assinatura_digital_hash?: boolean
+    avaliacao_atesto?: boolean
+    boletim_medicao_id?: boolean
     prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
@@ -6947,6 +7258,8 @@ export namespace Prisma {
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
     contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
+    atestado_por?: boolean | OrdemServico$atestado_porArgs<ExtArgs>
+    boletim_medicao?: boolean | OrdemServico$boletim_medicaoArgs<ExtArgs>
     prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }, ExtArgs["result"]["ordemServico"]>
@@ -6981,6 +7294,13 @@ export namespace Prisma {
     empresa_terceirizada?: boolean
     numero_empenho?: boolean
     contrato_id?: boolean
+    status_atesto?: boolean
+    atestado_em?: boolean
+    atestado_por_id?: boolean
+    parecer_atesto?: boolean
+    assinatura_digital_hash?: boolean
+    avaliacao_atesto?: boolean
+    boletim_medicao_id?: boolean
     prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
@@ -6990,6 +7310,8 @@ export namespace Prisma {
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
     contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
+    atestado_por?: boolean | OrdemServico$atestado_porArgs<ExtArgs>
+    boletim_medicao?: boolean | OrdemServico$boletim_medicaoArgs<ExtArgs>
     prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }, ExtArgs["result"]["ordemServico"]>
@@ -7024,13 +7346,20 @@ export namespace Prisma {
     empresa_terceirizada?: boolean
     numero_empenho?: boolean
     contrato_id?: boolean
+    status_atesto?: boolean
+    atestado_em?: boolean
+    atestado_por_id?: boolean
+    parecer_atesto?: boolean
+    assinatura_digital_hash?: boolean
+    avaliacao_atesto?: boolean
+    boletim_medicao_id?: boolean
     prefeitura_id?: boolean
     ordem_vinculada_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
   }
 
-  export type OrdemServicoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo" | "titulo" | "descricao" | "categoria" | "prioridade" | "status" | "predio_id" | "ativo_id" | "solicitante_id" | "tecnico_atribuido_id" | "fotos" | "fotos_conclusao" | "motivo_pausa" | "motivo_cancelamento" | "data_limite_sla" | "iniciado_em" | "concluido_em" | "pausado_em" | "tempo_pausa_minutos" | "historico_pausas" | "sla_violado" | "motivo_violacao_sla" | "custo_materiais" | "custo_mao_de_obra" | "custo_total" | "empresa_terceirizada" | "numero_empenho" | "contrato_id" | "prefeitura_id" | "ordem_vinculada_id" | "criado_em" | "atualizado", ExtArgs["result"]["ordemServico"]>
+  export type OrdemServicoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo" | "titulo" | "descricao" | "categoria" | "prioridade" | "status" | "predio_id" | "ativo_id" | "solicitante_id" | "tecnico_atribuido_id" | "fotos" | "fotos_conclusao" | "motivo_pausa" | "motivo_cancelamento" | "data_limite_sla" | "iniciado_em" | "concluido_em" | "pausado_em" | "tempo_pausa_minutos" | "historico_pausas" | "sla_violado" | "motivo_violacao_sla" | "custo_materiais" | "custo_mao_de_obra" | "custo_total" | "empresa_terceirizada" | "numero_empenho" | "contrato_id" | "status_atesto" | "atestado_em" | "atestado_por_id" | "parecer_atesto" | "assinatura_digital_hash" | "avaliacao_atesto" | "boletim_medicao_id" | "prefeitura_id" | "ordem_vinculada_id" | "criado_em" | "atualizado", ExtArgs["result"]["ordemServico"]>
   export type OrdemServicoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
     ativo_predial?: boolean | OrdemServico$ativo_predialArgs<ExtArgs>
@@ -7038,6 +7367,8 @@ export namespace Prisma {
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
     contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
     materiais_consumidos?: boolean | OrdemServico$materiais_consumidosArgs<ExtArgs>
+    atestado_por?: boolean | OrdemServico$atestado_porArgs<ExtArgs>
+    boletim_medicao?: boolean | OrdemServico$boletim_medicaoArgs<ExtArgs>
     prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
     ordens_derivadas?: boolean | OrdemServico$ordens_derivadasArgs<ExtArgs>
@@ -7051,6 +7382,8 @@ export namespace Prisma {
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
     contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
+    atestado_por?: boolean | OrdemServico$atestado_porArgs<ExtArgs>
+    boletim_medicao?: boolean | OrdemServico$boletim_medicaoArgs<ExtArgs>
     prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }
@@ -7060,6 +7393,8 @@ export namespace Prisma {
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
     contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
+    atestado_por?: boolean | OrdemServico$atestado_porArgs<ExtArgs>
+    boletim_medicao?: boolean | OrdemServico$boletim_medicaoArgs<ExtArgs>
     prefeitura?: boolean | OrdemServico$prefeituraArgs<ExtArgs>
     ordem_vinculada?: boolean | OrdemServico$ordem_vinculadaArgs<ExtArgs>
   }
@@ -7073,6 +7408,8 @@ export namespace Prisma {
       tecnico: Prisma.$UsuarioPayload<ExtArgs> | null
       contrato: Prisma.$ContratoManutencaoPayload<ExtArgs> | null
       materiais_consumidos: Prisma.$ItemConsumoOSPayload<ExtArgs>[]
+      atestado_por: Prisma.$UsuarioPayload<ExtArgs> | null
+      boletim_medicao: Prisma.$BoletimMedicaoPayload<ExtArgs> | null
       prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
       ordem_vinculada: Prisma.$OrdemServicoPayload<ExtArgs> | null
       ordens_derivadas: Prisma.$OrdemServicoPayload<ExtArgs>[]
@@ -7109,6 +7446,13 @@ export namespace Prisma {
       empresa_terceirizada: string | null
       numero_empenho: string | null
       contrato_id: string | null
+      status_atesto: string | null
+      atestado_em: Date | null
+      atestado_por_id: string | null
+      parecer_atesto: string | null
+      assinatura_digital_hash: string | null
+      avaliacao_atesto: number | null
+      boletim_medicao_id: string | null
       prefeitura_id: string | null
       ordem_vinculada_id: string | null
       criado_em: Date
@@ -7513,6 +7857,8 @@ export namespace Prisma {
     tecnico<T extends OrdemServico$tecnicoArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$tecnicoArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     contrato<T extends OrdemServico$contratoArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$contratoArgs<ExtArgs>>): Prisma__ContratoManutencaoClient<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     materiais_consumidos<T extends OrdemServico$materiais_consumidosArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$materiais_consumidosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemConsumoOSPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    atestado_por<T extends OrdemServico$atestado_porArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$atestado_porArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    boletim_medicao<T extends OrdemServico$boletim_medicaoArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$boletim_medicaoArgs<ExtArgs>>): Prisma__BoletimMedicaoClient<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     prefeitura<T extends OrdemServico$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordem_vinculada<T extends OrdemServico$ordem_vinculadaArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$ordem_vinculadaArgs<ExtArgs>>): Prisma__OrdemServicoClient<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordens_derivadas<T extends OrdemServico$ordens_derivadasArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$ordens_derivadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -7576,6 +7922,13 @@ export namespace Prisma {
     readonly empresa_terceirizada: FieldRef<"OrdemServico", 'String'>
     readonly numero_empenho: FieldRef<"OrdemServico", 'String'>
     readonly contrato_id: FieldRef<"OrdemServico", 'String'>
+    readonly status_atesto: FieldRef<"OrdemServico", 'String'>
+    readonly atestado_em: FieldRef<"OrdemServico", 'DateTime'>
+    readonly atestado_por_id: FieldRef<"OrdemServico", 'String'>
+    readonly parecer_atesto: FieldRef<"OrdemServico", 'String'>
+    readonly assinatura_digital_hash: FieldRef<"OrdemServico", 'String'>
+    readonly avaliacao_atesto: FieldRef<"OrdemServico", 'Int'>
+    readonly boletim_medicao_id: FieldRef<"OrdemServico", 'String'>
     readonly prefeitura_id: FieldRef<"OrdemServico", 'String'>
     readonly ordem_vinculada_id: FieldRef<"OrdemServico", 'String'>
     readonly criado_em: FieldRef<"OrdemServico", 'DateTime'>
@@ -8054,6 +8407,44 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ItemConsumoOSScalarFieldEnum | ItemConsumoOSScalarFieldEnum[]
+  }
+
+  /**
+   * OrdemServico.atestado_por
+   */
+  export type OrdemServico$atestado_porArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Usuario
+     */
+    omit?: UsuarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    where?: UsuarioWhereInput
+  }
+
+  /**
+   * OrdemServico.boletim_medicao
+   */
+  export type OrdemServico$boletim_medicaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoInclude<ExtArgs> | null
+    where?: BoletimMedicaoWhereInput
   }
 
   /**
@@ -15722,10 +16113,12 @@ export namespace Prisma {
 
   export type ContratoManutencaoAvgAggregateOutputType = {
     valor_total_empenhado: Decimal | null
+    bdi_padrao: Decimal | null
   }
 
   export type ContratoManutencaoSumAggregateOutputType = {
     valor_total_empenhado: Decimal | null
+    bdi_padrao: Decimal | null
   }
 
   export type ContratoManutencaoMinAggregateOutputType = {
@@ -15737,6 +16130,7 @@ export namespace Prisma {
     objeto: string | null
     categoria_padrao: string | null
     valor_total_empenhado: Decimal | null
+    bdi_padrao: Decimal | null
     vigencia_inicio: Date | null
     vigencia_fim: Date | null
     ativo: boolean | null
@@ -15754,6 +16148,7 @@ export namespace Prisma {
     objeto: string | null
     categoria_padrao: string | null
     valor_total_empenhado: Decimal | null
+    bdi_padrao: Decimal | null
     vigencia_inicio: Date | null
     vigencia_fim: Date | null
     ativo: boolean | null
@@ -15771,6 +16166,7 @@ export namespace Prisma {
     objeto: number
     categoria_padrao: number
     valor_total_empenhado: number
+    bdi_padrao: number
     vigencia_inicio: number
     vigencia_fim: number
     ativo: number
@@ -15783,10 +16179,12 @@ export namespace Prisma {
 
   export type ContratoManutencaoAvgAggregateInputType = {
     valor_total_empenhado?: true
+    bdi_padrao?: true
   }
 
   export type ContratoManutencaoSumAggregateInputType = {
     valor_total_empenhado?: true
+    bdi_padrao?: true
   }
 
   export type ContratoManutencaoMinAggregateInputType = {
@@ -15798,6 +16196,7 @@ export namespace Prisma {
     objeto?: true
     categoria_padrao?: true
     valor_total_empenhado?: true
+    bdi_padrao?: true
     vigencia_inicio?: true
     vigencia_fim?: true
     ativo?: true
@@ -15815,6 +16214,7 @@ export namespace Prisma {
     objeto?: true
     categoria_padrao?: true
     valor_total_empenhado?: true
+    bdi_padrao?: true
     vigencia_inicio?: true
     vigencia_fim?: true
     ativo?: true
@@ -15832,6 +16232,7 @@ export namespace Prisma {
     objeto?: true
     categoria_padrao?: true
     valor_total_empenhado?: true
+    bdi_padrao?: true
     vigencia_inicio?: true
     vigencia_fim?: true
     ativo?: true
@@ -15936,6 +16337,7 @@ export namespace Prisma {
     objeto: string | null
     categoria_padrao: string | null
     valor_total_empenhado: Decimal
+    bdi_padrao: Decimal | null
     vigencia_inicio: Date | null
     vigencia_fim: Date | null
     ativo: boolean
@@ -15972,6 +16374,7 @@ export namespace Prisma {
     objeto?: boolean
     categoria_padrao?: boolean
     valor_total_empenhado?: boolean
+    bdi_padrao?: boolean
     vigencia_inicio?: boolean
     vigencia_fim?: boolean
     ativo?: boolean
@@ -15980,6 +16383,7 @@ export namespace Prisma {
     atualizado?: boolean
     prefeitura?: boolean | ContratoManutencao$prefeituraArgs<ExtArgs>
     ordens_servico?: boolean | ContratoManutencao$ordens_servicoArgs<ExtArgs>
+    boletins_medicao?: boolean | ContratoManutencao$boletins_medicaoArgs<ExtArgs>
     _count?: boolean | ContratoManutencaoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["contratoManutencao"]>
 
@@ -15992,6 +16396,7 @@ export namespace Prisma {
     objeto?: boolean
     categoria_padrao?: boolean
     valor_total_empenhado?: boolean
+    bdi_padrao?: boolean
     vigencia_inicio?: boolean
     vigencia_fim?: boolean
     ativo?: boolean
@@ -16010,6 +16415,7 @@ export namespace Prisma {
     objeto?: boolean
     categoria_padrao?: boolean
     valor_total_empenhado?: boolean
+    bdi_padrao?: boolean
     vigencia_inicio?: boolean
     vigencia_fim?: boolean
     ativo?: boolean
@@ -16028,6 +16434,7 @@ export namespace Prisma {
     objeto?: boolean
     categoria_padrao?: boolean
     valor_total_empenhado?: boolean
+    bdi_padrao?: boolean
     vigencia_inicio?: boolean
     vigencia_fim?: boolean
     ativo?: boolean
@@ -16036,10 +16443,11 @@ export namespace Prisma {
     atualizado?: boolean
   }
 
-  export type ContratoManutencaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero_contrato" | "numero_empenho" | "empresa_contratada" | "cnpj_contratada" | "objeto" | "categoria_padrao" | "valor_total_empenhado" | "vigencia_inicio" | "vigencia_fim" | "ativo" | "prefeitura_id" | "criado_em" | "atualizado", ExtArgs["result"]["contratoManutencao"]>
+  export type ContratoManutencaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero_contrato" | "numero_empenho" | "empresa_contratada" | "cnpj_contratada" | "objeto" | "categoria_padrao" | "valor_total_empenhado" | "bdi_padrao" | "vigencia_inicio" | "vigencia_fim" | "ativo" | "prefeitura_id" | "criado_em" | "atualizado", ExtArgs["result"]["contratoManutencao"]>
   export type ContratoManutencaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     prefeitura?: boolean | ContratoManutencao$prefeituraArgs<ExtArgs>
     ordens_servico?: boolean | ContratoManutencao$ordens_servicoArgs<ExtArgs>
+    boletins_medicao?: boolean | ContratoManutencao$boletins_medicaoArgs<ExtArgs>
     _count?: boolean | ContratoManutencaoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ContratoManutencaoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16054,6 +16462,7 @@ export namespace Prisma {
     objects: {
       prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
       ordens_servico: Prisma.$OrdemServicoPayload<ExtArgs>[]
+      boletins_medicao: Prisma.$BoletimMedicaoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -16064,6 +16473,7 @@ export namespace Prisma {
       objeto: string | null
       categoria_padrao: string | null
       valor_total_empenhado: Prisma.Decimal
+      bdi_padrao: Prisma.Decimal | null
       vigencia_inicio: Date | null
       vigencia_fim: Date | null
       ativo: boolean
@@ -16466,6 +16876,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     prefeitura<T extends ContratoManutencao$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, ContratoManutencao$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordens_servico<T extends ContratoManutencao$ordens_servicoArgs<ExtArgs> = {}>(args?: Subset<T, ContratoManutencao$ordens_servicoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    boletins_medicao<T extends ContratoManutencao$boletins_medicaoArgs<ExtArgs> = {}>(args?: Subset<T, ContratoManutencao$boletins_medicaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16503,6 +16914,7 @@ export namespace Prisma {
     readonly objeto: FieldRef<"ContratoManutencao", 'String'>
     readonly categoria_padrao: FieldRef<"ContratoManutencao", 'String'>
     readonly valor_total_empenhado: FieldRef<"ContratoManutencao", 'Decimal'>
+    readonly bdi_padrao: FieldRef<"ContratoManutencao", 'Decimal'>
     readonly vigencia_inicio: FieldRef<"ContratoManutencao", 'DateTime'>
     readonly vigencia_fim: FieldRef<"ContratoManutencao", 'DateTime'>
     readonly ativo: FieldRef<"ContratoManutencao", 'Boolean'>
@@ -16948,6 +17360,30 @@ export namespace Prisma {
   }
 
   /**
+   * ContratoManutencao.boletins_medicao
+   */
+  export type ContratoManutencao$boletins_medicaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoInclude<ExtArgs> | null
+    where?: BoletimMedicaoWhereInput
+    orderBy?: BoletimMedicaoOrderByWithRelationInput | BoletimMedicaoOrderByWithRelationInput[]
+    cursor?: BoletimMedicaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BoletimMedicaoScalarFieldEnum | BoletimMedicaoScalarFieldEnum[]
+  }
+
+  /**
    * ContratoManutencao without action
    */
   export type ContratoManutencaoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16963,6 +17399,1405 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ContratoManutencaoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BoletimMedicao
+   */
+
+  export type AggregateBoletimMedicao = {
+    _count: BoletimMedicaoCountAggregateOutputType | null
+    _avg: BoletimMedicaoAvgAggregateOutputType | null
+    _sum: BoletimMedicaoSumAggregateOutputType | null
+    _min: BoletimMedicaoMinAggregateOutputType | null
+    _max: BoletimMedicaoMaxAggregateOutputType | null
+  }
+
+  export type BoletimMedicaoAvgAggregateOutputType = {
+    mes_competencia: number | null
+    ano_competencia: number | null
+    bdi_percentual: Decimal | null
+    valor_materiais: Decimal | null
+    valor_mao_de_obra: Decimal | null
+    valor_direto: Decimal | null
+    valor_bdi: Decimal | null
+    valor_total: Decimal | null
+  }
+
+  export type BoletimMedicaoSumAggregateOutputType = {
+    mes_competencia: number | null
+    ano_competencia: number | null
+    bdi_percentual: Decimal | null
+    valor_materiais: Decimal | null
+    valor_mao_de_obra: Decimal | null
+    valor_direto: Decimal | null
+    valor_bdi: Decimal | null
+    valor_total: Decimal | null
+  }
+
+  export type BoletimMedicaoMinAggregateOutputType = {
+    id: string | null
+    numero_boletim: string | null
+    mes_competencia: number | null
+    ano_competencia: number | null
+    data_inicio: Date | null
+    data_fim: Date | null
+    status: string | null
+    bdi_percentual: Decimal | null
+    valor_materiais: Decimal | null
+    valor_mao_de_obra: Decimal | null
+    valor_direto: Decimal | null
+    valor_bdi: Decimal | null
+    valor_total: Decimal | null
+    observacoes: string | null
+    hash_integridade: string | null
+    fiscal_responsavel_id: string | null
+    contrato_id: string | null
+    prefeitura_id: string | null
+    criado_em: Date | null
+    atualizado: Date | null
+  }
+
+  export type BoletimMedicaoMaxAggregateOutputType = {
+    id: string | null
+    numero_boletim: string | null
+    mes_competencia: number | null
+    ano_competencia: number | null
+    data_inicio: Date | null
+    data_fim: Date | null
+    status: string | null
+    bdi_percentual: Decimal | null
+    valor_materiais: Decimal | null
+    valor_mao_de_obra: Decimal | null
+    valor_direto: Decimal | null
+    valor_bdi: Decimal | null
+    valor_total: Decimal | null
+    observacoes: string | null
+    hash_integridade: string | null
+    fiscal_responsavel_id: string | null
+    contrato_id: string | null
+    prefeitura_id: string | null
+    criado_em: Date | null
+    atualizado: Date | null
+  }
+
+  export type BoletimMedicaoCountAggregateOutputType = {
+    id: number
+    numero_boletim: number
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: number
+    data_fim: number
+    status: number
+    bdi_percentual: number
+    valor_materiais: number
+    valor_mao_de_obra: number
+    valor_direto: number
+    valor_bdi: number
+    valor_total: number
+    observacoes: number
+    hash_integridade: number
+    fiscal_responsavel_id: number
+    contrato_id: number
+    prefeitura_id: number
+    criado_em: number
+    atualizado: number
+    _all: number
+  }
+
+
+  export type BoletimMedicaoAvgAggregateInputType = {
+    mes_competencia?: true
+    ano_competencia?: true
+    bdi_percentual?: true
+    valor_materiais?: true
+    valor_mao_de_obra?: true
+    valor_direto?: true
+    valor_bdi?: true
+    valor_total?: true
+  }
+
+  export type BoletimMedicaoSumAggregateInputType = {
+    mes_competencia?: true
+    ano_competencia?: true
+    bdi_percentual?: true
+    valor_materiais?: true
+    valor_mao_de_obra?: true
+    valor_direto?: true
+    valor_bdi?: true
+    valor_total?: true
+  }
+
+  export type BoletimMedicaoMinAggregateInputType = {
+    id?: true
+    numero_boletim?: true
+    mes_competencia?: true
+    ano_competencia?: true
+    data_inicio?: true
+    data_fim?: true
+    status?: true
+    bdi_percentual?: true
+    valor_materiais?: true
+    valor_mao_de_obra?: true
+    valor_direto?: true
+    valor_bdi?: true
+    valor_total?: true
+    observacoes?: true
+    hash_integridade?: true
+    fiscal_responsavel_id?: true
+    contrato_id?: true
+    prefeitura_id?: true
+    criado_em?: true
+    atualizado?: true
+  }
+
+  export type BoletimMedicaoMaxAggregateInputType = {
+    id?: true
+    numero_boletim?: true
+    mes_competencia?: true
+    ano_competencia?: true
+    data_inicio?: true
+    data_fim?: true
+    status?: true
+    bdi_percentual?: true
+    valor_materiais?: true
+    valor_mao_de_obra?: true
+    valor_direto?: true
+    valor_bdi?: true
+    valor_total?: true
+    observacoes?: true
+    hash_integridade?: true
+    fiscal_responsavel_id?: true
+    contrato_id?: true
+    prefeitura_id?: true
+    criado_em?: true
+    atualizado?: true
+  }
+
+  export type BoletimMedicaoCountAggregateInputType = {
+    id?: true
+    numero_boletim?: true
+    mes_competencia?: true
+    ano_competencia?: true
+    data_inicio?: true
+    data_fim?: true
+    status?: true
+    bdi_percentual?: true
+    valor_materiais?: true
+    valor_mao_de_obra?: true
+    valor_direto?: true
+    valor_bdi?: true
+    valor_total?: true
+    observacoes?: true
+    hash_integridade?: true
+    fiscal_responsavel_id?: true
+    contrato_id?: true
+    prefeitura_id?: true
+    criado_em?: true
+    atualizado?: true
+    _all?: true
+  }
+
+  export type BoletimMedicaoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BoletimMedicao to aggregate.
+     */
+    where?: BoletimMedicaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BoletimMedicaos to fetch.
+     */
+    orderBy?: BoletimMedicaoOrderByWithRelationInput | BoletimMedicaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BoletimMedicaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BoletimMedicaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BoletimMedicaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BoletimMedicaos
+    **/
+    _count?: true | BoletimMedicaoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BoletimMedicaoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BoletimMedicaoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BoletimMedicaoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BoletimMedicaoMaxAggregateInputType
+  }
+
+  export type GetBoletimMedicaoAggregateType<T extends BoletimMedicaoAggregateArgs> = {
+        [P in keyof T & keyof AggregateBoletimMedicao]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBoletimMedicao[P]>
+      : GetScalarType<T[P], AggregateBoletimMedicao[P]>
+  }
+
+
+
+
+  export type BoletimMedicaoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BoletimMedicaoWhereInput
+    orderBy?: BoletimMedicaoOrderByWithAggregationInput | BoletimMedicaoOrderByWithAggregationInput[]
+    by: BoletimMedicaoScalarFieldEnum[] | BoletimMedicaoScalarFieldEnum
+    having?: BoletimMedicaoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BoletimMedicaoCountAggregateInputType | true
+    _avg?: BoletimMedicaoAvgAggregateInputType
+    _sum?: BoletimMedicaoSumAggregateInputType
+    _min?: BoletimMedicaoMinAggregateInputType
+    _max?: BoletimMedicaoMaxAggregateInputType
+  }
+
+  export type BoletimMedicaoGroupByOutputType = {
+    id: string
+    numero_boletim: string
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: Date
+    data_fim: Date
+    status: string
+    bdi_percentual: Decimal
+    valor_materiais: Decimal
+    valor_mao_de_obra: Decimal
+    valor_direto: Decimal
+    valor_bdi: Decimal
+    valor_total: Decimal
+    observacoes: string | null
+    hash_integridade: string | null
+    fiscal_responsavel_id: string | null
+    contrato_id: string
+    prefeitura_id: string | null
+    criado_em: Date
+    atualizado: Date
+    _count: BoletimMedicaoCountAggregateOutputType | null
+    _avg: BoletimMedicaoAvgAggregateOutputType | null
+    _sum: BoletimMedicaoSumAggregateOutputType | null
+    _min: BoletimMedicaoMinAggregateOutputType | null
+    _max: BoletimMedicaoMaxAggregateOutputType | null
+  }
+
+  type GetBoletimMedicaoGroupByPayload<T extends BoletimMedicaoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BoletimMedicaoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BoletimMedicaoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BoletimMedicaoGroupByOutputType[P]>
+            : GetScalarType<T[P], BoletimMedicaoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BoletimMedicaoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numero_boletim?: boolean
+    mes_competencia?: boolean
+    ano_competencia?: boolean
+    data_inicio?: boolean
+    data_fim?: boolean
+    status?: boolean
+    bdi_percentual?: boolean
+    valor_materiais?: boolean
+    valor_mao_de_obra?: boolean
+    valor_direto?: boolean
+    valor_bdi?: boolean
+    valor_total?: boolean
+    observacoes?: boolean
+    hash_integridade?: boolean
+    fiscal_responsavel_id?: boolean
+    contrato_id?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    fiscal_responsavel?: boolean | BoletimMedicao$fiscal_responsavelArgs<ExtArgs>
+    contrato?: boolean | ContratoManutencaoDefaultArgs<ExtArgs>
+    prefeitura?: boolean | BoletimMedicao$prefeituraArgs<ExtArgs>
+    ordens_servico?: boolean | BoletimMedicao$ordens_servicoArgs<ExtArgs>
+    _count?: boolean | BoletimMedicaoCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["boletimMedicao"]>
+
+  export type BoletimMedicaoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numero_boletim?: boolean
+    mes_competencia?: boolean
+    ano_competencia?: boolean
+    data_inicio?: boolean
+    data_fim?: boolean
+    status?: boolean
+    bdi_percentual?: boolean
+    valor_materiais?: boolean
+    valor_mao_de_obra?: boolean
+    valor_direto?: boolean
+    valor_bdi?: boolean
+    valor_total?: boolean
+    observacoes?: boolean
+    hash_integridade?: boolean
+    fiscal_responsavel_id?: boolean
+    contrato_id?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    fiscal_responsavel?: boolean | BoletimMedicao$fiscal_responsavelArgs<ExtArgs>
+    contrato?: boolean | ContratoManutencaoDefaultArgs<ExtArgs>
+    prefeitura?: boolean | BoletimMedicao$prefeituraArgs<ExtArgs>
+  }, ExtArgs["result"]["boletimMedicao"]>
+
+  export type BoletimMedicaoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numero_boletim?: boolean
+    mes_competencia?: boolean
+    ano_competencia?: boolean
+    data_inicio?: boolean
+    data_fim?: boolean
+    status?: boolean
+    bdi_percentual?: boolean
+    valor_materiais?: boolean
+    valor_mao_de_obra?: boolean
+    valor_direto?: boolean
+    valor_bdi?: boolean
+    valor_total?: boolean
+    observacoes?: boolean
+    hash_integridade?: boolean
+    fiscal_responsavel_id?: boolean
+    contrato_id?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    fiscal_responsavel?: boolean | BoletimMedicao$fiscal_responsavelArgs<ExtArgs>
+    contrato?: boolean | ContratoManutencaoDefaultArgs<ExtArgs>
+    prefeitura?: boolean | BoletimMedicao$prefeituraArgs<ExtArgs>
+  }, ExtArgs["result"]["boletimMedicao"]>
+
+  export type BoletimMedicaoSelectScalar = {
+    id?: boolean
+    numero_boletim?: boolean
+    mes_competencia?: boolean
+    ano_competencia?: boolean
+    data_inicio?: boolean
+    data_fim?: boolean
+    status?: boolean
+    bdi_percentual?: boolean
+    valor_materiais?: boolean
+    valor_mao_de_obra?: boolean
+    valor_direto?: boolean
+    valor_bdi?: boolean
+    valor_total?: boolean
+    observacoes?: boolean
+    hash_integridade?: boolean
+    fiscal_responsavel_id?: boolean
+    contrato_id?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+  }
+
+  export type BoletimMedicaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero_boletim" | "mes_competencia" | "ano_competencia" | "data_inicio" | "data_fim" | "status" | "bdi_percentual" | "valor_materiais" | "valor_mao_de_obra" | "valor_direto" | "valor_bdi" | "valor_total" | "observacoes" | "hash_integridade" | "fiscal_responsavel_id" | "contrato_id" | "prefeitura_id" | "criado_em" | "atualizado", ExtArgs["result"]["boletimMedicao"]>
+  export type BoletimMedicaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    fiscal_responsavel?: boolean | BoletimMedicao$fiscal_responsavelArgs<ExtArgs>
+    contrato?: boolean | ContratoManutencaoDefaultArgs<ExtArgs>
+    prefeitura?: boolean | BoletimMedicao$prefeituraArgs<ExtArgs>
+    ordens_servico?: boolean | BoletimMedicao$ordens_servicoArgs<ExtArgs>
+    _count?: boolean | BoletimMedicaoCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type BoletimMedicaoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    fiscal_responsavel?: boolean | BoletimMedicao$fiscal_responsavelArgs<ExtArgs>
+    contrato?: boolean | ContratoManutencaoDefaultArgs<ExtArgs>
+    prefeitura?: boolean | BoletimMedicao$prefeituraArgs<ExtArgs>
+  }
+  export type BoletimMedicaoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    fiscal_responsavel?: boolean | BoletimMedicao$fiscal_responsavelArgs<ExtArgs>
+    contrato?: boolean | ContratoManutencaoDefaultArgs<ExtArgs>
+    prefeitura?: boolean | BoletimMedicao$prefeituraArgs<ExtArgs>
+  }
+
+  export type $BoletimMedicaoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BoletimMedicao"
+    objects: {
+      fiscal_responsavel: Prisma.$UsuarioPayload<ExtArgs> | null
+      contrato: Prisma.$ContratoManutencaoPayload<ExtArgs>
+      prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
+      ordens_servico: Prisma.$OrdemServicoPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      numero_boletim: string
+      mes_competencia: number
+      ano_competencia: number
+      data_inicio: Date
+      data_fim: Date
+      status: string
+      bdi_percentual: Prisma.Decimal
+      valor_materiais: Prisma.Decimal
+      valor_mao_de_obra: Prisma.Decimal
+      valor_direto: Prisma.Decimal
+      valor_bdi: Prisma.Decimal
+      valor_total: Prisma.Decimal
+      observacoes: string | null
+      hash_integridade: string | null
+      fiscal_responsavel_id: string | null
+      contrato_id: string
+      prefeitura_id: string | null
+      criado_em: Date
+      atualizado: Date
+    }, ExtArgs["result"]["boletimMedicao"]>
+    composites: {}
+  }
+
+  type BoletimMedicaoGetPayload<S extends boolean | null | undefined | BoletimMedicaoDefaultArgs> = $Result.GetResult<Prisma.$BoletimMedicaoPayload, S>
+
+  type BoletimMedicaoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BoletimMedicaoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BoletimMedicaoCountAggregateInputType | true
+    }
+
+  export interface BoletimMedicaoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BoletimMedicao'], meta: { name: 'BoletimMedicao' } }
+    /**
+     * Find zero or one BoletimMedicao that matches the filter.
+     * @param {BoletimMedicaoFindUniqueArgs} args - Arguments to find a BoletimMedicao
+     * @example
+     * // Get one BoletimMedicao
+     * const boletimMedicao = await prisma.boletimMedicao.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BoletimMedicaoFindUniqueArgs>(args: SelectSubset<T, BoletimMedicaoFindUniqueArgs<ExtArgs>>): Prisma__BoletimMedicaoClient<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BoletimMedicao that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BoletimMedicaoFindUniqueOrThrowArgs} args - Arguments to find a BoletimMedicao
+     * @example
+     * // Get one BoletimMedicao
+     * const boletimMedicao = await prisma.boletimMedicao.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BoletimMedicaoFindUniqueOrThrowArgs>(args: SelectSubset<T, BoletimMedicaoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BoletimMedicaoClient<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BoletimMedicao that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoletimMedicaoFindFirstArgs} args - Arguments to find a BoletimMedicao
+     * @example
+     * // Get one BoletimMedicao
+     * const boletimMedicao = await prisma.boletimMedicao.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BoletimMedicaoFindFirstArgs>(args?: SelectSubset<T, BoletimMedicaoFindFirstArgs<ExtArgs>>): Prisma__BoletimMedicaoClient<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BoletimMedicao that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoletimMedicaoFindFirstOrThrowArgs} args - Arguments to find a BoletimMedicao
+     * @example
+     * // Get one BoletimMedicao
+     * const boletimMedicao = await prisma.boletimMedicao.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BoletimMedicaoFindFirstOrThrowArgs>(args?: SelectSubset<T, BoletimMedicaoFindFirstOrThrowArgs<ExtArgs>>): Prisma__BoletimMedicaoClient<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BoletimMedicaos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoletimMedicaoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BoletimMedicaos
+     * const boletimMedicaos = await prisma.boletimMedicao.findMany()
+     * 
+     * // Get first 10 BoletimMedicaos
+     * const boletimMedicaos = await prisma.boletimMedicao.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const boletimMedicaoWithIdOnly = await prisma.boletimMedicao.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BoletimMedicaoFindManyArgs>(args?: SelectSubset<T, BoletimMedicaoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BoletimMedicao.
+     * @param {BoletimMedicaoCreateArgs} args - Arguments to create a BoletimMedicao.
+     * @example
+     * // Create one BoletimMedicao
+     * const BoletimMedicao = await prisma.boletimMedicao.create({
+     *   data: {
+     *     // ... data to create a BoletimMedicao
+     *   }
+     * })
+     * 
+     */
+    create<T extends BoletimMedicaoCreateArgs>(args: SelectSubset<T, BoletimMedicaoCreateArgs<ExtArgs>>): Prisma__BoletimMedicaoClient<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BoletimMedicaos.
+     * @param {BoletimMedicaoCreateManyArgs} args - Arguments to create many BoletimMedicaos.
+     * @example
+     * // Create many BoletimMedicaos
+     * const boletimMedicao = await prisma.boletimMedicao.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BoletimMedicaoCreateManyArgs>(args?: SelectSubset<T, BoletimMedicaoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BoletimMedicaos and returns the data saved in the database.
+     * @param {BoletimMedicaoCreateManyAndReturnArgs} args - Arguments to create many BoletimMedicaos.
+     * @example
+     * // Create many BoletimMedicaos
+     * const boletimMedicao = await prisma.boletimMedicao.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BoletimMedicaos and only return the `id`
+     * const boletimMedicaoWithIdOnly = await prisma.boletimMedicao.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BoletimMedicaoCreateManyAndReturnArgs>(args?: SelectSubset<T, BoletimMedicaoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BoletimMedicao.
+     * @param {BoletimMedicaoDeleteArgs} args - Arguments to delete one BoletimMedicao.
+     * @example
+     * // Delete one BoletimMedicao
+     * const BoletimMedicao = await prisma.boletimMedicao.delete({
+     *   where: {
+     *     // ... filter to delete one BoletimMedicao
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BoletimMedicaoDeleteArgs>(args: SelectSubset<T, BoletimMedicaoDeleteArgs<ExtArgs>>): Prisma__BoletimMedicaoClient<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BoletimMedicao.
+     * @param {BoletimMedicaoUpdateArgs} args - Arguments to update one BoletimMedicao.
+     * @example
+     * // Update one BoletimMedicao
+     * const boletimMedicao = await prisma.boletimMedicao.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BoletimMedicaoUpdateArgs>(args: SelectSubset<T, BoletimMedicaoUpdateArgs<ExtArgs>>): Prisma__BoletimMedicaoClient<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BoletimMedicaos.
+     * @param {BoletimMedicaoDeleteManyArgs} args - Arguments to filter BoletimMedicaos to delete.
+     * @example
+     * // Delete a few BoletimMedicaos
+     * const { count } = await prisma.boletimMedicao.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BoletimMedicaoDeleteManyArgs>(args?: SelectSubset<T, BoletimMedicaoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BoletimMedicaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoletimMedicaoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BoletimMedicaos
+     * const boletimMedicao = await prisma.boletimMedicao.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BoletimMedicaoUpdateManyArgs>(args: SelectSubset<T, BoletimMedicaoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BoletimMedicaos and returns the data updated in the database.
+     * @param {BoletimMedicaoUpdateManyAndReturnArgs} args - Arguments to update many BoletimMedicaos.
+     * @example
+     * // Update many BoletimMedicaos
+     * const boletimMedicao = await prisma.boletimMedicao.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BoletimMedicaos and only return the `id`
+     * const boletimMedicaoWithIdOnly = await prisma.boletimMedicao.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BoletimMedicaoUpdateManyAndReturnArgs>(args: SelectSubset<T, BoletimMedicaoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BoletimMedicao.
+     * @param {BoletimMedicaoUpsertArgs} args - Arguments to update or create a BoletimMedicao.
+     * @example
+     * // Update or create a BoletimMedicao
+     * const boletimMedicao = await prisma.boletimMedicao.upsert({
+     *   create: {
+     *     // ... data to create a BoletimMedicao
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BoletimMedicao we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BoletimMedicaoUpsertArgs>(args: SelectSubset<T, BoletimMedicaoUpsertArgs<ExtArgs>>): Prisma__BoletimMedicaoClient<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BoletimMedicaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoletimMedicaoCountArgs} args - Arguments to filter BoletimMedicaos to count.
+     * @example
+     * // Count the number of BoletimMedicaos
+     * const count = await prisma.boletimMedicao.count({
+     *   where: {
+     *     // ... the filter for the BoletimMedicaos we want to count
+     *   }
+     * })
+    **/
+    count<T extends BoletimMedicaoCountArgs>(
+      args?: Subset<T, BoletimMedicaoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BoletimMedicaoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BoletimMedicao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoletimMedicaoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BoletimMedicaoAggregateArgs>(args: Subset<T, BoletimMedicaoAggregateArgs>): Prisma.PrismaPromise<GetBoletimMedicaoAggregateType<T>>
+
+    /**
+     * Group by BoletimMedicao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoletimMedicaoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BoletimMedicaoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BoletimMedicaoGroupByArgs['orderBy'] }
+        : { orderBy?: BoletimMedicaoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BoletimMedicaoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBoletimMedicaoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BoletimMedicao model
+   */
+  readonly fields: BoletimMedicaoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BoletimMedicao.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BoletimMedicaoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    fiscal_responsavel<T extends BoletimMedicao$fiscal_responsavelArgs<ExtArgs> = {}>(args?: Subset<T, BoletimMedicao$fiscal_responsavelArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    contrato<T extends ContratoManutencaoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContratoManutencaoDefaultArgs<ExtArgs>>): Prisma__ContratoManutencaoClient<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    prefeitura<T extends BoletimMedicao$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, BoletimMedicao$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    ordens_servico<T extends BoletimMedicao$ordens_servicoArgs<ExtArgs> = {}>(args?: Subset<T, BoletimMedicao$ordens_servicoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BoletimMedicao model
+   */
+  interface BoletimMedicaoFieldRefs {
+    readonly id: FieldRef<"BoletimMedicao", 'String'>
+    readonly numero_boletim: FieldRef<"BoletimMedicao", 'String'>
+    readonly mes_competencia: FieldRef<"BoletimMedicao", 'Int'>
+    readonly ano_competencia: FieldRef<"BoletimMedicao", 'Int'>
+    readonly data_inicio: FieldRef<"BoletimMedicao", 'DateTime'>
+    readonly data_fim: FieldRef<"BoletimMedicao", 'DateTime'>
+    readonly status: FieldRef<"BoletimMedicao", 'String'>
+    readonly bdi_percentual: FieldRef<"BoletimMedicao", 'Decimal'>
+    readonly valor_materiais: FieldRef<"BoletimMedicao", 'Decimal'>
+    readonly valor_mao_de_obra: FieldRef<"BoletimMedicao", 'Decimal'>
+    readonly valor_direto: FieldRef<"BoletimMedicao", 'Decimal'>
+    readonly valor_bdi: FieldRef<"BoletimMedicao", 'Decimal'>
+    readonly valor_total: FieldRef<"BoletimMedicao", 'Decimal'>
+    readonly observacoes: FieldRef<"BoletimMedicao", 'String'>
+    readonly hash_integridade: FieldRef<"BoletimMedicao", 'String'>
+    readonly fiscal_responsavel_id: FieldRef<"BoletimMedicao", 'String'>
+    readonly contrato_id: FieldRef<"BoletimMedicao", 'String'>
+    readonly prefeitura_id: FieldRef<"BoletimMedicao", 'String'>
+    readonly criado_em: FieldRef<"BoletimMedicao", 'DateTime'>
+    readonly atualizado: FieldRef<"BoletimMedicao", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BoletimMedicao findUnique
+   */
+  export type BoletimMedicaoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoInclude<ExtArgs> | null
+    /**
+     * Filter, which BoletimMedicao to fetch.
+     */
+    where: BoletimMedicaoWhereUniqueInput
+  }
+
+  /**
+   * BoletimMedicao findUniqueOrThrow
+   */
+  export type BoletimMedicaoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoInclude<ExtArgs> | null
+    /**
+     * Filter, which BoletimMedicao to fetch.
+     */
+    where: BoletimMedicaoWhereUniqueInput
+  }
+
+  /**
+   * BoletimMedicao findFirst
+   */
+  export type BoletimMedicaoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoInclude<ExtArgs> | null
+    /**
+     * Filter, which BoletimMedicao to fetch.
+     */
+    where?: BoletimMedicaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BoletimMedicaos to fetch.
+     */
+    orderBy?: BoletimMedicaoOrderByWithRelationInput | BoletimMedicaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BoletimMedicaos.
+     */
+    cursor?: BoletimMedicaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BoletimMedicaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BoletimMedicaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BoletimMedicaos.
+     */
+    distinct?: BoletimMedicaoScalarFieldEnum | BoletimMedicaoScalarFieldEnum[]
+  }
+
+  /**
+   * BoletimMedicao findFirstOrThrow
+   */
+  export type BoletimMedicaoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoInclude<ExtArgs> | null
+    /**
+     * Filter, which BoletimMedicao to fetch.
+     */
+    where?: BoletimMedicaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BoletimMedicaos to fetch.
+     */
+    orderBy?: BoletimMedicaoOrderByWithRelationInput | BoletimMedicaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BoletimMedicaos.
+     */
+    cursor?: BoletimMedicaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BoletimMedicaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BoletimMedicaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BoletimMedicaos.
+     */
+    distinct?: BoletimMedicaoScalarFieldEnum | BoletimMedicaoScalarFieldEnum[]
+  }
+
+  /**
+   * BoletimMedicao findMany
+   */
+  export type BoletimMedicaoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoInclude<ExtArgs> | null
+    /**
+     * Filter, which BoletimMedicaos to fetch.
+     */
+    where?: BoletimMedicaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BoletimMedicaos to fetch.
+     */
+    orderBy?: BoletimMedicaoOrderByWithRelationInput | BoletimMedicaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BoletimMedicaos.
+     */
+    cursor?: BoletimMedicaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BoletimMedicaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BoletimMedicaos.
+     */
+    skip?: number
+    distinct?: BoletimMedicaoScalarFieldEnum | BoletimMedicaoScalarFieldEnum[]
+  }
+
+  /**
+   * BoletimMedicao create
+   */
+  export type BoletimMedicaoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BoletimMedicao.
+     */
+    data: XOR<BoletimMedicaoCreateInput, BoletimMedicaoUncheckedCreateInput>
+  }
+
+  /**
+   * BoletimMedicao createMany
+   */
+  export type BoletimMedicaoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BoletimMedicaos.
+     */
+    data: BoletimMedicaoCreateManyInput | BoletimMedicaoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BoletimMedicao createManyAndReturn
+   */
+  export type BoletimMedicaoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * The data used to create many BoletimMedicaos.
+     */
+    data: BoletimMedicaoCreateManyInput | BoletimMedicaoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BoletimMedicao update
+   */
+  export type BoletimMedicaoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BoletimMedicao.
+     */
+    data: XOR<BoletimMedicaoUpdateInput, BoletimMedicaoUncheckedUpdateInput>
+    /**
+     * Choose, which BoletimMedicao to update.
+     */
+    where: BoletimMedicaoWhereUniqueInput
+  }
+
+  /**
+   * BoletimMedicao updateMany
+   */
+  export type BoletimMedicaoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BoletimMedicaos.
+     */
+    data: XOR<BoletimMedicaoUpdateManyMutationInput, BoletimMedicaoUncheckedUpdateManyInput>
+    /**
+     * Filter which BoletimMedicaos to update
+     */
+    where?: BoletimMedicaoWhereInput
+    /**
+     * Limit how many BoletimMedicaos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BoletimMedicao updateManyAndReturn
+   */
+  export type BoletimMedicaoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * The data used to update BoletimMedicaos.
+     */
+    data: XOR<BoletimMedicaoUpdateManyMutationInput, BoletimMedicaoUncheckedUpdateManyInput>
+    /**
+     * Filter which BoletimMedicaos to update
+     */
+    where?: BoletimMedicaoWhereInput
+    /**
+     * Limit how many BoletimMedicaos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BoletimMedicao upsert
+   */
+  export type BoletimMedicaoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BoletimMedicao to update in case it exists.
+     */
+    where: BoletimMedicaoWhereUniqueInput
+    /**
+     * In case the BoletimMedicao found by the `where` argument doesn't exist, create a new BoletimMedicao with this data.
+     */
+    create: XOR<BoletimMedicaoCreateInput, BoletimMedicaoUncheckedCreateInput>
+    /**
+     * In case the BoletimMedicao was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BoletimMedicaoUpdateInput, BoletimMedicaoUncheckedUpdateInput>
+  }
+
+  /**
+   * BoletimMedicao delete
+   */
+  export type BoletimMedicaoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoInclude<ExtArgs> | null
+    /**
+     * Filter which BoletimMedicao to delete.
+     */
+    where: BoletimMedicaoWhereUniqueInput
+  }
+
+  /**
+   * BoletimMedicao deleteMany
+   */
+  export type BoletimMedicaoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BoletimMedicaos to delete
+     */
+    where?: BoletimMedicaoWhereInput
+    /**
+     * Limit how many BoletimMedicaos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BoletimMedicao.fiscal_responsavel
+   */
+  export type BoletimMedicao$fiscal_responsavelArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Usuario
+     */
+    omit?: UsuarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    where?: UsuarioWhereInput
+  }
+
+  /**
+   * BoletimMedicao.prefeitura
+   */
+  export type BoletimMedicao$prefeituraArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    where?: PrefeituraWhereInput
+  }
+
+  /**
+   * BoletimMedicao.ordens_servico
+   */
+  export type BoletimMedicao$ordens_servicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrdemServico
+     */
+    select?: OrdemServicoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrdemServico
+     */
+    omit?: OrdemServicoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrdemServicoInclude<ExtArgs> | null
+    where?: OrdemServicoWhereInput
+    orderBy?: OrdemServicoOrderByWithRelationInput | OrdemServicoOrderByWithRelationInput[]
+    cursor?: OrdemServicoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrdemServicoScalarFieldEnum | OrdemServicoScalarFieldEnum[]
+  }
+
+  /**
+   * BoletimMedicao without action
+   */
+  export type BoletimMedicaoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoletimMedicao
+     */
+    select?: BoletimMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BoletimMedicao
+     */
+    omit?: BoletimMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletimMedicaoInclude<ExtArgs> | null
   }
 
 
@@ -18370,6 +20205,13 @@ export namespace Prisma {
     empresa_terceirizada: 'empresa_terceirizada',
     numero_empenho: 'numero_empenho',
     contrato_id: 'contrato_id',
+    status_atesto: 'status_atesto',
+    atestado_em: 'atestado_em',
+    atestado_por_id: 'atestado_por_id',
+    parecer_atesto: 'parecer_atesto',
+    assinatura_digital_hash: 'assinatura_digital_hash',
+    avaliacao_atesto: 'avaliacao_atesto',
+    boletim_medicao_id: 'boletim_medicao_id',
     prefeitura_id: 'prefeitura_id',
     ordem_vinculada_id: 'ordem_vinculada_id',
     criado_em: 'criado_em',
@@ -18512,6 +20354,7 @@ export namespace Prisma {
     objeto: 'objeto',
     categoria_padrao: 'categoria_padrao',
     valor_total_empenhado: 'valor_total_empenhado',
+    bdi_padrao: 'bdi_padrao',
     vigencia_inicio: 'vigencia_inicio',
     vigencia_fim: 'vigencia_fim',
     ativo: 'ativo',
@@ -18521,6 +20364,32 @@ export namespace Prisma {
   };
 
   export type ContratoManutencaoScalarFieldEnum = (typeof ContratoManutencaoScalarFieldEnum)[keyof typeof ContratoManutencaoScalarFieldEnum]
+
+
+  export const BoletimMedicaoScalarFieldEnum: {
+    id: 'id',
+    numero_boletim: 'numero_boletim',
+    mes_competencia: 'mes_competencia',
+    ano_competencia: 'ano_competencia',
+    data_inicio: 'data_inicio',
+    data_fim: 'data_fim',
+    status: 'status',
+    bdi_percentual: 'bdi_percentual',
+    valor_materiais: 'valor_materiais',
+    valor_mao_de_obra: 'valor_mao_de_obra',
+    valor_direto: 'valor_direto',
+    valor_bdi: 'valor_bdi',
+    valor_total: 'valor_total',
+    observacoes: 'observacoes',
+    hash_integridade: 'hash_integridade',
+    fiscal_responsavel_id: 'fiscal_responsavel_id',
+    contrato_id: 'contrato_id',
+    prefeitura_id: 'prefeitura_id',
+    criado_em: 'criado_em',
+    atualizado: 'atualizado'
+  };
+
+  export type BoletimMedicaoScalarFieldEnum = (typeof BoletimMedicaoScalarFieldEnum)[keyof typeof BoletimMedicaoScalarFieldEnum]
 
 
   export const AtivoPredialScalarFieldEnum: {
@@ -18822,6 +20691,7 @@ export namespace Prisma {
     materiais?: MaterialListRelationFilter
     contratos?: ContratoManutencaoListRelationFilter
     ativos?: AtivoPredialListRelationFilter
+    boletins_medicao?: BoletimMedicaoListRelationFilter
   }
 
   export type PrefeituraOrderByWithRelationInput = {
@@ -18845,6 +20715,7 @@ export namespace Prisma {
     materiais?: MaterialOrderByRelationAggregateInput
     contratos?: ContratoManutencaoOrderByRelationAggregateInput
     ativos?: AtivoPredialOrderByRelationAggregateInput
+    boletins_medicao?: BoletimMedicaoOrderByRelationAggregateInput
   }
 
   export type PrefeituraWhereUniqueInput = Prisma.AtLeast<{
@@ -18871,6 +20742,7 @@ export namespace Prisma {
     materiais?: MaterialListRelationFilter
     contratos?: ContratoManutencaoListRelationFilter
     ativos?: AtivoPredialListRelationFilter
+    boletins_medicao?: BoletimMedicaoListRelationFilter
   }, "id" | "slug" | "cnpj">
 
   export type PrefeituraOrderByWithAggregationInput = {
@@ -18925,6 +20797,8 @@ export namespace Prisma {
     predios_geridos?: PredioListRelationFilter
     chamados_solicitados?: OrdemServicoListRelationFilter
     chamados_atribuidos?: OrdemServicoListRelationFilter
+    chamados_atestados?: OrdemServicoListRelationFilter
+    boletins_fiscalizados?: BoletimMedicaoListRelationFilter
     manifestacoes_respondidas?: ManifestacaoListRelationFilter
     auditorias?: AuditoriaLogListRelationFilter
   }
@@ -18946,6 +20820,8 @@ export namespace Prisma {
     predios_geridos?: PredioOrderByRelationAggregateInput
     chamados_solicitados?: OrdemServicoOrderByRelationAggregateInput
     chamados_atribuidos?: OrdemServicoOrderByRelationAggregateInput
+    chamados_atestados?: OrdemServicoOrderByRelationAggregateInput
+    boletins_fiscalizados?: BoletimMedicaoOrderByRelationAggregateInput
     manifestacoes_respondidas?: ManifestacaoOrderByRelationAggregateInput
     auditorias?: AuditoriaLogOrderByRelationAggregateInput
   }
@@ -18970,6 +20846,8 @@ export namespace Prisma {
     predios_geridos?: PredioListRelationFilter
     chamados_solicitados?: OrdemServicoListRelationFilter
     chamados_atribuidos?: OrdemServicoListRelationFilter
+    chamados_atestados?: OrdemServicoListRelationFilter
+    boletins_fiscalizados?: BoletimMedicaoListRelationFilter
     manifestacoes_respondidas?: ManifestacaoListRelationFilter
     auditorias?: AuditoriaLogListRelationFilter
   }, "id" | "email">
@@ -19167,6 +21045,13 @@ export namespace Prisma {
     empresa_terceirizada?: StringNullableFilter<"OrdemServico"> | string | null
     numero_empenho?: StringNullableFilter<"OrdemServico"> | string | null
     contrato_id?: StringNullableFilter<"OrdemServico"> | string | null
+    status_atesto?: StringNullableFilter<"OrdemServico"> | string | null
+    atestado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    atestado_por_id?: StringNullableFilter<"OrdemServico"> | string | null
+    parecer_atesto?: StringNullableFilter<"OrdemServico"> | string | null
+    assinatura_digital_hash?: StringNullableFilter<"OrdemServico"> | string | null
+    avaliacao_atesto?: IntNullableFilter<"OrdemServico"> | number | null
+    boletim_medicao_id?: StringNullableFilter<"OrdemServico"> | string | null
     prefeitura_id?: StringNullableFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
@@ -19177,6 +21062,8 @@ export namespace Prisma {
     tecnico?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
     contrato?: XOR<ContratoManutencaoNullableScalarRelationFilter, ContratoManutencaoWhereInput> | null
     materiais_consumidos?: ItemConsumoOSListRelationFilter
+    atestado_por?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    boletim_medicao?: XOR<BoletimMedicaoNullableScalarRelationFilter, BoletimMedicaoWhereInput> | null
     prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
     ordem_vinculada?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
     ordens_derivadas?: OrdemServicoListRelationFilter
@@ -19214,6 +21101,13 @@ export namespace Prisma {
     empresa_terceirizada?: SortOrderInput | SortOrder
     numero_empenho?: SortOrderInput | SortOrder
     contrato_id?: SortOrderInput | SortOrder
+    status_atesto?: SortOrderInput | SortOrder
+    atestado_em?: SortOrderInput | SortOrder
+    atestado_por_id?: SortOrderInput | SortOrder
+    parecer_atesto?: SortOrderInput | SortOrder
+    assinatura_digital_hash?: SortOrderInput | SortOrder
+    avaliacao_atesto?: SortOrderInput | SortOrder
+    boletim_medicao_id?: SortOrderInput | SortOrder
     prefeitura_id?: SortOrderInput | SortOrder
     ordem_vinculada_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
@@ -19224,6 +21118,8 @@ export namespace Prisma {
     tecnico?: UsuarioOrderByWithRelationInput
     contrato?: ContratoManutencaoOrderByWithRelationInput
     materiais_consumidos?: ItemConsumoOSOrderByRelationAggregateInput
+    atestado_por?: UsuarioOrderByWithRelationInput
+    boletim_medicao?: BoletimMedicaoOrderByWithRelationInput
     prefeitura?: PrefeituraOrderByWithRelationInput
     ordem_vinculada?: OrdemServicoOrderByWithRelationInput
     ordens_derivadas?: OrdemServicoOrderByRelationAggregateInput
@@ -19264,6 +21160,13 @@ export namespace Prisma {
     empresa_terceirizada?: StringNullableFilter<"OrdemServico"> | string | null
     numero_empenho?: StringNullableFilter<"OrdemServico"> | string | null
     contrato_id?: StringNullableFilter<"OrdemServico"> | string | null
+    status_atesto?: StringNullableFilter<"OrdemServico"> | string | null
+    atestado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    atestado_por_id?: StringNullableFilter<"OrdemServico"> | string | null
+    parecer_atesto?: StringNullableFilter<"OrdemServico"> | string | null
+    assinatura_digital_hash?: StringNullableFilter<"OrdemServico"> | string | null
+    avaliacao_atesto?: IntNullableFilter<"OrdemServico"> | number | null
+    boletim_medicao_id?: StringNullableFilter<"OrdemServico"> | string | null
     prefeitura_id?: StringNullableFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
@@ -19274,6 +21177,8 @@ export namespace Prisma {
     tecnico?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
     contrato?: XOR<ContratoManutencaoNullableScalarRelationFilter, ContratoManutencaoWhereInput> | null
     materiais_consumidos?: ItemConsumoOSListRelationFilter
+    atestado_por?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    boletim_medicao?: XOR<BoletimMedicaoNullableScalarRelationFilter, BoletimMedicaoWhereInput> | null
     prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
     ordem_vinculada?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
     ordens_derivadas?: OrdemServicoListRelationFilter
@@ -19311,6 +21216,13 @@ export namespace Prisma {
     empresa_terceirizada?: SortOrderInput | SortOrder
     numero_empenho?: SortOrderInput | SortOrder
     contrato_id?: SortOrderInput | SortOrder
+    status_atesto?: SortOrderInput | SortOrder
+    atestado_em?: SortOrderInput | SortOrder
+    atestado_por_id?: SortOrderInput | SortOrder
+    parecer_atesto?: SortOrderInput | SortOrder
+    assinatura_digital_hash?: SortOrderInput | SortOrder
+    avaliacao_atesto?: SortOrderInput | SortOrder
+    boletim_medicao_id?: SortOrderInput | SortOrder
     prefeitura_id?: SortOrderInput | SortOrder
     ordem_vinculada_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
@@ -19355,6 +21267,13 @@ export namespace Prisma {
     empresa_terceirizada?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     numero_empenho?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     contrato_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
+    status_atesto?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
+    atestado_em?: DateTimeNullableWithAggregatesFilter<"OrdemServico"> | Date | string | null
+    atestado_por_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
+    parecer_atesto?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
+    assinatura_digital_hash?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
+    avaliacao_atesto?: IntNullableWithAggregatesFilter<"OrdemServico"> | number | null
+    boletim_medicao_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     prefeitura_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeWithAggregatesFilter<"OrdemServico"> | Date | string
@@ -20024,6 +21943,7 @@ export namespace Prisma {
     objeto?: StringNullableFilter<"ContratoManutencao"> | string | null
     categoria_padrao?: StringNullableFilter<"ContratoManutencao"> | string | null
     valor_total_empenhado?: DecimalFilter<"ContratoManutencao"> | Decimal | DecimalJsLike | number | string
+    bdi_padrao?: DecimalNullableFilter<"ContratoManutencao"> | Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: DateTimeNullableFilter<"ContratoManutencao"> | Date | string | null
     vigencia_fim?: DateTimeNullableFilter<"ContratoManutencao"> | Date | string | null
     ativo?: BoolFilter<"ContratoManutencao"> | boolean
@@ -20032,6 +21952,7 @@ export namespace Prisma {
     atualizado?: DateTimeFilter<"ContratoManutencao"> | Date | string
     prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
     ordens_servico?: OrdemServicoListRelationFilter
+    boletins_medicao?: BoletimMedicaoListRelationFilter
   }
 
   export type ContratoManutencaoOrderByWithRelationInput = {
@@ -20043,6 +21964,7 @@ export namespace Prisma {
     objeto?: SortOrderInput | SortOrder
     categoria_padrao?: SortOrderInput | SortOrder
     valor_total_empenhado?: SortOrder
+    bdi_padrao?: SortOrderInput | SortOrder
     vigencia_inicio?: SortOrderInput | SortOrder
     vigencia_fim?: SortOrderInput | SortOrder
     ativo?: SortOrder
@@ -20051,6 +21973,7 @@ export namespace Prisma {
     atualizado?: SortOrder
     prefeitura?: PrefeituraOrderByWithRelationInput
     ordens_servico?: OrdemServicoOrderByRelationAggregateInput
+    boletins_medicao?: BoletimMedicaoOrderByRelationAggregateInput
   }
 
   export type ContratoManutencaoWhereUniqueInput = Prisma.AtLeast<{
@@ -20066,6 +21989,7 @@ export namespace Prisma {
     objeto?: StringNullableFilter<"ContratoManutencao"> | string | null
     categoria_padrao?: StringNullableFilter<"ContratoManutencao"> | string | null
     valor_total_empenhado?: DecimalFilter<"ContratoManutencao"> | Decimal | DecimalJsLike | number | string
+    bdi_padrao?: DecimalNullableFilter<"ContratoManutencao"> | Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: DateTimeNullableFilter<"ContratoManutencao"> | Date | string | null
     vigencia_fim?: DateTimeNullableFilter<"ContratoManutencao"> | Date | string | null
     ativo?: BoolFilter<"ContratoManutencao"> | boolean
@@ -20074,6 +21998,7 @@ export namespace Prisma {
     atualizado?: DateTimeFilter<"ContratoManutencao"> | Date | string
     prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
     ordens_servico?: OrdemServicoListRelationFilter
+    boletins_medicao?: BoletimMedicaoListRelationFilter
   }, "id" | "prefeitura_id_numero_contrato">
 
   export type ContratoManutencaoOrderByWithAggregationInput = {
@@ -20085,6 +22010,7 @@ export namespace Prisma {
     objeto?: SortOrderInput | SortOrder
     categoria_padrao?: SortOrderInput | SortOrder
     valor_total_empenhado?: SortOrder
+    bdi_padrao?: SortOrderInput | SortOrder
     vigencia_inicio?: SortOrderInput | SortOrder
     vigencia_fim?: SortOrderInput | SortOrder
     ativo?: SortOrder
@@ -20110,12 +22036,155 @@ export namespace Prisma {
     objeto?: StringNullableWithAggregatesFilter<"ContratoManutencao"> | string | null
     categoria_padrao?: StringNullableWithAggregatesFilter<"ContratoManutencao"> | string | null
     valor_total_empenhado?: DecimalWithAggregatesFilter<"ContratoManutencao"> | Decimal | DecimalJsLike | number | string
+    bdi_padrao?: DecimalNullableWithAggregatesFilter<"ContratoManutencao"> | Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: DateTimeNullableWithAggregatesFilter<"ContratoManutencao"> | Date | string | null
     vigencia_fim?: DateTimeNullableWithAggregatesFilter<"ContratoManutencao"> | Date | string | null
     ativo?: BoolWithAggregatesFilter<"ContratoManutencao"> | boolean
     prefeitura_id?: StringNullableWithAggregatesFilter<"ContratoManutencao"> | string | null
     criado_em?: DateTimeWithAggregatesFilter<"ContratoManutencao"> | Date | string
     atualizado?: DateTimeWithAggregatesFilter<"ContratoManutencao"> | Date | string
+  }
+
+  export type BoletimMedicaoWhereInput = {
+    AND?: BoletimMedicaoWhereInput | BoletimMedicaoWhereInput[]
+    OR?: BoletimMedicaoWhereInput[]
+    NOT?: BoletimMedicaoWhereInput | BoletimMedicaoWhereInput[]
+    id?: StringFilter<"BoletimMedicao"> | string
+    numero_boletim?: StringFilter<"BoletimMedicao"> | string
+    mes_competencia?: IntFilter<"BoletimMedicao"> | number
+    ano_competencia?: IntFilter<"BoletimMedicao"> | number
+    data_inicio?: DateTimeFilter<"BoletimMedicao"> | Date | string
+    data_fim?: DateTimeFilter<"BoletimMedicao"> | Date | string
+    status?: StringFilter<"BoletimMedicao"> | string
+    bdi_percentual?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    observacoes?: StringNullableFilter<"BoletimMedicao"> | string | null
+    hash_integridade?: StringNullableFilter<"BoletimMedicao"> | string | null
+    fiscal_responsavel_id?: StringNullableFilter<"BoletimMedicao"> | string | null
+    contrato_id?: StringFilter<"BoletimMedicao"> | string
+    prefeitura_id?: StringNullableFilter<"BoletimMedicao"> | string | null
+    criado_em?: DateTimeFilter<"BoletimMedicao"> | Date | string
+    atualizado?: DateTimeFilter<"BoletimMedicao"> | Date | string
+    fiscal_responsavel?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    contrato?: XOR<ContratoManutencaoScalarRelationFilter, ContratoManutencaoWhereInput>
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
+    ordens_servico?: OrdemServicoListRelationFilter
+  }
+
+  export type BoletimMedicaoOrderByWithRelationInput = {
+    id?: SortOrder
+    numero_boletim?: SortOrder
+    mes_competencia?: SortOrder
+    ano_competencia?: SortOrder
+    data_inicio?: SortOrder
+    data_fim?: SortOrder
+    status?: SortOrder
+    bdi_percentual?: SortOrder
+    valor_materiais?: SortOrder
+    valor_mao_de_obra?: SortOrder
+    valor_direto?: SortOrder
+    valor_bdi?: SortOrder
+    valor_total?: SortOrder
+    observacoes?: SortOrderInput | SortOrder
+    hash_integridade?: SortOrderInput | SortOrder
+    fiscal_responsavel_id?: SortOrderInput | SortOrder
+    contrato_id?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    fiscal_responsavel?: UsuarioOrderByWithRelationInput
+    contrato?: ContratoManutencaoOrderByWithRelationInput
+    prefeitura?: PrefeituraOrderByWithRelationInput
+    ordens_servico?: OrdemServicoOrderByRelationAggregateInput
+  }
+
+  export type BoletimMedicaoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    prefeitura_id_numero_boletim?: BoletimMedicaoPrefeitura_idNumero_boletimCompoundUniqueInput
+    AND?: BoletimMedicaoWhereInput | BoletimMedicaoWhereInput[]
+    OR?: BoletimMedicaoWhereInput[]
+    NOT?: BoletimMedicaoWhereInput | BoletimMedicaoWhereInput[]
+    numero_boletim?: StringFilter<"BoletimMedicao"> | string
+    mes_competencia?: IntFilter<"BoletimMedicao"> | number
+    ano_competencia?: IntFilter<"BoletimMedicao"> | number
+    data_inicio?: DateTimeFilter<"BoletimMedicao"> | Date | string
+    data_fim?: DateTimeFilter<"BoletimMedicao"> | Date | string
+    status?: StringFilter<"BoletimMedicao"> | string
+    bdi_percentual?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    observacoes?: StringNullableFilter<"BoletimMedicao"> | string | null
+    hash_integridade?: StringNullableFilter<"BoletimMedicao"> | string | null
+    fiscal_responsavel_id?: StringNullableFilter<"BoletimMedicao"> | string | null
+    contrato_id?: StringFilter<"BoletimMedicao"> | string
+    prefeitura_id?: StringNullableFilter<"BoletimMedicao"> | string | null
+    criado_em?: DateTimeFilter<"BoletimMedicao"> | Date | string
+    atualizado?: DateTimeFilter<"BoletimMedicao"> | Date | string
+    fiscal_responsavel?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    contrato?: XOR<ContratoManutencaoScalarRelationFilter, ContratoManutencaoWhereInput>
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
+    ordens_servico?: OrdemServicoListRelationFilter
+  }, "id" | "prefeitura_id_numero_boletim">
+
+  export type BoletimMedicaoOrderByWithAggregationInput = {
+    id?: SortOrder
+    numero_boletim?: SortOrder
+    mes_competencia?: SortOrder
+    ano_competencia?: SortOrder
+    data_inicio?: SortOrder
+    data_fim?: SortOrder
+    status?: SortOrder
+    bdi_percentual?: SortOrder
+    valor_materiais?: SortOrder
+    valor_mao_de_obra?: SortOrder
+    valor_direto?: SortOrder
+    valor_bdi?: SortOrder
+    valor_total?: SortOrder
+    observacoes?: SortOrderInput | SortOrder
+    hash_integridade?: SortOrderInput | SortOrder
+    fiscal_responsavel_id?: SortOrderInput | SortOrder
+    contrato_id?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    _count?: BoletimMedicaoCountOrderByAggregateInput
+    _avg?: BoletimMedicaoAvgOrderByAggregateInput
+    _max?: BoletimMedicaoMaxOrderByAggregateInput
+    _min?: BoletimMedicaoMinOrderByAggregateInput
+    _sum?: BoletimMedicaoSumOrderByAggregateInput
+  }
+
+  export type BoletimMedicaoScalarWhereWithAggregatesInput = {
+    AND?: BoletimMedicaoScalarWhereWithAggregatesInput | BoletimMedicaoScalarWhereWithAggregatesInput[]
+    OR?: BoletimMedicaoScalarWhereWithAggregatesInput[]
+    NOT?: BoletimMedicaoScalarWhereWithAggregatesInput | BoletimMedicaoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BoletimMedicao"> | string
+    numero_boletim?: StringWithAggregatesFilter<"BoletimMedicao"> | string
+    mes_competencia?: IntWithAggregatesFilter<"BoletimMedicao"> | number
+    ano_competencia?: IntWithAggregatesFilter<"BoletimMedicao"> | number
+    data_inicio?: DateTimeWithAggregatesFilter<"BoletimMedicao"> | Date | string
+    data_fim?: DateTimeWithAggregatesFilter<"BoletimMedicao"> | Date | string
+    status?: StringWithAggregatesFilter<"BoletimMedicao"> | string
+    bdi_percentual?: DecimalWithAggregatesFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalWithAggregatesFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalWithAggregatesFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalWithAggregatesFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalWithAggregatesFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalWithAggregatesFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    observacoes?: StringNullableWithAggregatesFilter<"BoletimMedicao"> | string | null
+    hash_integridade?: StringNullableWithAggregatesFilter<"BoletimMedicao"> | string | null
+    fiscal_responsavel_id?: StringNullableWithAggregatesFilter<"BoletimMedicao"> | string | null
+    contrato_id?: StringWithAggregatesFilter<"BoletimMedicao"> | string
+    prefeitura_id?: StringNullableWithAggregatesFilter<"BoletimMedicao"> | string | null
+    criado_em?: DateTimeWithAggregatesFilter<"BoletimMedicao"> | Date | string
+    atualizado?: DateTimeWithAggregatesFilter<"BoletimMedicao"> | Date | string
   }
 
   export type AtivoPredialWhereInput = {
@@ -20263,6 +22332,7 @@ export namespace Prisma {
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateInput = {
@@ -20286,6 +22356,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUpdateInput = {
@@ -20309,6 +22380,7 @@ export namespace Prisma {
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateInput = {
@@ -20332,6 +22404,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraCreateManyInput = {
@@ -20389,6 +22462,8 @@ export namespace Prisma {
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
+    chamados_atestados?: OrdemServicoCreateNestedManyWithoutAtestado_porInput
+    boletins_fiscalizados?: BoletimMedicaoCreateNestedManyWithoutFiscal_responsavelInput
     manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutUsuarioInput
   }
@@ -20409,6 +22484,8 @@ export namespace Prisma {
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
+    chamados_atestados?: OrdemServicoUncheckedCreateNestedManyWithoutAtestado_porInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedCreateNestedManyWithoutFiscal_responsavelInput
     manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutUsuarioInput
   }
@@ -20429,6 +22506,8 @@ export namespace Prisma {
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
+    chamados_atestados?: OrdemServicoUpdateManyWithoutAtestado_porNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUpdateManyWithoutFiscal_responsavelNestedInput
     manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutUsuarioNestedInput
   }
@@ -20449,6 +22528,8 @@ export namespace Prisma {
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
+    chamados_atestados?: OrdemServicoUncheckedUpdateManyWithoutAtestado_porNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedUpdateManyWithoutFiscal_responsavelNestedInput
     manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
   }
@@ -20662,6 +22743,11 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -20670,6 +22756,8 @@ export namespace Prisma {
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
+    atestado_por?: UsuarioCreateNestedOneWithoutChamados_atestadosInput
+    boletim_medicao?: BoletimMedicaoCreateNestedOneWithoutOrdens_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -20707,6 +22795,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -20742,6 +22837,11 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -20750,6 +22850,8 @@ export namespace Prisma {
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
+    atestado_por?: UsuarioUpdateOneWithoutChamados_atestadosNestedInput
+    boletim_medicao?: BoletimMedicaoUpdateOneWithoutOrdens_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -20787,6 +22889,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20827,6 +22936,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -20858,6 +22974,11 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20892,6 +23013,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21640,6 +23768,7 @@ export namespace Prisma {
     objeto?: string | null
     categoria_padrao?: string | null
     valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    bdi_padrao?: Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: Date | string | null
     vigencia_fim?: Date | string | null
     ativo?: boolean
@@ -21647,6 +23776,7 @@ export namespace Prisma {
     atualizado?: Date | string
     prefeitura?: PrefeituraCreateNestedOneWithoutContratosInput
     ordens_servico?: OrdemServicoCreateNestedManyWithoutContratoInput
+    boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutContratoInput
   }
 
   export type ContratoManutencaoUncheckedCreateInput = {
@@ -21658,6 +23788,7 @@ export namespace Prisma {
     objeto?: string | null
     categoria_padrao?: string | null
     valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    bdi_padrao?: Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: Date | string | null
     vigencia_fim?: Date | string | null
     ativo?: boolean
@@ -21665,6 +23796,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutContratoInput
+    boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutContratoInput
   }
 
   export type ContratoManutencaoUpdateInput = {
@@ -21676,6 +23808,7 @@ export namespace Prisma {
     objeto?: NullableStringFieldUpdateOperationsInput | string | null
     categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
     valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bdi_padrao?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ativo?: BoolFieldUpdateOperationsInput | boolean
@@ -21683,6 +23816,7 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     prefeitura?: PrefeituraUpdateOneWithoutContratosNestedInput
     ordens_servico?: OrdemServicoUpdateManyWithoutContratoNestedInput
+    boletins_medicao?: BoletimMedicaoUpdateManyWithoutContratoNestedInput
   }
 
   export type ContratoManutencaoUncheckedUpdateInput = {
@@ -21694,6 +23828,7 @@ export namespace Prisma {
     objeto?: NullableStringFieldUpdateOperationsInput | string | null
     categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
     valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bdi_padrao?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ativo?: BoolFieldUpdateOperationsInput | boolean
@@ -21701,6 +23836,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutContratoNestedInput
+    boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutContratoNestedInput
   }
 
   export type ContratoManutencaoCreateManyInput = {
@@ -21712,6 +23848,7 @@ export namespace Prisma {
     objeto?: string | null
     categoria_padrao?: string | null
     valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    bdi_padrao?: Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: Date | string | null
     vigencia_fim?: Date | string | null
     ativo?: boolean
@@ -21729,6 +23866,7 @@ export namespace Prisma {
     objeto?: NullableStringFieldUpdateOperationsInput | string | null
     categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
     valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bdi_padrao?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ativo?: BoolFieldUpdateOperationsInput | boolean
@@ -21745,9 +23883,172 @@ export namespace Prisma {
     objeto?: NullableStringFieldUpdateOperationsInput | string | null
     categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
     valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bdi_padrao?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ativo?: BoolFieldUpdateOperationsInput | boolean
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoletimMedicaoCreateInput = {
+    id?: string
+    numero_boletim: string
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: Date | string
+    data_fim: Date | string
+    status?: string
+    bdi_percentual?: Decimal | DecimalJsLike | number | string
+    valor_materiais?: Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: Decimal | DecimalJsLike | number | string
+    valor_direto?: Decimal | DecimalJsLike | number | string
+    valor_bdi?: Decimal | DecimalJsLike | number | string
+    valor_total?: Decimal | DecimalJsLike | number | string
+    observacoes?: string | null
+    hash_integridade?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    fiscal_responsavel?: UsuarioCreateNestedOneWithoutBoletins_fiscalizadosInput
+    contrato: ContratoManutencaoCreateNestedOneWithoutBoletins_medicaoInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutBoletins_medicaoInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutBoletim_medicaoInput
+  }
+
+  export type BoletimMedicaoUncheckedCreateInput = {
+    id?: string
+    numero_boletim: string
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: Date | string
+    data_fim: Date | string
+    status?: string
+    bdi_percentual?: Decimal | DecimalJsLike | number | string
+    valor_materiais?: Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: Decimal | DecimalJsLike | number | string
+    valor_direto?: Decimal | DecimalJsLike | number | string
+    valor_bdi?: Decimal | DecimalJsLike | number | string
+    valor_total?: Decimal | DecimalJsLike | number | string
+    observacoes?: string | null
+    hash_integridade?: string | null
+    fiscal_responsavel_id?: string | null
+    contrato_id: string
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutBoletim_medicaoInput
+  }
+
+  export type BoletimMedicaoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_boletim?: StringFieldUpdateOperationsInput | string
+    mes_competencia?: IntFieldUpdateOperationsInput | number
+    ano_competencia?: IntFieldUpdateOperationsInput | number
+    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    bdi_percentual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacoes?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    fiscal_responsavel?: UsuarioUpdateOneWithoutBoletins_fiscalizadosNestedInput
+    contrato?: ContratoManutencaoUpdateOneRequiredWithoutBoletins_medicaoNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutBoletins_medicaoNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutBoletim_medicaoNestedInput
+  }
+
+  export type BoletimMedicaoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_boletim?: StringFieldUpdateOperationsInput | string
+    mes_competencia?: IntFieldUpdateOperationsInput | number
+    ano_competencia?: IntFieldUpdateOperationsInput | number
+    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    bdi_percentual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacoes?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal_responsavel_id?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: StringFieldUpdateOperationsInput | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutBoletim_medicaoNestedInput
+  }
+
+  export type BoletimMedicaoCreateManyInput = {
+    id?: string
+    numero_boletim: string
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: Date | string
+    data_fim: Date | string
+    status?: string
+    bdi_percentual?: Decimal | DecimalJsLike | number | string
+    valor_materiais?: Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: Decimal | DecimalJsLike | number | string
+    valor_direto?: Decimal | DecimalJsLike | number | string
+    valor_bdi?: Decimal | DecimalJsLike | number | string
+    valor_total?: Decimal | DecimalJsLike | number | string
+    observacoes?: string | null
+    hash_integridade?: string | null
+    fiscal_responsavel_id?: string | null
+    contrato_id: string
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type BoletimMedicaoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_boletim?: StringFieldUpdateOperationsInput | string
+    mes_competencia?: IntFieldUpdateOperationsInput | number
+    ano_competencia?: IntFieldUpdateOperationsInput | number
+    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    bdi_percentual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacoes?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoletimMedicaoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_boletim?: StringFieldUpdateOperationsInput | string
+    mes_competencia?: IntFieldUpdateOperationsInput | number
+    ano_competencia?: IntFieldUpdateOperationsInput | number
+    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    bdi_percentual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacoes?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal_responsavel_id?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: StringFieldUpdateOperationsInput | string
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22031,6 +24332,12 @@ export namespace Prisma {
     none?: AtivoPredialWhereInput
   }
 
+  export type BoletimMedicaoListRelationFilter = {
+    every?: BoletimMedicaoWhereInput
+    some?: BoletimMedicaoWhereInput
+    none?: BoletimMedicaoWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -22069,6 +24376,10 @@ export namespace Prisma {
   }
 
   export type AtivoPredialOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BoletimMedicaoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -22505,6 +24816,11 @@ export namespace Prisma {
     none?: ItemConsumoOSWhereInput
   }
 
+  export type BoletimMedicaoNullableScalarRelationFilter = {
+    is?: BoletimMedicaoWhereInput | null
+    isNot?: BoletimMedicaoWhereInput | null
+  }
+
   export type OrdemServicoNullableScalarRelationFilter = {
     is?: OrdemServicoWhereInput | null
     isNot?: OrdemServicoWhereInput | null
@@ -22544,6 +24860,13 @@ export namespace Prisma {
     empresa_terceirizada?: SortOrder
     numero_empenho?: SortOrder
     contrato_id?: SortOrder
+    status_atesto?: SortOrder
+    atestado_em?: SortOrder
+    atestado_por_id?: SortOrder
+    parecer_atesto?: SortOrder
+    assinatura_digital_hash?: SortOrder
+    avaliacao_atesto?: SortOrder
+    boletim_medicao_id?: SortOrder
     prefeitura_id?: SortOrder
     ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
@@ -22555,6 +24878,7 @@ export namespace Prisma {
     custo_materiais?: SortOrder
     custo_mao_de_obra?: SortOrder
     custo_total?: SortOrder
+    avaliacao_atesto?: SortOrder
   }
 
   export type OrdemServicoMaxOrderByAggregateInput = {
@@ -22584,6 +24908,13 @@ export namespace Prisma {
     empresa_terceirizada?: SortOrder
     numero_empenho?: SortOrder
     contrato_id?: SortOrder
+    status_atesto?: SortOrder
+    atestado_em?: SortOrder
+    atestado_por_id?: SortOrder
+    parecer_atesto?: SortOrder
+    assinatura_digital_hash?: SortOrder
+    avaliacao_atesto?: SortOrder
+    boletim_medicao_id?: SortOrder
     prefeitura_id?: SortOrder
     ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
@@ -22617,6 +24948,13 @@ export namespace Prisma {
     empresa_terceirizada?: SortOrder
     numero_empenho?: SortOrder
     contrato_id?: SortOrder
+    status_atesto?: SortOrder
+    atestado_em?: SortOrder
+    atestado_por_id?: SortOrder
+    parecer_atesto?: SortOrder
+    assinatura_digital_hash?: SortOrder
+    avaliacao_atesto?: SortOrder
+    boletim_medicao_id?: SortOrder
     prefeitura_id?: SortOrder
     ordem_vinculada_id?: SortOrder
     criado_em?: SortOrder
@@ -22628,6 +24966,7 @@ export namespace Prisma {
     custo_materiais?: SortOrder
     custo_mao_de_obra?: SortOrder
     custo_total?: SortOrder
+    avaliacao_atesto?: SortOrder
   }
 
   export type EnumPrioridadeWithAggregatesFilter<$PrismaModel = never> = {
@@ -23173,6 +25512,7 @@ export namespace Prisma {
     objeto?: SortOrder
     categoria_padrao?: SortOrder
     valor_total_empenhado?: SortOrder
+    bdi_padrao?: SortOrder
     vigencia_inicio?: SortOrder
     vigencia_fim?: SortOrder
     ativo?: SortOrder
@@ -23183,6 +25523,7 @@ export namespace Prisma {
 
   export type ContratoManutencaoAvgOrderByAggregateInput = {
     valor_total_empenhado?: SortOrder
+    bdi_padrao?: SortOrder
   }
 
   export type ContratoManutencaoMaxOrderByAggregateInput = {
@@ -23194,6 +25535,7 @@ export namespace Prisma {
     objeto?: SortOrder
     categoria_padrao?: SortOrder
     valor_total_empenhado?: SortOrder
+    bdi_padrao?: SortOrder
     vigencia_inicio?: SortOrder
     vigencia_fim?: SortOrder
     ativo?: SortOrder
@@ -23211,6 +25553,7 @@ export namespace Prisma {
     objeto?: SortOrder
     categoria_padrao?: SortOrder
     valor_total_empenhado?: SortOrder
+    bdi_padrao?: SortOrder
     vigencia_inicio?: SortOrder
     vigencia_fim?: SortOrder
     ativo?: SortOrder
@@ -23221,6 +25564,108 @@ export namespace Prisma {
 
   export type ContratoManutencaoSumOrderByAggregateInput = {
     valor_total_empenhado?: SortOrder
+    bdi_padrao?: SortOrder
+  }
+
+  export type ContratoManutencaoScalarRelationFilter = {
+    is?: ContratoManutencaoWhereInput
+    isNot?: ContratoManutencaoWhereInput
+  }
+
+  export type BoletimMedicaoPrefeitura_idNumero_boletimCompoundUniqueInput = {
+    prefeitura_id: string
+    numero_boletim: string
+  }
+
+  export type BoletimMedicaoCountOrderByAggregateInput = {
+    id?: SortOrder
+    numero_boletim?: SortOrder
+    mes_competencia?: SortOrder
+    ano_competencia?: SortOrder
+    data_inicio?: SortOrder
+    data_fim?: SortOrder
+    status?: SortOrder
+    bdi_percentual?: SortOrder
+    valor_materiais?: SortOrder
+    valor_mao_de_obra?: SortOrder
+    valor_direto?: SortOrder
+    valor_bdi?: SortOrder
+    valor_total?: SortOrder
+    observacoes?: SortOrder
+    hash_integridade?: SortOrder
+    fiscal_responsavel_id?: SortOrder
+    contrato_id?: SortOrder
+    prefeitura_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type BoletimMedicaoAvgOrderByAggregateInput = {
+    mes_competencia?: SortOrder
+    ano_competencia?: SortOrder
+    bdi_percentual?: SortOrder
+    valor_materiais?: SortOrder
+    valor_mao_de_obra?: SortOrder
+    valor_direto?: SortOrder
+    valor_bdi?: SortOrder
+    valor_total?: SortOrder
+  }
+
+  export type BoletimMedicaoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    numero_boletim?: SortOrder
+    mes_competencia?: SortOrder
+    ano_competencia?: SortOrder
+    data_inicio?: SortOrder
+    data_fim?: SortOrder
+    status?: SortOrder
+    bdi_percentual?: SortOrder
+    valor_materiais?: SortOrder
+    valor_mao_de_obra?: SortOrder
+    valor_direto?: SortOrder
+    valor_bdi?: SortOrder
+    valor_total?: SortOrder
+    observacoes?: SortOrder
+    hash_integridade?: SortOrder
+    fiscal_responsavel_id?: SortOrder
+    contrato_id?: SortOrder
+    prefeitura_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type BoletimMedicaoMinOrderByAggregateInput = {
+    id?: SortOrder
+    numero_boletim?: SortOrder
+    mes_competencia?: SortOrder
+    ano_competencia?: SortOrder
+    data_inicio?: SortOrder
+    data_fim?: SortOrder
+    status?: SortOrder
+    bdi_percentual?: SortOrder
+    valor_materiais?: SortOrder
+    valor_mao_de_obra?: SortOrder
+    valor_direto?: SortOrder
+    valor_bdi?: SortOrder
+    valor_total?: SortOrder
+    observacoes?: SortOrder
+    hash_integridade?: SortOrder
+    fiscal_responsavel_id?: SortOrder
+    contrato_id?: SortOrder
+    prefeitura_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type BoletimMedicaoSumOrderByAggregateInput = {
+    mes_competencia?: SortOrder
+    ano_competencia?: SortOrder
+    bdi_percentual?: SortOrder
+    valor_materiais?: SortOrder
+    valor_mao_de_obra?: SortOrder
+    valor_direto?: SortOrder
+    valor_bdi?: SortOrder
+    valor_total?: SortOrder
   }
 
   export type AtivoPredialPrefeitura_idCodigo_patrimonioCompoundUniqueInput = {
@@ -23369,6 +25814,13 @@ export namespace Prisma {
     connect?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
   }
 
+  export type BoletimMedicaoCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<BoletimMedicaoCreateWithoutPrefeituraInput, BoletimMedicaoUncheckedCreateWithoutPrefeituraInput> | BoletimMedicaoCreateWithoutPrefeituraInput[] | BoletimMedicaoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: BoletimMedicaoCreateOrConnectWithoutPrefeituraInput | BoletimMedicaoCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: BoletimMedicaoCreateManyPrefeituraInputEnvelope
+    connect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+  }
+
   export type ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput = {
     create?: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
     connectOrCreate?: ConfiguracaoSistemaCreateOrConnectWithoutPrefeituraInput
@@ -23436,6 +25888,13 @@ export namespace Prisma {
     connectOrCreate?: AtivoPredialCreateOrConnectWithoutPrefeituraInput | AtivoPredialCreateOrConnectWithoutPrefeituraInput[]
     createMany?: AtivoPredialCreateManyPrefeituraInputEnvelope
     connect?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+  }
+
+  export type BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<BoletimMedicaoCreateWithoutPrefeituraInput, BoletimMedicaoUncheckedCreateWithoutPrefeituraInput> | BoletimMedicaoCreateWithoutPrefeituraInput[] | BoletimMedicaoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: BoletimMedicaoCreateOrConnectWithoutPrefeituraInput | BoletimMedicaoCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: BoletimMedicaoCreateManyPrefeituraInputEnvelope
+    connect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -23595,6 +26054,20 @@ export namespace Prisma {
     deleteMany?: AtivoPredialScalarWhereInput | AtivoPredialScalarWhereInput[]
   }
 
+  export type BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<BoletimMedicaoCreateWithoutPrefeituraInput, BoletimMedicaoUncheckedCreateWithoutPrefeituraInput> | BoletimMedicaoCreateWithoutPrefeituraInput[] | BoletimMedicaoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: BoletimMedicaoCreateOrConnectWithoutPrefeituraInput | BoletimMedicaoCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: BoletimMedicaoUpsertWithWhereUniqueWithoutPrefeituraInput | BoletimMedicaoUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: BoletimMedicaoCreateManyPrefeituraInputEnvelope
+    set?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    disconnect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    delete?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    connect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    update?: BoletimMedicaoUpdateWithWhereUniqueWithoutPrefeituraInput | BoletimMedicaoUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: BoletimMedicaoUpdateManyWithWhereWithoutPrefeituraInput | BoletimMedicaoUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: BoletimMedicaoScalarWhereInput | BoletimMedicaoScalarWhereInput[]
+  }
+
   export type ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput = {
     create?: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
     connectOrCreate?: ConfiguracaoSistemaCreateOrConnectWithoutPrefeituraInput
@@ -23731,6 +26204,20 @@ export namespace Prisma {
     deleteMany?: AtivoPredialScalarWhereInput | AtivoPredialScalarWhereInput[]
   }
 
+  export type BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<BoletimMedicaoCreateWithoutPrefeituraInput, BoletimMedicaoUncheckedCreateWithoutPrefeituraInput> | BoletimMedicaoCreateWithoutPrefeituraInput[] | BoletimMedicaoUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: BoletimMedicaoCreateOrConnectWithoutPrefeituraInput | BoletimMedicaoCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: BoletimMedicaoUpsertWithWhereUniqueWithoutPrefeituraInput | BoletimMedicaoUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: BoletimMedicaoCreateManyPrefeituraInputEnvelope
+    set?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    disconnect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    delete?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    connect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    update?: BoletimMedicaoUpdateWithWhereUniqueWithoutPrefeituraInput | BoletimMedicaoUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: BoletimMedicaoUpdateManyWithWhereWithoutPrefeituraInput | BoletimMedicaoUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: BoletimMedicaoScalarWhereInput | BoletimMedicaoScalarWhereInput[]
+  }
+
   export type PrefeituraCreateNestedOneWithoutUsuariosInput = {
     create?: XOR<PrefeituraCreateWithoutUsuariosInput, PrefeituraUncheckedCreateWithoutUsuariosInput>
     connectOrCreate?: PrefeituraCreateOrConnectWithoutUsuariosInput
@@ -23756,6 +26243,20 @@ export namespace Prisma {
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutTecnicoInput | OrdemServicoCreateOrConnectWithoutTecnicoInput[]
     createMany?: OrdemServicoCreateManyTecnicoInputEnvelope
     connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type OrdemServicoCreateNestedManyWithoutAtestado_porInput = {
+    create?: XOR<OrdemServicoCreateWithoutAtestado_porInput, OrdemServicoUncheckedCreateWithoutAtestado_porInput> | OrdemServicoCreateWithoutAtestado_porInput[] | OrdemServicoUncheckedCreateWithoutAtestado_porInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutAtestado_porInput | OrdemServicoCreateOrConnectWithoutAtestado_porInput[]
+    createMany?: OrdemServicoCreateManyAtestado_porInputEnvelope
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type BoletimMedicaoCreateNestedManyWithoutFiscal_responsavelInput = {
+    create?: XOR<BoletimMedicaoCreateWithoutFiscal_responsavelInput, BoletimMedicaoUncheckedCreateWithoutFiscal_responsavelInput> | BoletimMedicaoCreateWithoutFiscal_responsavelInput[] | BoletimMedicaoUncheckedCreateWithoutFiscal_responsavelInput[]
+    connectOrCreate?: BoletimMedicaoCreateOrConnectWithoutFiscal_responsavelInput | BoletimMedicaoCreateOrConnectWithoutFiscal_responsavelInput[]
+    createMany?: BoletimMedicaoCreateManyFiscal_responsavelInputEnvelope
+    connect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
   }
 
   export type ManifestacaoCreateNestedManyWithoutRespondido_porInput = {
@@ -23791,6 +26292,20 @@ export namespace Prisma {
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutTecnicoInput | OrdemServicoCreateOrConnectWithoutTecnicoInput[]
     createMany?: OrdemServicoCreateManyTecnicoInputEnvelope
     connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type OrdemServicoUncheckedCreateNestedManyWithoutAtestado_porInput = {
+    create?: XOR<OrdemServicoCreateWithoutAtestado_porInput, OrdemServicoUncheckedCreateWithoutAtestado_porInput> | OrdemServicoCreateWithoutAtestado_porInput[] | OrdemServicoUncheckedCreateWithoutAtestado_porInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutAtestado_porInput | OrdemServicoCreateOrConnectWithoutAtestado_porInput[]
+    createMany?: OrdemServicoCreateManyAtestado_porInputEnvelope
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type BoletimMedicaoUncheckedCreateNestedManyWithoutFiscal_responsavelInput = {
+    create?: XOR<BoletimMedicaoCreateWithoutFiscal_responsavelInput, BoletimMedicaoUncheckedCreateWithoutFiscal_responsavelInput> | BoletimMedicaoCreateWithoutFiscal_responsavelInput[] | BoletimMedicaoUncheckedCreateWithoutFiscal_responsavelInput[]
+    connectOrCreate?: BoletimMedicaoCreateOrConnectWithoutFiscal_responsavelInput | BoletimMedicaoCreateOrConnectWithoutFiscal_responsavelInput[]
+    createMany?: BoletimMedicaoCreateManyFiscal_responsavelInputEnvelope
+    connect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
   }
 
   export type ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput = {
@@ -23871,6 +26386,34 @@ export namespace Prisma {
     deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
   }
 
+  export type OrdemServicoUpdateManyWithoutAtestado_porNestedInput = {
+    create?: XOR<OrdemServicoCreateWithoutAtestado_porInput, OrdemServicoUncheckedCreateWithoutAtestado_porInput> | OrdemServicoCreateWithoutAtestado_porInput[] | OrdemServicoUncheckedCreateWithoutAtestado_porInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutAtestado_porInput | OrdemServicoCreateOrConnectWithoutAtestado_porInput[]
+    upsert?: OrdemServicoUpsertWithWhereUniqueWithoutAtestado_porInput | OrdemServicoUpsertWithWhereUniqueWithoutAtestado_porInput[]
+    createMany?: OrdemServicoCreateManyAtestado_porInputEnvelope
+    set?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    disconnect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    delete?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    update?: OrdemServicoUpdateWithWhereUniqueWithoutAtestado_porInput | OrdemServicoUpdateWithWhereUniqueWithoutAtestado_porInput[]
+    updateMany?: OrdemServicoUpdateManyWithWhereWithoutAtestado_porInput | OrdemServicoUpdateManyWithWhereWithoutAtestado_porInput[]
+    deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
+  }
+
+  export type BoletimMedicaoUpdateManyWithoutFiscal_responsavelNestedInput = {
+    create?: XOR<BoletimMedicaoCreateWithoutFiscal_responsavelInput, BoletimMedicaoUncheckedCreateWithoutFiscal_responsavelInput> | BoletimMedicaoCreateWithoutFiscal_responsavelInput[] | BoletimMedicaoUncheckedCreateWithoutFiscal_responsavelInput[]
+    connectOrCreate?: BoletimMedicaoCreateOrConnectWithoutFiscal_responsavelInput | BoletimMedicaoCreateOrConnectWithoutFiscal_responsavelInput[]
+    upsert?: BoletimMedicaoUpsertWithWhereUniqueWithoutFiscal_responsavelInput | BoletimMedicaoUpsertWithWhereUniqueWithoutFiscal_responsavelInput[]
+    createMany?: BoletimMedicaoCreateManyFiscal_responsavelInputEnvelope
+    set?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    disconnect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    delete?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    connect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    update?: BoletimMedicaoUpdateWithWhereUniqueWithoutFiscal_responsavelInput | BoletimMedicaoUpdateWithWhereUniqueWithoutFiscal_responsavelInput[]
+    updateMany?: BoletimMedicaoUpdateManyWithWhereWithoutFiscal_responsavelInput | BoletimMedicaoUpdateManyWithWhereWithoutFiscal_responsavelInput[]
+    deleteMany?: BoletimMedicaoScalarWhereInput | BoletimMedicaoScalarWhereInput[]
+  }
+
   export type ManifestacaoUpdateManyWithoutRespondido_porNestedInput = {
     create?: XOR<ManifestacaoCreateWithoutRespondido_porInput, ManifestacaoUncheckedCreateWithoutRespondido_porInput> | ManifestacaoCreateWithoutRespondido_porInput[] | ManifestacaoUncheckedCreateWithoutRespondido_porInput[]
     connectOrCreate?: ManifestacaoCreateOrConnectWithoutRespondido_porInput | ManifestacaoCreateOrConnectWithoutRespondido_porInput[]
@@ -23939,6 +26482,34 @@ export namespace Prisma {
     update?: OrdemServicoUpdateWithWhereUniqueWithoutTecnicoInput | OrdemServicoUpdateWithWhereUniqueWithoutTecnicoInput[]
     updateMany?: OrdemServicoUpdateManyWithWhereWithoutTecnicoInput | OrdemServicoUpdateManyWithWhereWithoutTecnicoInput[]
     deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
+  }
+
+  export type OrdemServicoUncheckedUpdateManyWithoutAtestado_porNestedInput = {
+    create?: XOR<OrdemServicoCreateWithoutAtestado_porInput, OrdemServicoUncheckedCreateWithoutAtestado_porInput> | OrdemServicoCreateWithoutAtestado_porInput[] | OrdemServicoUncheckedCreateWithoutAtestado_porInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutAtestado_porInput | OrdemServicoCreateOrConnectWithoutAtestado_porInput[]
+    upsert?: OrdemServicoUpsertWithWhereUniqueWithoutAtestado_porInput | OrdemServicoUpsertWithWhereUniqueWithoutAtestado_porInput[]
+    createMany?: OrdemServicoCreateManyAtestado_porInputEnvelope
+    set?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    disconnect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    delete?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    update?: OrdemServicoUpdateWithWhereUniqueWithoutAtestado_porInput | OrdemServicoUpdateWithWhereUniqueWithoutAtestado_porInput[]
+    updateMany?: OrdemServicoUpdateManyWithWhereWithoutAtestado_porInput | OrdemServicoUpdateManyWithWhereWithoutAtestado_porInput[]
+    deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
+  }
+
+  export type BoletimMedicaoUncheckedUpdateManyWithoutFiscal_responsavelNestedInput = {
+    create?: XOR<BoletimMedicaoCreateWithoutFiscal_responsavelInput, BoletimMedicaoUncheckedCreateWithoutFiscal_responsavelInput> | BoletimMedicaoCreateWithoutFiscal_responsavelInput[] | BoletimMedicaoUncheckedCreateWithoutFiscal_responsavelInput[]
+    connectOrCreate?: BoletimMedicaoCreateOrConnectWithoutFiscal_responsavelInput | BoletimMedicaoCreateOrConnectWithoutFiscal_responsavelInput[]
+    upsert?: BoletimMedicaoUpsertWithWhereUniqueWithoutFiscal_responsavelInput | BoletimMedicaoUpsertWithWhereUniqueWithoutFiscal_responsavelInput[]
+    createMany?: BoletimMedicaoCreateManyFiscal_responsavelInputEnvelope
+    set?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    disconnect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    delete?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    connect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    update?: BoletimMedicaoUpdateWithWhereUniqueWithoutFiscal_responsavelInput | BoletimMedicaoUpdateWithWhereUniqueWithoutFiscal_responsavelInput[]
+    updateMany?: BoletimMedicaoUpdateManyWithWhereWithoutFiscal_responsavelInput | BoletimMedicaoUpdateManyWithWhereWithoutFiscal_responsavelInput[]
+    deleteMany?: BoletimMedicaoScalarWhereInput | BoletimMedicaoScalarWhereInput[]
   }
 
   export type ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput = {
@@ -24234,6 +26805,18 @@ export namespace Prisma {
     connect?: ItemConsumoOSWhereUniqueInput | ItemConsumoOSWhereUniqueInput[]
   }
 
+  export type UsuarioCreateNestedOneWithoutChamados_atestadosInput = {
+    create?: XOR<UsuarioCreateWithoutChamados_atestadosInput, UsuarioUncheckedCreateWithoutChamados_atestadosInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutChamados_atestadosInput
+    connect?: UsuarioWhereUniqueInput
+  }
+
+  export type BoletimMedicaoCreateNestedOneWithoutOrdens_servicoInput = {
+    create?: XOR<BoletimMedicaoCreateWithoutOrdens_servicoInput, BoletimMedicaoUncheckedCreateWithoutOrdens_servicoInput>
+    connectOrCreate?: BoletimMedicaoCreateOrConnectWithoutOrdens_servicoInput
+    connect?: BoletimMedicaoWhereUniqueInput
+  }
+
   export type PrefeituraCreateNestedOneWithoutOrdens_servicoInput = {
     create?: XOR<PrefeituraCreateWithoutOrdens_servicoInput, PrefeituraUncheckedCreateWithoutOrdens_servicoInput>
     connectOrCreate?: PrefeituraCreateOrConnectWithoutOrdens_servicoInput
@@ -24383,6 +26966,26 @@ export namespace Prisma {
     update?: ItemConsumoOSUpdateWithWhereUniqueWithoutOrdem_servicoInput | ItemConsumoOSUpdateWithWhereUniqueWithoutOrdem_servicoInput[]
     updateMany?: ItemConsumoOSUpdateManyWithWhereWithoutOrdem_servicoInput | ItemConsumoOSUpdateManyWithWhereWithoutOrdem_servicoInput[]
     deleteMany?: ItemConsumoOSScalarWhereInput | ItemConsumoOSScalarWhereInput[]
+  }
+
+  export type UsuarioUpdateOneWithoutChamados_atestadosNestedInput = {
+    create?: XOR<UsuarioCreateWithoutChamados_atestadosInput, UsuarioUncheckedCreateWithoutChamados_atestadosInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutChamados_atestadosInput
+    upsert?: UsuarioUpsertWithoutChamados_atestadosInput
+    disconnect?: UsuarioWhereInput | boolean
+    delete?: UsuarioWhereInput | boolean
+    connect?: UsuarioWhereUniqueInput
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutChamados_atestadosInput, UsuarioUpdateWithoutChamados_atestadosInput>, UsuarioUncheckedUpdateWithoutChamados_atestadosInput>
+  }
+
+  export type BoletimMedicaoUpdateOneWithoutOrdens_servicoNestedInput = {
+    create?: XOR<BoletimMedicaoCreateWithoutOrdens_servicoInput, BoletimMedicaoUncheckedCreateWithoutOrdens_servicoInput>
+    connectOrCreate?: BoletimMedicaoCreateOrConnectWithoutOrdens_servicoInput
+    upsert?: BoletimMedicaoUpsertWithoutOrdens_servicoInput
+    disconnect?: BoletimMedicaoWhereInput | boolean
+    delete?: BoletimMedicaoWhereInput | boolean
+    connect?: BoletimMedicaoWhereUniqueInput
+    update?: XOR<XOR<BoletimMedicaoUpdateToOneWithWhereWithoutOrdens_servicoInput, BoletimMedicaoUpdateWithoutOrdens_servicoInput>, BoletimMedicaoUncheckedUpdateWithoutOrdens_servicoInput>
   }
 
   export type PrefeituraUpdateOneWithoutOrdens_servicoNestedInput = {
@@ -24799,11 +27402,25 @@ export namespace Prisma {
     connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
   }
 
+  export type BoletimMedicaoCreateNestedManyWithoutContratoInput = {
+    create?: XOR<BoletimMedicaoCreateWithoutContratoInput, BoletimMedicaoUncheckedCreateWithoutContratoInput> | BoletimMedicaoCreateWithoutContratoInput[] | BoletimMedicaoUncheckedCreateWithoutContratoInput[]
+    connectOrCreate?: BoletimMedicaoCreateOrConnectWithoutContratoInput | BoletimMedicaoCreateOrConnectWithoutContratoInput[]
+    createMany?: BoletimMedicaoCreateManyContratoInputEnvelope
+    connect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+  }
+
   export type OrdemServicoUncheckedCreateNestedManyWithoutContratoInput = {
     create?: XOR<OrdemServicoCreateWithoutContratoInput, OrdemServicoUncheckedCreateWithoutContratoInput> | OrdemServicoCreateWithoutContratoInput[] | OrdemServicoUncheckedCreateWithoutContratoInput[]
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutContratoInput | OrdemServicoCreateOrConnectWithoutContratoInput[]
     createMany?: OrdemServicoCreateManyContratoInputEnvelope
     connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type BoletimMedicaoUncheckedCreateNestedManyWithoutContratoInput = {
+    create?: XOR<BoletimMedicaoCreateWithoutContratoInput, BoletimMedicaoUncheckedCreateWithoutContratoInput> | BoletimMedicaoCreateWithoutContratoInput[] | BoletimMedicaoUncheckedCreateWithoutContratoInput[]
+    connectOrCreate?: BoletimMedicaoCreateOrConnectWithoutContratoInput | BoletimMedicaoCreateOrConnectWithoutContratoInput[]
+    createMany?: BoletimMedicaoCreateManyContratoInputEnvelope
+    connect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
   }
 
   export type PrefeituraUpdateOneWithoutContratosNestedInput = {
@@ -24830,6 +27447,20 @@ export namespace Prisma {
     deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
   }
 
+  export type BoletimMedicaoUpdateManyWithoutContratoNestedInput = {
+    create?: XOR<BoletimMedicaoCreateWithoutContratoInput, BoletimMedicaoUncheckedCreateWithoutContratoInput> | BoletimMedicaoCreateWithoutContratoInput[] | BoletimMedicaoUncheckedCreateWithoutContratoInput[]
+    connectOrCreate?: BoletimMedicaoCreateOrConnectWithoutContratoInput | BoletimMedicaoCreateOrConnectWithoutContratoInput[]
+    upsert?: BoletimMedicaoUpsertWithWhereUniqueWithoutContratoInput | BoletimMedicaoUpsertWithWhereUniqueWithoutContratoInput[]
+    createMany?: BoletimMedicaoCreateManyContratoInputEnvelope
+    set?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    disconnect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    delete?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    connect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    update?: BoletimMedicaoUpdateWithWhereUniqueWithoutContratoInput | BoletimMedicaoUpdateWithWhereUniqueWithoutContratoInput[]
+    updateMany?: BoletimMedicaoUpdateManyWithWhereWithoutContratoInput | BoletimMedicaoUpdateManyWithWhereWithoutContratoInput[]
+    deleteMany?: BoletimMedicaoScalarWhereInput | BoletimMedicaoScalarWhereInput[]
+  }
+
   export type OrdemServicoUncheckedUpdateManyWithoutContratoNestedInput = {
     create?: XOR<OrdemServicoCreateWithoutContratoInput, OrdemServicoUncheckedCreateWithoutContratoInput> | OrdemServicoCreateWithoutContratoInput[] | OrdemServicoUncheckedCreateWithoutContratoInput[]
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutContratoInput | OrdemServicoCreateOrConnectWithoutContratoInput[]
@@ -24841,6 +27472,108 @@ export namespace Prisma {
     connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
     update?: OrdemServicoUpdateWithWhereUniqueWithoutContratoInput | OrdemServicoUpdateWithWhereUniqueWithoutContratoInput[]
     updateMany?: OrdemServicoUpdateManyWithWhereWithoutContratoInput | OrdemServicoUpdateManyWithWhereWithoutContratoInput[]
+    deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
+  }
+
+  export type BoletimMedicaoUncheckedUpdateManyWithoutContratoNestedInput = {
+    create?: XOR<BoletimMedicaoCreateWithoutContratoInput, BoletimMedicaoUncheckedCreateWithoutContratoInput> | BoletimMedicaoCreateWithoutContratoInput[] | BoletimMedicaoUncheckedCreateWithoutContratoInput[]
+    connectOrCreate?: BoletimMedicaoCreateOrConnectWithoutContratoInput | BoletimMedicaoCreateOrConnectWithoutContratoInput[]
+    upsert?: BoletimMedicaoUpsertWithWhereUniqueWithoutContratoInput | BoletimMedicaoUpsertWithWhereUniqueWithoutContratoInput[]
+    createMany?: BoletimMedicaoCreateManyContratoInputEnvelope
+    set?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    disconnect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    delete?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    connect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+    update?: BoletimMedicaoUpdateWithWhereUniqueWithoutContratoInput | BoletimMedicaoUpdateWithWhereUniqueWithoutContratoInput[]
+    updateMany?: BoletimMedicaoUpdateManyWithWhereWithoutContratoInput | BoletimMedicaoUpdateManyWithWhereWithoutContratoInput[]
+    deleteMany?: BoletimMedicaoScalarWhereInput | BoletimMedicaoScalarWhereInput[]
+  }
+
+  export type UsuarioCreateNestedOneWithoutBoletins_fiscalizadosInput = {
+    create?: XOR<UsuarioCreateWithoutBoletins_fiscalizadosInput, UsuarioUncheckedCreateWithoutBoletins_fiscalizadosInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutBoletins_fiscalizadosInput
+    connect?: UsuarioWhereUniqueInput
+  }
+
+  export type ContratoManutencaoCreateNestedOneWithoutBoletins_medicaoInput = {
+    create?: XOR<ContratoManutencaoCreateWithoutBoletins_medicaoInput, ContratoManutencaoUncheckedCreateWithoutBoletins_medicaoInput>
+    connectOrCreate?: ContratoManutencaoCreateOrConnectWithoutBoletins_medicaoInput
+    connect?: ContratoManutencaoWhereUniqueInput
+  }
+
+  export type PrefeituraCreateNestedOneWithoutBoletins_medicaoInput = {
+    create?: XOR<PrefeituraCreateWithoutBoletins_medicaoInput, PrefeituraUncheckedCreateWithoutBoletins_medicaoInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutBoletins_medicaoInput
+    connect?: PrefeituraWhereUniqueInput
+  }
+
+  export type OrdemServicoCreateNestedManyWithoutBoletim_medicaoInput = {
+    create?: XOR<OrdemServicoCreateWithoutBoletim_medicaoInput, OrdemServicoUncheckedCreateWithoutBoletim_medicaoInput> | OrdemServicoCreateWithoutBoletim_medicaoInput[] | OrdemServicoUncheckedCreateWithoutBoletim_medicaoInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutBoletim_medicaoInput | OrdemServicoCreateOrConnectWithoutBoletim_medicaoInput[]
+    createMany?: OrdemServicoCreateManyBoletim_medicaoInputEnvelope
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type OrdemServicoUncheckedCreateNestedManyWithoutBoletim_medicaoInput = {
+    create?: XOR<OrdemServicoCreateWithoutBoletim_medicaoInput, OrdemServicoUncheckedCreateWithoutBoletim_medicaoInput> | OrdemServicoCreateWithoutBoletim_medicaoInput[] | OrdemServicoUncheckedCreateWithoutBoletim_medicaoInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutBoletim_medicaoInput | OrdemServicoCreateOrConnectWithoutBoletim_medicaoInput[]
+    createMany?: OrdemServicoCreateManyBoletim_medicaoInputEnvelope
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type UsuarioUpdateOneWithoutBoletins_fiscalizadosNestedInput = {
+    create?: XOR<UsuarioCreateWithoutBoletins_fiscalizadosInput, UsuarioUncheckedCreateWithoutBoletins_fiscalizadosInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutBoletins_fiscalizadosInput
+    upsert?: UsuarioUpsertWithoutBoletins_fiscalizadosInput
+    disconnect?: UsuarioWhereInput | boolean
+    delete?: UsuarioWhereInput | boolean
+    connect?: UsuarioWhereUniqueInput
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutBoletins_fiscalizadosInput, UsuarioUpdateWithoutBoletins_fiscalizadosInput>, UsuarioUncheckedUpdateWithoutBoletins_fiscalizadosInput>
+  }
+
+  export type ContratoManutencaoUpdateOneRequiredWithoutBoletins_medicaoNestedInput = {
+    create?: XOR<ContratoManutencaoCreateWithoutBoletins_medicaoInput, ContratoManutencaoUncheckedCreateWithoutBoletins_medicaoInput>
+    connectOrCreate?: ContratoManutencaoCreateOrConnectWithoutBoletins_medicaoInput
+    upsert?: ContratoManutencaoUpsertWithoutBoletins_medicaoInput
+    connect?: ContratoManutencaoWhereUniqueInput
+    update?: XOR<XOR<ContratoManutencaoUpdateToOneWithWhereWithoutBoletins_medicaoInput, ContratoManutencaoUpdateWithoutBoletins_medicaoInput>, ContratoManutencaoUncheckedUpdateWithoutBoletins_medicaoInput>
+  }
+
+  export type PrefeituraUpdateOneWithoutBoletins_medicaoNestedInput = {
+    create?: XOR<PrefeituraCreateWithoutBoletins_medicaoInput, PrefeituraUncheckedCreateWithoutBoletins_medicaoInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutBoletins_medicaoInput
+    upsert?: PrefeituraUpsertWithoutBoletins_medicaoInput
+    disconnect?: PrefeituraWhereInput | boolean
+    delete?: PrefeituraWhereInput | boolean
+    connect?: PrefeituraWhereUniqueInput
+    update?: XOR<XOR<PrefeituraUpdateToOneWithWhereWithoutBoletins_medicaoInput, PrefeituraUpdateWithoutBoletins_medicaoInput>, PrefeituraUncheckedUpdateWithoutBoletins_medicaoInput>
+  }
+
+  export type OrdemServicoUpdateManyWithoutBoletim_medicaoNestedInput = {
+    create?: XOR<OrdemServicoCreateWithoutBoletim_medicaoInput, OrdemServicoUncheckedCreateWithoutBoletim_medicaoInput> | OrdemServicoCreateWithoutBoletim_medicaoInput[] | OrdemServicoUncheckedCreateWithoutBoletim_medicaoInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutBoletim_medicaoInput | OrdemServicoCreateOrConnectWithoutBoletim_medicaoInput[]
+    upsert?: OrdemServicoUpsertWithWhereUniqueWithoutBoletim_medicaoInput | OrdemServicoUpsertWithWhereUniqueWithoutBoletim_medicaoInput[]
+    createMany?: OrdemServicoCreateManyBoletim_medicaoInputEnvelope
+    set?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    disconnect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    delete?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    update?: OrdemServicoUpdateWithWhereUniqueWithoutBoletim_medicaoInput | OrdemServicoUpdateWithWhereUniqueWithoutBoletim_medicaoInput[]
+    updateMany?: OrdemServicoUpdateManyWithWhereWithoutBoletim_medicaoInput | OrdemServicoUpdateManyWithWhereWithoutBoletim_medicaoInput[]
+    deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
+  }
+
+  export type OrdemServicoUncheckedUpdateManyWithoutBoletim_medicaoNestedInput = {
+    create?: XOR<OrdemServicoCreateWithoutBoletim_medicaoInput, OrdemServicoUncheckedCreateWithoutBoletim_medicaoInput> | OrdemServicoCreateWithoutBoletim_medicaoInput[] | OrdemServicoUncheckedCreateWithoutBoletim_medicaoInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutBoletim_medicaoInput | OrdemServicoCreateOrConnectWithoutBoletim_medicaoInput[]
+    upsert?: OrdemServicoUpsertWithWhereUniqueWithoutBoletim_medicaoInput | OrdemServicoUpsertWithWhereUniqueWithoutBoletim_medicaoInput[]
+    createMany?: OrdemServicoCreateManyBoletim_medicaoInputEnvelope
+    set?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    disconnect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    delete?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    update?: OrdemServicoUpdateWithWhereUniqueWithoutBoletim_medicaoInput | OrdemServicoUpdateWithWhereUniqueWithoutBoletim_medicaoInput[]
+    updateMany?: OrdemServicoUpdateManyWithWhereWithoutBoletim_medicaoInput | OrdemServicoUpdateManyWithWhereWithoutBoletim_medicaoInput[]
     deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
   }
 
@@ -25409,6 +28142,8 @@ export namespace Prisma {
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
+    chamados_atestados?: OrdemServicoCreateNestedManyWithoutAtestado_porInput
+    boletins_fiscalizados?: BoletimMedicaoCreateNestedManyWithoutFiscal_responsavelInput
     manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutUsuarioInput
   }
@@ -25428,6 +28163,8 @@ export namespace Prisma {
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
+    chamados_atestados?: OrdemServicoUncheckedCreateNestedManyWithoutAtestado_porInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedCreateNestedManyWithoutFiscal_responsavelInput
     manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutUsuarioInput
   }
@@ -25519,6 +28256,11 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -25527,6 +28269,8 @@ export namespace Prisma {
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
+    atestado_por?: UsuarioCreateNestedOneWithoutChamados_atestadosInput
+    boletim_medicao?: BoletimMedicaoCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
@@ -25563,6 +28307,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -25767,12 +28518,14 @@ export namespace Prisma {
     objeto?: string | null
     categoria_padrao?: string | null
     valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    bdi_padrao?: Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: Date | string | null
     vigencia_fim?: Date | string | null
     ativo?: boolean
     criado_em?: Date | string
     atualizado?: Date | string
     ordens_servico?: OrdemServicoCreateNestedManyWithoutContratoInput
+    boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutContratoInput
   }
 
   export type ContratoManutencaoUncheckedCreateWithoutPrefeituraInput = {
@@ -25784,12 +28537,14 @@ export namespace Prisma {
     objeto?: string | null
     categoria_padrao?: string | null
     valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    bdi_padrao?: Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: Date | string | null
     vigencia_fim?: Date | string | null
     ativo?: boolean
     criado_em?: Date | string
     atualizado?: Date | string
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutContratoInput
+    boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutContratoInput
   }
 
   export type ContratoManutencaoCreateOrConnectWithoutPrefeituraInput = {
@@ -25849,6 +28604,62 @@ export namespace Prisma {
 
   export type AtivoPredialCreateManyPrefeituraInputEnvelope = {
     data: AtivoPredialCreateManyPrefeituraInput | AtivoPredialCreateManyPrefeituraInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BoletimMedicaoCreateWithoutPrefeituraInput = {
+    id?: string
+    numero_boletim: string
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: Date | string
+    data_fim: Date | string
+    status?: string
+    bdi_percentual?: Decimal | DecimalJsLike | number | string
+    valor_materiais?: Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: Decimal | DecimalJsLike | number | string
+    valor_direto?: Decimal | DecimalJsLike | number | string
+    valor_bdi?: Decimal | DecimalJsLike | number | string
+    valor_total?: Decimal | DecimalJsLike | number | string
+    observacoes?: string | null
+    hash_integridade?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    fiscal_responsavel?: UsuarioCreateNestedOneWithoutBoletins_fiscalizadosInput
+    contrato: ContratoManutencaoCreateNestedOneWithoutBoletins_medicaoInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutBoletim_medicaoInput
+  }
+
+  export type BoletimMedicaoUncheckedCreateWithoutPrefeituraInput = {
+    id?: string
+    numero_boletim: string
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: Date | string
+    data_fim: Date | string
+    status?: string
+    bdi_percentual?: Decimal | DecimalJsLike | number | string
+    valor_materiais?: Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: Decimal | DecimalJsLike | number | string
+    valor_direto?: Decimal | DecimalJsLike | number | string
+    valor_bdi?: Decimal | DecimalJsLike | number | string
+    valor_total?: Decimal | DecimalJsLike | number | string
+    observacoes?: string | null
+    hash_integridade?: string | null
+    fiscal_responsavel_id?: string | null
+    contrato_id: string
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutBoletim_medicaoInput
+  }
+
+  export type BoletimMedicaoCreateOrConnectWithoutPrefeituraInput = {
+    where: BoletimMedicaoWhereUniqueInput
+    create: XOR<BoletimMedicaoCreateWithoutPrefeituraInput, BoletimMedicaoUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type BoletimMedicaoCreateManyPrefeituraInputEnvelope = {
+    data: BoletimMedicaoCreateManyPrefeituraInput | BoletimMedicaoCreateManyPrefeituraInput[]
     skipDuplicates?: boolean
   }
 
@@ -26027,6 +28838,13 @@ export namespace Prisma {
     empresa_terceirizada?: StringNullableFilter<"OrdemServico"> | string | null
     numero_empenho?: StringNullableFilter<"OrdemServico"> | string | null
     contrato_id?: StringNullableFilter<"OrdemServico"> | string | null
+    status_atesto?: StringNullableFilter<"OrdemServico"> | string | null
+    atestado_em?: DateTimeNullableFilter<"OrdemServico"> | Date | string | null
+    atestado_por_id?: StringNullableFilter<"OrdemServico"> | string | null
+    parecer_atesto?: StringNullableFilter<"OrdemServico"> | string | null
+    assinatura_digital_hash?: StringNullableFilter<"OrdemServico"> | string | null
+    avaliacao_atesto?: IntNullableFilter<"OrdemServico"> | number | null
+    boletim_medicao_id?: StringNullableFilter<"OrdemServico"> | string | null
     prefeitura_id?: StringNullableFilter<"OrdemServico"> | string | null
     ordem_vinculada_id?: StringNullableFilter<"OrdemServico"> | string | null
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
@@ -26208,6 +29026,7 @@ export namespace Prisma {
     objeto?: StringNullableFilter<"ContratoManutencao"> | string | null
     categoria_padrao?: StringNullableFilter<"ContratoManutencao"> | string | null
     valor_total_empenhado?: DecimalFilter<"ContratoManutencao"> | Decimal | DecimalJsLike | number | string
+    bdi_padrao?: DecimalNullableFilter<"ContratoManutencao"> | Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: DateTimeNullableFilter<"ContratoManutencao"> | Date | string | null
     vigencia_fim?: DateTimeNullableFilter<"ContratoManutencao"> | Date | string | null
     ativo?: BoolFilter<"ContratoManutencao"> | boolean
@@ -26255,6 +29074,48 @@ export namespace Prisma {
     atualizado?: DateTimeFilter<"AtivoPredial"> | Date | string
   }
 
+  export type BoletimMedicaoUpsertWithWhereUniqueWithoutPrefeituraInput = {
+    where: BoletimMedicaoWhereUniqueInput
+    update: XOR<BoletimMedicaoUpdateWithoutPrefeituraInput, BoletimMedicaoUncheckedUpdateWithoutPrefeituraInput>
+    create: XOR<BoletimMedicaoCreateWithoutPrefeituraInput, BoletimMedicaoUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type BoletimMedicaoUpdateWithWhereUniqueWithoutPrefeituraInput = {
+    where: BoletimMedicaoWhereUniqueInput
+    data: XOR<BoletimMedicaoUpdateWithoutPrefeituraInput, BoletimMedicaoUncheckedUpdateWithoutPrefeituraInput>
+  }
+
+  export type BoletimMedicaoUpdateManyWithWhereWithoutPrefeituraInput = {
+    where: BoletimMedicaoScalarWhereInput
+    data: XOR<BoletimMedicaoUpdateManyMutationInput, BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraInput>
+  }
+
+  export type BoletimMedicaoScalarWhereInput = {
+    AND?: BoletimMedicaoScalarWhereInput | BoletimMedicaoScalarWhereInput[]
+    OR?: BoletimMedicaoScalarWhereInput[]
+    NOT?: BoletimMedicaoScalarWhereInput | BoletimMedicaoScalarWhereInput[]
+    id?: StringFilter<"BoletimMedicao"> | string
+    numero_boletim?: StringFilter<"BoletimMedicao"> | string
+    mes_competencia?: IntFilter<"BoletimMedicao"> | number
+    ano_competencia?: IntFilter<"BoletimMedicao"> | number
+    data_inicio?: DateTimeFilter<"BoletimMedicao"> | Date | string
+    data_fim?: DateTimeFilter<"BoletimMedicao"> | Date | string
+    status?: StringFilter<"BoletimMedicao"> | string
+    bdi_percentual?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFilter<"BoletimMedicao"> | Decimal | DecimalJsLike | number | string
+    observacoes?: StringNullableFilter<"BoletimMedicao"> | string | null
+    hash_integridade?: StringNullableFilter<"BoletimMedicao"> | string | null
+    fiscal_responsavel_id?: StringNullableFilter<"BoletimMedicao"> | string | null
+    contrato_id?: StringFilter<"BoletimMedicao"> | string
+    prefeitura_id?: StringNullableFilter<"BoletimMedicao"> | string | null
+    criado_em?: DateTimeFilter<"BoletimMedicao"> | Date | string
+    atualizado?: DateTimeFilter<"BoletimMedicao"> | Date | string
+  }
+
   export type PrefeituraCreateWithoutUsuariosInput = {
     id?: string
     slug: string
@@ -26275,6 +29136,7 @@ export namespace Prisma {
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutUsuariosInput = {
@@ -26297,6 +29159,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutUsuariosInput = {
@@ -26381,6 +29244,11 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -26388,6 +29256,8 @@ export namespace Prisma {
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
+    atestado_por?: UsuarioCreateNestedOneWithoutChamados_atestadosInput
+    boletim_medicao?: BoletimMedicaoCreateNestedOneWithoutOrdens_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -26424,6 +29294,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -26469,6 +29346,11 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -26476,6 +29358,8 @@ export namespace Prisma {
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
+    atestado_por?: UsuarioCreateNestedOneWithoutChamados_atestadosInput
+    boletim_medicao?: BoletimMedicaoCreateNestedOneWithoutOrdens_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -26512,6 +29396,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -26529,6 +29420,164 @@ export namespace Prisma {
 
   export type OrdemServicoCreateManyTecnicoInputEnvelope = {
     data: OrdemServicoCreateManyTecnicoInput | OrdemServicoCreateManyTecnicoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OrdemServicoCreateWithoutAtestado_porInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    ativo_predial?: AtivoPredialCreateNestedOneWithoutOrdens_servicoInput
+    solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
+    tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
+    materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
+    boletim_medicao?: BoletimMedicaoCreateNestedOneWithoutOrdens_servicoInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
+    ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
+    ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
+    agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
+  }
+
+  export type OrdemServicoUncheckedCreateWithoutAtestado_porInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    predio_id: string
+    ativo_id?: string | null
+    solicitante_id: string
+    tecnico_atribuido_id?: string | null
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
+    contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
+    prefeitura_id?: string | null
+    ordem_vinculada_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
+    agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
+  }
+
+  export type OrdemServicoCreateOrConnectWithoutAtestado_porInput = {
+    where: OrdemServicoWhereUniqueInput
+    create: XOR<OrdemServicoCreateWithoutAtestado_porInput, OrdemServicoUncheckedCreateWithoutAtestado_porInput>
+  }
+
+  export type OrdemServicoCreateManyAtestado_porInputEnvelope = {
+    data: OrdemServicoCreateManyAtestado_porInput | OrdemServicoCreateManyAtestado_porInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BoletimMedicaoCreateWithoutFiscal_responsavelInput = {
+    id?: string
+    numero_boletim: string
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: Date | string
+    data_fim: Date | string
+    status?: string
+    bdi_percentual?: Decimal | DecimalJsLike | number | string
+    valor_materiais?: Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: Decimal | DecimalJsLike | number | string
+    valor_direto?: Decimal | DecimalJsLike | number | string
+    valor_bdi?: Decimal | DecimalJsLike | number | string
+    valor_total?: Decimal | DecimalJsLike | number | string
+    observacoes?: string | null
+    hash_integridade?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    contrato: ContratoManutencaoCreateNestedOneWithoutBoletins_medicaoInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutBoletins_medicaoInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutBoletim_medicaoInput
+  }
+
+  export type BoletimMedicaoUncheckedCreateWithoutFiscal_responsavelInput = {
+    id?: string
+    numero_boletim: string
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: Date | string
+    data_fim: Date | string
+    status?: string
+    bdi_percentual?: Decimal | DecimalJsLike | number | string
+    valor_materiais?: Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: Decimal | DecimalJsLike | number | string
+    valor_direto?: Decimal | DecimalJsLike | number | string
+    valor_bdi?: Decimal | DecimalJsLike | number | string
+    valor_total?: Decimal | DecimalJsLike | number | string
+    observacoes?: string | null
+    hash_integridade?: string | null
+    contrato_id: string
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutBoletim_medicaoInput
+  }
+
+  export type BoletimMedicaoCreateOrConnectWithoutFiscal_responsavelInput = {
+    where: BoletimMedicaoWhereUniqueInput
+    create: XOR<BoletimMedicaoCreateWithoutFiscal_responsavelInput, BoletimMedicaoUncheckedCreateWithoutFiscal_responsavelInput>
+  }
+
+  export type BoletimMedicaoCreateManyFiscal_responsavelInputEnvelope = {
+    data: BoletimMedicaoCreateManyFiscal_responsavelInput | BoletimMedicaoCreateManyFiscal_responsavelInput[]
     skipDuplicates?: boolean
   }
 
@@ -26651,6 +29700,7 @@ export namespace Prisma {
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutUsuariosInput = {
@@ -26673,6 +29723,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioUpsertWithWhereUniqueWithoutGestorInput = {
@@ -26723,6 +29774,38 @@ export namespace Prisma {
     data: XOR<OrdemServicoUpdateManyMutationInput, OrdemServicoUncheckedUpdateManyWithoutTecnicoInput>
   }
 
+  export type OrdemServicoUpsertWithWhereUniqueWithoutAtestado_porInput = {
+    where: OrdemServicoWhereUniqueInput
+    update: XOR<OrdemServicoUpdateWithoutAtestado_porInput, OrdemServicoUncheckedUpdateWithoutAtestado_porInput>
+    create: XOR<OrdemServicoCreateWithoutAtestado_porInput, OrdemServicoUncheckedCreateWithoutAtestado_porInput>
+  }
+
+  export type OrdemServicoUpdateWithWhereUniqueWithoutAtestado_porInput = {
+    where: OrdemServicoWhereUniqueInput
+    data: XOR<OrdemServicoUpdateWithoutAtestado_porInput, OrdemServicoUncheckedUpdateWithoutAtestado_porInput>
+  }
+
+  export type OrdemServicoUpdateManyWithWhereWithoutAtestado_porInput = {
+    where: OrdemServicoScalarWhereInput
+    data: XOR<OrdemServicoUpdateManyMutationInput, OrdemServicoUncheckedUpdateManyWithoutAtestado_porInput>
+  }
+
+  export type BoletimMedicaoUpsertWithWhereUniqueWithoutFiscal_responsavelInput = {
+    where: BoletimMedicaoWhereUniqueInput
+    update: XOR<BoletimMedicaoUpdateWithoutFiscal_responsavelInput, BoletimMedicaoUncheckedUpdateWithoutFiscal_responsavelInput>
+    create: XOR<BoletimMedicaoCreateWithoutFiscal_responsavelInput, BoletimMedicaoUncheckedCreateWithoutFiscal_responsavelInput>
+  }
+
+  export type BoletimMedicaoUpdateWithWhereUniqueWithoutFiscal_responsavelInput = {
+    where: BoletimMedicaoWhereUniqueInput
+    data: XOR<BoletimMedicaoUpdateWithoutFiscal_responsavelInput, BoletimMedicaoUncheckedUpdateWithoutFiscal_responsavelInput>
+  }
+
+  export type BoletimMedicaoUpdateManyWithWhereWithoutFiscal_responsavelInput = {
+    where: BoletimMedicaoScalarWhereInput
+    data: XOR<BoletimMedicaoUpdateManyMutationInput, BoletimMedicaoUncheckedUpdateManyWithoutFiscal_responsavelInput>
+  }
+
   export type ManifestacaoUpsertWithWhereUniqueWithoutRespondido_porInput = {
     where: ManifestacaoWhereUniqueInput
     update: XOR<ManifestacaoUpdateWithoutRespondido_porInput, ManifestacaoUncheckedUpdateWithoutRespondido_porInput>
@@ -26770,6 +29853,8 @@ export namespace Prisma {
     prefeitura?: PrefeituraCreateNestedOneWithoutUsuariosInput
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
+    chamados_atestados?: OrdemServicoCreateNestedManyWithoutAtestado_porInput
+    boletins_fiscalizados?: BoletimMedicaoCreateNestedManyWithoutFiscal_responsavelInput
     manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutUsuarioInput
   }
@@ -26789,6 +29874,8 @@ export namespace Prisma {
     prefeitura_id?: string | null
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
+    chamados_atestados?: OrdemServicoUncheckedCreateNestedManyWithoutAtestado_porInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedCreateNestedManyWithoutFiscal_responsavelInput
     manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutUsuarioInput
   }
@@ -26818,6 +29905,7 @@ export namespace Prisma {
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutPrediosInput = {
@@ -26840,6 +29928,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutPrediosInput = {
@@ -26872,6 +29961,11 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
     criado_em?: Date | string
     atualizado?: Date | string
     ativo_predial?: AtivoPredialCreateNestedOneWithoutOrdens_servicoInput
@@ -26879,6 +29973,8 @@ export namespace Prisma {
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
+    atestado_por?: UsuarioCreateNestedOneWithoutChamados_atestadosInput
+    boletim_medicao?: BoletimMedicaoCreateNestedOneWithoutOrdens_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -26915,6 +30011,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -27115,6 +30218,8 @@ export namespace Prisma {
     prefeitura?: PrefeituraUpdateOneWithoutUsuariosNestedInput
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
+    chamados_atestados?: OrdemServicoUpdateManyWithoutAtestado_porNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUpdateManyWithoutFiscal_responsavelNestedInput
     manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutUsuarioNestedInput
   }
@@ -27134,6 +30239,8 @@ export namespace Prisma {
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
+    chamados_atestados?: OrdemServicoUncheckedUpdateManyWithoutAtestado_porNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedUpdateManyWithoutFiscal_responsavelNestedInput
     manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
   }
@@ -27169,6 +30276,7 @@ export namespace Prisma {
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutPrediosInput = {
@@ -27191,6 +30299,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithWhereUniqueWithoutPredioInput = {
@@ -27364,6 +30473,8 @@ export namespace Prisma {
     prefeitura?: PrefeituraCreateNestedOneWithoutUsuariosInput
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
     chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
+    chamados_atestados?: OrdemServicoCreateNestedManyWithoutAtestado_porInput
+    boletins_fiscalizados?: BoletimMedicaoCreateNestedManyWithoutFiscal_responsavelInput
     manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutUsuarioInput
   }
@@ -27383,6 +30494,8 @@ export namespace Prisma {
     prefeitura_id?: string | null
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
     chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
+    chamados_atestados?: OrdemServicoUncheckedCreateNestedManyWithoutAtestado_porInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedCreateNestedManyWithoutFiscal_responsavelInput
     manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutUsuarioInput
   }
@@ -27407,6 +30520,8 @@ export namespace Prisma {
     prefeitura?: PrefeituraCreateNestedOneWithoutUsuariosInput
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
+    chamados_atestados?: OrdemServicoCreateNestedManyWithoutAtestado_porInput
+    boletins_fiscalizados?: BoletimMedicaoCreateNestedManyWithoutFiscal_responsavelInput
     manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutUsuarioInput
   }
@@ -27426,6 +30541,8 @@ export namespace Prisma {
     prefeitura_id?: string | null
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
+    chamados_atestados?: OrdemServicoUncheckedCreateNestedManyWithoutAtestado_porInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedCreateNestedManyWithoutFiscal_responsavelInput
     manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutUsuarioInput
   }
@@ -27444,12 +30561,14 @@ export namespace Prisma {
     objeto?: string | null
     categoria_padrao?: string | null
     valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    bdi_padrao?: Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: Date | string | null
     vigencia_fim?: Date | string | null
     ativo?: boolean
     criado_em?: Date | string
     atualizado?: Date | string
     prefeitura?: PrefeituraCreateNestedOneWithoutContratosInput
+    boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutContratoInput
   }
 
   export type ContratoManutencaoUncheckedCreateWithoutOrdens_servicoInput = {
@@ -27461,12 +30580,14 @@ export namespace Prisma {
     objeto?: string | null
     categoria_padrao?: string | null
     valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    bdi_padrao?: Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: Date | string | null
     vigencia_fim?: Date | string | null
     ativo?: boolean
     prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutContratoInput
   }
 
   export type ContratoManutencaoCreateOrConnectWithoutOrdens_servicoInput = {
@@ -27506,6 +30627,104 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UsuarioCreateWithoutChamados_atestadosInput = {
+    id?: string
+    nome: string
+    email: string
+    senha_hash: string
+    role?: $Enums.Role
+    especialidade?: string | null
+    telefone?: string | null
+    ativo?: boolean
+    token_version?: number
+    criado_em?: Date | string
+    atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutUsuariosInput
+    predios_geridos?: PredioCreateNestedManyWithoutGestorInput
+    chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
+    chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
+    boletins_fiscalizados?: BoletimMedicaoCreateNestedManyWithoutFiscal_responsavelInput
+    manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutChamados_atestadosInput = {
+    id?: string
+    nome: string
+    email: string
+    senha_hash: string
+    role?: $Enums.Role
+    especialidade?: string | null
+    telefone?: string | null
+    ativo?: boolean
+    token_version?: number
+    criado_em?: Date | string
+    atualizado?: Date | string
+    prefeitura_id?: string | null
+    predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
+    chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
+    chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedCreateNestedManyWithoutFiscal_responsavelInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutChamados_atestadosInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutChamados_atestadosInput, UsuarioUncheckedCreateWithoutChamados_atestadosInput>
+  }
+
+  export type BoletimMedicaoCreateWithoutOrdens_servicoInput = {
+    id?: string
+    numero_boletim: string
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: Date | string
+    data_fim: Date | string
+    status?: string
+    bdi_percentual?: Decimal | DecimalJsLike | number | string
+    valor_materiais?: Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: Decimal | DecimalJsLike | number | string
+    valor_direto?: Decimal | DecimalJsLike | number | string
+    valor_bdi?: Decimal | DecimalJsLike | number | string
+    valor_total?: Decimal | DecimalJsLike | number | string
+    observacoes?: string | null
+    hash_integridade?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    fiscal_responsavel?: UsuarioCreateNestedOneWithoutBoletins_fiscalizadosInput
+    contrato: ContratoManutencaoCreateNestedOneWithoutBoletins_medicaoInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutBoletins_medicaoInput
+  }
+
+  export type BoletimMedicaoUncheckedCreateWithoutOrdens_servicoInput = {
+    id?: string
+    numero_boletim: string
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: Date | string
+    data_fim: Date | string
+    status?: string
+    bdi_percentual?: Decimal | DecimalJsLike | number | string
+    valor_materiais?: Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: Decimal | DecimalJsLike | number | string
+    valor_direto?: Decimal | DecimalJsLike | number | string
+    valor_bdi?: Decimal | DecimalJsLike | number | string
+    valor_total?: Decimal | DecimalJsLike | number | string
+    observacoes?: string | null
+    hash_integridade?: string | null
+    fiscal_responsavel_id?: string | null
+    contrato_id: string
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type BoletimMedicaoCreateOrConnectWithoutOrdens_servicoInput = {
+    where: BoletimMedicaoWhereUniqueInput
+    create: XOR<BoletimMedicaoCreateWithoutOrdens_servicoInput, BoletimMedicaoUncheckedCreateWithoutOrdens_servicoInput>
+  }
+
   export type PrefeituraCreateWithoutOrdens_servicoInput = {
     id?: string
     slug: string
@@ -27526,6 +30745,7 @@ export namespace Prisma {
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutOrdens_servicoInput = {
@@ -27548,6 +30768,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutOrdens_servicoInput = {
@@ -27580,6 +30801,11 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -27588,6 +30814,8 @@ export namespace Prisma {
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
+    atestado_por?: UsuarioCreateNestedOneWithoutChamados_atestadosInput
+    boletim_medicao?: BoletimMedicaoCreateNestedOneWithoutOrdens_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
@@ -27624,6 +30852,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -27663,6 +30898,11 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -27671,6 +30911,8 @@ export namespace Prisma {
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
+    atestado_por?: UsuarioCreateNestedOneWithoutChamados_atestadosInput
+    boletim_medicao?: BoletimMedicaoCreateNestedOneWithoutOrdens_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
     agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
@@ -27707,6 +30949,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -27960,6 +31209,8 @@ export namespace Prisma {
     prefeitura?: PrefeituraUpdateOneWithoutUsuariosNestedInput
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
     chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
+    chamados_atestados?: OrdemServicoUpdateManyWithoutAtestado_porNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUpdateManyWithoutFiscal_responsavelNestedInput
     manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutUsuarioNestedInput
   }
@@ -27979,6 +31230,8 @@ export namespace Prisma {
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
+    chamados_atestados?: OrdemServicoUncheckedUpdateManyWithoutAtestado_porNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedUpdateManyWithoutFiscal_responsavelNestedInput
     manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
   }
@@ -28009,6 +31262,8 @@ export namespace Prisma {
     prefeitura?: PrefeituraUpdateOneWithoutUsuariosNestedInput
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
+    chamados_atestados?: OrdemServicoUpdateManyWithoutAtestado_porNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUpdateManyWithoutFiscal_responsavelNestedInput
     manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutUsuarioNestedInput
   }
@@ -28028,6 +31283,8 @@ export namespace Prisma {
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
+    chamados_atestados?: OrdemServicoUncheckedUpdateManyWithoutAtestado_porNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedUpdateManyWithoutFiscal_responsavelNestedInput
     manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
   }
@@ -28052,12 +31309,14 @@ export namespace Prisma {
     objeto?: NullableStringFieldUpdateOperationsInput | string | null
     categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
     valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bdi_padrao?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ativo?: BoolFieldUpdateOperationsInput | boolean
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     prefeitura?: PrefeituraUpdateOneWithoutContratosNestedInput
+    boletins_medicao?: BoletimMedicaoUpdateManyWithoutContratoNestedInput
   }
 
   export type ContratoManutencaoUncheckedUpdateWithoutOrdens_servicoInput = {
@@ -28069,12 +31328,14 @@ export namespace Prisma {
     objeto?: NullableStringFieldUpdateOperationsInput | string | null
     categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
     valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bdi_padrao?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ativo?: BoolFieldUpdateOperationsInput | boolean
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutContratoNestedInput
   }
 
   export type ItemConsumoOSUpsertWithWhereUniqueWithoutOrdem_servicoInput = {
@@ -28108,6 +31369,116 @@ export namespace Prisma {
     criado_em?: DateTimeFilter<"ItemConsumoOS"> | Date | string
   }
 
+  export type UsuarioUpsertWithoutChamados_atestadosInput = {
+    update: XOR<UsuarioUpdateWithoutChamados_atestadosInput, UsuarioUncheckedUpdateWithoutChamados_atestadosInput>
+    create: XOR<UsuarioCreateWithoutChamados_atestadosInput, UsuarioUncheckedCreateWithoutChamados_atestadosInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutChamados_atestadosInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutChamados_atestadosInput, UsuarioUncheckedUpdateWithoutChamados_atestadosInput>
+  }
+
+  export type UsuarioUpdateWithoutChamados_atestadosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    senha_hash?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    especialidade?: NullableStringFieldUpdateOperationsInput | string | null
+    telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    token_version?: IntFieldUpdateOperationsInput | number
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutUsuariosNestedInput
+    predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
+    chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
+    chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUpdateManyWithoutFiscal_responsavelNestedInput
+    manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutChamados_atestadosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    senha_hash?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    especialidade?: NullableStringFieldUpdateOperationsInput | string | null
+    telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    token_version?: IntFieldUpdateOperationsInput | number
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
+    chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
+    chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedUpdateManyWithoutFiscal_responsavelNestedInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type BoletimMedicaoUpsertWithoutOrdens_servicoInput = {
+    update: XOR<BoletimMedicaoUpdateWithoutOrdens_servicoInput, BoletimMedicaoUncheckedUpdateWithoutOrdens_servicoInput>
+    create: XOR<BoletimMedicaoCreateWithoutOrdens_servicoInput, BoletimMedicaoUncheckedCreateWithoutOrdens_servicoInput>
+    where?: BoletimMedicaoWhereInput
+  }
+
+  export type BoletimMedicaoUpdateToOneWithWhereWithoutOrdens_servicoInput = {
+    where?: BoletimMedicaoWhereInput
+    data: XOR<BoletimMedicaoUpdateWithoutOrdens_servicoInput, BoletimMedicaoUncheckedUpdateWithoutOrdens_servicoInput>
+  }
+
+  export type BoletimMedicaoUpdateWithoutOrdens_servicoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_boletim?: StringFieldUpdateOperationsInput | string
+    mes_competencia?: IntFieldUpdateOperationsInput | number
+    ano_competencia?: IntFieldUpdateOperationsInput | number
+    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    bdi_percentual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacoes?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    fiscal_responsavel?: UsuarioUpdateOneWithoutBoletins_fiscalizadosNestedInput
+    contrato?: ContratoManutencaoUpdateOneRequiredWithoutBoletins_medicaoNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutBoletins_medicaoNestedInput
+  }
+
+  export type BoletimMedicaoUncheckedUpdateWithoutOrdens_servicoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_boletim?: StringFieldUpdateOperationsInput | string
+    mes_competencia?: IntFieldUpdateOperationsInput | number
+    ano_competencia?: IntFieldUpdateOperationsInput | number
+    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    bdi_percentual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacoes?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal_responsavel_id?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: StringFieldUpdateOperationsInput | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PrefeituraUpsertWithoutOrdens_servicoInput = {
     update: XOR<PrefeituraUpdateWithoutOrdens_servicoInput, PrefeituraUncheckedUpdateWithoutOrdens_servicoInput>
     create: XOR<PrefeituraCreateWithoutOrdens_servicoInput, PrefeituraUncheckedCreateWithoutOrdens_servicoInput>
@@ -28139,6 +31510,7 @@ export namespace Prisma {
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutOrdens_servicoInput = {
@@ -28161,6 +31533,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithoutOrdens_derivadasInput = {
@@ -28199,6 +31572,11 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -28207,6 +31585,8 @@ export namespace Prisma {
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
+    atestado_por?: UsuarioUpdateOneWithoutChamados_atestadosNestedInput
+    boletim_medicao?: BoletimMedicaoUpdateOneWithoutOrdens_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
@@ -28243,6 +31623,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28316,6 +31703,8 @@ export namespace Prisma {
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
+    chamados_atestados?: OrdemServicoCreateNestedManyWithoutAtestado_porInput
+    boletins_fiscalizados?: BoletimMedicaoCreateNestedManyWithoutFiscal_responsavelInput
     manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
   }
 
@@ -28335,6 +31724,8 @@ export namespace Prisma {
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
+    chamados_atestados?: OrdemServicoUncheckedCreateNestedManyWithoutAtestado_porInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedCreateNestedManyWithoutFiscal_responsavelInput
     manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
   }
 
@@ -28363,6 +31754,7 @@ export namespace Prisma {
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutAuditoriasInput = {
@@ -28385,6 +31777,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutAuditoriasInput = {
@@ -28419,6 +31812,8 @@ export namespace Prisma {
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
+    chamados_atestados?: OrdemServicoUpdateManyWithoutAtestado_porNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUpdateManyWithoutFiscal_responsavelNestedInput
     manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
   }
 
@@ -28438,6 +31833,8 @@ export namespace Prisma {
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
+    chamados_atestados?: OrdemServicoUncheckedUpdateManyWithoutAtestado_porNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedUpdateManyWithoutFiscal_responsavelNestedInput
     manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
   }
 
@@ -28472,6 +31869,7 @@ export namespace Prisma {
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutAuditoriasInput = {
@@ -28494,6 +31892,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioCreateWithoutVistoriasInput = {
@@ -28568,6 +31967,11 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -28576,6 +31980,8 @@ export namespace Prisma {
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
+    atestado_por?: UsuarioCreateNestedOneWithoutChamados_atestadosInput
+    boletim_medicao?: BoletimMedicaoCreateNestedOneWithoutOrdens_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -28612,6 +32018,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -28646,6 +32059,7 @@ export namespace Prisma {
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutVistoriasInput = {
@@ -28668,6 +32082,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutVistoriasInput = {
@@ -28764,6 +32179,11 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -28772,6 +32192,8 @@ export namespace Prisma {
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
+    atestado_por?: UsuarioUpdateOneWithoutChamados_atestadosNestedInput
+    boletim_medicao?: BoletimMedicaoUpdateOneWithoutOrdens_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -28808,6 +32230,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28848,6 +32277,7 @@ export namespace Prisma {
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutVistoriasInput = {
@@ -28870,6 +32300,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraCreateWithoutConfiguracaoInput = {
@@ -28892,6 +32323,7 @@ export namespace Prisma {
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutConfiguracaoInput = {
@@ -28914,6 +32346,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutConfiguracaoInput = {
@@ -28952,6 +32385,7 @@ export namespace Prisma {
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutConfiguracaoInput = {
@@ -28974,6 +32408,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioCreateWithoutManifestacoesInput = {
@@ -29039,6 +32474,8 @@ export namespace Prisma {
     predios_geridos?: PredioCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
+    chamados_atestados?: OrdemServicoCreateNestedManyWithoutAtestado_porInput
+    boletins_fiscalizados?: BoletimMedicaoCreateNestedManyWithoutFiscal_responsavelInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutUsuarioInput
   }
 
@@ -29058,6 +32495,8 @@ export namespace Prisma {
     predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
     chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
     chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
+    chamados_atestados?: OrdemServicoUncheckedCreateNestedManyWithoutAtestado_porInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedCreateNestedManyWithoutFiscal_responsavelInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
@@ -29091,6 +32530,11 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -29099,6 +32543,8 @@ export namespace Prisma {
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
+    atestado_por?: UsuarioCreateNestedOneWithoutChamados_atestadosInput
+    boletim_medicao?: BoletimMedicaoCreateNestedOneWithoutOrdens_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -29135,6 +32581,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -29169,6 +32622,7 @@ export namespace Prisma {
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutManifestacoesInput = {
@@ -29191,6 +32645,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutManifestacoesInput = {
@@ -29278,6 +32733,8 @@ export namespace Prisma {
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
+    chamados_atestados?: OrdemServicoUpdateManyWithoutAtestado_porNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUpdateManyWithoutFiscal_responsavelNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -29297,6 +32754,8 @@ export namespace Prisma {
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
+    chamados_atestados?: OrdemServicoUncheckedUpdateManyWithoutAtestado_porNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedUpdateManyWithoutFiscal_responsavelNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -29336,6 +32795,11 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -29344,6 +32808,8 @@ export namespace Prisma {
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
+    atestado_por?: UsuarioUpdateOneWithoutChamados_atestadosNestedInput
+    boletim_medicao?: BoletimMedicaoUpdateOneWithoutOrdens_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -29380,6 +32846,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29420,6 +32893,7 @@ export namespace Prisma {
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutManifestacoesInput = {
@@ -29442,6 +32916,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraCreateWithoutMateriaisInput = {
@@ -29464,6 +32939,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutMateriaisInput = {
@@ -29486,6 +32962,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutMateriaisInput = {
@@ -29556,6 +33033,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutMateriaisInput = {
@@ -29578,6 +33056,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type ItemConsumoOSUpsertWithWhereUniqueWithoutMaterialInput = {
@@ -29621,6 +33100,11 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -29628,6 +33112,8 @@ export namespace Prisma {
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
+    atestado_por?: UsuarioCreateNestedOneWithoutChamados_atestadosInput
+    boletim_medicao?: BoletimMedicaoCreateNestedOneWithoutOrdens_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -29665,6 +33151,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -29750,6 +33243,11 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -29757,6 +33255,8 @@ export namespace Prisma {
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
+    atestado_por?: UsuarioUpdateOneWithoutChamados_atestadosNestedInput
+    boletim_medicao?: BoletimMedicaoUpdateOneWithoutOrdens_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -29794,6 +33294,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29864,6 +33371,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutContratosInput = {
@@ -29886,6 +33394,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutContratosInput = {
@@ -29918,6 +33427,11 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -29925,6 +33439,8 @@ export namespace Prisma {
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
+    atestado_por?: UsuarioCreateNestedOneWithoutChamados_atestadosInput
+    boletim_medicao?: BoletimMedicaoCreateNestedOneWithoutOrdens_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -29961,6 +33477,13 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -29978,6 +33501,62 @@ export namespace Prisma {
 
   export type OrdemServicoCreateManyContratoInputEnvelope = {
     data: OrdemServicoCreateManyContratoInput | OrdemServicoCreateManyContratoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BoletimMedicaoCreateWithoutContratoInput = {
+    id?: string
+    numero_boletim: string
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: Date | string
+    data_fim: Date | string
+    status?: string
+    bdi_percentual?: Decimal | DecimalJsLike | number | string
+    valor_materiais?: Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: Decimal | DecimalJsLike | number | string
+    valor_direto?: Decimal | DecimalJsLike | number | string
+    valor_bdi?: Decimal | DecimalJsLike | number | string
+    valor_total?: Decimal | DecimalJsLike | number | string
+    observacoes?: string | null
+    hash_integridade?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    fiscal_responsavel?: UsuarioCreateNestedOneWithoutBoletins_fiscalizadosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutBoletins_medicaoInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutBoletim_medicaoInput
+  }
+
+  export type BoletimMedicaoUncheckedCreateWithoutContratoInput = {
+    id?: string
+    numero_boletim: string
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: Date | string
+    data_fim: Date | string
+    status?: string
+    bdi_percentual?: Decimal | DecimalJsLike | number | string
+    valor_materiais?: Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: Decimal | DecimalJsLike | number | string
+    valor_direto?: Decimal | DecimalJsLike | number | string
+    valor_bdi?: Decimal | DecimalJsLike | number | string
+    valor_total?: Decimal | DecimalJsLike | number | string
+    observacoes?: string | null
+    hash_integridade?: string | null
+    fiscal_responsavel_id?: string | null
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutBoletim_medicaoInput
+  }
+
+  export type BoletimMedicaoCreateOrConnectWithoutContratoInput = {
+    where: BoletimMedicaoWhereUniqueInput
+    create: XOR<BoletimMedicaoCreateWithoutContratoInput, BoletimMedicaoUncheckedCreateWithoutContratoInput>
+  }
+
+  export type BoletimMedicaoCreateManyContratoInputEnvelope = {
+    data: BoletimMedicaoCreateManyContratoInput | BoletimMedicaoCreateManyContratoInput[]
     skipDuplicates?: boolean
   }
 
@@ -30012,6 +33591,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutContratosInput = {
@@ -30034,6 +33614,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithWhereUniqueWithoutContratoInput = {
@@ -30050,6 +33631,440 @@ export namespace Prisma {
   export type OrdemServicoUpdateManyWithWhereWithoutContratoInput = {
     where: OrdemServicoScalarWhereInput
     data: XOR<OrdemServicoUpdateManyMutationInput, OrdemServicoUncheckedUpdateManyWithoutContratoInput>
+  }
+
+  export type BoletimMedicaoUpsertWithWhereUniqueWithoutContratoInput = {
+    where: BoletimMedicaoWhereUniqueInput
+    update: XOR<BoletimMedicaoUpdateWithoutContratoInput, BoletimMedicaoUncheckedUpdateWithoutContratoInput>
+    create: XOR<BoletimMedicaoCreateWithoutContratoInput, BoletimMedicaoUncheckedCreateWithoutContratoInput>
+  }
+
+  export type BoletimMedicaoUpdateWithWhereUniqueWithoutContratoInput = {
+    where: BoletimMedicaoWhereUniqueInput
+    data: XOR<BoletimMedicaoUpdateWithoutContratoInput, BoletimMedicaoUncheckedUpdateWithoutContratoInput>
+  }
+
+  export type BoletimMedicaoUpdateManyWithWhereWithoutContratoInput = {
+    where: BoletimMedicaoScalarWhereInput
+    data: XOR<BoletimMedicaoUpdateManyMutationInput, BoletimMedicaoUncheckedUpdateManyWithoutContratoInput>
+  }
+
+  export type UsuarioCreateWithoutBoletins_fiscalizadosInput = {
+    id?: string
+    nome: string
+    email: string
+    senha_hash: string
+    role?: $Enums.Role
+    especialidade?: string | null
+    telefone?: string | null
+    ativo?: boolean
+    token_version?: number
+    criado_em?: Date | string
+    atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutUsuariosInput
+    predios_geridos?: PredioCreateNestedManyWithoutGestorInput
+    chamados_solicitados?: OrdemServicoCreateNestedManyWithoutSolicitanteInput
+    chamados_atribuidos?: OrdemServicoCreateNestedManyWithoutTecnicoInput
+    chamados_atestados?: OrdemServicoCreateNestedManyWithoutAtestado_porInput
+    manifestacoes_respondidas?: ManifestacaoCreateNestedManyWithoutRespondido_porInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutBoletins_fiscalizadosInput = {
+    id?: string
+    nome: string
+    email: string
+    senha_hash: string
+    role?: $Enums.Role
+    especialidade?: string | null
+    telefone?: string | null
+    ativo?: boolean
+    token_version?: number
+    criado_em?: Date | string
+    atualizado?: Date | string
+    prefeitura_id?: string | null
+    predios_geridos?: PredioUncheckedCreateNestedManyWithoutGestorInput
+    chamados_solicitados?: OrdemServicoUncheckedCreateNestedManyWithoutSolicitanteInput
+    chamados_atribuidos?: OrdemServicoUncheckedCreateNestedManyWithoutTecnicoInput
+    chamados_atestados?: OrdemServicoUncheckedCreateNestedManyWithoutAtestado_porInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedCreateNestedManyWithoutRespondido_porInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutBoletins_fiscalizadosInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutBoletins_fiscalizadosInput, UsuarioUncheckedCreateWithoutBoletins_fiscalizadosInput>
+  }
+
+  export type ContratoManutencaoCreateWithoutBoletins_medicaoInput = {
+    id?: string
+    numero_contrato: string
+    numero_empenho: string
+    empresa_contratada: string
+    cnpj_contratada?: string | null
+    objeto?: string | null
+    categoria_padrao?: string | null
+    valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    bdi_padrao?: Decimal | DecimalJsLike | number | string | null
+    vigencia_inicio?: Date | string | null
+    vigencia_fim?: Date | string | null
+    ativo?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutContratosInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutContratoInput
+  }
+
+  export type ContratoManutencaoUncheckedCreateWithoutBoletins_medicaoInput = {
+    id?: string
+    numero_contrato: string
+    numero_empenho: string
+    empresa_contratada: string
+    cnpj_contratada?: string | null
+    objeto?: string | null
+    categoria_padrao?: string | null
+    valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    bdi_padrao?: Decimal | DecimalJsLike | number | string | null
+    vigencia_inicio?: Date | string | null
+    vigencia_fim?: Date | string | null
+    ativo?: boolean
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutContratoInput
+  }
+
+  export type ContratoManutencaoCreateOrConnectWithoutBoletins_medicaoInput = {
+    where: ContratoManutencaoWhereUniqueInput
+    create: XOR<ContratoManutencaoCreateWithoutBoletins_medicaoInput, ContratoManutencaoUncheckedCreateWithoutBoletins_medicaoInput>
+  }
+
+  export type PrefeituraCreateWithoutBoletins_medicaoInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraUncheckedCreateWithoutBoletins_medicaoInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioUncheckedCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioUncheckedCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraCreateOrConnectWithoutBoletins_medicaoInput = {
+    where: PrefeituraWhereUniqueInput
+    create: XOR<PrefeituraCreateWithoutBoletins_medicaoInput, PrefeituraUncheckedCreateWithoutBoletins_medicaoInput>
+  }
+
+  export type OrdemServicoCreateWithoutBoletim_medicaoInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    ativo_predial?: AtivoPredialCreateNestedOneWithoutOrdens_servicoInput
+    solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
+    tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
+    materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
+    atestado_por?: UsuarioCreateNestedOneWithoutChamados_atestadosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
+    ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
+    ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
+    agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
+  }
+
+  export type OrdemServicoUncheckedCreateWithoutBoletim_medicaoInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    predio_id: string
+    ativo_id?: string | null
+    solicitante_id: string
+    tecnico_atribuido_id?: string | null
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
+    contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    prefeitura_id?: string | null
+    ordem_vinculada_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
+    agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
+  }
+
+  export type OrdemServicoCreateOrConnectWithoutBoletim_medicaoInput = {
+    where: OrdemServicoWhereUniqueInput
+    create: XOR<OrdemServicoCreateWithoutBoletim_medicaoInput, OrdemServicoUncheckedCreateWithoutBoletim_medicaoInput>
+  }
+
+  export type OrdemServicoCreateManyBoletim_medicaoInputEnvelope = {
+    data: OrdemServicoCreateManyBoletim_medicaoInput | OrdemServicoCreateManyBoletim_medicaoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UsuarioUpsertWithoutBoletins_fiscalizadosInput = {
+    update: XOR<UsuarioUpdateWithoutBoletins_fiscalizadosInput, UsuarioUncheckedUpdateWithoutBoletins_fiscalizadosInput>
+    create: XOR<UsuarioCreateWithoutBoletins_fiscalizadosInput, UsuarioUncheckedCreateWithoutBoletins_fiscalizadosInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutBoletins_fiscalizadosInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutBoletins_fiscalizadosInput, UsuarioUncheckedUpdateWithoutBoletins_fiscalizadosInput>
+  }
+
+  export type UsuarioUpdateWithoutBoletins_fiscalizadosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    senha_hash?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    especialidade?: NullableStringFieldUpdateOperationsInput | string | null
+    telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    token_version?: IntFieldUpdateOperationsInput | number
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutUsuariosNestedInput
+    predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
+    chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
+    chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
+    chamados_atestados?: OrdemServicoUpdateManyWithoutAtestado_porNestedInput
+    manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutBoletins_fiscalizadosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    senha_hash?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    especialidade?: NullableStringFieldUpdateOperationsInput | string | null
+    telefone?: NullableStringFieldUpdateOperationsInput | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    token_version?: IntFieldUpdateOperationsInput | number
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
+    chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
+    chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
+    chamados_atestados?: OrdemServicoUncheckedUpdateManyWithoutAtestado_porNestedInput
+    manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type ContratoManutencaoUpsertWithoutBoletins_medicaoInput = {
+    update: XOR<ContratoManutencaoUpdateWithoutBoletins_medicaoInput, ContratoManutencaoUncheckedUpdateWithoutBoletins_medicaoInput>
+    create: XOR<ContratoManutencaoCreateWithoutBoletins_medicaoInput, ContratoManutencaoUncheckedCreateWithoutBoletins_medicaoInput>
+    where?: ContratoManutencaoWhereInput
+  }
+
+  export type ContratoManutencaoUpdateToOneWithWhereWithoutBoletins_medicaoInput = {
+    where?: ContratoManutencaoWhereInput
+    data: XOR<ContratoManutencaoUpdateWithoutBoletins_medicaoInput, ContratoManutencaoUncheckedUpdateWithoutBoletins_medicaoInput>
+  }
+
+  export type ContratoManutencaoUpdateWithoutBoletins_medicaoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_contrato?: StringFieldUpdateOperationsInput | string
+    numero_empenho?: StringFieldUpdateOperationsInput | string
+    empresa_contratada?: StringFieldUpdateOperationsInput | string
+    cnpj_contratada?: NullableStringFieldUpdateOperationsInput | string | null
+    objeto?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
+    valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bdi_padrao?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutContratosNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutContratoNestedInput
+  }
+
+  export type ContratoManutencaoUncheckedUpdateWithoutBoletins_medicaoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_contrato?: StringFieldUpdateOperationsInput | string
+    numero_empenho?: StringFieldUpdateOperationsInput | string
+    empresa_contratada?: StringFieldUpdateOperationsInput | string
+    cnpj_contratada?: NullableStringFieldUpdateOperationsInput | string | null
+    objeto?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
+    valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bdi_padrao?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutContratoNestedInput
+  }
+
+  export type PrefeituraUpsertWithoutBoletins_medicaoInput = {
+    update: XOR<PrefeituraUpdateWithoutBoletins_medicaoInput, PrefeituraUncheckedUpdateWithoutBoletins_medicaoInput>
+    create: XOR<PrefeituraCreateWithoutBoletins_medicaoInput, PrefeituraUncheckedCreateWithoutBoletins_medicaoInput>
+    where?: PrefeituraWhereInput
+  }
+
+  export type PrefeituraUpdateToOneWithWhereWithoutBoletins_medicaoInput = {
+    where?: PrefeituraWhereInput
+    data: XOR<PrefeituraUpdateWithoutBoletins_medicaoInput, PrefeituraUncheckedUpdateWithoutBoletins_medicaoInput>
+  }
+
+  export type PrefeituraUpdateWithoutBoletins_medicaoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraUncheckedUpdateWithoutBoletins_medicaoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type OrdemServicoUpsertWithWhereUniqueWithoutBoletim_medicaoInput = {
+    where: OrdemServicoWhereUniqueInput
+    update: XOR<OrdemServicoUpdateWithoutBoletim_medicaoInput, OrdemServicoUncheckedUpdateWithoutBoletim_medicaoInput>
+    create: XOR<OrdemServicoCreateWithoutBoletim_medicaoInput, OrdemServicoUncheckedCreateWithoutBoletim_medicaoInput>
+  }
+
+  export type OrdemServicoUpdateWithWhereUniqueWithoutBoletim_medicaoInput = {
+    where: OrdemServicoWhereUniqueInput
+    data: XOR<OrdemServicoUpdateWithoutBoletim_medicaoInput, OrdemServicoUncheckedUpdateWithoutBoletim_medicaoInput>
+  }
+
+  export type OrdemServicoUpdateManyWithWhereWithoutBoletim_medicaoInput = {
+    where: OrdemServicoScalarWhereInput
+    data: XOR<OrdemServicoUpdateManyMutationInput, OrdemServicoUncheckedUpdateManyWithoutBoletim_medicaoInput>
   }
 
   export type PredioCreateWithoutAtivosInput = {
@@ -30119,6 +34134,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutAtivosInput = {
@@ -30141,6 +34157,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutAtivosInput = {
@@ -30173,6 +34190,11 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
@@ -30180,6 +34202,8 @@ export namespace Prisma {
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
+    atestado_por?: UsuarioCreateNestedOneWithoutChamados_atestadosInput
+    boletim_medicao?: BoletimMedicaoCreateNestedOneWithoutOrdens_servicoInput
     prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
     ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
     ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
@@ -30216,6 +34240,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -30320,6 +34351,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutAtivosInput = {
@@ -30342,6 +34374,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithWhereUniqueWithoutAtivo_predialInput = {
@@ -30421,6 +34454,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -30502,6 +34542,7 @@ export namespace Prisma {
     objeto?: string | null
     categoria_padrao?: string | null
     valor_total_empenhado?: Decimal | DecimalJsLike | number | string
+    bdi_padrao?: Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: Date | string | null
     vigencia_fim?: Date | string | null
     ativo?: boolean
@@ -30528,6 +34569,28 @@ export namespace Prisma {
     atualizado?: Date | string
   }
 
+  export type BoletimMedicaoCreateManyPrefeituraInput = {
+    id?: string
+    numero_boletim: string
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: Date | string
+    data_fim: Date | string
+    status?: string
+    bdi_percentual?: Decimal | DecimalJsLike | number | string
+    valor_materiais?: Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: Decimal | DecimalJsLike | number | string
+    valor_direto?: Decimal | DecimalJsLike | number | string
+    valor_bdi?: Decimal | DecimalJsLike | number | string
+    valor_total?: Decimal | DecimalJsLike | number | string
+    observacoes?: string | null
+    hash_integridade?: string | null
+    fiscal_responsavel_id?: string | null
+    contrato_id: string
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
   export type UsuarioUpdateWithoutPrefeituraInput = {
     id?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
@@ -30543,6 +34606,8 @@ export namespace Prisma {
     predios_geridos?: PredioUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUpdateManyWithoutTecnicoNestedInput
+    chamados_atestados?: OrdemServicoUpdateManyWithoutAtestado_porNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUpdateManyWithoutFiscal_responsavelNestedInput
     manifestacoes_respondidas?: ManifestacaoUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutUsuarioNestedInput
   }
@@ -30562,6 +34627,8 @@ export namespace Prisma {
     predios_geridos?: PredioUncheckedUpdateManyWithoutGestorNestedInput
     chamados_solicitados?: OrdemServicoUncheckedUpdateManyWithoutSolicitanteNestedInput
     chamados_atribuidos?: OrdemServicoUncheckedUpdateManyWithoutTecnicoNestedInput
+    chamados_atestados?: OrdemServicoUncheckedUpdateManyWithoutAtestado_porNestedInput
+    boletins_fiscalizados?: BoletimMedicaoUncheckedUpdateManyWithoutFiscal_responsavelNestedInput
     manifestacoes_respondidas?: ManifestacaoUncheckedUpdateManyWithoutRespondido_porNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutUsuarioNestedInput
   }
@@ -30664,6 +34731,11 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -30672,6 +34744,8 @@ export namespace Prisma {
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
+    atestado_por?: UsuarioUpdateOneWithoutChamados_atestadosNestedInput
+    boletim_medicao?: BoletimMedicaoUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
@@ -30708,6 +34782,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30747,6 +34828,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30964,12 +35052,14 @@ export namespace Prisma {
     objeto?: NullableStringFieldUpdateOperationsInput | string | null
     categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
     valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bdi_padrao?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ativo?: BoolFieldUpdateOperationsInput | boolean
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_servico?: OrdemServicoUpdateManyWithoutContratoNestedInput
+    boletins_medicao?: BoletimMedicaoUpdateManyWithoutContratoNestedInput
   }
 
   export type ContratoManutencaoUncheckedUpdateWithoutPrefeituraInput = {
@@ -30981,12 +35071,14 @@ export namespace Prisma {
     objeto?: NullableStringFieldUpdateOperationsInput | string | null
     categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
     valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bdi_padrao?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ativo?: BoolFieldUpdateOperationsInput | boolean
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutContratoNestedInput
+    boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutContratoNestedInput
   }
 
   export type ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraInput = {
@@ -30998,6 +35090,7 @@ export namespace Prisma {
     objeto?: NullableStringFieldUpdateOperationsInput | string | null
     categoria_padrao?: NullableStringFieldUpdateOperationsInput | string | null
     valor_total_empenhado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    bdi_padrao?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     vigencia_inicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     vigencia_fim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ativo?: BoolFieldUpdateOperationsInput | boolean
@@ -31064,6 +35157,74 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BoletimMedicaoUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_boletim?: StringFieldUpdateOperationsInput | string
+    mes_competencia?: IntFieldUpdateOperationsInput | number
+    ano_competencia?: IntFieldUpdateOperationsInput | number
+    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    bdi_percentual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacoes?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    fiscal_responsavel?: UsuarioUpdateOneWithoutBoletins_fiscalizadosNestedInput
+    contrato?: ContratoManutencaoUpdateOneRequiredWithoutBoletins_medicaoNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutBoletim_medicaoNestedInput
+  }
+
+  export type BoletimMedicaoUncheckedUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_boletim?: StringFieldUpdateOperationsInput | string
+    mes_competencia?: IntFieldUpdateOperationsInput | number
+    ano_competencia?: IntFieldUpdateOperationsInput | number
+    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    bdi_percentual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacoes?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal_responsavel_id?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: StringFieldUpdateOperationsInput | string
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutBoletim_medicaoNestedInput
+  }
+
+  export type BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_boletim?: StringFieldUpdateOperationsInput | string
+    mes_competencia?: IntFieldUpdateOperationsInput | number
+    ano_competencia?: IntFieldUpdateOperationsInput | number
+    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    bdi_percentual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacoes?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal_responsavel_id?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: StringFieldUpdateOperationsInput | string
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PredioCreateManyGestorInput = {
     id?: string
     nome: string
@@ -31110,6 +35271,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -31145,8 +35313,79 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type OrdemServicoCreateManyAtestado_porInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    predio_id: string
+    ativo_id?: string | null
+    solicitante_id: string
+    tecnico_atribuido_id?: string | null
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
+    contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
+    prefeitura_id?: string | null
+    ordem_vinculada_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type BoletimMedicaoCreateManyFiscal_responsavelInput = {
+    id?: string
+    numero_boletim: string
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: Date | string
+    data_fim: Date | string
+    status?: string
+    bdi_percentual?: Decimal | DecimalJsLike | number | string
+    valor_materiais?: Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: Decimal | DecimalJsLike | number | string
+    valor_direto?: Decimal | DecimalJsLike | number | string
+    valor_bdi?: Decimal | DecimalJsLike | number | string
+    valor_total?: Decimal | DecimalJsLike | number | string
+    observacoes?: string | null
+    hash_integridade?: string | null
+    contrato_id: string
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -31269,6 +35508,11 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -31276,6 +35520,8 @@ export namespace Prisma {
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
+    atestado_por?: UsuarioUpdateOneWithoutChamados_atestadosNestedInput
+    boletim_medicao?: BoletimMedicaoUpdateOneWithoutOrdens_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -31312,6 +35558,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31351,6 +35604,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31382,6 +35642,11 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -31389,6 +35654,8 @@ export namespace Prisma {
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
+    atestado_por?: UsuarioUpdateOneWithoutChamados_atestadosNestedInput
+    boletim_medicao?: BoletimMedicaoUpdateOneWithoutOrdens_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -31425,6 +35692,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31464,8 +35738,217 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrdemServicoUpdateWithoutAtestado_porInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    ativo_predial?: AtivoPredialUpdateOneWithoutOrdens_servicoNestedInput
+    solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
+    tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
+    materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
+    boletim_medicao?: BoletimMedicaoUpdateOneWithoutOrdens_servicoNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
+    ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
+    ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
+    agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type OrdemServicoUncheckedUpdateWithoutAtestado_porInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
+    solicitante_id?: StringFieldUpdateOperationsInput | string
+    tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
+    agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type OrdemServicoUncheckedUpdateManyWithoutAtestado_porInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
+    solicitante_id?: StringFieldUpdateOperationsInput | string
+    tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoletimMedicaoUpdateWithoutFiscal_responsavelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_boletim?: StringFieldUpdateOperationsInput | string
+    mes_competencia?: IntFieldUpdateOperationsInput | number
+    ano_competencia?: IntFieldUpdateOperationsInput | number
+    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    bdi_percentual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacoes?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    contrato?: ContratoManutencaoUpdateOneRequiredWithoutBoletins_medicaoNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutBoletins_medicaoNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutBoletim_medicaoNestedInput
+  }
+
+  export type BoletimMedicaoUncheckedUpdateWithoutFiscal_responsavelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_boletim?: StringFieldUpdateOperationsInput | string
+    mes_competencia?: IntFieldUpdateOperationsInput | number
+    ano_competencia?: IntFieldUpdateOperationsInput | number
+    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    bdi_percentual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacoes?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: StringFieldUpdateOperationsInput | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutBoletim_medicaoNestedInput
+  }
+
+  export type BoletimMedicaoUncheckedUpdateManyWithoutFiscal_responsavelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_boletim?: StringFieldUpdateOperationsInput | string
+    mes_competencia?: IntFieldUpdateOperationsInput | number
+    ano_competencia?: IntFieldUpdateOperationsInput | number
+    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    bdi_percentual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacoes?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: StringFieldUpdateOperationsInput | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31601,6 +36084,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -31693,6 +36183,11 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ativo_predial?: AtivoPredialUpdateOneWithoutOrdens_servicoNestedInput
@@ -31700,6 +36195,8 @@ export namespace Prisma {
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
+    atestado_por?: UsuarioUpdateOneWithoutChamados_atestadosNestedInput
+    boletim_medicao?: BoletimMedicaoUpdateOneWithoutOrdens_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -31736,6 +36233,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31775,6 +36279,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32007,6 +36518,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -32112,6 +36630,11 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -32120,6 +36643,8 @@ export namespace Prisma {
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
+    atestado_por?: UsuarioUpdateOneWithoutChamados_atestadosNestedInput
+    boletim_medicao?: BoletimMedicaoUpdateOneWithoutOrdens_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
     agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
@@ -32156,6 +36681,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32195,6 +36727,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32399,8 +36938,37 @@ export namespace Prisma {
     custo_total?: Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type BoletimMedicaoCreateManyContratoInput = {
+    id?: string
+    numero_boletim: string
+    mes_competencia: number
+    ano_competencia: number
+    data_inicio: Date | string
+    data_fim: Date | string
+    status?: string
+    bdi_percentual?: Decimal | DecimalJsLike | number | string
+    valor_materiais?: Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: Decimal | DecimalJsLike | number | string
+    valor_direto?: Decimal | DecimalJsLike | number | string
+    valor_bdi?: Decimal | DecimalJsLike | number | string
+    valor_total?: Decimal | DecimalJsLike | number | string
+    observacoes?: string | null
+    hash_integridade?: string | null
+    fiscal_responsavel_id?: string | null
+    prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -32430,6 +36998,11 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -32437,6 +37010,8 @@ export namespace Prisma {
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
+    atestado_por?: UsuarioUpdateOneWithoutChamados_atestadosNestedInput
+    boletim_medicao?: BoletimMedicaoUpdateOneWithoutOrdens_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -32473,6 +37048,13 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32512,6 +37094,257 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoletimMedicaoUpdateWithoutContratoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_boletim?: StringFieldUpdateOperationsInput | string
+    mes_competencia?: IntFieldUpdateOperationsInput | number
+    ano_competencia?: IntFieldUpdateOperationsInput | number
+    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    bdi_percentual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacoes?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    fiscal_responsavel?: UsuarioUpdateOneWithoutBoletins_fiscalizadosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutBoletins_medicaoNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutBoletim_medicaoNestedInput
+  }
+
+  export type BoletimMedicaoUncheckedUpdateWithoutContratoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_boletim?: StringFieldUpdateOperationsInput | string
+    mes_competencia?: IntFieldUpdateOperationsInput | number
+    ano_competencia?: IntFieldUpdateOperationsInput | number
+    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    bdi_percentual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacoes?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal_responsavel_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutBoletim_medicaoNestedInput
+  }
+
+  export type BoletimMedicaoUncheckedUpdateManyWithoutContratoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero_boletim?: StringFieldUpdateOperationsInput | string
+    mes_competencia?: IntFieldUpdateOperationsInput | number
+    ano_competencia?: IntFieldUpdateOperationsInput | number
+    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    bdi_percentual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_materiais?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_mao_de_obra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_direto?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_bdi?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    valor_total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacoes?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal_responsavel_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrdemServicoCreateManyBoletim_medicaoInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    predio_id: string
+    ativo_id?: string | null
+    solicitante_id: string
+    tecnico_atribuido_id?: string | null
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
+    contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    prefeitura_id?: string | null
+    ordem_vinculada_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type OrdemServicoUpdateWithoutBoletim_medicaoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    ativo_predial?: AtivoPredialUpdateOneWithoutOrdens_servicoNestedInput
+    solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
+    tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
+    materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
+    atestado_por?: UsuarioUpdateOneWithoutChamados_atestadosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
+    ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
+    ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
+    agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type OrdemServicoUncheckedUpdateWithoutBoletim_medicaoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
+    solicitante_id?: StringFieldUpdateOperationsInput | string
+    tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
+    agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type OrdemServicoUncheckedUpdateManyWithoutBoletim_medicaoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
+    solicitante_id?: StringFieldUpdateOperationsInput | string
+    tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32547,6 +37380,13 @@ export namespace Prisma {
     empresa_terceirizada?: string | null
     numero_empenho?: string | null
     contrato_id?: string | null
+    status_atesto?: string | null
+    atestado_em?: Date | string | null
+    atestado_por_id?: string | null
+    parecer_atesto?: string | null
+    assinatura_digital_hash?: string | null
+    avaliacao_atesto?: number | null
+    boletim_medicao_id?: string | null
     prefeitura_id?: string | null
     ordem_vinculada_id?: string | null
     criado_em?: Date | string
@@ -32578,6 +37418,11 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
@@ -32585,6 +37430,8 @@ export namespace Prisma {
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
+    atestado_por?: UsuarioUpdateOneWithoutChamados_atestadosNestedInput
+    boletim_medicao?: BoletimMedicaoUpdateOneWithoutOrdens_servicoNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
     ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
     ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
@@ -32621,6 +37468,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32660,6 +37514,13 @@ export namespace Prisma {
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    atestado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    atestado_por_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parecer_atesto?: NullableStringFieldUpdateOperationsInput | string | null
+    assinatura_digital_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    avaliacao_atesto?: NullableIntFieldUpdateOperationsInput | number | null
+    boletim_medicao_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string

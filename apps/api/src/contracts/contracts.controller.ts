@@ -6,6 +6,7 @@ import {
   Delete,
   Body,
   Param,
+  Query,
   UseGuards,
   HttpCode,
   HttpStatus,
@@ -17,6 +18,7 @@ import { CurrentUser } from '../auth/current-user.decorator.js';
 import { ContractsService } from './contracts.service.js';
 import { CreateContractDto } from './dto/create-contract.dto.js';
 import { UpdateContractDto } from './dto/update-contract.dto.js';
+import { CreateBoletimDto, PreviewBoletimQueryDto } from './dto/boletim-medicao.dto.js';
 import { Role } from '@repo/database';
 
 @Controller('contracts')
@@ -58,5 +60,41 @@ export class ContractsController {
   @Roles(Role.ADMIN, Role.GESTOR)
   async remove(@Param('id') id: string, @CurrentUser() user: any) {
     return this.contractsService.remove(id, user);
+  }
+
+  @Get('boletins/all')
+  async findAllBoletins(
+    @Query('contratoId') contratoId: string,
+    @CurrentUser() user: any,
+  ) {
+    return this.contractsService.findAllBoletins(contratoId, user);
+  }
+
+  @Get('boletins/:boletimId')
+  async findBoletimById(
+    @Param('boletimId') boletimId: string,
+    @CurrentUser() user: any,
+  ) {
+    return this.contractsService.findBoletimById(boletimId, user);
+  }
+
+  @Get(':id/boletim-preview')
+  async previewBoletim(
+    @Param('id') id: string,
+    @Query() query: PreviewBoletimQueryDto,
+    @CurrentUser() user: any,
+  ) {
+    return this.contractsService.previewBoletim(id, query, user);
+  }
+
+  @Post(':id/boletins')
+  @Roles(Role.ADMIN, Role.GESTOR)
+  @HttpCode(HttpStatus.CREATED)
+  async createBoletim(
+    @Param('id') id: string,
+    @Body() dto: CreateBoletimDto,
+    @CurrentUser() user: any,
+  ) {
+    return this.contractsService.createBoletim(id, dto, user);
   }
 }

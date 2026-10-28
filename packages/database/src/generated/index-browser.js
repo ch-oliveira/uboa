@@ -197,6 +197,13 @@ exports.Prisma.OrdemServicoScalarFieldEnum = {
   empresa_terceirizada: 'empresa_terceirizada',
   numero_empenho: 'numero_empenho',
   contrato_id: 'contrato_id',
+  status_atesto: 'status_atesto',
+  atestado_em: 'atestado_em',
+  atestado_por_id: 'atestado_por_id',
+  parecer_atesto: 'parecer_atesto',
+  assinatura_digital_hash: 'assinatura_digital_hash',
+  avaliacao_atesto: 'avaliacao_atesto',
+  boletim_medicao_id: 'boletim_medicao_id',
   prefeitura_id: 'prefeitura_id',
   ordem_vinculada_id: 'ordem_vinculada_id',
   criado_em: 'criado_em',
@@ -318,9 +325,33 @@ exports.Prisma.ContratoManutencaoScalarFieldEnum = {
   objeto: 'objeto',
   categoria_padrao: 'categoria_padrao',
   valor_total_empenhado: 'valor_total_empenhado',
+  bdi_padrao: 'bdi_padrao',
   vigencia_inicio: 'vigencia_inicio',
   vigencia_fim: 'vigencia_fim',
   ativo: 'ativo',
+  prefeitura_id: 'prefeitura_id',
+  criado_em: 'criado_em',
+  atualizado: 'atualizado'
+};
+
+exports.Prisma.BoletimMedicaoScalarFieldEnum = {
+  id: 'id',
+  numero_boletim: 'numero_boletim',
+  mes_competencia: 'mes_competencia',
+  ano_competencia: 'ano_competencia',
+  data_inicio: 'data_inicio',
+  data_fim: 'data_fim',
+  status: 'status',
+  bdi_percentual: 'bdi_percentual',
+  valor_materiais: 'valor_materiais',
+  valor_mao_de_obra: 'valor_mao_de_obra',
+  valor_direto: 'valor_direto',
+  valor_bdi: 'valor_bdi',
+  valor_total: 'valor_total',
+  observacoes: 'observacoes',
+  hash_integridade: 'hash_integridade',
+  fiscal_responsavel_id: 'fiscal_responsavel_id',
+  contrato_id: 'contrato_id',
   prefeitura_id: 'prefeitura_id',
   criado_em: 'criado_em',
   atualizado: 'atualizado'
@@ -446,6 +477,7 @@ exports.Prisma.ModelName = {
   Material: 'Material',
   ItemConsumoOS: 'ItemConsumoOS',
   ContratoManutencao: 'ContratoManutencao',
+  BoletimMedicao: 'BoletimMedicao',
   AtivoPredial: 'AtivoPredial'
 };
 

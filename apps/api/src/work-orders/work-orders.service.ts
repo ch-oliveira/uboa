@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException, ForbiddenException, BadRequestException, ConflictException } from '@nestjs/common';
+import { createHash } from 'crypto';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { StatusOS, Prioridade, AuditAction, TipoPredio, Role } from '@repo/database';
 import type { ApiResponse } from '../common/interfaces/api-response.interface.js';
-import type { AddConsumedMaterialDto, UpdateFinancialsDto } from './dto/work-order.dto.js';
+import type { AddConsumedMaterialDto, UpdateFinancialsDto, AtestoWorkOrderDto } from './dto/work-order.dto.js';
 
 export type ApiPriority = 'URGENT' | 'HIGH' | 'MEDIUM' | 'LOW';
 export type ApiStatus = 'TRIAGE' | 'SCHEDULED' | 'IN_PROGRESS' | 'WAITING' | 'COMPLETED' | 'CANCELLED';
@@ -58,6 +59,14 @@ export interface WorkOrderResponse {
   ativoId?: string;
   ativoCodigo?: string;
   ativoNome?: string;
+  statusAtesto?: string;
+  atestadoEm?: string;
+  atestadoPorId?: string;
+  atestadoPorNome?: string;
+  parecerAtesto?: string;
+  assinaturaDigitalHash?: string;
+  avaliacaoAtesto?: number;
+  boletimMedicaoId?: string;
 }
 
 export interface WorkOrdersMeta {
@@ -215,6 +224,16 @@ export class WorkOrdersService {
       empresaTerceirizada: o.empresa_terceirizada || undefined,
       numeroEmpenho: o.numero_empenho || undefined,
       ativoId: o.ativo_id || undefined,
+      ativoCodigo: o.ativo_predial?.codigo_patrimonio || undefined,
+      ativoNome: o.ativo_predial?.nome || undefined,
+      statusAtesto: o.status_atesto || 'NAO_APLICAVEL',
+      atestadoEm: o.atestado_em ? o.atestado_em.toISOString() : undefined,
+      atestadoPorId: o.atestado_por_id || undefined,
+      atestadoPorNome: o.atestado_por?.nome || undefined,
+      parecerAtesto: o.parecer_atesto || undefined,
+      assinaturaDigitalHash: o.assinatura_digital_hash || undefined,
+      avaliacaoAtesto: o.avaliacao_atesto ?? undefined,
+      boletimMedicaoId: o.boletim_medicao_id || undefined,
       materiaisConsumidos: (o.materiais_consumidos || []).map((m: any) => ({
         id: m.id,
         materialId: m.material_id || undefined,
@@ -777,6 +796,11 @@ export class WorkOrdersService {
           updateData.sla_violado = true;
           updateData.motivo_violacao_sla = `Conclusão efetuada em ${now.toISOString()}, ultrapassando o prazo regulamentar de SLA (${new Date(deadline).toISOString()}).`;
         }
+
+        // Fluxo de Atesto Digital do Solicitante / Gestor da Unidade (Lei 14.133/2021)
+        if (existing.status_atesto !== 'APROVADO') {
+          updateData.status_atesto = 'PENDENTE';
+        }
       }
 
       // Cancelamento (CANCELADO) - Apenas Admin/Gestor com motivo obrigatório
@@ -1184,7 +1208,7 @@ export class WorkOrdersService {
   async removeMaterial(
     orderId: string,
     itemId: string,
-    currentUser?: any,
+    _currentUser?: any,
   ): Promise<ApiResponse<WorkOrderResponse>> {
     const order = await this.prisma.ordemServico.findFirst({
       where: {
@@ -1372,6 +1396,110 @@ export class WorkOrdersService {
       success: true,
       data: this.mapOrder(updated),
       message: 'Dados de medição financeira atualizados com sucesso.',
+    };
+  }
+
+  /**
+   * Fluxo de Atesto Digital do Solicitante / Gestor da Unidade (Lei Federal 14.133/2021).
+   * Permite que a direção da escola ou unidade de saúde valide a conclusão do serviço
+   * ou recuse apontando inconformidades (reabrindo a OS para execução e bloqueando liquidação).
+   */
+  async atestar(
+    idOrCode: string,
+    dto: AtestoWorkOrderDto,
+    currentUser: any,
+  ): Promise<ApiResponse<WorkOrderResponse>> {
+    if (
+      !currentUser?.role ||
+      (currentUser.role !== Role.SOLICITANTE &&
+        currentUser.role !== Role.GESTOR &&
+        currentUser.role !== Role.ADMIN)
+    ) {
+      throw new ForbiddenException(
+        'Apenas o solicitante, o gestor da unidade ou administradores podem emitir o atesto digital.',
+      );
+    }
+
+    const where: any = {
+      OR: [{ id: idOrCode }, { codigo: idOrCode }],
+    };
+    if (currentUser.prefeituraId) {
+      where.prefeitura_id = currentUser.prefeituraId;
+    }
+
+    const existing = await this.prisma.ordemServico.findFirst({
+      where,
+      include: {
+        predio: true,
+        solicitante: true,
+        tecnico: true,
+      },
+    });
+
+    if (!existing) {
+      throw new NotFoundException(`Ordem de serviço "${idOrCode}" não encontrada.`);
+    }
+
+    const hashContent = `${existing.id}|${currentUser.id}|${new Date().toISOString()}|${dto.aprovado}|${dto.parecer || ''}|${existing.prefeitura_id || ''}`;
+    const digitalHash = createHash('sha256').update(hashContent).digest('hex');
+
+    const updateData: any = {
+      atestado_em: new Date(),
+      atestado_por_id: currentUser.id,
+      parecer_atesto: dto.parecer?.trim() || (dto.aprovado ? 'Serviço atestado a contento e vistoriado pela unidade.' : 'Serviço contestado pela unidade.'),
+      avaliacao_atesto: dto.avaliacao ?? (dto.aprovado ? 5 : 1),
+      assinatura_digital_hash: digitalHash,
+    };
+
+    if (dto.aprovado) {
+      updateData.status_atesto = 'APROVADO';
+    } else {
+      updateData.status_atesto = 'REJEITADO';
+      // Conforme fiscalização pública, se o atesto for rejeitado pela direção da unidade, a OS é reaberta para execução e correção pela empreiteira
+      updateData.status = StatusOS.EM_EXECUCAO;
+    }
+
+    const updated = await this.prisma.$transaction(async (tx) => {
+      const order = await tx.ordemServico.update({
+        where: { id: existing.id },
+        data: updateData,
+        include: {
+          predio: true,
+          solicitante: true,
+          tecnico: true,
+          atestado_por: true,
+        },
+      });
+
+      await tx.auditoriaLog.create({
+        data: {
+          entidade_afetada: 'ordens_servico',
+          entidade_id: existing.id,
+          acao: AuditAction.UPDATE,
+          usuario_id: currentUser.id,
+          prefeitura_id: existing.prefeitura_id || currentUser.prefeituraId || null,
+          dados_antigos: {
+            status: existing.status,
+            status_atesto: existing.status_atesto,
+          },
+          dados_novos: {
+            status: order.status,
+            status_atesto: order.status_atesto,
+            parecer_atesto: order.parecer_atesto,
+            assinatura_digital_hash: digitalHash,
+          },
+        },
+      });
+
+      return order;
+    });
+
+    return {
+      success: true,
+      data: this.mapOrder(updated),
+      message: dto.aprovado
+        ? 'Atesto digital emitido com sucesso. Serviço certificado para medição e liquidação.'
+        : 'Contestação registrada com sucesso. A ordem de serviço retornou para execução.',
     };
   }
 }

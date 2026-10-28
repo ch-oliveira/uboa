@@ -16,6 +16,7 @@ import {
 import { Button } from '@/components/ui/button';
 import type { OrdemServico, HistoricoItem } from '@/app/kanban/data';
 import { useAuth } from '@/context/auth-context';
+import { apiClient } from '@/lib/api-client';
 
 /**
  * Propriedades do modal de validação e aceite formal de ordem de serviço.
@@ -79,9 +80,10 @@ export function ValidacaoReparoModal({
   const actorName = user?.nome || 'Profª Maria Clara';
   const unitName = order.predio || user?.predio || 'EMEF Paulo Freire';
 
-  function handleApprove() {
+  async function handleApprove() {
     if (!order) return;
     setIsSubmitting(true);
+    setErrorMessage('');
     try {
       const now = new Date();
       const timeStr = `Hoje, ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
@@ -89,6 +91,21 @@ export function ValidacaoReparoModal({
       const logText = feedback.trim() 
         ? `Serviço vistoriado e aprovado com nota ${rating}/5 pela direção da unidade (${actorName}). Observação: "${feedback.trim()}".`
         : `Serviço vistoriado e aprovado com sucesso pela direção da unidade (${actorName}) com nota ${rating}/5.`;
+
+      // Chamada oficial à API de Atesto Digital (Lei 14.133/21)
+      let digitalHash: string | undefined;
+      try {
+        const apiRes = await apiClient.atestarWorkOrder(order.id, {
+          aprovado: true,
+          parecer: feedback.trim() || 'Serviço executado a contento e atestado pela direção da unidade.',
+          avaliacao: rating,
+        });
+        if (apiRes?.data?.assinaturaDigitalHash) {
+          digitalHash = apiRes.data.assinaturaDigitalHash;
+        }
+      } catch (err: any) {
+        console.warn('Fallback atesto offline:', err);
+      }
 
       const updatedHistory: HistoricoItem[] = [
         ...(order.historico || []),
@@ -103,18 +120,26 @@ export function ValidacaoReparoModal({
       const updatedOrder: OrdemServico = {
         ...order,
         status: 'CONCLUIDO',
-        concluidoEm: new Date().toISOString(),
+        statusAtesto: 'APROVADO',
+        atestadoEm: now.toISOString(),
+        atestadoPorNome: actorName,
+        parecerAtesto: feedback.trim() || 'Serviço aprovado a contento.',
+        avaliacaoAtesto: rating,
+        assinaturaDigitalHash: digitalHash || order.assinaturaDigitalHash,
+        concluidoEm: order.concluidoEm || now.toISOString(),
         historico: updatedHistory,
       };
 
       onConfirmApproval(updatedOrder, feedback, rating);
       onClose();
+    } catch (err: any) {
+      setErrorMessage(err?.message || 'Erro ao emitir atesto digital.');
     } finally {
       setIsSubmitting(false);
     }
   }
 
-  function handleDispute() {
+  async function handleDispute() {
     if (!order) return;
     if (!disputeDetails.trim() || disputeDetails.trim().length < 8) {
       setErrorMessage('Por favor, informe detalhes da inconformidade para a equipe técnica (mínimo de 8 caracteres).');
@@ -122,11 +147,28 @@ export function ValidacaoReparoModal({
     }
 
     setIsSubmitting(true);
+    setErrorMessage('');
     try {
       const now = new Date();
       const timeStr = `Hoje, ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const parecerCompleto = `${disputeReason}: ${disputeDetails.trim()}`;
       
       const logText = `Contestação registrada pela unidade (${actorName}): Motivo: [${disputeReason}]. Apontamento: "${disputeDetails.trim()}". Chamado retornado para a equipe de campo para saneamento.`;
+
+      // Chamada oficial à API de Atesto Digital (Lei 14.133/21)
+      let digitalHash: string | undefined;
+      try {
+        const apiRes = await apiClient.atestarWorkOrder(order.id, {
+          aprovado: false,
+          parecer: parecerCompleto,
+          avaliacao: 1,
+        });
+        if (apiRes?.data?.assinaturaDigitalHash) {
+          digitalHash = apiRes.data.assinaturaDigitalHash;
+        }
+      } catch (err: any) {
+        console.warn('Fallback atesto offline:', err);
+      }
 
       const updatedHistory: HistoricoItem[] = [
         ...(order.historico || []),
@@ -138,15 +180,23 @@ export function ValidacaoReparoModal({
         },
       ];
 
-      // Volta a ordem para EM_EXECUCAO para o técnico sanar
+      // Volta a ordem para EM_EXECUCAO para o técnico sanar e marca statusAtesto como REJEITADO
       const updatedOrder: OrdemServico = {
         ...order,
         status: 'EM_EXECUCAO',
+        statusAtesto: 'REJEITADO',
+        atestadoEm: now.toISOString(),
+        atestadoPorNome: actorName,
+        parecerAtesto: parecerCompleto,
+        avaliacaoAtesto: 1,
+        assinaturaDigitalHash: digitalHash || order.assinaturaDigitalHash,
         historico: updatedHistory,
       };
 
       onConfirmDispute(updatedOrder, disputeReason, disputeDetails.trim());
       onClose();
+    } catch (err: any) {
+      setErrorMessage(err?.message || 'Erro ao registrar contestação do serviço.');
     } finally {
       setIsSubmitting(false);
     }

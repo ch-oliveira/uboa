@@ -53,6 +53,13 @@ describe('WorkOrdersService - Ciclo de Vida da OS', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks();
+    mockPrismaService.$transaction = vi.fn().mockImplementation(async (callback) => {
+      return callback({
+        ordemServico: mockPrismaService.ordemServico,
+        auditoriaLog: mockPrismaService.auditoriaLog,
+        agendaVistoria: mockPrismaService.agendaVistoria,
+      });
+    });
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         WorkOrdersService,
@@ -664,5 +671,180 @@ describe('WorkOrdersService - Ciclo de Vida da OS', () => {
       });
     });
   });
+
+  describe('Atesto Digital do Solicitante / Gestor da Unidade (Lei 14.133/2021)', () => {
+    it('deve marcar status_atesto como PENDENTE ao concluir a OS', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue({
+        id: 'os-conc-1',
+        codigo: 'OS-200001',
+        status: StatusOS.EM_EXECUCAO,
+        tecnico_atribuido_id: 'tec-1',
+        prioridade: Prioridade.MEDIA,
+        status_atesto: 'NAO_APLICAVEL',
+        criado_em: new Date(),
+      });
+
+      mockPrismaService.ordemServico.update.mockResolvedValue({
+        id: 'os-conc-1',
+        codigo: 'OS-200001',
+        status: StatusOS.CONCLUIDO,
+        status_atesto: 'PENDENTE',
+        prioridade: Prioridade.MEDIA,
+        fotos_conclusao: ['https://exemplo.com/depois.jpg'],
+        criado_em: new Date(),
+        predio: { id: 'predio-1', nome: 'EMEF Paulo Freire' },
+        solicitante: { id: 'sol-1', nome: 'Diretora Maria' },
+      });
+
+      const res = await service.update(
+        'os-conc-1',
+        { status: 'CONCLUIDO', fotosConclusao: ['https://exemplo.com/depois.jpg'] },
+        { id: 'tec-1', role: Role.TECNICO, prefeituraId: 'pref-01' }
+      );
+
+      expect(res.success).toBe(true);
+      expect(mockPrismaService.ordemServico.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            status: StatusOS.CONCLUIDO,
+            status_atesto: 'PENDENTE',
+          }),
+        })
+      );
+    });
+
+    it('deve registrar atesto APROVADO com assinatura digital SHA-256 e auditoria', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue({
+        id: 'os-atesto-1',
+        codigo: 'OS-200002',
+        status: StatusOS.CONCLUIDO,
+        status_atesto: 'PENDENTE',
+        prioridade: Prioridade.MEDIA,
+        criado_em: new Date(),
+        predio: { id: 'predio-1', nome: 'EMEF Paulo Freire' },
+        solicitante: { id: 'sol-1', nome: 'Diretora Maria' },
+        prefeitura_id: 'pref-01',
+      });
+
+      mockPrismaService.ordemServico.update.mockResolvedValue({
+        id: 'os-atesto-1',
+        codigo: 'OS-200002',
+        status: StatusOS.CONCLUIDO,
+        status_atesto: 'APROVADO',
+        parecer_atesto: 'Serviço realizado e vistoriado com sucesso.',
+        avaliacao_atesto: 5,
+        assinatura_digital_hash: 'mock-hash-sha256',
+        atestado_em: new Date(),
+        atestado_por_id: 'sol-1',
+        prioridade: Prioridade.MEDIA,
+        criado_em: new Date(),
+        predio: { id: 'predio-1', nome: 'EMEF Paulo Freire' },
+        solicitante: { id: 'sol-1', nome: 'Diretora Maria' },
+      });
+
+      const res = await (service as any).atestar(
+        'os-atesto-1',
+        {
+          aprovado: true,
+          parecer: 'Serviço realizado e vistoriado com sucesso.',
+          avaliacao: 5,
+        },
+        { id: 'sol-1', role: Role.SOLICITANTE, prefeituraId: 'pref-01' }
+      );
+
+      expect(res.success).toBe(true);
+      expect(mockPrismaService.ordemServico.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { id: 'os-atesto-1' },
+          data: expect.objectContaining({
+            status_atesto: 'APROVADO',
+            parecer_atesto: 'Serviço realizado e vistoriado com sucesso.',
+            avaliacao_atesto: 5,
+            atestado_por_id: 'sol-1',
+            assinatura_digital_hash: expect.any(String),
+          }),
+        })
+      );
+      expect(mockPrismaService.auditoriaLog.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            entidade_afetada: 'ordens_servico',
+            entidade_id: 'os-atesto-1',
+            acao: AuditAction.UPDATE,
+            usuario_id: 'sol-1',
+          }),
+        })
+      );
+    });
+
+    it('deve reabrir a OS para EM_EXECUCAO quando o atesto for REJEITADO pela unidade', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue({
+        id: 'os-atesto-2',
+        codigo: 'OS-200003',
+        status: StatusOS.CONCLUIDO,
+        status_atesto: 'PENDENTE',
+        prioridade: Prioridade.MEDIA,
+        criado_em: new Date(),
+        predio: { id: 'predio-1', nome: 'EMEF Paulo Freire' },
+        solicitante: { id: 'sol-1', nome: 'Diretora Maria' },
+        prefeitura_id: 'pref-01',
+      });
+
+      mockPrismaService.ordemServico.update.mockResolvedValue({
+        id: 'os-atesto-2',
+        codigo: 'OS-200003',
+        status: StatusOS.EM_EXECUCAO,
+        status_atesto: 'REJEITADO',
+        parecer_atesto: 'O vazamento persiste na tubulação externa.',
+        avaliacao_atesto: 1,
+        prioridade: Prioridade.MEDIA,
+        criado_em: new Date(),
+        predio: { id: 'predio-1', nome: 'EMEF Paulo Freire' },
+        solicitante: { id: 'sol-1', nome: 'Diretora Maria' },
+      });
+
+      const res = await (service as any).atestar(
+        'os-atesto-2',
+        {
+          aprovado: false,
+          parecer: 'O vazamento persiste na tubulação externa.',
+          avaliacao: 1,
+        },
+        { id: 'sol-1', role: Role.SOLICITANTE, prefeituraId: 'pref-01' }
+      );
+
+      expect(res.success).toBe(true);
+      expect(mockPrismaService.ordemServico.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { id: 'os-atesto-2' },
+          data: expect.objectContaining({
+            status: StatusOS.EM_EXECUCAO,
+            status_atesto: 'REJEITADO',
+            parecer_atesto: 'O vazamento persiste na tubulação externa.',
+          }),
+        })
+      );
+    });
+
+    it('deve proibir atesto por perfil sem permissão (ex: TECNICO)', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue({
+        id: 'os-atesto-3',
+        codigo: 'OS-200004',
+        status: StatusOS.CONCLUIDO,
+        status_atesto: 'PENDENTE',
+        prioridade: Prioridade.MEDIA,
+        criado_em: new Date(),
+      });
+
+      await expect(
+        (service as any).atestar(
+          'os-atesto-3',
+          { aprovado: true },
+          { id: 'tec-1', role: Role.TECNICO, prefeituraId: 'pref-01' }
+        )
+      ).rejects.toThrow(ForbiddenException);
+    });
+  });
 });
+
 

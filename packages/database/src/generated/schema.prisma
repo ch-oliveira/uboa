@@ -87,16 +87,17 @@ model Prefeitura {
   ativo          Boolean         @default(true)
   metadata       Json?           @default("{}")
 
-  configuracao   ConfiguracaoSistema?
-  usuarios       Usuario[]
-  predios        Predio[]
-  ordens_servico OrdemServico[]
-  manifestacoes  Manifestacao[]
-  vistorias      AgendaVistoria[]
-  auditorias     AuditoriaLog[]
-  materiais      Material[]
-  contratos      ContratoManutencao[]
-  ativos         AtivoPredial[]
+  configuracao     ConfiguracaoSistema?
+  usuarios         Usuario[]
+  predios          Predio[]
+  ordens_servico   OrdemServico[]
+  manifestacoes    Manifestacao[]
+  vistorias        AgendaVistoria[]
+  auditorias       AuditoriaLog[]
+  materiais        Material[]
+  contratos        ContratoManutencao[]
+  ativos           AtivoPredial[]
+  boletins_medicao BoletimMedicao[]
 
   criado_em  DateTime @default(now())
   atualizado DateTime @updatedAt
@@ -120,10 +121,12 @@ model Usuario {
   prefeitura_id String?
   prefeitura    Prefeitura? @relation(fields: [prefeitura_id], references: [id])
 
-  predios_geridos           Predio[]       @relation("GestorPredio")
-  chamados_solicitados      OrdemServico[] @relation("SolicitanteOS")
-  chamados_atribuidos       OrdemServico[] @relation("TecnicoOS")
-  manifestacoes_respondidas Manifestacao[] @relation("ManifestacaoRespondente")
+  predios_geridos           Predio[]         @relation("GestorPredio")
+  chamados_solicitados      OrdemServico[]   @relation("SolicitanteOS")
+  chamados_atribuidos       OrdemServico[]   @relation("TecnicoOS")
+  chamados_atestados        OrdemServico[]   @relation("AtestoOS")
+  boletins_fiscalizados     BoletimMedicao[] @relation("FiscalBoletim")
+  manifestacoes_respondidas Manifestacao[]   @relation("ManifestacaoRespondente")
   auditorias                AuditoriaLog[]
 
   @@index([prefeitura_id, role])
@@ -208,6 +211,18 @@ model OrdemServico {
   contrato             ContratoManutencao? @relation(fields: [contrato_id], references: [id])
   materiais_consumidos ItemConsumoOS[]
 
+  // Atesto Digital do Solicitante / Gestor da Unidade (Lei 14.133/2021)
+  status_atesto           String?   @default("NAO_APLICAVEL") // NAO_APLICAVEL, PENDENTE, APROVADO, REJEITADO
+  atestado_em             DateTime?
+  atestado_por_id         String?
+  atestado_por            Usuario?  @relation("AtestoOS", fields: [atestado_por_id], references: [id], onDelete: SetNull)
+  parecer_atesto          String?
+  assinatura_digital_hash String? // Hash SHA-256 de integridade e auditoria
+  avaliacao_atesto        Int? // Avaliação de 1 a 5 estrelas
+
+  boletim_medicao_id String?
+  boletim_medicao    BoletimMedicao? @relation(fields: [boletim_medicao_id], references: [id], onDelete: SetNull)
+
   prefeitura_id String?
   prefeitura    Prefeitura? @relation(fields: [prefeitura_id], references: [id])
 
@@ -222,6 +237,8 @@ model OrdemServico {
   atualizado DateTime @updatedAt
 
   @@index([prefeitura_id, status])
+  @@index([prefeitura_id, status_atesto])
+  @@index([boletim_medicao_id])
   @@index([prefeitura_id, prioridade])
   @@index([prefeitura_id, predio_id, criado_em])
   @@map("ordens_servico")
@@ -401,9 +418,47 @@ model ContratoManutencao {
   objeto                String? // ex: "Manutenção Predial Preventiva e Corretiva com Fornecimento de Peças"
   categoria_padrao      String?   @default("GERAL") // ELETRICA, HIDRAULICA, ALVENARIA, GERAL
   valor_total_empenhado Decimal   @default(0.00) @db.Decimal(12, 2)
+  bdi_padrao            Decimal?  @default(20.00) @db.Decimal(5, 2) // BDI contratual padrão (%)
   vigencia_inicio       DateTime?
   vigencia_fim          DateTime?
   ativo                 Boolean   @default(true)
+
+  prefeitura_id String?
+  prefeitura    Prefeitura? @relation(fields: [prefeitura_id], references: [id])
+
+  ordens_servico   OrdemServico[]
+  boletins_medicao BoletimMedicao[]
+
+  criado_em  DateTime @default(now())
+  atualizado DateTime @updatedAt
+
+  @@unique([prefeitura_id, numero_contrato])
+  @@index([prefeitura_id, ativo])
+  @@map("contratos_manutencao")
+}
+
+model BoletimMedicao {
+  id                String   @id @default(uuid())
+  numero_boletim    String // ex: "BM-2026-001"
+  mes_competencia   Int // 1 a 12
+  ano_competencia   Int // ex: 2026
+  data_inicio       DateTime
+  data_fim          DateTime
+  status            String   @default("RASCUNHO") // RASCUNHO, APROVADO, PAGO, CANCELADO
+  bdi_percentual    Decimal  @default(20.00) @db.Decimal(5, 2)
+  valor_materiais   Decimal  @default(0.00) @db.Decimal(12, 2)
+  valor_mao_de_obra Decimal  @default(0.00) @db.Decimal(12, 2)
+  valor_direto      Decimal  @default(0.00) @db.Decimal(12, 2)
+  valor_bdi         Decimal  @default(0.00) @db.Decimal(12, 2)
+  valor_total       Decimal  @default(0.00) @db.Decimal(12, 2)
+  observacoes       String?
+  hash_integridade  String? // Assinatura digital SHA-256 do boletim consolidado
+
+  fiscal_responsavel_id String?
+  fiscal_responsavel    Usuario? @relation("FiscalBoletim", fields: [fiscal_responsavel_id], references: [id], onDelete: SetNull)
+
+  contrato_id String
+  contrato    ContratoManutencao @relation(fields: [contrato_id], references: [id], onDelete: Cascade)
 
   prefeitura_id String?
   prefeitura    Prefeitura? @relation(fields: [prefeitura_id], references: [id])
@@ -413,9 +468,10 @@ model ContratoManutencao {
   criado_em  DateTime @default(now())
   atualizado DateTime @updatedAt
 
-  @@unique([prefeitura_id, numero_contrato])
-  @@index([prefeitura_id, ativo])
-  @@map("contratos_manutencao")
+  @@unique([prefeitura_id, numero_boletim])
+  @@index([prefeitura_id, contrato_id, status])
+  @@index([mes_competencia, ano_competencia])
+  @@map("boletins_medicao")
 }
 
 model AtivoPredial {

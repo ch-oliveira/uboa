@@ -4,7 +4,7 @@ import { Public } from '../auth/public.decorator.js';
 import { CurrentUser } from '../auth/current-user.decorator.js';
 import { Roles } from '../auth/roles.decorator.js';
 import { Role } from '@repo/database';
-import { CreateWorkOrderDto, UpdateWorkOrderDto, AddConsumedMaterialDto, UpdateFinancialsDto } from './dto/work-order.dto.js';
+import { CreateWorkOrderDto, UpdateWorkOrderDto, AddConsumedMaterialDto, UpdateFinancialsDto, AtestoWorkOrderDto } from './dto/work-order.dto.js';
 
 @Controller('work-orders')
 export class WorkOrdersController {
@@ -107,6 +107,16 @@ export class WorkOrdersController {
     @CurrentUser() user?: any,
   ) {
     return this.workOrdersService.remove(id, body?.motivoCancelamento || body?.motivo, user);
+  }
+
+  @Roles(Role.ADMIN, Role.GESTOR, Role.SOLICITANTE)
+  @Post(':id/atesto')
+  async atestar(
+    @Param('id') id: string,
+    @Body() dto: AtestoWorkOrderDto,
+    @CurrentUser() user?: any,
+  ) {
+    return this.workOrdersService.atestar(id, dto, user);
   }
 }
 

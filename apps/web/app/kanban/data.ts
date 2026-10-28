@@ -42,6 +42,7 @@ export interface ContratoItem {
   valorTotalMedido: number;
   saldoRestante: number;
   percentualExecutado: number;
+  bdiPadrao?: number;
   vigenciaInicio?: string;
   vigenciaFim?: string;
   ativo: boolean;
@@ -90,6 +91,14 @@ export interface OrdemServico {
   empresaTerceirizada?: string;
   numeroEmpenho?: string;
   materiaisConsumidos?: ItemConsumoOS[];
+  statusAtesto?: string;
+  atestadoEm?: string;
+  atestadoPorId?: string;
+  atestadoPorNome?: string;
+  parecerAtesto?: string;
+  assinaturaDigitalHash?: string;
+  avaliacaoAtesto?: number;
+  boletimMedicaoId?: string;
 }
 
 export interface KanbanColumn {

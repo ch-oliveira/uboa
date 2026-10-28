@@ -165,6 +165,14 @@ function mapWorkOrderFromApi(item: any): OrdemServico {
     contratoId: item.contratoId || item.contrato_id || undefined,
     empresaTerceirizada: item.empresaTerceirizada || item.empresa_terceirizada || undefined,
     numeroEmpenho: item.numeroEmpenho || item.numero_empenho || undefined,
+    statusAtesto: item.statusAtesto || item.status_atesto || 'NAO_APLICAVEL',
+    atestadoEm: item.atestadoEm || item.atestado_em,
+    atestadoPorId: item.atestadoPorId || item.atestado_por_id,
+    atestadoPorNome: item.atestadoPorNome || item.atestado_por?.nome,
+    parecerAtesto: item.parecerAtesto || item.parecer_atesto,
+    assinaturaDigitalHash: item.assinaturaDigitalHash || item.assinatura_digital_hash,
+    avaliacaoAtesto: item.avaliacaoAtesto ?? item.avaliacao_atesto,
+    boletimMedicaoId: item.boletimMedicaoId || item.boletim_medicao_id,
     materiaisConsumidos: (item.materiaisConsumidos || item.materiais_consumidos || []).map((m: any) => ({
       id: m.id,
       materialId: m.materialId || m.material_id,
@@ -486,6 +494,21 @@ export const apiClient = {
     return await res.json();
   },
 
+  async atestarWorkOrder(
+    idOrCode: string,
+    dto: { aprovado: boolean; parecer?: string; avaliacao?: number },
+  ): Promise<{ success: boolean; data?: any; message?: string }> {
+    const res = await fetch(`${getApiBase()}/work-orders/${encodeURIComponent(idOrCode)}/atesto`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders(),
+      },
+      body: JSON.stringify(dto),
+    });
+    return await res.json();
+  },
+
   // -------------------------------------------------------------
   // MATERIAIS & MEDIÇÃO FINANCEIRA DE ORDENS DE SERVIÇO
   // -------------------------------------------------------------
@@ -642,6 +665,58 @@ export const apiClient = {
     });
     const resData = await res.json();
     return resData;
+  },
+
+  async getBoletimPreview(
+    contratoId: string,
+    params?: { mes?: number; ano?: number; bdiPercentual?: number },
+  ): Promise<{ success: boolean; data?: any; message?: string }> {
+    const base = getApiBase();
+    const url = new URL(`${base}/contracts/${encodeURIComponent(contratoId)}/boletim-preview`);
+    if (params) {
+      if (params.mes) url.searchParams.set('mes', String(params.mes));
+      if (params.ano) url.searchParams.set('ano', String(params.ano));
+      if (params.bdiPercentual) url.searchParams.set('bdiPercentual', String(params.bdiPercentual));
+    }
+    const res = await fetch(url.toString(), {
+      cache: 'no-store',
+      headers: getAuthHeaders(),
+    });
+    return res.json();
+  },
+
+  async createBoletim(
+    contratoId: string,
+    payload: { mesCompetencia: number; anoCompetencia: number; bdiPercentual?: number; observacoes?: string },
+  ): Promise<{ success: boolean; data?: any; message?: string }> {
+    const res = await fetch(`${getApiBase()}/contracts/${encodeURIComponent(contratoId)}/boletins`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders(),
+      },
+      body: JSON.stringify(payload),
+    });
+    return res.json();
+  },
+
+  async getAllBoletins(contratoId?: string): Promise<{ success: boolean; data?: any[] }> {
+    const base = getApiBase();
+    const url = new URL(`${base}/contracts/boletins/all`);
+    if (contratoId) url.searchParams.set('contratoId', contratoId);
+    const res = await fetch(url.toString(), {
+      cache: 'no-store',
+      headers: getAuthHeaders(),
+    });
+    return res.json();
+  },
+
+  async getBoletimById(id: string): Promise<{ success: boolean; data?: any }> {
+    const res = await fetch(`${getApiBase()}/contracts/boletins/${encodeURIComponent(id)}`, {
+      cache: 'no-store',
+      headers: getAuthHeaders(),
+    });
+    return res.json();
   },
 
   // -------------------------------------------------------------

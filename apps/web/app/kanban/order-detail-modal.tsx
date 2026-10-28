@@ -21,6 +21,7 @@ import {
   Printer,
   ChevronRight,
   ShieldAlert,
+  ShieldCheck,
   ArrowRight,
   PauseCircle,
   RotateCcw,
@@ -959,6 +960,95 @@ export function OrderDetailModal({
               </Button>
             </div>
           )}
+
+          {/* ======================================================== */}
+          {/* BANNER DE ATESTO DIGITAL DO DIRETOR DA UNIDADE (LEI 14.133/21) */}
+          {/* ======================================================== */}
+          {order.statusAtesto === 'APROVADO' ? (
+            <div className="p-4 bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-300 dark:border-emerald-800 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-in fade-in">
+              <div className="flex items-start gap-3">
+                <div className="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 flex items-center justify-center shrink-0 mt-0.5">
+                  <ShieldCheck size={20} />
+                </div>
+                <div className="space-y-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-xs font-bold text-emerald-900 dark:text-emerald-200 uppercase tracking-wide">
+                      Atesto Digital de Recebimento Definitivo (Art. 140 Lei 14.133/21)
+                    </span>
+                    <span className="text-[10px] font-bold bg-emerald-200/70 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-300">
+                      Habilitado para Medição
+                    </span>
+                    {order.avaliacaoAtesto && (
+                      <span className="text-[10px] font-bold text-amber-600 flex items-center gap-0.5">
+                        ★ {order.avaliacaoAtesto}/5
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-emerald-900 dark:text-emerald-300 font-medium">
+                    {order.parecerAtesto ? `"${order.parecerAtesto}"` : 'Serviço atestado a contento pela direção da unidade.'}
+                  </p>
+                  <p className="text-[10px] text-emerald-800/80 dark:text-emerald-400">
+                    Atestado por <strong>{order.atestadoPorNome || order.solicitante}</strong>
+                    {order.atestadoEm && ` em ${new Date(order.atestadoEm).toLocaleDateString('pt-BR')} às ${new Date(order.atestadoEm).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`}
+                    {order.assinaturaDigitalHash && (
+                      <span className="font-mono block mt-0.5 text-[9px] text-muted-foreground truncate max-w-[400px]">
+                        Hash SHA-256: {order.assinaturaDigitalHash}
+                      </span>
+                    )}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (status === 'CONCLUIDO' || status === 'AGUARDANDO') ? (
+            <div className="p-4 bg-amber-50/80 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-in fade-in">
+              <div className="flex items-start gap-3">
+                <div className="w-9 h-9 rounded-xl bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 flex items-center justify-center shrink-0 mt-0.5">
+                  <Clock size={20} />
+                </div>
+                <div className="space-y-0.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-amber-900 dark:text-amber-200 uppercase tracking-wide">
+                      Aguardando Atesto Digital do Diretor da Unidade
+                    </span>
+                    <span className="text-[10px] font-bold bg-amber-200/70 text-amber-900 px-2 py-0.5 rounded-full border border-amber-300">
+                      Liquidação Retida
+                    </span>
+                  </div>
+                  <p className="text-xs text-amber-800 dark:text-amber-300">
+                    Conforme a Lei Federal 14.133/2021, o pagamento e medição pública à terceirizada estão bloqueados até o aceite formal de <strong>{predio || 'unidade'}</strong>.
+                  </p>
+                </div>
+              </div>
+
+              <Button
+                type="button"
+                onClick={() => setShowValidationModal(true)}
+                className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl h-9 px-4 shrink-0 shadow-xs cursor-pointer flex items-center gap-1.5"
+              >
+                <ShieldCheck size={14} />
+                <span>Emitir Atesto Digital</span>
+              </Button>
+            </div>
+          ) : order.statusAtesto === 'REJEITADO' ? (
+            <div className="p-4 bg-rose-50/80 dark:bg-rose-950/30 border border-rose-300 dark:border-rose-800 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-in fade-in">
+              <div className="flex items-start gap-3">
+                <div className="w-9 h-9 rounded-xl bg-rose-100 dark:bg-rose-900/50 text-rose-700 dark:text-rose-300 flex items-center justify-center shrink-0 mt-0.5">
+                  <AlertTriangle size={20} />
+                </div>
+                <div className="space-y-0.5">
+                  <span className="text-xs font-bold text-rose-900 dark:text-rose-200 uppercase tracking-wide">
+                    Reparo Contestado pela Unidade — Retornado para Execução
+                  </span>
+                  <p className="text-xs text-rose-800 dark:text-rose-300 font-medium">
+                    Apontamento do diretor: {order.parecerAtesto || 'Inconformidades apontadas no local.'}
+                  </p>
+                  <p className="text-[10px] text-rose-700/80 dark:text-rose-400">
+                    A OS retornou para a equipe de campo e não pode ser faturada até saneamento e novo atesto.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : null}
 
           {/* ======================================================== */}
           {/* CORPO EM 2 COLUNAS: ESQUERDA (OCORRÊNCIA) / DIR (GESTÃO) */}

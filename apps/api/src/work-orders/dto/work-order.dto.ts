@@ -243,3 +243,15 @@ export class UpdateFinancialsDto {
   custoMaoDeObra?: number;
 }
 
+export class AtestoWorkOrderDto {
+  aprovado!: boolean;
+
+  @IsString()
+  @IsOptional()
+  parecer?: string;
+
+  @IsOptional()
+  avaliacao?: number;
+}
+
+

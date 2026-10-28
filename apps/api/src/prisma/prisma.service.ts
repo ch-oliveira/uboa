@@ -42,6 +42,37 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
             "atualizado" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
             CONSTRAINT "ativos_prediais_pkey" PRIMARY KEY ("id")
           );
+          ALTER TABLE "ordens_servico" ADD COLUMN IF NOT EXISTS "status_atesto" TEXT DEFAULT 'NAO_APLICAVEL';
+          ALTER TABLE "ordens_servico" ADD COLUMN IF NOT EXISTS "atestado_em" TIMESTAMP(3);
+          ALTER TABLE "ordens_servico" ADD COLUMN IF NOT EXISTS "atestado_por_id" TEXT;
+          ALTER TABLE "ordens_servico" ADD COLUMN IF NOT EXISTS "parecer_atesto" TEXT;
+          ALTER TABLE "ordens_servico" ADD COLUMN IF NOT EXISTS "assinatura_digital_hash" TEXT;
+          ALTER TABLE "ordens_servico" ADD COLUMN IF NOT EXISTS "avaliacao_atesto" INTEGER;
+          ALTER TABLE "ordens_servico" ADD COLUMN IF NOT EXISTS "boletim_medicao_id" TEXT;
+          ALTER TABLE "contratos_manutencao" ADD COLUMN IF NOT EXISTS "bdi_padrao" DECIMAL(5,2) DEFAULT 20.00;
+          CREATE TABLE IF NOT EXISTS "boletins_medicao" (
+            "id" TEXT NOT NULL,
+            "numero_boletim" TEXT NOT NULL,
+            "mes_competencia" INTEGER NOT NULL,
+            "ano_competencia" INTEGER NOT NULL,
+            "data_inicio" TIMESTAMP(3) NOT NULL,
+            "data_fim" TIMESTAMP(3) NOT NULL,
+            "status" TEXT NOT NULL DEFAULT 'RASCUNHO',
+            "bdi_percentual" DECIMAL(5,2) NOT NULL DEFAULT 20.00,
+            "valor_materiais" DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+            "valor_mao_de_obra" DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+            "valor_direto" DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+            "valor_bdi" DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+            "valor_total" DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+            "observacoes" TEXT,
+            "hash_integridade" TEXT,
+            "fiscal_responsavel_id" TEXT,
+            "contrato_id" TEXT NOT NULL,
+            "prefeitura_id" TEXT,
+            "criado_em" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            "atualizado" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            CONSTRAINT "boletins_medicao_pkey" PRIMARY KEY ("id")
+          );
         `).catch(() => null);
       }
 
