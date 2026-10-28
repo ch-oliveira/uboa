@@ -16,6 +16,35 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
    */
   public async ensureDefaultTenantAndBackfill() {
     try {
+      // 0. Garantir colunas e tabelas de evolução de schema de forma idempotente
+      if (typeof this.$executeRawUnsafe === 'function') {
+        await this.$executeRawUnsafe(
+          `ALTER TABLE "ordens_servico" ADD COLUMN IF NOT EXISTS "ativo_id" TEXT;`,
+        ).catch(() => null);
+        await this.$executeRawUnsafe(`
+          CREATE TABLE IF NOT EXISTS "ativos_prediais" (
+            "id" TEXT NOT NULL,
+            "codigo_patrimonio" TEXT NOT NULL,
+            "nome" TEXT NOT NULL,
+            "categoria" TEXT NOT NULL DEFAULT 'CLIMATIZACAO',
+            "ambiente" TEXT NOT NULL,
+            "marca_modelo" TEXT,
+            "numero_serie" TEXT,
+            "status" TEXT NOT NULL DEFAULT 'OPERACIONAL',
+            "data_instalacao" TIMESTAMP(3),
+            "garantia_ate" TIMESTAMP(3),
+            "ultima_manutencao" TIMESTAMP(3),
+            "custo_acumulado" DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+            "ativo" BOOLEAN NOT NULL DEFAULT true,
+            "predio_id" TEXT NOT NULL,
+            "prefeitura_id" TEXT,
+            "criado_em" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            "atualizado" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            CONSTRAINT "ativos_prediais_pkey" PRIMARY KEY ("id")
+          );
+        `).catch(() => null);
+      }
+
       // 1. Criar ou obter a prefeitura padrão
       const defaultTenant = await this.prefeitura.upsert({
         where: { slug: 'default' },

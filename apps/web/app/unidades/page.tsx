@@ -17,7 +17,8 @@ import {
   Activity, 
   Trees, 
   Landmark,
-  ArrowRight
+  ArrowRight,
+  QrCode
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Toast } from '@/components/ui/toast';
@@ -53,6 +54,7 @@ export default function UnidadesPage() {
   // Modals
   const [isNewUnitModalOpen, setIsNewUnitModalOpen] = useState(false);
   const [selectedUnitName, setSelectedUnitName] = useState<string | null>(null);
+  const [selectedUnitTab, setSelectedUnitTab] = useState<'CHAMADOS' | 'ATIVOS'>('CHAMADOS');
   const [isNewOrderModalOpen, setIsNewOrderModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<OrdemServico | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -333,14 +335,31 @@ export default function UnidadesPage() {
                     </div>
 
                       {/* Footer Actions */}
-                      <div className="mt-4 pt-3 border-t border-border flex items-center justify-between">
-                        <button
-                          type="button"
-                          onClick={() => setSelectedUnitName(unit.nome)}
-                          className="text-xs font-semibold text-primary hover:underline cursor-pointer"
-                        >
-                          Ver unidade
-                        </button>
+                      <div className="mt-4 pt-3 border-t border-border flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-3">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSelectedUnitTab('CHAMADOS');
+                              setSelectedUnitName(unit.nome);
+                            }}
+                            className="text-xs font-semibold text-primary hover:underline cursor-pointer"
+                          >
+                            Ver unidade
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSelectedUnitTab('ATIVOS');
+                              setSelectedUnitName(unit.nome);
+                            }}
+                            className="text-xs font-semibold text-foreground bg-muted/70 hover:bg-muted px-2.5 py-1 rounded-md transition-colors flex items-center gap-1 cursor-pointer"
+                          >
+                            <QrCode size={13} className="text-primary" />
+                            <span>Ativos & QR</span>
+                          </button>
+                        </div>
 
                         <Link
                           href={`/chamados?unidade=${encodeURIComponent(unit.nome)}`}
@@ -373,6 +392,7 @@ export default function UnidadesPage() {
       <UnitModal 
         isOpen={!!selectedUnitName}
         unitName={selectedUnitName}
+        initialTab={selectedUnitTab}
         orders={orders}
         onClose={() => setSelectedUnitName(null)}
         onSelectOrder={(ord) => setSelectedOrder(ord)}

@@ -176,6 +176,7 @@ exports.Prisma.OrdemServicoScalarFieldEnum = {
   prioridade: 'prioridade',
   status: 'status',
   predio_id: 'predio_id',
+  ativo_id: 'ativo_id',
   solicitante_id: 'solicitante_id',
   tecnico_atribuido_id: 'tecnico_atribuido_id',
   fotos: 'fotos',
@@ -325,6 +326,26 @@ exports.Prisma.ContratoManutencaoScalarFieldEnum = {
   atualizado: 'atualizado'
 };
 
+exports.Prisma.AtivoPredialScalarFieldEnum = {
+  id: 'id',
+  codigo_patrimonio: 'codigo_patrimonio',
+  nome: 'nome',
+  categoria: 'categoria',
+  ambiente: 'ambiente',
+  marca_modelo: 'marca_modelo',
+  numero_serie: 'numero_serie',
+  status: 'status',
+  data_instalacao: 'data_instalacao',
+  garantia_ate: 'garantia_ate',
+  ultima_manutencao: 'ultima_manutencao',
+  custo_acumulado: 'custo_acumulado',
+  ativo: 'ativo',
+  predio_id: 'predio_id',
+  prefeitura_id: 'prefeitura_id',
+  criado_em: 'criado_em',
+  atualizado: 'atualizado'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -424,7 +445,8 @@ exports.Prisma.ModelName = {
   Manifestacao: 'Manifestacao',
   Material: 'Material',
   ItemConsumoOS: 'ItemConsumoOS',
-  ContratoManutencao: 'ContratoManutencao'
+  ContratoManutencao: 'ContratoManutencao',
+  AtivoPredial: 'AtivoPredial'
 };
 
 /**

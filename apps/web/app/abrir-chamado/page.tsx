@@ -155,6 +155,8 @@ function AbrirChamadoForm() {
 
   // QR Code detection badge
   const [qrDetected, setQrDetected] = useState<string | null>(null);
+  const [qrPatrimonio, setQrPatrimonio] = useState<string | null>(null);
+  const [qrAtivoNome, setQrAtivoNome] = useState<string | null>(null);
 
   // Lightbox State
   const [lightboxOpen, setLightboxOpen] = useState<boolean>(false);
@@ -172,6 +174,9 @@ function AbrirChamadoForm() {
     const qUnidade = searchParams.get('unidade') || searchParams.get('predio') || searchParams.get('unit');
     const qSetor = searchParams.get('setor') || searchParams.get('local') || searchParams.get('sala');
     const qProtocol = searchParams.get('protocolo') || searchParams.get('os') || searchParams.get('codigo');
+    const qPatrimonio = searchParams.get('patrimonio');
+    const qAtivo = searchParams.get('ativo');
+    const qCategoria = searchParams.get('categoria');
 
     if (qProtocol) {
       setActiveView('consultar');
@@ -197,6 +202,24 @@ function AbrirChamadoForm() {
 
     if (qSetor) {
       setSetorLocal(qSetor);
+    }
+
+    if (qPatrimonio) {
+      setQrPatrimonio(qPatrimonio);
+    }
+
+    if (qAtivo) {
+      setQrAtivoNome(qAtivo);
+      setTitulo((prev) => prev || `Reparo técnico: ${qAtivo}${qPatrimonio ? ` [${qPatrimonio}]` : ''}`);
+    }
+
+    if (qCategoria) {
+      const cat = qCategoria.toUpperCase();
+      if (cat.includes('ELETRIC')) setSpecialty('eletrica');
+      else if (cat.includes('HIDRAUL')) setSpecialty('hidraulica');
+      else if (cat.includes('ALVENAR') || cat.includes('PINTUR')) setSpecialty('alvenaria');
+      else if (cat.includes('TELHAD')) setSpecialty('telhado');
+      else setSpecialty('geral');
     }
   }, [searchParams, units]);
 
@@ -281,9 +304,10 @@ function AbrirChamadoForm() {
       status: 'TRIAGEM',
       prioridade: isUrgente ? 'ALTA' : 'MEDIA',
       solicitante: `${solicitanteNome.trim()} (${solicitanteCargo})`,
-      descricao: `${descricao.trim() ? descricao.trim() + ' | ' : ''}Local específico: ${setorLocal.trim() || 'Geral da unidade'} • Contato: ${solicitanteTelefone.trim() || 'Não informado'}`,
+      descricao: `${descricao.trim() ? descricao.trim() + ' | ' : ''}Local específico: ${setorLocal.trim() || 'Geral da unidade'}${qrPatrimonio ? ` • Patrimônio: ${qrPatrimonio}` : ''} • Contato: ${solicitanteTelefone.trim() || 'Não informado'}`,
       fotos: fotos.length > 0 ? fotos : undefined,
-    };
+      ...(qrPatrimonio ? { codigoPatrimonio: qrPatrimonio } : {}),
+    } as OrdemServico;
 
     try {
       await addOrder(newOrder);
@@ -500,20 +524,29 @@ function AbrirChamadoForm() {
       {/* 2. BODY CONTENT RESPONSIVO */}
       <main className="flex-1 max-w-2xl sm:max-w-3xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-8">
 
-        {/* Banner de Reconhecimento QR Code se aberto via link de cartaz/totem */}
+        {/* Banner de Reconhecimento QR Code se aberto via link de cartaz/totem ou etiqueta de equipamento */}
         {qrDetected && activeView === 'novo' && currentStep === 1 && (
           <div className="mb-4 p-3 sm:p-3.5 rounded-2xl bg-blue-500/10 border border-blue-500/20 text-blue-900 dark:text-blue-300 flex items-center justify-between gap-2.5 text-xs">
             <div className="flex items-center gap-2 min-w-0">
               <span className="p-1.5 rounded-lg bg-blue-500/15 text-blue-600 shrink-0">
                 <QrCode size={16} />
               </span>
-              <p className="truncate font-semibold">
-                <span>Localização identificada via QR Code: </span>
-                <strong className="font-extrabold text-blue-950 dark:text-blue-200">{qrDetected}</strong>
-              </p>
+              <div className="truncate">
+                <p className="truncate font-semibold">
+                  <span>Identificado via QR Code: </span>
+                  <strong className="font-extrabold text-blue-950 dark:text-blue-200">{qrDetected}</strong>
+                  {setorLocal && <span> · {setorLocal}</span>}
+                </p>
+                {(qrAtivoNome || qrPatrimonio) && (
+                  <p className="text-[11px] text-blue-800 dark:text-blue-300 truncate mt-0.5">
+                    Equipamento: <strong>{qrAtivoNome || 'Ativo Municipal'}</strong>
+                    {qrPatrimonio && <span className="font-mono ml-1.5 px-1.5 py-0.5 rounded bg-blue-600/15 font-bold">{qrPatrimonio}</span>}
+                  </p>
+                )}
+              </div>
             </div>
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-600/15 text-blue-700 shrink-0">
-              Confirmado
+              {qrPatrimonio ? 'Ativo Vinculado' : 'Confirmado'}
             </span>
           </div>
         )}

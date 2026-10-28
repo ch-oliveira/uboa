@@ -92,6 +92,14 @@ export class CreateWorkOrderDto {
   @IsString()
   @IsOptional()
   horarioAgendamento?: string;
+
+  @IsString()
+  @IsOptional()
+  ativoId?: string;
+
+  @IsString()
+  @IsOptional()
+  codigoPatrimonio?: string;
 }
 
 export class UpdateWorkOrderDto {

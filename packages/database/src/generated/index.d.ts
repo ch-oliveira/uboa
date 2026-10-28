@@ -68,6 +68,11 @@ export type ItemConsumoOS = $Result.DefaultSelection<Prisma.$ItemConsumoOSPayloa
  * 
  */
 export type ContratoManutencao = $Result.DefaultSelection<Prisma.$ContratoManutencaoPayload>
+/**
+ * Model AtivoPredial
+ * 
+ */
+export type AtivoPredial = $Result.DefaultSelection<Prisma.$AtivoPredialPayload>
 
 /**
  * Enums
@@ -420,6 +425,16 @@ export class PrismaClient<
     * ```
     */
   get contratoManutencao(): Prisma.ContratoManutencaoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ativoPredial`: Exposes CRUD operations for the **AtivoPredial** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AtivoPredials
+    * const ativoPredials = await prisma.ativoPredial.findMany()
+    * ```
+    */
+  get ativoPredial(): Prisma.AtivoPredialDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -871,7 +886,8 @@ export namespace Prisma {
     Manifestacao: 'Manifestacao',
     Material: 'Material',
     ItemConsumoOS: 'ItemConsumoOS',
-    ContratoManutencao: 'ContratoManutencao'
+    ContratoManutencao: 'ContratoManutencao',
+    AtivoPredial: 'AtivoPredial'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -890,7 +906,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "prefeitura" | "usuario" | "predio" | "ordemServico" | "auditoriaLog" | "agendaVistoria" | "configuracaoSistema" | "manifestacao" | "material" | "itemConsumoOS" | "contratoManutencao"
+      modelProps: "prefeitura" | "usuario" | "predio" | "ordemServico" | "auditoriaLog" | "agendaVistoria" | "configuracaoSistema" | "manifestacao" | "material" | "itemConsumoOS" | "contratoManutencao" | "ativoPredial"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1708,6 +1724,80 @@ export namespace Prisma {
           }
         }
       }
+      AtivoPredial: {
+        payload: Prisma.$AtivoPredialPayload<ExtArgs>
+        fields: Prisma.AtivoPredialFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AtivoPredialFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AtivoPredialPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AtivoPredialFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AtivoPredialPayload>
+          }
+          findFirst: {
+            args: Prisma.AtivoPredialFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AtivoPredialPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AtivoPredialFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AtivoPredialPayload>
+          }
+          findMany: {
+            args: Prisma.AtivoPredialFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AtivoPredialPayload>[]
+          }
+          create: {
+            args: Prisma.AtivoPredialCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AtivoPredialPayload>
+          }
+          createMany: {
+            args: Prisma.AtivoPredialCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AtivoPredialCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AtivoPredialPayload>[]
+          }
+          delete: {
+            args: Prisma.AtivoPredialDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AtivoPredialPayload>
+          }
+          update: {
+            args: Prisma.AtivoPredialUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AtivoPredialPayload>
+          }
+          deleteMany: {
+            args: Prisma.AtivoPredialDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AtivoPredialUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AtivoPredialUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AtivoPredialPayload>[]
+          }
+          upsert: {
+            args: Prisma.AtivoPredialUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AtivoPredialPayload>
+          }
+          aggregate: {
+            args: Prisma.AtivoPredialAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAtivoPredial>
+          }
+          groupBy: {
+            args: Prisma.AtivoPredialGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AtivoPredialGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AtivoPredialCountArgs<ExtArgs>
+            result: $Utils.Optional<AtivoPredialCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1815,6 +1905,7 @@ export namespace Prisma {
     material?: MaterialOmit
     itemConsumoOS?: ItemConsumoOSOmit
     contratoManutencao?: ContratoManutencaoOmit
+    ativoPredial?: AtivoPredialOmit
   }
 
   /* Types for Logging */
@@ -1903,6 +1994,7 @@ export namespace Prisma {
     auditorias: number
     materiais: number
     contratos: number
+    ativos: number
   }
 
   export type PrefeituraCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1914,6 +2006,7 @@ export namespace Prisma {
     auditorias?: boolean | PrefeituraCountOutputTypeCountAuditoriasArgs
     materiais?: boolean | PrefeituraCountOutputTypeCountMateriaisArgs
     contratos?: boolean | PrefeituraCountOutputTypeCountContratosArgs
+    ativos?: boolean | PrefeituraCountOutputTypeCountAtivosArgs
   }
 
   // Custom InputTypes
@@ -1981,6 +2074,13 @@ export namespace Prisma {
    */
   export type PrefeituraCountOutputTypeCountContratosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ContratoManutencaoWhereInput
+  }
+
+  /**
+   * PrefeituraCountOutputType without action
+   */
+  export type PrefeituraCountOutputTypeCountAtivosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AtivoPredialWhereInput
   }
 
 
@@ -2059,12 +2159,14 @@ export namespace Prisma {
     ordens_servico: number
     vistorias: number
     manifestacoes: number
+    ativos: number
   }
 
   export type PredioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ordens_servico?: boolean | PredioCountOutputTypeCountOrdens_servicoArgs
     vistorias?: boolean | PredioCountOutputTypeCountVistoriasArgs
     manifestacoes?: boolean | PredioCountOutputTypeCountManifestacoesArgs
+    ativos?: boolean | PredioCountOutputTypeCountAtivosArgs
   }
 
   // Custom InputTypes
@@ -2097,6 +2199,13 @@ export namespace Prisma {
    */
   export type PredioCountOutputTypeCountManifestacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ManifestacaoWhereInput
+  }
+
+  /**
+   * PredioCountOutputType without action
+   */
+  export type PredioCountOutputTypeCountAtivosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AtivoPredialWhereInput
   }
 
 
@@ -2216,6 +2325,37 @@ export namespace Prisma {
    * ContratoManutencaoCountOutputType without action
    */
   export type ContratoManutencaoCountOutputTypeCountOrdens_servicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrdemServicoWhereInput
+  }
+
+
+  /**
+   * Count Type AtivoPredialCountOutputType
+   */
+
+  export type AtivoPredialCountOutputType = {
+    ordens_servico: number
+  }
+
+  export type AtivoPredialCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ordens_servico?: boolean | AtivoPredialCountOutputTypeCountOrdens_servicoArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AtivoPredialCountOutputType without action
+   */
+  export type AtivoPredialCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredialCountOutputType
+     */
+    select?: AtivoPredialCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AtivoPredialCountOutputType without action
+   */
+  export type AtivoPredialCountOutputTypeCountOrdens_servicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrdemServicoWhereInput
   }
 
@@ -2429,6 +2569,7 @@ export namespace Prisma {
     auditorias?: boolean | Prefeitura$auditoriasArgs<ExtArgs>
     materiais?: boolean | Prefeitura$materiaisArgs<ExtArgs>
     contratos?: boolean | Prefeitura$contratosArgs<ExtArgs>
+    ativos?: boolean | Prefeitura$ativosArgs<ExtArgs>
     _count?: boolean | PrefeituraCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["prefeitura"]>
 
@@ -2482,6 +2623,7 @@ export namespace Prisma {
     auditorias?: boolean | Prefeitura$auditoriasArgs<ExtArgs>
     materiais?: boolean | Prefeitura$materiaisArgs<ExtArgs>
     contratos?: boolean | Prefeitura$contratosArgs<ExtArgs>
+    ativos?: boolean | Prefeitura$ativosArgs<ExtArgs>
     _count?: boolean | PrefeituraCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PrefeituraIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2499,6 +2641,7 @@ export namespace Prisma {
       auditorias: Prisma.$AuditoriaLogPayload<ExtArgs>[]
       materiais: Prisma.$MaterialPayload<ExtArgs>[]
       contratos: Prisma.$ContratoManutencaoPayload<ExtArgs>[]
+      ativos: Prisma.$AtivoPredialPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2914,6 +3057,7 @@ export namespace Prisma {
     auditorias<T extends Prefeitura$auditoriasArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$auditoriasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditoriaLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     materiais<T extends Prefeitura$materiaisArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$materiaisArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     contratos<T extends Prefeitura$contratosArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$contratosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ativos<T extends Prefeitura$ativosArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$ativosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3549,6 +3693,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ContratoManutencaoScalarFieldEnum | ContratoManutencaoScalarFieldEnum[]
+  }
+
+  /**
+   * Prefeitura.ativos
+   */
+  export type Prefeitura$ativosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredial
+     */
+    select?: AtivoPredialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AtivoPredial
+     */
+    omit?: AtivoPredialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AtivoPredialInclude<ExtArgs> | null
+    where?: AtivoPredialWhereInput
+    orderBy?: AtivoPredialOrderByWithRelationInput | AtivoPredialOrderByWithRelationInput[]
+    cursor?: AtivoPredialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AtivoPredialScalarFieldEnum | AtivoPredialScalarFieldEnum[]
   }
 
   /**
@@ -5205,6 +5373,7 @@ export namespace Prisma {
     ordens_servico?: boolean | Predio$ordens_servicoArgs<ExtArgs>
     vistorias?: boolean | Predio$vistoriasArgs<ExtArgs>
     manifestacoes?: boolean | Predio$manifestacoesArgs<ExtArgs>
+    ativos?: boolean | Predio$ativosArgs<ExtArgs>
     _count?: boolean | PredioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["predio"]>
 
@@ -5273,6 +5442,7 @@ export namespace Prisma {
     ordens_servico?: boolean | Predio$ordens_servicoArgs<ExtArgs>
     vistorias?: boolean | Predio$vistoriasArgs<ExtArgs>
     manifestacoes?: boolean | Predio$manifestacoesArgs<ExtArgs>
+    ativos?: boolean | Predio$ativosArgs<ExtArgs>
     _count?: boolean | PredioCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PredioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5292,6 +5462,7 @@ export namespace Prisma {
       ordens_servico: Prisma.$OrdemServicoPayload<ExtArgs>[]
       vistorias: Prisma.$AgendaVistoriaPayload<ExtArgs>[]
       manifestacoes: Prisma.$ManifestacaoPayload<ExtArgs>[]
+      ativos: Prisma.$AtivoPredialPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5708,6 +5879,7 @@ export namespace Prisma {
     ordens_servico<T extends Predio$ordens_servicoArgs<ExtArgs> = {}>(args?: Subset<T, Predio$ordens_servicoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     vistorias<T extends Predio$vistoriasArgs<ExtArgs> = {}>(args?: Subset<T, Predio$vistoriasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgendaVistoriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     manifestacoes<T extends Predio$manifestacoesArgs<ExtArgs> = {}>(args?: Subset<T, Predio$manifestacoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManifestacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ativos<T extends Predio$ativosArgs<ExtArgs> = {}>(args?: Subset<T, Predio$ativosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6258,6 +6430,30 @@ export namespace Prisma {
   }
 
   /**
+   * Predio.ativos
+   */
+  export type Predio$ativosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredial
+     */
+    select?: AtivoPredialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AtivoPredial
+     */
+    omit?: AtivoPredialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AtivoPredialInclude<ExtArgs> | null
+    where?: AtivoPredialWhereInput
+    orderBy?: AtivoPredialOrderByWithRelationInput | AtivoPredialOrderByWithRelationInput[]
+    cursor?: AtivoPredialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AtivoPredialScalarFieldEnum | AtivoPredialScalarFieldEnum[]
+  }
+
+  /**
    * Predio without action
    */
   export type PredioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6311,6 +6507,7 @@ export namespace Prisma {
     prioridade: $Enums.Prioridade | null
     status: $Enums.StatusOS | null
     predio_id: string | null
+    ativo_id: string | null
     solicitante_id: string | null
     tecnico_atribuido_id: string | null
     motivo_pausa: string | null
@@ -6343,6 +6540,7 @@ export namespace Prisma {
     prioridade: $Enums.Prioridade | null
     status: $Enums.StatusOS | null
     predio_id: string | null
+    ativo_id: string | null
     solicitante_id: string | null
     tecnico_atribuido_id: string | null
     motivo_pausa: string | null
@@ -6375,6 +6573,7 @@ export namespace Prisma {
     prioridade: number
     status: number
     predio_id: number
+    ativo_id: number
     solicitante_id: number
     tecnico_atribuido_id: number
     fotos: number
@@ -6426,6 +6625,7 @@ export namespace Prisma {
     prioridade?: true
     status?: true
     predio_id?: true
+    ativo_id?: true
     solicitante_id?: true
     tecnico_atribuido_id?: true
     motivo_pausa?: true
@@ -6458,6 +6658,7 @@ export namespace Prisma {
     prioridade?: true
     status?: true
     predio_id?: true
+    ativo_id?: true
     solicitante_id?: true
     tecnico_atribuido_id?: true
     motivo_pausa?: true
@@ -6490,6 +6691,7 @@ export namespace Prisma {
     prioridade?: true
     status?: true
     predio_id?: true
+    ativo_id?: true
     solicitante_id?: true
     tecnico_atribuido_id?: true
     fotos?: true
@@ -6612,6 +6814,7 @@ export namespace Prisma {
     prioridade: $Enums.Prioridade
     status: $Enums.StatusOS
     predio_id: string
+    ativo_id: string | null
     solicitante_id: string
     tecnico_atribuido_id: string | null
     fotos: string[]
@@ -6666,6 +6869,7 @@ export namespace Prisma {
     prioridade?: boolean
     status?: boolean
     predio_id?: boolean
+    ativo_id?: boolean
     solicitante_id?: boolean
     tecnico_atribuido_id?: boolean
     fotos?: boolean
@@ -6691,6 +6895,7 @@ export namespace Prisma {
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | PredioDefaultArgs<ExtArgs>
+    ativo_predial?: boolean | OrdemServico$ativo_predialArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
     contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
@@ -6712,6 +6917,7 @@ export namespace Prisma {
     prioridade?: boolean
     status?: boolean
     predio_id?: boolean
+    ativo_id?: boolean
     solicitante_id?: boolean
     tecnico_atribuido_id?: boolean
     fotos?: boolean
@@ -6737,6 +6943,7 @@ export namespace Prisma {
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | PredioDefaultArgs<ExtArgs>
+    ativo_predial?: boolean | OrdemServico$ativo_predialArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
     contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
@@ -6753,6 +6960,7 @@ export namespace Prisma {
     prioridade?: boolean
     status?: boolean
     predio_id?: boolean
+    ativo_id?: boolean
     solicitante_id?: boolean
     tecnico_atribuido_id?: boolean
     fotos?: boolean
@@ -6778,6 +6986,7 @@ export namespace Prisma {
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | PredioDefaultArgs<ExtArgs>
+    ativo_predial?: boolean | OrdemServico$ativo_predialArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
     contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
@@ -6794,6 +7003,7 @@ export namespace Prisma {
     prioridade?: boolean
     status?: boolean
     predio_id?: boolean
+    ativo_id?: boolean
     solicitante_id?: boolean
     tecnico_atribuido_id?: boolean
     fotos?: boolean
@@ -6820,9 +7030,10 @@ export namespace Prisma {
     atualizado?: boolean
   }
 
-  export type OrdemServicoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo" | "titulo" | "descricao" | "categoria" | "prioridade" | "status" | "predio_id" | "solicitante_id" | "tecnico_atribuido_id" | "fotos" | "fotos_conclusao" | "motivo_pausa" | "motivo_cancelamento" | "data_limite_sla" | "iniciado_em" | "concluido_em" | "pausado_em" | "tempo_pausa_minutos" | "historico_pausas" | "sla_violado" | "motivo_violacao_sla" | "custo_materiais" | "custo_mao_de_obra" | "custo_total" | "empresa_terceirizada" | "numero_empenho" | "contrato_id" | "prefeitura_id" | "ordem_vinculada_id" | "criado_em" | "atualizado", ExtArgs["result"]["ordemServico"]>
+  export type OrdemServicoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo" | "titulo" | "descricao" | "categoria" | "prioridade" | "status" | "predio_id" | "ativo_id" | "solicitante_id" | "tecnico_atribuido_id" | "fotos" | "fotos_conclusao" | "motivo_pausa" | "motivo_cancelamento" | "data_limite_sla" | "iniciado_em" | "concluido_em" | "pausado_em" | "tempo_pausa_minutos" | "historico_pausas" | "sla_violado" | "motivo_violacao_sla" | "custo_materiais" | "custo_mao_de_obra" | "custo_total" | "empresa_terceirizada" | "numero_empenho" | "contrato_id" | "prefeitura_id" | "ordem_vinculada_id" | "criado_em" | "atualizado", ExtArgs["result"]["ordemServico"]>
   export type OrdemServicoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
+    ativo_predial?: boolean | OrdemServico$ativo_predialArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
     contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
@@ -6836,6 +7047,7 @@ export namespace Prisma {
   }
   export type OrdemServicoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
+    ativo_predial?: boolean | OrdemServico$ativo_predialArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
     contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
@@ -6844,6 +7056,7 @@ export namespace Prisma {
   }
   export type OrdemServicoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | PredioDefaultArgs<ExtArgs>
+    ativo_predial?: boolean | OrdemServico$ativo_predialArgs<ExtArgs>
     solicitante?: boolean | UsuarioDefaultArgs<ExtArgs>
     tecnico?: boolean | OrdemServico$tecnicoArgs<ExtArgs>
     contrato?: boolean | OrdemServico$contratoArgs<ExtArgs>
@@ -6855,6 +7068,7 @@ export namespace Prisma {
     name: "OrdemServico"
     objects: {
       predio: Prisma.$PredioPayload<ExtArgs>
+      ativo_predial: Prisma.$AtivoPredialPayload<ExtArgs> | null
       solicitante: Prisma.$UsuarioPayload<ExtArgs>
       tecnico: Prisma.$UsuarioPayload<ExtArgs> | null
       contrato: Prisma.$ContratoManutencaoPayload<ExtArgs> | null
@@ -6874,6 +7088,7 @@ export namespace Prisma {
       prioridade: $Enums.Prioridade
       status: $Enums.StatusOS
       predio_id: string
+      ativo_id: string | null
       solicitante_id: string
       tecnico_atribuido_id: string | null
       fotos: string[]
@@ -7293,6 +7508,7 @@ export namespace Prisma {
   export interface Prisma__OrdemServicoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     predio<T extends PredioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PredioDefaultArgs<ExtArgs>>): Prisma__PredioClient<$Result.GetResult<Prisma.$PredioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    ativo_predial<T extends OrdemServico$ativo_predialArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$ativo_predialArgs<ExtArgs>>): Prisma__AtivoPredialClient<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     solicitante<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tecnico<T extends OrdemServico$tecnicoArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$tecnicoArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     contrato<T extends OrdemServico$contratoArgs<ExtArgs> = {}>(args?: Subset<T, OrdemServico$contratoArgs<ExtArgs>>): Prisma__ContratoManutencaoClient<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -7339,6 +7555,7 @@ export namespace Prisma {
     readonly prioridade: FieldRef<"OrdemServico", 'Prioridade'>
     readonly status: FieldRef<"OrdemServico", 'StatusOS'>
     readonly predio_id: FieldRef<"OrdemServico", 'String'>
+    readonly ativo_id: FieldRef<"OrdemServico", 'String'>
     readonly solicitante_id: FieldRef<"OrdemServico", 'String'>
     readonly tecnico_atribuido_id: FieldRef<"OrdemServico", 'String'>
     readonly fotos: FieldRef<"OrdemServico", 'String[]'>
@@ -7756,6 +7973,25 @@ export namespace Prisma {
      * Limit how many OrdemServicos to delete.
      */
     limit?: number
+  }
+
+  /**
+   * OrdemServico.ativo_predial
+   */
+  export type OrdemServico$ativo_predialArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredial
+     */
+    select?: AtivoPredialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AtivoPredial
+     */
+    omit?: AtivoPredialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AtivoPredialInclude<ExtArgs> | null
+    where?: AtivoPredialWhereInput
   }
 
   /**
@@ -16731,6 +16967,1311 @@ export namespace Prisma {
 
 
   /**
+   * Model AtivoPredial
+   */
+
+  export type AggregateAtivoPredial = {
+    _count: AtivoPredialCountAggregateOutputType | null
+    _avg: AtivoPredialAvgAggregateOutputType | null
+    _sum: AtivoPredialSumAggregateOutputType | null
+    _min: AtivoPredialMinAggregateOutputType | null
+    _max: AtivoPredialMaxAggregateOutputType | null
+  }
+
+  export type AtivoPredialAvgAggregateOutputType = {
+    custo_acumulado: Decimal | null
+  }
+
+  export type AtivoPredialSumAggregateOutputType = {
+    custo_acumulado: Decimal | null
+  }
+
+  export type AtivoPredialMinAggregateOutputType = {
+    id: string | null
+    codigo_patrimonio: string | null
+    nome: string | null
+    categoria: string | null
+    ambiente: string | null
+    marca_modelo: string | null
+    numero_serie: string | null
+    status: string | null
+    data_instalacao: Date | null
+    garantia_ate: Date | null
+    ultima_manutencao: Date | null
+    custo_acumulado: Decimal | null
+    ativo: boolean | null
+    predio_id: string | null
+    prefeitura_id: string | null
+    criado_em: Date | null
+    atualizado: Date | null
+  }
+
+  export type AtivoPredialMaxAggregateOutputType = {
+    id: string | null
+    codigo_patrimonio: string | null
+    nome: string | null
+    categoria: string | null
+    ambiente: string | null
+    marca_modelo: string | null
+    numero_serie: string | null
+    status: string | null
+    data_instalacao: Date | null
+    garantia_ate: Date | null
+    ultima_manutencao: Date | null
+    custo_acumulado: Decimal | null
+    ativo: boolean | null
+    predio_id: string | null
+    prefeitura_id: string | null
+    criado_em: Date | null
+    atualizado: Date | null
+  }
+
+  export type AtivoPredialCountAggregateOutputType = {
+    id: number
+    codigo_patrimonio: number
+    nome: number
+    categoria: number
+    ambiente: number
+    marca_modelo: number
+    numero_serie: number
+    status: number
+    data_instalacao: number
+    garantia_ate: number
+    ultima_manutencao: number
+    custo_acumulado: number
+    ativo: number
+    predio_id: number
+    prefeitura_id: number
+    criado_em: number
+    atualizado: number
+    _all: number
+  }
+
+
+  export type AtivoPredialAvgAggregateInputType = {
+    custo_acumulado?: true
+  }
+
+  export type AtivoPredialSumAggregateInputType = {
+    custo_acumulado?: true
+  }
+
+  export type AtivoPredialMinAggregateInputType = {
+    id?: true
+    codigo_patrimonio?: true
+    nome?: true
+    categoria?: true
+    ambiente?: true
+    marca_modelo?: true
+    numero_serie?: true
+    status?: true
+    data_instalacao?: true
+    garantia_ate?: true
+    ultima_manutencao?: true
+    custo_acumulado?: true
+    ativo?: true
+    predio_id?: true
+    prefeitura_id?: true
+    criado_em?: true
+    atualizado?: true
+  }
+
+  export type AtivoPredialMaxAggregateInputType = {
+    id?: true
+    codigo_patrimonio?: true
+    nome?: true
+    categoria?: true
+    ambiente?: true
+    marca_modelo?: true
+    numero_serie?: true
+    status?: true
+    data_instalacao?: true
+    garantia_ate?: true
+    ultima_manutencao?: true
+    custo_acumulado?: true
+    ativo?: true
+    predio_id?: true
+    prefeitura_id?: true
+    criado_em?: true
+    atualizado?: true
+  }
+
+  export type AtivoPredialCountAggregateInputType = {
+    id?: true
+    codigo_patrimonio?: true
+    nome?: true
+    categoria?: true
+    ambiente?: true
+    marca_modelo?: true
+    numero_serie?: true
+    status?: true
+    data_instalacao?: true
+    garantia_ate?: true
+    ultima_manutencao?: true
+    custo_acumulado?: true
+    ativo?: true
+    predio_id?: true
+    prefeitura_id?: true
+    criado_em?: true
+    atualizado?: true
+    _all?: true
+  }
+
+  export type AtivoPredialAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AtivoPredial to aggregate.
+     */
+    where?: AtivoPredialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AtivoPredials to fetch.
+     */
+    orderBy?: AtivoPredialOrderByWithRelationInput | AtivoPredialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AtivoPredialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AtivoPredials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AtivoPredials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AtivoPredials
+    **/
+    _count?: true | AtivoPredialCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AtivoPredialAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AtivoPredialSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AtivoPredialMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AtivoPredialMaxAggregateInputType
+  }
+
+  export type GetAtivoPredialAggregateType<T extends AtivoPredialAggregateArgs> = {
+        [P in keyof T & keyof AggregateAtivoPredial]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAtivoPredial[P]>
+      : GetScalarType<T[P], AggregateAtivoPredial[P]>
+  }
+
+
+
+
+  export type AtivoPredialGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AtivoPredialWhereInput
+    orderBy?: AtivoPredialOrderByWithAggregationInput | AtivoPredialOrderByWithAggregationInput[]
+    by: AtivoPredialScalarFieldEnum[] | AtivoPredialScalarFieldEnum
+    having?: AtivoPredialScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AtivoPredialCountAggregateInputType | true
+    _avg?: AtivoPredialAvgAggregateInputType
+    _sum?: AtivoPredialSumAggregateInputType
+    _min?: AtivoPredialMinAggregateInputType
+    _max?: AtivoPredialMaxAggregateInputType
+  }
+
+  export type AtivoPredialGroupByOutputType = {
+    id: string
+    codigo_patrimonio: string
+    nome: string
+    categoria: string
+    ambiente: string
+    marca_modelo: string | null
+    numero_serie: string | null
+    status: string
+    data_instalacao: Date | null
+    garantia_ate: Date | null
+    ultima_manutencao: Date | null
+    custo_acumulado: Decimal
+    ativo: boolean
+    predio_id: string
+    prefeitura_id: string | null
+    criado_em: Date
+    atualizado: Date
+    _count: AtivoPredialCountAggregateOutputType | null
+    _avg: AtivoPredialAvgAggregateOutputType | null
+    _sum: AtivoPredialSumAggregateOutputType | null
+    _min: AtivoPredialMinAggregateOutputType | null
+    _max: AtivoPredialMaxAggregateOutputType | null
+  }
+
+  type GetAtivoPredialGroupByPayload<T extends AtivoPredialGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AtivoPredialGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AtivoPredialGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AtivoPredialGroupByOutputType[P]>
+            : GetScalarType<T[P], AtivoPredialGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AtivoPredialSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    codigo_patrimonio?: boolean
+    nome?: boolean
+    categoria?: boolean
+    ambiente?: boolean
+    marca_modelo?: boolean
+    numero_serie?: boolean
+    status?: boolean
+    data_instalacao?: boolean
+    garantia_ate?: boolean
+    ultima_manutencao?: boolean
+    custo_acumulado?: boolean
+    ativo?: boolean
+    predio_id?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    predio?: boolean | PredioDefaultArgs<ExtArgs>
+    prefeitura?: boolean | AtivoPredial$prefeituraArgs<ExtArgs>
+    ordens_servico?: boolean | AtivoPredial$ordens_servicoArgs<ExtArgs>
+    _count?: boolean | AtivoPredialCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ativoPredial"]>
+
+  export type AtivoPredialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    codigo_patrimonio?: boolean
+    nome?: boolean
+    categoria?: boolean
+    ambiente?: boolean
+    marca_modelo?: boolean
+    numero_serie?: boolean
+    status?: boolean
+    data_instalacao?: boolean
+    garantia_ate?: boolean
+    ultima_manutencao?: boolean
+    custo_acumulado?: boolean
+    ativo?: boolean
+    predio_id?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    predio?: boolean | PredioDefaultArgs<ExtArgs>
+    prefeitura?: boolean | AtivoPredial$prefeituraArgs<ExtArgs>
+  }, ExtArgs["result"]["ativoPredial"]>
+
+  export type AtivoPredialSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    codigo_patrimonio?: boolean
+    nome?: boolean
+    categoria?: boolean
+    ambiente?: boolean
+    marca_modelo?: boolean
+    numero_serie?: boolean
+    status?: boolean
+    data_instalacao?: boolean
+    garantia_ate?: boolean
+    ultima_manutencao?: boolean
+    custo_acumulado?: boolean
+    ativo?: boolean
+    predio_id?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    predio?: boolean | PredioDefaultArgs<ExtArgs>
+    prefeitura?: boolean | AtivoPredial$prefeituraArgs<ExtArgs>
+  }, ExtArgs["result"]["ativoPredial"]>
+
+  export type AtivoPredialSelectScalar = {
+    id?: boolean
+    codigo_patrimonio?: boolean
+    nome?: boolean
+    categoria?: boolean
+    ambiente?: boolean
+    marca_modelo?: boolean
+    numero_serie?: boolean
+    status?: boolean
+    data_instalacao?: boolean
+    garantia_ate?: boolean
+    ultima_manutencao?: boolean
+    custo_acumulado?: boolean
+    ativo?: boolean
+    predio_id?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+  }
+
+  export type AtivoPredialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "codigo_patrimonio" | "nome" | "categoria" | "ambiente" | "marca_modelo" | "numero_serie" | "status" | "data_instalacao" | "garantia_ate" | "ultima_manutencao" | "custo_acumulado" | "ativo" | "predio_id" | "prefeitura_id" | "criado_em" | "atualizado", ExtArgs["result"]["ativoPredial"]>
+  export type AtivoPredialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    predio?: boolean | PredioDefaultArgs<ExtArgs>
+    prefeitura?: boolean | AtivoPredial$prefeituraArgs<ExtArgs>
+    ordens_servico?: boolean | AtivoPredial$ordens_servicoArgs<ExtArgs>
+    _count?: boolean | AtivoPredialCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type AtivoPredialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    predio?: boolean | PredioDefaultArgs<ExtArgs>
+    prefeitura?: boolean | AtivoPredial$prefeituraArgs<ExtArgs>
+  }
+  export type AtivoPredialIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    predio?: boolean | PredioDefaultArgs<ExtArgs>
+    prefeitura?: boolean | AtivoPredial$prefeituraArgs<ExtArgs>
+  }
+
+  export type $AtivoPredialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AtivoPredial"
+    objects: {
+      predio: Prisma.$PredioPayload<ExtArgs>
+      prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
+      ordens_servico: Prisma.$OrdemServicoPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      codigo_patrimonio: string
+      nome: string
+      categoria: string
+      ambiente: string
+      marca_modelo: string | null
+      numero_serie: string | null
+      status: string
+      data_instalacao: Date | null
+      garantia_ate: Date | null
+      ultima_manutencao: Date | null
+      custo_acumulado: Prisma.Decimal
+      ativo: boolean
+      predio_id: string
+      prefeitura_id: string | null
+      criado_em: Date
+      atualizado: Date
+    }, ExtArgs["result"]["ativoPredial"]>
+    composites: {}
+  }
+
+  type AtivoPredialGetPayload<S extends boolean | null | undefined | AtivoPredialDefaultArgs> = $Result.GetResult<Prisma.$AtivoPredialPayload, S>
+
+  type AtivoPredialCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AtivoPredialFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AtivoPredialCountAggregateInputType | true
+    }
+
+  export interface AtivoPredialDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AtivoPredial'], meta: { name: 'AtivoPredial' } }
+    /**
+     * Find zero or one AtivoPredial that matches the filter.
+     * @param {AtivoPredialFindUniqueArgs} args - Arguments to find a AtivoPredial
+     * @example
+     * // Get one AtivoPredial
+     * const ativoPredial = await prisma.ativoPredial.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AtivoPredialFindUniqueArgs>(args: SelectSubset<T, AtivoPredialFindUniqueArgs<ExtArgs>>): Prisma__AtivoPredialClient<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AtivoPredial that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AtivoPredialFindUniqueOrThrowArgs} args - Arguments to find a AtivoPredial
+     * @example
+     * // Get one AtivoPredial
+     * const ativoPredial = await prisma.ativoPredial.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AtivoPredialFindUniqueOrThrowArgs>(args: SelectSubset<T, AtivoPredialFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AtivoPredialClient<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AtivoPredial that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AtivoPredialFindFirstArgs} args - Arguments to find a AtivoPredial
+     * @example
+     * // Get one AtivoPredial
+     * const ativoPredial = await prisma.ativoPredial.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AtivoPredialFindFirstArgs>(args?: SelectSubset<T, AtivoPredialFindFirstArgs<ExtArgs>>): Prisma__AtivoPredialClient<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AtivoPredial that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AtivoPredialFindFirstOrThrowArgs} args - Arguments to find a AtivoPredial
+     * @example
+     * // Get one AtivoPredial
+     * const ativoPredial = await prisma.ativoPredial.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AtivoPredialFindFirstOrThrowArgs>(args?: SelectSubset<T, AtivoPredialFindFirstOrThrowArgs<ExtArgs>>): Prisma__AtivoPredialClient<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AtivoPredials that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AtivoPredialFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AtivoPredials
+     * const ativoPredials = await prisma.ativoPredial.findMany()
+     * 
+     * // Get first 10 AtivoPredials
+     * const ativoPredials = await prisma.ativoPredial.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ativoPredialWithIdOnly = await prisma.ativoPredial.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AtivoPredialFindManyArgs>(args?: SelectSubset<T, AtivoPredialFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AtivoPredial.
+     * @param {AtivoPredialCreateArgs} args - Arguments to create a AtivoPredial.
+     * @example
+     * // Create one AtivoPredial
+     * const AtivoPredial = await prisma.ativoPredial.create({
+     *   data: {
+     *     // ... data to create a AtivoPredial
+     *   }
+     * })
+     * 
+     */
+    create<T extends AtivoPredialCreateArgs>(args: SelectSubset<T, AtivoPredialCreateArgs<ExtArgs>>): Prisma__AtivoPredialClient<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AtivoPredials.
+     * @param {AtivoPredialCreateManyArgs} args - Arguments to create many AtivoPredials.
+     * @example
+     * // Create many AtivoPredials
+     * const ativoPredial = await prisma.ativoPredial.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AtivoPredialCreateManyArgs>(args?: SelectSubset<T, AtivoPredialCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AtivoPredials and returns the data saved in the database.
+     * @param {AtivoPredialCreateManyAndReturnArgs} args - Arguments to create many AtivoPredials.
+     * @example
+     * // Create many AtivoPredials
+     * const ativoPredial = await prisma.ativoPredial.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AtivoPredials and only return the `id`
+     * const ativoPredialWithIdOnly = await prisma.ativoPredial.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AtivoPredialCreateManyAndReturnArgs>(args?: SelectSubset<T, AtivoPredialCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AtivoPredial.
+     * @param {AtivoPredialDeleteArgs} args - Arguments to delete one AtivoPredial.
+     * @example
+     * // Delete one AtivoPredial
+     * const AtivoPredial = await prisma.ativoPredial.delete({
+     *   where: {
+     *     // ... filter to delete one AtivoPredial
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AtivoPredialDeleteArgs>(args: SelectSubset<T, AtivoPredialDeleteArgs<ExtArgs>>): Prisma__AtivoPredialClient<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AtivoPredial.
+     * @param {AtivoPredialUpdateArgs} args - Arguments to update one AtivoPredial.
+     * @example
+     * // Update one AtivoPredial
+     * const ativoPredial = await prisma.ativoPredial.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AtivoPredialUpdateArgs>(args: SelectSubset<T, AtivoPredialUpdateArgs<ExtArgs>>): Prisma__AtivoPredialClient<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AtivoPredials.
+     * @param {AtivoPredialDeleteManyArgs} args - Arguments to filter AtivoPredials to delete.
+     * @example
+     * // Delete a few AtivoPredials
+     * const { count } = await prisma.ativoPredial.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AtivoPredialDeleteManyArgs>(args?: SelectSubset<T, AtivoPredialDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AtivoPredials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AtivoPredialUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AtivoPredials
+     * const ativoPredial = await prisma.ativoPredial.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AtivoPredialUpdateManyArgs>(args: SelectSubset<T, AtivoPredialUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AtivoPredials and returns the data updated in the database.
+     * @param {AtivoPredialUpdateManyAndReturnArgs} args - Arguments to update many AtivoPredials.
+     * @example
+     * // Update many AtivoPredials
+     * const ativoPredial = await prisma.ativoPredial.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AtivoPredials and only return the `id`
+     * const ativoPredialWithIdOnly = await prisma.ativoPredial.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AtivoPredialUpdateManyAndReturnArgs>(args: SelectSubset<T, AtivoPredialUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AtivoPredial.
+     * @param {AtivoPredialUpsertArgs} args - Arguments to update or create a AtivoPredial.
+     * @example
+     * // Update or create a AtivoPredial
+     * const ativoPredial = await prisma.ativoPredial.upsert({
+     *   create: {
+     *     // ... data to create a AtivoPredial
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AtivoPredial we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AtivoPredialUpsertArgs>(args: SelectSubset<T, AtivoPredialUpsertArgs<ExtArgs>>): Prisma__AtivoPredialClient<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AtivoPredials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AtivoPredialCountArgs} args - Arguments to filter AtivoPredials to count.
+     * @example
+     * // Count the number of AtivoPredials
+     * const count = await prisma.ativoPredial.count({
+     *   where: {
+     *     // ... the filter for the AtivoPredials we want to count
+     *   }
+     * })
+    **/
+    count<T extends AtivoPredialCountArgs>(
+      args?: Subset<T, AtivoPredialCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AtivoPredialCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AtivoPredial.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AtivoPredialAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AtivoPredialAggregateArgs>(args: Subset<T, AtivoPredialAggregateArgs>): Prisma.PrismaPromise<GetAtivoPredialAggregateType<T>>
+
+    /**
+     * Group by AtivoPredial.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AtivoPredialGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AtivoPredialGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AtivoPredialGroupByArgs['orderBy'] }
+        : { orderBy?: AtivoPredialGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AtivoPredialGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAtivoPredialGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AtivoPredial model
+   */
+  readonly fields: AtivoPredialFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AtivoPredial.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AtivoPredialClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    predio<T extends PredioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PredioDefaultArgs<ExtArgs>>): Prisma__PredioClient<$Result.GetResult<Prisma.$PredioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    prefeitura<T extends AtivoPredial$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, AtivoPredial$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    ordens_servico<T extends AtivoPredial$ordens_servicoArgs<ExtArgs> = {}>(args?: Subset<T, AtivoPredial$ordens_servicoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AtivoPredial model
+   */
+  interface AtivoPredialFieldRefs {
+    readonly id: FieldRef<"AtivoPredial", 'String'>
+    readonly codigo_patrimonio: FieldRef<"AtivoPredial", 'String'>
+    readonly nome: FieldRef<"AtivoPredial", 'String'>
+    readonly categoria: FieldRef<"AtivoPredial", 'String'>
+    readonly ambiente: FieldRef<"AtivoPredial", 'String'>
+    readonly marca_modelo: FieldRef<"AtivoPredial", 'String'>
+    readonly numero_serie: FieldRef<"AtivoPredial", 'String'>
+    readonly status: FieldRef<"AtivoPredial", 'String'>
+    readonly data_instalacao: FieldRef<"AtivoPredial", 'DateTime'>
+    readonly garantia_ate: FieldRef<"AtivoPredial", 'DateTime'>
+    readonly ultima_manutencao: FieldRef<"AtivoPredial", 'DateTime'>
+    readonly custo_acumulado: FieldRef<"AtivoPredial", 'Decimal'>
+    readonly ativo: FieldRef<"AtivoPredial", 'Boolean'>
+    readonly predio_id: FieldRef<"AtivoPredial", 'String'>
+    readonly prefeitura_id: FieldRef<"AtivoPredial", 'String'>
+    readonly criado_em: FieldRef<"AtivoPredial", 'DateTime'>
+    readonly atualizado: FieldRef<"AtivoPredial", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AtivoPredial findUnique
+   */
+  export type AtivoPredialFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredial
+     */
+    select?: AtivoPredialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AtivoPredial
+     */
+    omit?: AtivoPredialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AtivoPredialInclude<ExtArgs> | null
+    /**
+     * Filter, which AtivoPredial to fetch.
+     */
+    where: AtivoPredialWhereUniqueInput
+  }
+
+  /**
+   * AtivoPredial findUniqueOrThrow
+   */
+  export type AtivoPredialFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredial
+     */
+    select?: AtivoPredialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AtivoPredial
+     */
+    omit?: AtivoPredialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AtivoPredialInclude<ExtArgs> | null
+    /**
+     * Filter, which AtivoPredial to fetch.
+     */
+    where: AtivoPredialWhereUniqueInput
+  }
+
+  /**
+   * AtivoPredial findFirst
+   */
+  export type AtivoPredialFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredial
+     */
+    select?: AtivoPredialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AtivoPredial
+     */
+    omit?: AtivoPredialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AtivoPredialInclude<ExtArgs> | null
+    /**
+     * Filter, which AtivoPredial to fetch.
+     */
+    where?: AtivoPredialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AtivoPredials to fetch.
+     */
+    orderBy?: AtivoPredialOrderByWithRelationInput | AtivoPredialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AtivoPredials.
+     */
+    cursor?: AtivoPredialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AtivoPredials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AtivoPredials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AtivoPredials.
+     */
+    distinct?: AtivoPredialScalarFieldEnum | AtivoPredialScalarFieldEnum[]
+  }
+
+  /**
+   * AtivoPredial findFirstOrThrow
+   */
+  export type AtivoPredialFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredial
+     */
+    select?: AtivoPredialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AtivoPredial
+     */
+    omit?: AtivoPredialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AtivoPredialInclude<ExtArgs> | null
+    /**
+     * Filter, which AtivoPredial to fetch.
+     */
+    where?: AtivoPredialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AtivoPredials to fetch.
+     */
+    orderBy?: AtivoPredialOrderByWithRelationInput | AtivoPredialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AtivoPredials.
+     */
+    cursor?: AtivoPredialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AtivoPredials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AtivoPredials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AtivoPredials.
+     */
+    distinct?: AtivoPredialScalarFieldEnum | AtivoPredialScalarFieldEnum[]
+  }
+
+  /**
+   * AtivoPredial findMany
+   */
+  export type AtivoPredialFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredial
+     */
+    select?: AtivoPredialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AtivoPredial
+     */
+    omit?: AtivoPredialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AtivoPredialInclude<ExtArgs> | null
+    /**
+     * Filter, which AtivoPredials to fetch.
+     */
+    where?: AtivoPredialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AtivoPredials to fetch.
+     */
+    orderBy?: AtivoPredialOrderByWithRelationInput | AtivoPredialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AtivoPredials.
+     */
+    cursor?: AtivoPredialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AtivoPredials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AtivoPredials.
+     */
+    skip?: number
+    distinct?: AtivoPredialScalarFieldEnum | AtivoPredialScalarFieldEnum[]
+  }
+
+  /**
+   * AtivoPredial create
+   */
+  export type AtivoPredialCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredial
+     */
+    select?: AtivoPredialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AtivoPredial
+     */
+    omit?: AtivoPredialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AtivoPredialInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AtivoPredial.
+     */
+    data: XOR<AtivoPredialCreateInput, AtivoPredialUncheckedCreateInput>
+  }
+
+  /**
+   * AtivoPredial createMany
+   */
+  export type AtivoPredialCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AtivoPredials.
+     */
+    data: AtivoPredialCreateManyInput | AtivoPredialCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AtivoPredial createManyAndReturn
+   */
+  export type AtivoPredialCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredial
+     */
+    select?: AtivoPredialSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AtivoPredial
+     */
+    omit?: AtivoPredialOmit<ExtArgs> | null
+    /**
+     * The data used to create many AtivoPredials.
+     */
+    data: AtivoPredialCreateManyInput | AtivoPredialCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AtivoPredialIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AtivoPredial update
+   */
+  export type AtivoPredialUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredial
+     */
+    select?: AtivoPredialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AtivoPredial
+     */
+    omit?: AtivoPredialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AtivoPredialInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AtivoPredial.
+     */
+    data: XOR<AtivoPredialUpdateInput, AtivoPredialUncheckedUpdateInput>
+    /**
+     * Choose, which AtivoPredial to update.
+     */
+    where: AtivoPredialWhereUniqueInput
+  }
+
+  /**
+   * AtivoPredial updateMany
+   */
+  export type AtivoPredialUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AtivoPredials.
+     */
+    data: XOR<AtivoPredialUpdateManyMutationInput, AtivoPredialUncheckedUpdateManyInput>
+    /**
+     * Filter which AtivoPredials to update
+     */
+    where?: AtivoPredialWhereInput
+    /**
+     * Limit how many AtivoPredials to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AtivoPredial updateManyAndReturn
+   */
+  export type AtivoPredialUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredial
+     */
+    select?: AtivoPredialSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AtivoPredial
+     */
+    omit?: AtivoPredialOmit<ExtArgs> | null
+    /**
+     * The data used to update AtivoPredials.
+     */
+    data: XOR<AtivoPredialUpdateManyMutationInput, AtivoPredialUncheckedUpdateManyInput>
+    /**
+     * Filter which AtivoPredials to update
+     */
+    where?: AtivoPredialWhereInput
+    /**
+     * Limit how many AtivoPredials to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AtivoPredialIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AtivoPredial upsert
+   */
+  export type AtivoPredialUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredial
+     */
+    select?: AtivoPredialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AtivoPredial
+     */
+    omit?: AtivoPredialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AtivoPredialInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AtivoPredial to update in case it exists.
+     */
+    where: AtivoPredialWhereUniqueInput
+    /**
+     * In case the AtivoPredial found by the `where` argument doesn't exist, create a new AtivoPredial with this data.
+     */
+    create: XOR<AtivoPredialCreateInput, AtivoPredialUncheckedCreateInput>
+    /**
+     * In case the AtivoPredial was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AtivoPredialUpdateInput, AtivoPredialUncheckedUpdateInput>
+  }
+
+  /**
+   * AtivoPredial delete
+   */
+  export type AtivoPredialDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredial
+     */
+    select?: AtivoPredialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AtivoPredial
+     */
+    omit?: AtivoPredialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AtivoPredialInclude<ExtArgs> | null
+    /**
+     * Filter which AtivoPredial to delete.
+     */
+    where: AtivoPredialWhereUniqueInput
+  }
+
+  /**
+   * AtivoPredial deleteMany
+   */
+  export type AtivoPredialDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AtivoPredials to delete
+     */
+    where?: AtivoPredialWhereInput
+    /**
+     * Limit how many AtivoPredials to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AtivoPredial.prefeitura
+   */
+  export type AtivoPredial$prefeituraArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    where?: PrefeituraWhereInput
+  }
+
+  /**
+   * AtivoPredial.ordens_servico
+   */
+  export type AtivoPredial$ordens_servicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrdemServico
+     */
+    select?: OrdemServicoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrdemServico
+     */
+    omit?: OrdemServicoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrdemServicoInclude<ExtArgs> | null
+    where?: OrdemServicoWhereInput
+    orderBy?: OrdemServicoOrderByWithRelationInput | OrdemServicoOrderByWithRelationInput[]
+    cursor?: OrdemServicoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrdemServicoScalarFieldEnum | OrdemServicoScalarFieldEnum[]
+  }
+
+  /**
+   * AtivoPredial without action
+   */
+  export type AtivoPredialDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AtivoPredial
+     */
+    select?: AtivoPredialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AtivoPredial
+     */
+    omit?: AtivoPredialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AtivoPredialInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -16808,6 +18349,7 @@ export namespace Prisma {
     prioridade: 'prioridade',
     status: 'status',
     predio_id: 'predio_id',
+    ativo_id: 'ativo_id',
     solicitante_id: 'solicitante_id',
     tecnico_atribuido_id: 'tecnico_atribuido_id',
     fotos: 'fotos',
@@ -16979,6 +18521,29 @@ export namespace Prisma {
   };
 
   export type ContratoManutencaoScalarFieldEnum = (typeof ContratoManutencaoScalarFieldEnum)[keyof typeof ContratoManutencaoScalarFieldEnum]
+
+
+  export const AtivoPredialScalarFieldEnum: {
+    id: 'id',
+    codigo_patrimonio: 'codigo_patrimonio',
+    nome: 'nome',
+    categoria: 'categoria',
+    ambiente: 'ambiente',
+    marca_modelo: 'marca_modelo',
+    numero_serie: 'numero_serie',
+    status: 'status',
+    data_instalacao: 'data_instalacao',
+    garantia_ate: 'garantia_ate',
+    ultima_manutencao: 'ultima_manutencao',
+    custo_acumulado: 'custo_acumulado',
+    ativo: 'ativo',
+    predio_id: 'predio_id',
+    prefeitura_id: 'prefeitura_id',
+    criado_em: 'criado_em',
+    atualizado: 'atualizado'
+  };
+
+  export type AtivoPredialScalarFieldEnum = (typeof AtivoPredialScalarFieldEnum)[keyof typeof AtivoPredialScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -17256,6 +18821,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogListRelationFilter
     materiais?: MaterialListRelationFilter
     contratos?: ContratoManutencaoListRelationFilter
+    ativos?: AtivoPredialListRelationFilter
   }
 
   export type PrefeituraOrderByWithRelationInput = {
@@ -17278,6 +18844,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogOrderByRelationAggregateInput
     materiais?: MaterialOrderByRelationAggregateInput
     contratos?: ContratoManutencaoOrderByRelationAggregateInput
+    ativos?: AtivoPredialOrderByRelationAggregateInput
   }
 
   export type PrefeituraWhereUniqueInput = Prisma.AtLeast<{
@@ -17303,6 +18870,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogListRelationFilter
     materiais?: MaterialListRelationFilter
     contratos?: ContratoManutencaoListRelationFilter
+    ativos?: AtivoPredialListRelationFilter
   }, "id" | "slug" | "cnpj">
 
   export type PrefeituraOrderByWithAggregationInput = {
@@ -17468,6 +19036,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoListRelationFilter
     vistorias?: AgendaVistoriaListRelationFilter
     manifestacoes?: ManifestacaoListRelationFilter
+    ativos?: AtivoPredialListRelationFilter
   }
 
   export type PredioOrderByWithRelationInput = {
@@ -17491,6 +19060,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoOrderByRelationAggregateInput
     vistorias?: AgendaVistoriaOrderByRelationAggregateInput
     manifestacoes?: ManifestacaoOrderByRelationAggregateInput
+    ativos?: AtivoPredialOrderByRelationAggregateInput
   }
 
   export type PredioWhereUniqueInput = Prisma.AtLeast<{
@@ -17517,6 +19087,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoListRelationFilter
     vistorias?: AgendaVistoriaListRelationFilter
     manifestacoes?: ManifestacaoListRelationFilter
+    ativos?: AtivoPredialListRelationFilter
   }, "id">
 
   export type PredioOrderByWithAggregationInput = {
@@ -17575,6 +19146,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFilter<"OrdemServico"> | $Enums.Prioridade
     status?: EnumStatusOSFilter<"OrdemServico"> | $Enums.StatusOS
     predio_id?: StringFilter<"OrdemServico"> | string
+    ativo_id?: StringNullableFilter<"OrdemServico"> | string | null
     solicitante_id?: StringFilter<"OrdemServico"> | string
     tecnico_atribuido_id?: StringNullableFilter<"OrdemServico"> | string | null
     fotos?: StringNullableListFilter<"OrdemServico">
@@ -17600,6 +19172,7 @@ export namespace Prisma {
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
     atualizado?: DateTimeFilter<"OrdemServico"> | Date | string
     predio?: XOR<PredioScalarRelationFilter, PredioWhereInput>
+    ativo_predial?: XOR<AtivoPredialNullableScalarRelationFilter, AtivoPredialWhereInput> | null
     solicitante?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     tecnico?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
     contrato?: XOR<ContratoManutencaoNullableScalarRelationFilter, ContratoManutencaoWhereInput> | null
@@ -17620,6 +19193,7 @@ export namespace Prisma {
     prioridade?: SortOrder
     status?: SortOrder
     predio_id?: SortOrder
+    ativo_id?: SortOrderInput | SortOrder
     solicitante_id?: SortOrder
     tecnico_atribuido_id?: SortOrderInput | SortOrder
     fotos?: SortOrder
@@ -17645,6 +19219,7 @@ export namespace Prisma {
     criado_em?: SortOrder
     atualizado?: SortOrder
     predio?: PredioOrderByWithRelationInput
+    ativo_predial?: AtivoPredialOrderByWithRelationInput
     solicitante?: UsuarioOrderByWithRelationInput
     tecnico?: UsuarioOrderByWithRelationInput
     contrato?: ContratoManutencaoOrderByWithRelationInput
@@ -17668,6 +19243,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFilter<"OrdemServico"> | $Enums.Prioridade
     status?: EnumStatusOSFilter<"OrdemServico"> | $Enums.StatusOS
     predio_id?: StringFilter<"OrdemServico"> | string
+    ativo_id?: StringNullableFilter<"OrdemServico"> | string | null
     solicitante_id?: StringFilter<"OrdemServico"> | string
     tecnico_atribuido_id?: StringNullableFilter<"OrdemServico"> | string | null
     fotos?: StringNullableListFilter<"OrdemServico">
@@ -17693,6 +19269,7 @@ export namespace Prisma {
     criado_em?: DateTimeFilter<"OrdemServico"> | Date | string
     atualizado?: DateTimeFilter<"OrdemServico"> | Date | string
     predio?: XOR<PredioScalarRelationFilter, PredioWhereInput>
+    ativo_predial?: XOR<AtivoPredialNullableScalarRelationFilter, AtivoPredialWhereInput> | null
     solicitante?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     tecnico?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
     contrato?: XOR<ContratoManutencaoNullableScalarRelationFilter, ContratoManutencaoWhereInput> | null
@@ -17713,6 +19290,7 @@ export namespace Prisma {
     prioridade?: SortOrder
     status?: SortOrder
     predio_id?: SortOrder
+    ativo_id?: SortOrderInput | SortOrder
     solicitante_id?: SortOrder
     tecnico_atribuido_id?: SortOrderInput | SortOrder
     fotos?: SortOrder
@@ -17756,6 +19334,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeWithAggregatesFilter<"OrdemServico"> | $Enums.Prioridade
     status?: EnumStatusOSWithAggregatesFilter<"OrdemServico"> | $Enums.StatusOS
     predio_id?: StringWithAggregatesFilter<"OrdemServico"> | string
+    ativo_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     solicitante_id?: StringWithAggregatesFilter<"OrdemServico"> | string
     tecnico_atribuido_id?: StringNullableWithAggregatesFilter<"OrdemServico"> | string | null
     fotos?: StringNullableListFilter<"OrdemServico">
@@ -18539,6 +20118,130 @@ export namespace Prisma {
     atualizado?: DateTimeWithAggregatesFilter<"ContratoManutencao"> | Date | string
   }
 
+  export type AtivoPredialWhereInput = {
+    AND?: AtivoPredialWhereInput | AtivoPredialWhereInput[]
+    OR?: AtivoPredialWhereInput[]
+    NOT?: AtivoPredialWhereInput | AtivoPredialWhereInput[]
+    id?: StringFilter<"AtivoPredial"> | string
+    codigo_patrimonio?: StringFilter<"AtivoPredial"> | string
+    nome?: StringFilter<"AtivoPredial"> | string
+    categoria?: StringFilter<"AtivoPredial"> | string
+    ambiente?: StringFilter<"AtivoPredial"> | string
+    marca_modelo?: StringNullableFilter<"AtivoPredial"> | string | null
+    numero_serie?: StringNullableFilter<"AtivoPredial"> | string | null
+    status?: StringFilter<"AtivoPredial"> | string
+    data_instalacao?: DateTimeNullableFilter<"AtivoPredial"> | Date | string | null
+    garantia_ate?: DateTimeNullableFilter<"AtivoPredial"> | Date | string | null
+    ultima_manutencao?: DateTimeNullableFilter<"AtivoPredial"> | Date | string | null
+    custo_acumulado?: DecimalFilter<"AtivoPredial"> | Decimal | DecimalJsLike | number | string
+    ativo?: BoolFilter<"AtivoPredial"> | boolean
+    predio_id?: StringFilter<"AtivoPredial"> | string
+    prefeitura_id?: StringNullableFilter<"AtivoPredial"> | string | null
+    criado_em?: DateTimeFilter<"AtivoPredial"> | Date | string
+    atualizado?: DateTimeFilter<"AtivoPredial"> | Date | string
+    predio?: XOR<PredioScalarRelationFilter, PredioWhereInput>
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
+    ordens_servico?: OrdemServicoListRelationFilter
+  }
+
+  export type AtivoPredialOrderByWithRelationInput = {
+    id?: SortOrder
+    codigo_patrimonio?: SortOrder
+    nome?: SortOrder
+    categoria?: SortOrder
+    ambiente?: SortOrder
+    marca_modelo?: SortOrderInput | SortOrder
+    numero_serie?: SortOrderInput | SortOrder
+    status?: SortOrder
+    data_instalacao?: SortOrderInput | SortOrder
+    garantia_ate?: SortOrderInput | SortOrder
+    ultima_manutencao?: SortOrderInput | SortOrder
+    custo_acumulado?: SortOrder
+    ativo?: SortOrder
+    predio_id?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    predio?: PredioOrderByWithRelationInput
+    prefeitura?: PrefeituraOrderByWithRelationInput
+    ordens_servico?: OrdemServicoOrderByRelationAggregateInput
+  }
+
+  export type AtivoPredialWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    prefeitura_id_codigo_patrimonio?: AtivoPredialPrefeitura_idCodigo_patrimonioCompoundUniqueInput
+    AND?: AtivoPredialWhereInput | AtivoPredialWhereInput[]
+    OR?: AtivoPredialWhereInput[]
+    NOT?: AtivoPredialWhereInput | AtivoPredialWhereInput[]
+    codigo_patrimonio?: StringFilter<"AtivoPredial"> | string
+    nome?: StringFilter<"AtivoPredial"> | string
+    categoria?: StringFilter<"AtivoPredial"> | string
+    ambiente?: StringFilter<"AtivoPredial"> | string
+    marca_modelo?: StringNullableFilter<"AtivoPredial"> | string | null
+    numero_serie?: StringNullableFilter<"AtivoPredial"> | string | null
+    status?: StringFilter<"AtivoPredial"> | string
+    data_instalacao?: DateTimeNullableFilter<"AtivoPredial"> | Date | string | null
+    garantia_ate?: DateTimeNullableFilter<"AtivoPredial"> | Date | string | null
+    ultima_manutencao?: DateTimeNullableFilter<"AtivoPredial"> | Date | string | null
+    custo_acumulado?: DecimalFilter<"AtivoPredial"> | Decimal | DecimalJsLike | number | string
+    ativo?: BoolFilter<"AtivoPredial"> | boolean
+    predio_id?: StringFilter<"AtivoPredial"> | string
+    prefeitura_id?: StringNullableFilter<"AtivoPredial"> | string | null
+    criado_em?: DateTimeFilter<"AtivoPredial"> | Date | string
+    atualizado?: DateTimeFilter<"AtivoPredial"> | Date | string
+    predio?: XOR<PredioScalarRelationFilter, PredioWhereInput>
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
+    ordens_servico?: OrdemServicoListRelationFilter
+  }, "id" | "prefeitura_id_codigo_patrimonio">
+
+  export type AtivoPredialOrderByWithAggregationInput = {
+    id?: SortOrder
+    codigo_patrimonio?: SortOrder
+    nome?: SortOrder
+    categoria?: SortOrder
+    ambiente?: SortOrder
+    marca_modelo?: SortOrderInput | SortOrder
+    numero_serie?: SortOrderInput | SortOrder
+    status?: SortOrder
+    data_instalacao?: SortOrderInput | SortOrder
+    garantia_ate?: SortOrderInput | SortOrder
+    ultima_manutencao?: SortOrderInput | SortOrder
+    custo_acumulado?: SortOrder
+    ativo?: SortOrder
+    predio_id?: SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    _count?: AtivoPredialCountOrderByAggregateInput
+    _avg?: AtivoPredialAvgOrderByAggregateInput
+    _max?: AtivoPredialMaxOrderByAggregateInput
+    _min?: AtivoPredialMinOrderByAggregateInput
+    _sum?: AtivoPredialSumOrderByAggregateInput
+  }
+
+  export type AtivoPredialScalarWhereWithAggregatesInput = {
+    AND?: AtivoPredialScalarWhereWithAggregatesInput | AtivoPredialScalarWhereWithAggregatesInput[]
+    OR?: AtivoPredialScalarWhereWithAggregatesInput[]
+    NOT?: AtivoPredialScalarWhereWithAggregatesInput | AtivoPredialScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AtivoPredial"> | string
+    codigo_patrimonio?: StringWithAggregatesFilter<"AtivoPredial"> | string
+    nome?: StringWithAggregatesFilter<"AtivoPredial"> | string
+    categoria?: StringWithAggregatesFilter<"AtivoPredial"> | string
+    ambiente?: StringWithAggregatesFilter<"AtivoPredial"> | string
+    marca_modelo?: StringNullableWithAggregatesFilter<"AtivoPredial"> | string | null
+    numero_serie?: StringNullableWithAggregatesFilter<"AtivoPredial"> | string | null
+    status?: StringWithAggregatesFilter<"AtivoPredial"> | string
+    data_instalacao?: DateTimeNullableWithAggregatesFilter<"AtivoPredial"> | Date | string | null
+    garantia_ate?: DateTimeNullableWithAggregatesFilter<"AtivoPredial"> | Date | string | null
+    ultima_manutencao?: DateTimeNullableWithAggregatesFilter<"AtivoPredial"> | Date | string | null
+    custo_acumulado?: DecimalWithAggregatesFilter<"AtivoPredial"> | Decimal | DecimalJsLike | number | string
+    ativo?: BoolWithAggregatesFilter<"AtivoPredial"> | boolean
+    predio_id?: StringWithAggregatesFilter<"AtivoPredial"> | string
+    prefeitura_id?: StringNullableWithAggregatesFilter<"AtivoPredial"> | string | null
+    criado_em?: DateTimeWithAggregatesFilter<"AtivoPredial"> | Date | string
+    atualizado?: DateTimeWithAggregatesFilter<"AtivoPredial"> | Date | string
+  }
+
   export type PrefeituraCreateInput = {
     id?: string
     slug: string
@@ -18559,6 +20262,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateInput = {
@@ -18581,6 +20285,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUpdateInput = {
@@ -18603,6 +20308,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateInput = {
@@ -18625,6 +20331,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraCreateManyInput = {
@@ -18809,6 +20516,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPredioInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUncheckedCreateInput = {
@@ -18830,6 +20538,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPredioInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUpdateInput = {
@@ -18851,6 +20560,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUpdateManyWithoutPredioNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateInput = {
@@ -18872,6 +20582,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioCreateManyInput = {
@@ -18954,6 +20665,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    ativo_predial?: AtivoPredialCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
@@ -18974,6 +20686,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
@@ -19032,6 +20745,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    ativo_predial?: AtivoPredialUpdateOneWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
@@ -19052,6 +20766,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
@@ -19091,6 +20806,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
@@ -19155,6 +20871,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
@@ -20036,6 +21753,148 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AtivoPredialCreateInput = {
+    id?: string
+    codigo_patrimonio: string
+    nome: string
+    categoria?: string
+    ambiente: string
+    marca_modelo?: string | null
+    numero_serie?: string | null
+    status?: string
+    data_instalacao?: Date | string | null
+    garantia_ate?: Date | string | null
+    ultima_manutencao?: Date | string | null
+    custo_acumulado?: Decimal | DecimalJsLike | number | string
+    ativo?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio: PredioCreateNestedOneWithoutAtivosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutAtivosInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutAtivo_predialInput
+  }
+
+  export type AtivoPredialUncheckedCreateInput = {
+    id?: string
+    codigo_patrimonio: string
+    nome: string
+    categoria?: string
+    ambiente: string
+    marca_modelo?: string | null
+    numero_serie?: string | null
+    status?: string
+    data_instalacao?: Date | string | null
+    garantia_ate?: Date | string | null
+    ultima_manutencao?: Date | string | null
+    custo_acumulado?: Decimal | DecimalJsLike | number | string
+    ativo?: boolean
+    predio_id: string
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutAtivo_predialInput
+  }
+
+  export type AtivoPredialUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo_patrimonio?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    ambiente?: StringFieldUpdateOperationsInput | string
+    marca_modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_serie?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    data_instalacao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    garantia_ate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ultima_manutencao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    custo_acumulado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneRequiredWithoutAtivosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutAtivosNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutAtivo_predialNestedInput
+  }
+
+  export type AtivoPredialUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo_patrimonio?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    ambiente?: StringFieldUpdateOperationsInput | string
+    marca_modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_serie?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    data_instalacao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    garantia_ate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ultima_manutencao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    custo_acumulado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    predio_id?: StringFieldUpdateOperationsInput | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutAtivo_predialNestedInput
+  }
+
+  export type AtivoPredialCreateManyInput = {
+    id?: string
+    codigo_patrimonio: string
+    nome: string
+    categoria?: string
+    ambiente: string
+    marca_modelo?: string | null
+    numero_serie?: string | null
+    status?: string
+    data_instalacao?: Date | string | null
+    garantia_ate?: Date | string | null
+    ultima_manutencao?: Date | string | null
+    custo_acumulado?: Decimal | DecimalJsLike | number | string
+    ativo?: boolean
+    predio_id: string
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type AtivoPredialUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo_patrimonio?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    ambiente?: StringFieldUpdateOperationsInput | string
+    marca_modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_serie?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    data_instalacao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    garantia_ate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ultima_manutencao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    custo_acumulado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AtivoPredialUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo_patrimonio?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    ambiente?: StringFieldUpdateOperationsInput | string
+    marca_modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_serie?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    data_instalacao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    garantia_ate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ultima_manutencao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    custo_acumulado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    predio_id?: StringFieldUpdateOperationsInput | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -20166,6 +22025,12 @@ export namespace Prisma {
     none?: ContratoManutencaoWhereInput
   }
 
+  export type AtivoPredialListRelationFilter = {
+    every?: AtivoPredialWhereInput
+    some?: AtivoPredialWhereInput
+    none?: AtivoPredialWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -20200,6 +22065,10 @@ export namespace Prisma {
   }
 
   export type ContratoManutencaoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AtivoPredialOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -20615,6 +22484,11 @@ export namespace Prisma {
     isNot?: PredioWhereInput
   }
 
+  export type AtivoPredialNullableScalarRelationFilter = {
+    is?: AtivoPredialWhereInput | null
+    isNot?: AtivoPredialWhereInput | null
+  }
+
   export type UsuarioScalarRelationFilter = {
     is?: UsuarioWhereInput
     isNot?: UsuarioWhereInput
@@ -20649,6 +22523,7 @@ export namespace Prisma {
     prioridade?: SortOrder
     status?: SortOrder
     predio_id?: SortOrder
+    ativo_id?: SortOrder
     solicitante_id?: SortOrder
     tecnico_atribuido_id?: SortOrder
     fotos?: SortOrder
@@ -20691,6 +22566,7 @@ export namespace Prisma {
     prioridade?: SortOrder
     status?: SortOrder
     predio_id?: SortOrder
+    ativo_id?: SortOrder
     solicitante_id?: SortOrder
     tecnico_atribuido_id?: SortOrder
     motivo_pausa?: SortOrder
@@ -20723,6 +22599,7 @@ export namespace Prisma {
     prioridade?: SortOrder
     status?: SortOrder
     predio_id?: SortOrder
+    ativo_id?: SortOrder
     solicitante_id?: SortOrder
     tecnico_atribuido_id?: SortOrder
     motivo_pausa?: SortOrder
@@ -21346,6 +23223,79 @@ export namespace Prisma {
     valor_total_empenhado?: SortOrder
   }
 
+  export type AtivoPredialPrefeitura_idCodigo_patrimonioCompoundUniqueInput = {
+    prefeitura_id: string
+    codigo_patrimonio: string
+  }
+
+  export type AtivoPredialCountOrderByAggregateInput = {
+    id?: SortOrder
+    codigo_patrimonio?: SortOrder
+    nome?: SortOrder
+    categoria?: SortOrder
+    ambiente?: SortOrder
+    marca_modelo?: SortOrder
+    numero_serie?: SortOrder
+    status?: SortOrder
+    data_instalacao?: SortOrder
+    garantia_ate?: SortOrder
+    ultima_manutencao?: SortOrder
+    custo_acumulado?: SortOrder
+    ativo?: SortOrder
+    predio_id?: SortOrder
+    prefeitura_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type AtivoPredialAvgOrderByAggregateInput = {
+    custo_acumulado?: SortOrder
+  }
+
+  export type AtivoPredialMaxOrderByAggregateInput = {
+    id?: SortOrder
+    codigo_patrimonio?: SortOrder
+    nome?: SortOrder
+    categoria?: SortOrder
+    ambiente?: SortOrder
+    marca_modelo?: SortOrder
+    numero_serie?: SortOrder
+    status?: SortOrder
+    data_instalacao?: SortOrder
+    garantia_ate?: SortOrder
+    ultima_manutencao?: SortOrder
+    custo_acumulado?: SortOrder
+    ativo?: SortOrder
+    predio_id?: SortOrder
+    prefeitura_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type AtivoPredialMinOrderByAggregateInput = {
+    id?: SortOrder
+    codigo_patrimonio?: SortOrder
+    nome?: SortOrder
+    categoria?: SortOrder
+    ambiente?: SortOrder
+    marca_modelo?: SortOrder
+    numero_serie?: SortOrder
+    status?: SortOrder
+    data_instalacao?: SortOrder
+    garantia_ate?: SortOrder
+    ultima_manutencao?: SortOrder
+    custo_acumulado?: SortOrder
+    ativo?: SortOrder
+    predio_id?: SortOrder
+    prefeitura_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type AtivoPredialSumOrderByAggregateInput = {
+    custo_acumulado?: SortOrder
+  }
+
   export type PrefeituraCreatemodulos_ativosInput = {
     set: $Enums.ModuloSistema[]
   }
@@ -21412,6 +23362,13 @@ export namespace Prisma {
     connect?: ContratoManutencaoWhereUniqueInput | ContratoManutencaoWhereUniqueInput[]
   }
 
+  export type AtivoPredialCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<AtivoPredialCreateWithoutPrefeituraInput, AtivoPredialUncheckedCreateWithoutPrefeituraInput> | AtivoPredialCreateWithoutPrefeituraInput[] | AtivoPredialUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AtivoPredialCreateOrConnectWithoutPrefeituraInput | AtivoPredialCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: AtivoPredialCreateManyPrefeituraInputEnvelope
+    connect?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+  }
+
   export type ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput = {
     create?: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
     connectOrCreate?: ConfiguracaoSistemaCreateOrConnectWithoutPrefeituraInput
@@ -21472,6 +23429,13 @@ export namespace Prisma {
     connectOrCreate?: ContratoManutencaoCreateOrConnectWithoutPrefeituraInput | ContratoManutencaoCreateOrConnectWithoutPrefeituraInput[]
     createMany?: ContratoManutencaoCreateManyPrefeituraInputEnvelope
     connect?: ContratoManutencaoWhereUniqueInput | ContratoManutencaoWhereUniqueInput[]
+  }
+
+  export type AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<AtivoPredialCreateWithoutPrefeituraInput, AtivoPredialUncheckedCreateWithoutPrefeituraInput> | AtivoPredialCreateWithoutPrefeituraInput[] | AtivoPredialUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AtivoPredialCreateOrConnectWithoutPrefeituraInput | AtivoPredialCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: AtivoPredialCreateManyPrefeituraInputEnvelope
+    connect?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -21617,6 +23581,20 @@ export namespace Prisma {
     deleteMany?: ContratoManutencaoScalarWhereInput | ContratoManutencaoScalarWhereInput[]
   }
 
+  export type AtivoPredialUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<AtivoPredialCreateWithoutPrefeituraInput, AtivoPredialUncheckedCreateWithoutPrefeituraInput> | AtivoPredialCreateWithoutPrefeituraInput[] | AtivoPredialUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AtivoPredialCreateOrConnectWithoutPrefeituraInput | AtivoPredialCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: AtivoPredialUpsertWithWhereUniqueWithoutPrefeituraInput | AtivoPredialUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: AtivoPredialCreateManyPrefeituraInputEnvelope
+    set?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    disconnect?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    delete?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    connect?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    update?: AtivoPredialUpdateWithWhereUniqueWithoutPrefeituraInput | AtivoPredialUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: AtivoPredialUpdateManyWithWhereWithoutPrefeituraInput | AtivoPredialUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: AtivoPredialScalarWhereInput | AtivoPredialScalarWhereInput[]
+  }
+
   export type ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput = {
     create?: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
     connectOrCreate?: ConfiguracaoSistemaCreateOrConnectWithoutPrefeituraInput
@@ -21737,6 +23715,20 @@ export namespace Prisma {
     update?: ContratoManutencaoUpdateWithWhereUniqueWithoutPrefeituraInput | ContratoManutencaoUpdateWithWhereUniqueWithoutPrefeituraInput[]
     updateMany?: ContratoManutencaoUpdateManyWithWhereWithoutPrefeituraInput | ContratoManutencaoUpdateManyWithWhereWithoutPrefeituraInput[]
     deleteMany?: ContratoManutencaoScalarWhereInput | ContratoManutencaoScalarWhereInput[]
+  }
+
+  export type AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<AtivoPredialCreateWithoutPrefeituraInput, AtivoPredialUncheckedCreateWithoutPrefeituraInput> | AtivoPredialCreateWithoutPrefeituraInput[] | AtivoPredialUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AtivoPredialCreateOrConnectWithoutPrefeituraInput | AtivoPredialCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: AtivoPredialUpsertWithWhereUniqueWithoutPrefeituraInput | AtivoPredialUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: AtivoPredialCreateManyPrefeituraInputEnvelope
+    set?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    disconnect?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    delete?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    connect?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    update?: AtivoPredialUpdateWithWhereUniqueWithoutPrefeituraInput | AtivoPredialUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: AtivoPredialUpdateManyWithWhereWithoutPrefeituraInput | AtivoPredialUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: AtivoPredialScalarWhereInput | AtivoPredialScalarWhereInput[]
   }
 
   export type PrefeituraCreateNestedOneWithoutUsuariosInput = {
@@ -22010,6 +24002,13 @@ export namespace Prisma {
     connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
   }
 
+  export type AtivoPredialCreateNestedManyWithoutPredioInput = {
+    create?: XOR<AtivoPredialCreateWithoutPredioInput, AtivoPredialUncheckedCreateWithoutPredioInput> | AtivoPredialCreateWithoutPredioInput[] | AtivoPredialUncheckedCreateWithoutPredioInput[]
+    connectOrCreate?: AtivoPredialCreateOrConnectWithoutPredioInput | AtivoPredialCreateOrConnectWithoutPredioInput[]
+    createMany?: AtivoPredialCreateManyPredioInputEnvelope
+    connect?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+  }
+
   export type OrdemServicoUncheckedCreateNestedManyWithoutPredioInput = {
     create?: XOR<OrdemServicoCreateWithoutPredioInput, OrdemServicoUncheckedCreateWithoutPredioInput> | OrdemServicoCreateWithoutPredioInput[] | OrdemServicoUncheckedCreateWithoutPredioInput[]
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutPredioInput | OrdemServicoCreateOrConnectWithoutPredioInput[]
@@ -22029,6 +24028,13 @@ export namespace Prisma {
     connectOrCreate?: ManifestacaoCreateOrConnectWithoutPredioInput | ManifestacaoCreateOrConnectWithoutPredioInput[]
     createMany?: ManifestacaoCreateManyPredioInputEnvelope
     connect?: ManifestacaoWhereUniqueInput | ManifestacaoWhereUniqueInput[]
+  }
+
+  export type AtivoPredialUncheckedCreateNestedManyWithoutPredioInput = {
+    create?: XOR<AtivoPredialCreateWithoutPredioInput, AtivoPredialUncheckedCreateWithoutPredioInput> | AtivoPredialCreateWithoutPredioInput[] | AtivoPredialUncheckedCreateWithoutPredioInput[]
+    connectOrCreate?: AtivoPredialCreateOrConnectWithoutPredioInput | AtivoPredialCreateOrConnectWithoutPredioInput[]
+    createMany?: AtivoPredialCreateManyPredioInputEnvelope
+    connect?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
   }
 
   export type EnumTipoPredioFieldUpdateOperationsInput = {
@@ -22113,6 +24119,20 @@ export namespace Prisma {
     deleteMany?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
   }
 
+  export type AtivoPredialUpdateManyWithoutPredioNestedInput = {
+    create?: XOR<AtivoPredialCreateWithoutPredioInput, AtivoPredialUncheckedCreateWithoutPredioInput> | AtivoPredialCreateWithoutPredioInput[] | AtivoPredialUncheckedCreateWithoutPredioInput[]
+    connectOrCreate?: AtivoPredialCreateOrConnectWithoutPredioInput | AtivoPredialCreateOrConnectWithoutPredioInput[]
+    upsert?: AtivoPredialUpsertWithWhereUniqueWithoutPredioInput | AtivoPredialUpsertWithWhereUniqueWithoutPredioInput[]
+    createMany?: AtivoPredialCreateManyPredioInputEnvelope
+    set?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    disconnect?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    delete?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    connect?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    update?: AtivoPredialUpdateWithWhereUniqueWithoutPredioInput | AtivoPredialUpdateWithWhereUniqueWithoutPredioInput[]
+    updateMany?: AtivoPredialUpdateManyWithWhereWithoutPredioInput | AtivoPredialUpdateManyWithWhereWithoutPredioInput[]
+    deleteMany?: AtivoPredialScalarWhereInput | AtivoPredialScalarWhereInput[]
+  }
+
   export type OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput = {
     create?: XOR<OrdemServicoCreateWithoutPredioInput, OrdemServicoUncheckedCreateWithoutPredioInput> | OrdemServicoCreateWithoutPredioInput[] | OrdemServicoUncheckedCreateWithoutPredioInput[]
     connectOrCreate?: OrdemServicoCreateOrConnectWithoutPredioInput | OrdemServicoCreateOrConnectWithoutPredioInput[]
@@ -22155,6 +24175,20 @@ export namespace Prisma {
     deleteMany?: ManifestacaoScalarWhereInput | ManifestacaoScalarWhereInput[]
   }
 
+  export type AtivoPredialUncheckedUpdateManyWithoutPredioNestedInput = {
+    create?: XOR<AtivoPredialCreateWithoutPredioInput, AtivoPredialUncheckedCreateWithoutPredioInput> | AtivoPredialCreateWithoutPredioInput[] | AtivoPredialUncheckedCreateWithoutPredioInput[]
+    connectOrCreate?: AtivoPredialCreateOrConnectWithoutPredioInput | AtivoPredialCreateOrConnectWithoutPredioInput[]
+    upsert?: AtivoPredialUpsertWithWhereUniqueWithoutPredioInput | AtivoPredialUpsertWithWhereUniqueWithoutPredioInput[]
+    createMany?: AtivoPredialCreateManyPredioInputEnvelope
+    set?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    disconnect?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    delete?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    connect?: AtivoPredialWhereUniqueInput | AtivoPredialWhereUniqueInput[]
+    update?: AtivoPredialUpdateWithWhereUniqueWithoutPredioInput | AtivoPredialUpdateWithWhereUniqueWithoutPredioInput[]
+    updateMany?: AtivoPredialUpdateManyWithWhereWithoutPredioInput | AtivoPredialUpdateManyWithWhereWithoutPredioInput[]
+    deleteMany?: AtivoPredialScalarWhereInput | AtivoPredialScalarWhereInput[]
+  }
+
   export type OrdemServicoCreatefotosInput = {
     set: string[]
   }
@@ -22167,6 +24201,12 @@ export namespace Prisma {
     create?: XOR<PredioCreateWithoutOrdens_servicoInput, PredioUncheckedCreateWithoutOrdens_servicoInput>
     connectOrCreate?: PredioCreateOrConnectWithoutOrdens_servicoInput
     connect?: PredioWhereUniqueInput
+  }
+
+  export type AtivoPredialCreateNestedOneWithoutOrdens_servicoInput = {
+    create?: XOR<AtivoPredialCreateWithoutOrdens_servicoInput, AtivoPredialUncheckedCreateWithoutOrdens_servicoInput>
+    connectOrCreate?: AtivoPredialCreateOrConnectWithoutOrdens_servicoInput
+    connect?: AtivoPredialWhereUniqueInput
   }
 
   export type UsuarioCreateNestedOneWithoutChamados_solicitadosInput = {
@@ -22291,6 +24331,16 @@ export namespace Prisma {
     upsert?: PredioUpsertWithoutOrdens_servicoInput
     connect?: PredioWhereUniqueInput
     update?: XOR<XOR<PredioUpdateToOneWithWhereWithoutOrdens_servicoInput, PredioUpdateWithoutOrdens_servicoInput>, PredioUncheckedUpdateWithoutOrdens_servicoInput>
+  }
+
+  export type AtivoPredialUpdateOneWithoutOrdens_servicoNestedInput = {
+    create?: XOR<AtivoPredialCreateWithoutOrdens_servicoInput, AtivoPredialUncheckedCreateWithoutOrdens_servicoInput>
+    connectOrCreate?: AtivoPredialCreateOrConnectWithoutOrdens_servicoInput
+    upsert?: AtivoPredialUpsertWithoutOrdens_servicoInput
+    disconnect?: AtivoPredialWhereInput | boolean
+    delete?: AtivoPredialWhereInput | boolean
+    connect?: AtivoPredialWhereUniqueInput
+    update?: XOR<XOR<AtivoPredialUpdateToOneWithWhereWithoutOrdens_servicoInput, AtivoPredialUpdateWithoutOrdens_servicoInput>, AtivoPredialUncheckedUpdateWithoutOrdens_servicoInput>
   }
 
   export type UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput = {
@@ -22791,6 +24841,78 @@ export namespace Prisma {
     connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
     update?: OrdemServicoUpdateWithWhereUniqueWithoutContratoInput | OrdemServicoUpdateWithWhereUniqueWithoutContratoInput[]
     updateMany?: OrdemServicoUpdateManyWithWhereWithoutContratoInput | OrdemServicoUpdateManyWithWhereWithoutContratoInput[]
+    deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
+  }
+
+  export type PredioCreateNestedOneWithoutAtivosInput = {
+    create?: XOR<PredioCreateWithoutAtivosInput, PredioUncheckedCreateWithoutAtivosInput>
+    connectOrCreate?: PredioCreateOrConnectWithoutAtivosInput
+    connect?: PredioWhereUniqueInput
+  }
+
+  export type PrefeituraCreateNestedOneWithoutAtivosInput = {
+    create?: XOR<PrefeituraCreateWithoutAtivosInput, PrefeituraUncheckedCreateWithoutAtivosInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutAtivosInput
+    connect?: PrefeituraWhereUniqueInput
+  }
+
+  export type OrdemServicoCreateNestedManyWithoutAtivo_predialInput = {
+    create?: XOR<OrdemServicoCreateWithoutAtivo_predialInput, OrdemServicoUncheckedCreateWithoutAtivo_predialInput> | OrdemServicoCreateWithoutAtivo_predialInput[] | OrdemServicoUncheckedCreateWithoutAtivo_predialInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutAtivo_predialInput | OrdemServicoCreateOrConnectWithoutAtivo_predialInput[]
+    createMany?: OrdemServicoCreateManyAtivo_predialInputEnvelope
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type OrdemServicoUncheckedCreateNestedManyWithoutAtivo_predialInput = {
+    create?: XOR<OrdemServicoCreateWithoutAtivo_predialInput, OrdemServicoUncheckedCreateWithoutAtivo_predialInput> | OrdemServicoCreateWithoutAtivo_predialInput[] | OrdemServicoUncheckedCreateWithoutAtivo_predialInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutAtivo_predialInput | OrdemServicoCreateOrConnectWithoutAtivo_predialInput[]
+    createMany?: OrdemServicoCreateManyAtivo_predialInputEnvelope
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+  }
+
+  export type PredioUpdateOneRequiredWithoutAtivosNestedInput = {
+    create?: XOR<PredioCreateWithoutAtivosInput, PredioUncheckedCreateWithoutAtivosInput>
+    connectOrCreate?: PredioCreateOrConnectWithoutAtivosInput
+    upsert?: PredioUpsertWithoutAtivosInput
+    connect?: PredioWhereUniqueInput
+    update?: XOR<XOR<PredioUpdateToOneWithWhereWithoutAtivosInput, PredioUpdateWithoutAtivosInput>, PredioUncheckedUpdateWithoutAtivosInput>
+  }
+
+  export type PrefeituraUpdateOneWithoutAtivosNestedInput = {
+    create?: XOR<PrefeituraCreateWithoutAtivosInput, PrefeituraUncheckedCreateWithoutAtivosInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutAtivosInput
+    upsert?: PrefeituraUpsertWithoutAtivosInput
+    disconnect?: PrefeituraWhereInput | boolean
+    delete?: PrefeituraWhereInput | boolean
+    connect?: PrefeituraWhereUniqueInput
+    update?: XOR<XOR<PrefeituraUpdateToOneWithWhereWithoutAtivosInput, PrefeituraUpdateWithoutAtivosInput>, PrefeituraUncheckedUpdateWithoutAtivosInput>
+  }
+
+  export type OrdemServicoUpdateManyWithoutAtivo_predialNestedInput = {
+    create?: XOR<OrdemServicoCreateWithoutAtivo_predialInput, OrdemServicoUncheckedCreateWithoutAtivo_predialInput> | OrdemServicoCreateWithoutAtivo_predialInput[] | OrdemServicoUncheckedCreateWithoutAtivo_predialInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutAtivo_predialInput | OrdemServicoCreateOrConnectWithoutAtivo_predialInput[]
+    upsert?: OrdemServicoUpsertWithWhereUniqueWithoutAtivo_predialInput | OrdemServicoUpsertWithWhereUniqueWithoutAtivo_predialInput[]
+    createMany?: OrdemServicoCreateManyAtivo_predialInputEnvelope
+    set?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    disconnect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    delete?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    update?: OrdemServicoUpdateWithWhereUniqueWithoutAtivo_predialInput | OrdemServicoUpdateWithWhereUniqueWithoutAtivo_predialInput[]
+    updateMany?: OrdemServicoUpdateManyWithWhereWithoutAtivo_predialInput | OrdemServicoUpdateManyWithWhereWithoutAtivo_predialInput[]
+    deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
+  }
+
+  export type OrdemServicoUncheckedUpdateManyWithoutAtivo_predialNestedInput = {
+    create?: XOR<OrdemServicoCreateWithoutAtivo_predialInput, OrdemServicoUncheckedCreateWithoutAtivo_predialInput> | OrdemServicoCreateWithoutAtivo_predialInput[] | OrdemServicoUncheckedCreateWithoutAtivo_predialInput[]
+    connectOrCreate?: OrdemServicoCreateOrConnectWithoutAtivo_predialInput | OrdemServicoCreateOrConnectWithoutAtivo_predialInput[]
+    upsert?: OrdemServicoUpsertWithWhereUniqueWithoutAtivo_predialInput | OrdemServicoUpsertWithWhereUniqueWithoutAtivo_predialInput[]
+    createMany?: OrdemServicoCreateManyAtivo_predialInputEnvelope
+    set?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    disconnect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    delete?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    connect?: OrdemServicoWhereUniqueInput | OrdemServicoWhereUniqueInput[]
+    update?: OrdemServicoUpdateWithWhereUniqueWithoutAtivo_predialInput | OrdemServicoUpdateWithWhereUniqueWithoutAtivo_predialInput[]
+    updateMany?: OrdemServicoUpdateManyWithWhereWithoutAtivo_predialInput | OrdemServicoUpdateManyWithWhereWithoutAtivo_predialInput[]
     deleteMany?: OrdemServicoScalarWhereInput | OrdemServicoScalarWhereInput[]
   }
 
@@ -23338,6 +25460,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPredioInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUncheckedCreateWithoutPrefeituraInput = {
@@ -23358,6 +25481,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPredioInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPredioInput
   }
 
   export type PredioCreateOrConnectWithoutPrefeituraInput = {
@@ -23398,6 +25522,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    ativo_predial?: AtivoPredialCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
@@ -23417,6 +25542,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
@@ -23676,6 +25802,56 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AtivoPredialCreateWithoutPrefeituraInput = {
+    id?: string
+    codigo_patrimonio: string
+    nome: string
+    categoria?: string
+    ambiente: string
+    marca_modelo?: string | null
+    numero_serie?: string | null
+    status?: string
+    data_instalacao?: Date | string | null
+    garantia_ate?: Date | string | null
+    ultima_manutencao?: Date | string | null
+    custo_acumulado?: Decimal | DecimalJsLike | number | string
+    ativo?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio: PredioCreateNestedOneWithoutAtivosInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutAtivo_predialInput
+  }
+
+  export type AtivoPredialUncheckedCreateWithoutPrefeituraInput = {
+    id?: string
+    codigo_patrimonio: string
+    nome: string
+    categoria?: string
+    ambiente: string
+    marca_modelo?: string | null
+    numero_serie?: string | null
+    status?: string
+    data_instalacao?: Date | string | null
+    garantia_ate?: Date | string | null
+    ultima_manutencao?: Date | string | null
+    custo_acumulado?: Decimal | DecimalJsLike | number | string
+    ativo?: boolean
+    predio_id: string
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutAtivo_predialInput
+  }
+
+  export type AtivoPredialCreateOrConnectWithoutPrefeituraInput = {
+    where: AtivoPredialWhereUniqueInput
+    create: XOR<AtivoPredialCreateWithoutPrefeituraInput, AtivoPredialUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type AtivoPredialCreateManyPrefeituraInputEnvelope = {
+    data: AtivoPredialCreateManyPrefeituraInput | AtivoPredialCreateManyPrefeituraInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ConfiguracaoSistemaUpsertWithoutPrefeituraInput = {
     update: XOR<ConfiguracaoSistemaUpdateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedUpdateWithoutPrefeituraInput>
     create: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
@@ -23830,6 +26006,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFilter<"OrdemServico"> | $Enums.Prioridade
     status?: EnumStatusOSFilter<"OrdemServico"> | $Enums.StatusOS
     predio_id?: StringFilter<"OrdemServico"> | string
+    ativo_id?: StringNullableFilter<"OrdemServico"> | string | null
     solicitante_id?: StringFilter<"OrdemServico"> | string
     tecnico_atribuido_id?: StringNullableFilter<"OrdemServico"> | string | null
     fotos?: StringNullableListFilter<"OrdemServico">
@@ -24039,6 +26216,45 @@ export namespace Prisma {
     atualizado?: DateTimeFilter<"ContratoManutencao"> | Date | string
   }
 
+  export type AtivoPredialUpsertWithWhereUniqueWithoutPrefeituraInput = {
+    where: AtivoPredialWhereUniqueInput
+    update: XOR<AtivoPredialUpdateWithoutPrefeituraInput, AtivoPredialUncheckedUpdateWithoutPrefeituraInput>
+    create: XOR<AtivoPredialCreateWithoutPrefeituraInput, AtivoPredialUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type AtivoPredialUpdateWithWhereUniqueWithoutPrefeituraInput = {
+    where: AtivoPredialWhereUniqueInput
+    data: XOR<AtivoPredialUpdateWithoutPrefeituraInput, AtivoPredialUncheckedUpdateWithoutPrefeituraInput>
+  }
+
+  export type AtivoPredialUpdateManyWithWhereWithoutPrefeituraInput = {
+    where: AtivoPredialScalarWhereInput
+    data: XOR<AtivoPredialUpdateManyMutationInput, AtivoPredialUncheckedUpdateManyWithoutPrefeituraInput>
+  }
+
+  export type AtivoPredialScalarWhereInput = {
+    AND?: AtivoPredialScalarWhereInput | AtivoPredialScalarWhereInput[]
+    OR?: AtivoPredialScalarWhereInput[]
+    NOT?: AtivoPredialScalarWhereInput | AtivoPredialScalarWhereInput[]
+    id?: StringFilter<"AtivoPredial"> | string
+    codigo_patrimonio?: StringFilter<"AtivoPredial"> | string
+    nome?: StringFilter<"AtivoPredial"> | string
+    categoria?: StringFilter<"AtivoPredial"> | string
+    ambiente?: StringFilter<"AtivoPredial"> | string
+    marca_modelo?: StringNullableFilter<"AtivoPredial"> | string | null
+    numero_serie?: StringNullableFilter<"AtivoPredial"> | string | null
+    status?: StringFilter<"AtivoPredial"> | string
+    data_instalacao?: DateTimeNullableFilter<"AtivoPredial"> | Date | string | null
+    garantia_ate?: DateTimeNullableFilter<"AtivoPredial"> | Date | string | null
+    ultima_manutencao?: DateTimeNullableFilter<"AtivoPredial"> | Date | string | null
+    custo_acumulado?: DecimalFilter<"AtivoPredial"> | Decimal | DecimalJsLike | number | string
+    ativo?: BoolFilter<"AtivoPredial"> | boolean
+    predio_id?: StringFilter<"AtivoPredial"> | string
+    prefeitura_id?: StringNullableFilter<"AtivoPredial"> | string | null
+    criado_em?: DateTimeFilter<"AtivoPredial"> | Date | string
+    atualizado?: DateTimeFilter<"AtivoPredial"> | Date | string
+  }
+
   export type PrefeituraCreateWithoutUsuariosInput = {
     id?: string
     slug: string
@@ -24058,6 +26274,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutUsuariosInput = {
@@ -24079,6 +26296,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutUsuariosInput = {
@@ -24104,6 +26322,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPredioInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUncheckedCreateWithoutGestorInput = {
@@ -24124,6 +26343,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPredioInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPredioInput
   }
 
   export type PredioCreateOrConnectWithoutGestorInput = {
@@ -24164,6 +26384,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    ativo_predial?: AtivoPredialCreateNestedOneWithoutOrdens_servicoInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
@@ -24183,6 +26404,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
     fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
@@ -24250,6 +26472,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    ativo_predial?: AtivoPredialCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
@@ -24269,6 +26492,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     solicitante_id: string
     fotos?: OrdemServicoCreatefotosInput | string[]
     fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
@@ -24426,6 +26650,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutUsuariosInput = {
@@ -24447,6 +26672,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioUpsertWithWhereUniqueWithoutGestorInput = {
@@ -24591,6 +26817,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutPrediosInput = {
@@ -24612,6 +26839,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutPrediosInput = {
@@ -24646,6 +26874,7 @@ export namespace Prisma {
     numero_empenho?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
+    ativo_predial?: AtivoPredialCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
@@ -24665,6 +26894,7 @@ export namespace Prisma {
     categoria?: string | null
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
+    ativo_id?: string | null
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
@@ -24809,6 +27039,56 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AtivoPredialCreateWithoutPredioInput = {
+    id?: string
+    codigo_patrimonio: string
+    nome: string
+    categoria?: string
+    ambiente: string
+    marca_modelo?: string | null
+    numero_serie?: string | null
+    status?: string
+    data_instalacao?: Date | string | null
+    garantia_ate?: Date | string | null
+    ultima_manutencao?: Date | string | null
+    custo_acumulado?: Decimal | DecimalJsLike | number | string
+    ativo?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutAtivosInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutAtivo_predialInput
+  }
+
+  export type AtivoPredialUncheckedCreateWithoutPredioInput = {
+    id?: string
+    codigo_patrimonio: string
+    nome: string
+    categoria?: string
+    ambiente: string
+    marca_modelo?: string | null
+    numero_serie?: string | null
+    status?: string
+    data_instalacao?: Date | string | null
+    garantia_ate?: Date | string | null
+    ultima_manutencao?: Date | string | null
+    custo_acumulado?: Decimal | DecimalJsLike | number | string
+    ativo?: boolean
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutAtivo_predialInput
+  }
+
+  export type AtivoPredialCreateOrConnectWithoutPredioInput = {
+    where: AtivoPredialWhereUniqueInput
+    create: XOR<AtivoPredialCreateWithoutPredioInput, AtivoPredialUncheckedCreateWithoutPredioInput>
+  }
+
+  export type AtivoPredialCreateManyPredioInputEnvelope = {
+    data: AtivoPredialCreateManyPredioInput | AtivoPredialCreateManyPredioInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsuarioUpsertWithoutPredios_geridosInput = {
     update: XOR<UsuarioUpdateWithoutPredios_geridosInput, UsuarioUncheckedUpdateWithoutPredios_geridosInput>
     create: XOR<UsuarioCreateWithoutPredios_geridosInput, UsuarioUncheckedCreateWithoutPredios_geridosInput>
@@ -24888,6 +27168,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutPrediosInput = {
@@ -24909,6 +27190,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithWhereUniqueWithoutPredioInput = {
@@ -24959,6 +27241,22 @@ export namespace Prisma {
     data: XOR<ManifestacaoUpdateManyMutationInput, ManifestacaoUncheckedUpdateManyWithoutPredioInput>
   }
 
+  export type AtivoPredialUpsertWithWhereUniqueWithoutPredioInput = {
+    where: AtivoPredialWhereUniqueInput
+    update: XOR<AtivoPredialUpdateWithoutPredioInput, AtivoPredialUncheckedUpdateWithoutPredioInput>
+    create: XOR<AtivoPredialCreateWithoutPredioInput, AtivoPredialUncheckedCreateWithoutPredioInput>
+  }
+
+  export type AtivoPredialUpdateWithWhereUniqueWithoutPredioInput = {
+    where: AtivoPredialWhereUniqueInput
+    data: XOR<AtivoPredialUpdateWithoutPredioInput, AtivoPredialUncheckedUpdateWithoutPredioInput>
+  }
+
+  export type AtivoPredialUpdateManyWithWhereWithoutPredioInput = {
+    where: AtivoPredialScalarWhereInput
+    data: XOR<AtivoPredialUpdateManyMutationInput, AtivoPredialUncheckedUpdateManyWithoutPredioInput>
+  }
+
   export type PredioCreateWithoutOrdens_servicoInput = {
     id?: string
     nome: string
@@ -24977,6 +27275,7 @@ export namespace Prisma {
     prefeitura?: PrefeituraCreateNestedOneWithoutPrediosInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPredioInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUncheckedCreateWithoutOrdens_servicoInput = {
@@ -24997,11 +27296,57 @@ export namespace Prisma {
     prefeitura_id?: string | null
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPredioInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPredioInput
   }
 
   export type PredioCreateOrConnectWithoutOrdens_servicoInput = {
     where: PredioWhereUniqueInput
     create: XOR<PredioCreateWithoutOrdens_servicoInput, PredioUncheckedCreateWithoutOrdens_servicoInput>
+  }
+
+  export type AtivoPredialCreateWithoutOrdens_servicoInput = {
+    id?: string
+    codigo_patrimonio: string
+    nome: string
+    categoria?: string
+    ambiente: string
+    marca_modelo?: string | null
+    numero_serie?: string | null
+    status?: string
+    data_instalacao?: Date | string | null
+    garantia_ate?: Date | string | null
+    ultima_manutencao?: Date | string | null
+    custo_acumulado?: Decimal | DecimalJsLike | number | string
+    ativo?: boolean
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio: PredioCreateNestedOneWithoutAtivosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutAtivosInput
+  }
+
+  export type AtivoPredialUncheckedCreateWithoutOrdens_servicoInput = {
+    id?: string
+    codigo_patrimonio: string
+    nome: string
+    categoria?: string
+    ambiente: string
+    marca_modelo?: string | null
+    numero_serie?: string | null
+    status?: string
+    data_instalacao?: Date | string | null
+    garantia_ate?: Date | string | null
+    ultima_manutencao?: Date | string | null
+    custo_acumulado?: Decimal | DecimalJsLike | number | string
+    ativo?: boolean
+    predio_id: string
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type AtivoPredialCreateOrConnectWithoutOrdens_servicoInput = {
+    where: AtivoPredialWhereUniqueInput
+    create: XOR<AtivoPredialCreateWithoutOrdens_servicoInput, AtivoPredialUncheckedCreateWithoutOrdens_servicoInput>
   }
 
   export type UsuarioCreateWithoutChamados_solicitadosInput = {
@@ -25180,6 +27525,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutOrdens_servicoInput = {
@@ -25201,6 +27547,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutOrdens_servicoInput = {
@@ -25236,6 +27583,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    ativo_predial?: AtivoPredialCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
@@ -25255,6 +27603,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
@@ -25317,6 +27666,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    ativo_predial?: AtivoPredialCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
@@ -25336,6 +27686,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
@@ -25508,6 +27859,7 @@ export namespace Prisma {
     prefeitura?: PrefeituraUpdateOneWithoutPrediosNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUpdateManyWithoutPredioNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateWithoutOrdens_servicoInput = {
@@ -25528,6 +27880,58 @@ export namespace Prisma {
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPredioNestedInput
+  }
+
+  export type AtivoPredialUpsertWithoutOrdens_servicoInput = {
+    update: XOR<AtivoPredialUpdateWithoutOrdens_servicoInput, AtivoPredialUncheckedUpdateWithoutOrdens_servicoInput>
+    create: XOR<AtivoPredialCreateWithoutOrdens_servicoInput, AtivoPredialUncheckedCreateWithoutOrdens_servicoInput>
+    where?: AtivoPredialWhereInput
+  }
+
+  export type AtivoPredialUpdateToOneWithWhereWithoutOrdens_servicoInput = {
+    where?: AtivoPredialWhereInput
+    data: XOR<AtivoPredialUpdateWithoutOrdens_servicoInput, AtivoPredialUncheckedUpdateWithoutOrdens_servicoInput>
+  }
+
+  export type AtivoPredialUpdateWithoutOrdens_servicoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo_patrimonio?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    ambiente?: StringFieldUpdateOperationsInput | string
+    marca_modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_serie?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    data_instalacao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    garantia_ate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ultima_manutencao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    custo_acumulado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneRequiredWithoutAtivosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutAtivosNestedInput
+  }
+
+  export type AtivoPredialUncheckedUpdateWithoutOrdens_servicoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo_patrimonio?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    ambiente?: StringFieldUpdateOperationsInput | string
+    marca_modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_serie?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    data_instalacao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    garantia_ate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ultima_manutencao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    custo_acumulado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    predio_id?: StringFieldUpdateOperationsInput | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UsuarioUpsertWithoutChamados_solicitadosInput = {
@@ -25734,6 +28138,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutOrdens_servicoInput = {
@@ -25755,6 +28160,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithoutOrdens_derivadasInput = {
@@ -25796,6 +28202,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    ativo_predial?: AtivoPredialUpdateOneWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
@@ -25815,6 +28222,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
@@ -25954,6 +28362,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutAuditoriasInput = {
@@ -25975,6 +28384,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutAuditoriasInput = {
@@ -26061,6 +28471,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutAuditoriasInput = {
@@ -26082,6 +28493,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioCreateWithoutVistoriasInput = {
@@ -26102,6 +28514,7 @@ export namespace Prisma {
     prefeitura?: PrefeituraCreateNestedOneWithoutPrediosInput
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoCreateNestedManyWithoutPredioInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUncheckedCreateWithoutVistoriasInput = {
@@ -26122,6 +28535,7 @@ export namespace Prisma {
     prefeitura_id?: string | null
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
     manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPredioInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPredioInput
   }
 
   export type PredioCreateOrConnectWithoutVistoriasInput = {
@@ -26157,6 +28571,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    ativo_predial?: AtivoPredialCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
@@ -26176,6 +28591,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
@@ -26229,6 +28645,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutVistoriasInput = {
@@ -26250,6 +28667,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutVistoriasInput = {
@@ -26286,6 +28704,7 @@ export namespace Prisma {
     prefeitura?: PrefeituraUpdateOneWithoutPrediosNestedInput
     ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUpdateManyWithoutPredioNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateWithoutVistoriasInput = {
@@ -26306,6 +28725,7 @@ export namespace Prisma {
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPredioNestedInput
   }
 
   export type OrdemServicoUpsertWithoutAgendamentosInput = {
@@ -26347,6 +28767,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    ativo_predial?: AtivoPredialUpdateOneWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
@@ -26366,6 +28787,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
@@ -26425,6 +28847,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutVistoriasInput = {
@@ -26446,6 +28869,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraCreateWithoutConfiguracaoInput = {
@@ -26467,6 +28891,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutConfiguracaoInput = {
@@ -26488,6 +28913,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutConfiguracaoInput = {
@@ -26525,6 +28951,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutConfiguracaoInput = {
@@ -26546,6 +28973,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioCreateWithoutManifestacoesInput = {
@@ -26566,6 +28994,7 @@ export namespace Prisma {
     prefeitura?: PrefeituraCreateNestedOneWithoutPrediosInput
     ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPredioInput
   }
 
   export type PredioUncheckedCreateWithoutManifestacoesInput = {
@@ -26586,6 +29015,7 @@ export namespace Prisma {
     prefeitura_id?: string | null
     ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPredioInput
   }
 
   export type PredioCreateOrConnectWithoutManifestacoesInput = {
@@ -26664,6 +29094,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    ativo_predial?: AtivoPredialCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
@@ -26683,6 +29114,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
@@ -26736,6 +29168,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutManifestacoesInput = {
@@ -26757,6 +29190,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutManifestacoesInput = {
@@ -26793,6 +29227,7 @@ export namespace Prisma {
     prefeitura?: PrefeituraUpdateOneWithoutPrediosNestedInput
     ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateWithoutManifestacoesInput = {
@@ -26813,6 +29248,7 @@ export namespace Prisma {
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPredioNestedInput
   }
 
   export type UsuarioUpsertWithoutManifestacoes_respondidasInput = {
@@ -26903,6 +29339,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    ativo_predial?: AtivoPredialUpdateOneWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
@@ -26922,6 +29359,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
@@ -26981,6 +29419,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutManifestacoesInput = {
@@ -27002,6 +29441,7 @@ export namespace Prisma {
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraCreateWithoutMateriaisInput = {
@@ -27023,6 +29463,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutMateriaisInput = {
@@ -27044,6 +29485,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutMateriaisInput = {
@@ -27113,6 +29555,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutMateriaisInput = {
@@ -27134,6 +29577,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type ItemConsumoOSUpsertWithWhereUniqueWithoutMaterialInput = {
@@ -27180,6 +29624,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    ativo_predial?: AtivoPredialCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
@@ -27199,6 +29644,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
@@ -27307,6 +29753,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    ativo_predial?: AtivoPredialUpdateOneWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
@@ -27326,6 +29773,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
@@ -27415,6 +29863,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutContratosInput = {
@@ -27436,6 +29885,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
     auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutContratosInput = {
@@ -27471,6 +29921,7 @@ export namespace Prisma {
     criado_em?: Date | string
     atualizado?: Date | string
     predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    ativo_predial?: AtivoPredialCreateNestedOneWithoutOrdens_servicoInput
     solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
     tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
     materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
@@ -27490,6 +29941,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
@@ -27559,6 +30011,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutContratosInput = {
@@ -27580,6 +30033,7 @@ export namespace Prisma {
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
     auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithWhereUniqueWithoutContratoInput = {
@@ -27596,6 +30050,314 @@ export namespace Prisma {
   export type OrdemServicoUpdateManyWithWhereWithoutContratoInput = {
     where: OrdemServicoScalarWhereInput
     data: XOR<OrdemServicoUpdateManyMutationInput, OrdemServicoUncheckedUpdateManyWithoutContratoInput>
+  }
+
+  export type PredioCreateWithoutAtivosInput = {
+    id?: string
+    nome: string
+    tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
+    endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    gestor?: UsuarioCreateNestedOneWithoutPredios_geridosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutPrediosInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPredioInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPredioInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPredioInput
+  }
+
+  export type PredioUncheckedCreateWithoutAtivosInput = {
+    id?: string
+    nome: string
+    tipo: $Enums.TipoPredio
+    setor?: string | null
+    porte?: string | null
+    capacidade?: number | null
+    endereco: string
+    latitude?: number | null
+    longitude?: number | null
+    ativo?: boolean
+    motivo_desativacao?: string | null
+    gestor_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    prefeitura_id?: string | null
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPredioInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPredioInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPredioInput
+  }
+
+  export type PredioCreateOrConnectWithoutAtivosInput = {
+    where: PredioWhereUniqueInput
+    create: XOR<PredioCreateWithoutAtivosInput, PredioUncheckedCreateWithoutAtivosInput>
+  }
+
+  export type PrefeituraCreateWithoutAtivosInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraUncheckedCreateWithoutAtivosInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioUncheckedCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioUncheckedCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraCreateOrConnectWithoutAtivosInput = {
+    where: PrefeituraWhereUniqueInput
+    create: XOR<PrefeituraCreateWithoutAtivosInput, PrefeituraUncheckedCreateWithoutAtivosInput>
+  }
+
+  export type OrdemServicoCreateWithoutAtivo_predialInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio: PredioCreateNestedOneWithoutOrdens_servicoInput
+    solicitante: UsuarioCreateNestedOneWithoutChamados_solicitadosInput
+    tecnico?: UsuarioCreateNestedOneWithoutChamados_atribuidosInput
+    contrato?: ContratoManutencaoCreateNestedOneWithoutOrdens_servicoInput
+    materiais_consumidos?: ItemConsumoOSCreateNestedManyWithoutOrdem_servicoInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutOrdens_servicoInput
+    ordem_vinculada?: OrdemServicoCreateNestedOneWithoutOrdens_derivadasInput
+    ordens_derivadas?: OrdemServicoCreateNestedManyWithoutOrdem_vinculadaInput
+    agendamentos?: AgendaVistoriaCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoCreateNestedManyWithoutOrdem_servicoInput
+  }
+
+  export type OrdemServicoUncheckedCreateWithoutAtivo_predialInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    predio_id: string
+    solicitante_id: string
+    tecnico_atribuido_id?: string | null
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
+    contrato_id?: string | null
+    prefeitura_id?: string | null
+    ordem_vinculada_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    ordens_derivadas?: OrdemServicoUncheckedCreateNestedManyWithoutOrdem_vinculadaInput
+    agendamentos?: AgendaVistoriaUncheckedCreateNestedManyWithoutOrdem_servicoInput
+    manifestacoes_origem?: ManifestacaoUncheckedCreateNestedManyWithoutOrdem_servicoInput
+  }
+
+  export type OrdemServicoCreateOrConnectWithoutAtivo_predialInput = {
+    where: OrdemServicoWhereUniqueInput
+    create: XOR<OrdemServicoCreateWithoutAtivo_predialInput, OrdemServicoUncheckedCreateWithoutAtivo_predialInput>
+  }
+
+  export type OrdemServicoCreateManyAtivo_predialInputEnvelope = {
+    data: OrdemServicoCreateManyAtivo_predialInput | OrdemServicoCreateManyAtivo_predialInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PredioUpsertWithoutAtivosInput = {
+    update: XOR<PredioUpdateWithoutAtivosInput, PredioUncheckedUpdateWithoutAtivosInput>
+    create: XOR<PredioCreateWithoutAtivosInput, PredioUncheckedCreateWithoutAtivosInput>
+    where?: PredioWhereInput
+  }
+
+  export type PredioUpdateToOneWithWhereWithoutAtivosInput = {
+    where?: PredioWhereInput
+    data: XOR<PredioUpdateWithoutAtivosInput, PredioUncheckedUpdateWithoutAtivosInput>
+  }
+
+  export type PredioUpdateWithoutAtivosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
+    endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    gestor?: UsuarioUpdateOneWithoutPredios_geridosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutPrediosNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPredioNestedInput
+  }
+
+  export type PredioUncheckedUpdateWithoutAtivosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPredioFieldUpdateOperationsInput | $Enums.TipoPredio
+    setor?: NullableStringFieldUpdateOperationsInput | string | null
+    porte?: NullableStringFieldUpdateOperationsInput | string | null
+    capacidade?: NullableIntFieldUpdateOperationsInput | number | null
+    endereco?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    motivo_desativacao?: NullableStringFieldUpdateOperationsInput | string | null
+    gestor_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput
+  }
+
+  export type PrefeituraUpsertWithoutAtivosInput = {
+    update: XOR<PrefeituraUpdateWithoutAtivosInput, PrefeituraUncheckedUpdateWithoutAtivosInput>
+    create: XOR<PrefeituraCreateWithoutAtivosInput, PrefeituraUncheckedCreateWithoutAtivosInput>
+    where?: PrefeituraWhereInput
+  }
+
+  export type PrefeituraUpdateToOneWithWhereWithoutAtivosInput = {
+    where?: PrefeituraWhereInput
+    data: XOR<PrefeituraUpdateWithoutAtivosInput, PrefeituraUncheckedUpdateWithoutAtivosInput>
+  }
+
+  export type PrefeituraUpdateWithoutAtivosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraUncheckedUpdateWithoutAtivosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type OrdemServicoUpsertWithWhereUniqueWithoutAtivo_predialInput = {
+    where: OrdemServicoWhereUniqueInput
+    update: XOR<OrdemServicoUpdateWithoutAtivo_predialInput, OrdemServicoUncheckedUpdateWithoutAtivo_predialInput>
+    create: XOR<OrdemServicoCreateWithoutAtivo_predialInput, OrdemServicoUncheckedCreateWithoutAtivo_predialInput>
+  }
+
+  export type OrdemServicoUpdateWithWhereUniqueWithoutAtivo_predialInput = {
+    where: OrdemServicoWhereUniqueInput
+    data: XOR<OrdemServicoUpdateWithoutAtivo_predialInput, OrdemServicoUncheckedUpdateWithoutAtivo_predialInput>
+  }
+
+  export type OrdemServicoUpdateManyWithWhereWithoutAtivo_predialInput = {
+    where: OrdemServicoScalarWhereInput
+    data: XOR<OrdemServicoUpdateManyMutationInput, OrdemServicoUncheckedUpdateManyWithoutAtivo_predialInput>
   }
 
   export type UsuarioCreateManyPrefeituraInput = {
@@ -27638,6 +30400,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
@@ -27746,6 +30509,25 @@ export namespace Prisma {
     atualizado?: Date | string
   }
 
+  export type AtivoPredialCreateManyPrefeituraInput = {
+    id?: string
+    codigo_patrimonio: string
+    nome: string
+    categoria?: string
+    ambiente: string
+    marca_modelo?: string | null
+    numero_serie?: string | null
+    status?: string
+    data_instalacao?: Date | string | null
+    garantia_ate?: Date | string | null
+    ultima_manutencao?: Date | string | null
+    custo_acumulado?: Decimal | DecimalJsLike | number | string
+    ativo?: boolean
+    predio_id: string
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
   export type UsuarioUpdateWithoutPrefeituraInput = {
     id?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
@@ -27816,6 +30598,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUpdateManyWithoutPredioNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateWithoutPrefeituraInput = {
@@ -27836,6 +30619,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateManyWithoutPrefeituraInput = {
@@ -27883,6 +30667,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    ativo_predial?: AtivoPredialUpdateOneWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
@@ -27902,6 +30687,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
@@ -27940,6 +30726,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
@@ -28218,6 +31005,65 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AtivoPredialUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo_patrimonio?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    ambiente?: StringFieldUpdateOperationsInput | string
+    marca_modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_serie?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    data_instalacao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    garantia_ate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ultima_manutencao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    custo_acumulado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneRequiredWithoutAtivosNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutAtivo_predialNestedInput
+  }
+
+  export type AtivoPredialUncheckedUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo_patrimonio?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    ambiente?: StringFieldUpdateOperationsInput | string
+    marca_modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_serie?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    data_instalacao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    garantia_ate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ultima_manutencao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    custo_acumulado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    predio_id?: StringFieldUpdateOperationsInput | string
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutAtivo_predialNestedInput
+  }
+
+  export type AtivoPredialUncheckedUpdateManyWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo_patrimonio?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    ambiente?: StringFieldUpdateOperationsInput | string
+    marca_modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_serie?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    data_instalacao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    garantia_ate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ultima_manutencao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    custo_acumulado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    predio_id?: StringFieldUpdateOperationsInput | string
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PredioCreateManyGestorInput = {
     id?: string
     nome: string
@@ -28244,6 +31090,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
     fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
@@ -28278,6 +31125,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     solicitante_id: string
     fotos?: OrdemServicoCreatefotosInput | string[]
     fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
@@ -28355,6 +31203,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUpdateManyWithoutPredioNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateWithoutGestorInput = {
@@ -28375,6 +31224,7 @@ export namespace Prisma {
     ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPredioNestedInput
     vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPredioNestedInput
     manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPredioNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPredioNestedInput
   }
 
   export type PredioUncheckedUpdateManyWithoutGestorInput = {
@@ -28422,6 +31272,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    ativo_predial?: AtivoPredialUpdateOneWithoutOrdens_servicoNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
@@ -28441,6 +31292,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
     fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
@@ -28479,6 +31331,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
     fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
@@ -28532,6 +31385,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    ativo_predial?: AtivoPredialUpdateOneWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
@@ -28551,6 +31405,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     fotos?: OrdemServicoUpdatefotosInput | string[]
     fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
@@ -28589,6 +31444,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     fotos?: OrdemServicoUpdatefotosInput | string[]
     fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
@@ -28724,6 +31580,7 @@ export namespace Prisma {
     categoria?: string | null
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
+    ativo_id?: string | null
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
@@ -28792,6 +31649,25 @@ export namespace Prisma {
     atualizado?: Date | string
   }
 
+  export type AtivoPredialCreateManyPredioInput = {
+    id?: string
+    codigo_patrimonio: string
+    nome: string
+    categoria?: string
+    ambiente: string
+    marca_modelo?: string | null
+    numero_serie?: string | null
+    status?: string
+    data_instalacao?: Date | string | null
+    garantia_ate?: Date | string | null
+    ultima_manutencao?: Date | string | null
+    custo_acumulado?: Decimal | DecimalJsLike | number | string
+    ativo?: boolean
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
   export type OrdemServicoUpdateWithoutPredioInput = {
     id?: StringFieldUpdateOperationsInput | string
     codigo?: StringFieldUpdateOperationsInput | string
@@ -28819,6 +31695,7 @@ export namespace Prisma {
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ativo_predial?: AtivoPredialUpdateOneWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
@@ -28838,6 +31715,7 @@ export namespace Prisma {
     categoria?: NullableStringFieldUpdateOperationsInput | string | null
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
@@ -28876,6 +31754,7 @@ export namespace Prisma {
     categoria?: NullableStringFieldUpdateOperationsInput | string | null
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
@@ -29028,6 +31907,65 @@ export namespace Prisma {
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AtivoPredialUpdateWithoutPredioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo_patrimonio?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    ambiente?: StringFieldUpdateOperationsInput | string
+    marca_modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_serie?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    data_instalacao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    garantia_ate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ultima_manutencao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    custo_acumulado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutAtivosNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutAtivo_predialNestedInput
+  }
+
+  export type AtivoPredialUncheckedUpdateWithoutPredioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo_patrimonio?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    ambiente?: StringFieldUpdateOperationsInput | string
+    marca_modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_serie?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    data_instalacao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    garantia_ate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ultima_manutencao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    custo_acumulado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutAtivo_predialNestedInput
+  }
+
+  export type AtivoPredialUncheckedUpdateManyWithoutPredioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo_patrimonio?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    ambiente?: StringFieldUpdateOperationsInput | string
+    marca_modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_serie?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    data_instalacao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    garantia_ate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ultima_manutencao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    custo_acumulado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ItemConsumoOSCreateManyOrdem_servicoInput = {
     id?: string
     material_id?: string | null
@@ -29048,6 +31986,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
@@ -29176,6 +32115,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    ativo_predial?: AtivoPredialUpdateOneWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
@@ -29195,6 +32135,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
@@ -29233,6 +32174,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
@@ -29437,6 +32379,7 @@ export namespace Prisma {
     prioridade?: $Enums.Prioridade
     status?: $Enums.StatusOS
     predio_id: string
+    ativo_id?: string | null
     solicitante_id: string
     tecnico_atribuido_id?: string | null
     fotos?: OrdemServicoCreatefotosInput | string[]
@@ -29490,6 +32433,7 @@ export namespace Prisma {
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    ativo_predial?: AtivoPredialUpdateOneWithoutOrdens_servicoNestedInput
     solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
     tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
     materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
@@ -29509,6 +32453,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
@@ -29547,6 +32492,7 @@ export namespace Prisma {
     prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
     status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
     predio_id?: StringFieldUpdateOperationsInput | string
+    ativo_id?: NullableStringFieldUpdateOperationsInput | string | null
     solicitante_id?: StringFieldUpdateOperationsInput | string
     tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
     fotos?: OrdemServicoUpdatefotosInput | string[]
@@ -29566,6 +32512,154 @@ export namespace Prisma {
     custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
     numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrdemServicoCreateManyAtivo_predialInput = {
+    id?: string
+    codigo?: string
+    titulo: string
+    descricao: string
+    categoria?: string | null
+    prioridade?: $Enums.Prioridade
+    status?: $Enums.StatusOS
+    predio_id: string
+    solicitante_id: string
+    tecnico_atribuido_id?: string | null
+    fotos?: OrdemServicoCreatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoCreatefotos_conclusaoInput | string[]
+    motivo_pausa?: string | null
+    motivo_cancelamento?: string | null
+    data_limite_sla?: Date | string | null
+    iniciado_em?: Date | string | null
+    concluido_em?: Date | string | null
+    pausado_em?: Date | string | null
+    tempo_pausa_minutos?: number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: boolean
+    motivo_violacao_sla?: string | null
+    custo_materiais?: Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: Decimal | DecimalJsLike | number | string | null
+    custo_total?: Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: string | null
+    numero_empenho?: string | null
+    contrato_id?: string | null
+    prefeitura_id?: string | null
+    ordem_vinculada_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type OrdemServicoUpdateWithoutAtivo_predialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneRequiredWithoutOrdens_servicoNestedInput
+    solicitante?: UsuarioUpdateOneRequiredWithoutChamados_solicitadosNestedInput
+    tecnico?: UsuarioUpdateOneWithoutChamados_atribuidosNestedInput
+    contrato?: ContratoManutencaoUpdateOneWithoutOrdens_servicoNestedInput
+    materiais_consumidos?: ItemConsumoOSUpdateManyWithoutOrdem_servicoNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutOrdens_servicoNestedInput
+    ordem_vinculada?: OrdemServicoUpdateOneWithoutOrdens_derivadasNestedInput
+    ordens_derivadas?: OrdemServicoUpdateManyWithoutOrdem_vinculadaNestedInput
+    agendamentos?: AgendaVistoriaUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type OrdemServicoUncheckedUpdateWithoutAtivo_predialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    predio_id?: StringFieldUpdateOperationsInput | string
+    solicitante_id?: StringFieldUpdateOperationsInput | string
+    tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiais_consumidos?: ItemConsumoOSUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    ordens_derivadas?: OrdemServicoUncheckedUpdateManyWithoutOrdem_vinculadaNestedInput
+    agendamentos?: AgendaVistoriaUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+    manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
+  }
+
+  export type OrdemServicoUncheckedUpdateManyWithoutAtivo_predialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    categoria?: NullableStringFieldUpdateOperationsInput | string | null
+    prioridade?: EnumPrioridadeFieldUpdateOperationsInput | $Enums.Prioridade
+    status?: EnumStatusOSFieldUpdateOperationsInput | $Enums.StatusOS
+    predio_id?: StringFieldUpdateOperationsInput | string
+    solicitante_id?: StringFieldUpdateOperationsInput | string
+    tecnico_atribuido_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos?: OrdemServicoUpdatefotosInput | string[]
+    fotos_conclusao?: OrdemServicoUpdatefotos_conclusaoInput | string[]
+    motivo_pausa?: NullableStringFieldUpdateOperationsInput | string | null
+    motivo_cancelamento?: NullableStringFieldUpdateOperationsInput | string | null
+    data_limite_sla?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iniciado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    concluido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pausado_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tempo_pausa_minutos?: IntFieldUpdateOperationsInput | number
+    historico_pausas?: NullableJsonNullValueInput | InputJsonValue
+    sla_violado?: BoolFieldUpdateOperationsInput | boolean
+    motivo_violacao_sla?: NullableStringFieldUpdateOperationsInput | string | null
+    custo_materiais?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_mao_de_obra?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    custo_total?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    empresa_terceirizada?: NullableStringFieldUpdateOperationsInput | string | null
+    numero_empenho?: NullableStringFieldUpdateOperationsInput | string | null
+    contrato_id?: NullableStringFieldUpdateOperationsInput | string | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     ordem_vinculada_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string

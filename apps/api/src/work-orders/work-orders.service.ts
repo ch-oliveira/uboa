@@ -55,6 +55,9 @@ export interface WorkOrderResponse {
   empresaTerceirizada?: string;
   numeroEmpenho?: string;
   materiaisConsumidos?: ConsumedMaterialItem[];
+  ativoId?: string;
+  ativoCodigo?: string;
+  ativoNome?: string;
 }
 
 export interface WorkOrdersMeta {
@@ -211,6 +214,7 @@ export class WorkOrdersService {
       contratoId: o.contrato_id || undefined,
       empresaTerceirizada: o.empresa_terceirizada || undefined,
       numeroEmpenho: o.numero_empenho || undefined,
+      ativoId: o.ativo_id || undefined,
       materiaisConsumidos: (o.materiais_consumidos || []).map((m: any) => ({
         id: m.id,
         materialId: m.material_id || undefined,
@@ -484,6 +488,17 @@ export class WorkOrdersService {
     const dataLimiteSla = new Date(Date.now() + slaHoras * 3600 * 1000);
     const categoria = inferCategory(title, description, payload.categoria || payload.category);
 
+    // 5. Vincular Ativo/Equipamento se informado (via ID ou código de patrimônio QR Code)
+    let resolvedAtivoId: string | null = payload.ativoId || payload.ativo_id || null;
+    if (!resolvedAtivoId && payload.codigoPatrimonio && (this.prisma as any).ativoPredial?.findFirst) {
+      const ativoFound = await (this.prisma as any).ativoPredial.findFirst({
+        where: {
+          codigo_patrimonio: { equals: String(payload.codigoPatrimonio).trim(), mode: 'insensitive' },
+        },
+      });
+      if (ativoFound) resolvedAtivoId = ativoFound.id;
+    }
+
     const code = `OS-${Math.floor(100000 + Math.random() * 900000)}`;
 
     // Transação atômica: entidade e registro de auditoria gravados juntos
@@ -497,6 +512,7 @@ export class WorkOrdersService {
           prioridade: priority,
           status: StatusOS.EM_TRIAGEM,
           predio_id: predioRecord.id,
+          ...(resolvedAtivoId ? { ativo_id: resolvedAtivoId } : {}),
           solicitante_id: solicitanteId,
           tecnico_atribuido_id: tecnicoId,
           fotos: photos.slice(0, 10), // Limite de 10 fotos para proteção DoS

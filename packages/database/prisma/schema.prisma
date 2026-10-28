@@ -96,6 +96,7 @@ model Prefeitura {
   auditorias     AuditoriaLog[]
   materiais      Material[]
   contratos      ContratoManutencao[]
+  ativos         AtivoPredial[]
 
   criado_em      DateTime        @default(now())
   atualizado     DateTime        @updatedAt
@@ -156,6 +157,7 @@ model Predio {
   ordens_servico OrdemServico[]
   vistorias      AgendaVistoria[]
   manifestacoes  Manifestacao[]
+  ativos         AtivoPredial[]
 
   @@index([prefeitura_id, ativo])
   @@index([prefeitura_id, tipo])
@@ -173,6 +175,9 @@ model OrdemServico {
   
   predio_id            String
   predio               Predio     @relation(fields: [predio_id], references: [id])
+
+  ativo_id             String?
+  ativo_predial        AtivoPredial? @relation(fields: [ativo_id], references: [id], onDelete: SetNull)
   
   solicitante_id       String
   solicitante          Usuario    @relation("SolicitanteOS", fields: [solicitante_id], references: [id])
@@ -412,4 +417,37 @@ model ContratoManutencao {
   @@index([prefeitura_id, ativo])
   @@map("contratos_manutencao")
 }
+
+model AtivoPredial {
+  id                String         @id @default(uuid())
+  codigo_patrimonio String         // ex: "PAT-2026-001", "EQP-CLI-104"
+  nome              String         // ex: "Ar-Condicionado Split Inverter 24.000 BTUs"
+  categoria         String         @default("CLIMATIZACAO") // CLIMATIZACAO, ELETRICA, HIDRAULICA, INCENDIO, ELEVADOR, MOBILIARIO, GERAL
+  ambiente          String         // ex: "Sala de Aula 04", "Sala de Vacinação", "Casa de Máquinas"
+  marca_modelo      String?        // ex: "Springer Midea AirVolution"
+  numero_serie      String?        // ex: "SN-99482104"
+  status            String         @default("OPERACIONAL") // OPERACIONAL, EM_MANUTENCAO, CRITICO, INATIVO
+  data_instalacao   DateTime?
+  garantia_ate      DateTime?
+  ultima_manutencao DateTime?
+  custo_acumulado   Decimal        @default(0.00) @db.Decimal(10, 2)
+  ativo             Boolean        @default(true)
+
+  predio_id         String
+  predio            Predio         @relation(fields: [predio_id], references: [id], onDelete: Cascade)
+
+  prefeitura_id     String?
+  prefeitura        Prefeitura?    @relation(fields: [prefeitura_id], references: [id])
+
+  ordens_servico    OrdemServico[]
+
+  criado_em         DateTime       @default(now())
+  atualizado        DateTime       @updatedAt
+
+  @@unique([prefeitura_id, codigo_patrimonio])
+  @@index([prefeitura_id, predio_id, ativo])
+  @@index([predio_id, categoria])
+  @@map("ativos_prediais")
+}
+
 

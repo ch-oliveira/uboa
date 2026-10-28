@@ -12,6 +12,27 @@ import type { OrdemServico, StatusOS, Prioridade, MaterialItem, ItemConsumoOS, C
 import type { UnidadeItem, TipoUnidade } from '@/types/units';
 import type { AgendaEvent, SystemSettings } from '@/context/orders-context';
 
+export interface AtivoPredialItem {
+  id: string;
+  codigoPatrimonio: string;
+  nome: string;
+  categoria: string;
+  ambiente: string;
+  marcaModelo?: string;
+  numeroSerie?: string;
+  status: 'OPERACIONAL' | 'EM_MANUTENCAO' | 'CRITICO' | 'INATIVO';
+  garantiaAte?: string;
+  custoAcumulado: number;
+  totalChamados: number;
+  chamadosAbertos: number;
+  emGarantia: boolean;
+  alertaSubstituicao: boolean;
+  recomendacaoTce: string;
+  qrCodeUrl: string;
+  predioId: string;
+  predioNome: string;
+}
+
 export function getApiBase(): string {
   if (typeof window !== 'undefined') {
     // No navegador, sempre usamos a origem do mesmo domínio + /api (ex: https://uboa.vercel.app/api),
@@ -402,6 +423,8 @@ export const apiClient = {
       fotos: order.fotos || (order as any).photos || [],
       photos: order.fotos || (order as any).photos || [],
       fotosConclusao: order.fotosConclusao || [],
+      ativoId: (order as any).ativoId,
+      codigoPatrimonio: (order as any).codigoPatrimonio,
     };
 
     const res = await fetch(`${getApiBase()}/work-orders`, {
@@ -1170,6 +1193,80 @@ export const apiClient = {
       };
     } catch (err: any) {
       return { success: false, message: err?.message || 'Falha ao converter em OS técnica.' };
+    }
+  },
+
+  // -------------------------------------------------------------
+  // ATIVOS, EQUIPAMENTOS & ETIQUETAS QR CODE POR UNIDADE
+  // -------------------------------------------------------------
+  async getAssets(params?: {
+    facilityId?: string;
+    predioNome?: string;
+    categoria?: string;
+    search?: string;
+  }): Promise<{
+    success: boolean;
+    assets: AtivoPredialItem[];
+    message?: string;
+  }> {
+    try {
+      const query = new URLSearchParams();
+      if (params?.facilityId) query.append('facilityId', params.facilityId);
+      if (params?.predioNome) query.append('predioNome', params.predioNome);
+      if (params?.categoria) query.append('categoria', params.categoria);
+      if (params?.search) query.append('search', params.search);
+
+      const res = await fetch(`${getApiBase()}/assets?${query.toString()}`, {
+        cache: 'no-store',
+        headers: getAuthHeaders(),
+      });
+      const resData = await res.json();
+      const rawList = Array.isArray(resData.data) ? resData.data : [];
+      return {
+        success: Boolean(resData.success),
+        assets: rawList,
+        message: resData.message,
+      };
+    } catch (err: any) {
+      return {
+        success: false,
+        assets: [],
+        message: err?.message || 'Falha ao consultar ativos prediais.',
+      };
+    }
+  },
+
+  async createAsset(data: {
+    codigoPatrimonio: string;
+    nome: string;
+    categoria?: string;
+    ambiente: string;
+    predioId: string;
+    marcaModelo?: string;
+    numeroSerie?: string;
+    garantiaAte?: string;
+  }): Promise<{
+    success: boolean;
+    asset?: AtivoPredialItem;
+    message?: string;
+  }> {
+    try {
+      const res = await fetch(`${getApiBase()}/assets`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(data),
+      });
+      const resData = await res.json();
+      return {
+        success: Boolean(resData.success),
+        asset: resData.data,
+        message: resData.message,
+      };
+    } catch (err: any) {
+      return {
+        success: false,
+        message: err?.message || 'Falha ao cadastrar equipamento.',
+      };
     }
   },
 };
