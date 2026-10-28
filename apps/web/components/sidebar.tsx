@@ -175,11 +175,11 @@ export function Sidebar({
                     />
                     <SidebarNavItem 
                       icon={<Sparkles size={15} />}
-                      label="Urbi (IA)" 
+                      label="urBIA (IA)" 
                       active={false}
                       onClick={() => { closeMobileNav(); (onOpenCopilot || openCopilot)(); }}
                       shortcut="Ctrl+J"
-                      tooltip="Consultar Urbi (IA)"
+                      tooltip="Consultar urBIA (IA)"
                       accent
                     />
                   </div>
@@ -333,12 +333,12 @@ export function Sidebar({
               />
               <SidebarNavItem 
                 icon={<Sparkles size={15} />}
-                label="Urbi (IA)" 
+                label="urBIA (IA)" 
                 active={false}
                 onClick={onOpenCopilot || openCopilot}
                 isCollapsed={isSidebarCollapsed}
                 shortcut="Ctrl+J"
-                tooltip="Consultar Urbi (IA)"
+                tooltip="Consultar urBIA (IA)"
                 accent
                 dataTour="copilot-button"
               />

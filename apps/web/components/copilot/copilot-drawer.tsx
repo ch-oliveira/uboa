@@ -24,6 +24,23 @@ import { Button } from '@/components/ui/button';
 import { apiClient } from '@/lib/api-client';
 import { useOrders } from '@/context/orders-context';
 import { UrbiMessageContent } from './urbi-message-content';
+import { Sticker } from '@/stickers/Sticker';
+import { chat } from '@/stickers/icons';
+import { PALETTES, type Palette } from '@/stickers/fun';
+
+// Paleta dedicada urBIA (Violeta / Fúcsia / Ardósia / Ouro)
+const URBIA_PALETTE: Palette = {
+  ...PALETTES.riso,
+  main: '#8B5CF6', // violeta característico urBIA
+  tint: '#F5F3FF', // visor suave e legível
+  deep: '#0F172A', // ardósia escuro Urboa
+  gold: '#FBBF24', // esfera dourada da antena
+  hot: '#EC4899',  // realce fúcsia tech
+  ok: '#06B6D4',   // ciano operacional
+  grey: '#94A3B8', // haste metálica da antena
+  white: '#FFFFFF',
+  ink: '#0F172A',
+};
 
 export interface ChatMsg {
   id: string;
@@ -335,25 +352,29 @@ export function CopilotDrawer({ isOpen, onClose }: CopilotDrawerProps) {
 
         {/* 1. HEADER EXECUTIVO COM AÇÕES E HISTÓRICO */}
         <div className="p-4 px-5 bg-slate-900 text-white flex items-center justify-between shrink-0 shadow-md border-b border-slate-800">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <button 
               type="button"
               onClick={() => setShowIdentity(!showIdentity)}
-              className="w-10 h-10 rounded-xl bg-slate-800 text-white flex items-center justify-center shrink-0 shadow-sm border border-slate-700 relative overflow-hidden group hover:bg-slate-700 transition-colors"
-              title="Clique para revelar a identidade"
+              className="w-10 h-10 rounded-xl bg-slate-800 text-white flex items-center justify-center shrink-0 shadow-sm border border-slate-700 relative overflow-hidden group hover:bg-slate-700 hover:scale-105 active:scale-95 transition-all p-0.5 cursor-pointer"
+              title="Clique para ver a identidade da assistente"
             >
-              <Bot size={20} className="text-slate-200 relative z-10 group-hover:scale-110 transition-transform" />
-              <Wrench size={10} className="absolute bottom-1 right-1 text-fuchsia-400 animate-[wrench-twist_1.5s_ease-in-out_infinite] z-20" />
-              <div className="absolute inset-0 w-full h-[2px] bg-fuchsia-500/50 blur-[1px] animate-[ai-scan_2s_ease-in-out_infinite] z-0" />
+              <Sticker 
+                icon={chat} 
+                palette={URBIA_PALETTE} 
+                replayOnHover 
+                style={{ width: 34, height: 34 }} 
+              />
             </button>
             
             <div 
               className={`flex flex-col justify-center overflow-hidden transition-all duration-300 ease-out ${
-                showIdentity ? 'max-w-[150px] opacity-100 ml-2' : 'max-w-0 opacity-0 ml-0'
+                showIdentity ? 'max-w-[150px] opacity-100 ml-1' : 'max-w-0 opacity-0 ml-0'
               }`}
             >
-              <div className="flex items-center gap-2 w-max">
+              <div className="flex items-center gap-1.5 w-max">
                 <h2 className="font-bold text-white text-[15px] tracking-tight whitespace-nowrap">urBIA</h2>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 animate-pulse" />
               </div>
               <p className="text-[11px] text-slate-400 font-medium whitespace-nowrap">Zeladoria Municipal</p>
             </div>
@@ -463,29 +484,43 @@ export function CopilotDrawer({ isOpen, onClose }: CopilotDrawerProps) {
         {/* 3. MESSAGES LIST */}
         <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-7 bg-slate-50/80">
           
-          {/* WELCOME — estilo chat: uma mensagem de boas-vindas do Urbi + chips */}
+          {/* WELCOME — estilo chat: uma mensagem de boas-vindas da urBIA + cards 3D com stickers */}
           {messages.length === 0 && (
             <div className="space-y-4">
 
-              {/* Balão de boas-vindas do Urbi */}
+              {/* Balão de boas-vindas da urBIA com Sticker Isométrico Hero */}
               <div className="flex flex-col gap-3 justify-start">
                 <div className="w-full space-y-4">
                   <div 
                     className="p-5 sm:p-6 rounded-2xl bg-white text-slate-900 border-2 border-slate-200 border-b-[5px] shadow-sm text-sm leading-relaxed animate-in slide-in-from-bottom-4 fade-in duration-500"
                     style={{ animationFillMode: 'both' }}
                   >
-                    <div className="flex items-center gap-3.5 mb-3">
-                      <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center shrink-0 shadow-sm border border-slate-800 relative overflow-hidden group">
-                        {/* A Robô urBIA */}
-                        <Bot size={20} className="text-slate-200 relative z-10" />
-                        <Wrench size={10} className="absolute bottom-1 right-1 text-fuchsia-400 animate-[wrench-twist_1.5s_ease-in-out_infinite] z-20" />
-                        
-                        {/* Efeito de Scanner "Feminino/IA" (Fuchsia/Pink) */}
-                        <div className="absolute inset-0 w-full h-[2px] bg-fuchsia-500/50 blur-[1px] animate-[ai-scan_2s_ease-in-out_infinite] z-0" />
+                    <div className="flex items-start gap-4 mb-3">
+                      <div 
+                        className="w-14 h-14 rounded-2xl bg-slate-900 p-1 flex items-center justify-center shrink-0 shadow-md border-2 border-slate-800 relative overflow-hidden group cursor-pointer hover:scale-105 transition-transform"
+                        title="urBIA - Inteligência de Zeladoria Urbana"
+                      >
+                        <Sticker 
+                          icon={chat} 
+                          palette={URBIA_PALETTE} 
+                          replayOnHover 
+                          style={{ width: 50, height: 50 }} 
+                        />
                       </div>
-                      <h3 className="font-bold text-slate-900 text-[16px] leading-snug">Olá! Sou a urBIA, sua assistente.</h3>
+                      <div className="flex-1 min-w-0 pt-0.5">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h3 className="font-bold text-slate-900 text-[16px] leading-snug">
+                            Olá! Sou a urBIA, sua assistente.
+                          </h3>
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-violet-100 text-violet-700 border border-violet-200 uppercase tracking-wider">
+                            Online
+                          </span>
+                        </div>
+                        <p className="text-slate-600 font-medium leading-relaxed mt-1 text-[13px]">
+                          Posso consultar chamados, calcular equipe necessária, verificar prazos e abrir ordens de serviço. Como posso te ajudar?
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-slate-600 font-medium leading-relaxed">Posso consultar chamados, calcular equipe necessária, verificar prazos e abrir ordens de serviço. Como posso te ajudar?</p>
                   </div>
 
                   {/* Chips de ação rápida 3D */}
@@ -529,17 +564,32 @@ export function CopilotDrawer({ isOpen, onClose }: CopilotDrawerProps) {
             return (
               <div
                 key={msg.id}
-                className={`flex gap-3 items-end ${isUser ? 'justify-end' : 'justify-start'}`}
+                className={`flex gap-3 items-start ${isUser ? 'justify-end' : 'justify-start'}`}
               >
+                {/* Avatar da urBIA animado à esquerda */}
+                {!isUser && (
+                  <div 
+                    className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center shrink-0 shadow-xs mt-1 overflow-hidden group cursor-pointer"
+                    title="urBIA Copiloto"
+                  >
+                    <Sticker 
+                      icon={chat} 
+                      palette={URBIA_PALETTE} 
+                      replayOnHover 
+                      style={{ width: 30, height: 30 }} 
+                    />
+                  </div>
+                )}
+
                 {/* Conteúdo da Mensagem */}
-                <div className={`space-y-2 ${isUser ? 'max-w-[85%] sm:max-w-[80%] flex flex-col items-end' : 'w-full'}`}>
+                <div className={`space-y-2 ${isUser ? 'max-w-[85%] sm:max-w-[80%] flex flex-col items-end' : 'flex-1 min-w-0'}`}>
                   
                   {/* Balão de Texto Principal */}
                   <div
                     className={`p-5 rounded-2xl text-sm leading-relaxed ${
                       isUser
                         ? 'bg-slate-900 text-white rounded-br-sm shadow-xs text-left'
-                        : 'bg-white text-slate-900 border border-slate-200 shadow-sm'
+                        : 'bg-white text-slate-900 border-2 border-slate-200 border-b-[4px] shadow-sm'
                     }`}
                   >
                     {!isUser ? (
@@ -654,13 +704,18 @@ export function CopilotDrawer({ isOpen, onClose }: CopilotDrawerProps) {
 
           {/* Loading Indicator Elegante e Inteligente (IA) */}
           {isLoading && (
-            <div className="flex justify-start items-end animate-in fade-in slide-in-from-bottom-2 duration-300 mb-2">
+            <div className="flex justify-start items-start gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300 mb-2">
+              <div className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center shrink-0 shadow-xs mt-1 overflow-hidden">
+                <Sticker icon={chat} palette={URBIA_PALETTE} style={{ width: 30, height: 30 }} />
+              </div>
               <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-sm w-[260px] space-y-4">
                 <div className="flex items-center gap-2.5">
                   <div className="w-6 h-6 rounded-md bg-slate-900 flex items-center justify-center shrink-0 shadow-sm border border-slate-800">
                     <Bot size={13} className="text-fuchsia-400 animate-pulse" />
                   </div>
-                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest animate-pulse">Processando contexto...</span>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest animate-pulse">
+                    Processando contexto...
+                  </span>
                 </div>
                 
                 {/* Skeleton Loader de "Análise de Dados" */}
