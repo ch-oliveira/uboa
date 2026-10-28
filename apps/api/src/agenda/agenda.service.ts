@@ -55,6 +55,11 @@ export class AgendaService {
   async findAll(currentUser?: any): Promise<ApiResponse<InspectionResponse[]>> {
     const where: any = {};
 
+    // 0. Isolamento Multi-Tenant estrito por Prefeitura
+    if (currentUser?.prefeituraId) {
+      where.prefeitura_id = currentUser.prefeituraId;
+    }
+
     // 1. Escopo forçado por perfil de usuário (Proteção contra BOLA / IDOR)
     if (currentUser?.role === Role.SOLICITANTE) {
       if (currentUser.facilityName) {
@@ -97,6 +102,17 @@ export class AgendaService {
 
     if (!item) {
       throw new NotFoundException(`Vistoria ${id} não encontrada.`);
+    }
+
+    // 1. Isolamento Multi-Tenant estrito por Prefeitura
+    if (
+      currentUser?.prefeituraId &&
+      item.prefeitura_id &&
+      item.prefeitura_id !== currentUser.prefeituraId
+    ) {
+      throw new ForbiddenException(
+        'Acesso negado. Esta vistoria pertence a outra prefeitura.',
+      );
     }
 
     // 2. Proteção de Acesso por Escopo (BOLA)
@@ -143,18 +159,24 @@ export class AgendaService {
     const location = payload.location || payload.subtitulo || 'Unidade Municipal';
     const workOrderId = payload.workOrderId || payload.ordemServicoId || null;
     const scheduledDate = payload.dataAgendada ? new Date(payload.dataAgendada) : new Date();
+    const prefeituraId = currentUser?.prefeituraId || null;
 
     // 1. Verificação de Conflito de Horários do Técnico
     if (technicianName || technicianId) {
+      const conflictWhere: any = {
+        concluido: false,
+        horario: scheduledTime,
+        OR: [
+          ...(technicianName ? [{ tecnico: technicianName }] : []),
+          ...(technicianId ? [{ tecnico_id: technicianId }] : []),
+        ],
+      };
+      if (prefeituraId) {
+        conflictWhere.prefeitura_id = prefeituraId;
+      }
+
       const conflitos = await this.prisma.agendaVistoria.findMany({
-        where: {
-          concluido: false,
-          horario: scheduledTime,
-          OR: [
-            ...(technicianName ? [{ tecnico: technicianName }] : []),
-            ...(technicianId ? [{ tecnico_id: technicianId }] : []),
-          ],
-        },
+        where: conflictWhere,
         include: { predio: true },
       });
 
@@ -189,6 +211,7 @@ export class AgendaService {
           tecnico_id: technicianId,
           predio_id: facilityId,
           ordem_servico_id: workOrderId,
+          ...(prefeituraId ? { prefeitura_id: prefeituraId } : {}),
         },
         include: { predio: true, ordem_servico: true },
       });
@@ -200,6 +223,7 @@ export class AgendaService {
             entidade_id: item.id,
             acao: AuditAction.CREATE,
             usuario_id: currentUser.id,
+            ...(prefeituraId ? { prefeitura_id: prefeituraId } : {}),
             dados_novos: {
               titulo: item.titulo,
               horario: item.horario,
@@ -235,6 +259,17 @@ export class AgendaService {
       throw new NotFoundException(`Vistoria ${id} não encontrada.`);
     }
 
+    // 1. Isolamento Multi-Tenant estrito por Prefeitura
+    if (
+      currentUser?.prefeituraId &&
+      item.prefeitura_id &&
+      item.prefeitura_id !== currentUser.prefeituraId
+    ) {
+      throw new ForbiddenException(
+        'Acesso negado. Esta vistoria pertence a outra prefeitura.',
+      );
+    }
+
     const isConcluding = payload.concluido !== undefined ? payload.concluido : !item.concluido;
 
     // 2. Parecer Técnico / Laudo Obrigatório para Concluir Vistoria
@@ -252,6 +287,8 @@ export class AgendaService {
     if (isConcluding && item.ordem_servico) {
       proximaEtapa = `Vistoria concluída com parecer registrado. Sugestão para o Gestor: analisar os apontamentos do laudo e transicionar a OS ${item.ordem_servico.codigo} para EM_EXECUCAO se o reparo for aprovado.`;
     }
+
+    const targetPrefeituraId = item.prefeitura_id || currentUser?.prefeituraId || null;
 
     const updated = await this.prisma.$transaction(async (tx) => {
       const up = await tx.agendaVistoria.update({
@@ -286,6 +323,7 @@ export class AgendaService {
             tecnico: item.tecnico,
             tecnico_id: item.tecnico_id,
             predio_id: item.predio_id,
+            ...(targetPrefeituraId ? { prefeitura_id: targetPrefeituraId } : {}),
           },
         });
       }
@@ -297,6 +335,7 @@ export class AgendaService {
             entidade_id: up.id,
             acao: AuditAction.UPDATE,
             usuario_id: currentUser.id,
+            ...(targetPrefeituraId ? { prefeitura_id: targetPrefeituraId } : {}),
             dados_novos: {
               concluido: isConcluding,
               laudo_tecnico: up.laudo_tecnico,

@@ -556,6 +556,52 @@ describe('WorkOrdersService - Ciclo de Vida da OS', () => {
       ).rejects.toThrow(ConflictException);
     });
 
+    it('NÃO deve considerar OSs CANCELADAS como saldo consumido ao validar limite de empenho do contrato', async () => {
+      mockPrismaService.ordemServico.findFirst.mockResolvedValue({
+        id: 'os-fin-ativa',
+        codigo: 'OS-100099',
+        custo_materiais: 300,
+        custo_mao_de_obra: 0,
+        custo_total: 300,
+      });
+
+      // Contrato de 1000: tem 500 em OS concluída e 400 em OS CANCELADA -> Saldo real disponível = 500
+      mockPrismaService.contratoManutencao.findUnique = vi.fn().mockResolvedValue({
+        id: 'contrato-com-os-cancelada',
+        numero_contrato: '099/2026',
+        numero_empenho: '2026NE00099',
+        empresa_contratada: 'Construtora Alfa',
+        ativo: true,
+        valor_total_empenhado: 1000,
+        ordens_servico: [
+          { id: 'os-concluida', custo_total: 500, status: StatusOS.CONCLUIDO },
+          { id: 'os-cancelada', custo_total: 400, status: StatusOS.CANCELADO },
+        ],
+      });
+
+      mockPrismaService.ordemServico.update = vi.fn().mockResolvedValue({
+        id: 'os-fin-ativa',
+        codigo: 'OS-100099',
+        prioridade: Prioridade.MEDIA,
+        status: StatusOS.EM_EXECUCAO,
+        criado_em: new Date(),
+        custo_materiais: 300,
+        custo_mao_de_obra: 150,
+        custo_total: 450,
+        contrato_id: 'contrato-com-os-cancelada',
+        materiais_consumidos: [],
+      });
+
+      // 300 (materiais) + 150 (mão de obra) = 450 <= 500 de saldo real
+      const res = await service.updateFinancials('os-fin-ativa', {
+        contratoId: 'contrato-com-os-cancelada',
+        custoMaoDeObra: 150,
+      });
+
+      expect(res.success).toBe(true);
+      expect(res.data.custoTotal).toBe(450);
+    });
+
     it('deve registrar AuditoriaLog imutável com diff detalhado quando a medição for salva com sucesso', async () => {
       mockPrismaService.ordemServico.findFirst.mockResolvedValue({
         id: 'os-fin-audit',

@@ -789,6 +789,8 @@ export class WorkOrdersService {
         const horarioAgendado = updates.horarioAgendamento || updates.horario || '09:00';
         const dataAgendada = updates.dataAgendamento || new Date().toLocaleDateString('pt-BR');
         const tecNome = tecnicoUser?.nome || existing.tecnico?.nome || 'Equipe Técnica';
+        const tecId = updateData.tecnico_atribuido_id || existing.tecnico_atribuido_id || null;
+        const targetPrefId = existing.prefeitura_id || currentUser?.prefeituraId || null;
 
         await tx.agendaVistoria.create({
           data: {
@@ -797,6 +799,9 @@ export class WorkOrdersService {
             horario: horarioAgendado,
             tipo: (updateData.categoria || existing.categoria || 'geral').toLowerCase(),
             tecnico: tecNome,
+            ...(tecId ? { tecnico_id: tecId } : {}),
+            ...(existing.predio_id ? { predio_id: existing.predio_id } : {}),
+            ...(targetPrefId ? { prefeitura_id: targetPrefId } : {}),
             concluido: false,
             ordem_servico_id: existing.id,
           },
@@ -1051,7 +1056,7 @@ export class WorkOrdersService {
         where: { id: order.contrato_id },
         include: {
           ordens_servico: {
-            select: { id: true, custo_total: true },
+            select: { id: true, custo_total: true, status: true },
           },
         },
       });
@@ -1071,7 +1076,7 @@ export class WorkOrdersService {
 
         const empenhado = Number(contrato.valor_total_empenhado || 0);
         const jaMedidoOutras = (contrato.ordens_servico || [])
-          .filter((o: any) => o.id !== order.id)
+          .filter((o: any) => o.id !== order.id && o.status !== StatusOS.CANCELADO)
           .reduce((acc: number, curr: any) => acc + Number(curr.custo_total || 0), 0);
         const saldoDisponivel = Math.max(0, empenhado - jaMedidoOutras);
 
@@ -1255,7 +1260,7 @@ export class WorkOrdersService {
         where: { id: targetContratoId },
         include: {
           ordens_servico: {
-            select: { id: true, custo_total: true },
+            select: { id: true, custo_total: true, status: true },
           },
         },
       });
@@ -1279,7 +1284,7 @@ export class WorkOrdersService {
 
       const empenhado = Number(contrato.valor_total_empenhado || 0);
       const jaMedidoOutras = (contrato.ordens_servico || [])
-        .filter((o: any) => o.id !== order.id)
+        .filter((o: any) => o.id !== order.id && o.status !== StatusOS.CANCELADO)
         .reduce((acc: number, curr: any) => acc + Number(curr.custo_total || 0), 0);
       const saldoDisponivel = Math.max(0, empenhado - jaMedidoOutras);
 

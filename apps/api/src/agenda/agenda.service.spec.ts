@@ -2,8 +2,8 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AgendaService } from './agenda.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { AuditAction } from '@repo/database';
+import { BadRequestException, ForbiddenException } from '@nestjs/common';
+import { AuditAction, Role } from '@repo/database';
 
 describe('AgendaService - Vistorias e Manutenção Preventiva', () => {
   let service: AgendaService;
@@ -249,6 +249,75 @@ describe('AgendaService - Vistorias e Manutenção Preventiva', () => {
         (novoCicloData.data_agendada.getTime() - dataBase.getTime()) / (24 * 3600 * 1000),
       );
       expect(diffDias).toBe(90);
+    });
+  });
+
+  describe('Isolamento Multi-Tenant (Prefeitura)', () => {
+    it('deve filtrar vistorias pelo prefeitura_id do usuário autenticado em findAll', async () => {
+      mockPrismaService.agendaVistoria.findMany.mockResolvedValue([]);
+
+      await service.findAll({
+        id: 'gestor-1',
+        role: Role.GESTOR,
+        prefeituraId: 'pref-osasco',
+      });
+
+      expect(mockPrismaService.agendaVistoria.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            prefeitura_id: 'pref-osasco',
+          }),
+        }),
+      );
+    });
+
+    it('deve bloquear acesso (ForbiddenException) em findOne se a vistoria pertencer a outra prefeitura', async () => {
+      mockPrismaService.agendaVistoria.findUnique.mockResolvedValue({
+        id: 'vis-outra-pref',
+        titulo: 'Vistoria Elétrica',
+        subtitulo: 'Escola Municipal',
+        prefeitura_id: 'pref-americana',
+        concluido: false,
+        criado_em: new Date(),
+      });
+
+      await expect(
+        service.findOne('vis-outra-pref', {
+          id: 'gestor-1',
+          role: Role.GESTOR,
+          prefeituraId: 'pref-osasco',
+        }),
+      ).rejects.toThrow(ForbiddenException);
+    });
+
+    it('deve gravar prefeitura_id ao criar vistoria e no ciclo preventivo recorrente', async () => {
+      mockPrismaService.agendaVistoria.findMany.mockResolvedValue([]);
+      mockPrismaService.agendaVistoria.create.mockImplementation(async ({ data }) => ({
+        id: 'vis-nova',
+        ...data,
+        criado_em: new Date(),
+      }));
+
+      await service.create(
+        {
+          title: 'Inspeção Preventiva',
+          location: 'UBS Centro',
+          scheduledTime: '14:00',
+        },
+        {
+          id: 'gestor-1',
+          role: Role.GESTOR,
+          prefeituraId: 'pref-osasco',
+        },
+      );
+
+      expect(mockPrismaService.agendaVistoria.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            prefeitura_id: 'pref-osasco',
+          }),
+        }),
+      );
     });
   });
 });

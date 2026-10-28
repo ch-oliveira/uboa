@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service.js';
 import type { ApiResponse } from '../common/interfaces/api-response.interface.js';
 import type { CreateContractDto } from './dto/create-contract.dto.js';
 import type { UpdateContractDto } from './dto/update-contract.dto.js';
-import { AuditAction } from '@repo/database';
+import { AuditAction, StatusOS } from '@repo/database';
 
 export interface ContractResponse {
   id: string;
@@ -71,17 +71,21 @@ export class ContractsService {
           select: {
             id: true,
             custo_total: true,
+            status: true,
           },
         },
       },
     });
 
     const mapped = contracts.map((c) => {
-      const medido = (c.ordens_servico || []).reduce(
+      const ordensValidas = (c.ordens_servico || []).filter(
+        (curr: any) => curr.status !== StatusOS.CANCELADO,
+      );
+      const medido = ordensValidas.reduce(
         (acc: number, curr: any) => acc + Number(curr.custo_total || 0),
         0,
       );
-      return this.mapContract(c, medido, (c.ordens_servico || []).length);
+      return this.mapContract(c, medido, ordensValidas.length);
     });
 
     return {
@@ -119,12 +123,15 @@ export class ContractsService {
       throw new NotFoundException(`Contrato com ID "${id}" não encontrado.`);
     }
 
-    const medido = (c.ordens_servico || []).reduce(
+    const ordensValidas = (c.ordens_servico || []).filter(
+      (curr: any) => curr.status !== StatusOS.CANCELADO,
+    );
+    const medido = ordensValidas.reduce(
       (acc: number, curr: any) => acc + Number(curr.custo_total || 0),
       0,
     );
 
-    const mapped = this.mapContract(c, medido, (c.ordens_servico || []).length);
+    const mapped = this.mapContract(c, medido, ordensValidas.length);
 
     return {
       success: true,
@@ -228,19 +235,22 @@ export class ContractsService {
       },
       include: {
         ordens_servico: {
-          select: { id: true, custo_total: true },
+          select: { id: true, custo_total: true, status: true },
         },
       },
     });
 
-    const medido = (updated.ordens_servico || []).reduce(
+    const ordensValidas = (updated.ordens_servico || []).filter(
+      (curr: any) => curr.status !== StatusOS.CANCELADO,
+    );
+    const medido = ordensValidas.reduce(
       (acc: number, curr: any) => acc + Number(curr.custo_total || 0),
       0,
     );
 
     return {
       success: true,
-      data: this.mapContract(updated, medido, (updated.ordens_servico || []).length),
+      data: this.mapContract(updated, medido, ordensValidas.length),
       message: 'Contrato atualizado com sucesso.',
     };
   }
