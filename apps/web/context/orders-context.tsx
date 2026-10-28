@@ -27,6 +27,10 @@ export interface AgendaEvent {
   orderId?: string;
   laudoTecnico?: string;
   proximaEtapaSugerida?: string;
+  categoriaVistoria?: string;
+  alertaDefesaCivilId?: string;
+  checklistItens?: Array<{ item: string; checado: boolean; observacao?: string }>;
+  riscoMitigado?: boolean;
 }
 
 export interface ActivityEvent {

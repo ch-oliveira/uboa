@@ -238,6 +238,10 @@ function mapInspectionFromApi(item: any): AgendaEvent {
     orderId: item.workOrderId || item.orderId,
     laudoTecnico: item.laudoTecnico || item.laudo_tecnico,
     proximaEtapaSugerida: item.proximaEtapaSugerida,
+    categoriaVistoria: item.categoriaVistoria || item.categoria_vistoria || 'ROTINA',
+    alertaDefesaCivilId: item.alertaDefesaCivilId || item.alerta_defesa_civil_id || undefined,
+    checklistItens: Array.isArray(item.checklistItens || item.checklist_itens) ? (item.checklistItens || item.checklist_itens) : [],
+    riscoMitigado: Boolean(item.riscoMitigado ?? item.risco_mitigado),
   };
 }
 
@@ -715,6 +719,54 @@ export const apiClient = {
     const res = await fetch(`${getApiBase()}/contracts/boletins/${encodeURIComponent(id)}`, {
       cache: 'no-store',
       headers: getAuthHeaders(),
+    });
+    return res.json();
+  },
+
+  // -------------------------------------------------------------
+  // PLANO DE CONTINGÊNCIA & DEFESA CIVIL (ALERTA CLIMÁTICO)
+  // -------------------------------------------------------------
+  async getContingencyAlerts(): Promise<{ success: boolean; data?: any[] }> {
+    const res = await fetch(`${getApiBase()}/contingency/alerts`, {
+      cache: 'no-store',
+      headers: getAuthHeaders(),
+    });
+    return res.json();
+  },
+
+  async triggerContingencyPlan(dto: {
+    alertaId?: string;
+    tipoEvento?: string;
+    nivel?: string;
+    predioIds?: string[];
+  }): Promise<{ success: boolean; data?: any; message?: string }> {
+    const res = await fetch(`${getApiBase()}/contingency/trigger`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders(),
+      },
+      body: JSON.stringify(dto),
+    });
+    return res.json();
+  },
+
+  async completeContingencyInspection(
+    vistoriaId: string,
+    dto: {
+      checklistItens?: any[];
+      riscoMitigado?: boolean;
+      laudoTecnico?: string;
+      fotosVistoria?: string[];
+    },
+  ): Promise<{ success: boolean; data?: any; message?: string }> {
+    const res = await fetch(`${getApiBase()}/contingency/inspections/${encodeURIComponent(vistoriaId)}/complete`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders(),
+      },
+      body: JSON.stringify(dto),
     });
     return res.json();
   },

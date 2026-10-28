@@ -44,6 +44,11 @@ export type AuditoriaLog = $Result.DefaultSelection<Prisma.$AuditoriaLogPayload>
  */
 export type AgendaVistoria = $Result.DefaultSelection<Prisma.$AgendaVistoriaPayload>
 /**
+ * Model AlertaDefesaCivil
+ * 
+ */
+export type AlertaDefesaCivil = $Result.DefaultSelection<Prisma.$AlertaDefesaCivilPayload>
+/**
  * Model ConfiguracaoSistema
  * 
  */
@@ -380,6 +385,16 @@ export class PrismaClient<
     * ```
     */
   get agendaVistoria(): Prisma.AgendaVistoriaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.alertaDefesaCivil`: Exposes CRUD operations for the **AlertaDefesaCivil** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AlertaDefesaCivils
+    * const alertaDefesaCivils = await prisma.alertaDefesaCivil.findMany()
+    * ```
+    */
+  get alertaDefesaCivil(): Prisma.AlertaDefesaCivilDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.configuracaoSistema`: Exposes CRUD operations for the **ConfiguracaoSistema** model.
@@ -897,6 +912,7 @@ export namespace Prisma {
     OrdemServico: 'OrdemServico',
     AuditoriaLog: 'AuditoriaLog',
     AgendaVistoria: 'AgendaVistoria',
+    AlertaDefesaCivil: 'AlertaDefesaCivil',
     ConfiguracaoSistema: 'ConfiguracaoSistema',
     Manifestacao: 'Manifestacao',
     Material: 'Material',
@@ -922,7 +938,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "prefeitura" | "usuario" | "predio" | "ordemServico" | "auditoriaLog" | "agendaVistoria" | "configuracaoSistema" | "manifestacao" | "material" | "itemConsumoOS" | "contratoManutencao" | "boletimMedicao" | "ativoPredial"
+      modelProps: "prefeitura" | "usuario" | "predio" | "ordemServico" | "auditoriaLog" | "agendaVistoria" | "alertaDefesaCivil" | "configuracaoSistema" | "manifestacao" | "material" | "itemConsumoOS" | "contratoManutencao" | "boletimMedicao" | "ativoPredial"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1367,6 +1383,80 @@ export namespace Prisma {
           count: {
             args: Prisma.AgendaVistoriaCountArgs<ExtArgs>
             result: $Utils.Optional<AgendaVistoriaCountAggregateOutputType> | number
+          }
+        }
+      }
+      AlertaDefesaCivil: {
+        payload: Prisma.$AlertaDefesaCivilPayload<ExtArgs>
+        fields: Prisma.AlertaDefesaCivilFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AlertaDefesaCivilFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertaDefesaCivilPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AlertaDefesaCivilFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertaDefesaCivilPayload>
+          }
+          findFirst: {
+            args: Prisma.AlertaDefesaCivilFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertaDefesaCivilPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AlertaDefesaCivilFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertaDefesaCivilPayload>
+          }
+          findMany: {
+            args: Prisma.AlertaDefesaCivilFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertaDefesaCivilPayload>[]
+          }
+          create: {
+            args: Prisma.AlertaDefesaCivilCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertaDefesaCivilPayload>
+          }
+          createMany: {
+            args: Prisma.AlertaDefesaCivilCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AlertaDefesaCivilCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertaDefesaCivilPayload>[]
+          }
+          delete: {
+            args: Prisma.AlertaDefesaCivilDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertaDefesaCivilPayload>
+          }
+          update: {
+            args: Prisma.AlertaDefesaCivilUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertaDefesaCivilPayload>
+          }
+          deleteMany: {
+            args: Prisma.AlertaDefesaCivilDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AlertaDefesaCivilUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AlertaDefesaCivilUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertaDefesaCivilPayload>[]
+          }
+          upsert: {
+            args: Prisma.AlertaDefesaCivilUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertaDefesaCivilPayload>
+          }
+          aggregate: {
+            args: Prisma.AlertaDefesaCivilAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAlertaDefesaCivil>
+          }
+          groupBy: {
+            args: Prisma.AlertaDefesaCivilGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AlertaDefesaCivilGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AlertaDefesaCivilCountArgs<ExtArgs>
+            result: $Utils.Optional<AlertaDefesaCivilCountAggregateOutputType> | number
           }
         }
       }
@@ -1990,6 +2080,7 @@ export namespace Prisma {
     ordemServico?: OrdemServicoOmit
     auditoriaLog?: AuditoriaLogOmit
     agendaVistoria?: AgendaVistoriaOmit
+    alertaDefesaCivil?: AlertaDefesaCivilOmit
     configuracaoSistema?: ConfiguracaoSistemaOmit
     manifestacao?: ManifestacaoOmit
     material?: MaterialOmit
@@ -2087,6 +2178,7 @@ export namespace Prisma {
     contratos: number
     ativos: number
     boletins_medicao: number
+    alertas_defesa_civil: number
   }
 
   export type PrefeituraCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2100,6 +2192,7 @@ export namespace Prisma {
     contratos?: boolean | PrefeituraCountOutputTypeCountContratosArgs
     ativos?: boolean | PrefeituraCountOutputTypeCountAtivosArgs
     boletins_medicao?: boolean | PrefeituraCountOutputTypeCountBoletins_medicaoArgs
+    alertas_defesa_civil?: boolean | PrefeituraCountOutputTypeCountAlertas_defesa_civilArgs
   }
 
   // Custom InputTypes
@@ -2181,6 +2274,13 @@ export namespace Prisma {
    */
   export type PrefeituraCountOutputTypeCountBoletins_medicaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BoletimMedicaoWhereInput
+  }
+
+  /**
+   * PrefeituraCountOutputType without action
+   */
+  export type PrefeituraCountOutputTypeCountAlertas_defesa_civilArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AlertaDefesaCivilWhereInput
   }
 
 
@@ -2382,6 +2482,37 @@ export namespace Prisma {
    */
   export type OrdemServicoCountOutputTypeCountManifestacoes_origemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ManifestacaoWhereInput
+  }
+
+
+  /**
+   * Count Type AlertaDefesaCivilCountOutputType
+   */
+
+  export type AlertaDefesaCivilCountOutputType = {
+    vistorias_contingencia: number
+  }
+
+  export type AlertaDefesaCivilCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    vistorias_contingencia?: boolean | AlertaDefesaCivilCountOutputTypeCountVistorias_contingenciaArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AlertaDefesaCivilCountOutputType without action
+   */
+  export type AlertaDefesaCivilCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertaDefesaCivilCountOutputType
+     */
+    select?: AlertaDefesaCivilCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AlertaDefesaCivilCountOutputType without action
+   */
+  export type AlertaDefesaCivilCountOutputTypeCountVistorias_contingenciaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgendaVistoriaWhereInput
   }
 
 
@@ -2729,6 +2860,7 @@ export namespace Prisma {
     contratos?: boolean | Prefeitura$contratosArgs<ExtArgs>
     ativos?: boolean | Prefeitura$ativosArgs<ExtArgs>
     boletins_medicao?: boolean | Prefeitura$boletins_medicaoArgs<ExtArgs>
+    alertas_defesa_civil?: boolean | Prefeitura$alertas_defesa_civilArgs<ExtArgs>
     _count?: boolean | PrefeituraCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["prefeitura"]>
 
@@ -2784,6 +2916,7 @@ export namespace Prisma {
     contratos?: boolean | Prefeitura$contratosArgs<ExtArgs>
     ativos?: boolean | Prefeitura$ativosArgs<ExtArgs>
     boletins_medicao?: boolean | Prefeitura$boletins_medicaoArgs<ExtArgs>
+    alertas_defesa_civil?: boolean | Prefeitura$alertas_defesa_civilArgs<ExtArgs>
     _count?: boolean | PrefeituraCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PrefeituraIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2803,6 +2936,7 @@ export namespace Prisma {
       contratos: Prisma.$ContratoManutencaoPayload<ExtArgs>[]
       ativos: Prisma.$AtivoPredialPayload<ExtArgs>[]
       boletins_medicao: Prisma.$BoletimMedicaoPayload<ExtArgs>[]
+      alertas_defesa_civil: Prisma.$AlertaDefesaCivilPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3220,6 +3354,7 @@ export namespace Prisma {
     contratos<T extends Prefeitura$contratosArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$contratosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContratoManutencaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ativos<T extends Prefeitura$ativosArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$ativosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AtivoPredialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     boletins_medicao<T extends Prefeitura$boletins_medicaoArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$boletins_medicaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BoletimMedicaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    alertas_defesa_civil<T extends Prefeitura$alertas_defesa_civilArgs<ExtArgs> = {}>(args?: Subset<T, Prefeitura$alertas_defesa_civilArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertaDefesaCivilPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3903,6 +4038,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BoletimMedicaoScalarFieldEnum | BoletimMedicaoScalarFieldEnum[]
+  }
+
+  /**
+   * Prefeitura.alertas_defesa_civil
+   */
+  export type Prefeitura$alertas_defesa_civilArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertaDefesaCivil
+     */
+    select?: AlertaDefesaCivilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertaDefesaCivil
+     */
+    omit?: AlertaDefesaCivilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertaDefesaCivilInclude<ExtArgs> | null
+    where?: AlertaDefesaCivilWhereInput
+    orderBy?: AlertaDefesaCivilOrderByWithRelationInput | AlertaDefesaCivilOrderByWithRelationInput[]
+    cursor?: AlertaDefesaCivilWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AlertaDefesaCivilScalarFieldEnum | AlertaDefesaCivilScalarFieldEnum[]
   }
 
   /**
@@ -9729,6 +9888,9 @@ export namespace Prisma {
     predio_id: string | null
     laudo_tecnico: string | null
     ordem_servico_id: string | null
+    categoria_vistoria: string | null
+    alerta_defesa_civil_id: string | null
+    risco_mitigado: boolean | null
     prefeitura_id: string | null
     criado_em: Date | null
     atualizado: Date | null
@@ -9748,6 +9910,9 @@ export namespace Prisma {
     predio_id: string | null
     laudo_tecnico: string | null
     ordem_servico_id: string | null
+    categoria_vistoria: string | null
+    alerta_defesa_civil_id: string | null
+    risco_mitigado: boolean | null
     prefeitura_id: string | null
     criado_em: Date | null
     atualizado: Date | null
@@ -9768,6 +9933,10 @@ export namespace Prisma {
     laudo_tecnico: number
     fotos_vistoria: number
     ordem_servico_id: number
+    categoria_vistoria: number
+    alerta_defesa_civil_id: number
+    checklist_itens: number
+    risco_mitigado: number
     prefeitura_id: number
     criado_em: number
     atualizado: number
@@ -9789,6 +9958,9 @@ export namespace Prisma {
     predio_id?: true
     laudo_tecnico?: true
     ordem_servico_id?: true
+    categoria_vistoria?: true
+    alerta_defesa_civil_id?: true
+    risco_mitigado?: true
     prefeitura_id?: true
     criado_em?: true
     atualizado?: true
@@ -9808,6 +9980,9 @@ export namespace Prisma {
     predio_id?: true
     laudo_tecnico?: true
     ordem_servico_id?: true
+    categoria_vistoria?: true
+    alerta_defesa_civil_id?: true
+    risco_mitigado?: true
     prefeitura_id?: true
     criado_em?: true
     atualizado?: true
@@ -9828,6 +10003,10 @@ export namespace Prisma {
     laudo_tecnico?: true
     fotos_vistoria?: true
     ordem_servico_id?: true
+    categoria_vistoria?: true
+    alerta_defesa_civil_id?: true
+    checklist_itens?: true
+    risco_mitigado?: true
     prefeitura_id?: true
     criado_em?: true
     atualizado?: true
@@ -9921,6 +10100,10 @@ export namespace Prisma {
     laudo_tecnico: string | null
     fotos_vistoria: string[]
     ordem_servico_id: string | null
+    categoria_vistoria: string
+    alerta_defesa_civil_id: string | null
+    checklist_itens: JsonValue | null
+    risco_mitigado: boolean | null
     prefeitura_id: string | null
     criado_em: Date
     atualizado: Date
@@ -9958,11 +10141,16 @@ export namespace Prisma {
     laudo_tecnico?: boolean
     fotos_vistoria?: boolean
     ordem_servico_id?: boolean
+    categoria_vistoria?: boolean
+    alerta_defesa_civil_id?: boolean
+    checklist_itens?: boolean
+    risco_mitigado?: boolean
     prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
+    alerta_defesa_civil?: boolean | AgendaVistoria$alerta_defesa_civilArgs<ExtArgs>
     prefeitura?: boolean | AgendaVistoria$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["agendaVistoria"]>
 
@@ -9981,11 +10169,16 @@ export namespace Prisma {
     laudo_tecnico?: boolean
     fotos_vistoria?: boolean
     ordem_servico_id?: boolean
+    categoria_vistoria?: boolean
+    alerta_defesa_civil_id?: boolean
+    checklist_itens?: boolean
+    risco_mitigado?: boolean
     prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
+    alerta_defesa_civil?: boolean | AgendaVistoria$alerta_defesa_civilArgs<ExtArgs>
     prefeitura?: boolean | AgendaVistoria$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["agendaVistoria"]>
 
@@ -10004,11 +10197,16 @@ export namespace Prisma {
     laudo_tecnico?: boolean
     fotos_vistoria?: boolean
     ordem_servico_id?: boolean
+    categoria_vistoria?: boolean
+    alerta_defesa_civil_id?: boolean
+    checklist_itens?: boolean
+    risco_mitigado?: boolean
     prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
     predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
+    alerta_defesa_civil?: boolean | AgendaVistoria$alerta_defesa_civilArgs<ExtArgs>
     prefeitura?: boolean | AgendaVistoria$prefeituraArgs<ExtArgs>
   }, ExtArgs["result"]["agendaVistoria"]>
 
@@ -10027,25 +10225,32 @@ export namespace Prisma {
     laudo_tecnico?: boolean
     fotos_vistoria?: boolean
     ordem_servico_id?: boolean
+    categoria_vistoria?: boolean
+    alerta_defesa_civil_id?: boolean
+    checklist_itens?: boolean
+    risco_mitigado?: boolean
     prefeitura_id?: boolean
     criado_em?: boolean
     atualizado?: boolean
   }
 
-  export type AgendaVistoriaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "subtitulo" | "horario" | "data_agendada" | "tipo" | "recorrencia" | "concluido" | "tecnico" | "tecnico_id" | "predio_id" | "laudo_tecnico" | "fotos_vistoria" | "ordem_servico_id" | "prefeitura_id" | "criado_em" | "atualizado", ExtArgs["result"]["agendaVistoria"]>
+  export type AgendaVistoriaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "subtitulo" | "horario" | "data_agendada" | "tipo" | "recorrencia" | "concluido" | "tecnico" | "tecnico_id" | "predio_id" | "laudo_tecnico" | "fotos_vistoria" | "ordem_servico_id" | "categoria_vistoria" | "alerta_defesa_civil_id" | "checklist_itens" | "risco_mitigado" | "prefeitura_id" | "criado_em" | "atualizado", ExtArgs["result"]["agendaVistoria"]>
   export type AgendaVistoriaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
+    alerta_defesa_civil?: boolean | AgendaVistoria$alerta_defesa_civilArgs<ExtArgs>
     prefeitura?: boolean | AgendaVistoria$prefeituraArgs<ExtArgs>
   }
   export type AgendaVistoriaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
+    alerta_defesa_civil?: boolean | AgendaVistoria$alerta_defesa_civilArgs<ExtArgs>
     prefeitura?: boolean | AgendaVistoria$prefeituraArgs<ExtArgs>
   }
   export type AgendaVistoriaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     predio?: boolean | AgendaVistoria$predioArgs<ExtArgs>
     ordem_servico?: boolean | AgendaVistoria$ordem_servicoArgs<ExtArgs>
+    alerta_defesa_civil?: boolean | AgendaVistoria$alerta_defesa_civilArgs<ExtArgs>
     prefeitura?: boolean | AgendaVistoria$prefeituraArgs<ExtArgs>
   }
 
@@ -10054,6 +10259,7 @@ export namespace Prisma {
     objects: {
       predio: Prisma.$PredioPayload<ExtArgs> | null
       ordem_servico: Prisma.$OrdemServicoPayload<ExtArgs> | null
+      alerta_defesa_civil: Prisma.$AlertaDefesaCivilPayload<ExtArgs> | null
       prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -10071,6 +10277,10 @@ export namespace Prisma {
       laudo_tecnico: string | null
       fotos_vistoria: string[]
       ordem_servico_id: string | null
+      categoria_vistoria: string
+      alerta_defesa_civil_id: string | null
+      checklist_itens: Prisma.JsonValue | null
+      risco_mitigado: boolean | null
       prefeitura_id: string | null
       criado_em: Date
       atualizado: Date
@@ -10470,6 +10680,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     predio<T extends AgendaVistoria$predioArgs<ExtArgs> = {}>(args?: Subset<T, AgendaVistoria$predioArgs<ExtArgs>>): Prisma__PredioClient<$Result.GetResult<Prisma.$PredioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ordem_servico<T extends AgendaVistoria$ordem_servicoArgs<ExtArgs> = {}>(args?: Subset<T, AgendaVistoria$ordem_servicoArgs<ExtArgs>>): Prisma__OrdemServicoClient<$Result.GetResult<Prisma.$OrdemServicoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    alerta_defesa_civil<T extends AgendaVistoria$alerta_defesa_civilArgs<ExtArgs> = {}>(args?: Subset<T, AgendaVistoria$alerta_defesa_civilArgs<ExtArgs>>): Prisma__AlertaDefesaCivilClient<$Result.GetResult<Prisma.$AlertaDefesaCivilPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     prefeitura<T extends AgendaVistoria$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, AgendaVistoria$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -10514,6 +10725,10 @@ export namespace Prisma {
     readonly laudo_tecnico: FieldRef<"AgendaVistoria", 'String'>
     readonly fotos_vistoria: FieldRef<"AgendaVistoria", 'String[]'>
     readonly ordem_servico_id: FieldRef<"AgendaVistoria", 'String'>
+    readonly categoria_vistoria: FieldRef<"AgendaVistoria", 'String'>
+    readonly alerta_defesa_civil_id: FieldRef<"AgendaVistoria", 'String'>
+    readonly checklist_itens: FieldRef<"AgendaVistoria", 'Json'>
+    readonly risco_mitigado: FieldRef<"AgendaVistoria", 'Boolean'>
     readonly prefeitura_id: FieldRef<"AgendaVistoria", 'String'>
     readonly criado_em: FieldRef<"AgendaVistoria", 'DateTime'>
     readonly atualizado: FieldRef<"AgendaVistoria", 'DateTime'>
@@ -10951,6 +11166,25 @@ export namespace Prisma {
   }
 
   /**
+   * AgendaVistoria.alerta_defesa_civil
+   */
+  export type AgendaVistoria$alerta_defesa_civilArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertaDefesaCivil
+     */
+    select?: AlertaDefesaCivilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertaDefesaCivil
+     */
+    omit?: AlertaDefesaCivilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertaDefesaCivilInclude<ExtArgs> | null
+    where?: AlertaDefesaCivilWhereInput
+  }
+
+  /**
    * AgendaVistoria.prefeitura
    */
   export type AgendaVistoria$prefeituraArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10985,6 +11219,1213 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AgendaVistoriaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AlertaDefesaCivil
+   */
+
+  export type AggregateAlertaDefesaCivil = {
+    _count: AlertaDefesaCivilCountAggregateOutputType | null
+    _min: AlertaDefesaCivilMinAggregateOutputType | null
+    _max: AlertaDefesaCivilMaxAggregateOutputType | null
+  }
+
+  export type AlertaDefesaCivilMinAggregateOutputType = {
+    id: string | null
+    titulo: string | null
+    descricao: string | null
+    nivel: string | null
+    tipo_evento: string | null
+    fonte: string | null
+    inicio_previsto: Date | null
+    fim_previsto: Date | null
+    ativo: boolean | null
+    prefeitura_id: string | null
+    criado_em: Date | null
+    atualizado: Date | null
+  }
+
+  export type AlertaDefesaCivilMaxAggregateOutputType = {
+    id: string | null
+    titulo: string | null
+    descricao: string | null
+    nivel: string | null
+    tipo_evento: string | null
+    fonte: string | null
+    inicio_previsto: Date | null
+    fim_previsto: Date | null
+    ativo: boolean | null
+    prefeitura_id: string | null
+    criado_em: Date | null
+    atualizado: Date | null
+  }
+
+  export type AlertaDefesaCivilCountAggregateOutputType = {
+    id: number
+    titulo: number
+    descricao: number
+    nivel: number
+    tipo_evento: number
+    fonte: number
+    inicio_previsto: number
+    fim_previsto: number
+    ativo: number
+    acoes_recomendadas: number
+    prefeitura_id: number
+    criado_em: number
+    atualizado: number
+    _all: number
+  }
+
+
+  export type AlertaDefesaCivilMinAggregateInputType = {
+    id?: true
+    titulo?: true
+    descricao?: true
+    nivel?: true
+    tipo_evento?: true
+    fonte?: true
+    inicio_previsto?: true
+    fim_previsto?: true
+    ativo?: true
+    prefeitura_id?: true
+    criado_em?: true
+    atualizado?: true
+  }
+
+  export type AlertaDefesaCivilMaxAggregateInputType = {
+    id?: true
+    titulo?: true
+    descricao?: true
+    nivel?: true
+    tipo_evento?: true
+    fonte?: true
+    inicio_previsto?: true
+    fim_previsto?: true
+    ativo?: true
+    prefeitura_id?: true
+    criado_em?: true
+    atualizado?: true
+  }
+
+  export type AlertaDefesaCivilCountAggregateInputType = {
+    id?: true
+    titulo?: true
+    descricao?: true
+    nivel?: true
+    tipo_evento?: true
+    fonte?: true
+    inicio_previsto?: true
+    fim_previsto?: true
+    ativo?: true
+    acoes_recomendadas?: true
+    prefeitura_id?: true
+    criado_em?: true
+    atualizado?: true
+    _all?: true
+  }
+
+  export type AlertaDefesaCivilAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AlertaDefesaCivil to aggregate.
+     */
+    where?: AlertaDefesaCivilWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlertaDefesaCivils to fetch.
+     */
+    orderBy?: AlertaDefesaCivilOrderByWithRelationInput | AlertaDefesaCivilOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AlertaDefesaCivilWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlertaDefesaCivils from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlertaDefesaCivils.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AlertaDefesaCivils
+    **/
+    _count?: true | AlertaDefesaCivilCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AlertaDefesaCivilMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AlertaDefesaCivilMaxAggregateInputType
+  }
+
+  export type GetAlertaDefesaCivilAggregateType<T extends AlertaDefesaCivilAggregateArgs> = {
+        [P in keyof T & keyof AggregateAlertaDefesaCivil]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAlertaDefesaCivil[P]>
+      : GetScalarType<T[P], AggregateAlertaDefesaCivil[P]>
+  }
+
+
+
+
+  export type AlertaDefesaCivilGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AlertaDefesaCivilWhereInput
+    orderBy?: AlertaDefesaCivilOrderByWithAggregationInput | AlertaDefesaCivilOrderByWithAggregationInput[]
+    by: AlertaDefesaCivilScalarFieldEnum[] | AlertaDefesaCivilScalarFieldEnum
+    having?: AlertaDefesaCivilScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AlertaDefesaCivilCountAggregateInputType | true
+    _min?: AlertaDefesaCivilMinAggregateInputType
+    _max?: AlertaDefesaCivilMaxAggregateInputType
+  }
+
+  export type AlertaDefesaCivilGroupByOutputType = {
+    id: string
+    titulo: string
+    descricao: string
+    nivel: string
+    tipo_evento: string
+    fonte: string
+    inicio_previsto: Date | null
+    fim_previsto: Date | null
+    ativo: boolean
+    acoes_recomendadas: JsonValue | null
+    prefeitura_id: string | null
+    criado_em: Date
+    atualizado: Date
+    _count: AlertaDefesaCivilCountAggregateOutputType | null
+    _min: AlertaDefesaCivilMinAggregateOutputType | null
+    _max: AlertaDefesaCivilMaxAggregateOutputType | null
+  }
+
+  type GetAlertaDefesaCivilGroupByPayload<T extends AlertaDefesaCivilGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AlertaDefesaCivilGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AlertaDefesaCivilGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AlertaDefesaCivilGroupByOutputType[P]>
+            : GetScalarType<T[P], AlertaDefesaCivilGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AlertaDefesaCivilSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    titulo?: boolean
+    descricao?: boolean
+    nivel?: boolean
+    tipo_evento?: boolean
+    fonte?: boolean
+    inicio_previsto?: boolean
+    fim_previsto?: boolean
+    ativo?: boolean
+    acoes_recomendadas?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    prefeitura?: boolean | AlertaDefesaCivil$prefeituraArgs<ExtArgs>
+    vistorias_contingencia?: boolean | AlertaDefesaCivil$vistorias_contingenciaArgs<ExtArgs>
+    _count?: boolean | AlertaDefesaCivilCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["alertaDefesaCivil"]>
+
+  export type AlertaDefesaCivilSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    titulo?: boolean
+    descricao?: boolean
+    nivel?: boolean
+    tipo_evento?: boolean
+    fonte?: boolean
+    inicio_previsto?: boolean
+    fim_previsto?: boolean
+    ativo?: boolean
+    acoes_recomendadas?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    prefeitura?: boolean | AlertaDefesaCivil$prefeituraArgs<ExtArgs>
+  }, ExtArgs["result"]["alertaDefesaCivil"]>
+
+  export type AlertaDefesaCivilSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    titulo?: boolean
+    descricao?: boolean
+    nivel?: boolean
+    tipo_evento?: boolean
+    fonte?: boolean
+    inicio_previsto?: boolean
+    fim_previsto?: boolean
+    ativo?: boolean
+    acoes_recomendadas?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+    prefeitura?: boolean | AlertaDefesaCivil$prefeituraArgs<ExtArgs>
+  }, ExtArgs["result"]["alertaDefesaCivil"]>
+
+  export type AlertaDefesaCivilSelectScalar = {
+    id?: boolean
+    titulo?: boolean
+    descricao?: boolean
+    nivel?: boolean
+    tipo_evento?: boolean
+    fonte?: boolean
+    inicio_previsto?: boolean
+    fim_previsto?: boolean
+    ativo?: boolean
+    acoes_recomendadas?: boolean
+    prefeitura_id?: boolean
+    criado_em?: boolean
+    atualizado?: boolean
+  }
+
+  export type AlertaDefesaCivilOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "descricao" | "nivel" | "tipo_evento" | "fonte" | "inicio_previsto" | "fim_previsto" | "ativo" | "acoes_recomendadas" | "prefeitura_id" | "criado_em" | "atualizado", ExtArgs["result"]["alertaDefesaCivil"]>
+  export type AlertaDefesaCivilInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prefeitura?: boolean | AlertaDefesaCivil$prefeituraArgs<ExtArgs>
+    vistorias_contingencia?: boolean | AlertaDefesaCivil$vistorias_contingenciaArgs<ExtArgs>
+    _count?: boolean | AlertaDefesaCivilCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type AlertaDefesaCivilIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prefeitura?: boolean | AlertaDefesaCivil$prefeituraArgs<ExtArgs>
+  }
+  export type AlertaDefesaCivilIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prefeitura?: boolean | AlertaDefesaCivil$prefeituraArgs<ExtArgs>
+  }
+
+  export type $AlertaDefesaCivilPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AlertaDefesaCivil"
+    objects: {
+      prefeitura: Prisma.$PrefeituraPayload<ExtArgs> | null
+      vistorias_contingencia: Prisma.$AgendaVistoriaPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      titulo: string
+      descricao: string
+      nivel: string
+      tipo_evento: string
+      fonte: string
+      inicio_previsto: Date | null
+      fim_previsto: Date | null
+      ativo: boolean
+      acoes_recomendadas: Prisma.JsonValue | null
+      prefeitura_id: string | null
+      criado_em: Date
+      atualizado: Date
+    }, ExtArgs["result"]["alertaDefesaCivil"]>
+    composites: {}
+  }
+
+  type AlertaDefesaCivilGetPayload<S extends boolean | null | undefined | AlertaDefesaCivilDefaultArgs> = $Result.GetResult<Prisma.$AlertaDefesaCivilPayload, S>
+
+  type AlertaDefesaCivilCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AlertaDefesaCivilFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AlertaDefesaCivilCountAggregateInputType | true
+    }
+
+  export interface AlertaDefesaCivilDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AlertaDefesaCivil'], meta: { name: 'AlertaDefesaCivil' } }
+    /**
+     * Find zero or one AlertaDefesaCivil that matches the filter.
+     * @param {AlertaDefesaCivilFindUniqueArgs} args - Arguments to find a AlertaDefesaCivil
+     * @example
+     * // Get one AlertaDefesaCivil
+     * const alertaDefesaCivil = await prisma.alertaDefesaCivil.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AlertaDefesaCivilFindUniqueArgs>(args: SelectSubset<T, AlertaDefesaCivilFindUniqueArgs<ExtArgs>>): Prisma__AlertaDefesaCivilClient<$Result.GetResult<Prisma.$AlertaDefesaCivilPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AlertaDefesaCivil that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AlertaDefesaCivilFindUniqueOrThrowArgs} args - Arguments to find a AlertaDefesaCivil
+     * @example
+     * // Get one AlertaDefesaCivil
+     * const alertaDefesaCivil = await prisma.alertaDefesaCivil.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AlertaDefesaCivilFindUniqueOrThrowArgs>(args: SelectSubset<T, AlertaDefesaCivilFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AlertaDefesaCivilClient<$Result.GetResult<Prisma.$AlertaDefesaCivilPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AlertaDefesaCivil that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertaDefesaCivilFindFirstArgs} args - Arguments to find a AlertaDefesaCivil
+     * @example
+     * // Get one AlertaDefesaCivil
+     * const alertaDefesaCivil = await prisma.alertaDefesaCivil.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AlertaDefesaCivilFindFirstArgs>(args?: SelectSubset<T, AlertaDefesaCivilFindFirstArgs<ExtArgs>>): Prisma__AlertaDefesaCivilClient<$Result.GetResult<Prisma.$AlertaDefesaCivilPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AlertaDefesaCivil that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertaDefesaCivilFindFirstOrThrowArgs} args - Arguments to find a AlertaDefesaCivil
+     * @example
+     * // Get one AlertaDefesaCivil
+     * const alertaDefesaCivil = await prisma.alertaDefesaCivil.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AlertaDefesaCivilFindFirstOrThrowArgs>(args?: SelectSubset<T, AlertaDefesaCivilFindFirstOrThrowArgs<ExtArgs>>): Prisma__AlertaDefesaCivilClient<$Result.GetResult<Prisma.$AlertaDefesaCivilPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AlertaDefesaCivils that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertaDefesaCivilFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AlertaDefesaCivils
+     * const alertaDefesaCivils = await prisma.alertaDefesaCivil.findMany()
+     * 
+     * // Get first 10 AlertaDefesaCivils
+     * const alertaDefesaCivils = await prisma.alertaDefesaCivil.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const alertaDefesaCivilWithIdOnly = await prisma.alertaDefesaCivil.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AlertaDefesaCivilFindManyArgs>(args?: SelectSubset<T, AlertaDefesaCivilFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertaDefesaCivilPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AlertaDefesaCivil.
+     * @param {AlertaDefesaCivilCreateArgs} args - Arguments to create a AlertaDefesaCivil.
+     * @example
+     * // Create one AlertaDefesaCivil
+     * const AlertaDefesaCivil = await prisma.alertaDefesaCivil.create({
+     *   data: {
+     *     // ... data to create a AlertaDefesaCivil
+     *   }
+     * })
+     * 
+     */
+    create<T extends AlertaDefesaCivilCreateArgs>(args: SelectSubset<T, AlertaDefesaCivilCreateArgs<ExtArgs>>): Prisma__AlertaDefesaCivilClient<$Result.GetResult<Prisma.$AlertaDefesaCivilPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AlertaDefesaCivils.
+     * @param {AlertaDefesaCivilCreateManyArgs} args - Arguments to create many AlertaDefesaCivils.
+     * @example
+     * // Create many AlertaDefesaCivils
+     * const alertaDefesaCivil = await prisma.alertaDefesaCivil.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AlertaDefesaCivilCreateManyArgs>(args?: SelectSubset<T, AlertaDefesaCivilCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AlertaDefesaCivils and returns the data saved in the database.
+     * @param {AlertaDefesaCivilCreateManyAndReturnArgs} args - Arguments to create many AlertaDefesaCivils.
+     * @example
+     * // Create many AlertaDefesaCivils
+     * const alertaDefesaCivil = await prisma.alertaDefesaCivil.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AlertaDefesaCivils and only return the `id`
+     * const alertaDefesaCivilWithIdOnly = await prisma.alertaDefesaCivil.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AlertaDefesaCivilCreateManyAndReturnArgs>(args?: SelectSubset<T, AlertaDefesaCivilCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertaDefesaCivilPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AlertaDefesaCivil.
+     * @param {AlertaDefesaCivilDeleteArgs} args - Arguments to delete one AlertaDefesaCivil.
+     * @example
+     * // Delete one AlertaDefesaCivil
+     * const AlertaDefesaCivil = await prisma.alertaDefesaCivil.delete({
+     *   where: {
+     *     // ... filter to delete one AlertaDefesaCivil
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AlertaDefesaCivilDeleteArgs>(args: SelectSubset<T, AlertaDefesaCivilDeleteArgs<ExtArgs>>): Prisma__AlertaDefesaCivilClient<$Result.GetResult<Prisma.$AlertaDefesaCivilPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AlertaDefesaCivil.
+     * @param {AlertaDefesaCivilUpdateArgs} args - Arguments to update one AlertaDefesaCivil.
+     * @example
+     * // Update one AlertaDefesaCivil
+     * const alertaDefesaCivil = await prisma.alertaDefesaCivil.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AlertaDefesaCivilUpdateArgs>(args: SelectSubset<T, AlertaDefesaCivilUpdateArgs<ExtArgs>>): Prisma__AlertaDefesaCivilClient<$Result.GetResult<Prisma.$AlertaDefesaCivilPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AlertaDefesaCivils.
+     * @param {AlertaDefesaCivilDeleteManyArgs} args - Arguments to filter AlertaDefesaCivils to delete.
+     * @example
+     * // Delete a few AlertaDefesaCivils
+     * const { count } = await prisma.alertaDefesaCivil.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AlertaDefesaCivilDeleteManyArgs>(args?: SelectSubset<T, AlertaDefesaCivilDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AlertaDefesaCivils.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertaDefesaCivilUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AlertaDefesaCivils
+     * const alertaDefesaCivil = await prisma.alertaDefesaCivil.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AlertaDefesaCivilUpdateManyArgs>(args: SelectSubset<T, AlertaDefesaCivilUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AlertaDefesaCivils and returns the data updated in the database.
+     * @param {AlertaDefesaCivilUpdateManyAndReturnArgs} args - Arguments to update many AlertaDefesaCivils.
+     * @example
+     * // Update many AlertaDefesaCivils
+     * const alertaDefesaCivil = await prisma.alertaDefesaCivil.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AlertaDefesaCivils and only return the `id`
+     * const alertaDefesaCivilWithIdOnly = await prisma.alertaDefesaCivil.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AlertaDefesaCivilUpdateManyAndReturnArgs>(args: SelectSubset<T, AlertaDefesaCivilUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertaDefesaCivilPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AlertaDefesaCivil.
+     * @param {AlertaDefesaCivilUpsertArgs} args - Arguments to update or create a AlertaDefesaCivil.
+     * @example
+     * // Update or create a AlertaDefesaCivil
+     * const alertaDefesaCivil = await prisma.alertaDefesaCivil.upsert({
+     *   create: {
+     *     // ... data to create a AlertaDefesaCivil
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AlertaDefesaCivil we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AlertaDefesaCivilUpsertArgs>(args: SelectSubset<T, AlertaDefesaCivilUpsertArgs<ExtArgs>>): Prisma__AlertaDefesaCivilClient<$Result.GetResult<Prisma.$AlertaDefesaCivilPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AlertaDefesaCivils.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertaDefesaCivilCountArgs} args - Arguments to filter AlertaDefesaCivils to count.
+     * @example
+     * // Count the number of AlertaDefesaCivils
+     * const count = await prisma.alertaDefesaCivil.count({
+     *   where: {
+     *     // ... the filter for the AlertaDefesaCivils we want to count
+     *   }
+     * })
+    **/
+    count<T extends AlertaDefesaCivilCountArgs>(
+      args?: Subset<T, AlertaDefesaCivilCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AlertaDefesaCivilCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AlertaDefesaCivil.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertaDefesaCivilAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AlertaDefesaCivilAggregateArgs>(args: Subset<T, AlertaDefesaCivilAggregateArgs>): Prisma.PrismaPromise<GetAlertaDefesaCivilAggregateType<T>>
+
+    /**
+     * Group by AlertaDefesaCivil.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertaDefesaCivilGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AlertaDefesaCivilGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AlertaDefesaCivilGroupByArgs['orderBy'] }
+        : { orderBy?: AlertaDefesaCivilGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AlertaDefesaCivilGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAlertaDefesaCivilGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AlertaDefesaCivil model
+   */
+  readonly fields: AlertaDefesaCivilFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AlertaDefesaCivil.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AlertaDefesaCivilClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    prefeitura<T extends AlertaDefesaCivil$prefeituraArgs<ExtArgs> = {}>(args?: Subset<T, AlertaDefesaCivil$prefeituraArgs<ExtArgs>>): Prisma__PrefeituraClient<$Result.GetResult<Prisma.$PrefeituraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    vistorias_contingencia<T extends AlertaDefesaCivil$vistorias_contingenciaArgs<ExtArgs> = {}>(args?: Subset<T, AlertaDefesaCivil$vistorias_contingenciaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgendaVistoriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AlertaDefesaCivil model
+   */
+  interface AlertaDefesaCivilFieldRefs {
+    readonly id: FieldRef<"AlertaDefesaCivil", 'String'>
+    readonly titulo: FieldRef<"AlertaDefesaCivil", 'String'>
+    readonly descricao: FieldRef<"AlertaDefesaCivil", 'String'>
+    readonly nivel: FieldRef<"AlertaDefesaCivil", 'String'>
+    readonly tipo_evento: FieldRef<"AlertaDefesaCivil", 'String'>
+    readonly fonte: FieldRef<"AlertaDefesaCivil", 'String'>
+    readonly inicio_previsto: FieldRef<"AlertaDefesaCivil", 'DateTime'>
+    readonly fim_previsto: FieldRef<"AlertaDefesaCivil", 'DateTime'>
+    readonly ativo: FieldRef<"AlertaDefesaCivil", 'Boolean'>
+    readonly acoes_recomendadas: FieldRef<"AlertaDefesaCivil", 'Json'>
+    readonly prefeitura_id: FieldRef<"AlertaDefesaCivil", 'String'>
+    readonly criado_em: FieldRef<"AlertaDefesaCivil", 'DateTime'>
+    readonly atualizado: FieldRef<"AlertaDefesaCivil", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AlertaDefesaCivil findUnique
+   */
+  export type AlertaDefesaCivilFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertaDefesaCivil
+     */
+    select?: AlertaDefesaCivilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertaDefesaCivil
+     */
+    omit?: AlertaDefesaCivilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertaDefesaCivilInclude<ExtArgs> | null
+    /**
+     * Filter, which AlertaDefesaCivil to fetch.
+     */
+    where: AlertaDefesaCivilWhereUniqueInput
+  }
+
+  /**
+   * AlertaDefesaCivil findUniqueOrThrow
+   */
+  export type AlertaDefesaCivilFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertaDefesaCivil
+     */
+    select?: AlertaDefesaCivilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertaDefesaCivil
+     */
+    omit?: AlertaDefesaCivilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertaDefesaCivilInclude<ExtArgs> | null
+    /**
+     * Filter, which AlertaDefesaCivil to fetch.
+     */
+    where: AlertaDefesaCivilWhereUniqueInput
+  }
+
+  /**
+   * AlertaDefesaCivil findFirst
+   */
+  export type AlertaDefesaCivilFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertaDefesaCivil
+     */
+    select?: AlertaDefesaCivilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertaDefesaCivil
+     */
+    omit?: AlertaDefesaCivilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertaDefesaCivilInclude<ExtArgs> | null
+    /**
+     * Filter, which AlertaDefesaCivil to fetch.
+     */
+    where?: AlertaDefesaCivilWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlertaDefesaCivils to fetch.
+     */
+    orderBy?: AlertaDefesaCivilOrderByWithRelationInput | AlertaDefesaCivilOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AlertaDefesaCivils.
+     */
+    cursor?: AlertaDefesaCivilWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlertaDefesaCivils from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlertaDefesaCivils.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AlertaDefesaCivils.
+     */
+    distinct?: AlertaDefesaCivilScalarFieldEnum | AlertaDefesaCivilScalarFieldEnum[]
+  }
+
+  /**
+   * AlertaDefesaCivil findFirstOrThrow
+   */
+  export type AlertaDefesaCivilFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertaDefesaCivil
+     */
+    select?: AlertaDefesaCivilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertaDefesaCivil
+     */
+    omit?: AlertaDefesaCivilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertaDefesaCivilInclude<ExtArgs> | null
+    /**
+     * Filter, which AlertaDefesaCivil to fetch.
+     */
+    where?: AlertaDefesaCivilWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlertaDefesaCivils to fetch.
+     */
+    orderBy?: AlertaDefesaCivilOrderByWithRelationInput | AlertaDefesaCivilOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AlertaDefesaCivils.
+     */
+    cursor?: AlertaDefesaCivilWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlertaDefesaCivils from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlertaDefesaCivils.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AlertaDefesaCivils.
+     */
+    distinct?: AlertaDefesaCivilScalarFieldEnum | AlertaDefesaCivilScalarFieldEnum[]
+  }
+
+  /**
+   * AlertaDefesaCivil findMany
+   */
+  export type AlertaDefesaCivilFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertaDefesaCivil
+     */
+    select?: AlertaDefesaCivilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertaDefesaCivil
+     */
+    omit?: AlertaDefesaCivilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertaDefesaCivilInclude<ExtArgs> | null
+    /**
+     * Filter, which AlertaDefesaCivils to fetch.
+     */
+    where?: AlertaDefesaCivilWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlertaDefesaCivils to fetch.
+     */
+    orderBy?: AlertaDefesaCivilOrderByWithRelationInput | AlertaDefesaCivilOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AlertaDefesaCivils.
+     */
+    cursor?: AlertaDefesaCivilWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlertaDefesaCivils from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlertaDefesaCivils.
+     */
+    skip?: number
+    distinct?: AlertaDefesaCivilScalarFieldEnum | AlertaDefesaCivilScalarFieldEnum[]
+  }
+
+  /**
+   * AlertaDefesaCivil create
+   */
+  export type AlertaDefesaCivilCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertaDefesaCivil
+     */
+    select?: AlertaDefesaCivilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertaDefesaCivil
+     */
+    omit?: AlertaDefesaCivilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertaDefesaCivilInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AlertaDefesaCivil.
+     */
+    data: XOR<AlertaDefesaCivilCreateInput, AlertaDefesaCivilUncheckedCreateInput>
+  }
+
+  /**
+   * AlertaDefesaCivil createMany
+   */
+  export type AlertaDefesaCivilCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AlertaDefesaCivils.
+     */
+    data: AlertaDefesaCivilCreateManyInput | AlertaDefesaCivilCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AlertaDefesaCivil createManyAndReturn
+   */
+  export type AlertaDefesaCivilCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertaDefesaCivil
+     */
+    select?: AlertaDefesaCivilSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertaDefesaCivil
+     */
+    omit?: AlertaDefesaCivilOmit<ExtArgs> | null
+    /**
+     * The data used to create many AlertaDefesaCivils.
+     */
+    data: AlertaDefesaCivilCreateManyInput | AlertaDefesaCivilCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertaDefesaCivilIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AlertaDefesaCivil update
+   */
+  export type AlertaDefesaCivilUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertaDefesaCivil
+     */
+    select?: AlertaDefesaCivilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertaDefesaCivil
+     */
+    omit?: AlertaDefesaCivilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertaDefesaCivilInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AlertaDefesaCivil.
+     */
+    data: XOR<AlertaDefesaCivilUpdateInput, AlertaDefesaCivilUncheckedUpdateInput>
+    /**
+     * Choose, which AlertaDefesaCivil to update.
+     */
+    where: AlertaDefesaCivilWhereUniqueInput
+  }
+
+  /**
+   * AlertaDefesaCivil updateMany
+   */
+  export type AlertaDefesaCivilUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AlertaDefesaCivils.
+     */
+    data: XOR<AlertaDefesaCivilUpdateManyMutationInput, AlertaDefesaCivilUncheckedUpdateManyInput>
+    /**
+     * Filter which AlertaDefesaCivils to update
+     */
+    where?: AlertaDefesaCivilWhereInput
+    /**
+     * Limit how many AlertaDefesaCivils to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AlertaDefesaCivil updateManyAndReturn
+   */
+  export type AlertaDefesaCivilUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertaDefesaCivil
+     */
+    select?: AlertaDefesaCivilSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertaDefesaCivil
+     */
+    omit?: AlertaDefesaCivilOmit<ExtArgs> | null
+    /**
+     * The data used to update AlertaDefesaCivils.
+     */
+    data: XOR<AlertaDefesaCivilUpdateManyMutationInput, AlertaDefesaCivilUncheckedUpdateManyInput>
+    /**
+     * Filter which AlertaDefesaCivils to update
+     */
+    where?: AlertaDefesaCivilWhereInput
+    /**
+     * Limit how many AlertaDefesaCivils to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertaDefesaCivilIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AlertaDefesaCivil upsert
+   */
+  export type AlertaDefesaCivilUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertaDefesaCivil
+     */
+    select?: AlertaDefesaCivilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertaDefesaCivil
+     */
+    omit?: AlertaDefesaCivilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertaDefesaCivilInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AlertaDefesaCivil to update in case it exists.
+     */
+    where: AlertaDefesaCivilWhereUniqueInput
+    /**
+     * In case the AlertaDefesaCivil found by the `where` argument doesn't exist, create a new AlertaDefesaCivil with this data.
+     */
+    create: XOR<AlertaDefesaCivilCreateInput, AlertaDefesaCivilUncheckedCreateInput>
+    /**
+     * In case the AlertaDefesaCivil was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AlertaDefesaCivilUpdateInput, AlertaDefesaCivilUncheckedUpdateInput>
+  }
+
+  /**
+   * AlertaDefesaCivil delete
+   */
+  export type AlertaDefesaCivilDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertaDefesaCivil
+     */
+    select?: AlertaDefesaCivilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertaDefesaCivil
+     */
+    omit?: AlertaDefesaCivilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertaDefesaCivilInclude<ExtArgs> | null
+    /**
+     * Filter which AlertaDefesaCivil to delete.
+     */
+    where: AlertaDefesaCivilWhereUniqueInput
+  }
+
+  /**
+   * AlertaDefesaCivil deleteMany
+   */
+  export type AlertaDefesaCivilDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AlertaDefesaCivils to delete
+     */
+    where?: AlertaDefesaCivilWhereInput
+    /**
+     * Limit how many AlertaDefesaCivils to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AlertaDefesaCivil.prefeitura
+   */
+  export type AlertaDefesaCivil$prefeituraArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prefeitura
+     */
+    select?: PrefeituraSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prefeitura
+     */
+    omit?: PrefeituraOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrefeituraInclude<ExtArgs> | null
+    where?: PrefeituraWhereInput
+  }
+
+  /**
+   * AlertaDefesaCivil.vistorias_contingencia
+   */
+  export type AlertaDefesaCivil$vistorias_contingenciaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgendaVistoria
+     */
+    select?: AgendaVistoriaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgendaVistoria
+     */
+    omit?: AgendaVistoriaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgendaVistoriaInclude<ExtArgs> | null
+    where?: AgendaVistoriaWhereInput
+    orderBy?: AgendaVistoriaOrderByWithRelationInput | AgendaVistoriaOrderByWithRelationInput[]
+    cursor?: AgendaVistoriaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AgendaVistoriaScalarFieldEnum | AgendaVistoriaScalarFieldEnum[]
+  }
+
+  /**
+   * AlertaDefesaCivil without action
+   */
+  export type AlertaDefesaCivilDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertaDefesaCivil
+     */
+    select?: AlertaDefesaCivilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertaDefesaCivil
+     */
+    omit?: AlertaDefesaCivilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertaDefesaCivilInclude<ExtArgs> | null
   }
 
 
@@ -20251,12 +21692,35 @@ export namespace Prisma {
     laudo_tecnico: 'laudo_tecnico',
     fotos_vistoria: 'fotos_vistoria',
     ordem_servico_id: 'ordem_servico_id',
+    categoria_vistoria: 'categoria_vistoria',
+    alerta_defesa_civil_id: 'alerta_defesa_civil_id',
+    checklist_itens: 'checklist_itens',
+    risco_mitigado: 'risco_mitigado',
     prefeitura_id: 'prefeitura_id',
     criado_em: 'criado_em',
     atualizado: 'atualizado'
   };
 
   export type AgendaVistoriaScalarFieldEnum = (typeof AgendaVistoriaScalarFieldEnum)[keyof typeof AgendaVistoriaScalarFieldEnum]
+
+
+  export const AlertaDefesaCivilScalarFieldEnum: {
+    id: 'id',
+    titulo: 'titulo',
+    descricao: 'descricao',
+    nivel: 'nivel',
+    tipo_evento: 'tipo_evento',
+    fonte: 'fonte',
+    inicio_previsto: 'inicio_previsto',
+    fim_previsto: 'fim_previsto',
+    ativo: 'ativo',
+    acoes_recomendadas: 'acoes_recomendadas',
+    prefeitura_id: 'prefeitura_id',
+    criado_em: 'criado_em',
+    atualizado: 'atualizado'
+  };
+
+  export type AlertaDefesaCivilScalarFieldEnum = (typeof AlertaDefesaCivilScalarFieldEnum)[keyof typeof AlertaDefesaCivilScalarFieldEnum]
 
 
   export const ConfiguracaoSistemaScalarFieldEnum: {
@@ -20692,6 +22156,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoListRelationFilter
     ativos?: AtivoPredialListRelationFilter
     boletins_medicao?: BoletimMedicaoListRelationFilter
+    alertas_defesa_civil?: AlertaDefesaCivilListRelationFilter
   }
 
   export type PrefeituraOrderByWithRelationInput = {
@@ -20716,6 +22181,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoOrderByRelationAggregateInput
     ativos?: AtivoPredialOrderByRelationAggregateInput
     boletins_medicao?: BoletimMedicaoOrderByRelationAggregateInput
+    alertas_defesa_civil?: AlertaDefesaCivilOrderByRelationAggregateInput
   }
 
   export type PrefeituraWhereUniqueInput = Prisma.AtLeast<{
@@ -20743,6 +22209,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoListRelationFilter
     ativos?: AtivoPredialListRelationFilter
     boletins_medicao?: BoletimMedicaoListRelationFilter
+    alertas_defesa_civil?: AlertaDefesaCivilListRelationFilter
   }, "id" | "slug" | "cnpj">
 
   export type PrefeituraOrderByWithAggregationInput = {
@@ -21376,11 +22843,16 @@ export namespace Prisma {
     laudo_tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
     fotos_vistoria?: StringNullableListFilter<"AgendaVistoria">
     ordem_servico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    categoria_vistoria?: StringFilter<"AgendaVistoria"> | string
+    alerta_defesa_civil_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    checklist_itens?: JsonNullableFilter<"AgendaVistoria">
+    risco_mitigado?: BoolNullableFilter<"AgendaVistoria"> | boolean | null
     prefeitura_id?: StringNullableFilter<"AgendaVistoria"> | string | null
     criado_em?: DateTimeFilter<"AgendaVistoria"> | Date | string
     atualizado?: DateTimeFilter<"AgendaVistoria"> | Date | string
     predio?: XOR<PredioNullableScalarRelationFilter, PredioWhereInput> | null
     ordem_servico?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
+    alerta_defesa_civil?: XOR<AlertaDefesaCivilNullableScalarRelationFilter, AlertaDefesaCivilWhereInput> | null
     prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
   }
 
@@ -21399,11 +22871,16 @@ export namespace Prisma {
     laudo_tecnico?: SortOrderInput | SortOrder
     fotos_vistoria?: SortOrder
     ordem_servico_id?: SortOrderInput | SortOrder
+    categoria_vistoria?: SortOrder
+    alerta_defesa_civil_id?: SortOrderInput | SortOrder
+    checklist_itens?: SortOrderInput | SortOrder
+    risco_mitigado?: SortOrderInput | SortOrder
     prefeitura_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
     predio?: PredioOrderByWithRelationInput
     ordem_servico?: OrdemServicoOrderByWithRelationInput
+    alerta_defesa_civil?: AlertaDefesaCivilOrderByWithRelationInput
     prefeitura?: PrefeituraOrderByWithRelationInput
   }
 
@@ -21425,11 +22902,16 @@ export namespace Prisma {
     laudo_tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
     fotos_vistoria?: StringNullableListFilter<"AgendaVistoria">
     ordem_servico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    categoria_vistoria?: StringFilter<"AgendaVistoria"> | string
+    alerta_defesa_civil_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    checklist_itens?: JsonNullableFilter<"AgendaVistoria">
+    risco_mitigado?: BoolNullableFilter<"AgendaVistoria"> | boolean | null
     prefeitura_id?: StringNullableFilter<"AgendaVistoria"> | string | null
     criado_em?: DateTimeFilter<"AgendaVistoria"> | Date | string
     atualizado?: DateTimeFilter<"AgendaVistoria"> | Date | string
     predio?: XOR<PredioNullableScalarRelationFilter, PredioWhereInput> | null
     ordem_servico?: XOR<OrdemServicoNullableScalarRelationFilter, OrdemServicoWhereInput> | null
+    alerta_defesa_civil?: XOR<AlertaDefesaCivilNullableScalarRelationFilter, AlertaDefesaCivilWhereInput> | null
     prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
   }, "id">
 
@@ -21448,6 +22930,10 @@ export namespace Prisma {
     laudo_tecnico?: SortOrderInput | SortOrder
     fotos_vistoria?: SortOrder
     ordem_servico_id?: SortOrderInput | SortOrder
+    categoria_vistoria?: SortOrder
+    alerta_defesa_civil_id?: SortOrderInput | SortOrder
+    checklist_itens?: SortOrderInput | SortOrder
+    risco_mitigado?: SortOrderInput | SortOrder
     prefeitura_id?: SortOrderInput | SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -21474,9 +22960,111 @@ export namespace Prisma {
     laudo_tecnico?: StringNullableWithAggregatesFilter<"AgendaVistoria"> | string | null
     fotos_vistoria?: StringNullableListFilter<"AgendaVistoria">
     ordem_servico_id?: StringNullableWithAggregatesFilter<"AgendaVistoria"> | string | null
+    categoria_vistoria?: StringWithAggregatesFilter<"AgendaVistoria"> | string
+    alerta_defesa_civil_id?: StringNullableWithAggregatesFilter<"AgendaVistoria"> | string | null
+    checklist_itens?: JsonNullableWithAggregatesFilter<"AgendaVistoria">
+    risco_mitigado?: BoolNullableWithAggregatesFilter<"AgendaVistoria"> | boolean | null
     prefeitura_id?: StringNullableWithAggregatesFilter<"AgendaVistoria"> | string | null
     criado_em?: DateTimeWithAggregatesFilter<"AgendaVistoria"> | Date | string
     atualizado?: DateTimeWithAggregatesFilter<"AgendaVistoria"> | Date | string
+  }
+
+  export type AlertaDefesaCivilWhereInput = {
+    AND?: AlertaDefesaCivilWhereInput | AlertaDefesaCivilWhereInput[]
+    OR?: AlertaDefesaCivilWhereInput[]
+    NOT?: AlertaDefesaCivilWhereInput | AlertaDefesaCivilWhereInput[]
+    id?: StringFilter<"AlertaDefesaCivil"> | string
+    titulo?: StringFilter<"AlertaDefesaCivil"> | string
+    descricao?: StringFilter<"AlertaDefesaCivil"> | string
+    nivel?: StringFilter<"AlertaDefesaCivil"> | string
+    tipo_evento?: StringFilter<"AlertaDefesaCivil"> | string
+    fonte?: StringFilter<"AlertaDefesaCivil"> | string
+    inicio_previsto?: DateTimeNullableFilter<"AlertaDefesaCivil"> | Date | string | null
+    fim_previsto?: DateTimeNullableFilter<"AlertaDefesaCivil"> | Date | string | null
+    ativo?: BoolFilter<"AlertaDefesaCivil"> | boolean
+    acoes_recomendadas?: JsonNullableFilter<"AlertaDefesaCivil">
+    prefeitura_id?: StringNullableFilter<"AlertaDefesaCivil"> | string | null
+    criado_em?: DateTimeFilter<"AlertaDefesaCivil"> | Date | string
+    atualizado?: DateTimeFilter<"AlertaDefesaCivil"> | Date | string
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
+    vistorias_contingencia?: AgendaVistoriaListRelationFilter
+  }
+
+  export type AlertaDefesaCivilOrderByWithRelationInput = {
+    id?: SortOrder
+    titulo?: SortOrder
+    descricao?: SortOrder
+    nivel?: SortOrder
+    tipo_evento?: SortOrder
+    fonte?: SortOrder
+    inicio_previsto?: SortOrderInput | SortOrder
+    fim_previsto?: SortOrderInput | SortOrder
+    ativo?: SortOrder
+    acoes_recomendadas?: SortOrderInput | SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    prefeitura?: PrefeituraOrderByWithRelationInput
+    vistorias_contingencia?: AgendaVistoriaOrderByRelationAggregateInput
+  }
+
+  export type AlertaDefesaCivilWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AlertaDefesaCivilWhereInput | AlertaDefesaCivilWhereInput[]
+    OR?: AlertaDefesaCivilWhereInput[]
+    NOT?: AlertaDefesaCivilWhereInput | AlertaDefesaCivilWhereInput[]
+    titulo?: StringFilter<"AlertaDefesaCivil"> | string
+    descricao?: StringFilter<"AlertaDefesaCivil"> | string
+    nivel?: StringFilter<"AlertaDefesaCivil"> | string
+    tipo_evento?: StringFilter<"AlertaDefesaCivil"> | string
+    fonte?: StringFilter<"AlertaDefesaCivil"> | string
+    inicio_previsto?: DateTimeNullableFilter<"AlertaDefesaCivil"> | Date | string | null
+    fim_previsto?: DateTimeNullableFilter<"AlertaDefesaCivil"> | Date | string | null
+    ativo?: BoolFilter<"AlertaDefesaCivil"> | boolean
+    acoes_recomendadas?: JsonNullableFilter<"AlertaDefesaCivil">
+    prefeitura_id?: StringNullableFilter<"AlertaDefesaCivil"> | string | null
+    criado_em?: DateTimeFilter<"AlertaDefesaCivil"> | Date | string
+    atualizado?: DateTimeFilter<"AlertaDefesaCivil"> | Date | string
+    prefeitura?: XOR<PrefeituraNullableScalarRelationFilter, PrefeituraWhereInput> | null
+    vistorias_contingencia?: AgendaVistoriaListRelationFilter
+  }, "id">
+
+  export type AlertaDefesaCivilOrderByWithAggregationInput = {
+    id?: SortOrder
+    titulo?: SortOrder
+    descricao?: SortOrder
+    nivel?: SortOrder
+    tipo_evento?: SortOrder
+    fonte?: SortOrder
+    inicio_previsto?: SortOrderInput | SortOrder
+    fim_previsto?: SortOrderInput | SortOrder
+    ativo?: SortOrder
+    acoes_recomendadas?: SortOrderInput | SortOrder
+    prefeitura_id?: SortOrderInput | SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+    _count?: AlertaDefesaCivilCountOrderByAggregateInput
+    _max?: AlertaDefesaCivilMaxOrderByAggregateInput
+    _min?: AlertaDefesaCivilMinOrderByAggregateInput
+  }
+
+  export type AlertaDefesaCivilScalarWhereWithAggregatesInput = {
+    AND?: AlertaDefesaCivilScalarWhereWithAggregatesInput | AlertaDefesaCivilScalarWhereWithAggregatesInput[]
+    OR?: AlertaDefesaCivilScalarWhereWithAggregatesInput[]
+    NOT?: AlertaDefesaCivilScalarWhereWithAggregatesInput | AlertaDefesaCivilScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AlertaDefesaCivil"> | string
+    titulo?: StringWithAggregatesFilter<"AlertaDefesaCivil"> | string
+    descricao?: StringWithAggregatesFilter<"AlertaDefesaCivil"> | string
+    nivel?: StringWithAggregatesFilter<"AlertaDefesaCivil"> | string
+    tipo_evento?: StringWithAggregatesFilter<"AlertaDefesaCivil"> | string
+    fonte?: StringWithAggregatesFilter<"AlertaDefesaCivil"> | string
+    inicio_previsto?: DateTimeNullableWithAggregatesFilter<"AlertaDefesaCivil"> | Date | string | null
+    fim_previsto?: DateTimeNullableWithAggregatesFilter<"AlertaDefesaCivil"> | Date | string | null
+    ativo?: BoolWithAggregatesFilter<"AlertaDefesaCivil"> | boolean
+    acoes_recomendadas?: JsonNullableWithAggregatesFilter<"AlertaDefesaCivil">
+    prefeitura_id?: StringNullableWithAggregatesFilter<"AlertaDefesaCivil"> | string | null
+    criado_em?: DateTimeWithAggregatesFilter<"AlertaDefesaCivil"> | Date | string
+    atualizado?: DateTimeWithAggregatesFilter<"AlertaDefesaCivil"> | Date | string
   }
 
   export type ConfiguracaoSistemaWhereInput = {
@@ -22333,6 +23921,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateInput = {
@@ -22357,6 +23946,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUpdateInput = {
@@ -22381,6 +23971,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateInput = {
@@ -22405,6 +23996,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraCreateManyInput = {
@@ -23121,10 +24713,14 @@ export namespace Prisma {
     tecnico_id?: string | null
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    categoria_vistoria?: string
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: boolean | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio?: PredioCreateNestedOneWithoutVistoriasInput
     ordem_servico?: OrdemServicoCreateNestedOneWithoutAgendamentosInput
+    alerta_defesa_civil?: AlertaDefesaCivilCreateNestedOneWithoutVistorias_contingenciaInput
     prefeitura?: PrefeituraCreateNestedOneWithoutVistoriasInput
   }
 
@@ -23143,6 +24739,10 @@ export namespace Prisma {
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     ordem_servico_id?: string | null
+    categoria_vistoria?: string
+    alerta_defesa_civil_id?: string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: boolean | null
     prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -23161,10 +24761,14 @@ export namespace Prisma {
     tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneWithoutVistoriasNestedInput
     ordem_servico?: OrdemServicoUpdateOneWithoutAgendamentosNestedInput
+    alerta_defesa_civil?: AlertaDefesaCivilUpdateOneWithoutVistorias_contingenciaNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutVistoriasNestedInput
   }
 
@@ -23183,6 +24787,10 @@ export namespace Prisma {
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    alerta_defesa_civil_id?: NullableStringFieldUpdateOperationsInput | string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23203,6 +24811,10 @@ export namespace Prisma {
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     ordem_servico_id?: string | null
+    categoria_vistoria?: string
+    alerta_defesa_civil_id?: string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: boolean | null
     prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -23221,6 +24833,9 @@ export namespace Prisma {
     tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23240,6 +24855,125 @@ export namespace Prisma {
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    alerta_defesa_civil_id?: NullableStringFieldUpdateOperationsInput | string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlertaDefesaCivilCreateInput = {
+    id?: string
+    titulo: string
+    descricao: string
+    nivel?: string
+    tipo_evento?: string
+    fonte?: string
+    inicio_previsto?: Date | string | null
+    fim_previsto?: Date | string | null
+    ativo?: boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutAlertas_defesa_civilInput
+    vistorias_contingencia?: AgendaVistoriaCreateNestedManyWithoutAlerta_defesa_civilInput
+  }
+
+  export type AlertaDefesaCivilUncheckedCreateInput = {
+    id?: string
+    titulo: string
+    descricao: string
+    nivel?: string
+    tipo_evento?: string
+    fonte?: string
+    inicio_previsto?: Date | string | null
+    fim_previsto?: Date | string | null
+    ativo?: boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    vistorias_contingencia?: AgendaVistoriaUncheckedCreateNestedManyWithoutAlerta_defesa_civilInput
+  }
+
+  export type AlertaDefesaCivilUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    nivel?: StringFieldUpdateOperationsInput | string
+    tipo_evento?: StringFieldUpdateOperationsInput | string
+    fonte?: StringFieldUpdateOperationsInput | string
+    inicio_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fim_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutAlertas_defesa_civilNestedInput
+    vistorias_contingencia?: AgendaVistoriaUpdateManyWithoutAlerta_defesa_civilNestedInput
+  }
+
+  export type AlertaDefesaCivilUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    nivel?: StringFieldUpdateOperationsInput | string
+    tipo_evento?: StringFieldUpdateOperationsInput | string
+    fonte?: StringFieldUpdateOperationsInput | string
+    inicio_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fim_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    vistorias_contingencia?: AgendaVistoriaUncheckedUpdateManyWithoutAlerta_defesa_civilNestedInput
+  }
+
+  export type AlertaDefesaCivilCreateManyInput = {
+    id?: string
+    titulo: string
+    descricao: string
+    nivel?: string
+    tipo_evento?: string
+    fonte?: string
+    inicio_previsto?: Date | string | null
+    fim_previsto?: Date | string | null
+    ativo?: boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type AlertaDefesaCivilUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    nivel?: StringFieldUpdateOperationsInput | string
+    tipo_evento?: StringFieldUpdateOperationsInput | string
+    fonte?: StringFieldUpdateOperationsInput | string
+    inicio_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fim_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlertaDefesaCivilUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    nivel?: StringFieldUpdateOperationsInput | string
+    tipo_evento?: StringFieldUpdateOperationsInput | string
+    fonte?: StringFieldUpdateOperationsInput | string
+    inicio_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fim_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24338,6 +26072,12 @@ export namespace Prisma {
     none?: BoletimMedicaoWhereInput
   }
 
+  export type AlertaDefesaCivilListRelationFilter = {
+    every?: AlertaDefesaCivilWhereInput
+    some?: AlertaDefesaCivilWhereInput
+    none?: AlertaDefesaCivilWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -24380,6 +26120,10 @@ export namespace Prisma {
   }
 
   export type BoletimMedicaoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AlertaDefesaCivilOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -25068,9 +26812,19 @@ export namespace Prisma {
     _max?: NestedEnumAuditActionFilter<$PrismaModel>
   }
 
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type PredioNullableScalarRelationFilter = {
     is?: PredioWhereInput | null
     isNot?: PredioWhereInput | null
+  }
+
+  export type AlertaDefesaCivilNullableScalarRelationFilter = {
+    is?: AlertaDefesaCivilWhereInput | null
+    isNot?: AlertaDefesaCivilWhereInput | null
   }
 
   export type AgendaVistoriaCountOrderByAggregateInput = {
@@ -25088,6 +26842,10 @@ export namespace Prisma {
     laudo_tecnico?: SortOrder
     fotos_vistoria?: SortOrder
     ordem_servico_id?: SortOrder
+    categoria_vistoria?: SortOrder
+    alerta_defesa_civil_id?: SortOrder
+    checklist_itens?: SortOrder
+    risco_mitigado?: SortOrder
     prefeitura_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -25107,6 +26865,9 @@ export namespace Prisma {
     predio_id?: SortOrder
     laudo_tecnico?: SortOrder
     ordem_servico_id?: SortOrder
+    categoria_vistoria?: SortOrder
+    alerta_defesa_civil_id?: SortOrder
+    risco_mitigado?: SortOrder
     prefeitura_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -25126,6 +26887,63 @@ export namespace Prisma {
     predio_id?: SortOrder
     laudo_tecnico?: SortOrder
     ordem_servico_id?: SortOrder
+    categoria_vistoria?: SortOrder
+    alerta_defesa_civil_id?: SortOrder
+    risco_mitigado?: SortOrder
+    prefeitura_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type AlertaDefesaCivilCountOrderByAggregateInput = {
+    id?: SortOrder
+    titulo?: SortOrder
+    descricao?: SortOrder
+    nivel?: SortOrder
+    tipo_evento?: SortOrder
+    fonte?: SortOrder
+    inicio_previsto?: SortOrder
+    fim_previsto?: SortOrder
+    ativo?: SortOrder
+    acoes_recomendadas?: SortOrder
+    prefeitura_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type AlertaDefesaCivilMaxOrderByAggregateInput = {
+    id?: SortOrder
+    titulo?: SortOrder
+    descricao?: SortOrder
+    nivel?: SortOrder
+    tipo_evento?: SortOrder
+    fonte?: SortOrder
+    inicio_previsto?: SortOrder
+    fim_previsto?: SortOrder
+    ativo?: SortOrder
+    prefeitura_id?: SortOrder
+    criado_em?: SortOrder
+    atualizado?: SortOrder
+  }
+
+  export type AlertaDefesaCivilMinOrderByAggregateInput = {
+    id?: SortOrder
+    titulo?: SortOrder
+    descricao?: SortOrder
+    nivel?: SortOrder
+    tipo_evento?: SortOrder
+    fonte?: SortOrder
+    inicio_previsto?: SortOrder
+    fim_previsto?: SortOrder
+    ativo?: SortOrder
     prefeitura_id?: SortOrder
     criado_em?: SortOrder
     atualizado?: SortOrder
@@ -25821,6 +27639,13 @@ export namespace Prisma {
     connect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
   }
 
+  export type AlertaDefesaCivilCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<AlertaDefesaCivilCreateWithoutPrefeituraInput, AlertaDefesaCivilUncheckedCreateWithoutPrefeituraInput> | AlertaDefesaCivilCreateWithoutPrefeituraInput[] | AlertaDefesaCivilUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AlertaDefesaCivilCreateOrConnectWithoutPrefeituraInput | AlertaDefesaCivilCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: AlertaDefesaCivilCreateManyPrefeituraInputEnvelope
+    connect?: AlertaDefesaCivilWhereUniqueInput | AlertaDefesaCivilWhereUniqueInput[]
+  }
+
   export type ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput = {
     create?: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
     connectOrCreate?: ConfiguracaoSistemaCreateOrConnectWithoutPrefeituraInput
@@ -25895,6 +27720,13 @@ export namespace Prisma {
     connectOrCreate?: BoletimMedicaoCreateOrConnectWithoutPrefeituraInput | BoletimMedicaoCreateOrConnectWithoutPrefeituraInput[]
     createMany?: BoletimMedicaoCreateManyPrefeituraInputEnvelope
     connect?: BoletimMedicaoWhereUniqueInput | BoletimMedicaoWhereUniqueInput[]
+  }
+
+  export type AlertaDefesaCivilUncheckedCreateNestedManyWithoutPrefeituraInput = {
+    create?: XOR<AlertaDefesaCivilCreateWithoutPrefeituraInput, AlertaDefesaCivilUncheckedCreateWithoutPrefeituraInput> | AlertaDefesaCivilCreateWithoutPrefeituraInput[] | AlertaDefesaCivilUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AlertaDefesaCivilCreateOrConnectWithoutPrefeituraInput | AlertaDefesaCivilCreateOrConnectWithoutPrefeituraInput[]
+    createMany?: AlertaDefesaCivilCreateManyPrefeituraInputEnvelope
+    connect?: AlertaDefesaCivilWhereUniqueInput | AlertaDefesaCivilWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -26068,6 +27900,20 @@ export namespace Prisma {
     deleteMany?: BoletimMedicaoScalarWhereInput | BoletimMedicaoScalarWhereInput[]
   }
 
+  export type AlertaDefesaCivilUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<AlertaDefesaCivilCreateWithoutPrefeituraInput, AlertaDefesaCivilUncheckedCreateWithoutPrefeituraInput> | AlertaDefesaCivilCreateWithoutPrefeituraInput[] | AlertaDefesaCivilUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AlertaDefesaCivilCreateOrConnectWithoutPrefeituraInput | AlertaDefesaCivilCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: AlertaDefesaCivilUpsertWithWhereUniqueWithoutPrefeituraInput | AlertaDefesaCivilUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: AlertaDefesaCivilCreateManyPrefeituraInputEnvelope
+    set?: AlertaDefesaCivilWhereUniqueInput | AlertaDefesaCivilWhereUniqueInput[]
+    disconnect?: AlertaDefesaCivilWhereUniqueInput | AlertaDefesaCivilWhereUniqueInput[]
+    delete?: AlertaDefesaCivilWhereUniqueInput | AlertaDefesaCivilWhereUniqueInput[]
+    connect?: AlertaDefesaCivilWhereUniqueInput | AlertaDefesaCivilWhereUniqueInput[]
+    update?: AlertaDefesaCivilUpdateWithWhereUniqueWithoutPrefeituraInput | AlertaDefesaCivilUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: AlertaDefesaCivilUpdateManyWithWhereWithoutPrefeituraInput | AlertaDefesaCivilUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: AlertaDefesaCivilScalarWhereInput | AlertaDefesaCivilScalarWhereInput[]
+  }
+
   export type ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput = {
     create?: XOR<ConfiguracaoSistemaCreateWithoutPrefeituraInput, ConfiguracaoSistemaUncheckedCreateWithoutPrefeituraInput>
     connectOrCreate?: ConfiguracaoSistemaCreateOrConnectWithoutPrefeituraInput
@@ -26216,6 +28062,20 @@ export namespace Prisma {
     update?: BoletimMedicaoUpdateWithWhereUniqueWithoutPrefeituraInput | BoletimMedicaoUpdateWithWhereUniqueWithoutPrefeituraInput[]
     updateMany?: BoletimMedicaoUpdateManyWithWhereWithoutPrefeituraInput | BoletimMedicaoUpdateManyWithWhereWithoutPrefeituraInput[]
     deleteMany?: BoletimMedicaoScalarWhereInput | BoletimMedicaoScalarWhereInput[]
+  }
+
+  export type AlertaDefesaCivilUncheckedUpdateManyWithoutPrefeituraNestedInput = {
+    create?: XOR<AlertaDefesaCivilCreateWithoutPrefeituraInput, AlertaDefesaCivilUncheckedCreateWithoutPrefeituraInput> | AlertaDefesaCivilCreateWithoutPrefeituraInput[] | AlertaDefesaCivilUncheckedCreateWithoutPrefeituraInput[]
+    connectOrCreate?: AlertaDefesaCivilCreateOrConnectWithoutPrefeituraInput | AlertaDefesaCivilCreateOrConnectWithoutPrefeituraInput[]
+    upsert?: AlertaDefesaCivilUpsertWithWhereUniqueWithoutPrefeituraInput | AlertaDefesaCivilUpsertWithWhereUniqueWithoutPrefeituraInput[]
+    createMany?: AlertaDefesaCivilCreateManyPrefeituraInputEnvelope
+    set?: AlertaDefesaCivilWhereUniqueInput | AlertaDefesaCivilWhereUniqueInput[]
+    disconnect?: AlertaDefesaCivilWhereUniqueInput | AlertaDefesaCivilWhereUniqueInput[]
+    delete?: AlertaDefesaCivilWhereUniqueInput | AlertaDefesaCivilWhereUniqueInput[]
+    connect?: AlertaDefesaCivilWhereUniqueInput | AlertaDefesaCivilWhereUniqueInput[]
+    update?: AlertaDefesaCivilUpdateWithWhereUniqueWithoutPrefeituraInput | AlertaDefesaCivilUpdateWithWhereUniqueWithoutPrefeituraInput[]
+    updateMany?: AlertaDefesaCivilUpdateManyWithWhereWithoutPrefeituraInput | AlertaDefesaCivilUpdateManyWithWhereWithoutPrefeituraInput[]
+    deleteMany?: AlertaDefesaCivilScalarWhereInput | AlertaDefesaCivilScalarWhereInput[]
   }
 
   export type PrefeituraCreateNestedOneWithoutUsuariosInput = {
@@ -27156,6 +29016,12 @@ export namespace Prisma {
     connect?: OrdemServicoWhereUniqueInput
   }
 
+  export type AlertaDefesaCivilCreateNestedOneWithoutVistorias_contingenciaInput = {
+    create?: XOR<AlertaDefesaCivilCreateWithoutVistorias_contingenciaInput, AlertaDefesaCivilUncheckedCreateWithoutVistorias_contingenciaInput>
+    connectOrCreate?: AlertaDefesaCivilCreateOrConnectWithoutVistorias_contingenciaInput
+    connect?: AlertaDefesaCivilWhereUniqueInput
+  }
+
   export type PrefeituraCreateNestedOneWithoutVistoriasInput = {
     create?: XOR<PrefeituraCreateWithoutVistoriasInput, PrefeituraUncheckedCreateWithoutVistoriasInput>
     connectOrCreate?: PrefeituraCreateOrConnectWithoutVistoriasInput
@@ -27165,6 +29031,10 @@ export namespace Prisma {
   export type AgendaVistoriaUpdatefotos_vistoriaInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
   }
 
   export type PredioUpdateOneWithoutVistoriasNestedInput = {
@@ -27187,6 +29057,16 @@ export namespace Prisma {
     update?: XOR<XOR<OrdemServicoUpdateToOneWithWhereWithoutAgendamentosInput, OrdemServicoUpdateWithoutAgendamentosInput>, OrdemServicoUncheckedUpdateWithoutAgendamentosInput>
   }
 
+  export type AlertaDefesaCivilUpdateOneWithoutVistorias_contingenciaNestedInput = {
+    create?: XOR<AlertaDefesaCivilCreateWithoutVistorias_contingenciaInput, AlertaDefesaCivilUncheckedCreateWithoutVistorias_contingenciaInput>
+    connectOrCreate?: AlertaDefesaCivilCreateOrConnectWithoutVistorias_contingenciaInput
+    upsert?: AlertaDefesaCivilUpsertWithoutVistorias_contingenciaInput
+    disconnect?: AlertaDefesaCivilWhereInput | boolean
+    delete?: AlertaDefesaCivilWhereInput | boolean
+    connect?: AlertaDefesaCivilWhereUniqueInput
+    update?: XOR<XOR<AlertaDefesaCivilUpdateToOneWithWhereWithoutVistorias_contingenciaInput, AlertaDefesaCivilUpdateWithoutVistorias_contingenciaInput>, AlertaDefesaCivilUncheckedUpdateWithoutVistorias_contingenciaInput>
+  }
+
   export type PrefeituraUpdateOneWithoutVistoriasNestedInput = {
     create?: XOR<PrefeituraCreateWithoutVistoriasInput, PrefeituraUncheckedCreateWithoutVistoriasInput>
     connectOrCreate?: PrefeituraCreateOrConnectWithoutVistoriasInput
@@ -27195,6 +29075,64 @@ export namespace Prisma {
     delete?: PrefeituraWhereInput | boolean
     connect?: PrefeituraWhereUniqueInput
     update?: XOR<XOR<PrefeituraUpdateToOneWithWhereWithoutVistoriasInput, PrefeituraUpdateWithoutVistoriasInput>, PrefeituraUncheckedUpdateWithoutVistoriasInput>
+  }
+
+  export type PrefeituraCreateNestedOneWithoutAlertas_defesa_civilInput = {
+    create?: XOR<PrefeituraCreateWithoutAlertas_defesa_civilInput, PrefeituraUncheckedCreateWithoutAlertas_defesa_civilInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutAlertas_defesa_civilInput
+    connect?: PrefeituraWhereUniqueInput
+  }
+
+  export type AgendaVistoriaCreateNestedManyWithoutAlerta_defesa_civilInput = {
+    create?: XOR<AgendaVistoriaCreateWithoutAlerta_defesa_civilInput, AgendaVistoriaUncheckedCreateWithoutAlerta_defesa_civilInput> | AgendaVistoriaCreateWithoutAlerta_defesa_civilInput[] | AgendaVistoriaUncheckedCreateWithoutAlerta_defesa_civilInput[]
+    connectOrCreate?: AgendaVistoriaCreateOrConnectWithoutAlerta_defesa_civilInput | AgendaVistoriaCreateOrConnectWithoutAlerta_defesa_civilInput[]
+    createMany?: AgendaVistoriaCreateManyAlerta_defesa_civilInputEnvelope
+    connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+  }
+
+  export type AgendaVistoriaUncheckedCreateNestedManyWithoutAlerta_defesa_civilInput = {
+    create?: XOR<AgendaVistoriaCreateWithoutAlerta_defesa_civilInput, AgendaVistoriaUncheckedCreateWithoutAlerta_defesa_civilInput> | AgendaVistoriaCreateWithoutAlerta_defesa_civilInput[] | AgendaVistoriaUncheckedCreateWithoutAlerta_defesa_civilInput[]
+    connectOrCreate?: AgendaVistoriaCreateOrConnectWithoutAlerta_defesa_civilInput | AgendaVistoriaCreateOrConnectWithoutAlerta_defesa_civilInput[]
+    createMany?: AgendaVistoriaCreateManyAlerta_defesa_civilInputEnvelope
+    connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+  }
+
+  export type PrefeituraUpdateOneWithoutAlertas_defesa_civilNestedInput = {
+    create?: XOR<PrefeituraCreateWithoutAlertas_defesa_civilInput, PrefeituraUncheckedCreateWithoutAlertas_defesa_civilInput>
+    connectOrCreate?: PrefeituraCreateOrConnectWithoutAlertas_defesa_civilInput
+    upsert?: PrefeituraUpsertWithoutAlertas_defesa_civilInput
+    disconnect?: PrefeituraWhereInput | boolean
+    delete?: PrefeituraWhereInput | boolean
+    connect?: PrefeituraWhereUniqueInput
+    update?: XOR<XOR<PrefeituraUpdateToOneWithWhereWithoutAlertas_defesa_civilInput, PrefeituraUpdateWithoutAlertas_defesa_civilInput>, PrefeituraUncheckedUpdateWithoutAlertas_defesa_civilInput>
+  }
+
+  export type AgendaVistoriaUpdateManyWithoutAlerta_defesa_civilNestedInput = {
+    create?: XOR<AgendaVistoriaCreateWithoutAlerta_defesa_civilInput, AgendaVistoriaUncheckedCreateWithoutAlerta_defesa_civilInput> | AgendaVistoriaCreateWithoutAlerta_defesa_civilInput[] | AgendaVistoriaUncheckedCreateWithoutAlerta_defesa_civilInput[]
+    connectOrCreate?: AgendaVistoriaCreateOrConnectWithoutAlerta_defesa_civilInput | AgendaVistoriaCreateOrConnectWithoutAlerta_defesa_civilInput[]
+    upsert?: AgendaVistoriaUpsertWithWhereUniqueWithoutAlerta_defesa_civilInput | AgendaVistoriaUpsertWithWhereUniqueWithoutAlerta_defesa_civilInput[]
+    createMany?: AgendaVistoriaCreateManyAlerta_defesa_civilInputEnvelope
+    set?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    disconnect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    delete?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    update?: AgendaVistoriaUpdateWithWhereUniqueWithoutAlerta_defesa_civilInput | AgendaVistoriaUpdateWithWhereUniqueWithoutAlerta_defesa_civilInput[]
+    updateMany?: AgendaVistoriaUpdateManyWithWhereWithoutAlerta_defesa_civilInput | AgendaVistoriaUpdateManyWithWhereWithoutAlerta_defesa_civilInput[]
+    deleteMany?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
+  }
+
+  export type AgendaVistoriaUncheckedUpdateManyWithoutAlerta_defesa_civilNestedInput = {
+    create?: XOR<AgendaVistoriaCreateWithoutAlerta_defesa_civilInput, AgendaVistoriaUncheckedCreateWithoutAlerta_defesa_civilInput> | AgendaVistoriaCreateWithoutAlerta_defesa_civilInput[] | AgendaVistoriaUncheckedCreateWithoutAlerta_defesa_civilInput[]
+    connectOrCreate?: AgendaVistoriaCreateOrConnectWithoutAlerta_defesa_civilInput | AgendaVistoriaCreateOrConnectWithoutAlerta_defesa_civilInput[]
+    upsert?: AgendaVistoriaUpsertWithWhereUniqueWithoutAlerta_defesa_civilInput | AgendaVistoriaUpsertWithWhereUniqueWithoutAlerta_defesa_civilInput[]
+    createMany?: AgendaVistoriaCreateManyAlerta_defesa_civilInputEnvelope
+    set?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    disconnect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    delete?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    connect?: AgendaVistoriaWhereUniqueInput | AgendaVistoriaWhereUniqueInput[]
+    update?: AgendaVistoriaUpdateWithWhereUniqueWithoutAlerta_defesa_civilInput | AgendaVistoriaUpdateWithWhereUniqueWithoutAlerta_defesa_civilInput[]
+    updateMany?: AgendaVistoriaUpdateManyWithWhereWithoutAlerta_defesa_civilInput | AgendaVistoriaUpdateManyWithWhereWithoutAlerta_defesa_civilInput[]
+    deleteMany?: AgendaVistoriaScalarWhereInput | AgendaVistoriaScalarWhereInput[]
   }
 
   export type PrefeituraCreateNestedOneWithoutConfiguracaoInput = {
@@ -28001,6 +29939,19 @@ export namespace Prisma {
     _max?: NestedEnumAuditActionFilter<$PrismaModel>
   }
 
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumTipoManifestacaoFilter<$PrismaModel = never> = {
     equals?: $Enums.TipoManifestacao | EnumTipoManifestacaoFieldRefInput<$PrismaModel>
     in?: $Enums.TipoManifestacao[] | ListEnumTipoManifestacaoFieldRefInput<$PrismaModel>
@@ -28402,10 +30353,14 @@ export namespace Prisma {
     tecnico_id?: string | null
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    categoria_vistoria?: string
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: boolean | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio?: PredioCreateNestedOneWithoutVistoriasInput
     ordem_servico?: OrdemServicoCreateNestedOneWithoutAgendamentosInput
+    alerta_defesa_civil?: AlertaDefesaCivilCreateNestedOneWithoutVistorias_contingenciaInput
   }
 
   export type AgendaVistoriaUncheckedCreateWithoutPrefeituraInput = {
@@ -28423,6 +30378,10 @@ export namespace Prisma {
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     ordem_servico_id?: string | null
+    categoria_vistoria?: string
+    alerta_defesa_civil_id?: string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: boolean | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -28660,6 +30619,48 @@ export namespace Prisma {
 
   export type BoletimMedicaoCreateManyPrefeituraInputEnvelope = {
     data: BoletimMedicaoCreateManyPrefeituraInput | BoletimMedicaoCreateManyPrefeituraInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AlertaDefesaCivilCreateWithoutPrefeituraInput = {
+    id?: string
+    titulo: string
+    descricao: string
+    nivel?: string
+    tipo_evento?: string
+    fonte?: string
+    inicio_previsto?: Date | string | null
+    fim_previsto?: Date | string | null
+    ativo?: boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    vistorias_contingencia?: AgendaVistoriaCreateNestedManyWithoutAlerta_defesa_civilInput
+  }
+
+  export type AlertaDefesaCivilUncheckedCreateWithoutPrefeituraInput = {
+    id?: string
+    titulo: string
+    descricao: string
+    nivel?: string
+    tipo_evento?: string
+    fonte?: string
+    inicio_previsto?: Date | string | null
+    fim_previsto?: Date | string | null
+    ativo?: boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    vistorias_contingencia?: AgendaVistoriaUncheckedCreateNestedManyWithoutAlerta_defesa_civilInput
+  }
+
+  export type AlertaDefesaCivilCreateOrConnectWithoutPrefeituraInput = {
+    where: AlertaDefesaCivilWhereUniqueInput
+    create: XOR<AlertaDefesaCivilCreateWithoutPrefeituraInput, AlertaDefesaCivilUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type AlertaDefesaCivilCreateManyPrefeituraInputEnvelope = {
+    data: AlertaDefesaCivilCreateManyPrefeituraInput | AlertaDefesaCivilCreateManyPrefeituraInput[]
     skipDuplicates?: boolean
   }
 
@@ -28928,6 +30929,10 @@ export namespace Prisma {
     laudo_tecnico?: StringNullableFilter<"AgendaVistoria"> | string | null
     fotos_vistoria?: StringNullableListFilter<"AgendaVistoria">
     ordem_servico_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    categoria_vistoria?: StringFilter<"AgendaVistoria"> | string
+    alerta_defesa_civil_id?: StringNullableFilter<"AgendaVistoria"> | string | null
+    checklist_itens?: JsonNullableFilter<"AgendaVistoria">
+    risco_mitigado?: BoolNullableFilter<"AgendaVistoria"> | boolean | null
     prefeitura_id?: StringNullableFilter<"AgendaVistoria"> | string | null
     criado_em?: DateTimeFilter<"AgendaVistoria"> | Date | string
     atualizado?: DateTimeFilter<"AgendaVistoria"> | Date | string
@@ -29116,6 +31121,41 @@ export namespace Prisma {
     atualizado?: DateTimeFilter<"BoletimMedicao"> | Date | string
   }
 
+  export type AlertaDefesaCivilUpsertWithWhereUniqueWithoutPrefeituraInput = {
+    where: AlertaDefesaCivilWhereUniqueInput
+    update: XOR<AlertaDefesaCivilUpdateWithoutPrefeituraInput, AlertaDefesaCivilUncheckedUpdateWithoutPrefeituraInput>
+    create: XOR<AlertaDefesaCivilCreateWithoutPrefeituraInput, AlertaDefesaCivilUncheckedCreateWithoutPrefeituraInput>
+  }
+
+  export type AlertaDefesaCivilUpdateWithWhereUniqueWithoutPrefeituraInput = {
+    where: AlertaDefesaCivilWhereUniqueInput
+    data: XOR<AlertaDefesaCivilUpdateWithoutPrefeituraInput, AlertaDefesaCivilUncheckedUpdateWithoutPrefeituraInput>
+  }
+
+  export type AlertaDefesaCivilUpdateManyWithWhereWithoutPrefeituraInput = {
+    where: AlertaDefesaCivilScalarWhereInput
+    data: XOR<AlertaDefesaCivilUpdateManyMutationInput, AlertaDefesaCivilUncheckedUpdateManyWithoutPrefeituraInput>
+  }
+
+  export type AlertaDefesaCivilScalarWhereInput = {
+    AND?: AlertaDefesaCivilScalarWhereInput | AlertaDefesaCivilScalarWhereInput[]
+    OR?: AlertaDefesaCivilScalarWhereInput[]
+    NOT?: AlertaDefesaCivilScalarWhereInput | AlertaDefesaCivilScalarWhereInput[]
+    id?: StringFilter<"AlertaDefesaCivil"> | string
+    titulo?: StringFilter<"AlertaDefesaCivil"> | string
+    descricao?: StringFilter<"AlertaDefesaCivil"> | string
+    nivel?: StringFilter<"AlertaDefesaCivil"> | string
+    tipo_evento?: StringFilter<"AlertaDefesaCivil"> | string
+    fonte?: StringFilter<"AlertaDefesaCivil"> | string
+    inicio_previsto?: DateTimeNullableFilter<"AlertaDefesaCivil"> | Date | string | null
+    fim_previsto?: DateTimeNullableFilter<"AlertaDefesaCivil"> | Date | string | null
+    ativo?: BoolFilter<"AlertaDefesaCivil"> | boolean
+    acoes_recomendadas?: JsonNullableFilter<"AlertaDefesaCivil">
+    prefeitura_id?: StringNullableFilter<"AlertaDefesaCivil"> | string | null
+    criado_em?: DateTimeFilter<"AlertaDefesaCivil"> | Date | string
+    atualizado?: DateTimeFilter<"AlertaDefesaCivil"> | Date | string
+  }
+
   export type PrefeituraCreateWithoutUsuariosInput = {
     id?: string
     slug: string
@@ -29137,6 +31177,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutUsuariosInput = {
@@ -29160,6 +31201,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutUsuariosInput = {
@@ -29701,6 +31743,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutUsuariosInput = {
@@ -29724,6 +31767,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioUpsertWithWhereUniqueWithoutGestorInput = {
@@ -29906,6 +31950,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutPrediosInput = {
@@ -29929,6 +31974,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutPrediosInput = {
@@ -30051,9 +32097,13 @@ export namespace Prisma {
     tecnico_id?: string | null
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    categoria_vistoria?: string
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: boolean | null
     criado_em?: Date | string
     atualizado?: Date | string
     ordem_servico?: OrdemServicoCreateNestedOneWithoutAgendamentosInput
+    alerta_defesa_civil?: AlertaDefesaCivilCreateNestedOneWithoutVistorias_contingenciaInput
     prefeitura?: PrefeituraCreateNestedOneWithoutVistoriasInput
   }
 
@@ -30071,6 +32121,10 @@ export namespace Prisma {
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     ordem_servico_id?: string | null
+    categoria_vistoria?: string
+    alerta_defesa_civil_id?: string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: boolean | null
     prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -30277,6 +32331,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutPrediosInput = {
@@ -30300,6 +32355,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithWhereUniqueWithoutPredioInput = {
@@ -30746,6 +32802,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutOrdens_servicoInput = {
@@ -30769,6 +32826,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutOrdens_servicoInput = {
@@ -30988,9 +33046,13 @@ export namespace Prisma {
     tecnico_id?: string | null
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    categoria_vistoria?: string
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: boolean | null
     criado_em?: Date | string
     atualizado?: Date | string
     predio?: PredioCreateNestedOneWithoutVistoriasInput
+    alerta_defesa_civil?: AlertaDefesaCivilCreateNestedOneWithoutVistorias_contingenciaInput
     prefeitura?: PrefeituraCreateNestedOneWithoutVistoriasInput
   }
 
@@ -31008,6 +33070,10 @@ export namespace Prisma {
     predio_id?: string | null
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    categoria_vistoria?: string
+    alerta_defesa_civil_id?: string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: boolean | null
     prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -31511,6 +33577,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutOrdens_servicoInput = {
@@ -31534,6 +33601,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithoutOrdens_derivadasInput = {
@@ -31755,6 +33823,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutAuditoriasInput = {
@@ -31778,6 +33847,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutAuditoriasInput = {
@@ -31870,6 +33940,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutAuditoriasInput = {
@@ -31893,6 +33964,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioCreateWithoutVistoriasInput = {
@@ -32039,6 +34111,43 @@ export namespace Prisma {
     create: XOR<OrdemServicoCreateWithoutAgendamentosInput, OrdemServicoUncheckedCreateWithoutAgendamentosInput>
   }
 
+  export type AlertaDefesaCivilCreateWithoutVistorias_contingenciaInput = {
+    id?: string
+    titulo: string
+    descricao: string
+    nivel?: string
+    tipo_evento?: string
+    fonte?: string
+    inicio_previsto?: Date | string | null
+    fim_previsto?: Date | string | null
+    ativo?: boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    prefeitura?: PrefeituraCreateNestedOneWithoutAlertas_defesa_civilInput
+  }
+
+  export type AlertaDefesaCivilUncheckedCreateWithoutVistorias_contingenciaInput = {
+    id?: string
+    titulo: string
+    descricao: string
+    nivel?: string
+    tipo_evento?: string
+    fonte?: string
+    inicio_previsto?: Date | string | null
+    fim_previsto?: Date | string | null
+    ativo?: boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type AlertaDefesaCivilCreateOrConnectWithoutVistorias_contingenciaInput = {
+    where: AlertaDefesaCivilWhereUniqueInput
+    create: XOR<AlertaDefesaCivilCreateWithoutVistorias_contingenciaInput, AlertaDefesaCivilUncheckedCreateWithoutVistorias_contingenciaInput>
+  }
+
   export type PrefeituraCreateWithoutVistoriasInput = {
     id?: string
     slug: string
@@ -32060,6 +34169,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutVistoriasInput = {
@@ -32083,6 +34193,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutVistoriasInput = {
@@ -32246,6 +34357,49 @@ export namespace Prisma {
     manifestacoes_origem?: ManifestacaoUncheckedUpdateManyWithoutOrdem_servicoNestedInput
   }
 
+  export type AlertaDefesaCivilUpsertWithoutVistorias_contingenciaInput = {
+    update: XOR<AlertaDefesaCivilUpdateWithoutVistorias_contingenciaInput, AlertaDefesaCivilUncheckedUpdateWithoutVistorias_contingenciaInput>
+    create: XOR<AlertaDefesaCivilCreateWithoutVistorias_contingenciaInput, AlertaDefesaCivilUncheckedCreateWithoutVistorias_contingenciaInput>
+    where?: AlertaDefesaCivilWhereInput
+  }
+
+  export type AlertaDefesaCivilUpdateToOneWithWhereWithoutVistorias_contingenciaInput = {
+    where?: AlertaDefesaCivilWhereInput
+    data: XOR<AlertaDefesaCivilUpdateWithoutVistorias_contingenciaInput, AlertaDefesaCivilUncheckedUpdateWithoutVistorias_contingenciaInput>
+  }
+
+  export type AlertaDefesaCivilUpdateWithoutVistorias_contingenciaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    nivel?: StringFieldUpdateOperationsInput | string
+    tipo_evento?: StringFieldUpdateOperationsInput | string
+    fonte?: StringFieldUpdateOperationsInput | string
+    inicio_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fim_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    prefeitura?: PrefeituraUpdateOneWithoutAlertas_defesa_civilNestedInput
+  }
+
+  export type AlertaDefesaCivilUncheckedUpdateWithoutVistorias_contingenciaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    nivel?: StringFieldUpdateOperationsInput | string
+    tipo_evento?: StringFieldUpdateOperationsInput | string
+    fonte?: StringFieldUpdateOperationsInput | string
+    inicio_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fim_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PrefeituraUpsertWithoutVistoriasInput = {
     update: XOR<PrefeituraUpdateWithoutVistoriasInput, PrefeituraUncheckedUpdateWithoutVistoriasInput>
     create: XOR<PrefeituraCreateWithoutVistoriasInput, PrefeituraUncheckedCreateWithoutVistoriasInput>
@@ -32278,6 +34432,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutVistoriasInput = {
@@ -32301,6 +34456,191 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraCreateWithoutAlertas_defesa_civilInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraUncheckedCreateWithoutAlertas_defesa_civilInput = {
+    id?: string
+    slug: string
+    nome: string
+    cnpj?: string | null
+    brasao_url?: string | null
+    modulos_ativos?: PrefeituraCreatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: Date | string
+    atualizado?: Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedCreateNestedOneWithoutPrefeituraInput
+    usuarios?: UsuarioUncheckedCreateNestedManyWithoutPrefeituraInput
+    predios?: PredioUncheckedCreateNestedManyWithoutPrefeituraInput
+    ordens_servico?: OrdemServicoUncheckedCreateNestedManyWithoutPrefeituraInput
+    manifestacoes?: ManifestacaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    vistorias?: AgendaVistoriaUncheckedCreateNestedManyWithoutPrefeituraInput
+    auditorias?: AuditoriaLogUncheckedCreateNestedManyWithoutPrefeituraInput
+    materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
+    contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
+    boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
+  }
+
+  export type PrefeituraCreateOrConnectWithoutAlertas_defesa_civilInput = {
+    where: PrefeituraWhereUniqueInput
+    create: XOR<PrefeituraCreateWithoutAlertas_defesa_civilInput, PrefeituraUncheckedCreateWithoutAlertas_defesa_civilInput>
+  }
+
+  export type AgendaVistoriaCreateWithoutAlerta_defesa_civilInput = {
+    id?: string
+    titulo: string
+    subtitulo: string
+    horario: string
+    data_agendada?: Date | string | null
+    tipo?: string
+    recorrencia?: string | null
+    concluido?: boolean
+    tecnico?: string | null
+    tecnico_id?: string | null
+    laudo_tecnico?: string | null
+    fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    categoria_vistoria?: string
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: boolean | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+    predio?: PredioCreateNestedOneWithoutVistoriasInput
+    ordem_servico?: OrdemServicoCreateNestedOneWithoutAgendamentosInput
+    prefeitura?: PrefeituraCreateNestedOneWithoutVistoriasInput
+  }
+
+  export type AgendaVistoriaUncheckedCreateWithoutAlerta_defesa_civilInput = {
+    id?: string
+    titulo: string
+    subtitulo: string
+    horario: string
+    data_agendada?: Date | string | null
+    tipo?: string
+    recorrencia?: string | null
+    concluido?: boolean
+    tecnico?: string | null
+    tecnico_id?: string | null
+    predio_id?: string | null
+    laudo_tecnico?: string | null
+    fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    ordem_servico_id?: string | null
+    categoria_vistoria?: string
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: boolean | null
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type AgendaVistoriaCreateOrConnectWithoutAlerta_defesa_civilInput = {
+    where: AgendaVistoriaWhereUniqueInput
+    create: XOR<AgendaVistoriaCreateWithoutAlerta_defesa_civilInput, AgendaVistoriaUncheckedCreateWithoutAlerta_defesa_civilInput>
+  }
+
+  export type AgendaVistoriaCreateManyAlerta_defesa_civilInputEnvelope = {
+    data: AgendaVistoriaCreateManyAlerta_defesa_civilInput | AgendaVistoriaCreateManyAlerta_defesa_civilInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PrefeituraUpsertWithoutAlertas_defesa_civilInput = {
+    update: XOR<PrefeituraUpdateWithoutAlertas_defesa_civilInput, PrefeituraUncheckedUpdateWithoutAlertas_defesa_civilInput>
+    create: XOR<PrefeituraCreateWithoutAlertas_defesa_civilInput, PrefeituraUncheckedCreateWithoutAlertas_defesa_civilInput>
+    where?: PrefeituraWhereInput
+  }
+
+  export type PrefeituraUpdateToOneWithWhereWithoutAlertas_defesa_civilInput = {
+    where?: PrefeituraWhereInput
+    data: XOR<PrefeituraUpdateWithoutAlertas_defesa_civilInput, PrefeituraUncheckedUpdateWithoutAlertas_defesa_civilInput>
+  }
+
+  export type PrefeituraUpdateWithoutAlertas_defesa_civilInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type PrefeituraUncheckedUpdateWithoutAlertas_defesa_civilInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    brasao_url?: NullableStringFieldUpdateOperationsInput | string | null
+    modulos_ativos?: PrefeituraUpdatemodulos_ativosInput | $Enums.ModuloSistema[]
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    configuracao?: ConfiguracaoSistemaUncheckedUpdateOneWithoutPrefeituraNestedInput
+    usuarios?: UsuarioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    predios?: PredioUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ordens_servico?: OrdemServicoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    manifestacoes?: ManifestacaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    vistorias?: AgendaVistoriaUncheckedUpdateManyWithoutPrefeituraNestedInput
+    auditorias?: AuditoriaLogUncheckedUpdateManyWithoutPrefeituraNestedInput
+    materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+  }
+
+  export type AgendaVistoriaUpsertWithWhereUniqueWithoutAlerta_defesa_civilInput = {
+    where: AgendaVistoriaWhereUniqueInput
+    update: XOR<AgendaVistoriaUpdateWithoutAlerta_defesa_civilInput, AgendaVistoriaUncheckedUpdateWithoutAlerta_defesa_civilInput>
+    create: XOR<AgendaVistoriaCreateWithoutAlerta_defesa_civilInput, AgendaVistoriaUncheckedCreateWithoutAlerta_defesa_civilInput>
+  }
+
+  export type AgendaVistoriaUpdateWithWhereUniqueWithoutAlerta_defesa_civilInput = {
+    where: AgendaVistoriaWhereUniqueInput
+    data: XOR<AgendaVistoriaUpdateWithoutAlerta_defesa_civilInput, AgendaVistoriaUncheckedUpdateWithoutAlerta_defesa_civilInput>
+  }
+
+  export type AgendaVistoriaUpdateManyWithWhereWithoutAlerta_defesa_civilInput = {
+    where: AgendaVistoriaScalarWhereInput
+    data: XOR<AgendaVistoriaUpdateManyMutationInput, AgendaVistoriaUncheckedUpdateManyWithoutAlerta_defesa_civilInput>
   }
 
   export type PrefeituraCreateWithoutConfiguracaoInput = {
@@ -32324,6 +34664,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutConfiguracaoInput = {
@@ -32347,6 +34688,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutConfiguracaoInput = {
@@ -32386,6 +34728,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutConfiguracaoInput = {
@@ -32409,6 +34752,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PredioCreateWithoutManifestacoesInput = {
@@ -32623,6 +34967,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutManifestacoesInput = {
@@ -32646,6 +34991,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutManifestacoesInput = {
@@ -32894,6 +35240,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutManifestacoesInput = {
@@ -32917,6 +35264,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraCreateWithoutMateriaisInput = {
@@ -32940,6 +35288,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutMateriaisInput = {
@@ -32963,6 +35312,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutMateriaisInput = {
@@ -33034,6 +35384,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutMateriaisInput = {
@@ -33057,6 +35408,7 @@ export namespace Prisma {
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type ItemConsumoOSUpsertWithWhereUniqueWithoutMaterialInput = {
@@ -33372,6 +35724,7 @@ export namespace Prisma {
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutContratosInput = {
@@ -33395,6 +35748,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutContratosInput = {
@@ -33592,6 +35946,7 @@ export namespace Prisma {
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutContratosInput = {
@@ -33615,6 +35970,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithWhereUniqueWithoutContratoInput = {
@@ -33760,6 +36116,7 @@ export namespace Prisma {
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutBoletins_medicaoInput = {
@@ -33783,6 +36140,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     ativos?: AtivoPredialUncheckedCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutBoletins_medicaoInput = {
@@ -34026,6 +36384,7 @@ export namespace Prisma {
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutBoletins_medicaoInput = {
@@ -34049,6 +36408,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     ativos?: AtivoPredialUncheckedUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithWhereUniqueWithoutBoletim_medicaoInput = {
@@ -34135,6 +36495,7 @@ export namespace Prisma {
     materiais?: MaterialCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraUncheckedCreateWithoutAtivosInput = {
@@ -34158,6 +36519,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedCreateNestedManyWithoutPrefeituraInput
     contratos?: ContratoManutencaoUncheckedCreateNestedManyWithoutPrefeituraInput
     boletins_medicao?: BoletimMedicaoUncheckedCreateNestedManyWithoutPrefeituraInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedCreateNestedManyWithoutPrefeituraInput
   }
 
   export type PrefeituraCreateOrConnectWithoutAtivosInput = {
@@ -34352,6 +36714,7 @@ export namespace Prisma {
     materiais?: MaterialUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type PrefeituraUncheckedUpdateWithoutAtivosInput = {
@@ -34375,6 +36738,7 @@ export namespace Prisma {
     materiais?: MaterialUncheckedUpdateManyWithoutPrefeituraNestedInput
     contratos?: ContratoManutencaoUncheckedUpdateManyWithoutPrefeituraNestedInput
     boletins_medicao?: BoletimMedicaoUncheckedUpdateManyWithoutPrefeituraNestedInput
+    alertas_defesa_civil?: AlertaDefesaCivilUncheckedUpdateManyWithoutPrefeituraNestedInput
   }
 
   export type OrdemServicoUpsertWithWhereUniqueWithoutAtivo_predialInput = {
@@ -34504,6 +36868,10 @@ export namespace Prisma {
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     ordem_servico_id?: string | null
+    categoria_vistoria?: string
+    alerta_defesa_civil_id?: string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: boolean | null
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -34587,6 +36955,21 @@ export namespace Prisma {
     hash_integridade?: string | null
     fiscal_responsavel_id?: string | null
     contrato_id: string
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type AlertaDefesaCivilCreateManyPrefeituraInput = {
+    id?: string
+    titulo: string
+    descricao: string
+    nivel?: string
+    tipo_evento?: string
+    fonte?: string
+    inicio_previsto?: Date | string | null
+    fim_previsto?: Date | string | null
+    ativo?: boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
     criado_em?: Date | string
     atualizado?: Date | string
   }
@@ -34922,10 +37305,14 @@ export namespace Prisma {
     tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneWithoutVistoriasNestedInput
     ordem_servico?: OrdemServicoUpdateOneWithoutAgendamentosNestedInput
+    alerta_defesa_civil?: AlertaDefesaCivilUpdateOneWithoutVistorias_contingenciaNestedInput
   }
 
   export type AgendaVistoriaUncheckedUpdateWithoutPrefeituraInput = {
@@ -34943,6 +37330,10 @@ export namespace Prisma {
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    alerta_defesa_civil_id?: NullableStringFieldUpdateOperationsInput | string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -34962,6 +37353,10 @@ export namespace Prisma {
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    alerta_defesa_civil_id?: NullableStringFieldUpdateOperationsInput | string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -35221,6 +37616,53 @@ export namespace Prisma {
     hash_integridade?: NullableStringFieldUpdateOperationsInput | string | null
     fiscal_responsavel_id?: NullableStringFieldUpdateOperationsInput | string | null
     contrato_id?: StringFieldUpdateOperationsInput | string
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlertaDefesaCivilUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    nivel?: StringFieldUpdateOperationsInput | string
+    tipo_evento?: StringFieldUpdateOperationsInput | string
+    fonte?: StringFieldUpdateOperationsInput | string
+    inicio_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fim_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    vistorias_contingencia?: AgendaVistoriaUpdateManyWithoutAlerta_defesa_civilNestedInput
+  }
+
+  export type AlertaDefesaCivilUncheckedUpdateWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    nivel?: StringFieldUpdateOperationsInput | string
+    tipo_evento?: StringFieldUpdateOperationsInput | string
+    fonte?: StringFieldUpdateOperationsInput | string
+    inicio_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fim_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    vistorias_contingencia?: AgendaVistoriaUncheckedUpdateManyWithoutAlerta_defesa_civilNestedInput
+  }
+
+  export type AlertaDefesaCivilUncheckedUpdateManyWithoutPrefeituraInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descricao?: StringFieldUpdateOperationsInput | string
+    nivel?: StringFieldUpdateOperationsInput | string
+    tipo_evento?: StringFieldUpdateOperationsInput | string
+    fonte?: StringFieldUpdateOperationsInput | string
+    inicio_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fim_previsto?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    acoes_recomendadas?: NullableJsonNullValueInput | InputJsonValue
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36111,6 +38553,10 @@ export namespace Prisma {
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
     ordem_servico_id?: string | null
+    categoria_vistoria?: string
+    alerta_defesa_civil_id?: string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: boolean | null
     prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -36305,9 +38751,13 @@ export namespace Prisma {
     tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     ordem_servico?: OrdemServicoUpdateOneWithoutAgendamentosNestedInput
+    alerta_defesa_civil?: AlertaDefesaCivilUpdateOneWithoutVistorias_contingenciaNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutVistoriasNestedInput
   }
 
@@ -36325,6 +38775,10 @@ export namespace Prisma {
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    alerta_defesa_civil_id?: NullableStringFieldUpdateOperationsInput | string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36344,6 +38798,10 @@ export namespace Prisma {
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
     ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    alerta_defesa_civil_id?: NullableStringFieldUpdateOperationsInput | string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36544,6 +39002,10 @@ export namespace Prisma {
     predio_id?: string | null
     laudo_tecnico?: string | null
     fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    categoria_vistoria?: string
+    alerta_defesa_civil_id?: string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: boolean | null
     prefeitura_id?: string | null
     criado_em?: Date | string
     atualizado?: Date | string
@@ -36752,9 +39214,13 @@ export namespace Prisma {
     tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
     predio?: PredioUpdateOneWithoutVistoriasNestedInput
+    alerta_defesa_civil?: AlertaDefesaCivilUpdateOneWithoutVistorias_contingenciaNestedInput
     prefeitura?: PrefeituraUpdateOneWithoutVistoriasNestedInput
   }
 
@@ -36772,6 +39238,10 @@ export namespace Prisma {
     predio_id?: NullableStringFieldUpdateOperationsInput | string | null
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    alerta_defesa_civil_id?: NullableStringFieldUpdateOperationsInput | string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36791,6 +39261,10 @@ export namespace Prisma {
     predio_id?: NullableStringFieldUpdateOperationsInput | string | null
     laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
     fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    alerta_defesa_civil_id?: NullableStringFieldUpdateOperationsInput | string | null
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36860,6 +39334,98 @@ export namespace Prisma {
     respondido_em?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     respondido_por_id?: NullableStringFieldUpdateOperationsInput | string | null
     motivo_arquivamento?: NullableStringFieldUpdateOperationsInput | string | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgendaVistoriaCreateManyAlerta_defesa_civilInput = {
+    id?: string
+    titulo: string
+    subtitulo: string
+    horario: string
+    data_agendada?: Date | string | null
+    tipo?: string
+    recorrencia?: string | null
+    concluido?: boolean
+    tecnico?: string | null
+    tecnico_id?: string | null
+    predio_id?: string | null
+    laudo_tecnico?: string | null
+    fotos_vistoria?: AgendaVistoriaCreatefotos_vistoriaInput | string[]
+    ordem_servico_id?: string | null
+    categoria_vistoria?: string
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: boolean | null
+    prefeitura_id?: string | null
+    criado_em?: Date | string
+    atualizado?: Date | string
+  }
+
+  export type AgendaVistoriaUpdateWithoutAlerta_defesa_civilInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    subtitulo?: StringFieldUpdateOperationsInput | string
+    horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
+    concluido?: BoolFieldUpdateOperationsInput | boolean
+    tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+    predio?: PredioUpdateOneWithoutVistoriasNestedInput
+    ordem_servico?: OrdemServicoUpdateOneWithoutAgendamentosNestedInput
+    prefeitura?: PrefeituraUpdateOneWithoutVistoriasNestedInput
+  }
+
+  export type AgendaVistoriaUncheckedUpdateWithoutAlerta_defesa_civilInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    subtitulo?: StringFieldUpdateOperationsInput | string
+    horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
+    concluido?: BoolFieldUpdateOperationsInput | boolean
+    tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
+    criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
+    atualizado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgendaVistoriaUncheckedUpdateManyWithoutAlerta_defesa_civilInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    subtitulo?: StringFieldUpdateOperationsInput | string
+    horario?: StringFieldUpdateOperationsInput | string
+    data_agendada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    recorrencia?: NullableStringFieldUpdateOperationsInput | string | null
+    concluido?: BoolFieldUpdateOperationsInput | boolean
+    tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    tecnico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    predio_id?: NullableStringFieldUpdateOperationsInput | string | null
+    laudo_tecnico?: NullableStringFieldUpdateOperationsInput | string | null
+    fotos_vistoria?: AgendaVistoriaUpdatefotos_vistoriaInput | string[]
+    ordem_servico_id?: NullableStringFieldUpdateOperationsInput | string | null
+    categoria_vistoria?: StringFieldUpdateOperationsInput | string
+    checklist_itens?: NullableJsonNullValueInput | InputJsonValue
+    risco_mitigado?: NullableBoolFieldUpdateOperationsInput | boolean | null
     prefeitura_id?: NullableStringFieldUpdateOperationsInput | string | null
     criado_em?: DateTimeFieldUpdateOperationsInput | Date | string
     atualizado?: DateTimeFieldUpdateOperationsInput | Date | string

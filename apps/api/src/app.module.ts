@@ -16,6 +16,7 @@ import { ManifestacoesModule } from './manifestacoes/manifestacoes.module.js';
 import { MaterialsModule } from './materials/materials.module.js';
 import { ContractsModule } from './contracts/contracts.module.js';
 import { AssetsModule } from './assets/assets.module.js';
+import { ContingencyModule } from './contingency/contingency.module.js';
 import { JwtAuthGuard } from './auth/jwt-auth.guard.js';
 import { RolesGuard } from './auth/roles.guard.js';
 
@@ -40,6 +41,7 @@ import { RolesGuard } from './auth/roles.guard.js';
     MaterialsModule,
     ContractsModule,
     AssetsModule,
+    ContingencyModule,
   ],
   controllers: [AppController],
   providers: [

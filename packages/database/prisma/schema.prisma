@@ -98,6 +98,7 @@ model Prefeitura {
   contratos      ContratoManutencao[]
   ativos         AtivoPredial[]
   boletins_medicao BoletimMedicao[]
+  alertas_defesa_civil AlertaDefesaCivil[]
 
   criado_em      DateTime        @default(now())
   atualizado     DateTime        @updatedAt
@@ -283,6 +284,13 @@ model AgendaVistoria {
   ordem_servico_id String?
   ordem_servico    OrdemServico? @relation(fields: [ordem_servico_id], references: [id])
 
+  // Plano de Contingência e Alertas de Defesa Civil (Prevenção Climática)
+  categoria_vistoria     String        @default("ROTINA") // ROTINA, CONTINGENCIA_CLIMA, EMERGENCIAL
+  alerta_defesa_civil_id String?
+  alerta_defesa_civil    AlertaDefesaCivil? @relation(fields: [alerta_defesa_civil_id], references: [id], onDelete: SetNull)
+  checklist_itens        Json?         @default("[]") // Lista de itens checados contra riscos de tempestade
+  risco_mitigado         Boolean?      @default(false)
+
   prefeitura_id    String?
   prefeitura       Prefeitura?   @relation(fields: [prefeitura_id], references: [id])
 
@@ -290,7 +298,34 @@ model AgendaVistoria {
   atualizado       DateTime      @default(now()) @updatedAt
 
   @@index([prefeitura_id, concluido])
+  @@index([prefeitura_id, categoria_vistoria])
+  @@index([alerta_defesa_civil_id])
   @@map("agenda_vistorias")
+}
+
+model AlertaDefesaCivil {
+  id                    String              @id @default(uuid())
+  titulo                String              // ex: "Alerta Laranja de Tempestade e Rajadas de Vento"
+  descricao             String              // ex: "Previsão de 50mm a 100mm de chuva e ventos de até 80km/h"
+  nivel                 String              @default("PERIGO") // MODERADO, PERIGO, MUITO_PERIGOSO
+  tipo_evento           String              @default("CHUVA_INTENSA") // CHUVA_INTENSA, VENDAVAL, ONDA_DE_CALOR, DESCARGAS_ELETRICAS, INUNDACAO
+  fonte                 String              @default("DEFESA_CIVIL") // DEFESA_CIVIL, INMET, CEMADEN, MANUAL
+  inicio_previsto       DateTime?           @default(now())
+  fim_previsto          DateTime?
+  ativo                 Boolean             @default(true)
+  acoes_recomendadas    Json?               @default("[]") // Checklist padrão sugerido para as unidades
+
+  prefeitura_id         String?
+  prefeitura            Prefeitura?         @relation(fields: [prefeitura_id], references: [id])
+
+  vistorias_contingencia AgendaVistoria[]
+
+  criado_em             DateTime            @default(now())
+  atualizado            DateTime            @updatedAt
+
+  @@index([prefeitura_id, ativo])
+  @@index([prefeitura_id, nivel])
+  @@map("alertas_defesa_civil")
 }
 
 model ConfiguracaoSistema {

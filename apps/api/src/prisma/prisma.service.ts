@@ -73,6 +73,26 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
             "atualizado" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
             CONSTRAINT "boletins_medicao_pkey" PRIMARY KEY ("id")
           );
+          ALTER TABLE "agenda_vistorias" ADD COLUMN IF NOT EXISTS "categoria_vistoria" TEXT NOT NULL DEFAULT 'ROTINA';
+          ALTER TABLE "agenda_vistorias" ADD COLUMN IF NOT EXISTS "alerta_defesa_civil_id" TEXT;
+          ALTER TABLE "agenda_vistorias" ADD COLUMN IF NOT EXISTS "checklist_itens" JSONB DEFAULT '[]';
+          ALTER TABLE "agenda_vistorias" ADD COLUMN IF NOT EXISTS "risco_mitigado" BOOLEAN DEFAULT false;
+          CREATE TABLE IF NOT EXISTS "alertas_defesa_civil" (
+            "id" TEXT NOT NULL,
+            "titulo" TEXT NOT NULL,
+            "descricao" TEXT NOT NULL,
+            "nivel" TEXT NOT NULL DEFAULT 'PERIGO',
+            "tipo_evento" TEXT NOT NULL DEFAULT 'CHUVA_INTENSA',
+            "fonte" TEXT NOT NULL DEFAULT 'DEFESA_CIVIL',
+            "inicio_previsto" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+            "fim_previsto" TIMESTAMP(3),
+            "ativo" BOOLEAN NOT NULL DEFAULT true,
+            "acoes_recomendadas" JSONB DEFAULT '[]',
+            "prefeitura_id" TEXT,
+            "criado_em" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            "atualizado" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            CONSTRAINT "alertas_defesa_civil_pkey" PRIMARY KEY ("id")
+          );
         `).catch(() => null);
       }
 

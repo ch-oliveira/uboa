@@ -237,6 +237,26 @@ exports.Prisma.AgendaVistoriaScalarFieldEnum = {
   laudo_tecnico: 'laudo_tecnico',
   fotos_vistoria: 'fotos_vistoria',
   ordem_servico_id: 'ordem_servico_id',
+  categoria_vistoria: 'categoria_vistoria',
+  alerta_defesa_civil_id: 'alerta_defesa_civil_id',
+  checklist_itens: 'checklist_itens',
+  risco_mitigado: 'risco_mitigado',
+  prefeitura_id: 'prefeitura_id',
+  criado_em: 'criado_em',
+  atualizado: 'atualizado'
+};
+
+exports.Prisma.AlertaDefesaCivilScalarFieldEnum = {
+  id: 'id',
+  titulo: 'titulo',
+  descricao: 'descricao',
+  nivel: 'nivel',
+  tipo_evento: 'tipo_evento',
+  fonte: 'fonte',
+  inicio_previsto: 'inicio_previsto',
+  fim_previsto: 'fim_previsto',
+  ativo: 'ativo',
+  acoes_recomendadas: 'acoes_recomendadas',
   prefeitura_id: 'prefeitura_id',
   criado_em: 'criado_em',
   atualizado: 'atualizado'
@@ -472,6 +492,7 @@ exports.Prisma.ModelName = {
   OrdemServico: 'OrdemServico',
   AuditoriaLog: 'AuditoriaLog',
   AgendaVistoria: 'AgendaVistoria',
+  AlertaDefesaCivil: 'AlertaDefesaCivil',
   ConfiguracaoSistema: 'ConfiguracaoSistema',
   Manifestacao: 'Manifestacao',
   Material: 'Material',

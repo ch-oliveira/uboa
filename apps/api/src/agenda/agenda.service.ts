@@ -21,6 +21,10 @@ export interface InspectionResponse {
   workOrderCode?: string;
   laudoTecnico?: string;
   fotosVistoria?: string[];
+  categoriaVistoria?: string;
+  alertaDefesaCivilId?: string;
+  checklistItens?: any[];
+  riscoMitigado?: boolean;
   createdAt: string;
   proximaEtapaSugerida?: string;
 }
@@ -47,6 +51,10 @@ export class AgendaService {
       workOrderCode: a.ordem_servico?.codigo || undefined,
       laudoTecnico: a.laudo_tecnico || undefined,
       fotosVistoria: a.fotos_vistoria || [],
+      categoriaVistoria: a.categoria_vistoria || 'ROTINA',
+      alertaDefesaCivilId: a.alerta_defesa_civil_id || undefined,
+      checklistItens: a.checklist_itens || [],
+      riscoMitigado: Boolean(a.risco_mitigado),
       createdAt: a.criado_em.toISOString(),
       proximaEtapaSugerida: proximaEtapa,
     };
